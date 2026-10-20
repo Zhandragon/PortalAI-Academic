@@ -1,0 +1,59 @@
+Created upload folder: D:\Utilities\Academic\GitHub-Upload
+
+PORTALAI ACADEMIC - GITHUB UPLOAD FILES
+
+This folder is ready for GitHub's browser-based repository upload. Every file
+is at most 24,000,000 bytes (24 MB / 22.9 MiB), below the 25 MiB limit.
+
+UPLOAD THESE FILES TO A REPOSITORY
+1. Open the desired location in your GitHub repository.
+2. Choose Add file > Upload files.
+3. Drag this folder's contents into the upload area, preserving the Windows,
+   Linux, Mac and Documentation subfolders. Select Commit changes.
+   If needed, upload one platform folder at a time to reduce each upload batch.
+4. Include every part, the reassembly helpers, and the checksum files.
+   Include .gitattributes and .gitignore when using Git locally.
+Do not upload the original full-size archives or an assembled/ output folder
+through the repository's browser uploader.
+
+DOWNLOAD AND RECONSTRUCT
+Download the repository through Code > Download ZIP and extract it first.
+Then open the desired platform folder:
+- Windows: double-click Reassemble-Windows.cmd.
+- Linux and Mac: open a terminal in the folder and run sh reassemble.sh.
+The helper verifies the parts and reconstructs the original archive in that
+platform's assembled/ subfolder. Extract that archive into a new folder and
+follow the instructions inside. Assembly does not install or launch PortalAI.
+Windows has 4 parts; Linux has 6; Mac has 5. Do not try to extract individual
+parts or rename them. The final archive is byte-for-byte the original installer.
+
+RECOMMENDED FOR DISTRIBUTING INSTALLERS: GITHUB RELEASES
+Release attachments accept files under 2 GiB, avoiding split files and the
+extra reconstruction step for students. The three original archives in the
+parent Academic folder are already suitable release attachments (about
+84.1 MiB Windows, 121.6 MiB Linux and 96.7 MiB Mac).
+
+Open your repository's Releases page, choose Draft a new release, select or
+create a tag such as academic-20261020-r1, and attach the original three
+archives and their .sha256 files. Source changes and README.txt may also be
+attached. Review and publish the release when ready. The 25 MiB repository
+upload limit does not apply to this release attachment area.
+
+GitHub documentation (checked 2026-10-20):
+Browser uploads: 25 MiB per file; normal Git commits: 100 MiB per file.
+https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository
+Release assets: each file under 2 GiB.
+https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases
+
+ACADEMIC BUILD
+This is an academic version of PortalAI for controlled usage intended as a
+teaching tool. The abliterated/uncensored version is not available to students.
+Documentation/README.txt describes the Academic restrictions, installation
+requirements and original build validation. This packaging step only splits
+and reconstructs those existing installers; it does not change their contents.
+Documentation/SHA256SUMS refers to the original unsplit distribution files.
+The root SHA256SUMS covers this upload folder's files, including all parts.
+
+PACKAGING VALIDATION
+74 checks passed. All three reassembly scripts reconstructed archives matching the original SHA-256 checksums. Missing/corrupt parts and conflicting existing outputs were rejected. Tested with Windows PowerShell 5.1 and Git Bash on Windows; native macOS/Linux execution was not tested. Every upload file is at most 24,000,000 bytes. No installer was run and the active PortalAI installation was not modified.
+
