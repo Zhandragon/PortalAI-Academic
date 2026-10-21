@@ -1,0 +1,54 @@
+{
+  "release": "Academic 2026.10.20 r2",
+  "scope": "Exact archive integrity and no-network policy/regression checks on Windows; physical Linux/Mac execution untested.",
+  "platforms": {
+    "Windows": {
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": true,
+      "model_inference_tested": false,
+      "regressions": {
+        "modules": [
+          "test_gui_stop_contract",
+          "test_account_gate",
+          "test_media_policy",
+          "test_chat_handoff",
+          "test_chat_task_checkpoint",
+          "test_chat_summary_recovery",
+          "test_settings_surfaces_tk",
+          "test_native_workflow_guards",
+          "test_linux_installer_receipt",
+          "test_mission_runner",
+          "test_small_model_chat",
+          "test_chat_context_budget",
+          "test_chat_reasoning_continuation",
+          "test_mission_context",
+          "test_profile_media"
+        ],
+        "tests": 174,
+        "seconds": 22.84,
+        "passed": true,
+        "skips": [
+          [
+            "test_ace_current_installed_source_compiles_without_importing_models (test_profile_media.ProfileMedia.test_ace_current_installed_source_compiles_without_importing_models)",
+            "ACE vendor source is a separately downloaded installer component; synthetic profile routing tests still run."
+          ]
+        ],
+        "failures": [],
+        "errors": []
+      }
+    },
+    "Linux": {
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": false,
+      "model_inference_tested": false
+    },
+    "Mac": {
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": false,
+      "model_inference_tested": false
+    }
+  }
+}

@@ -3,95 +3,95 @@
   "part_size_bytes": 24000000,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip",
-      "bytes": 88158990,
-      "sha256": "06326a794718c35517321f7f1b811dc6abe3e098bdbf73cedb6a0835534ff5f5",
-      "path": "packages/20261020-r2/Windows",
+      "archive": "PortalAI-Academic-Windows-Installer-20261021-r1-x64.zip",
+      "bytes": 88138236,
+      "sha256": "b5e6053d240d4fb6ae3c2dabcca92efdf3406ecf9eb8ca783f5bbbc4adeea870",
+      "path": "packages/20261021-r1/Windows",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part001",
+          "name": "PortalAI-Academic-Windows-Installer-20261021-r1-x64.zip.part001",
           "bytes": 24000000,
-          "sha256": "14d1c9bb354499ecdf0668c19a211fb0e7fe446024493ac9948bfe4ba2dc6397"
+          "sha256": "edc3ea1ccd7b33fe9f931b83bbdc642c628292a05aa0f23e2654fd3afffc2a3e"
         },
         {
-          "name": "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part002",
+          "name": "PortalAI-Academic-Windows-Installer-20261021-r1-x64.zip.part002",
           "bytes": 24000000,
-          "sha256": "bf694dab843728bf186979099e57bb786ef192a686e48e1dfff1cdd0a62d8818"
+          "sha256": "9e64d40281c79583350190d665a21b96ddcf46f54a2e0557bd4fddd46e04e88f"
         },
         {
-          "name": "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part003",
+          "name": "PortalAI-Academic-Windows-Installer-20261021-r1-x64.zip.part003",
           "bytes": 24000000,
-          "sha256": "6fe25b2d4b8d81f7ee32c70868ee4d441503d8b5dada039ca02e9fb8861b267a"
+          "sha256": "31dced6ab58b9af14b0fc8b3076558c2010c4aced2aa8d2b198737024b4369d7"
         },
         {
-          "name": "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part004",
-          "bytes": 16158990,
-          "sha256": "5936c9279e18ca07cc9a42c35762ef714250de999a06df9912e77a0529eb700e"
+          "name": "PortalAI-Academic-Windows-Installer-20261021-r1-x64.zip.part004",
+          "bytes": 16138236,
+          "sha256": "b4c7351285454e55c4a469a82d8a6e2d2e3a89491053318eb9ea6539d26de7b8"
         }
       ],
       "files": [
         {
           "name": "PACKAGE_SHA256.json",
-          "bytes": 604,
-          "sha256": "d93c10283fa9a8a00ab4b844ec76d7f3fa873f2c400d43b73ad4ded95aef709d"
+          "bytes": 582,
+          "sha256": "f951c3f330835b54f37fdf1d20795132d7c4a32dd5d84cdd24eddecd1f49fdb9"
         },
         {
           "name": "payload.zip",
-          "bytes": 54728900,
-          "sha256": "b7434083632df5e2bed7fa8021aae0e21a3c5d06b6b828c73b37079a928c199f"
+          "bytes": 54729399,
+          "sha256": "d0aae5962d3cef3d5372020b3398f8b1438bf4699e6f7f3ae398362dcd6a5080"
         },
         {
           "name": "PortalAI-Academic-Install.exe",
           "bytes": 11495936,
-          "sha256": "2e14b8d1c952af02932f0645f1ce8ae1861e54eaa25c5887f0945d7fa193d86d"
+          "sha256": "f262f87ff2e84026b8988bde8e957ce518acbafb96dfbbf0058fbbbf5a9eac3b"
         },
         {
           "name": "release.json",
-          "bytes": 142053015,
-          "sha256": "1b561c0f3409f61b85b3a41916833ce491aced2afcc8567ee06ffefe232d1907"
+          "bytes": 139633254,
+          "sha256": "8a467ad430428bf01c8770a6fe838e3412b43db8d71cce14c4b7ef2fa4c9b2a8"
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 1073,
-          "sha256": "b234f1344d568f092d979c461f555f8ef7776cc6d86531dcd9f9e2c398820116"
+          "bytes": 1178,
+          "sha256": "536f5b349d6e1c970eddd83a858ca21892e40132abb96ab54051acb92513dd52"
         }
       ]
     },
     "Linux": {
-      "archive": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz",
-      "bytes": 127537112,
-      "sha256": "3f627b48bb3ccca6d5202fec51afad34e6da2afc22495bbc3e9fb7a71f52e8ca",
-      "path": "packages/20261020-r2/Linux",
+      "archive": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz",
+      "bytes": 127529248,
+      "sha256": "8efa43d13a4059d1d2fd14a3c31d5a55b1e2eaa71926b5502f57f6a9f9afadd7",
+      "path": "packages/20261021-r1/Linux",
       "parts": [
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part001",
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part001",
           "bytes": 24000000,
-          "sha256": "ef6de54456a1f77948b102f1474be29156077b39e4ccec473bd74f75867a7ca5"
+          "sha256": "7c561025861c5e7fd63b2dbda4f0e6d7e8f1ccef69fc2e64de805392471eda3f"
         },
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part002",
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part002",
           "bytes": 24000000,
-          "sha256": "d605cab524c0f20f7586a340be29d0018f9a4ddd433e8e76f8a35bfa725477c4"
+          "sha256": "f53e73a33ec243c8015fa55fdb10ba003c4152c40ad319fb0f5476c2d8a4434e"
         },
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part003",
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part003",
           "bytes": 24000000,
-          "sha256": "177e965e0e67d7e101e83bd9ddd487f65080b20925e4c9130d1f344ff8ca432e"
+          "sha256": "fee227f30ab04bf26e884ee58cef598626d2b7598cc65b35a7dfad643d3b09b6"
         },
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part004",
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part004",
           "bytes": 24000000,
-          "sha256": "e87310207e51feffae9acd7a45f0664e6fcc1a0da919f200ce0d25ebc7b8117c"
+          "sha256": "7932b8b9838aebd733c0b11bade3b6032d930b5145b45a3c89c5ff2b875c6ac9"
         },
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part005",
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part005",
           "bytes": 24000000,
-          "sha256": "b32e5dd82e2d6bb52eaf44b2235d9b2e985a67893e6d2b79cbe32e6913bac3aa"
+          "sha256": "475a3e898514aea6e7112f572ebea2fa1d28ec463e688be7a6bae06cb704717c"
         },
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part006",
-          "bytes": 7537112,
-          "sha256": "07f668d64b728373d2bb6070809890bda3267302c57fc7e25c2e584eb04f2685"
+          "name": "PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part006",
+          "bytes": 7529248,
+          "sha256": "1d06c52ec8a16262cfddfcafd2938ca90d77309d9cce174ff27f9a48678cc3d3"
         }
       ],
       "files": [
@@ -102,13 +102,13 @@
         },
         {
           "name": "manifest.json",
-          "bytes": 2076,
-          "sha256": "48db5b2e848e632a2af6e657e00339fc6b37e4cbe2ecd080407a3c8a8c9d5c21"
+          "bytes": 2018,
+          "sha256": "354bd668c6e51b9bc8b1909b9b23b7f697b9ed5561db37c6161b350ddea85be8"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 61256780,
-          "sha256": "7a7774772e6bdfa394a433976851eb7a8eab92effc74c96db5137b239ffbe77a"
+          "bytes": 61257137,
+          "sha256": "9ee31faaf14072933ec6bec95c6732832117fbf07f8d635fcebc63f4310da4ab"
         },
         {
           "name": "python-runtime.tar.gz",
@@ -117,47 +117,47 @@
         },
         {
           "name": "README.txt",
-          "bytes": 5780,
-          "sha256": "244392ea452788493df9c4fb63bbf31478f25b9be7c8455c2f88209f354a6134"
+          "bytes": 5885,
+          "sha256": "298422bc6bc7dce02f20fb26dfed6efe8de3a35bf33c2f42e92eff42e712dc7e"
         },
         {
           "name": "SHA256SUMS",
           "bytes": 408,
-          "sha256": "a1404881b76e407a733ad9220df3785ec8fee4a074325f2a66fc9182d0d0cb61"
+          "sha256": "5abb50fca5ac74fea5d730001d30477c969b14df31632f12027c76b5246e6e98"
         }
       ],
-      "top_folder": "PortalAI-Academic-Linux-Installer-r2"
+      "top_folder": "PortalAI-Academic-Linux-Installer-20261021-r1"
     },
     "Mac": {
-      "archive": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz",
-      "bytes": 101435043,
-      "sha256": "3db2b869a1c7e94f96f13788841bc6f51b28b2a15133b2bb7cffbbf84ecbc298",
-      "path": "packages/20261020-r2/Mac",
+      "archive": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz",
+      "bytes": 101435737,
+      "sha256": "46ce1a0c4215f89c268af53232be1435fd37f695f8e51374846465840b733b4d",
+      "path": "packages/20261021-r1/Mac",
       "parts": [
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz.part001",
+          "name": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz.part001",
           "bytes": 24000000,
-          "sha256": "e458ef82b02a17bc19ef4cda70fb39041bee70c4fa9e5bc81f79342be882b1e2"
+          "sha256": "a137a0b467b2d15a4b5987d3290b9335c8bd4c5c15ef3429b8b5d420ac9ce219"
         },
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz.part002",
+          "name": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz.part002",
           "bytes": 24000000,
-          "sha256": "28acc2425bcc5dd384a225fbf2c2c5ccdf21e42007f4c4211e13fc3c0675b1f6"
+          "sha256": "d0225dab9ac0eef5a32a749d9f4fde068a639c28bd59c5dfcadf6029dc36f1b0"
         },
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz.part003",
+          "name": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz.part003",
           "bytes": 24000000,
-          "sha256": "c539599821f5c5b74a6564ccea1f9c7cf6ffe5008e951e08d578bb75506c7ca5"
+          "sha256": "db3d3ae711fc483f6e7452393cdc911d73133437bd596aec6bef2ad7ad9ceb5e"
         },
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz.part004",
+          "name": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz.part004",
           "bytes": 24000000,
-          "sha256": "41d6be4c45d320b5b2c6ad3df7d0cf1130df57a6102cc16b3f3e6c2287ba44b0"
+          "sha256": "d07dc9bfc46ed04b5c5b9186d0186c51a2ae9d8c14b389a9d5b6b67b0904de18"
         },
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261020-r2-universal.tar.gz.part005",
-          "bytes": 5435043,
-          "sha256": "4b656c687d9732e4beef53787f6ce8483e074ed022ff9aec21642a3ec6e7efc6"
+          "name": "PortalAI-Academic-Mac-Installer-20261021-r1-universal.tar.gz.part005",
+          "bytes": 5435737,
+          "sha256": "cc63b759e655d77a0c4cfec017fe89a4f26c72117ab0be8eacbf65e28d10a07d"
         }
       ],
       "files": [
@@ -173,13 +173,13 @@
         },
         {
           "name": "manifest.json",
-          "bytes": 3220,
-          "sha256": "ac68ac1395f8b5e50dcad8f803163a6565419b3c3b5c063cefd3db57b143f212"
+          "bytes": 3136,
+          "sha256": "3893e6a0cb04e3325abbb89ec36d46c7374bd2a2b709ad472d315eb8c0d0e06c"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 14180856,
-          "sha256": "908a4d38c570fefb0348823f27903e6e15a16e226d32a2eb9b8053a1590ae4f1"
+          "bytes": 14181497,
+          "sha256": "42249b5bcd8b1ce62ba390e9c73708291340d77e21d897e974148c8b1633e166"
         },
         {
           "name": "python-runtime-arm64.tar.gz",
@@ -193,18 +193,18 @@
         },
         {
           "name": "README.txt",
-          "bytes": 4184,
-          "sha256": "0bbb3a5ba6f79a777ce7d74c82dd5eddd79f0bdf7eb57c7622b5cd7b04be8a85"
+          "bytes": 4289,
+          "sha256": "242990a51de32dc6c2550b1f277e527853277dd45496f02d6f61fa163dcb0300"
         },
         {
           "name": "SHA256SUMS",
           "bytes": 607,
-          "sha256": "81b1a7ab0210da3d75299e74a1233eeec4a7d2b43520d86c8e13a762fd0a0379"
+          "sha256": "3fb6e59561a6e3368cde716efbe04fa05bdcf65f958b28fc2708b434197ca2e6"
         }
       ],
-      "top_folder": "PortalAI-Academic-Mac-Installer-r2"
+      "top_folder": "PortalAI-Academic-Mac-Installer-20261021-r1"
     }
   },
   "source_base_url": "https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main",
-  "release": "20261020-r2"
+  "release": "20261021-r1"
 }

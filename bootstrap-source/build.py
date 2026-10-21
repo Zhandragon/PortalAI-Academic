@@ -78,11 +78,11 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261020.2', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261021.1', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:
-                        info = zipfile.ZipInfo('PortalAI Academic Installer.app/' + name, date_time=(2026, 10, 20, 0, 0, 0))
+                        info = zipfile.ZipInfo('PortalAI Academic Installer.app/' + name, date_time=(2026, 10, 21, 0, 0, 0))
                         info.create_system = 3
                         info.external_attr = (0o100000 | mode) << 16
                         info.compress_type = zipfile.ZIP_DEFLATED

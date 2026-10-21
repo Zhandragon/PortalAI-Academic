@@ -1,6 +1,6 @@
 # Publishing PortalAI Academic
 
-The distribution is hosted at `Zhandragon/PortalAI-Academic`, branch `main`. Keep the three setup downloads at the repository root. The launchers contain fixed URLs under `packages/20261020-r2/` and pinned hashes for every part, reconstructed archive and extracted installer file.
+The distribution is hosted at `Zhandragon/PortalAI-Academic`, branch `main`. Keep the three setup downloads at the repository root. The launchers contain fixed URLs under `packages/20261021-r1/` and pinned hashes for every part, reconstructed archive and extracted installer file.
 
 ## Repository layout
 
@@ -8,7 +8,7 @@ The distribution is hosted at `Zhandragon/PortalAI-Academic`, branch `main`. Kee
 PortalAI-Academic-Windows-Setup.exe
 PortalAI-Academic-Mac-Setup.zip
 PortalAI-Academic-Linux-Setup.sh
-packages/20261020-r2/{Windows,Linux,Mac}/
+packages/20261021-r1/{Windows,Linux,Mac}/
 Documentation/
 bootstrap-source/
 PACKAGING.json

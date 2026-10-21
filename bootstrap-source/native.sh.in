@@ -6,7 +6,7 @@ ARCHIVE='@ARCHIVE@'
 ARCHIVE_HASH='@ARCHIVE_HASH@'
 TOP='@TOP@'
 PLATFORM='@PLATFORM@'
-OWNER='PortalAI-Academic-bootstrap-20261020-r2-@PLATFORM@'
+OWNER='PortalAI-Academic-bootstrap-20261021-r1-@PLATFORM@'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do

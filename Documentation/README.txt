@@ -1,3 +1,7 @@
+CURRENT: Academic 2026-10-21 r1. Access-request notice added to the welcome panel.
+See the root README and Documentation/VALIDATION.json for current validation.
+
+Previous release notes:
 CURRENT: Academic 2026-10-20 r2. See the root README and Documentation/VALIDATION.json.
 Package status/guidance corrected; nested loader and known-hash asset checks added.
 The following r1 notes are historical baseline provenance, not the current validation tally.

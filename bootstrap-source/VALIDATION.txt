@@ -1,3 +1,8 @@
+CURRENT: Academic 2026-10-21 r1
+
+The exact Windows, Linux and Mac setup launchers reconstructed the new archives from preloaded, verified package parts in prepare-only mode. Every extracted installer file matched its pinned hash. Windows ran its managed EXE; Linux and Mac shell paths ran under Git Bash on Windows. No full install or model worker was started. Native Linux/macOS behavior remains untested for this update.
+
+Previous validation notes:
 ACADEMIC R2 — 2026-10-20
 
 The exact current Windows, Linux and Mac launchers reconstructed the complete r2 archives from preloaded verified parts and verified every extracted installer file in prepare-only mode. No full installer or model worker was started. Windows ran its direct managed EXE; Linux/Mac shell paths ran on Git Bash. Native Mac Finder and physical Linux/Mac execution remain untested.

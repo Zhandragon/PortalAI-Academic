@@ -1,74 +1,62 @@
 {
-  "release": "Academic 2026.10.20 r2",
-  "scope": "Exact archive integrity and no-network policy/regression checks on Windows; physical Linux/Mac execution untested.",
+  "release": "20261021-r1",
+  "scope": "Package integrity, exact source delta from Academic r2 and syntax checks on Windows. No physical Linux/macOS install or model inference was run.",
   "platforms": {
     "Windows": {
-      "academic_tests": 23,
       "passed": true,
-      "physical_platform_execution": true,
-      "model_inference_tested": false,
-      "regressions": {
-        "modules": [
-          "test_gui_stop_contract",
-          "test_account_gate",
-          "test_media_policy",
-          "test_chat_handoff",
-          "test_chat_task_checkpoint",
-          "test_chat_summary_recovery",
-          "test_settings_surfaces_tk",
-          "test_native_workflow_guards",
-          "test_linux_installer_receipt",
-          "test_mission_runner",
-          "test_small_model_chat",
-          "test_chat_context_budget",
-          "test_chat_reasoning_continuation",
-          "test_mission_context",
-          "test_profile_media"
-        ],
-        "tests": 174,
-        "seconds": 22.84,
-        "passed": true,
-        "skips": [
-          [
-            "test_ace_current_installed_source_compiles_without_importing_models (test_profile_media.ProfileMedia.test_ace_current_installed_source_compiles_without_importing_models)",
-            "ACE vendor source is a separately downloaded installer component; synthetic profile routing tests still run."
-          ]
-        ],
-        "failures": [],
-        "errors": []
-      }
+      "payload_files": 4177,
+      "changed_payload_files": [
+        "PortalAI/ControlCenter/portal_frontend_v15136.py",
+        "PortalAI/Documentation/PortalAI_Academic.txt"
+      ],
+      "other_payload_files_identical_to_r2": 4175
     },
     "Linux": {
-      "academic_tests": 23,
       "passed": true,
-      "physical_platform_execution": false,
-      "model_inference_tested": false
+      "payload_files": 3087,
+      "changed_payload_files": [
+        "PortalAI/ControlCenter/portal_frontend_v15136.py",
+        "PortalAI/Documentation/PortalAI_Academic.txt"
+      ],
+      "other_payload_files_identical_to_r2": 3085
     },
     "Mac": {
-      "academic_tests": 23,
       "passed": true,
-      "physical_platform_execution": false,
-      "model_inference_tested": false
+      "payload_files": 1307,
+      "changed_payload_files": [
+        "PortalAI/ControlCenter/portal_frontend_v15136.py",
+        "PortalAI/Documentation/PortalAI_Academic.txt"
+      ],
+      "other_payload_files_identical_to_r2": 1305
     }
+  },
+  "ui_validation": {
+    "real_windows_widgets": true,
+    "themes": [
+      "Light",
+      "Dark"
+    ],
+    "narrower_window_checked": true,
+    "personal_account_or_model_services_started": false
   },
   "downloaders": {
     "Windows": {
       "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "06326a794718c35517321f7f1b811dc6abe3e098bdbf73cedb6a0835534ff5f5",
+      "reconstructed_sha256": "b5e6053d240d4fb6ae3c2dabcca92efdf3406ecf9eb8ca783f5bbbc4adeea870",
       "extracted_files_verified": 5,
       "full_installer_started": false,
       "parts": "preloaded verified files"
     },
     "Linux": {
       "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "3f627b48bb3ccca6d5202fec51afad34e6da2afc22495bbc3e9fb7a71f52e8ca",
+      "reconstructed_sha256": "8efa43d13a4059d1d2fd14a3c31d5a55b1e2eaa71926b5502f57f6a9f9afadd7",
       "extracted_files_verified": 6,
       "full_installer_started": false,
       "parts": "preloaded verified files"
     },
     "Mac": {
       "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "3db2b869a1c7e94f96f13788841bc6f51b28b2a15133b2bb7cffbbf84ecbc298",
+      "reconstructed_sha256": "46ce1a0c4215f89c268af53232be1435fd37f695f8e51374846465840b733b4d",
       "extracted_files_verified": 8,
       "full_installer_started": false,
       "parts": "preloaded verified files"
