@@ -24,6 +24,12 @@ Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and 
 
 The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers preserve the original installer archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
 
+## Antivirus and the llama.cpp server
+
+Antivirus software may flag or quarantine PortalAI's llama.cpp local model server (`llama-server.exe` on Windows) or its supporting libraries. This can prevent chat models from starting or cause local server connection errors. False positives have been reported for [upstream llama.cpp Windows builds](https://github.com/ggml-org/llama.cpp/issues/15874).
+
+If this happens, check your antivirus protection history for the blocked file's path and detection name. Ask your instructor or IT administrator to review the alert and verify the file's source and expected checksum before restoring it or approving a specific file exception. Do not disable antivirus protection or exclude the entire PortalAI folder; an alert should be reviewed before treating it as a false positive.
+
 ## Repository contents
 
 - The three setup downloads and their checksums are at the repository root.
