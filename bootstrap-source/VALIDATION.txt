@@ -1,0 +1,49 @@
+PORTALAI ACADEMIC ONLINE INSTALLERS - VALIDATION
+2026-10-20
+
+PASSED
+- All three original archives were reconstructed from their complete, verified
+  parts and matched the original SHA-256 values exactly.
+- Every extracted installer file matched its pinned size and SHA-256.
+- The exact published Windows executable's managed entry point reconstructed
+  and verified the full Windows package, and its GUI smoke test completed.
+- HTTP downloads of fixture archives passed for all three implementations.
+- Missing/corrupt remote parts, damaged caches, changed extracted code, cached
+  reruns, and unrelated nonempty destination folders were checked.
+- Linux and Mac shell launchers started fixture installers with the correct
+  destination arguments on Git Bash. Shell syntax and Mac ZIP executable
+  permission bits passed.
+- The public repository's main-branch raw endpoint was reachable over HTTPS.
+- Published-file checksums and all original Academic archive checksums matched.
+- Every file prepared for this commit is at most 24,000,000 bytes.
+
+LIMITATIONS
+Full original packages were tested from preloaded verified parts; network
+download/failure tests used small fixtures. Large local HTTP transfers also
+experienced connection resets on this host. A complete download from the
+actual public GitHub package URLs cannot be tested until the files are committed.
+
+Avast autosandbox intercepted direct Windows test executables. The Windows
+download/reconstruction code and GUI were therefore also tested through their
+managed .NET entry point in PowerShell. The separate Windows child-launch test
+received Access denied and remains unverified; it is not counted as a pass.
+No antivirus settings, exclusions, or security policies were changed.
+
+Mac Finder/Terminal opening and physical Mac/Linux installations have not been
+run. Git Bash testing is not a substitute for native-platform acceptance. These
+launchers are unsigned; recipient OS/security approval may be needed.
+
+No actual application installation was started during launcher validation.
+The current PortalAI installation and original Academic archives were unchanged.
+
+PREPARE-ONLY CHECKS AFTER THE COMMIT
+These download, reconstruct and extract without starting the full installer.
+
+Windows:
+  PortalAI-Academic-Windows-Setup.exe --prepare-only "D:\New Academic Setup"
+
+Linux:
+  bash PortalAI-Academic-Linux-Setup.sh --prepare-only --directory "/path/new setup"
+
+Mac (after extracting the launcher ZIP):
+  bash "PortalAI Academic Installer.app/Contents/MacOS/bootstrap.sh" --prepare-only --directory "/path/new setup"

@@ -1,0 +1,177 @@
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+internal sealed class Item {
+    internal string Name, Hash; internal long Bytes;
+    internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
+}
+internal static class Bootstrap {
+    internal const string Source = "@SOURCE@";
+    internal const string Archive = "@ARCHIVE@";
+    internal const string ArchiveHash = "@ARCHIVE_HASH@";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261020-r1-Windows";
+    internal static readonly Item[] Parts = new Item[] { @PARTS@ };
+    internal static readonly Item[] Files = new Item[] { @FILES@ };
+    internal static string Digest(string path) {
+        using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
+            return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+    }
+    internal static bool Valid(string path, Item item) {
+        return File.Exists(path) && new FileInfo(path).Length == item.Bytes && Digest(path) == item.Hash;
+    }
+    internal static void Check(bool cancel) { if (cancel) throw new OperationCanceledException("Download cancelled. Verified parts can be reused next time."); }
+    internal static void Publish(Action action, Func<bool> cancelled) {
+        // File scanners can briefly hold newly downloaded or extracted files.
+        for (int attempt=0; ; attempt++) {
+            Check(cancelled());
+            try { action(); return; }
+            catch (IOException) { if (attempt>=59) throw; }
+            catch (UnauthorizedAccessException) { if (attempt>=59) throw; }
+            Thread.Sleep(500);
+        }
+    }
+    internal static string Prepare(string target, Action<int,string> report, Func<bool> cancelled) {
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        target = Path.GetFullPath(target);
+        string marker = Path.Combine(target, ".portalai-academic-setup");
+        if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
+            (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
+            throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
+        Directory.CreateDirectory(target);
+        if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
+        using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
+            string cache = Path.Combine(target, "downloads"); Directory.CreateDirectory(cache);
+            long total=0, completed=0; foreach (Item item in Parts) total += item.Bytes;
+            for (int index=0; index<Parts.Length; index++) {
+                Item item=Parts[index]; string final=Path.Combine(cache, item.Name);
+                Check(cancelled());
+                if (!Valid(final, item)) {
+                    Exception last = null;
+                    for (int attempt=1; attempt<=3; attempt++) {
+                        string temp = Path.Combine(cache, ".download-" + Guid.NewGuid().ToString("N"));
+                        try {
+                            report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
+                            var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
+                            request.UserAgent="PortalAI-Academic-Installer/20261020-r1";
+                            request.Timeout=30000; request.ReadWriteTimeout=30000;
+                            using (var response=(HttpWebResponse)request.GetResponse()) {
+                                if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
+                                if (response.ContentLength >= 0 && response.ContentLength != item.Bytes) throw new IOException("Incorrect server file size for " + item.Name);
+                                using (var input=response.GetResponseStream()) using (var output=new FileStream(temp, FileMode.CreateNew)) {
+                                    byte[] buffer=new byte[1024*1024]; int count; long received=0;
+                                    while ((count=input.Read(buffer,0,buffer.Length))>0) {
+                                        Check(cancelled()); received+=count;
+                                        if (received>item.Bytes) throw new IOException("Download exceeded the expected size.");
+                                        output.Write(buffer,0,count);
+                                        report((int)((completed+received)*85/total), "Downloading part " + (index+1) + " of " + Parts.Length);
+                                    }
+                                }
+                            }
+                            if (!Valid(temp,item)) throw new IOException("Checksum verification failed for " + item.Name);
+                            Publish(delegate { if (File.Exists(final)) File.Replace(temp,final,null); else File.Move(temp,final); },cancelled);
+                            last=null; break;
+                        } catch (OperationCanceledException) { throw; }
+                          catch (Exception error) { last=error; if (attempt<3) Thread.Sleep(1000); }
+                          finally { if (File.Exists(temp)) File.Delete(temp); }
+                    }
+                    if (last!=null) throw new IOException("Could not download a verified part from GitHub. Check your connection and that the full upload has been committed to main. " + last.Message, last);
+                }
+                completed+=item.Bytes;
+                report((int)(completed*85/total), "Verified part " + (index+1) + " of " + Parts.Length);
+            }
+            Check(cancelled()); report(88,"Reconstructing and verifying the installer...");
+            string archive=Path.Combine(cache, Archive);
+            if (!File.Exists(archive) || Digest(archive)!=ArchiveHash) {
+                string temp=Path.Combine(cache,".assemble-"+Guid.NewGuid().ToString("N"));
+                try {
+                    using (var output=new FileStream(temp,FileMode.CreateNew)) foreach (Item item in Parts) {
+                        Check(cancelled()); using (var input=File.OpenRead(Path.Combine(cache,item.Name))) input.CopyTo(output);
+                    }
+                    if (Digest(temp)!=ArchiveHash) throw new IOException("Reconstructed archive checksum failed.");
+                    Publish(delegate { if (File.Exists(archive)) File.Replace(temp,archive,null); else File.Move(temp,archive); },cancelled);
+                } finally { if (File.Exists(temp)) File.Delete(temp); }
+            }
+            string package=Path.Combine(target,"installer");
+            string extractionMarker=Path.Combine(target,".extracting-verified-installer");
+            if (!Directory.Exists(package) && !File.Exists(extractionMarker)) File.WriteAllText(extractionMarker,ArchiveHash);
+            if (File.Exists(extractionMarker)) {
+                if (File.ReadAllText(extractionMarker)!=ArchiveHash) throw new IOException("Unexpected extraction marker. Choose a new setup folder.");
+                Check(cancelled()); report(93,"Extracting the verified installer...");
+                // Do not rename a directory containing a newly scanned executable.
+                // Only a marked incomplete extraction may replace installer files;
+                // nothing can launch until every extracted file passes its hash.
+                Directory.CreateDirectory(package);
+                using (var zip=ZipFile.OpenRead(archive)) foreach (ZipArchiveEntry entry in zip.Entries) {
+                    Check(cancelled());
+                    string path=Path.GetFullPath(Path.Combine(package,entry.FullName));
+                    if (!path.StartsWith(package+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase)) throw new IOException("Unsafe archive entry.");
+                    if (entry.FullName.EndsWith("/")) { Directory.CreateDirectory(path); continue; }
+                    Item expected=null; foreach(Item item in Files) if(item.Name==entry.FullName) expected=item;
+                    if (expected==null) throw new IOException("Unexpected installer file.");
+                    if (Valid(path,expected)) continue;
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    using (var input=entry.Open()) using (var output=new FileStream(path,FileMode.Create)) input.CopyTo(output);
+                }
+            }
+            foreach (Item item in Files) if (!Valid(Path.Combine(package,item.Name),item))
+                throw new IOException("An extracted installer file is missing or changed: " + item.Name + ". Choose a new setup folder to download a clean copy.");
+            if (File.Exists(extractionMarker)) File.Delete(extractionMarker);
+            Check(cancelled()); report(100,"Verified. Opening the Academic installer...");
+            return Path.Combine(package,"PortalAI-Academic-Install.exe");
+        }
+    }
+    internal static void Launch(string installer) {
+        Process.Start(new ProcessStartInfo(installer) { UseShellExecute=true, WorkingDirectory=Path.GetDirectoryName(installer) });
+    }
+    [STAThread] public static int Main(string[] args) {
+        if (args.Length==2 && args[0]=="--prepare-only") {
+            try { string file=Prepare(args[1],delegate(int p,string s) { Console.WriteLine(s); },delegate {return false;}); Console.WriteLine(file); return 0; }
+            catch(Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
+        }
+        Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new SetupForm(args.Length==1 && args[0]=="--ui-smoke")); return 0;
+    }
+}
+internal sealed class SetupForm : Form {
+    TextBox destination=new TextBox(); Label status=new Label(); ProgressBar progress=new ProgressBar();
+    Button browse=new Button(), start=new Button(), cancel=new Button(); volatile bool stop; bool busy;
+    internal SetupForm(bool smoke) {
+        Text="PortalAI Academic - Windows Setup"; ClientSize=new Size(680,340); MinimumSize=new Size(680,370); StartPosition=FormStartPosition.CenterScreen;
+        var layout=new TableLayoutPanel { Dock=DockStyle.Fill, Padding=new Padding(18), ColumnCount=1, RowCount=6 };
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,90)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,40)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute,50));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,30)); layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));
+        layout.Controls.Add(new Label { Dock=DockStyle.Fill, Text="Download and install PortalAI Academic for Windows.\r\n\r\nThis is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students." });
+        layout.Controls.Add(new Label { Dock=DockStyle.Fill, Text="Setup folder (choose a drive with room for the application and models):" });
+        var pathRow=new TableLayoutPanel { Dock=DockStyle.Fill, ColumnCount=2 }; pathRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); pathRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,90));
+        destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
+        browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
+        pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 88 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
+        var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
+        start.Text="Download and install"; start.AutoSize=true; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);
+        start.Click+=async delegate {
+            busy=true; stop=false; start.Enabled=browse.Enabled=destination.Enabled=false; cancel.Enabled=true;
+            try {
+                string target=destination.Text;
+                string installer=await Task.Run(()=>Bootstrap.Prepare(target,UpdateProgress,()=>stop));
+                Bootstrap.Check(stop); Bootstrap.Launch(installer); status.Text="Academic installer opened. Continue in its window.";
+            } catch(Exception error) { status.Text=error.Message; MessageBox.Show(this,error.Message,"PortalAI Academic setup",MessageBoxButtons.OK,MessageBoxIcon.Information); }
+            finally { busy=false; start.Enabled=browse.Enabled=destination.Enabled=true; cancel.Enabled=false; }
+        };
+        cancel.Click+=delegate {stop=true; cancel.Enabled=false; status.Text="Cancelling...";};
+        FormClosing+=delegate(object sender,FormClosingEventArgs e) {if(busy) {e.Cancel=true; stop=true; status.Text="Cancelling download before closing...";}};
+        if(smoke) {var timer=new System.Windows.Forms.Timer {Interval=300}; timer.Tick+=delegate {timer.Stop();Close();};timer.Start();}
+    }
+    void UpdateProgress(int percent,string text) { BeginInvoke((Action)delegate {progress.Value=percent;status.Text=text;}); }
+}

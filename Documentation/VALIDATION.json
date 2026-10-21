@@ -1,0 +1,77 @@
+{
+  "scope": "Exact final archives; no model/runtime downloads or live user accounts. Native runtime execution not tested.",
+  "platforms": {
+    "Windows": {
+      "archive_sha256": "c662f51a480d6049673e0ef32572c052c42a1715876ebfb638cdccbb4ff3583a",
+      "payload_files": 4177,
+      "component_plans_checked": 22,
+      "python_files_parsed": 446,
+      "academic_tests": {
+        "tests": 15,
+        "passed": true,
+        "runtime": "Windows host; platform payload source"
+      },
+      "bootstrap": {
+        "kind": "selfcheck",
+        "python": "3.13.16",
+        "sha256": true,
+        "ssl": true
+      },
+      "regressions": {
+        "root": "C:\\Users\\genes\\Documents\\Codex\\2026-10-20\\mak\\work\\final-verify\\Windows\\application\\PortalAI",
+        "modules": [
+          "test_gui_stop_contract",
+          "test_account_gate",
+          "test_media_policy",
+          "test_chat_handoff",
+          "test_chat_task_checkpoint",
+          "test_chat_summary_recovery",
+          "test_settings_surfaces_tk",
+          "test_native_workflow_guards",
+          "test_linux_installer_receipt",
+          "test_mission_runner",
+          "test_small_model_chat",
+          "test_chat_context_budget",
+          "test_chat_reasoning_continuation",
+          "test_mission_context",
+          "test_profile_media"
+        ],
+        "tests": 174,
+        "seconds": 15.31,
+        "passed": true,
+        "skips": [
+          [
+            "test_ace_current_installed_source_compiles_without_importing_models (test_profile_media.ProfileMedia.test_ace_current_installed_source_compiles_without_importing_models)",
+            "ACE vendor source is a separately downloaded installer component; synthetic profile routing tests still run."
+          ]
+        ],
+        "failures": [],
+        "errors": []
+      }
+    },
+    "Linux": {
+      "archive_sha256": "f42ae6d41838a67f016e16d66b79211224b13280751f3e336ae3ae9a5a9eb99f",
+      "bundled_runtimes_unchanged": true,
+      "shell_syntax_passed": true,
+      "python_files_parsed": 443,
+      "academic_tests": {
+        "tests": 15,
+        "passed": true,
+        "runtime": "Windows host; platform payload source"
+      },
+      "physical_install_tested": false
+    },
+    "Mac": {
+      "archive_sha256": "dd6daea8d3edad6c2c1012a47cd0b5ba57ace22f7de8305814c73c104626b34d",
+      "bundled_runtimes_unchanged": true,
+      "shell_syntax_passed": true,
+      "python_files_parsed": 449,
+      "academic_tests": {
+        "tests": 15,
+        "passed": true,
+        "runtime": "Windows host; platform payload source"
+      },
+      "physical_install_tested": false
+    }
+  }
+}
