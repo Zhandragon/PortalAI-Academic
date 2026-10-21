@@ -35,12 +35,20 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 [![PortalAI welcome panel with the original gold wordmark, blue portal emblem and navigation tabs](Documentation/assets/welcome-panel.jpg)](Documentation/assets/welcome-panel.jpg)
 
+**Chat.** The full chat workspace includes conversation history, attachments, effort controls and the original gold window borders.
+
+[![PortalAI Chat in the complete Control Center window, showing an illustrative classroom conversation](Documentation/assets/chat-panel.jpg)](Documentation/assets/chat-panel.jpg)
+
+**Compact chat bar.** Keep the compact controls nearby, then use **View > Full UI** to return to the Control Center.
+
+[![PortalAI compact chat bar with its original branding, border, attachment field and chat controls](Documentation/assets/compact-chat-bar.jpg)](Documentation/assets/compact-chat-bar.jpg)
+
 | Chat model and memory | Media defaults |
 | --- | --- |
-| [![Academic chat settings showing the standard variant, backend, context limit and vision routing](Documentation/assets/chat-model-settings.jpg)](Documentation/assets/chat-model-settings.jpg) | [![Academic media settings for images, speech, transcription, video and music, with standard mode enforced](Documentation/assets/media-defaults.jpg)](Documentation/assets/media-defaults.jpg) |
+| [![Academic chat settings in the complete Control Center window, showing the standard variant, backend, context limit and vision routing](Documentation/assets/chat-model-settings.jpg)](Documentation/assets/chat-model-settings.jpg) | [![Academic media settings in the complete Control Center window, with standard mode enforced](Documentation/assets/media-defaults.jpg)](Documentation/assets/media-defaults.jpg) |
 | Choose model, memory and backend preferences while the Academic variant stays fixed to standard. | Review the defaults for supported media workflows and their hardware requirements. |
 
-<sub>Windows interface previews captured from the Academic build with sample inventory. Available workflows depend on the operating system and installed components. Click a panel to view it at full size.</sub>
+<sub>Windows screenshots of the Academic build's complete Control Center and its compact mode. The chat conversation is illustrative; settings use sample inventory. Available workflows depend on the operating system and installed components. Click a panel to view it at full size. See the <a href="Documentation/assets/README.md">artwork notes</a> for capture details.</sub>
 
 ## Setup
 
