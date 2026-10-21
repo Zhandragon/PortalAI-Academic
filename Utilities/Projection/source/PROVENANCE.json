@@ -1,0 +1,20 @@
+{
+  "ha_archive_sha256": "9ca5369ba963164c9cee57f2a24fe6799de2dcca47fb18abbf57b72e35c19267",
+  "runtime_receipts": {
+    "Windows": "ad62c1e1c59eaebfa464c88b34b915a19e6936165d8723d5bc911636c4566642",
+    "Linux": "082990411c4c82c0b349bc7ae3fbe0b581d4fe395e5035e004331c8a422a2369"
+  },
+  "receipt_metadata_changes": [
+    {
+      "path": "Runtime/packages/cryptography-50.0.2.dist-info/RECORD",
+      "original_sha256": "ef5888ca6729ee2abe1ad954ad57751cad5a25f6dffcae6eeacfa8cd1080aac9",
+      "published_sha256": "c036a1e92981278fb1b3dc205e1af8afb5836ced663c5b99b796cc455be07cd5"
+    },
+    {
+      "path": "Runtime/packages/cffi-2.1.1.dist-info/RECORD",
+      "original_sha256": "178baeb856736e48c8e20d5bd933ba07be0d343a3e22208dfe49eeb885143ea0",
+      "published_sha256": "41d6abd77790b379db2d1a28f2ff334cded6e202d406e3bba7a28cec606b4437"
+    }
+  ],
+  "exclusions": "No Connections, state, profiles, logs, captures, Tests/Validation, old receiver, PDBs or build caches."
+}

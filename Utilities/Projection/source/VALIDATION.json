@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-20",
+  "checks_passed": [
+    "linux-syntax",
+    "windows-prepare",
+    "linux-prepare",
+    "windows-repeat",
+    "windows-foreign-folder",
+    "linux-foreign-folder",
+    "windows-bad-part",
+    "linux-bad-part",
+    "ha-package-verify",
+    "windows-runtime-smoke",
+    "windows-fresh-folders"
+  ],
+  "archive_files": {
+    "Windows": 2414,
+    "Linux": 1337
+  },
+  "scope": "New downloaders reconstructed all files in isolated folders. Linux shell tested under Git Bash, not a physical Linux desktop. No live PortalAI launch or HA pairing/network connection was performed."
+}

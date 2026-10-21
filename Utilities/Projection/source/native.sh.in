@@ -1,0 +1,108 @@
+#!/bin/bash
+# PortalAI Projection online setup. Requires no host Python.
+set -euo pipefail
+SOURCE='@SOURCE@'
+ARCHIVE='@ARCHIVE@'
+ARCHIVE_HASH='@ARCHIVE_HASH@'
+TOP='@TOP@'
+PLATFORM='@PLATFORM@'
+OWNER='PortalAI-Projection-bootstrap-20261020-r1-@PLATFORM@'
+PREPARE_ONLY=0
+SETUP=''
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --prepare-only) PREPARE_ONLY=1; shift ;;
+        --directory) [ "$#" -ge 2 ] || { echo 'Missing setup directory.' >&2; exit 2; }; SETUP="$2"; shift 2 ;;
+        *) echo 'Usage: bash installer [--directory PATH] [--prepare-only]' >&2; exit 2 ;;
+    esac
+done
+if [ "$PREPARE_ONLY" -eq 0 ]; then
+@PLATFORM_CHECK@
+fi
+printf '\nPortalAI Projection - %s Setup\n\n' "$PLATFORM"
+printf '%s\n' 'Optional companion for an existing PortalAI installation. Windows and Linux hosts only; macOS Projection is not supported yet.'
+if [ -z "$SETUP" ]; then
+    DEFAULT_SETUP="$HOME/PortalAI Projection $PLATFORM Setup"
+    printf '\nSetup folder [%s]: ' "$DEFAULT_SETUP"
+    IFS= read -r SETUP || exit 1
+    SETUP="${SETUP:-$DEFAULT_SETUP}"
+fi
+case "$SETUP" in /*) ;; *) SETUP="$PWD/$SETUP" ;; esac
+for tool in curl tar mktemp wc; do command -v "$tool" >/dev/null || { echo "Required tool is missing: $tool" >&2; exit 1; }; done
+if command -v sha256sum >/dev/null 2>&1; then
+    digest() { sha256sum "$1" | awk '{print $1}'; }
+elif command -v shasum >/dev/null 2>&1; then
+    digest() { shasum -a 256 "$1" | awk '{print $1}'; }
+else echo 'SHA-256 tool missing (sha256sum or shasum).' >&2; exit 1
+fi
+if [ -e "$SETUP" ] && [ ! -d "$SETUP" ]; then echo 'Setup path is not a folder.' >&2; exit 1; fi
+if [ -d "$SETUP" ] && [ -n "$(ls -A "$SETUP")" ]; then
+    if [ ! -f "$SETUP/.portalai-projection-setup" ] || [ "$(cat "$SETUP/.portalai-projection-setup")" != "$OWNER" ]; then
+        echo 'Choose a new, empty setup folder. This folder contains unrelated files.' >&2; exit 1
+    fi
+fi
+mkdir -p "$SETUP"
+SETUP=$(cd "$SETUP" && pwd -P)
+printf '%s' "$OWNER" > "$SETUP/.portalai-projection-setup"
+if ! mkdir "$SETUP/.bootstrap.lock" 2>/dev/null; then
+    echo 'Another setup is running. If a prior setup was interrupted, remove the empty .bootstrap.lock folder after ensuring it is no longer running.' >&2; exit 1
+fi
+TEMP=''
+cleanup() {
+    if [ -n "$TEMP" ] && [ -f "$TEMP" ]; then rm -f "$TEMP"; fi
+    rmdir "$SETUP/.bootstrap.lock" 2>/dev/null || true
+}
+trap cleanup EXIT
+trap 'exit 130' INT TERM HUP
+CACHE="$SETUP/downloads"
+mkdir -p "$CACHE"
+valid() { [ -f "$1" ] && [ "$(wc -c < "$1" | tr -d '[:space:]')" = "$2" ] && [ "$(digest "$1")" = "$3" ]; }
+while IFS='|' read -r name size expected; do
+    printf '\nVerifying/downloading %s\n' "$name"
+    if ! valid "$CACHE/$name" "$size" "$expected"; then
+        TEMP=$(mktemp "$CACHE/.download.XXXXXXXX")
+        downloaded=0
+        for attempt in 1 2 3; do
+            if curl --fail --location --retry 2 --connect-timeout 20 --speed-time 90 --speed-limit 1024 --max-filesize "$size" --proto '@PROTOCOL@' --proto-redir '@PROTOCOL@' --output "$TEMP" "$SOURCE/$name"; then downloaded=1; break; fi
+            if [ "$attempt" -lt 3 ]; then echo 'Retrying the interrupted download...'; sleep 1; fi
+        done
+        if [ "$downloaded" -ne 1 ]; then
+            echo 'Download failed. Check the connection and that all package parts have been committed to main.' >&2; exit 1
+        fi
+        if ! valid "$TEMP" "$size" "$expected"; then echo "Downloaded part failed size/SHA-256 verification: $name" >&2; exit 1; fi
+        mv -f "$TEMP" "$CACHE/$name"
+        TEMP=''
+    fi
+done <<'ACADEMIC_PARTS'
+@PART_ROWS@
+ACADEMIC_PARTS
+if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
+    echo 'Reconstructing the Projection archive...'
+    TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
+    while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
+@PART_ROWS@
+ACADEMIC_PARTS
+    if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
+    mv -f "$TEMP" "$CACHE/$ARCHIVE"
+    TEMP=''
+fi
+PACKAGE="$SETUP/utilities"
+if [ ! -d "$PACKAGE" ]; then
+    echo 'Extracting the verified Projection companion...'
+    STAGE=$(mktemp -d "$SETUP/.extract.XXXXXXXX")
+    tar -xzf "$CACHE/$ARCHIVE" -C "$STAGE"
+    [ -d "$STAGE/$TOP" ] || { echo 'Expected installer folder is missing.' >&2; exit 1; }
+    mv "$STAGE/$TOP" "$PACKAGE"
+    rmdir "$STAGE"
+fi
+while IFS='|' read -r name size expected; do
+    if ! valid "$PACKAGE/$name" "$size" "$expected"; then
+        echo "Extracted installer file is missing or changed: $name. Choose a new setup folder." >&2; exit 1
+    fi
+done <<'ACADEMIC_FILES'
+@FILE_ROWS@
+ACADEMIC_FILES
+echo 'The complete Projection companion and HA setup have been downloaded and verified.'
+if [ "$PREPARE_ONLY" -eq 1 ]; then printf 'Prepared companion: %s\n' "$PACKAGE"; exit 0; fi
+echo 'Opening Projection. Follow the included guide to configure your own connection and HA integration.'
+@LAUNCH@

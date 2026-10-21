@@ -4,18 +4,30 @@
   <img src="Documentation/assets/portalai-wordmark.png" width="340" alt="PortalAI wordmark" />
 </p>
 
-<h1 align="center">PortalAI Academic</h1>
+<h1 align="center">PortalAI</h1>
+
+<p align="center"><sub>(Academic)</sub></p>
 
 <p align="center"><strong>Local AI for guided learning and classroom exploration.</strong></p>
 
 <p align="center">
   <a href="#download-an-installer">Download</a> &nbsp;·&nbsp;
   <a href="#a-look-inside">Interface gallery</a> &nbsp;·&nbsp;
+  <a href="#projection-and-home-assistant">Projection / Home Assistant</a> &nbsp;·&nbsp;
   <a href="Documentation/README.txt">Academic guide</a> &nbsp;·&nbsp;
   <a href="#antivirus-and-the-llamacpp-server">Antivirus help</a>
 </p>
 
 > This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
+
+**PortalAI runs its AI locally on your computer.** Models, inference, supported tools, conversation history and account storage live on your own host and drive; core use requires no hosted AI service or cloud API key. After the required components are installed, supported local workflows can run offline. Installation and model downloads need internet access, and optional web tools and Home Assistant projection use the network you choose. Remote projection sends interface data through your Home Assistant connection while AI inference stays on the PortalAI host.
+
+- **Dynamic VRAM loading and offloading.** Models and media workers load on demand. Memory admission checks and exclusive GPU leases let supported heavy workflows release the chat model's VRAM, run their work, then restore chat. Model/backend choices account for available hardware; this manages limited memory rather than removing hardware requirements.
+- **Rolling memory compaction.** Long tasks checkpoint completed tool exchanges into compact working notes while keeping the current request, recent complete exchanges and important results and file paths. The retained transcript can be searched for exact details, helping work continue beyond one context window without pretending everything remains in active context.
+- **Persistent missions and schedules.** Save an objective, access settings and an action budget, or configure scheduled work. Missions must be armed and schedules enabled explicitly; Stop/Exit pauses future work. Execution needs PortalAI running, an awake host and the drive connected.
+- **A compact tool and multimedia harness.** Short default instructions, targeted tool schemas and runtime-managed media steps reduce repeated catalog searches and model deliberation. The harness handles details such as media timing and frame calculations and carries results forward through compaction. This is designed to reduce planning overhead; performance still depends on the model and workflow.
+- **Local accounts and encrypted user vaults.** Password-protected accounts use password-derived keys and authenticated encryption for stored profile keys and sealed user workspaces. Workspace files are decrypted while an account is in use; normal Exit seals them again. Guest is a shared/public workspace, and encryption is not isolation from the signed-in operating-system user.
+- **Context-aware help and a nonintrusive interface.** Right-click controls for relevant actions and built-in help. Switch between the full workspace and Compact chat, or keep PortalAI reachable through the Windows notification icon while the window is hidden.
 
 ## Download an installer
 
@@ -43,16 +55,54 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 [![PortalAI Chat in the complete Control Center window, showing an illustrative classroom conversation](Documentation/assets/chat-panel.jpg)](Documentation/assets/chat-panel.jpg)
 
-**Compact chat bar.** Keep the compact controls nearby, then use **View > Full UI** to return to the Control Center.
+**Compact chat bar.** A nonintrusive view keeps chat controls nearby while you work in other applications. Use **View > Full UI** to return to the Control Center.
 
 [![PortalAI compact chat bar with its original branding, border, attachment field and chat controls](Documentation/assets/compact-chat-bar.jpg)](Documentation/assets/compact-chat-bar.jpg)
+
+**Context-aware right-click help.** Menus adapt to the control or panel you click, combining relevant actions with a direct link to its built-in help topic. The settings example below offers hardware-fit checks, settings actions and **Help: Settings · chat and media**.
+
+[![The original Chat model right-click menu showing settings actions and context-sensitive help](Documentation/assets/context-help-menu.jpg)](Documentation/assets/context-help-menu.jpg)
+
+**Minimize to the Windows tray.** Use **Controls > Minimize to tray** or the title-bar tray button to hide the Control Center while work continues. The notification icon remains available (Windows may place it under the overflow chevron). Click it to restore the window, or right-click for navigation, help, theme and lifecycle actions. **Minimizing does not sign out, seal the workspace or stop jobs**; use **Exit PortalAI** for normal shutdown. If the tray icon cannot be created, PortalAI falls back to the taskbar. This notification-area behavior is Windows-specific.
+
+| Minimize control and its help | Notification-icon menu |
+| --- | --- |
+| [![Minimize to tray with its focused Tray icon help menu](Documentation/assets/tray-controls.jpg)](Documentation/assets/tray-controls.jpg) | <a href="Documentation/assets/tray-menu.jpg"><img src="Documentation/assets/tray-menu.jpg" width="230" alt="PortalAI notification-icon menu with restore, navigation, help and lifecycle actions" /></a> |
+
+**Runtime and Packages.** Runtime brings CPU, RAM, GPU and VRAM activity, owned-process information and reported model stages into one read-only panel. Packages provides a searchable, paginated capability inventory and installation status. Academic restrictions still apply even when the diagnostic catalog mentions an unavailable component.
+
+| Runtime monitoring | Package inventory |
+| --- | --- |
+| [![Runtime panel with illustrative CPU, RAM, GPU and VRAM telemetry](Documentation/assets/runtime-panel.jpg)](Documentation/assets/runtime-panel.jpg) | [![Packages panel showing capability descriptions and installation status in the isolated preview](Documentation/assets/packages-panel.jpg)](Documentation/assets/packages-panel.jpg) |
+
+**Hardware scaling with manual control.** Automatic selection fits eligible installed models to available RAM/VRAM and selects a compatible backend. Settings also lets you choose a model, backend, context limit and supported media defaults explicitly. **Check hardware fit** previews the choice; **Save settings** saves that section, and **Controls > Startup** applies chat choices when active work permits. A manual choice remains selected across effort changes, but still must pass hardware and memory admission checks. The Academic variant remains fixed to standard.
 
 | Chat model and memory | Media defaults |
 | --- | --- |
 | [![Academic chat settings in the complete Control Center window, showing the standard variant, backend, context limit and vision routing](Documentation/assets/chat-model-settings.jpg)](Documentation/assets/chat-model-settings.jpg) | [![Academic media settings in the complete Control Center window, with standard mode enforced](Documentation/assets/media-defaults.jpg)](Documentation/assets/media-defaults.jpg) |
 | Choose model, memory and backend preferences while the Academic variant stays fixed to standard. | Review the defaults for supported media workflows and their hardware requirements. |
 
-<sub>Windows screenshots of the Academic build's complete Control Center and its compact mode, shown in Light mode. The chat conversation is illustrative; settings use sample inventory. Available workflows depend on the operating system and installed components. Click a panel to view it at full size. See the <a href="Documentation/assets/README.md">artwork notes</a> for capture details.</sub>
+<sub>Windows screenshots of the Academic build's real widgets in Light mode, captured in an isolated preview. Chat and Runtime telemetry are illustrative; package status reflects the preview's incomplete runtime inventory. The original tray menu is opened by a capture-only shortcut. Available workflows depend on the operating system and installed components. Click a panel to view it at full size. See the <a href="Documentation/assets/README.md">artwork notes</a> for capture details.</sub>
+
+## Projection and Home Assistant
+
+The optional **PortalAI Projection** companion brings the running PortalAI interface to your Home Assistant dashboard or Companion App. Chat and model execution stay on the PortalAI computer; Home Assistant provides the remote viewing and control connection. Select your installed Academic folder to retain its Academic restrictions.
+
+> **macOS Projection is not supported yet.** The Projection host utility is available for Windows x64 and Linux x86-64. This is separate from the macOS Academic installer above. Linux has partial validation and requires an unlocked X11/XWayland desktop, Linux 5.14+, an executable drive and delegated cgroup v2 memory control through a systemd user scope. Physical Linux desktops and end-to-end Home Assistant Cloud deployment have not been validated.
+
+| Projection host | Download | Open it |
+| --- | --- | --- |
+| Windows x64 | [Projection for Windows](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe) | Open the `.exe` and choose a new folder on the same drive as PortalAI. |
+| Linux x86-64 | [Projection for Linux](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh) | Run `bash PortalAI-Projection-Linux-Setup.sh` from a supported graphical desktop. |
+
+Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.11 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
+
+1. Download the companion for the **computer running PortalAI**. In Projection, enter your Home Assistant **HTTPS link/origin**, browse to the actual installed PortalAI Academic folder, and create a separate projection unlock password of at least 12 characters. Click **Create / Unlock** to generate your public pairing request.
+2. Install the included **PortalAI HA Setup** package into your existing Home Assistant configuration from a trusted administrator device. Home Assistant must already be installed and onboarded; a URL alone does not install its integration. Use the public device ID from step 1, check the HA configuration, restart HA and reload its browser/app.
+3. In HA **Developer Tools > Actions**, run `portalai_projection.pair_device` with the public JSON in `pairing_request`. For the Native UI, also run `portalai_native.allow_state` with your `device_id`. The installer's optional first-pairing flow can perform both approvals.
+4. Click **Start projection**, then **Open PortalAI locally** in the companion. Sign in to PortalAI and open the PortalAI Native sidebar or Desktop/Quick Chat dashboard in Home Assistant.
+
+See the [complete Projection and Home Assistant guide](Documentation/PROJECTION.md) for Windows/Linux installation, HTTPS link requirements, pairing, troubleshooting and the difference between stopping projection and signing out. For installation directly on a trusted HA device, the [matching HA integration ZIP](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip) is also available separately.
 
 ## Setup
 
@@ -76,6 +126,7 @@ If this happens, check your antivirus protection history for the blocked file's 
 - `packages/20261020-r1/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
+- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. **No macOS Projection package is available yet.**
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 
