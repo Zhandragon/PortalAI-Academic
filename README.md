@@ -24,11 +24,14 @@ Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and 
 
 The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers preserve the original installer archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
 
-## Publishing this folder
+## Repository contents
 
-Upload **the contents of `GitHub-One-Click` to the root of `Zhandragon/PortalAI-Academic` on branch `main`**, preserving all subfolders, in the same commit. Keep the repository's existing LICENSE. Every file is at most 24,000,000 bytes, below the browser's 25 MiB per-file limit. Include the three launchers, `packages/`, this README, metadata, documentation and sources. The contents total roughly 319 MB.
+- The three setup downloads and their checksums are at the repository root.
+- `packages/20261020-r1/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
+- `Documentation/` contains the Academic build details, source changes and validation records.
+- `bootstrap-source/` contains the online launcher source and build instructions.
 
-Do not nest everything inside an additional `GitHub-One-Click` or `Academic` folder: the launcher download URLs expect `packages/20261020-r1/` directly beneath the repository root. Do not use Git LFS for these parts, because the launchers expect the binary bytes from GitHub's raw file endpoint. All parts and launchers must be committed before students use the download links. No separate release or hosting service is required.
+Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 
 ## Build and verification
 
