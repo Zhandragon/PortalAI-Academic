@@ -35,6 +35,8 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 **Welcome to PortalAI.** The Control Center brings navigation, chat, runtime information and settings into one interface.
 
+> **Platform testing disclaimer:** Only Windows has been thoroughly tested. Linux has received partial validation; macOS and other operating systems have not been thoroughly tested. Installation may fail or other errors may occur on these platforms. Please [report problems to the maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including your operating system version and the error message.
+
 [![PortalAI welcome panel with the original gold wordmark, blue portal emblem and navigation tabs](Documentation/assets/welcome-panel.jpg)](Documentation/assets/welcome-panel.jpg)
 
 **Chat.** The full chat workspace includes conversation history, attachments, effort controls and the original gold window borders.
