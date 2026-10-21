@@ -112,7 +112,7 @@ The first stage downloads approximately 88 MB (Windows), 128 MB (Linux), or 102 
 
 Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 
-The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers preserve the original installer archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
+The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers reconstruct their pinned release archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
 
 ## Antivirus and the llama.cpp server
 
@@ -123,7 +123,7 @@ If this happens, check your antivirus protection history for the blocked file's 
 ## Repository contents
 
 - The three setup downloads and their checksums are at the repository root.
-- `packages/20261020-r1/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
+- `packages/20261020-r2/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
 - `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. **No macOS Projection package is available yet.**
@@ -141,3 +141,13 @@ python -B bootstrap-source/build.py
 ```
 
 The native installer template is compatible with macOS Bash 3.2. `--prepare-only` plus a target directory allows download/extraction verification without starting an installation. See `bootstrap-source/VALIDATION.txt` for validation scope and commands.
+
+## Academic maintenance release r2
+
+The current installers label intentionally omitted models **EXCLUDED** rather than leaving their package rows checking indefinitely. Tool discovery, mission instructions and settings help now consistently describe standard-only routing. Workflow admission checks nested/multiple model and LoRA loader fields, including encoded names; installer/import guards also reject known excluded asset hashes even when their labels are changed. Ordinary prompt prose is not treated as an asset filename.
+
+These are Academic-only changes. They do not add a media output classifier or an operating-system security boundary. No crash caused by intentionally removed alternate weights was reproduced in the checks. Standard dependencies, platform support and memory admission still determine whether a requested workflow can run.
+
+The r2 checks passed 23 Academic tests per platform payload, plus the 174-test Windows regression suite (173 passed, one optional vendor-source check skipped). Linux/Mac source tests ran on Windows; physical recipient installs and model inference were not rerun. [Validation](Documentation/VALIDATION.json) · [r2 source changes](Documentation/PortalAI-Academic-Source-Changes-20261020-r2.zip).
+
+Use a fresh setup folder for r2. Previously downloaded r1 launchers remain pinned to r1, whose package parts are retained for compatibility; download the current launcher above to get r2. This release changes new installation packages and does not modify an existing personal installation.

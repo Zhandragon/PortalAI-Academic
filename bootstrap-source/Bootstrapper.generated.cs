@@ -15,19 +15,19 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/packages/20261020-r1/Windows";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261020-r1-x64.zip";
-    internal const string ArchiveHash = "c662f51a480d6049673e0ef32572c052c42a1715876ebfb638cdccbb4ff3583a";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261020-r1-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261020-r1-x64.zip.part001", 24000000L, "f5f08975f572884a7c4d6dbe77179d47a1e5090fd1b722c9b9061a230cffd451"),
-new Item("PortalAI-Academic-Windows-Installer-20261020-r1-x64.zip.part002", 24000000L, "a5c54522fd1789ec2e27bcbd1e23df91e737b42aefc2442513c55e082cbd702c"),
-new Item("PortalAI-Academic-Windows-Installer-20261020-r1-x64.zip.part003", 24000000L, "28ed05bfa328344e08c4870e54e3744051f4dc029cea1899872da05da23369c4"),
-new Item("PortalAI-Academic-Windows-Installer-20261020-r1-x64.zip.part004", 16152617L, "92bc3118be8e099e8a6b479b64329464ec8de26ad875da7dc151f50bf2a7578e") };
-    internal static readonly Item[] Files = new Item[] { new Item("PortalAI-Academic-Install.exe", 11492864L, "59514ea7bcab341bc570b509abdbb865d860e676843712dcef06aaa1e0e415d4"),
-new Item("release.json", 142053015L, "e97fe3b5859060605504d4530a0849f566a3f78c1824bf98a9dab4c766833ac9"),
-new Item("payload.zip", 54724900L, "423e980bfb432ab18c99eb3f587bdffdb12116fc01c40cc4db417d35b077f3c4"),
-new Item("START_HERE.txt", 969L, "31357d3276c0e0325dc4d74d00e91d88f26e19d0ed6ea921efaaaa77e965c749"),
-new Item("PACKAGE_SHA256.json", 603L, "d682365f4af349a61f761f3b9d7202e6b50d514696739c5b67ce27db2cb428e1") };
+    internal const string Source = "https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/packages/20261020-r2/Windows";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip";
+    internal const string ArchiveHash = "06326a794718c35517321f7f1b811dc6abe3e098bdbf73cedb6a0835534ff5f5";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261020-r2-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part001", 24000000L, "14d1c9bb354499ecdf0668c19a211fb0e7fe446024493ac9948bfe4ba2dc6397"),
+new Item("PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part002", 24000000L, "bf694dab843728bf186979099e57bb786ef192a686e48e1dfff1cdd0a62d8818"),
+new Item("PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part003", 24000000L, "6fe25b2d4b8d81f7ee32c70868ee4d441503d8b5dada039ca02e9fb8861b267a"),
+new Item("PortalAI-Academic-Windows-Installer-20261020-r2-x64.zip.part004", 16158990L, "5936c9279e18ca07cc9a42c35762ef714250de999a06df9912e77a0529eb700e") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 604L, "d93c10283fa9a8a00ab4b844ec76d7f3fa873f2c400d43b73ad4ded95aef709d"),
+new Item("payload.zip", 54728900L, "b7434083632df5e2bed7fa8021aae0e21a3c5d06b6b828c73b37079a928c199f"),
+new Item("PortalAI-Academic-Install.exe", 11495936L, "2e14b8d1c952af02932f0645f1ce8ae1861e54eaa25c5887f0945d7fa193d86d"),
+new Item("release.json", 142053015L, "1b561c0f3409f61b85b3a41916833ce491aced2afcc8567ee06ffefe232d1907"),
+new Item("START_HERE.txt", 1073L, "b234f1344d568f092d979c461f555f8ef7776cc6d86531dcd9f9e2c398820116") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -68,7 +68,7 @@ new Item("PACKAGE_SHA256.json", 603L, "d682365f4af349a61f761f3b9d7202e6b50d51469
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261020-r1";
+                            request.UserAgent="PortalAI-Academic-Installer/20261020-r2";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");

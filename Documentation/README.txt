@@ -1,3 +1,7 @@
+CURRENT: Academic 2026-10-20 r2. See the root README and Documentation/VALIDATION.json.
+Package status/guidance corrected; nested loader and known-hash asset checks added.
+The following r1 notes are historical baseline provenance, not the current validation tally.
+
 PORTALAI ACADEMIC — 2026-10-20 r1
 
 This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.

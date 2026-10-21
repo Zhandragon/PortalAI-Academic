@@ -1,3 +1,9 @@
+ACADEMIC R2 — 2026-10-20
+
+The exact current Windows, Linux and Mac launchers reconstructed the complete r2 archives from preloaded verified parts and verified every extracted installer file in prepare-only mode. No full installer or model worker was started. Windows ran its direct managed EXE; Linux/Mac shell paths ran on Git Bash. Native Mac Finder and physical Linux/Mac execution remain untested.
+
+The historical r1 validation below describes earlier network fault/child-handoff checks; those unchanged branches were not rerun for r2. Current public HTTPS integrity is checked after publication.
+
 PORTALAI ACADEMIC ONLINE INSTALLERS - VALIDATION
 2026-10-20
 

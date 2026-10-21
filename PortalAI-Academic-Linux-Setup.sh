@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/packages/20261020-r1/Linux'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz'
-ARCHIVE_HASH='f42ae6d41838a67f016e16d66b79211224b13280751f3e336ae3ae9a5a9eb99f'
-TOP='PortalAI-Academic-Linux-Installer-r1'
+SOURCE='https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/packages/20261020-r2/Linux'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz'
+ARCHIVE_HASH='3f627b48bb3ccca6d5202fec51afad34e6da2afc22495bbc3e9fb7a71f52e8ca'
+TOP='PortalAI-Academic-Linux-Installer-r2'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261020-r1-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261020-r2-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -75,23 +75,23 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part001|24000000|e19b29c4624d987b7e6313c3ec246c614a8f1341cf82d20250dda4b16e25ce6e
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part002|24000000|7dac855eaa1960458287797d2dbab7ce6ad0d7512c0185205a1e33f465623832
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part003|24000000|8497abb79c359347628a2dd8596f636be8ffe797c1360447f5dc8eed0a9ad768
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part004|24000000|f36a37721aa4963fd34d7a11019d99324cecf7715cf83c3ce7aa92f4fed2560b
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part005|24000000|1277871e3bc0949c5d3ad53921b0830d76e800c95b4cd296c0269c56b075d5b0
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part006|7523006|688ba26a4e92c2412ee90fa08fa8b6063787f09dd68c16039a66389b9a36f92d
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part001|24000000|ef6de54456a1f77948b102f1474be29156077b39e4ccec473bd74f75867a7ca5
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part002|24000000|d605cab524c0f20f7586a340be29d0018f9a4ddd433e8e76f8a35bfa725477c4
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part003|24000000|177e965e0e67d7e101e83bd9ddd487f65080b20925e4c9130d1f344ff8ca432e
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part004|24000000|e87310207e51feffae9acd7a45f0664e6fcc1a0da919f200ce0d25ebc7b8117c
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part005|24000000|b32e5dd82e2d6bb52eaf44b2235d9b2e985a67893e6d2b79cbe32e6913bac3aa
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part006|7537112|07f668d64b728373d2bb6070809890bda3267302c57fc7e25c2e584eb04f2685
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part001|24000000|e19b29c4624d987b7e6313c3ec246c614a8f1341cf82d20250dda4b16e25ce6e
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part002|24000000|7dac855eaa1960458287797d2dbab7ce6ad0d7512c0185205a1e33f465623832
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part003|24000000|8497abb79c359347628a2dd8596f636be8ffe797c1360447f5dc8eed0a9ad768
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part004|24000000|f36a37721aa4963fd34d7a11019d99324cecf7715cf83c3ce7aa92f4fed2560b
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part005|24000000|1277871e3bc0949c5d3ad53921b0830d76e800c95b4cd296c0269c56b075d5b0
-PortalAI-Academic-Linux-Installer-20261020-r1-x86_64.tar.gz.part006|7523006|688ba26a4e92c2412ee90fa08fa8b6063787f09dd68c16039a66389b9a36f92d
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part001|24000000|ef6de54456a1f77948b102f1474be29156077b39e4ccec473bd74f75867a7ca5
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part002|24000000|d605cab524c0f20f7586a340be29d0018f9a4ddd433e8e76f8a35bfa725477c4
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part003|24000000|177e965e0e67d7e101e83bd9ddd487f65080b20925e4c9130d1f344ff8ca432e
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part004|24000000|e87310207e51feffae9acd7a45f0664e6fcc1a0da919f200ce0d25ebc7b8117c
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part005|24000000|b32e5dd82e2d6bb52eaf44b2235d9b2e985a67893e6d2b79cbe32e6913bac3aa
+PortalAI-Academic-Linux-Installer-20261020-r2-x86_64.tar.gz.part006|7537112|07f668d64b728373d2bb6070809890bda3267302c57fc7e25c2e584eb04f2685
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -112,11 +112,11 @@ while IFS='|' read -r name size expected; do
     fi
 done <<'ACADEMIC_FILES'
 install.sh|3520|98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019
-manifest.json|2076|1a9a91b10370d2e0c83c944bb59b4b1d9e509c63b6c1f51c4f86d685add6a1e6
-payload.tar.gz|61252498|693db43cca95c6213fae36217809ef4587033907a0ef2a5722b737644654b1cd
+manifest.json|2076|48db5b2e848e632a2af6e657e00339fc6b37e4cbe2ecd080407a3c8a8c9d5c21
+payload.tar.gz|61256780|7a7774772e6bdfa394a433976851eb7a8eab92effc74c96db5137b239ffbe77a
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
-README.txt|5676|6df7f54055f6638d36d80261bb335171faba53bd39d332efd1a58521115871a6
-SHA256SUMS|408|5e8d8629a24fe867a8260afed28ccf152eecfc8107ee5e2f6b1e1babef1e0041
+README.txt|5780|244392ea452788493df9c4fb63bbf31478f25b9be7c8455c2f88209f354a6134
+SHA256SUMS|408|a1404881b76e407a733ad9220df3785ec8fee4a074325f2a66fc9182d0d0cb61
 ACADEMIC_FILES
 echo 'The complete Academic installer has been downloaded and verified.'
 if [ "$PREPARE_ONLY" -eq 1 ]; then printf 'Prepared installer: %s\n' "$PACKAGE"; exit 0; fi

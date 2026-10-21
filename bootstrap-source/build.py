@@ -38,7 +38,7 @@ def build(root, source_base=None, compiler=None):
                 return ',\n'.join('new Item(%s, %dL, %s)' % (json.dumps(p['name']), p['bytes'], json.dumps(p['sha256'])) for p in rows)
             values.update(PARTS=items(package['parts']), FILES=items(package['files']))
             generated = source / 'Bootstrapper.generated.cs'
-            generated.write_text(render((source / 'Bootstrapper.cs.in').read_text(), values), encoding='utf-8')
+            generated.write_text(render((source / 'Bootstrapper.cs.in').read_text(), values), encoding='utf-8', newline='\n')
             exe = root / 'PortalAI-Academic-Windows-Setup.exe'
             csc = compiler or Path(os.environ['SystemRoot']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
             command = [str(csc), '/nologo', '/target:winexe', '/optimize+', '/platform:anycpu', '/out:' + str(exe),
@@ -78,7 +78,7 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261020.1', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261020.2', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:
@@ -89,9 +89,9 @@ APPLESCRIPT
                         archive.writestr(info, data)
                 names.append(path.name)
     for name in names:
-        (root / (name + '.sha256')).write_text(f'{sha(root / name)}  {name}\n', encoding='utf-8')
+        (root / (name + '.sha256')).write_text(f'{sha(root / name)}  {name}\n', encoding='utf-8', newline='\n')
     files = sorted(p for p in root.rglob('*') if p.is_file() and p != root / 'SHA256SUMS' and '.git' not in p.relative_to(root).parts and '__pycache__' not in p.relative_to(root).parts)
-    (root / 'SHA256SUMS').write_text(''.join(f'{sha(p)}  {p.relative_to(root).as_posix()}\n' for p in files), encoding='utf-8')
+    (root / 'SHA256SUMS').write_text(''.join(f'{sha(p)}  {p.relative_to(root).as_posix()}\n' for p in files), encoding='utf-8', newline='\n')
     return [{'name': n, 'bytes': (root / n).stat().st_size, 'sha256': sha(root / n)} for n in names]
 
 

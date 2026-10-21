@@ -1,24 +1,13 @@
 {
-  "scope": "Exact final archives; no model/runtime downloads or live user accounts. Native runtime execution not tested.",
+  "release": "Academic 2026.10.20 r2",
+  "scope": "Exact archive integrity and no-network policy/regression checks on Windows; physical Linux/Mac execution untested.",
   "platforms": {
     "Windows": {
-      "archive_sha256": "c662f51a480d6049673e0ef32572c052c42a1715876ebfb638cdccbb4ff3583a",
-      "payload_files": 4177,
-      "component_plans_checked": 22,
-      "python_files_parsed": 446,
-      "academic_tests": {
-        "tests": 15,
-        "passed": true,
-        "runtime": "Windows host; platform payload source"
-      },
-      "bootstrap": {
-        "kind": "selfcheck",
-        "python": "3.13.16",
-        "sha256": true,
-        "ssl": true
-      },
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": true,
+      "model_inference_tested": false,
       "regressions": {
-        "root": "C:\\Users\\genes\\Documents\\Codex\\2026-10-20\\mak\\work\\final-verify\\Windows\\application\\PortalAI",
         "modules": [
           "test_gui_stop_contract",
           "test_account_gate",
@@ -37,7 +26,7 @@
           "test_profile_media"
         ],
         "tests": 174,
-        "seconds": 15.31,
+        "seconds": 22.84,
         "passed": true,
         "skips": [
           [
@@ -50,28 +39,39 @@
       }
     },
     "Linux": {
-      "archive_sha256": "f42ae6d41838a67f016e16d66b79211224b13280751f3e336ae3ae9a5a9eb99f",
-      "bundled_runtimes_unchanged": true,
-      "shell_syntax_passed": true,
-      "python_files_parsed": 443,
-      "academic_tests": {
-        "tests": 15,
-        "passed": true,
-        "runtime": "Windows host; platform payload source"
-      },
-      "physical_install_tested": false
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": false,
+      "model_inference_tested": false
     },
     "Mac": {
-      "archive_sha256": "dd6daea8d3edad6c2c1012a47cd0b5ba57ace22f7de8305814c73c104626b34d",
-      "bundled_runtimes_unchanged": true,
-      "shell_syntax_passed": true,
-      "python_files_parsed": 449,
-      "academic_tests": {
-        "tests": 15,
-        "passed": true,
-        "runtime": "Windows host; platform payload source"
-      },
-      "physical_install_tested": false
+      "academic_tests": 23,
+      "passed": true,
+      "physical_platform_execution": false,
+      "model_inference_tested": false
+    }
+  },
+  "downloaders": {
+    "Windows": {
+      "exact_published_launcher_prepare_only": "passed",
+      "reconstructed_sha256": "06326a794718c35517321f7f1b811dc6abe3e098bdbf73cedb6a0835534ff5f5",
+      "extracted_files_verified": 5,
+      "full_installer_started": false,
+      "parts": "preloaded verified files"
+    },
+    "Linux": {
+      "exact_published_launcher_prepare_only": "passed",
+      "reconstructed_sha256": "3f627b48bb3ccca6d5202fec51afad34e6da2afc22495bbc3e9fb7a71f52e8ca",
+      "extracted_files_verified": 6,
+      "full_installer_started": false,
+      "parts": "preloaded verified files"
+    },
+    "Mac": {
+      "exact_published_launcher_prepare_only": "passed",
+      "reconstructed_sha256": "3db2b869a1c7e94f96f13788841bc6f51b28b2a15133b2bb7cffbbf84ecbc298",
+      "extracted_files_verified": 8,
+      "full_installer_started": false,
+      "parts": "preloaded verified files"
     }
   }
 }
