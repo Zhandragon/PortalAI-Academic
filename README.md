@@ -11,14 +11,21 @@
 <p align="center"><strong>Local AI for guided learning and classroom exploration.</strong></p>
 
 <p align="center">
-  <a href="#download-an-installer">Download</a> &nbsp;·&nbsp;
+  <a href="#download-and-install">Download</a> &nbsp;·&nbsp;
   <a href="#a-look-inside">Interface gallery</a> &nbsp;·&nbsp;
+  <a href="#built-in-help-and-documentation">Help</a> &nbsp;·&nbsp;
   <a href="#projection-and-home-assistant">Projection / Home Assistant</a> &nbsp;·&nbsp;
-  <a href="Documentation/README.txt">Academic guide</a> &nbsp;·&nbsp;
-  <a href="#antivirus-and-the-llamacpp-server">Antivirus help</a>
+  <a href="#companion-utilities">Utilities</a> &nbsp;·&nbsp;
+  <a href="Documentation/README.md">Documentation</a>
 </p>
 
+**Welcome to PortalAI:** a portable workspace for local chat, tools, science, images, video, speech and music.
+
 > This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
+
+The Academic edition keeps PortalAI's main interface and supported workflows, with standard/censored chat, vision and media enforced. Variant controls remain visible but inert, excluded model and LoRA assets are not downloaded, and an Academic instruction appendix is applied to the chat and mission harnesses.
+
+> **Platform testing disclaimer:** Only Windows has been thoroughly tested. Linux has received partial validation; macOS and other operating systems have not been thoroughly tested. Installation may fail or other errors may occur on these platforms. Please [report problems to the maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including your operating system version and the error message. Packaging checks are not fresh end-to-end inference tests on all three operating systems.
 
 **PortalAI runs its AI locally on your computer.** Models, inference, supported tools, conversation history and account storage live on your own host and drive; core use requires no hosted AI service or cloud API key. After the required components are installed, supported local workflows can run offline. Installation and model downloads need internet access, and optional web tools and Home Assistant projection use the network you choose. Remote projection sends interface data through your Home Assistant connection while AI inference stays on the PortalAI host.
 
@@ -29,25 +36,35 @@
 - **Local accounts and encrypted user vaults.** Password-protected accounts use password-derived keys and authenticated encryption for stored profile keys and sealed user workspaces. Workspace files are decrypted while an account is in use; normal Exit seals them again. Guest is a shared/public workspace, and encryption is not isolation from the signed-in operating-system user.
 - **Context-aware help and a nonintrusive interface.** Right-click controls for relevant actions and built-in help. Switch between the full workspace and Compact chat, or keep PortalAI reachable through the Windows notification icon while the window is hidden.
 
-## Download an installer
+
+## Download and install
+
+<a id="download-an-installer"></a>
 
 Download **one file for your operating system**. The launcher downloads its required package parts from this repository, checks their sizes and SHA-256 hashes, reconstructs the full installer, and starts the Academic installation. You do not need to download or join parts yourself.
 
 | Operating system | Download | Open it |
 | --- | --- | --- |
 | Windows x64 | [Windows installer](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/PortalAI-Academic-Windows-Setup.exe) | Open the `.exe`, choose the setup location, and click **Download and install**. Continue in the full installer window. |
-| macOS, Apple silicon / Intel | [Mac installer](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/PortalAI-Academic-Mac-Setup.zip) | Extract the ZIP and open **PortalAI Academic Installer.app**. Terminal opens for setup. |
 | Linux x86-64 | [Linux installer](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/PortalAI-Academic-Linux-Setup.sh) | Save the file, then run `bash PortalAI-Academic-Linux-Setup.sh` in its download folder. |
+| macOS, Apple silicon / Intel | [Mac installer](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/PortalAI-Academic-Mac-Setup.zip) | Extract the ZIP and open **PortalAI Academic Installer.app**. Terminal opens for setup. |
 
 Use the download links above, or the file page's **Download raw file** button. You do not need **Code > Download ZIP**. Linux browsers generally do not preserve the executable bit, so running the file with Bash avoids that extra step.
 
-> **Documentation and help are already included in PortalAI.** Open the **Help** tab in the Control Center to browse topics by category or search the built-in documentation. Right-click controls for context-sensitive help, or choose **Documentation / Help** from the context menu. The included help is available offline after installation; no separate documentation download is needed.
+<a id="setup"></a>
+
+Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
+
+The first stage downloads approximately 88 MB (Windows), 128 MB (Linux), or 102 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+
+Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
+
+The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers reconstruct their pinned release archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
 
 ## A look inside
 
 **Welcome to PortalAI.** The Control Center brings navigation, chat, runtime information and settings into one interface.
 
-> **Platform testing disclaimer:** Only Windows has been thoroughly tested. Linux has received partial validation; macOS and other operating systems have not been thoroughly tested. Installation may fail or other errors may occur on these platforms. Please [report problems to the maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including your operating system version and the error message.
 
 [![PortalAI welcome panel with the original gold wordmark, blue portal emblem and navigation tabs](Documentation/assets/welcome-panel.jpg)](Documentation/assets/welcome-panel.jpg)
 
@@ -69,13 +86,13 @@ Use the download links above, or the file page's **Download raw file** button. Y
 | --- | --- |
 | [![Minimize to tray with its focused Tray icon help menu](Documentation/assets/tray-controls.jpg)](Documentation/assets/tray-controls.jpg) | <a href="Documentation/assets/tray-menu.jpg"><img src="Documentation/assets/tray-menu.jpg" width="230" alt="PortalAI notification-icon menu with restore, navigation, help and lifecycle actions" /></a> |
 
-**Runtime and Packages.** Runtime brings CPU, RAM, GPU and VRAM activity, owned-process information and reported model stages into one read-only panel. Packages provides a searchable, paginated capability inventory and installation status. Academic restrictions still apply even when the diagnostic catalog mentions an unavailable component.
+**Runtime and Packages.** Runtime brings CPU, RAM, GPU and VRAM activity, owned-process information and reported model stages into one read-only panel. Packages provides a searchable, paginated capability inventory and installation status. Academic restrictions still apply even when the diagnostic catalog mentions an unavailable component. Intentionally omitted models are labeled **EXCLUDED**.
 
 | Runtime monitoring | Package inventory |
 | --- | --- |
 | [![Runtime panel with illustrative CPU, RAM, GPU and VRAM telemetry](Documentation/assets/runtime-panel.jpg)](Documentation/assets/runtime-panel.jpg) | [![Packages panel showing capability descriptions and installation status in the isolated preview](Documentation/assets/packages-panel.jpg)](Documentation/assets/packages-panel.jpg) |
 
-**Hardware scaling with manual control.** Automatic selection fits eligible installed models to available RAM/VRAM and selects a compatible backend. Settings also lets you choose a model, backend, context limit and supported media defaults explicitly. **Check hardware fit** previews the choice; **Save settings** saves that section, and **Controls > Startup** applies chat choices when active work permits. A manual choice remains selected across effort changes, but still must pass hardware and memory admission checks. The Academic variant remains fixed to standard.
+**Hardware scaling with manual control.** Automatic selection fits eligible installed models to available RAM/VRAM and selects a compatible backend. Settings also lets you choose a model, backend, context limit and supported media defaults explicitly. **Check hardware fit** previews the choice. Manual overrides still have to pass hardware and memory admission checks. Backend, context and media changes use **Save settings**; **Controls > Startup** applies chat settings when active work permits. The Academic chat, vision and media variant remains fixed to standard.
 
 | Chat model and memory | Media defaults |
 | --- | --- |
@@ -83,6 +100,12 @@ Use the download links above, or the file page's **Download raw file** button. Y
 | Choose model, memory and backend preferences while the Academic variant stays fixed to standard. | Review the defaults for supported media workflows and their hardware requirements. |
 
 <sub>Windows screenshots of the Academic build's real widgets in Light mode, captured in an isolated preview. Chat and Runtime telemetry are illustrative; package status reflects the preview's incomplete runtime inventory. The original tray menu is opened by a capture-only shortcut. Available workflows depend on the operating system and installed components. Click a panel to view it at full size. See the <a href="Documentation/assets/README.md">artwork notes</a> for capture details.</sub>
+
+## Built-in help and documentation
+
+**Documentation and help are already included in PortalAI.** Open the **Help** tab in the Control Center to browse topics by category or search the built-in documentation. Right-click controls for context-sensitive help, or choose **Documentation / Help** from the context menu. The included help is available offline after installation; no separate documentation download is needed.
+
+The [documentation index](Documentation/README.md) links installation, Projection, release validation and artwork notes. When reporting a problem to the maintainer, include the operating system version, installer/release version and exact error text; leave out passwords, tokens and private account or connection files.
 
 ## Projection and Home Assistant
 
@@ -104,23 +127,28 @@ Each download reconstructs and verifies its complete portable companion, bundled
 
 See the [complete Projection and Home Assistant guide](Documentation/PROJECTION.md) for Windows/Linux installation, HTTPS link requirements, pairing, troubleshooting and the difference between stopping projection and signing out. For installation directly on a trusted HA device, the [matching HA integration ZIP](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip) is also available separately.
 
-## Setup
+## Companion utilities
 
-Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
+| Utility | Downloads and purpose |
+| --- | --- |
+| PortalAI Projection | Windows and Linux companions for viewing and controlling PortalAI through Home Assistant. [Downloads and connection steps](#projection-and-home-assistant). **macOS Projection is not supported yet.** |
+| Home Assistant integration | Matching **Home Assistant 0.5.11 + Recovery 0.1.0** receiver/frontend bundle, included with Projection and [available separately](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip). |
 
-The first stage downloads approximately 88 MB (Windows), 128 MB (Linux), or 102 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+Portable Abliterator and the excluded uncensored model assets are not part of the Academic distribution. Use the supported components supplied for your operating system.
 
-Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
+## Privacy and local accounts
 
-The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers reconstruct their pinned release archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
+This repository provides the public Academic installer distribution. Recipients create their own PortalAI accounts and Projection pairings; the download is not a copy of the maintainer's active personal workspace.
+
+Password-protected accounts encrypt stored user vaults. Files are decrypted while that account is in use and sealed on normal **Exit PortalAI**. **Minimize to tray** and **Stop projection** do not sign out or seal the workspace. Guest is shared, and unlocked data remains accessible to software with the same operating-system access. Keep the host and drive available until shutdown completes.
 
 ## Antivirus and the llama.cpp server
 
-Antivirus software may flag or quarantine PortalAI's llama.cpp local model server (`llama-server.exe` on Windows) or its supporting libraries. This can prevent chat models from starting or cause local server connection errors. False positives have been reported for [upstream llama.cpp Windows builds](https://github.com/ggml-org/llama.cpp/issues/15874).
+Antivirus software may flag or quarantine PortalAI's llama.cpp local model server (`llama-server.exe` on Windows), its supporting libraries, bundled runtimes or the unsigned launcher. This can prevent chat models or workflows from starting and cause local server connection errors. A detection is not by itself proof of either malware or a false positive.
 
-If this happens, check your antivirus protection history for the blocked file's path and detection name. Ask your instructor or IT administrator to review the alert and verify the file's source and expected checksum before restoring it or approving a specific file exception. Do not disable antivirus protection or exclude the entire PortalAI folder; an alert should be reviewed before treating it as a false positive.
+Check the blocked file's path and detection name, verify its source and expected SHA-256 checksum, and review the alert before restoring it or approving a specific file exception. Students should ask their instructor or IT administrator to review the alert. Do not disable antivirus globally or exclude the entire PortalAI folder. Include the antivirus product and detection name in a report to the maintainer, without submitting private data.
 
-## Repository contents
+## Source, licensing and verification
 
 - The three setup downloads and their checksums are at the repository root.
 - `packages/20261020-r2/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
@@ -129,8 +157,6 @@ If this happens, check your antivirus protection history for the blocked file's 
 - `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. **No macOS Projection package is available yet.**
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
-
-## Build and verification
 
 `PACKAGING.json` records the pinned part, reconstructed archive and extracted installer hashes. `SHA256SUMS` covers the published files. The launchers embed the expected hashes and do not trust a downloaded manifest to decide what code to run.
 
@@ -142,7 +168,11 @@ python -B bootstrap-source/build.py
 
 The native installer template is compatible with macOS Bash 3.2. `--prepare-only` plus a target directory allows download/extraction verification without starting an installation. See `bootstrap-source/VALIDATION.txt` for validation scope and commands.
 
-## Academic maintenance release r2
+PortalAI's existing [license](LICENSE) is retained. Third-party runtime and model licenses remain separate and travel with the relevant packages; this distribution does not replace their terms.
+
+## Release notes
+
+<a id="academic-maintenance-release-r2"></a>
 
 The current installers label intentionally omitted models **EXCLUDED** rather than leaving their package rows checking indefinitely. Tool discovery, mission instructions and settings help now consistently describe standard-only routing. Workflow admission checks nested/multiple model and LoRA loader fields, including encoded names; installer/import guards also reject known excluded asset hashes even when their labels are changed. Ordinary prompt prose is not treated as an asset filename.
 

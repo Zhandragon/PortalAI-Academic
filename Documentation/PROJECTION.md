@@ -1,5 +1,7 @@
 # PortalAI Projection and Home Assistant
 
+[Documentation index](README.md) · [Downloads and overview](../README.md#projection-and-home-assistant)
+
 Projection is an optional portable companion to the PortalAI application. It connects the real running interface to your Home Assistant (HA) dashboard and Companion App over an outbound, verified HTTPS connection. Models still run on the PortalAI host. This remote feature sends interface state, screen frames and control requests through HA; it is not an offline-only workflow.
 
 **macOS Projection is not supported yet.** Install the companion for the computer running PortalAI, not the phone, tablet or computer used to view Home Assistant.
