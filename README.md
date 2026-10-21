@@ -29,6 +29,8 @@ Download **one file for your operating system**. The launcher downloads its requ
 
 Use the download links above, or the file page's **Download raw file** button. You do not need **Code > Download ZIP**. Linux browsers generally do not preserve the executable bit, so running the file with Bash avoids that extra step.
 
+> **Documentation and help are already included in PortalAI.** Open the **Help** tab in the Control Center to browse topics by category or search the built-in documentation. Right-click controls for context-sensitive help, or choose **Documentation / Help** from the context menu. The included help is available offline after installation; no separate documentation download is needed.
+
 ## A look inside
 
 **Welcome to PortalAI.** The Control Center brings navigation, chat, runtime information and settings into one interface.
