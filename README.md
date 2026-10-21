@@ -1,6 +1,21 @@
-# PortalAI Academic
+<p align="center">
+  <img src="Documentation/assets/portalai-logo.png" width="100" alt="PortalAI gold and blue portal emblem" />
+  &nbsp;&nbsp;
+  <img src="Documentation/assets/portalai-wordmark.png" width="340" alt="PortalAI wordmark" />
+</p>
 
-This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
+<h1 align="center">PortalAI Academic</h1>
+
+<p align="center"><strong>Local AI for guided learning and classroom exploration.</strong></p>
+
+<p align="center">
+  <a href="#download-an-installer">Download</a> &nbsp;·&nbsp;
+  <a href="#a-look-inside">Interface gallery</a> &nbsp;·&nbsp;
+  <a href="Documentation/README.txt">Academic guide</a> &nbsp;·&nbsp;
+  <a href="#antivirus-and-the-llamacpp-server">Antivirus help</a>
+</p>
+
+> This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
 
 ## Download an installer
 
@@ -13,6 +28,19 @@ Download **one file for your operating system**. The launcher downloads its requ
 | Linux x86-64 | [Linux installer](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/PortalAI-Academic-Linux-Setup.sh) | Save the file, then run `bash PortalAI-Academic-Linux-Setup.sh` in its download folder. |
 
 Use the download links above, or the file page's **Download raw file** button. You do not need **Code > Download ZIP**. Linux browsers generally do not preserve the executable bit, so running the file with Bash avoids that extra step.
+
+## A look inside
+
+**Welcome to PortalAI.** The Control Center brings navigation, chat, runtime information and settings into one interface.
+
+[![PortalAI welcome panel with the original gold wordmark, blue portal emblem and navigation tabs](Documentation/assets/welcome-panel.jpg)](Documentation/assets/welcome-panel.jpg)
+
+| Chat model and memory | Media defaults |
+| --- | --- |
+| [![Academic chat settings showing the standard variant, backend, context limit and vision routing](Documentation/assets/chat-model-settings.jpg)](Documentation/assets/chat-model-settings.jpg) | [![Academic media settings for images, speech, transcription, video and music, with standard mode enforced](Documentation/assets/media-defaults.jpg)](Documentation/assets/media-defaults.jpg) |
+| Choose model, memory and backend preferences while the Academic variant stays fixed to standard. | Review the defaults for supported media workflows and their hardware requirements. |
+
+<sub>Windows interface previews captured from the Academic build with sample inventory. Available workflows depend on the operating system and installed components. Click a panel to view it at full size.</sub>
 
 ## Setup
 
@@ -34,7 +62,7 @@ If this happens, check your antivirus protection history for the blocked file's 
 
 - The three setup downloads and their checksums are at the repository root.
 - `packages/20261020-r1/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
-- `Documentation/` contains the Academic build details, source changes and validation records.
+- `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
