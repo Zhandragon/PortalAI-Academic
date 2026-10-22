@@ -57,7 +57,7 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     frame=tk.Frame(win.content,bg=bg,padx=12,pady=5);frame.pack(fill='both',expand=True)
     def label(text):
         w=tk.Label(frame,text=text,bg=bg,fg=fg,anchor='w',justify='left',wraplength=1100);w.pack(fill='x',pady=(0,4));return w
-    label('A mission is one saved task. A schedule is a paused-by-default plan that creates one mission per occurrence, one at a time. Missed runs do not pile up. Stop/Exit pauses schedules. Keep PortalAI running, the SSD connected and the computer awake.')
+    label('Schedules start paused and create one mission at a time. Missed runs do not pile up. Keep PortalAI open, the SSD connected and the computer awake. Stop/Exit pauses schedules.')
     win.skin.label(frame, 'New schedule objective', heading=True).pack(fill='x', anchor='w')
     objective=RoundedText(frame,palette=win.skin.colors,scrollbars=True,horizontal=False,height=2 if embedded else 3,wrap='word',bg=bg,fg=fg,insertbackground=fg);objective.pack(fill='x')
     objective_state=tk.StringVar(value='No objective entered. Describe each run, choose timing and access, then Create paused schedule. Existing rows are not edited here.')
@@ -84,8 +84,9 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     win.skin.combo(cell,mode,list(labels)).pack(fill='x')
     source_cell=win.skin.frame(fields);fields.add(source_cell)
     win.skin.label(source_cell,'Use a saved mission as a template').pack(fill='x',pady=(0,2))
+    source_row=win.skin.frame(source_cell);source_row.pack(fill='x')
     source_value=tk.StringVar(value='Choose a mission…')
-    source_combo=win.skin.combo(source_cell,source_value,['Choose a mission…']);source_combo.pack(fill='x')
+    source_combo=win.skin.combo(source_row,source_value,['Choose a mission…']);source_combo.pack(side='left',fill='x',expand=True)
     source_ids={}
     source_mission=[None]
     def refresh_templates():
@@ -117,9 +118,8 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
             source_mission[0]=mid
             status.set('Copied the selected mission into this schedule draft. The original remains unchanged; the schedule starts paused.')
         except Exception as exc:status.set('Select an available user or unclassified mission first: '+str(exc))
-    win.skin.button(source_cell,'Use mission',use_template).pack(fill='x',pady=(3,0))
-    tk.Label(source_cell,text='Copies objective, access mode and action budget. The original one-off mission stays intact.',bg=bg,fg=fg,anchor='w',wraplength=420,justify='left').pack(fill='x',pady=(3,0))
-    create_cell=win.skin.frame(fields);fields.add(create_cell)
+    win.skin.button(source_row,'Use mission',use_template).pack(side='right',padx=(5,0))
+    tk.Label(source_cell,text='Copies the objective, access and budget.',bg=bg,fg=fg,anchor='w',wraplength=420,justify='left').pack(fill='x',pady=(3,0))
     hint=tk.StringVar()
     def describe(*_):hint.set(profile(labels[mode.get()])['description'])
     mode.trace_add('write',describe);describe()
@@ -135,21 +135,24 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     list_note=tk.StringVar()
     tk.Label(table,textvariable=list_note,anchor='w',bg=bg,fg=fg,wraplength=480,justify='left').pack(fill='x',pady=(0,2))
     schedule_view=tk.StringVar(value='Active and paused')
-    view_row=tk.Frame(table,bg=bg);view_row.pack(fill='x',pady=(0,4))
+    from ui_extensions import ResponsiveFlow
+    filter_row=ResponsiveFlow(table,bg=bg,hgap=8,vgap=4);filter_row.pack(fill='x',pady=(0,4))
+    view_row=tk.Frame(filter_row,bg=bg);filter_row.add(view_row)
     tk.Label(view_row,text='Show',bg=bg,fg=fg,anchor='w').pack(side='left',padx=(0,4))
     view_combo=win.skin.combo(view_row,schedule_view,STATE_VIEWS)
+    view_combo.configure(width=19)
     view_combo.pack(side='left',fill='x',expand=True)
     origin_view=tk.StringVar(value='All origins')
-    origin_row=tk.Frame(table,bg=bg);origin_row.pack(fill='x',pady=(0,4))
+    origin_row=tk.Frame(filter_row,bg=bg);filter_row.add(origin_row)
     tk.Label(origin_row,text='Source',bg=bg,fg=fg,anchor='w').pack(side='left',padx=(0,4))
-    origin_combo=win.skin.combo(origin_row,origin_view,ORIGIN_VIEWS);origin_combo.pack(side='left',fill='x',expand=True)
+    origin_combo=win.skin.combo(origin_row,origin_view,ORIGIN_VIEWS);origin_combo.configure(width=22);origin_combo.pack(side='left',fill='x',expand=True)
     win.skin.label(detail_host,'Selected schedule details',heading=True).pack(fill='x',anchor='w',pady=(0,2))
     tree=ttk.Treeview(table,columns=('origin','status','next','runs','objective'),show='headings',height=3 if embedded else 6,selectmode='browse')
     for key,title,width in [('origin','Source',135),('status','State',110),('next','Next run (local)',140),('runs','Completed / started',120),('objective','Objective',400)]:
         tree.heading(key,text=title);tree.column(key,width=width,stretch=key=='objective')
     tree.pack(fill='both',expand=True)
     from ui_extensions import ResponsiveGrid
-    controls=ResponsiveGrid(frame,bg=bg,min_cell_width=140,max_columns=3);controls.pack(fill='x',pady=4)
+    controls=ResponsiveGrid(frame,bg=bg,min_cell_width=180,max_columns=5);controls.pack(fill='x',pady=4)
     status=tk.StringVar(value='Creating a schedule does not enable it. Select it and click Enable when ready.')
     tk.Label(frame,textvariable=status,bg=bg,fg=fg,anchor='w',wraplength=1100,justify='left').pack(fill='x')
     detail=RoundedText(detail_host,palette=win.skin.colors,scrollbars=True,horizontal=False,height=9,font=('Segoe UI',9),wrap='word',bg=bg,fg=fg,state='disabled');detail.pack(fill='both',expand=True)
@@ -167,7 +170,14 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
         button=toggle_button[0]
         if button is None:return
         enabled=bool(s and store.enabled(s))
-        button.configure(text='Disable' if enabled else 'Enable',state='normal' if s and s.get('status') not in ('removed','complete','needs_review') else 'disabled')
+        available=bool(s and s.get('status') not in ('removed','complete'))
+        if available and not enabled and s.get('status')=='needs_review':
+            try:
+                active=store.store.load(s['active_run']) if s.get('active_run') else None
+                available=bool(active and active['status'] in {'queued','running','waiting','complete'} and
+                               not active.get('pending_action') and not store.store.stopped(active))
+            except (ValueError,OSError,KeyError,TypeError):available=False
+        button.configure(text='Disable' if enabled else 'Enable',state='normal' if available else 'disabled')
     def show(*_):
         try:
             s=store.load(selected())
@@ -235,7 +245,7 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
             schedule_view.set('Active and paused')
             refresh()
         except Exception as exc:status.set(str(exc))
-    win.skin.button(create_cell,'Create paused schedule',create).pack(side='bottom',fill='x')
+    controls.add(win.skin.button(controls,'Create paused schedule',create))
     toggle_button[0]=win.skin.button(controls,'Enable',toggle);controls.add(toggle_button[0]);win.schedule_toggle=toggle_button[0]
     for text,cmd in [('Remove…',remove),('Restore',restore),('Refresh',refresh)]:
         controls.add(win.skin.button(controls,text,cmd))

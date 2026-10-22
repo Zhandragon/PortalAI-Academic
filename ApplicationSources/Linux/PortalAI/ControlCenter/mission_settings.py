@@ -31,6 +31,8 @@ def mission_details(mission=None, *, mode=None, catalogue=None, memory=None, sup
         ('Action awaiting execution or review', m.get('pending_action')),
         ('Latest action and result', m.get('history', [])[-1:]), ('Recent remembered context', memory),
         ('Last reported error', m.get('error')),
+        ('Current review instructions', m.get('review_instructions')),
+        ('Latest review', m.get('review_history', [])[-1:]),
     ]
     intro = ('Selected mission: current saved state. This view does not run actions.' if mission else
              'No mission selected. Select a row in Saved missions to see its details. Nothing found to report yet.')
@@ -122,6 +124,33 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     status = tk.StringVar(value="Select a mission to inspect its latest action and outcome.")
     detail = RoundedText(detail_host,palette=win.skin.colors,scrollbars=True,horizontal=False, height=9 if embedded else 12, font=("Segoe UI",9), wrap="word", bg=bg, fg=fg, relief="flat", state="disabled")
     detail.pack(fill="both", expand=True)
+    review_host=tk.Frame(detail_host,bg=bg)
+    win.skin.label(review_host,'Additional instructions for this mission',heading=True).pack(fill='x')
+    tk.Label(review_host,text='Edit the current guidance; prior versions are kept. Applies to this run only. Stop and schedule Enable remain separate.',
+             bg=bg,fg=fg,anchor='w',wraplength=620,justify='left').pack(fill='x')
+    review_text=RoundedText(review_host,palette=win.skin.colors,scrollbars=True,horizontal=False,height=3,
+                            wrap='word',bg=bg,fg=fg,insertbackground=fg,relief='solid',bd=1)
+    review_text.pack(fill='x')
+    review_choices={'Unresolved: save guidance only':None,'Reviewed: skip pending action':'skip','Reviewed: allow retry / replan':'retry'}
+    review_resolution=tk.StringVar(value=next(iter(review_choices)))
+    review_picker=win.skin.combo(review_host,review_resolution,list(review_choices));review_picker.pack(fill='x',pady=3)
+    review_drafts={};review_current=[None];review_results=queue.Queue()
+    def sync_review(m=None):
+        mid=m['id'] if m else None
+        if mid!=review_current[0]:
+            previous=review_current[0]
+            if previous in review_drafts:
+                review_drafts[previous]['text']=review_text.get('1.0','end-1c')
+                review_drafts[previous]['resolution']=review_resolution.get()
+            review_current[0]=mid
+            if m:
+                draft=review_drafts.setdefault(mid,{'text':m.get('review_instructions',''),'version':m['updated_at'],'resolution':next(iter(review_choices))})
+                review_text.delete('1.0','end');review_text.insert('1.0',draft['text']);review_resolution.set(draft['resolution'])
+        available=bool(m and m['status'] in ('paused','needs_review') and not listed.get(mid,{}).get('deleted'))
+        if available:
+            review_host.pack(fill='x',pady=(5,0))
+            review_picker.configure(state='readonly' if m.get('pending_action') else 'disabled')
+        else:review_host.pack_forget()
     tk.Label(frame, textvariable=status, bg=bg, fg=accent, anchor="w", justify="left", wraplength=1100).pack(fill="x", pady=(2, 0))
     events = queue.Queue()
     busy = [False]
@@ -144,12 +173,14 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             m = store.load(selected())
         except (ValueError, OSError) as exc:
             display_detail(mission_details(unavailable=exc if tree.selection() else None))
+            sync_review()
             return
         from mission_memory import Memory
         try:memory=Memory(store,m).recall(limit=3)
         except Exception as exc:memory={'error':str(exc)}
         display_detail(mission_details(m, mode=profile(m['mode']), catalogue=listed.get(m['id']),
                                        memory=memory, supervision=read_policy(store, m['id'])))
+        sync_review(m)
 
     def refresh():
         require_admin(root, session)
@@ -254,6 +285,38 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             return "Resumed. Use Run until finished on the root mission; paused subtasks must be resumed separately."
         background(task)
 
+    def review_with_instructions():
+        try:
+            require_admin(root,session)
+            mid=selected()
+            if mid!=review_current[0] or listed.get(mid,{}).get('deleted'):
+                raise ValueError('Select a stopped mission and inspect its details first')
+            text=review_text.get('1.0','end-1c').strip()
+            if not text:raise ValueError('Enter additional instructions before submitting the review')
+            version=review_drafts[mid]['version'];resolution=review_choices[review_resolution.get()]
+            current=store.load(mid)
+            if current['updated_at']!=version:
+                # Show fresh evidence, but do not apply the old decision to it.
+                review_drafts[mid]['version']=current['updated_at']
+                review_resolution.set(next(iter(review_choices)))
+                show_detail()
+                raise ValueError('The mission changed. Details refreshed; inspect the new outcome, choose its resolution and submit again. Your instructions are retained.')
+        except Exception as exc:
+            status.set(str(exc));return
+        def task():
+            result=store.review(mid,text,resolution,expected_updated_at=version)
+            review_results.put((mid,result['updated_at'],text))
+            if result.get('pending_action'):
+                return 'Instructions saved. The pending action is still unresolved; inspect its outcome and choose skip or retry before continuing.'
+            if result['status']=='paused':
+                return 'Instructions saved. Stop remains in effect; use Resume when ready, then Enable the schedule or Run until finished on the root mission.'
+            return ('Instructions saved for the next plan. Enable this schedule to continue this run; future runs keep their original objective.' if result.get('schedule_id') else
+                    'Instructions saved for the next plan. An armed mission can continue; otherwise use Run until finished on its root.')
+        background(task)
+
+    review_button=win.skin.button(review_host,'Reviewed: additional instructions',review_with_instructions)
+    review_button.pack(fill='x')
+
     def delete():
         try:
             require_admin(root, session)
@@ -306,6 +369,12 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     def tick():
         try:
             while True:
+                mid,version,text=review_results.get_nowait()
+                if mid in review_drafts:review_drafts[mid]['version']=version
+        except queue.Empty:
+            pass
+        try:
+            while True:
                 ok, message = events.get_nowait()
                 busy[0] = False
                 status.set(message)
@@ -325,6 +394,10 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     win.refresh_records=refresh
     win.mission_tree=tree
     win.mission_detail=detail
+    win.review_instructions=review_text
+    win.review_resolution=review_resolution
+    win.review_submit=review_button
+    win.review_status=status
     win.bind('<Destroy>', lambda event: win.after_cancel(timer[0]) if event.widget is win and timer[0] is not None else None, add='+')
     refresh()
     win.finish()

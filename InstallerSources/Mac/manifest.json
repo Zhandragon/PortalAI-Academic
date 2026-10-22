@@ -1,5 +1,5 @@
 {
-  "release": "PortalAI-2026.10.22-r1-Academic-Mac",
+  "release": "PortalAI-2026.10.22-r2-Academic-Mac",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platforms": [
     "macOS arm64 (Apple silicon)",
@@ -11,11 +11,11 @@
     "release": "PortalAI-2026.10.19-complete-r23-ui-responsiveness-ha0.5.11"
   },
   "application": {
-    "files": 2090,
+    "files": 2093,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "984d95e9cc915092d4541140913a6a03c37c21ae082ecb5bcc366eb41dbfbbf4",
-    "payload_bytes": 512976541,
+    "payload_sha256": "e58ed39ec40c0c440dff0e1062e93a1f3df78b7b66e9bce83a6fc34bbdb6c5f0",
+    "payload_bytes": 512980643,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 512976541,
-      "sha256": "984d95e9cc915092d4541140913a6a03c37c21ae082ecb5bcc366eb41dbfbbf4"
+      "bytes": 512980643,
+      "sha256": "e58ed39ec40c0c440dff0e1062e93a1f3df78b7b66e9bce83a6fc34bbdb6c5f0"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -219,12 +219,12 @@
     "revision": "20261022-r1",
     "source_sha256": {
       "Agent/chat_priority.py": "321cc264bad40eb81661514a8e34b6e3a5b93e8816fedd7abefbfa1eee161e98",
-      "Agent/mission_runner.py": "3d2d5d54330b26626f06cb5786164f7f9ac34280fec190629cddc7d22a93d0d7",
+      "Agent/mission_runner.py": "929e5063383fb4c5ac5aa00695feb5fa1c41beffefcafccadb53f3ce0774f715",
       "Agent/mission_supervisor.py": "f65987daf3e2d782f4a065f72d3dba86ea30840d5c41a2ea3f42adb20da1039f",
       "Agent/mission_schedule.py": "30d4f1035145738c8c43d31544f3cfb6bb40bfa94143c9b5ec1f673bcebedb6a",
       "ControlCenter/native_chat.py": "dc1114633f0500210de533c22f03c6232255a2511dca568a33d9c7173240f872",
-      "ControlCenter/schedule_settings.py": "8cbc7514daa002e97714e91ea93f92ff369a17251311d157bbaa07a7f4173891",
-      "ControlCenter/mission_settings.py": "c3d11fa81473e612b61abca9530acedd832e2600d11e990e5b4535ffffda2865",
+      "ControlCenter/schedule_settings.py": "7270a379140c7916b770a34e5e457751d51548ef835f3dafd79892844e3febc7",
+      "ControlCenter/mission_settings.py": "55419783d029f8fe22ad96af6d78c815a3d65e1121d3960e150abbd3dae7485f",
       "ControlCenter/internal_sheet.py": "8444816e5d4c47657bc63bb34a54d2f2e68d731d292ea2d6a207c53211208ad6",
       "ControlCenter/settings_style.py": "80d674a9c195cf4c4fccb7ab292196fc4bc64dc81d2f6e1dad965864fb06fabc",
       "ControlCenter/page_scroll.py": "61b3c81e3bfbdb43d3bea6709609867f23d9f1658f535e84e6829e0e1b5fcb87",
@@ -239,5 +239,17 @@
       "Maintenance/Tests/test_schedule_catalog.py": "3cd2c829cdf27a631725941a07dc579a16493b1df80828833613be1845203051"
     },
     "schedule_origin_filters": true
+  },
+  "mission_review": {
+    "revision": "20261022-r2",
+    "source_sha256": {
+      "Agent/mission_runner.py": "929e5063383fb4c5ac5aa00695feb5fa1c41beffefcafccadb53f3ce0774f715",
+      "Agent/mission_context.py": "083e0d261f06dee6e7cb8c576ee833e44834d93d02ce9150c6d88159f1d93f62",
+      "ControlCenter/mission_settings.py": "55419783d029f8fe22ad96af6d78c815a3d65e1121d3960e150abbd3dae7485f",
+      "ControlCenter/schedule_settings.py": "7270a379140c7916b770a34e5e457751d51548ef835f3dafd79892844e3febc7",
+      "Maintenance/Tests/test_mission_review.py": "f866da09fb20cfe75a12c34b53beed0a8208bd1ac4929e2e6c941d35118e3fb5",
+      "Maintenance/Tests/test_mission_review_tk.py": "f0ea40cd6a22d10c03dce8e7f2040336776586c9e3210f68117d6c6ed286d731",
+      "Documentation/Mission_Review_20261022.txt": "e82c20e799cf117de21146544470b2821e9705882524d45d4642d441a2a31832"
+    }
   }
 }

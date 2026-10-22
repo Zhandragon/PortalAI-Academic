@@ -1,0 +1,361 @@
+{
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "outer_files_verified": 1364
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "outer_files_verified": 1985
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "outer_files_verified": 1364
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "outer_files_verified": 1985
+    }
+  ],
+  "tests": [
+    {
+      "name": "Full-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 13.263s\n\nOK\n"
+    },
+    {
+      "name": "Full-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.028s\n\nOK\n"
+    },
+    {
+      "name": "Full-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Full-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 21.077s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.028s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.159s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.097s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Linux-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.010s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.085s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Mac-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.061s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.083s\n\nOK\n"
+    },
+    {
+      "name": "Full-mission_review",
+      "passed": true,
+      "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.384s\n\nOK\n"
+    },
+    {
+      "name": "Full-mission_review_tk",
+      "passed": true,
+      "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 15.369s\n\nOK\n"
+    },
+    {
+      "name": "Full-mission_context",
+      "passed": true,
+      "tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.367s\n\nOK\n"
+    },
+    {
+      "name": "Full-mission_schedule",
+      "passed": true,
+      "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.958s\n\nOK\n"
+    },
+    {
+      "name": "Full-persistence_supervisor",
+      "passed": true,
+      "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.583s\n\nOK\n"
+    },
+    {
+      "name": "Full-chat_priority",
+      "passed": true,
+      "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.202s\n\nOK\n"
+    },
+    {
+      "name": "Full-persistence_priority_tk",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 16.064s\n\nOK\n"
+    },
+    {
+      "name": "Full-gui_stop_contract",
+      "passed": true,
+      "tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.054s\n\nOK\n"
+    },
+    {
+      "name": "Academic-mission_review",
+      "passed": true,
+      "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 1.282s\n\nOK\n"
+    },
+    {
+      "name": "Academic-mission_review_tk",
+      "passed": true,
+      "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 14.176s\n\nOK\n"
+    },
+    {
+      "name": "Academic-mission_context",
+      "passed": true,
+      "tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.323s\n\nOK\n"
+    },
+    {
+      "name": "Academic-mission_schedule",
+      "passed": true,
+      "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.859s\n\nOK\n"
+    },
+    {
+      "name": "Academic-persistence_supervisor",
+      "passed": true,
+      "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.536s\n\nOK\n"
+    },
+    {
+      "name": "Academic-chat_priority",
+      "passed": true,
+      "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.113s\n\nOK\n"
+    },
+    {
+      "name": "Academic-persistence_priority_tk",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 12.088s\n\nOK\n"
+    },
+    {
+      "name": "Academic-gui_stop_contract",
+      "passed": true,
+      "tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.047s\n\nOK\n"
+    }
+  ],
+  "privacy": {
+    "path_findings": [],
+    "credential_candidates": []
+  },
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "passed": true,
+  "host": {
+    "passed": true,
+    "tests": [
+      {
+        "name": "mission_review",
+        "passed": true,
+        "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.422s\n\nOK\n"
+      },
+      {
+        "name": "mission_runner",
+        "passed": true,
+        "tail": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.754s\n\nOK\n"
+      },
+      {
+        "name": "mission_context",
+        "passed": true,
+        "tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.130s\n\nOK\n"
+      },
+      {
+        "name": "persistence_supervisor",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.523s\n\nOK\n"
+      },
+      {
+        "name": "chat_priority",
+        "passed": true,
+        "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.113s\n\nOK\n"
+      },
+      {
+        "name": "mission_modes",
+        "passed": true,
+        "tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.068s\n\nOK\n"
+      },
+      {
+        "name": "gui_stop_contract",
+        "passed": true,
+        "tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.049s\n\nOK\n"
+      },
+      {
+        "name": "gui_maintenance",
+        "passed": true,
+        "tail": "s...............\n----------------------------------------------------------------------\nRan 16 tests in 0.153s\n\nOK (skipped=1)\n"
+      },
+      {
+        "name": "runtime_policy",
+        "passed": true,
+        "tail": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.290s\n\nOK\n"
+      },
+      {
+        "name": "small_model_chat",
+        "passed": true,
+        "tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.012s\n\nOK\n"
+      },
+      {
+        "name": "mission_review_tk",
+        "passed": true,
+        "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 13.888s\n\nOK\n"
+      },
+      {
+        "name": "persistence_priority_tk",
+        "passed": true,
+        "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 12.397s\n\nOK\n"
+      },
+      {
+        "name": "mission_schedule",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.778s\n\nOK\n"
+      },
+      {
+        "name": "schedule_catalog",
+        "passed": true,
+        "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.135s\n\nOK\n"
+      }
+    ]
+  },
+  "bootstrap": {
+    "passed": true,
+    "checks": [
+      {
+        "platform": "Windows",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 5,
+        "network_download_tested": false,
+        "native_OS": true
+      },
+      {
+        "platform": "Linux",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1364,
+        "network_download_tested": false,
+        "native_OS": false
+      },
+      {
+        "platform": "Mac",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1985,
+        "network_download_tested": false,
+        "native_OS": false
+      }
+    ],
+    "full_installs_started": false
+  },
+  "handoff": {
+    "passed": true,
+    "cases": [
+      "read-only preflight",
+      "source conflicts refused",
+      "open account refused",
+      "partial-write rollback",
+      "verified apply and repeat no-op",
+      "private fixture preserved"
+    ],
+    "owner_data_used": false
+  },
+  "process_smoke": {
+    "test_root": "D:\\Backups\\PortalAI-Mission-Review-20261022\\process-fixture\\Maintenance\\Reports\\persistence-tests\\4254ed65b4084845b5720bc7d65c15c1",
+    "checks": [
+      {
+        "name": "second supervisor cannot dispatch",
+        "passed": true,
+        "exit_code": 1
+      },
+      {
+        "name": "scheduled wait survives supervisor exit",
+        "passed": true
+      },
+      {
+        "name": "fresh supervisor resumes when due",
+        "passed": true,
+        "mission": "30cccf074e64407f903ea962682895e3",
+        "completed_at": 1792647692.06678,
+        "scheduled_at": 1792647691.6731896
+      },
+      {
+        "name": "crashed action effect is not replayed",
+        "passed": true,
+        "effects": 1
+      },
+      {
+        "name": "controller crash kills its worker tree",
+        "passed": true
+      },
+      {
+        "name": "stop prevents late planning effects",
+        "passed": true
+      }
+    ],
+    "uses_test_worker": true
+  },
+  "aoostar_reported_prior_handoff": {
+    "source": "User relayed Aoostar Codex report on 2026-10-22; logs not independently inspected here",
+    "reported_passes": [
+      "Projection and HA setup installed/checksummed with recovery copies",
+      "Installed Projection connection deletion and Windows app discovery",
+      "32 installed-feature checks",
+      "798-file source scan",
+      "CPU model restored after tool handoff",
+      "Stop/restart kept scheduled work paused"
+    ],
+    "reported_limits": [
+      "1.7B model attempted extra tools outside the test allowance; attempts were blocked",
+      "1.7B model repeated a planning step until needs_review"
+    ],
+    "HA_server_deployment": "Still requires the HA 0.5.12 package on the HA server",
+    "new_r2_acceptance": false
+  }
+}

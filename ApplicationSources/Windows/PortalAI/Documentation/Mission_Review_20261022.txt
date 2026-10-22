@@ -1,0 +1,38 @@
+Mission review instructions — 2026-10-22 r2
+
+In Missions and access, select a paused mission or one needing review. The
+selected-details pane includes an Additional instructions editor and a
+Reviewed: additional instructions button. The same controls review runs created
+by a schedule. Describe the correction or answer to the reported problem.
+
+The editor holds the current guidance (up to 8000 characters). Editing replaces
+that guidance; every accepted version and the problem/action it addressed remain
+in the mission's review history. The objective, completed work, action budget,
+access mode, account scope and schedule timing remain intact. Guidance applies
+to this mission/run only, not later occurrences or already-created subtasks.
+
+If there is an uncertain pending action, the default saves guidance and leaves
+that action unresolved. After inspecting the real outcome, explicitly choose
+skip or allow retry/replan. Skip retains the action and consumes its existing
+budget slot. Retry permits a fresh plan using your guidance; it does not execute
+the old action immediately. User-reported outcomes remain review notes, not
+verified execution evidence.
+
+With no unresolved action, the mission becomes ready for another plan. Stop is
+never cleared by this button: use Resume if it is stopped. A disarmed mission
+still needs Run until finished; a disabled schedule still needs Enable. Enable
+becomes available when its active run has been reviewed/resumed. A stale review
+is refused and the draft retained so you can inspect the changed evidence.
+
+The planner receives the complete current guidance even when old execution
+history is compacted. If the critical context cannot fit, no action executes;
+shorten the guidance or select a larger context. Refreshes, theme changes and
+switching mission selection preserve drafts while the sheet remains open.
+
+No new dependencies. Restart PortalAI normally when idle to load the update.
+
+Compact Schedules layout: template selection and its Use mission button share
+one row, State and Source filters share a wrapping row, and Create paused
+schedule joins the action row. The form keeps six fields in two rows where
+width permits. At a 1220x668 window all actions fit without page scrolling in
+every access mode; lists and details still grow when the window is enlarged.

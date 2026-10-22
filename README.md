@@ -43,7 +43,8 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 
 **New: web tools, collaborating agents, configurable ports and Mac Projection.** See the [feature update](Documentation/UPDATE-20261021.md). Full and Academic installers keep separate model policies.
 
-**Latest update: direct chat priority, schedule source filters and Enable/Disable, expanding mission panes, corrected chat order and themed Projection tray controls, with HA 0.5.12.** [Release details and checks](Documentation/CHAT-TIMELINE-20261022.md). Restart the host and Projection normally; deploy HA separately.
+**Latest update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
+
 
 ## Download and install
 

@@ -37,3 +37,6 @@ Create your own account after installation. Help and searchable documentation ar
 The current installers include web tools, collaborating agents and configurable ports. See [the silent web update](SILENT-WEB-20261021.md) for current package versions, instructions and validation limits.
 
 [Chat timeline update and current installers](CHAT-TIMELINE-20261022.md).
+
+**Latest update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
+

@@ -24,3 +24,6 @@ Only Windows has been thoroughly tested; Linux has partial validation. macOS ins
 [Silent web tools update and current installers](SILENT-WEB-20261021.md).
 
 [Chat timeline update and current installers](CHAT-TIMELINE-20261022.md).
+
+**Latest update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
+

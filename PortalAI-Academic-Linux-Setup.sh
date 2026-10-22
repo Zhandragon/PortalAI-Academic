@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261022-r1.tar.gz'
-ARCHIVE_HASH='8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r2'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz'
+ARCHIVE_HASH='04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f'
 TOP='PortalAI Academic Linux Installer'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261022-r1-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261022-r2-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -75,13 +75,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261022-r1.tar.gz|618689412|8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220
+PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz|618677345|04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261022-r1.tar.gz|618689412|8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220
+PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz|618677345|04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -101,13 +101,13 @@ while IFS='|' read -r name size expected; do
         echo "Extracted installer file is missing or changed: $name. Choose a new setup folder." >&2; exit 1
     fi
 done <<'ACADEMIC_FILES'
-ACADEMIC_EDITION.txt|1087|78c03d40da2fe3afe947d1dd8a784972d4fc26a8db82d6d043e858abc9959775
+ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
 install.sh|3520|98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019
-manifest.json|11419|4c1250798dba161d4c1e0cf614e9d50d3a091b7856d34798777fb6331ce45592
-payload.tar.gz|493480968|fcc65fe4a07eb245f5a92b7f3bf9efa9269e97bb86171322412725e86773ac06
+manifest.json|12289|a96b55ab07bad73b718a9dfff88040d1fe19e54e36f8564494cdfc09e42c270c
+payload.tar.gz|493480436|8a467c0b7b2b579e960e04db9c5e3b9159dd31dcedf6a7f481a246406cbb4501
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
 README.txt|6598|27c946099c13ad199e95569035a649d7327ff01ba4aa3f44d147907da47d8f5d
-SHA256SUMS|205293|d58c45b5485d24f2eb934b1482ef260328f1c3a3495d13c3b158db66af0584fd
+SHA256SUMS|205293|9fcdca1b1b1e311c2b73182b0390e8b5acbaf36d73a9cc7ec8c8fcc4820d5fa1
 Utilities/PortalAI HA Setup/Install PortalAI HA.sh|312|e9faf65cb70c4e9e06143e4586a73040454d8a8d404809b6a144242b5699e548
 Utilities/PortalAI HA Setup/README.txt|3114|19d382cee8759952042cb86fa513134fc78cb9f9c0f39e2c44f50df3336916b2
 Utilities/PortalAI HA Setup/Setup Files/HomeAssistant/AOOSTAR_HANDOFF.txt|1643|446352772e118becd6c8dd01d3d2291e78116a2733dfca70e5f6df6f6431637f

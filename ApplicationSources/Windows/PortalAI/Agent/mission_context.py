@@ -122,12 +122,22 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
             "subtasks": [{"id": c["id"], "status": c["status"], "objective": c["objective"]} for c in children],
             "completed_records": len(mission["history"]),
             "history_rule": "Records 1..completed_records already ran. Use history(start,count) for evidence before repeating an older action."}
+    if mission.get('review_instructions'):
+        # Current user guidance is critical state, never an optional memory hit
+        # or a clipped excerpt. Older versions remain in the saved review log.
+        base['review_instructions']=mission['review_instructions']
+        last=mission.get('review_history',[])[-1:]
+        if last:
+            base['reviewed_problem']={'reported_error':clip(last[0].get('previous_error') or '',1200),
+                'action_under_review':clip(last[0].get('pending_action'),1200),
+                'resolution':last[0].get('resolution'),
+                'rule':'User review is guidance, not proof that an external action succeeded.'}
     from academic_policy import instruction_suffix
     instruction += instruction_suffix(store.root)
     def messages(value):
         return [{"role": "system", "content": instruction}, {"role": "user", "content": encoded(value)}]
     if budget.count(messages(base)) > budget.limit:
-        raise MissionContextError("The complete objective, access mode and child state do not fit this model's context. No action was executed; choose a larger context or shorten the objective.")
+        raise MissionContextError("The complete objective, review instructions, access mode and child state do not fit this model's context. No action was executed; choose a larger context or shorten the objective/review instructions.")
     full = {**base, "recent_history": [{"step": i+1, **row} for i, row in enumerate(mission["history"])],
             "recent_notes": notes}
     compacted = budget.count(messages(full)) > int(budget.limit*.78) or len(mission["history"]) > 8

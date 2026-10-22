@@ -6,3 +6,7 @@ Chat timeline v2026.10.22-r1: chronological reasoning/answer/tool rendering and 
 Projection UI 20261022-r1: minimize to the dark tray emblem, themed action menus, custom appearance and Documentation. Start local PortalAI independently of HA. Native utilities are alongside this installer in Utilities; keep both sibling utility folders together on the drive. Use Browse to select the installed PortalAI folder. Native Mac/Linux acceptance remains pending.
 
 Direct chat priority: background work checkpoints and yields, then continues only while still armed/enabled. Schedule Enable/Disable toggles dynamically; source and state filters separate user, diagnostic and legacy records. Mission/schedule lists expand with the window. See Documentation/Chat_Priority_20261022.txt.
+
+Mission review 20261022-r2: select a paused mission or one needing review to edit additional instructions. Current guidance is retained through planning compaction; pending outcomes still require explicit skip/retry. Stop, schedule epochs and budgets remain effective. See Documentation/Mission_Review_20261022.txt.
+
+Mission review 20261022-r2: select a paused mission or one needing review to edit additional instructions. Current guidance is retained through planning compaction; pending outcomes still require explicit skip/retry. Stop, schedule epochs and budgets remain effective. See Documentation/Mission_Review_20261022.txt.
