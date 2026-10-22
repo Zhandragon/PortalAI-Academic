@@ -41,7 +41,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 - **Context-aware help and a nonintrusive interface.** Right-click controls for relevant actions and built-in help. Switch between the full workspace and Compact chat, or keep PortalAI reachable through the Windows notification icon while the window is hidden.
 
 
-**New: web tools, collaborating agents, configurable ports and Mac Projection.** See the [current update and downloads](Documentation/UPDATE-20261021.md). Full and Academic installers keep separate model policies.
+**New: web tools, collaborating agents, configurable ports and Mac Projection.** See the [feature update](Documentation/UPDATE-20261021.md). Full and Academic installers keep separate model policies.
+
+**Latest fix: silent background web tools.** [Release details and checks](Documentation/SILENT-WEB-20261021.md). Restart normally after updating an existing installation.
 
 ## Download and install
 
@@ -181,7 +183,7 @@ PortalAI's existing [license](LICENSE) is retained. Third-party runtime and mode
 
 ### Current: web tools, agents, ports and Mac projection
 
-See [the current release notes](Documentation/UPDATE-20261021.md) and [publication checks](Documentation/PUBLISH-VALIDATION.json). The earlier records below describe the release baseline.
+See [the silent web fix](Documentation/SILENT-WEB-20261021.md) and [its checks](Documentation/SILENT-WEB-VALIDATION.json). The [feature release notes](Documentation/UPDATE-20261021.md) and [earlier publication checks](Documentation/PUBLISH-VALIDATION.json) remain available. The earlier records below describe the release baseline.
 
 
 **2026-10-21 r1 — welcome access notice.** The GitHub welcome page and Academic GUI now explain that the unrestricted repository is private and provide the maintainer's access-request email. In the GUI, the notice appears in small, theme-aware text below the feature tagline and wraps with the window width. Academic model restrictions and runtime behavior remain as in r2.

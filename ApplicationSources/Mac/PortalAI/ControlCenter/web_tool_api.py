@@ -36,6 +36,8 @@ class WebClient:
         rt=self.runtime;rt.profile.check()
         p=subprocess.Popen([str(rt.boot),'-B','-I',str(rt.root/'Agent/web_worker.py')],cwd=str(rt.root),
             env=clean_env(rt.root,profile=rt.profile),stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+            # Pipes alone do not suppress a console when launched by the GUI.
+            creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0) if os.name=='nt' else 0,
             text=True,encoding='utf-8',**worker_process_options())
         self.process=p
         try:

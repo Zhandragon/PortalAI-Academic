@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-Academic-2026.10.21-WebAgents-Linux",
+  "release": "PortalAI-2026.10.21-r3-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 493444182,
-      "sha256": "922e6cbb7ac2346c0ca353f0a06b719ff5b159a6a0495643112153247310694a"
+      "bytes": 493447689,
+      "sha256": "e27bc416d1a6d1595d0c9f1f0e5733e50455bcb604f46c0ce79054eb00324bea"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -122,5 +122,11 @@
     "sha256": "9cc2a774b5198dcff14d9be1e66091f538975d867ce029a96bce15a55dfd730f",
     "license": "Runtime/Certificates/LICENSE.certifi",
     "checked_against": "Agent/web_tls.py"
+  },
+  "silent_web_worker": {
+    "windows_console_suppressed": true,
+    "job_ownership_preserved": true,
+    "source_sha256": "0ef89f5913d6b2b3196e4f521e7200af133b44e38f988352b6497d4f65406d19",
+    "shared_process_helper_included": true
   }
 }

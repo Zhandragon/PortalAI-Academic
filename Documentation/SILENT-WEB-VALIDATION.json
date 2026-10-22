@@ -1,0 +1,282 @@
+{
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "outer_files_verified": 7
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "outer_files_verified": 1969
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "outer_files_verified": 7
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "outer_files_verified": 1969
+    }
+  ],
+  "tests": [
+    {
+      "name": "Full-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 12.579s\n\nOK\n"
+    },
+    {
+      "name": "Full-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.033s\n\nOK\n"
+    },
+    {
+      "name": "Full-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Full-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 13.737s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.034s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.354s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.104s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Linux-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.615s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.136s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Mac-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.535s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.108s\n\nOK\n"
+    },
+    {
+      "name": "Full-Windows-hidden-worker",
+      "passed": true,
+      "tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 2.970s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-hidden-worker",
+      "passed": true,
+      "tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 4.014s\n\nOK\n"
+    }
+  ],
+  "privacy": {
+    "path_findings": [],
+    "credential_candidates": []
+  },
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "passed": true,
+  "local_tests": [
+    {
+      "name": "test_web_worker_windows",
+      "passed": true,
+      "tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 2.136s\n\nOK\n"
+    },
+    {
+      "name": "test_web_agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 12.732s\n\nOK\n"
+    },
+    {
+      "name": "test_web_recovery",
+      "passed": true,
+      "tail": "..............\n----------------------------------------------------------------------\nRan 14 tests in 1.238s\n\nOK\n"
+    },
+    {
+      "name": "test_web_operation_bounds",
+      "passed": true,
+      "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.070s\n\nOK\n"
+    },
+    {
+      "name": "test_web_images",
+      "passed": true,
+      "tail": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.371s\n\nOK\n"
+    },
+    {
+      "name": "test_web_profile_state",
+      "passed": true,
+      "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.940s\n\nOK\n"
+    },
+    {
+      "name": "test_account_web_commands",
+      "passed": true,
+      "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.189s\n\nOK\n"
+    },
+    {
+      "name": "test_web_smoke_profile",
+      "passed": true,
+      "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.309s\n\nOK\n"
+    },
+    {
+      "name": "test_writer_jobs",
+      "passed": true,
+      "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.021s\n\nOK\n"
+    }
+  ],
+  "handoff": {
+    "passed": true,
+    "cases": [
+      "conflicting source refuses all writes",
+      "read-only preflight",
+      "active session refuses apply",
+      "closed fixture backup and apply",
+      "all output hashes",
+      "idempotent repeat"
+    ],
+    "owner_data_used": false
+  },
+  "fixture_python": {
+    "passed": true,
+    "asset": "python-3.12.14",
+    "sha256": "e90c1b6419da3bd812dd73bb3de40287a21abf153438147639ec5e20375ea93f",
+    "files": 3378,
+    "host_Python_used": false
+  },
+  "packaging_repair": {
+    "passed": true,
+    "corrected": [
+      "Full/Windows",
+      "Full/Linux",
+      "Academic/Windows",
+      "Academic/Linux"
+    ],
+    "Mac_helper_already_present": true
+  },
+  "bootstrap": {
+    "passed": true,
+    "checks": [
+      {
+        "platform": "Windows",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 5,
+        "network_download_tested": false,
+        "native_OS": true
+      },
+      {
+        "platform": "Linux",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 7,
+        "network_download_tested": false,
+        "native_OS": false
+      },
+      {
+        "platform": "Mac",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1969,
+        "network_download_tested": false,
+        "native_OS": false
+      }
+    ],
+    "full_installs_started": false
+  },
+  "live_web_smoke": {
+    "passed": false,
+    "checks": [
+      {
+        "name": "Live public search",
+        "passed": false,
+        "error": {
+          "message": "Search is unavailable: duckduckgo: The site returned a browser/bot challenge; no page content was fetched. | duckduckgo-lite: The site returned a browser/bot challenge; no page content was fetched. The optional BRAVE_SEARCH_API_KEY enables the existing independent API route. No blocked page was bypassed.",
+          "category": "search_unavailable",
+          "provider_errors": [
+            {
+              "provider": "duckduckgo",
+              "message": "The site returned a browser/bot challenge; no page content was fetched.",
+              "category": "browser_challenge",
+              "http_status": 403,
+              "retry_after_seconds": 900
+            },
+            {
+              "provider": "duckduckgo-lite",
+              "message": "The site returned a browser/bot challenge; no page content was fetched.",
+              "category": "browser_challenge",
+              "http_status": 403,
+              "retry_after_seconds": 900
+            }
+          ]
+        }
+      },
+      {
+        "name": "Injected HTML 403; real Lite fallback",
+        "passed": true,
+        "error": null
+      },
+      {
+        "name": "Repeated query served from portable cache without network",
+        "passed": true,
+        "error": null
+      },
+      {
+        "name": "Live public page fetch",
+        "passed": true,
+        "error": null
+      },
+      {
+        "name": "Live Wikimedia page fetch",
+        "passed": true,
+        "error": null
+      },
+      {
+        "name": "Real image search and bounded direct image download",
+        "passed": true,
+        "error": null
+      }
+    ]
+  }
+}

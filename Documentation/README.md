@@ -20,3 +20,5 @@ Academic enforces standard/censored routing and excludes abliterated/uncensored 
 Only Windows has been thoroughly tested; Linux has partial validation. macOS installation and other configurations may encounter errors. **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** Use the matching repository's issue tracker linked on the welcome page, and omit secrets and private user files from reports.
 
 [Current web/agents/ports/Mac update](UPDATE-20261021.md) · [Usage](WebAgents/USAGE.txt) · [Mac setup](MacProjection/SETUP.txt).
+
+[Silent web tools update and current installers](SILENT-WEB-20261021.md).

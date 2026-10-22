@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz'
-ARCHIVE_HASH='326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r3'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261021-r4.tar.gz'
+ARCHIVE_HASH='dabb2f631c27a4e9e6a707295cb42074e6b57d98efdf347222f70625ccda7b22'
 TOP='PortalAI Academic Linux Installer'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261021-r2-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261021-r3-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -75,13 +75,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz|557176021|326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db
+PortalAI-Academic-Linux-Installer-20261021-r4.tar.gz|557180255|dabb2f631c27a4e9e6a707295cb42074e6b57d98efdf347222f70625ccda7b22
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz|557176021|326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db
+PortalAI-Academic-Linux-Installer-20261021-r4.tar.gz|557180255|dabb2f631c27a4e9e6a707295cb42074e6b57d98efdf347222f70625ccda7b22
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -101,12 +101,13 @@ while IFS='|' read -r name size expected; do
         echo "Extracted installer file is missing or changed: $name. Choose a new setup folder." >&2; exit 1
     fi
 done <<'ACADEMIC_FILES'
+ACADEMIC_EDITION.txt|184|2602d15669889f9cb52d0b533f2299af399201faf4b972afec6b5317bcfe1c51
 install.sh|3520|98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019
-manifest.json|4666|e5fe0a860969cc4ea7845a3c4e48c1c7a5b1959391ca104b3b10ba83555cec7a
-payload.tar.gz|493444182|922e6cbb7ac2346c0ca353f0a06b719ff5b159a6a0495643112153247310694a
+manifest.json|4898|49d7974176527f401fbe47ed137f4a3b74b78ebbab88a75d149359d4c811b554
+payload.tar.gz|493447689|e27bc416d1a6d1595d0c9f1f0e5733e50455bcb604f46c0ce79054eb00324bea
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
 README.txt|6598|27c946099c13ad199e95569035a649d7327ff01ba4aa3f44d147907da47d8f5d
-SHA256SUMS|403|951d4a02bf14fa751dd3c9637aa2cd8e77053478304dbd46f1e50105a13965ef
+SHA256SUMS|490|770ee0a0fc2a89f8bae53de2e952413ddf61e0d1518da0247a3489c96b4045a3
 ACADEMIC_FILES
 echo 'The complete Academic installer has been downloaded and verified.'
 if [ "$PREPARE_ONLY" -eq 1 ]; then printf 'Prepared installer: %s\n' "$PACKAGE"; exit 0; fi

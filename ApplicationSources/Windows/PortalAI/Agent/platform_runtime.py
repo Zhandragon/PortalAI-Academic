@@ -26,3 +26,8 @@ def linux_elf_command(root,argv):
     if not loader.is_file():raise RuntimeError('Bundled Linux dynamic loader is missing')
     libs=os.pathsep.join(map(str,(file.parent,lib/'x86_64-linux-gnu',lib)))
     return [str(loader),'--library-path',libs,str(file),*argv[1:]],file.parent
+
+
+def worker_process_options():
+    """Keep the shared worker launch contract; Darwin needs a process group."""
+    return {'start_new_session': True} if sys.platform=='darwin' else {}

@@ -34,4 +34,4 @@ The current r2 installers label intentionally omitted assets EXCLUDED. Missing r
 
 Create your own account after installation. Help and searchable documentation are available in PortalAI itself. Only Windows has been thoroughly tested; Linux has partial validation and physical macOS installation remains unvalidated. Report errors to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including OS and installer versions and error text without passwords, tokens or private content. **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.**
 
-The current installers include web tools, collaborating agents and configurable ports. See [this release](UPDATE-20261021.md) for package versions, instructions and validation limits.
+The current installers include web tools, collaborating agents and configurable ports. See [the silent web update](SILENT-WEB-20261021.md) for current package versions, instructions and validation limits.

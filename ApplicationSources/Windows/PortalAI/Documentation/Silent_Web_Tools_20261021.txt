@@ -1,0 +1,20 @@
+PortalAI silent web worker fix — 2026-10-21
+
+The web tool's owned Python worker now uses CREATE_NO_WINDOW on Windows.
+Redirecting its pipes alone did not prevent Windows from creating a console
+when the worker was launched by the GUI. The legacy search/image-search command
+routes already use CREATE_NO_WINDOW. Playwright hides its driver window and
+Chromium remains headless. This change does not detach workers from their
+owned jobs or change Stop, login checks, request handling or browser permissions.
+Linux and Mac process-group behavior is preserved.
+
+Use normal Exit, let profile sealing finish, then start PortalAI again to load
+the fix. No account reset or settings change is needed. Clean installers carry
+the fix in both Full and Academic editions; retain each edition's model policy.
+
+Regression: Maintenance/Tests/test_web_worker_windows.py exercises the real
+Windows worker, UTF-8 JSON pipes, process reuse, headless Chromium, absence of
+visible owned windows and termination of the entire captured process tree.
+The tests use disposable files and an in-memory HTML page, with no user account
+or external web action. Native Mac/Linux execution is not established by these
+Windows tests.

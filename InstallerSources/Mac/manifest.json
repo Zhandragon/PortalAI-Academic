@@ -1,5 +1,5 @@
 {
-  "release": "PortalAI-Academic-2026.10.21-WebAgents-MacProjection",
+  "release": "PortalAI-2026.10.21-r3-Academic-Mac",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platforms": [
     "macOS arm64 (Apple silicon)",
@@ -11,11 +11,11 @@
     "release": "PortalAI-2026.10.19-complete-r23-ui-responsiveness-ha0.5.11"
   },
   "application": {
-    "files": 2080,
+    "files": 2082,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "cc2deb4db01aeb7d97d27125e050864a55e75517ee3ef91859d9110cee40c32e",
-    "payload_bytes": 512954043,
+    "payload_sha256": "9e85a873a4896230ef742aa9cf78244ed4c29a2d8e2e7b488443ad1bae84a28c",
+    "payload_bytes": 512957464,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 512954043,
-      "sha256": "cc2deb4db01aeb7d97d27125e050864a55e75517ee3ef91859d9110cee40c32e"
+      "bytes": 512957464,
+      "sha256": "9e85a873a4896230ef742aa9cf78244ed4c29a2d8e2e7b488443ad1bae84a28c"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -157,5 +157,10 @@
     "sha256": "9cc2a774b5198dcff14d9be1e66091f538975d867ce029a96bce15a55dfd730f",
     "license": "Runtime/Certificates/LICENSE.certifi",
     "checked_against": "Agent/web_tls.py"
+  },
+  "silent_web_worker": {
+    "windows_console_suppressed": true,
+    "job_ownership_preserved": true,
+    "source_sha256": "0ef89f5913d6b2b3196e4f521e7200af133b44e38f988352b6497d4f65406d19"
   }
 }
