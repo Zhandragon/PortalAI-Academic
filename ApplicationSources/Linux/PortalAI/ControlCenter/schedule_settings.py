@@ -1,6 +1,7 @@
 """Schedule controls kept inside the existing persistent-missions interface."""
 from datetime import datetime
 import json
+import time
 from pathlib import Path
 import tkinter as tk
 from rounded_text import RoundedText
@@ -155,7 +156,9 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     controls=ResponsiveGrid(frame,bg=bg,min_cell_width=180,max_columns=5);controls.pack(fill='x',pady=4)
     status=tk.StringVar(value='Creating a schedule does not enable it. Select it and click Enable when ready.')
     tk.Label(frame,textvariable=status,bg=bg,fg=fg,anchor='w',wraplength=1100,justify='left').pack(fill='x')
-    detail=RoundedText(detail_host,palette=win.skin.colors,scrollbars=True,horizontal=False,height=9,font=('Segoe UI',9),wrap='word',bg=bg,fg=fg,state='disabled');detail.pack(fill='both',expand=True)
+    from mission_monitor import RunViewer,controller_status,live_state
+    viewer=RunViewer(detail_host,win.skin,store.store);viewer.pack(fill='both',expand=True)
+    detail=viewer.text;win.run_viewer=viewer
     def display_detail(text):
         if detail.get('1.0','end-1c')==text:return
         position=detail.yview()[0]
@@ -186,21 +189,31 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
             if s.get('active_run'):
                 try:active=store.store.load(s['active_run'])
                 except (ValueError,OSError,KeyError,TypeError) as exc:active={'error':str(exc)}
-            display_detail(schedule_details(s,enabled=store.enabled(s),access=profile(s['mode'])['description'],active_mission=active))
+            viewer.update_view(active if active and active.get('id') else None,schedule=s,enabled=store.enabled(s),
+                details=schedule_details(s,enabled=store.enabled(s),access=profile(s['mode'])['description'],active_mission=active))
         except (ValueError,OSError) as exc:
             update_toggle()
-            display_detail(schedule_details(unavailable=exc if tree.selection() else None))
+            viewer.update_view(details=schedule_details(unavailable=exc if tree.selection() else None))
     def refresh():
         old=set(tree.get_children())
         rows=select_schedules(store.list(),schedule_view.get(),origin_view.get())
         list_note.set('Select a row to inspect its timing, progress and run results.' if rows else
                       ('Nothing found to report. No removed schedules.' if schedule_view.get()=='Removed schedules' else
                        'Nothing found to report. Columns show state, next run, completed / started runs and objective.'))
+        controller=controller_status(store.store)
         for s in rows:
             state='removed' if s.get('status')=='removed' else s['status'] if store.enabled(s) or s.get('status') in ('complete','needs_review') else 'paused'
             if store.enabled(s):
                 from chat_priority import active as direct_chat_active
                 if direct_chat_active(root):state='paused for chat'
+                elif s.get('active_run'):
+                    try:
+                        from mission_activity import read as read_activity
+                        mission=store.store.load(s['active_run'])
+                        state=live_state(mission,read_activity(store.store,mission['id']),controller,enabled=True)
+                    except (ValueError,OSError,KeyError,TypeError):state='Run needs review'
+                elif s.get('next_run_at',0)<=time.time() and not controller.get('alive'):
+                    state='Enabled; controller stopped'
             at=datetime.fromtimestamp(s['next_run_at']).strftime('%Y-%m-%d %H:%M') if 'next_run_at' in s else 'Review file'
             values=(schedule_origin(s)['label'],state,at,f"{s.get('runs_completed',0)} / {s.get('runs_started',0)}",s['objective'][:160])
             if s['id'] in old:tree.item(s['id'],values=values);old.remove(s['id'])
@@ -220,7 +233,9 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
             require_admin(root, session)
             if enable is None:enable=not store.enabled(store.load(selected()))
             if enable:
-                store.enable(selected());result=ensure_running(Path(root));status.set('Schedule enabled. '+str(result.get('reason','Supervisor running.')))
+                store.enable(selected());result=ensure_running(Path(root))
+                status.set('Schedule enabled. '+('Starting supervisor; follow Live activity.' if result.get('started') else
+                           'Supervisor already active; follow Live activity.' if result.get('already_running') else result.get('reason','Supervisor startup is not confirmed.')))
             else:store.disable(selected());status.set('Schedule paused; any interrupted action requires review in Persistent missions.')
             refresh();show()
         except Exception as exc:status.set(str(exc))

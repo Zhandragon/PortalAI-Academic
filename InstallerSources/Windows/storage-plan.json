@@ -1,7 +1,7 @@
 {
-  "release": "PortalAI-2026.10.22-r3-Academic-Windows",
-  "payload_bytes": 502363912,
-  "payload_files": 4618,
+  "release": "PortalAI-2026.10.22-r4-Academic-Windows",
+  "payload_bytes": 627572527,
+  "payload_files": 4630,
   "bootstrap_bytes": 22640669,
   "components": [
     {
@@ -9,7 +9,7 @@
       "label": "PortalAI account and desktop runtime",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 185145697,
+      "installed_bytes": 211403443,
       "files": 4506,
       "downloads": [
         {
@@ -157,7 +157,7 @@
       "label": "Windows CPU and Vulkan inference engines",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 136716858,
+      "installed_bytes": 230887749,
       "files": 103,
       "downloads": [
         {
@@ -317,7 +317,7 @@
       "label": "Scientific packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 1727371616,
+      "installed_bytes": 1730385698,
       "files": 24976,
       "downloads": [
         {
@@ -947,7 +947,7 @@
       "label": "Portable audio conversion tools",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 6128308,
+      "installed_bytes": 7923602,
       "files": 25,
       "downloads": [
         {
@@ -961,7 +961,7 @@
       "label": "Protein analysis CPU runtime",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 427576938,
+      "installed_bytes": 431967654,
       "files": 12184,
       "downloads": [
         {
@@ -1019,7 +1019,7 @@
       "label": "Portable circuit design tools",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 6198866051,
+      "installed_bytes": 6223824595,
       "files": 36124,
       "downloads": [
         {
@@ -1033,7 +1033,7 @@
       "label": "Portable media interpreters and source",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 388954295,
+      "installed_bytes": 392870096,
       "files": 12143,
       "downloads": [
         {
@@ -1079,7 +1079,7 @@
       "label": "Qwen speech generation packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 4839630686,
+      "installed_bytes": 4845175182,
       "files": 30198,
       "downloads": [
         {
@@ -1461,7 +1461,7 @@
       "label": "ComfyUI image and video generation packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 4328324247,
+      "installed_bytes": 4333859006,
       "files": 42440,
       "downloads": [
         {
@@ -1891,7 +1891,7 @@
       "label": "MuseTalk lip synchronization packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 6406113874,
+      "installed_bytes": 6532758476,
       "files": 36983,
       "downloads": [
         {
@@ -2561,7 +2561,7 @@
       "label": "MMAudio sound generation packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 5518104628,
+      "installed_bytes": 5550152079,
       "files": 30567,
       "downloads": [
         {
@@ -3031,7 +3031,7 @@
       "label": "ACE-Step music generation packages",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 7557646179,
+      "installed_bytes": 7586958684,
       "files": 34037,
       "downloads": [
         {
@@ -4127,7 +4127,7 @@
       "label": "FFmpeg media encoding, inspection and playback",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 329221735,
+      "installed_bytes": 648333010,
       "files": 45,
       "downloads": [
         {
@@ -4141,7 +4141,7 @@
       "label": "Native SD1.5 CPU engine",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 46984837,
+      "installed_bytes": 49992614,
       "files": 20,
       "downloads": [
         {
@@ -4155,7 +4155,7 @@
       "label": "Native SD1.5 Vulkan engine",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 89656965,
+      "installed_bytes": 92664742,
       "files": 21,
       "downloads": [
         {
@@ -4305,7 +4305,7 @@
       "label": "Isolated VM tools and Alpine boot assets",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 559181959,
+      "installed_bytes": 585778576,
       "files": 3323,
       "downloads": [
         {
@@ -4460,7 +4460,7 @@
       "label": "Music understanding and offline Demucs runtime",
       "required": true,
       "depends_on": [],
-      "installed_bytes": 5071600377,
+      "installed_bytes": 5077476184,
       "files": 23139,
       "downloads": [
         {
@@ -4864,7 +4864,7 @@
       "depends_on": [
         "core-runtime"
       ],
-      "installed_bytes": 17191970401,
+      "installed_bytes": 18230720925,
       "files": 22873,
       "downloads": [
         {
@@ -5775,7 +5775,7 @@
       "label": "Science: portable PrusaSlicer support generation",
       "required": false,
       "depends_on": [],
-      "installed_bytes": 255535780,
+      "installed_bytes": 257383854,
       "files": 1090,
       "downloads": [
         {

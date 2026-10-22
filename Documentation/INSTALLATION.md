@@ -1,5 +1,7 @@
 # Installing PortalAI (Academic)
 
+Current release: verified executable backups, a manual recovery popup, and scheduled-mission startup/activity fixes. [Instructions](RECOVERY-MISSIONS-20261022.md).
+
 [Documentation index](README.md) · [Current installer downloads](../README.md#download-and-install)
 
 ## Drive format and preparation

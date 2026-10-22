@@ -48,8 +48,8 @@ fi
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
 case "$ARCH" in
-  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18632050 52428800 104857600 10 ;;
-  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18632504 52428800 104857600 10 ;;
+  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18804098 52428800 104857600 10 ;;
+  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18804964 52428800 104857600 10 ;;
 esac
 
 WRITE_CHECK="$(mktemp "$PARENT/.portalai-macos-write-check.XXXXXX")" || {
@@ -148,6 +148,8 @@ json.dump({'python':'3.12.15','architecture':sys.argv[3],'archive':row['asset'],
            'verified_archive':True,'recipient_runtime_smoke_passed':True},
           open(sys.argv[2],'w',encoding='utf-8'),indent=2)
 PY
+
+"$PYTHON" -B -I "$ROOT/Tools/repair_executables.py" --seed-fresh-native-install
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2

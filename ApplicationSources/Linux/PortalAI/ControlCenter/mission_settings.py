@@ -122,8 +122,9 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     controls = ResponsiveGrid(frame,bg=bg,min_cell_width=145,max_columns=5,hgap=6,vgap=5)
     controls.pack(fill="x", pady=3)
     status = tk.StringVar(value="Select a mission to inspect its latest action and outcome.")
-    detail = RoundedText(detail_host,palette=win.skin.colors,scrollbars=True,horizontal=False, height=9 if embedded else 12, font=("Segoe UI",9), wrap="word", bg=bg, fg=fg, relief="flat", state="disabled")
-    detail.pack(fill="both", expand=True)
+    from mission_monitor import RunViewer,controller_status,live_state,mission_enabled
+    viewer=RunViewer(detail_host,win.skin,store,height=7 if embedded else 10)
+    viewer.pack(fill='both',expand=True);detail=viewer.text;win.run_viewer=viewer
     review_host=tk.Frame(detail_host,bg=bg)
     win.skin.label(review_host,'Additional instructions for this mission',heading=True).pack(fill='x')
     tk.Label(review_host,text='Edit the current guidance; prior versions are kept. Applies to this run only. Stop and schedule Enable remain separate.',
@@ -172,14 +173,15 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         try:
             m = store.load(selected())
         except (ValueError, OSError) as exc:
-            display_detail(mission_details(unavailable=exc if tree.selection() else None))
+            viewer.update_view(details=mission_details(unavailable=exc if tree.selection() else None))
             sync_review()
             return
         from mission_memory import Memory
         try:memory=Memory(store,m).recall(limit=3)
         except Exception as exc:memory={'error':str(exc)}
-        display_detail(mission_details(m, mode=profile(m['mode']), catalogue=listed.get(m['id']),
-                                       memory=memory, supervision=read_policy(store, m['id'])))
+        policy=read_policy(store,m['id'])
+        viewer.update_view(m,details=mission_details(m,mode=profile(m['mode']),catalogue=listed.get(m['id']),
+                                                   memory=memory,supervision=policy),enabled=mission_enabled(store,m))
         sync_review(m)
 
     def refresh():
@@ -193,9 +195,15 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
                       'Nothing found to report. Columns below show source, access, status, actions used / limit and objective.')
         from chat_priority import active as direct_chat_active
         chat_is_active=direct_chat_active(root)
+        controller=controller_status(store)
         for row in reversed(rows):
             m = row['mission']
             label = 'Deleted · ' + m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
+            if not row['deleted'] and m['status'] in ACTIVE:
+                try:
+                    from mission_activity import read as read_activity
+                    label=live_state(m,read_activity(store,m['id']),controller,enabled=mission_enabled(store,m))
+                except (OSError,ValueError,KeyError,TypeError):label='Status unavailable; review details'
             values = (row['origin']['label'], profile(m["mode"])["label"], label, f"{m['steps']}/{m['max_steps']}", m["objective"][:150])
             if m["id"] in existing:
                 tree.item(m["id"], values=values)
@@ -258,8 +266,9 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             if (store.folder(mission_id) / "STOP").exists():
                 raise ValueError("Resume the stopped mission first")
             arm(root, mission_id)
-            ensure_running(root)
-            status.set("Armed until completion/action budget. Scheduled waits survive restart; the supervisor waits if chat is unavailable.")
+            result=ensure_running(root)
+            status.set('Mission armed. '+('Starting supervisor; follow Live activity.' if result.get('started') else
+                       'Supervisor already active; follow Live activity.' if result.get('already_running') else result.get('reason','Supervisor startup is not confirmed.')))
         except Exception as exc:
             status.set(str(exc))
 

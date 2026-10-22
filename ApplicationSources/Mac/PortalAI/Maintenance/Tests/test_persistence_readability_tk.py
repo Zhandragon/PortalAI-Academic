@@ -54,6 +54,8 @@ class PersistenceReadabilityTests(unittest.TestCase):
         border=next(b for b in self.sheet.skin.borders if b.widget is self.sheet.heading)
         self.assertTrue(border.canvas.find_withtag('ornate-corner-mask'))
         mission=Missions(self.root).create('Inspect a synthetic report')
+        from mission_catalog import MissionCatalog
+        MissionCatalog(self.root).mark_origin(mission['id'])
         self.sheet.refresh_records();tree=next(w for w in widgets(self.sheet) if isinstance(w,ttk.Treeview))
         tree.selection_set(mission['id']);tree.event_generate('<<TreeviewSelect>>');self.app.update()
         self.assertIn('Inspect a synthetic report',details.get('1.0','end'))
@@ -111,10 +113,47 @@ class PersistenceReadabilityTests(unittest.TestCase):
                 bottom=canvas.winfo_rooty()+canvas.winfo_height()
                 for control in widgets(self.sheet.content):
                     if isinstance(control,ttk.Button):
+                        # Review-only controls deliberately hide without a selected problem.
+                        parent=control.master
+                        if any(isinstance(w,tk.Label) and w.cget('text')=='Additional instructions for this mission'
+                               for w in parent.winfo_children()) and not parent.winfo_ismapped():continue
                         self.assertTrue(control.winfo_ismapped())
                         self.assertLessEqual(control.winfo_rooty()+control.winfo_height(),bottom)
                 self.assertEqual(draft.get('1.0','end').strip(),'')
             self.sheet.on_close();self.sheet=None
+
+    def test_completed_runs_are_navigable_and_live_progress_does_not_replace_results(self):
+        import time
+        from mission_activity import Activity
+        schedules=Schedules(self.root)
+        schedule=schedules.create('Synthetic daily report',interval_seconds=60,max_runs=2)
+        schedules.enable(schedule['id']);now=time.time()
+        for index in range(2):
+            schedules.tick(now=now+index*120)
+            mid=schedules.load(schedule['id'])['active_run']
+            def plan(m):
+                return {'action':'note','text':f'Finding from run {index+1}'} if not m['steps'] else {'action':'complete','text':f'Report {index+1} complete'}
+            schedules.store.run(mid,steps=2,model=plan)
+            schedules.tick(now=now+index*120)
+        self.sheet=show_schedule_settings(self.app,self.root,LIGHT,embedded=True);self.app.update()
+        tree=self.sheet.schedule_tree;tree.selection_set(schedule['id']);tree.event_generate('<<TreeviewSelect>>');self.app.update()
+        viewer=self.sheet.run_viewer
+        self.assertEqual(len(viewer.run_ids),2)
+        viewer.section.set('Results');viewer.sections.event_generate('<<ComboboxSelected>>');self.app.update()
+        self.assertIn('Finding from run 2',viewer.text.get('1.0','end'))
+        viewer.run.set(list(viewer.run_ids)[1]);viewer.runs.event_generate('<<ComboboxSelected>>');self.app.update()
+        self.assertIn('Finding from run 1',viewer.text.get('1.0','end'))
+        self.assertNotIn('Finding from run 2',viewer.text.get('1.0','end'))
+        self.sheet.refresh_records();self.app.update()
+        self.assertIn('Finding from run 1',viewer.text.get('1.0','end'))
+        m=schedules.store.load(viewer.run_ids[viewer.run.get()])
+        before=(schedules.store.folder(m['id'])/'mission.json').read_bytes()
+        activity=Activity(schedules.store,m);activity.update('generating','Receiving model output',preview='UNCOMMITTED PREVIEW',generated_chars=19,force=True)
+        viewer.section.set('Live activity');viewer.sections.event_generate('<<ComboboxSelected>>');self.app.update()
+        self.assertIn('UNCOMMITTED PREVIEW',viewer.text.get('1.0','end'))
+        viewer.section.set('Results');viewer.draw(reset=True)
+        self.assertNotIn('UNCOMMITTED PREVIEW',viewer.text.get('1.0','end'))
+        self.assertEqual(before,(schedules.store.folder(m['id'])/'mission.json').read_bytes())
 
 
 if __name__ == '__main__':unittest.main()

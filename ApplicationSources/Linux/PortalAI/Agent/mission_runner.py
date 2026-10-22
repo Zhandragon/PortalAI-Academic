@@ -51,6 +51,10 @@ class MissionContextError(ValueError):
     pass
 
 
+class MissionCancelled(RuntimeError):
+    pass
+
+
 def compact_context(objective, history, children, notes, byte_budget):
     """Never shorten the objective. Retain full records on disk, bound model input."""
     def clip(value, limit):
@@ -228,6 +232,40 @@ class Missions:
             yield
 
     def model_action(self, mission):
+        from mission_activity import Activity
+        activity=getattr(self,'activity',None) or Activity(self,mission)
+        from chat_priority import active,YieldToChat,planning_json
+        def check_cancel():
+            self.folder(mission['id'])  # Revalidate the captured login.
+            if self.stopped(mission):raise MissionCancelled('Mission stopped')
+            if active(self.root):raise YieldToChat()
+            if os.environ.get('PORTALAI_MISSION_GATE'):
+                from mission_supervisor import read_policy
+                top=mission
+                while top.get('parent'):top=self.load(top['parent'])
+                policy=read_policy(self,top['id'])
+                if not policy.get('enabled') or (self.base/'supervisor.stop').exists():raise MissionCancelled('Automatic continuation was paused')
+                if policy.get('schedule_id'):
+                    from mission_schedule import Schedules,epoch
+                    schedules=Schedules(self.root)
+                    if policy.get('schedule_epoch')!=epoch(self.root) or not schedules.enabled(schedules.load(policy['schedule_id'])):
+                        raise MissionCancelled('Schedule was paused')
+        check_cancel()
+        activity.update('preparing_model','Checking the local LLM engine',preview='',generated_chars=0)
+        try:
+            planning_json(self.root,_instance_url('qwen','/health',root=self.root),timeout=3,check_cancel=check_cancel)
+        except (OSError,RuntimeError,ValueError) as exc:
+            if isinstance(exc,MissionCancelled):raise
+            check_cancel()
+            from chat_model_switch import prepare_chat
+            from runtime_policy import load_effective_policy
+            class Cancellation:
+                def is_set(self):check_cancel();return False
+            prepare_chat(self.root,'balanced',requested_at=time.time(),cancel_event=Cancellation(),
+                         _policy=load_effective_policy(self.root),
+                         on_status=lambda message:activity.update('preparing_model',message))
+        check_cancel()
+        activity.update('preparing_context','Preparing the objective and completed run history')
         allowed = allowed_actions(mission["mode"])
         instruction = (
             "You are PortalAI's persistent mission worker. Return exactly one JSON object with an action field "
@@ -278,8 +316,7 @@ class Missions:
                             'Do not recreate agents or resend uncertain actions. Academic restrictions remain in effect.')
         # /props is used only for its advertised context; never send an unbounded
         # history to a laptop model. Byte budgeting is conservative even for CJK.
-        from chat_priority import planning_json
-        props = planning_json(self.root,_instance_url('qwen','/props'),timeout=10)
+        props = planning_json(self.root,_instance_url('qwen','/props',root=self.root),timeout=10,check_cancel=check_cancel)
         tokens = int(props.get("default_generation_settings", {}).get("n_ctx", 0))
         if tokens < 2048:
             raise MissionContextError("Persistent missions require an active context of at least 2048 tokens")
@@ -298,14 +335,21 @@ class Missions:
                 {**row,'text':row['text'][:350]} for row in memory],ensure_ascii=False)+'\nRecent notes: '+notes
         from mission_context import build_messages
         messages = build_messages(self, mission, instruction, children, notes, tokens,
-            api=lambda path,value:planning_json(self.root,_instance_url('qwen','')+path,value,timeout=10))
+            api=lambda path,value:planning_json(self.root,_instance_url('qwen','',root=self.root)+path,value,timeout=10,check_cancel=check_cancel))
         payload = {"messages": messages,
                    "temperature": 0.1, "max_tokens": 768, "response_format": {"type": "json_object"},
                    "chat_template_kwargs": {"enable_thinking": False}}
-        data = planning_json(self.root,_instance_url('qwen','/v1/chat/completions'),payload,timeout=180)
+        activity.update('planning','LLM is planning the next action; waiting for its first output')
+        chunks=[];characters=[0]
+        def progress(text):
+            check_cancel();chunks.append(text);characters[0]+=len(text)
+            activity.update('generating','Receiving LLM output',preview=''.join(chunks)[-8000:],generated_chars=characters[0])
+        data = planning_json(self.root,_instance_url('qwen','/v1/chat/completions',root=self.root),payload,timeout=180,
+                             on_delta=progress,check_cancel=check_cancel)
         action = json.loads(data["choices"][0]["message"]["content"])
         if not isinstance(action, dict):
             raise ValueError("Model did not return an action object")
+        activity.update('planned','LLM finished planning '+str(action.get('action','an action')),force=True)
         return action
 
     def execute(self, mission, action):
@@ -440,8 +484,10 @@ class Missions:
 
     def run(self, mission_id, steps=3, model=None):
         from chat_priority import active,YieldToChat
+        from mission_activity import Activity
         with process_lock(self.base/"execution.lock"), self.lock(mission_id):
             mission = self.load(mission_id)
+            self.activity=Activity(self,mission)
             if mission["status"] not in ACTIVE:
                 return mission
             if mission.get("pending_action"):
@@ -474,6 +520,7 @@ class Missions:
                     break
                 mission.pop("waiting_for_children", None)
                 try:
+                    self.activity.update('planning','Planning the next action',preview='',generated_chars=0)
                     action = (model or self.model_action)(mission)
                     if self.stopped(mission):
                         mission["status"] = "paused"
@@ -490,14 +537,22 @@ class Missions:
                     mission["planning_failures"] = 0
                     mission.pop("error", None)
                     self.save(mission)  # Write-ahead checkpoint, before any external effect.
+                    self.activity.update('executing','Running action: '+str(action.get('action','unknown')),force=True)
                     result = self.execute(mission, action)
                     mission["steps"] += 1
                     mission["history"].append({"action": action, "result": result, "at": time.time()})
                     mission["pending_action"] = None
                     self.save(mission)
+                    self.activity.update('complete' if mission['status']=='complete' else 'checkpointed',
+                                         'Run completed' if mission['status']=='complete' else 'Action result saved: '+str(action.get('action','unknown')),force=True)
                     if active(self.root) and mission['status'] in ACTIVE:return self.yield_to_chat(mission)
                 except YieldToChat:
+                    self.activity.update('paused_for_chat','Direct chat has priority; the unfinished plan was discarded',force=True)
                     return self.yield_to_chat(mission)
+                except MissionCancelled as exc:
+                    mission.update(status='paused');self.save(mission)
+                    self.activity.update('paused',str(exc),force=True)
+                    break
                 except Exception as exc:
                     # Retrying planning is safe: no action has been checkpointed
                     # or executed. Pending effects ALWAYS require explicit review.
@@ -509,6 +564,7 @@ class Missions:
                     if retry:
                         mission.update(planning_failures=count, next_run_at=time.time()+min(300, 15*2**(count-1)))
                     self.save(mission)
+                    self.activity.update('retrying' if retry else 'needs_review',mission['error'],force=True)
                     break
                 if mission["status"] in {"complete", "waiting"}:
                     break

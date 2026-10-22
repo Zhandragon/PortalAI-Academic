@@ -2776,6 +2776,7 @@ def main(authenticated=None):
     
     from lifecycle_control import StartupGate, startup_result
     startup_gate = StartupGate()
+    executable_repair = None
 
     def start_components():
         """Start or adopt the selected model through the native lifecycle helper."""
@@ -2989,6 +2990,21 @@ def main(authenticated=None):
         row.pack_configure(before=viewer.frame)
         ElegantButton(row, text="Copy to clipboard", command=copy_all, bg=COLORS["button"], fg=COLORS["text"], relief="flat", bd=0, padx=14, pady=7).pack(side="left")
         ElegantButton(row, text="Close", command=close_launcher_panel, bg=COLORS["button"], fg=COLORS["text"], relief="flat", bd=0, padx=16, pady=7).pack(side="right")
+
+    def recovery_guard_factory(writing=False):
+        from profile_paths import capture
+        context=capture(root);ticket=startup_gate.ticket()
+        def guard():
+            if exit_in_progress or (account_gate is not None and account_gate.locked):
+                raise PermissionError('Recovery cancelled because the account is closing or locked.')
+            if capture(root)!=context or startup_gate.ticket()!=ticket:
+                raise PermissionError('Recovery cancelled by Stop or a login change. Re-enable antivirus protection.')
+            if writing and account_gate is not None and account_gate.session.role!='admin':
+                raise PermissionError('Sign in as a PortalAI administrator to repair shared runtime files. Re-enable antivirus protection.')
+        return guard
+
+    def repair_executables():
+        if executable_repair is not None:executable_repair.request(manual=True)
 
     sys.path.insert(0, str(root / "Tools"))
     from maintenance_reports import run_tool, saved_status
@@ -3588,6 +3604,7 @@ def main(authenticated=None):
                         detail = str(data.get("detail") or "Native startup failed.")
                         log("Native Startup failed: " + detail)
                         launcher_notice("PortalAI Startup", detail, kind="error")
+                        if executable_repair is not None:executable_repair.request(manual=True)
                         force_scan.set()
                     continue
                 if kind=="system_test_complete":
@@ -4023,6 +4040,7 @@ def main(authenticated=None):
             _menu_item("Startup", start_components),
             _menu_item("System Test", run_system_test),
             _menu_item("Full Component Diagnosis", diagnose),
+            _menu_item("Repair missing executables", repair_executables),
             _menu_item("Open Maintenance Reports", open_maintenance_folder),
             None,
             _menu_item("Switch to " + ("Dark" if theme_mode == "light" else "Light") + " mode", toggle_theme),
@@ -4127,6 +4145,7 @@ def main(authenticated=None):
                 items += [_menu_item("Model and hardware…", lambda: show_tab("settings"))]
                 from mission_settings import show_mission_settings
                 items += [_menu_item("Persistence", open_account_missions)]
+                items += [_menu_item("Repair missing executables", repair_executables)]
                 items += [_menu_item("Startup", start_components), _menu_item("System Test", run_system_test), _menu_item("Full Component Diagnosis", diagnose)]
             elif tab == "runtime":
                 items += [_menu_item("Refresh models and services", lambda: force_scan.set()), _menu_item("Run selected component diagnostic", show_or_run_component_diagnostic)]
@@ -4140,6 +4159,7 @@ def main(authenticated=None):
                 items += [_menu_item("Missions & access", lambda:persistence_page.select("missions")), _menu_item("Schedules", lambda:persistence_page.select("schedules"))]
             elif tab == "maintenance":
                 items += [_menu_item("Run selected diagnostic", show_or_run_component_diagnostic),
+                          _menu_item("Repair missing executables", repair_executables),
                           _menu_item("Full Component Diagnosis", diagnose),
                           _menu_item("Fresh-machine readiness", show_or_run_fresh_machine_validator),
                           _menu_item("Verify media stack", show_or_run_media_stack_verify), None,
@@ -4261,6 +4281,12 @@ def main(authenticated=None):
     if getattr(app, '_portalai_account_warning', False):
         launcher_notice('Account recovery copy', 'Your login succeeded, but the encrypted recovery copy could not be repaired. Keep your current password and repair the recovery copy before relying on registry recovery.', kind='warn')
     _ensure_status_worker()
+    from executable_recovery_ui import RecoveryUI
+    executable_repair=RecoveryUI(app,root,jobs=gui_jobs,colors=lambda:COLORS,
+        open_panel=open_launcher_panel,close_panel=close_launcher_panel,
+        can_show=lambda:not exit_in_progress and not launcher_panel_state.get('overlay') and
+            (account_gate is None or not account_gate.locked),
+        guard_factory=recovery_guard_factory,log=log)
     def _resume_armed_missions():
         if account_gate is not None and account_gate.session.role != 'admin':
             return

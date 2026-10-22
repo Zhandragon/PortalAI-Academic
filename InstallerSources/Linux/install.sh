@@ -40,7 +40,7 @@ if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   exit 2
 fi
 
-sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 14703007 52428800 104857600 10
+sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 15167379 52428800 104857600 10
 
 # Check executable-bit support before unpacking the multi-gigabyte payload.
 EXEC_CHECK=$(mktemp "$DEST_PARENT/.portalai-exec-check.XXXXXX")
@@ -87,6 +87,8 @@ export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 
 # Academic installs one standard chat model; no alternate downloads.
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
+
+"$PYTHON" -B -I "$STAGE/PortalAI/Tools/repair_executables.py" --seed-fresh-native-install
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2

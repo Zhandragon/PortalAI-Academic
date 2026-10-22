@@ -42,7 +42,7 @@ class PriorityLayoutTests(unittest.TestCase):
             # global object before constructing the next sheet.
             self.sheet.on_close();self.sheet=show_schedule_settings(self.app,self.root,LIGHT,embedded=True);self.app.update()
             tree=self.sheet.schedule_tree;tree.selection_set(s['id']);tree.event_generate('<<TreeviewSelect>>');self.app.update();button=self.sheet.schedule_toggle
-            button.invoke();self.assertTrue(store.enabled(store.load(s['id'])));self.assertEqual(button.cget('text'),'Disable');self.assertEqual(tree.item(s['id'],'values')[1],'scheduled')
+            button.invoke();self.assertTrue(store.enabled(store.load(s['id'])));self.assertEqual(button.cget('text'),'Disable');self.assertEqual(tree.item(s['id'],'values')[1],'Enabled; controller stopped')
             button.invoke();self.assertFalse(store.enabled(store.load(s['id'])));self.assertEqual(button.cget('text'),'Enable');self.assertEqual(tree.item(s['id'],'values')[1],'paused')
             store.enable(s['id']);self.sheet.refresh_records();self.assertEqual(button.cget('text'),'Disable')
             fg=Foreground(self.root)

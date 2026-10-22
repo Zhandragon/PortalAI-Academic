@@ -15,7 +15,7 @@ INSTALL_PARENT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd -P)
 # Keep the installed app beside this installer script by default so the whole
 # installation can travel with the drive. A positional path
 # override remains available for an explicitly chosen destination.
-DEST="${1:-$SCRIPT_DIR/PortalAI Linux}"
+DEST="${1:-$SCRIPT_DIR/PortalAI Academic Linux}"
 case "$DEST" in
   /*) ;;
   *) DEST="$PWD/$DEST" ;;
@@ -39,6 +39,8 @@ if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite existing path: $DEST" >&2
   exit 2
 fi
+
+sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 15167379 52428800 104857600 10
 
 # Check executable-bit support before unpacking the multi-gigabyte payload.
 EXEC_CHECK=$(mktemp "$DEST_PARENT/.portalai-exec-check.XXXXXX")
@@ -82,6 +84,11 @@ export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --preflight
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --install-core
+
+# Academic installs one standard chat model; no alternate downloads.
+"$PYTHON" -B -I "$STAGE/PortalAI/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
+
+"$PYTHON" -B -I "$STAGE/PortalAI/Tools/repair_executables.py" --seed-fresh-native-install
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2

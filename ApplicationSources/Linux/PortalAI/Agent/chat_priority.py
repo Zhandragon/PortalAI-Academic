@@ -10,6 +10,7 @@ from pathlib import Path
 import queue
 import socket
 import threading
+import time
 import urllib.parse
 
 
@@ -57,13 +58,14 @@ class Foreground:
         self.stack.close();self.acquired=False
 
 
-def planning_json(root,url,payload=None,timeout=180):
+def planning_json(root,url,payload=None,timeout=180,*,on_delta=None,check_cancel=None):
     """Interrupt only a model-planning HTTP call when direct chat takes priority.
 
     The socket is shut down, including while waiting for response headers. No
     arbitrary mission tool or account operation is sent through this helper.
     """
     if active(root):raise YieldToChat()
+    if check_cancel:check_cancel()
     target=urllib.parse.urlsplit(url)
     if target.scheme!='http' or target.hostname not in ('127.0.0.1','localhost','::1') or target.username or target.password:
         raise ValueError('Mission planning requires the local model endpoint')
@@ -73,21 +75,54 @@ def planning_json(root,url,payload=None,timeout=180):
         try:
             connection.connect();transport[0]=connection.sock
             if cancelled.is_set():raise YieldToChat()
-            body=json.dumps(payload).encode('utf-8') if payload is not None else None
+            request_payload={**payload,'stream':True} if on_delta is not None and payload is not None else payload
+            body=json.dumps(request_payload).encode('utf-8') if request_payload is not None else None
             connection.request('POST' if body is not None else 'GET',target.path+('?' +target.query if target.query else ''),body=body,headers={'Content-Type':'application/json'})
-            response=connection.getresponse();data=response.read(8*1024**2+1)
+            response=connection.getresponse()
             if response.status!=200:raise RuntimeError('Model endpoint returned HTTP '+str(response.status))
-            if len(data)>8*1024**2:raise ValueError('Model response exceeds limit')
-            result.put((True,json.loads(data)))
+            if on_delta is not None and 'text/event-stream' in response.getheader('Content-Type',''):
+                content=[];received=0;finished=None;done=False
+                while True:
+                    line=response.readline(1024*1024+1);received+=len(line)
+                    if len(line)>1024*1024 or received>8*1024**2:raise ValueError('Model response exceeds limit')
+                    if not line:break
+                    if not line.startswith(b'data:'):continue
+                    value=line[5:].strip()
+                    if value==b'[DONE]':done=True;break
+                    event=json.loads(value)
+                    if event.get('error'):raise RuntimeError('Model stream reported an error')
+                    for choice in event.get('choices',[]):
+                        if choice.get('index',0)!=0:continue
+                        delta=choice.get('delta') or {}
+                        text=delta.get('content') or ''
+                        if not isinstance(text,str):raise ValueError('Invalid model stream text')
+                        content.append(text)
+                        if text:on_delta(text)
+                        if choice.get('finish_reason') is not None:finished=choice['finish_reason']
+                if not done or finished!='stop':raise RuntimeError('Model planning response was incomplete; no action executed')
+                result.put((True,{'choices':[{'message':{'content':''.join(content)},'finish_reason':finished}]}))
+            else:
+                data=response.read(8*1024**2+1)
+                if len(data)>8*1024**2:raise ValueError('Model response exceeds limit')
+                parsed=json.loads(data)
+                if on_delta is not None:
+                    choice=parsed['choices'][0]
+                    if choice.get('finish_reason')!='stop':raise RuntimeError('Model planning response was incomplete; no action executed')
+                    on_delta(choice['message']['content'])
+                result.put((True,parsed))
         except Exception as exc:result.put((False,exc))
         finally:connection.close()
     worker=threading.Thread(target=request,name='PortalAI-Mission-Planning',daemon=True);worker.start()
+    deadline=time.monotonic()+timeout
     try:
         while True:
             if active(root):raise YieldToChat()
+            if check_cancel:check_cancel()
+            if time.monotonic()>=deadline:raise TimeoutError('Mission model request timed out')
             try:ok,value=result.get(timeout=.05)
             except queue.Empty:continue
             if active(root):raise YieldToChat()
+            if check_cancel:check_cancel()
             if not ok:raise value
             return value
     finally:

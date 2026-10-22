@@ -29,7 +29,7 @@ internal static class Program {
                 using (Stream input = entry.Open()) using (FileStream output = new FileStream(path, FileMode.CreateNew)) input.CopyTo(output);
             }
         }
-        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "academic_policy.py" }) {
+        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "installer_storage.py", "academic_policy.py" }) {
             using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
             using (FileStream output = new FileStream(Path.Combine(root, name), FileMode.CreateNew)) input.CopyTo(output);
         }
@@ -113,6 +113,9 @@ internal sealed class InstallerForm : Form {
     void Append(string text) { status.AppendText(text + Environment.NewLine); }
     void RequestPause() { pauseRequested = true; if (cancellation != null) File.WriteAllText(cancellation, "pause"); pause.Enabled = false; Append("Pause requested; waiting for the current safe checkpoint."); }
     void RunInstall(object sender, DoWorkEventArgs e) {
+        worker.ReportProgress(0, "Checking disk space for the selected components...");
+        worker.ReportProgress(0, StoragePreflight.CheckSelection(Program.Package, (string[])e.Argument));
+        if (pauseRequested) { e.Result = 2; return; }
         worker.ReportProgress(0, "Preparing the bundled installer runtime...");
         string runtime = Program.PrepareRuntime(); cancellation = Path.Combine(runtime, "cancel");
         if (pauseRequested) File.WriteAllText(cancellation, "pause");
@@ -130,5 +133,85 @@ internal sealed class InstallerForm : Form {
             }
             process.WaitForExit(); if (errors.Result.Length > 0) worker.ReportProgress(0, errors.Result); e.Result = process.ExitCode;
         }
+    }
+}
+
+// Shared by the native Windows installer and the Academic download launcher.
+internal static class StoragePreflight {
+    const long GiB = 1073741824L;
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetDiskFreeSpaceEx(string path, out ulong available, out ulong total, out ulong free);
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetVolumePathName(string path, System.Text.StringBuilder volume, int length);
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetDiskFreeSpace(string path, out uint sectors, out uint bytes, out uint free, out uint total);
+    internal static string ExistingDirectory(string path) {
+        string current = System.IO.Path.GetFullPath(path);
+        while (!System.IO.Directory.Exists(current)) {
+            if (System.IO.File.Exists(current)) throw new System.IO.IOException("Installation destination is not a directory.");
+            current = System.IO.Path.GetDirectoryName(current);
+            if (String.IsNullOrEmpty(current)) throw new System.IO.IOException("Cannot locate the destination volume.");
+        }
+        return current;
+    }
+    internal static long AllocationUnit(string path) {
+        var volume = new System.Text.StringBuilder(32768);
+        uint sectors, bytes, free, total;
+        if (!GetVolumePathName(path, volume, volume.Capacity) || !GetDiskFreeSpace(volume.ToString(), out sectors, out bytes, out free, out total))
+            throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(), "Cannot determine destination filesystem allocation size.");
+        return checked((long)sectors * bytes);
+    }
+    internal static string Check(string path, long baseBytes, long fileCount, long extraBytes) {
+        string probe = ExistingDirectory(path);
+        ulong available, total, free;
+        if (!GetDiskFreeSpaceEx(probe, out available, out total, out free))
+            throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(), "Cannot determine available destination disk space.");
+        long need = checked(baseBytes + fileCount * (AllocationUnit(probe) - 1) + extraBytes + GiB);
+        return Compare(path, need, available);
+    }
+    internal static string Compare(string path, long need, ulong available) {
+        string message = String.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "Disk space at {0}: required {1:F2} GiB; available {2:F2} GiB. Includes installed files, retained downloads, filesystem allocation and working space.", path, need/(double)GiB, available/(double)GiB);
+        if ((ulong)need > available) throw new System.IO.IOException(message + String.Format(System.Globalization.CultureInfo.InvariantCulture,
+            " Need {0:F2} GiB more. Choose another destination, free space, or select fewer optional components.", (need-(double)available)/GiB));
+        return message;
+    }
+    internal static System.Collections.Generic.Dictionary<string,object> EmbeddedPlan() {
+        using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("storage-plan.json"))
+        using (var reader = new System.IO.StreamReader(stream)) {
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<System.Collections.Generic.Dictionary<string,object>>(reader.ReadToEnd());
+        }
+    }
+    internal static string CheckSelection(string path, string[] selected) {
+        var plan = EmbeddedPlan();
+        var ids = new System.Collections.Generic.HashSet<string>(selected);
+        var components = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,object>>();
+        foreach (object item in (System.Collections.IEnumerable)plan["components"]) {
+            var c = (System.Collections.Generic.Dictionary<string,object>)item;
+            string id = (string)c["id"]; components.Add(id,c);
+            if (Convert.ToBoolean(c["required"])) ids.Add(id);
+        }
+        bool changed;
+        do {
+            changed=false;
+            foreach (string id in new System.Collections.Generic.List<string>(ids)) {
+                if (!components.ContainsKey(id)) throw new System.IO.IOException("Unknown installer component.");
+                foreach (object dep in (System.Collections.IEnumerable)components[id]["depends_on"]) changed |= ids.Add((string)dep);
+            }
+        } while(changed);
+        long installed=Convert.ToInt64(plan["payload_bytes"]), count=Convert.ToInt64(plan["payload_files"]);
+        var downloads = new System.Collections.Generic.Dictionary<string,long>();
+        foreach(string id in ids) {
+            var c=components[id]; installed=checked(installed+Convert.ToInt64(c["installed_bytes"])); count=checked(count+Convert.ToInt64(c["files"]));
+            foreach(object item in (System.Collections.IEnumerable)c["downloads"]) {
+                var a=(System.Collections.Generic.Dictionary<string,object>)item;
+                string hash=(string)a["sha256"]; long bytes=Convert.ToInt64(a["bytes"]);
+                if(downloads.ContainsKey(hash) && downloads[hash]!=bytes) throw new System.IO.IOException("Conflicting download sizes.");
+                downloads[hash]=bytes;
+            }
+        }
+        foreach(long bytes in downloads.Values) installed=checked(installed+bytes);
+        count+=downloads.Count;
+        return Check(path,installed,count,Convert.ToInt64(plan["bootstrap_bytes"]));
     }
 }

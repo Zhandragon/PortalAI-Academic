@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-22 r3):** A new **Donation** tab follows Help, with click-to-copy QR destinations and sponsorship links on Welcome. Setup checks destination disk space before downloading/extracting, reports any shortfall, and includes a verified SoX archive in the Windows packages. [Details and validation](Documentation/STORAGE-PREFLIGHT-20261022.md).
+**Latest update (2026-10-22 r4):** Scheduled missions start an idle engine and show live activity with navigable results. Missing managed executables trigger a review-and-repair popup backed by verified installation copies. Windows also includes **Repair PortalAI.exe**. [Details and validation](Documentation/RECOVERY-MISSIONS-20261022.md).
 
 ## Download and install
 

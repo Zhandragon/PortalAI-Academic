@@ -1,0 +1,45 @@
+Executable recovery — PortalAI Full and Academic, 2026-10-22 r4
+
+PortalAI checks its registered public runtime files after login and periodically
+while open. Missing files trigger a review popup. Where readable, an exact Avast
+quarantine metadata match is shown; other missing files are labeled as possible,
+unconfirmed antivirus interference. It does not read quarantine payloads.
+
+Review your antivirus alert. If you trust the installed component, temporarily
+pause the relevant shield, then click Proceed — restore backups. Re-enable
+protection immediately afterward. A matching SHA-256 identifies the original
+installation file; it does not prove an antivirus detection is a false positive.
+Repeated quarantine should be reviewed with the security vendor. PortalAI does
+not change security settings or add exclusions.
+
+Right-click Controls or Maintenance and select Repair missing executables for
+a manual check. A PortalAI administrator is required for an in-app repair of
+shared runtimes. Stop, logout and Exit cancel stale repair requests. Repair
+does not enable a schedule, replay an action or start an engine.
+
+Windows: Repair PortalAI.exe in the application folder works independently of
+PortalAI.exe and bundled Python. Use it when either is missing. Its read-only
+--check option reports missing registered paths; --restore explicitly requests
+repair. This native .NET helper requires the Windows runtime already used by
+the installer and does not alter PowerShell execution policy.
+
+Backups live in Maintenance/ExecutableRecovery as ordinary ZIP files plus an
+installation fingerprint manifest. Windows installers create them after full
+selected-payload verification, before publishing the installation. Native
+installers record initial LLM backends and interpreter binaries after verified
+archive extraction and native compilation. Mac locally built binaries have
+installation fingerprints, not vendor-signed binary attestations. Space checks
+include a conservative allowance for these backups. Identical files share one
+archive; model weights and private account data are not backed up here.
+
+Repair verifies archive inventory, byte size and SHA-256 before restoration,
+refuses linked/out-of-root/private paths, and never overwrites existing files.
+A missing or corrupt backup cannot be repaired by this feature. Files installed
+outside the supported installer/update inventory are not automatically enrolled.
+There is no automatic download fallback or repeated automatic restoration.
+
+Local validation used harmless missing/corrupt-file fixtures, actual Tk buttons,
+Stop cancellation, the compiled independent Windows helper without Python, and
+both installer engines with a small verified payload. It did not deliberately
+make antivirus quarantine a new file. Physical Mac/Linux antivirus integration
+has not been tested; only Avast has a metadata-specific detector.

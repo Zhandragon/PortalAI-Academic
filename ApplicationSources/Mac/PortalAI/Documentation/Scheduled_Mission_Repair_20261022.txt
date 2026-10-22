@@ -1,0 +1,36 @@
+Scheduled missions — startup and activity, 2026-10-22 r4
+
+Due schedules previously could save a running status while the supervisor
+waited indefinitely for an engine that nobody started. The supervisor now
+dispatches the owned worker; guarded engine preparation honors the saved model
+policy. A fresh account's media-log directory is created before startup logging.
+The latter issue was independently identified by Aoostar Codex during testing.
+
+The Persistence views now have Overview, Live activity, Results, Action history
+and Details, with current/previous run selection. Activity shows model loading,
+streamed response content, actions and timestamps. Controller/worker liveness
+and heartbeat identity determine whether it is actually running. A saved status
+alone is not proof of activity. Model previews are uncommitted output; only a
+complete, validated response can execute actions. Notes and outputs are readable
+separately from raw structured details.
+
+Foreground-chat priority, captured login, Stop/Exit epochs, GPU lease, worker
+ownership and pending-action/no-replay rules remain. Enabling a future schedule
+still waits until its scheduled time. Stop/Exit disarms; explicitly Enable when
+you intend to run again. Model output quality and completion of arbitrary user
+missions are separate from scheduler operation.
+
+The first donor real-model attempt was interrupted by an Avast IDP.Generic
+quarantine of the CPU launcher. After the user reported disabling shields, the
+launcher was restored from an identical bundled file matching its recorded
+SHA-256. A subsequent actual 1.7B CPU test in a fresh authenticated disposable
+account passed cold startup, two scheduled occurrences across controller restart,
+visible streaming, readable note/completion results, Stop during inference and
+durable no-revival after Stop. The test account was verified sealed afterward.
+Owner missions and settings were not read, replayed or changed.
+
+Unit/Tk and real-process checks cover dispatch, malformed/truncated streams,
+Stop/login cancellation, pending effects, status, run navigation and chat model
+handoff contracts. Physical Aoostar acceptance remains separate: use the new
+source-aware handoff and preserve any newer Aoostar fixes during merge. Native
+Linux/macOS package checks are not physical desktop/model validation.

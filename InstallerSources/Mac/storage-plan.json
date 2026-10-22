@@ -4,8 +4,8 @@
   "scope": "initial native installation; optional later model/media installs retain their own checks",
   "architectures": {
     "arm64": {
-      "base_kib": 18632050,
-      "payload_bytes": 713299330,
+      "base_kib": 18804098,
+      "payload_bytes": 713399444,
       "runtime_bytes": 65186210,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -13,11 +13,12 @@
       "allocation_unit_upper_bound": 65536,
       "output_reserve_kib": 104857600,
       "minimum_free_kib": 52428800,
-      "minimum_free_percent": 10
+      "minimum_free_percent": 10,
+      "recovery_backup_allowance_bytes": 35045340
     },
     "x86_64": {
-      "base_kib": 18632504,
-      "payload_bytes": 713299330,
+      "base_kib": 18804964,
+      "payload_bytes": 713399444,
       "runtime_bytes": 65847372,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -25,7 +26,8 @@
       "allocation_unit_upper_bound": 65536,
       "output_reserve_kib": 104857600,
       "minimum_free_kib": 52428800,
-      "minimum_free_percent": 10
+      "minimum_free_percent": 10,
+      "recovery_backup_allowance_bytes": 35466611
     }
   }
 }

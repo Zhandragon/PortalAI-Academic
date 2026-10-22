@@ -190,21 +190,21 @@ class Supervisor:
                                                  str(self.root/"Agent/mission_runner.py"), "--root", str(self.root)]
         self.model_ready = model_ready or self.ready
         self.worker = None; self.job = None; self.log = None; self.mid = None; self.root_id = None
-        self.started = 0; self.last_heartbeat = 0; self.last_state = None
+        self.started = 0; self.last_heartbeat = 0; self.last_state = None; self.last_identity = None
 
-    @staticmethod
-    def ready():
+    def ready(self):
         try:
-            with urllib.request.urlopen(_instance_url('qwen', '/health'), timeout=2) as response:
+            with urllib.request.urlopen(_instance_url('qwen', '/health',root=self.root), timeout=2) as response:
                 return response.status == 200
         except Exception: return False
 
     def heartbeat(self, state, **fields):
         now = time.time()
-        if state != self.last_state or now-self.last_heartbeat >= 5:
+        identity=(state,self.mid,self.worker.pid if self.worker else None)
+        if identity != self.last_identity or now-self.last_heartbeat >= 5:
             atomic_json(self.store.base/"supervisor-status.json", {"pid": os.getpid(), "state": state, "updated_at": now,
                          "mission": self.mid, "worker_pid": self.worker.pid if self.worker else None, **fields})
-            self.last_state = state; self.last_heartbeat = now
+            self.last_state = state; self.last_heartbeat = now; self.last_identity = identity
 
     def reconcile(self, mid, failure=None):
         try:
@@ -320,8 +320,7 @@ class Supervisor:
             self.reconcile(m["id"])
             m = self.store.load(m["id"])
             if m["status"] not in ACTIVE or m["next_run_at"] > time.time(): continue
-            if not self.model_ready():
-                self.heartbeat("waiting_for_model"); return True
+            model_ready=self.model_ready()
             require_space(self.root, 4*1024**2, for_outputs=True)
             self.mid, self.root_id = m["id"], root_id
             self.log = (self.store.folder(self.mid)/"worker-error.log").open("wb")
@@ -335,7 +334,7 @@ class Supervisor:
                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
                 self.job = WorkerJob(self.worker)
                 gate.touch()
-                self.started = time.monotonic(); self.heartbeat("running")
+                self.started = time.monotonic(); self.heartbeat("running" if model_ready else "starting_model")
                 return True
             except BaseException:
                 self.finish_worker(cancelled=True); raise

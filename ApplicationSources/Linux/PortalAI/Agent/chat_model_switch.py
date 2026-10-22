@@ -140,6 +140,7 @@ def _spawn(root, command):
         env.pop('LD_LIBRARY_PATH', None)
     from media_paths import media_runtime
     log = media_runtime(root) / 'chat_effort_model.log'
+    log.parent.mkdir(parents=True, exist_ok=True)
     with log.open('ab') as output:
         output.write(('\nEffort model startup ' + time.ctime() + '\n').encode())
         output.flush()

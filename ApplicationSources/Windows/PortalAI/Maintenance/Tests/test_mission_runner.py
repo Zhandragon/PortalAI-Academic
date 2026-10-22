@@ -31,7 +31,8 @@ class MissionTests(unittest.TestCase):
             'storage':{'minimum_free_gib':1,'minimum_free_fraction':0.0001,'output_reserve_gib':1}}))
         requests=[]
         def response(root, url, payload=None, **kwargs):
-            if url.endswith('/props'):data={'default_generation_settings':{'n_ctx':8192}}
+            if url.endswith('/health'):data={'status':'ok'}
+            elif url.endswith('/props'):data={'default_generation_settings':{'n_ctx':8192}}
             elif url.endswith('/apply-template'):data={'prompt':payload['messages'][0]['content']}
             elif url.endswith('/tokenize'):data={'tokens':list(range(100))}
             elif url.endswith('/v1/chat/completions'):

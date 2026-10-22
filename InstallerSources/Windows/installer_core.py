@@ -601,6 +601,18 @@ def install(package, destination, selected, stop=None, progress=None):
             write_verified(stream, target, row, stop)
         if target.stat().st_size != row['bytes'] or sha256(target) != row['sha256']:
             raise InstallError('Generated receipt readback failed: '+row['dest'])
+    # Snapshot only fingerprint-verified public runtime files. The storage plan
+    # reserves these backups before any dependency downloads begin.
+    progress('Creating verified executable recovery backups', 0, 0)
+    import importlib.util
+    app_root = checked_path(stage, 'PortalAI Windows')
+    spec = importlib.util.spec_from_file_location('installed_executable_recovery', app_root / 'Agent/executable_recovery.py')
+    repair = importlib.util.module_from_spec(spec); spec.loader.exec_module(repair)
+    recovery_files = [dict(path=row['dest'][len('PortalAI Windows/'):], bytes=row['bytes'], sha256=row['sha256'])
+                      for row in expected_files if row['dest'].startswith('PortalAI Windows/')]
+    def recovery_cancel():
+        if stop.is_set(): raise Cancelled('Paused during executable backup creation')
+    repair.register(app_root, recovery_files, manifest['release'], recovery_cancel)
     report = {'release': manifest['release'], 'release_sha256': release_hash,
               'components': [c['id'] for c in chosen], 'verified_files': len(expected_files),
               'accounts_created': False, 'projection_connections_created': False}

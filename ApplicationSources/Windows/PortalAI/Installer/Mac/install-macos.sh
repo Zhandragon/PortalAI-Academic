@@ -37,7 +37,7 @@ if ! command -v cmake >/dev/null 2>&1; then
 fi
 
 INSTALL_PARENT="$(dirname -- "$SELF_DIR")"
-DEST="${1:-$SELF_DIR/PortalAI Mac}"
+DEST="${1:-$SELF_DIR/PortalAI Academic Mac}"
 case "$DEST" in
   /|"$HOME"|"$HOME/") echo "Choose a dedicated PortalAI install directory." >&2; exit 2 ;;
 esac
@@ -47,6 +47,11 @@ if [[ -e "$DEST" || -L "$DEST" ]]; then
 fi
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
+case "$ARCH" in
+  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18804098 52428800 104857600 10 ;;
+  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18804964 52428800 104857600 10 ;;
+esac
+
 WRITE_CHECK="$(mktemp "$PARENT/.portalai-macos-write-check.XXXXXX")" || {
   echo "The destination volume is not writable by macOS: $PARENT" >&2
   exit 2
@@ -58,11 +63,6 @@ if ! chmod 700 "$WRITE_CHECK" || [[ ! -x "$WRITE_CHECK" ]]; then
   exit 2
 fi
 rm -f "$WRITE_CHECK"
-AVAILABLE_KIB="$(df -Pk "$PARENT" | awk 'NR==2 {print $4}')"
-if [[ ! "$AVAILABLE_KIB" =~ ^[0-9]+$ ]] || (( AVAILABLE_KIB < 8 * 1024 * 1024 )); then
-  echo "The install volume needs at least 8 GiB free for the local Metal build." >&2
-  exit 2
-fi
 
 (cd "$SELF_DIR" && shasum -a 256 -c SHA256SUMS)
 STAGE="$(mktemp -d "$PARENT/.portalai-macos-install.XXXXXX")"
@@ -106,6 +106,9 @@ fi
 "$PYTHON" -B "$ROOT/Tools/import_macos_layers.py"
 "$PYTHON" -B "$ROOT/Tools/macos_installer_smoke.py"
 
+# Academic installs one standard chat model; no alternate downloads.
+"$PYTHON" -B "$ROOT/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
+
 # The fresh wheelhouses and pip resolution reports are installer scratch only.
 rm -rf -- "$ROOT/Cache/macos-gui-wheelhouse" "$ROOT/Cache/macos-accounts-wheelhouse" \
   "$ROOT/Cache/macos-gui-resolution.json" "$ROOT/Cache/macos-accounts-resolution.json" \
@@ -126,8 +129,8 @@ cat > "$ROOT/PortalAI.app/Contents/Info.plist" <<'PLIST'
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
   <key>CFBundleExecutable</key><string>PortalAI</string>
-  <key>CFBundleIdentifier</key><string>ai.portalai.desktop</string>
-  <key>CFBundleName</key><string>PortalAI</string>
+  <key>CFBundleIdentifier</key><string>ai.portalai.academic.desktop</string>
+  <key>CFBundleName</key><string>PortalAI Academic</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleVersion</key><string>2026.10.18</string>
   <key>NSHighResolutionCapable</key><true/>
@@ -146,6 +149,8 @@ json.dump({'python':'3.12.15','architecture':sys.argv[3],'archive':row['asset'],
           open(sys.argv[2],'w',encoding='utf-8'),indent=2)
 PY
 
+"$PYTHON" -B -I "$ROOT/Tools/repair_executables.py" --seed-fresh-native-install
+
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2
   exit 2
@@ -153,6 +158,6 @@ fi
 mv "$ROOT" "$DEST"
 rmdir "$STAGE"
 STAGE=""
-echo "PortalAI Mac installed at: $DEST"
-echo "Open $DEST/PortalAI.app. Models are not bundled; add a compatible GGUF under LLM/models first."
+echo "PortalAI Academic Mac installed at: $DEST"
+echo "Open $DEST/PortalAI.app. The standard Qwen 1.7B chat model was installed. Academic mode is permanent."
 echo "This build is unsigned and not notarized. On first launch, Control-click PortalAI.app and choose Open."
