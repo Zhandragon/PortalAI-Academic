@@ -16,6 +16,8 @@ import stat
 import subprocess
 import threading
 import tarfile
+import ssl
+import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
@@ -115,6 +117,29 @@ class HTTPSOnly(urllib.request.HTTPRedirectHandler):
 
 
 def fetch(item, cache, stop, progress, opener=None):
+    try:
+        return _fetch_one(item, cache, stop, progress, opener)
+    except (urllib.error.URLError, TimeoutError, ConnectionError, ssl.SSLError) as error:
+        raise InstallError(
+            f"Download failed for {item['id']} from {item['url']}: {error}. "
+            "HTTPS certificate verification remains enabled. For certificate errors, "
+            "check the computer's date/time and certificate updates; the server or "
+            "a network inspection proxy may also need its certificate renewed. "
+            "Verified downloads are retained for retry.") from error
+
+
+def download_artifact(item, package, cache, stop, progress):
+    if 'bundled_file' not in item:
+        return fetch(item, cache, stop, progress)
+    validate_pin(item)
+    path = checked_path(package, item['bundled_file'])
+    if not path.is_file() or path.stat().st_size != item['bytes'] or sha256(path) != item['sha256']:
+        raise InstallError('Bundled download is missing or failed verification: ' + item['id'])
+    progress('Verified bundled download: ' + item['id'], item['bytes'], item['bytes'])
+    return path
+
+
+def _fetch_one(item, cache, stop, progress, opener=None):
     from academic_policy import require_asset
     require_asset(item)
     validate_pin(item)
@@ -142,6 +167,7 @@ def fetch(item, cache, stop, progress, opener=None):
         headers = {'Accept-Encoding': 'identity', 'User-Agent': 'PortalAI-Clean-Installer/1'}
         if offset:
             headers['Range'] = f'bytes={offset}-'
+        progress('Downloading ' + item['id'] + ' from ' + item['url'], offset, item['bytes'])
         request = urllib.request.Request(item['url'], headers=headers)
         opener = opener or urllib.request.build_opener(HTTPSOnly())
         with opener.open(request, timeout=30) as response:
@@ -494,7 +520,8 @@ def plan(manifest, selected):
     for dest in dests:
         if any(str(p) in dests for p in PurePosixPath(dest).parents):
             raise InstallError('Release defines a file as a parent directory')
-    need = sum(r['bytes'] for r in expected_files) + sum(a['bytes'] for a in artifacts) + 512 * 1024**2
+    from installer_storage import requirement
+    need = requirement(expected_files, artifacts)['required_bytes']
     return chosen, artifacts, expected_files, need
 
 
@@ -520,8 +547,9 @@ def install(package, destination, selected, stop=None, progress=None):
             if checked_path(destination, name).exists():
                 raise InstallError('An installation item already exists beside the installer: '+name+'. Move the installer package to an empty folder; existing files will not be overwritten.')
     work_parent = destination if in_place else destination.parent
-    if shutil.disk_usage(work_parent).free < need:
-        raise InstallError(f'Not enough free space. This selection needs about {need / 1024**3:.1f} GiB including downloads.')
+    from installer_storage import check_space
+    space = check_space(work_parent, expected_files, artifacts)
+    progress(space['message'], 0, 0)
     payload = checked_path(package, manifest['payload']['file'])
     if payload.stat().st_size != manifest['payload']['bytes'] or sha256(payload) != manifest['payload']['sha256']:
         raise InstallError('Bundled public payload checksum failed')
@@ -532,7 +560,9 @@ def install(package, destination, selected, stop=None, progress=None):
     for artifact in artifacts:
         if stop.is_set():
             raise Cancelled('Paused before installation')
-        downloaded.append((artifact, fetch(artifact, cache, stop, progress)))
+        downloaded.append((artifact, download_artifact(artifact, package, cache, stop, progress)))
+    # Downloads are now on disk; recheck the remaining extraction requirement.
+    check_space(work_parent, expected_files, [])
     stage = checked_path(work_parent, '.PortalAI-installing-' + uuid.uuid4().hex[:12])
     stage.mkdir()
     progress('Installing and verifying files in ' + str(stage), 0, len(expected_files))

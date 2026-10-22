@@ -32,7 +32,9 @@ def build(root, source_base=None, compiler=None):
     names = []
     for platform, package in metadata['packages'].items():
         url = base.rstrip('/') + ('/' + package['path'] if package['path'] else '')
-        values = {'SOURCE': url, 'ARCHIVE': package['archive'], 'ARCHIVE_HASH': package['sha256']}
+        values = {'SOURCE': url, 'ARCHIVE': package['archive'], 'ARCHIVE_HASH': package['sha256'], 'ARCHIVE_MB': (package['bytes']+999999)//1000000}
+        budget = package['storage_preflight']
+        values.update({k.upper(): v for k, v in budget.items() if isinstance(v, int)})
         if platform == 'Windows':
             def items(rows):
                 return ',\n'.join('new Item(%s, %dL, %s)' % (json.dumps(p['name']), p['bytes'], json.dumps(p['sha256'])) for p in rows)
@@ -42,7 +44,7 @@ def build(root, source_base=None, compiler=None):
             exe = root / 'PortalAI-Academic-Windows-Setup.exe'
             csc = compiler or Path(os.environ['SystemRoot']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
             command = [str(csc), '/nologo', '/target:winexe', '/optimize+', '/platform:anycpu', '/out:' + str(exe),
-                       '/r:System.Windows.Forms.dll', '/r:System.Drawing.dll', '/r:System.IO.Compression.dll', '/r:System.IO.Compression.FileSystem.dll', str(generated)]
+                       '/r:System.Windows.Forms.dll', '/r:System.Drawing.dll', '/r:System.Web.Extensions.dll', '/r:System.IO.Compression.dll', '/r:System.IO.Compression.FileSystem.dll', str(generated)]
             subprocess.run(command, check=True, capture_output=True, text=True)
             names.append(exe.name)
         else:
@@ -78,7 +80,7 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261022.2', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261022.3', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:

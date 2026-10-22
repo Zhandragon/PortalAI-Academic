@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.22-r2-Academic-Linux",
+  "release": "PortalAI-2026.10.22-r3-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 493480436,
-      "sha256": "8a467c0b7b2b579e960e04db9c5e3b9159dd31dcedf6a7f481a246406cbb4501"
+      "bytes": 467144460,
+      "sha256": "1d440d9d762a4384801acc598d71a9f5bd6471b64dcc6914d2da9690960bee44"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -55,7 +55,7 @@
   "edition": "Academic",
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
-  "supersedes_release": "PortalAI-Academic-2026.10.21-r1-Linux",
+  "supersedes_release": "PortalAI-2026.10.22-r2-Academic-Linux",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -216,6 +216,25 @@
       "Maintenance/Tests/test_mission_review.py": "f866da09fb20cfe75a12c34b53beed0a8208bd1ac4929e2e6c941d35118e3fb5",
       "Maintenance/Tests/test_mission_review_tk.py": "f0ea40cd6a22d10c03dce8e7f2040336776586c9e3210f68117d6c6ed286d731",
       "Documentation/Mission_Review_20261022.txt": "e82c20e799cf117de21146544470b2821e9705882524d45d4642d441a2a31832"
+    }
+  },
+  "storage_preflight": {
+    "platform": "Linux",
+    "edition": "Academic",
+    "scope": "initial native installation; optional later model/media installs retain their own checks",
+    "architectures": {
+      "x86_64": {
+        "base_kib": 14702402,
+        "payload_bytes": 941812831,
+        "runtime_bytes": 194356930,
+        "initial_model_bytes": 1834437560,
+        "dependency_and_download_allowance_bytes": 8589934592,
+        "compiler_allowance_bytes": 0,
+        "allocation_unit_upper_bound": 65536,
+        "output_reserve_kib": 104857600,
+        "minimum_free_kib": 52428800,
+        "minimum_free_percent": 10
+      }
     }
   }
 }

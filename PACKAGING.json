@@ -2,55 +2,71 @@
   "format": 3,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-20261022-r2.zip",
-      "bytes": 335374270,
-      "sha256": "7076cd37a288ac9ab81a779ba141433417ac86b91bbf2ffc20ae0aad83f9a169",
+      "archive": "PortalAI-Academic-Windows-Installer-20261022-r3.zip",
+      "bytes": 338124595,
+      "sha256": "144d4c92b1b4a8d319f204a983b5537650ac1dd9668cc0a133e140788e27b297",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-20261022-r2.zip",
-          "bytes": 335374270,
-          "sha256": "7076cd37a288ac9ab81a779ba141433417ac86b91bbf2ffc20ae0aad83f9a169"
+          "name": "PortalAI-Academic-Windows-Installer-20261022-r3.zip",
+          "bytes": 338124595,
+          "sha256": "144d4c92b1b4a8d319f204a983b5537650ac1dd9668cc0a133e140788e27b297"
         }
       ],
       "files": [
         {
           "name": "PACKAGE_SHA256.json",
-          "bytes": 535,
-          "sha256": "03684489acab3316520c22f965d2aa9b7323954c9b2a012bed9a24bd1d90e641"
+          "bytes": 875,
+          "sha256": "8c2b21bb766dcd5ba19070d16719cede4a8c676dc1b4ce761ccf5ea13218e700"
         },
         {
           "name": "payload.zip",
-          "bytes": 302194919,
-          "sha256": "f06e4300817086e440b169b75edb0436fc8c76f3a7bd92f8eb10ccbafbdd14b3"
+          "bytes": 302200154,
+          "sha256": "77b442db6ce8092451822447375765842952fa73c6b7e1d5aa4b3b4748df236e"
         },
         {
           "name": "PortalAI-Academic-Install.exe",
-          "bytes": 11495936,
-          "sha256": "f262f87ff2e84026b8988bde8e957ce518acbafb96dfbbf0058fbbbf5a9eac3b"
+          "bytes": 11695616,
+          "sha256": "6b7cb5148e7bc3bb6b1c42b76db9df70384c41ae4d26f593e15a9b7940a2e720"
         },
         {
           "name": "release.json",
-          "bytes": 139786463,
-          "sha256": "789fdc86ce887219a742fbcee60a04db71268dbdcdaad226da3ae190f09addaa"
+          "bytes": 139787512,
+          "sha256": "258298ba06be3375edcaa93643f425a80f70fcb3728bebe810aa661c2e7543ab"
+        },
+        {
+          "name": "sox-14.4.2-win32.zip",
+          "bytes": 2651143,
+          "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 3598,
-          "sha256": "276449a2c7eeb7d3c22a38aea51db463ab0da103bbe9a0a36fe90008886704e7"
+          "bytes": 3905,
+          "sha256": "273e78654cf0f356bebcf16ce88dee4347e1a610936cab9676e1e1b9c9e399a7"
+        },
+        {
+          "name": "storage-plan.json",
+          "bytes": 190784,
+          "sha256": "6185016e6b44661726f670a077127adcf0204afb876a2a5a3a1cecee8dcda124"
         }
-      ]
+      ],
+      "storage_preflight": {
+        "bootstrap_bytes": 794654584,
+        "bootstrap_files": 8,
+        "install_bytes": 170692324709,
+        "install_files": 303881
+      }
     },
     "Linux": {
-      "archive": "PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz",
-      "bytes": 618677345,
-      "sha256": "04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f",
+      "archive": "PortalAI-Academic-Linux-Installer-20261022-r3.tar.gz",
+      "bytes": 592575275,
+      "sha256": "13f1b832850e222e70080237e743d9e85a47fb61baee0a5383851862f746b855",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz",
-          "bytes": 618677345,
-          "sha256": "04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f"
+          "name": "PortalAI-Academic-Linux-Installer-20261022-r3.tar.gz",
+          "bytes": 592575275,
+          "sha256": "13f1b832850e222e70080237e743d9e85a47fb61baee0a5383851862f746b855"
         }
       ],
       "files": [
@@ -61,18 +77,18 @@
         },
         {
           "name": "install.sh",
-          "bytes": 3520,
-          "sha256": "98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019"
+          "bytes": 3605,
+          "sha256": "32f3784c3a8c78a2234ce1a51e5b9d14c6dfe47297fd74b07a1c7b2546e8c35b"
         },
         {
           "name": "manifest.json",
-          "bytes": 12289,
-          "sha256": "a96b55ab07bad73b718a9dfff88040d1fe19e54e36f8564494cdfc09e42c270c"
+          "bytes": 12938,
+          "sha256": "a9f65ae0d0444c4f3b19d3360744ec9023cdbf65f17aa189edb8c1fd592162ba"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 493480436,
-          "sha256": "8a467c0b7b2b579e960e04db9c5e3b9159dd31dcedf6a7f481a246406cbb4501"
+          "bytes": 467144460,
+          "sha256": "1d440d9d762a4384801acc598d71a9f5bd6471b64dcc6914d2da9690960bee44"
         },
         {
           "name": "python-runtime.tar.gz",
@@ -86,8 +102,18 @@
         },
         {
           "name": "SHA256SUMS",
-          "bytes": 205293,
-          "sha256": "9fcdca1b1b1e311c2b73182b0390e8b5acbaf36d73a9cc7ec8c8fcc4820d5fa1"
+          "bytes": 205464,
+          "sha256": "1b0c5d0d6721151131bc7252fd0910aa7aaf362a97e633d8a48b25c6ef1f6a9e"
+        },
+        {
+          "name": "storage-plan.json",
+          "bytes": 589,
+          "sha256": "f2da3a4f3cce514be36e666e4facc35ba4341c8d17fd5d6c24137b03d00f7a21"
+        },
+        {
+          "name": "storage-preflight.sh",
+          "bytes": 1697,
+          "sha256": "44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67"
         },
         {
           "name": "Utilities/PortalAI HA Setup/Install PortalAI HA.sh",
@@ -6875,18 +6901,25 @@
           "sha256": "48694fd6a00bfd631c9b345add187116d3826b5b5f57edcda345cd217c0605d3"
         }
       ],
-      "top_folder": "PortalAI Academic Linux Installer"
+      "top_folder": "PortalAI-Academic-Linux-Installer-20261022-r3",
+      "storage_preflight": {
+        "bootstrap_kib": 2409965,
+        "install_kib": 17112367,
+        "min_free_kib": 52428800,
+        "output_kib": 104857600,
+        "free_percent": 10
+      }
     },
     "Mac": {
-      "archive": "PortalAI-Academic-Mac-Installer-20261022-r2.tar.gz",
-      "bytes": 680568265,
-      "sha256": "6498e3e689363e4931215980eb6dad708ac8717f299dd4be7753a70da3a9be73",
+      "archive": "PortalAI-Academic-Mac-Installer-20261022-r3.tar.gz",
+      "bytes": 670382178,
+      "sha256": "149c52e48de66a0756c886b9ebe288508fb07b6c2092bc85042a570b13cdb013",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Mac-Installer-20261022-r2.tar.gz",
-          "bytes": 680568265,
-          "sha256": "6498e3e689363e4931215980eb6dad708ac8717f299dd4be7753a70da3a9be73"
+          "name": "PortalAI-Academic-Mac-Installer-20261022-r3.tar.gz",
+          "bytes": 670382178,
+          "sha256": "149c52e48de66a0756c886b9ebe288508fb07b6c2092bc85042a570b13cdb013"
         }
       ],
       "files": [
@@ -6897,8 +6930,8 @@
         },
         {
           "name": "install-macos.sh",
-          "bytes": 7034,
-          "sha256": "d48d40219a7eb1d414f7e6c2f71a85eb7e0e80ef37459ba20d9c5e3f644f7268"
+          "bytes": 6990,
+          "sha256": "793e18ccd815b82b7ffc17b8305020818fbe2fdb13dbf733b6cd3e896ae747ca"
         },
         {
           "name": "llama.cpp-source.tar.gz",
@@ -6907,13 +6940,13 @@
         },
         {
           "name": "manifest.json",
-          "bytes": 13736,
-          "sha256": "ab74fe5e251f7c435117923892cbafcd0b9c86a400f77b8e2c7c94be063c2823"
+          "bytes": 14825,
+          "sha256": "0a8af4637e46e8adcc664288927cff5971c5b40753fa10570a1232a6b36300b6"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 512980643,
-          "sha256": "e58ed39ec40c0c440dff0e1062e93a1f3df78b7b66e9bce83a6fc34bbdb6c5f0"
+          "bytes": 502105107,
+          "sha256": "16e37558c15c9e0d2ff7086717c02bd4bc80e0811d65bdac1f83a29653e36d46"
         },
         {
           "name": "python-runtime-arm64.tar.gz",
@@ -6932,8 +6965,18 @@
         },
         {
           "name": "SHA256SUMS",
-          "bytes": 394657,
-          "sha256": "785d29aa161ac597bd1659b6b2e051621f26d9d65b469d6c4d5a094c0d97695b"
+          "bytes": 394828,
+          "sha256": "715123c39eaba0c5d70b54a685a569c00bca756fcadd6b268ef7af7dd3da927f"
+        },
+        {
+          "name": "storage-plan.json",
+          "bytes": 1012,
+          "sha256": "aaa1eb96db6e1c985196a528922c9e76138ca68f2918bcfceb12b8e1c86cd6d1"
+        },
+        {
+          "name": "storage-preflight.sh",
+          "bytes": 1697,
+          "sha256": "44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67"
         },
         {
           "name": "Utilities/PortalAI HA Setup/Install PortalAI HA.command",
@@ -16816,10 +16859,17 @@
           "sha256": "66ef90d548e3eb394f7eb869c180fca4a685a1d41ad9b47f136dcad605528d70"
         }
       ],
-      "top_folder": "PortalAI Academic Mac Installer"
+      "top_folder": "PortalAI-Academic-Mac-Installer-20261022-r3",
+      "storage_preflight": {
+        "bootstrap_kib": 2567522,
+        "install_kib": 21199425,
+        "min_free_kib": 52428800,
+        "output_kib": 104857600,
+        "free_percent": 10
+      }
     }
   },
-  "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r2",
-  "release": "v2026.10.21-r2",
+  "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r3",
+  "release": "v2026.10.22-r3",
   "distribution": "GitHub release assets; old Git-tracked parts retained for existing launchers"
 }

@@ -1,0 +1,19 @@
+{
+  "platform": "Linux",
+  "edition": "Academic",
+  "scope": "initial native installation; optional later model/media installs retain their own checks",
+  "architectures": {
+    "x86_64": {
+      "base_kib": 14702402,
+      "payload_bytes": 941812831,
+      "runtime_bytes": 194356930,
+      "initial_model_bytes": 1834437560,
+      "dependency_and_download_allowance_bytes": 8589934592,
+      "compiler_allowance_bytes": 0,
+      "allocation_unit_upper_bound": 65536,
+      "output_reserve_kib": 104857600,
+      "minimum_free_kib": 52428800,
+      "minimum_free_percent": 10
+    }
+  }
+}

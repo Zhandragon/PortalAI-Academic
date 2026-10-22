@@ -40,6 +40,8 @@ if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   exit 2
 fi
 
+sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 14702402 52428800 104857600 10
+
 # Check executable-bit support before unpacking the multi-gigabyte payload.
 EXEC_CHECK=$(mktemp "$DEST_PARENT/.portalai-exec-check.XXXXXX")
 if ! chmod 700 "$EXEC_CHECK" || [ ! -x "$EXEC_CHECK" ]; then

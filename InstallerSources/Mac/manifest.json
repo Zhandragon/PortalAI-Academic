@@ -1,5 +1,5 @@
 {
-  "release": "PortalAI-2026.10.22-r2-Academic-Mac",
+  "release": "PortalAI-2026.10.22-r3-Academic-Mac",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platforms": [
     "macOS arm64 (Apple silicon)",
@@ -14,8 +14,8 @@
     "files": 2093,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "e58ed39ec40c0c440dff0e1062e93a1f3df78b7b66e9bce83a6fc34bbdb6c5f0",
-    "payload_bytes": 512980643,
+    "payload_sha256": "16e37558c15c9e0d2ff7086717c02bd4bc80e0811d65bdac1f83a29653e36d46",
+    "payload_bytes": 502105107,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 512980643,
-      "sha256": "e58ed39ec40c0c440dff0e1062e93a1f3df78b7b66e9bce83a6fc34bbdb6c5f0"
+      "bytes": 502105107,
+      "sha256": "16e37558c15c9e0d2ff7086717c02bd4bc80e0811d65bdac1f83a29653e36d46"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -81,7 +81,7 @@
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
   "verification_scope": "Academic Python/source and archive checks on Windows; physical Linux/macOS installation untested.",
-  "supersedes_release": "PortalAI-Academic-2026.10.21-WebAgents-Mac",
+  "supersedes_release": "PortalAI-2026.10.22-r2-Academic-Mac",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -250,6 +250,37 @@
       "Maintenance/Tests/test_mission_review.py": "f866da09fb20cfe75a12c34b53beed0a8208bd1ac4929e2e6c941d35118e3fb5",
       "Maintenance/Tests/test_mission_review_tk.py": "f0ea40cd6a22d10c03dce8e7f2040336776586c9e3210f68117d6c6ed286d731",
       "Documentation/Mission_Review_20261022.txt": "e82c20e799cf117de21146544470b2821e9705882524d45d4642d441a2a31832"
+    }
+  },
+  "storage_preflight": {
+    "platform": "Mac",
+    "edition": "Academic",
+    "scope": "initial native installation; optional later model/media installs retain their own checks",
+    "architectures": {
+      "arm64": {
+        "base_kib": 18631450,
+        "payload_bytes": 713208751,
+        "runtime_bytes": 65186210,
+        "initial_model_bytes": 1834437560,
+        "dependency_and_download_allowance_bytes": 4294967296,
+        "compiler_allowance_bytes": 8589934592,
+        "allocation_unit_upper_bound": 65536,
+        "output_reserve_kib": 104857600,
+        "minimum_free_kib": 52428800,
+        "minimum_free_percent": 10
+      },
+      "x86_64": {
+        "base_kib": 18631903,
+        "payload_bytes": 713208751,
+        "runtime_bytes": 65847372,
+        "initial_model_bytes": 1834437560,
+        "dependency_and_download_allowance_bytes": 4294967296,
+        "compiler_allowance_bytes": 8589934592,
+        "allocation_unit_upper_bound": 65536,
+        "output_reserve_kib": 104857600,
+        "minimum_free_kib": 52428800,
+        "minimum_free_percent": 10
+      }
     }
   }
 }

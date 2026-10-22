@@ -18,7 +18,7 @@ internal static class Bootstrap {
     internal const string Source = "@SOURCE@";
     internal const string Archive = "@ARCHIVE@";
     internal const string ArchiveHash = "@ARCHIVE_HASH@";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r2-Windows";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r3-Windows";
     internal static readonly Item[] Parts = new Item[] { @PARTS@ };
     internal static readonly Item[] Files = new Item[] { @FILES@ };
     internal static string Digest(string path) {
@@ -39,13 +39,14 @@ internal static class Bootstrap {
             Thread.Sleep(500);
         }
     }
-    internal static string Prepare(string target, Action<int,string> report, Func<bool> cancelled) {
+    internal static string Prepare(string target, Action<int,string> report, Func<bool> cancelled, bool includeInstall = true) {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         target = Path.GetFullPath(target);
         string marker = Path.Combine(target, ".portalai-academic-setup");
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
+        report(0, StoragePreflight.Check(target, includeInstall ? @INSTALL_BYTES@L : @BOOTSTRAP_BYTES@L, includeInstall ? @INSTALL_FILES@L : @BOOTSTRAP_FILES@L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -61,7 +62,7 @@ internal static class Bootstrap {
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261022-r2";
+                            request.UserAgent="PortalAI-Academic-Installer/20261022-r3";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
@@ -134,7 +135,7 @@ internal static class Bootstrap {
     }
     [STAThread] public static int Main(string[] args) {
         if (args.Length==2 && args[0]=="--prepare-only") {
-            try { string file=Prepare(args[1],delegate(int p,string s) { Console.WriteLine(s); },delegate {return false;}); Console.WriteLine(file); return 0; }
+            try { string file=Prepare(args[1],delegate(int p,string s) { Console.WriteLine(s); },delegate {return false;}, false); Console.WriteLine(file); return 0; }
             catch(Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
         }
         Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
@@ -156,7 +157,7 @@ internal sealed class SetupForm : Form {
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 344 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about @ARCHIVE_MB@ MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
         start.Text="Download and install"; start.AutoSize=true; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);
@@ -174,4 +175,84 @@ internal sealed class SetupForm : Form {
         if(smoke) {var timer=new System.Windows.Forms.Timer {Interval=300}; timer.Tick+=delegate {timer.Stop();Close();};timer.Start();}
     }
     void UpdateProgress(int percent,string text) { BeginInvoke((Action)delegate {progress.Value=percent;status.Text=text;}); }
+}
+
+// Shared by the native Windows installer and the Academic download launcher.
+internal static class StoragePreflight {
+    const long GiB = 1073741824L;
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetDiskFreeSpaceEx(string path, out ulong available, out ulong total, out ulong free);
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetVolumePathName(string path, System.Text.StringBuilder volume, int length);
+    [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, SetLastError=true)]
+    static extern bool GetDiskFreeSpace(string path, out uint sectors, out uint bytes, out uint free, out uint total);
+    internal static string ExistingDirectory(string path) {
+        string current = System.IO.Path.GetFullPath(path);
+        while (!System.IO.Directory.Exists(current)) {
+            if (System.IO.File.Exists(current)) throw new System.IO.IOException("Installation destination is not a directory.");
+            current = System.IO.Path.GetDirectoryName(current);
+            if (String.IsNullOrEmpty(current)) throw new System.IO.IOException("Cannot locate the destination volume.");
+        }
+        return current;
+    }
+    internal static long AllocationUnit(string path) {
+        var volume = new System.Text.StringBuilder(32768);
+        uint sectors, bytes, free, total;
+        if (!GetVolumePathName(path, volume, volume.Capacity) || !GetDiskFreeSpace(volume.ToString(), out sectors, out bytes, out free, out total))
+            throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(), "Cannot determine destination filesystem allocation size.");
+        return checked((long)sectors * bytes);
+    }
+    internal static string Check(string path, long baseBytes, long fileCount, long extraBytes) {
+        string probe = ExistingDirectory(path);
+        ulong available, total, free;
+        if (!GetDiskFreeSpaceEx(probe, out available, out total, out free))
+            throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(), "Cannot determine available destination disk space.");
+        long need = checked(baseBytes + fileCount * (AllocationUnit(probe) - 1) + extraBytes + GiB);
+        return Compare(path, need, available);
+    }
+    internal static string Compare(string path, long need, ulong available) {
+        string message = String.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "Disk space at {0}: required {1:F2} GiB; available {2:F2} GiB. Includes installed files, retained downloads, filesystem allocation and working space.", path, need/(double)GiB, available/(double)GiB);
+        if ((ulong)need > available) throw new System.IO.IOException(message + String.Format(System.Globalization.CultureInfo.InvariantCulture,
+            " Need {0:F2} GiB more. Choose another destination, free space, or select fewer optional components.", (need-(double)available)/GiB));
+        return message;
+    }
+    internal static System.Collections.Generic.Dictionary<string,object> EmbeddedPlan() {
+        using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("storage-plan.json"))
+        using (var reader = new System.IO.StreamReader(stream)) {
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<System.Collections.Generic.Dictionary<string,object>>(reader.ReadToEnd());
+        }
+    }
+    internal static string CheckSelection(string path, string[] selected) {
+        var plan = EmbeddedPlan();
+        var ids = new System.Collections.Generic.HashSet<string>(selected);
+        var components = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,object>>();
+        foreach (object item in (System.Collections.IEnumerable)plan["components"]) {
+            var c = (System.Collections.Generic.Dictionary<string,object>)item;
+            string id = (string)c["id"]; components.Add(id,c);
+            if (Convert.ToBoolean(c["required"])) ids.Add(id);
+        }
+        bool changed;
+        do {
+            changed=false;
+            foreach (string id in new System.Collections.Generic.List<string>(ids)) {
+                if (!components.ContainsKey(id)) throw new System.IO.IOException("Unknown installer component.");
+                foreach (object dep in (System.Collections.IEnumerable)components[id]["depends_on"]) changed |= ids.Add((string)dep);
+            }
+        } while(changed);
+        long installed=Convert.ToInt64(plan["payload_bytes"]), count=Convert.ToInt64(plan["payload_files"]);
+        var downloads = new System.Collections.Generic.Dictionary<string,long>();
+        foreach(string id in ids) {
+            var c=components[id]; installed=checked(installed+Convert.ToInt64(c["installed_bytes"])); count=checked(count+Convert.ToInt64(c["files"]));
+            foreach(object item in (System.Collections.IEnumerable)c["downloads"]) {
+                var a=(System.Collections.Generic.Dictionary<string,object>)item;
+                string hash=(string)a["sha256"]; long bytes=Convert.ToInt64(a["bytes"]);
+                if(downloads.ContainsKey(hash) && downloads[hash]!=bytes) throw new System.IO.IOException("Conflicting download sizes.");
+                downloads[hash]=bytes;
+            }
+        }
+        foreach(long bytes in downloads.Values) installed=checked(installed+bytes);
+        count+=downloads.Count;
+        return Check(path,installed,count,Convert.ToInt64(plan["bootstrap_bytes"]));
+    }
 }

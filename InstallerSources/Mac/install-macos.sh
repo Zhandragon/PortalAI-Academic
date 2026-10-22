@@ -47,6 +47,11 @@ if [[ -e "$DEST" || -L "$DEST" ]]; then
 fi
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
+case "$ARCH" in
+  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18631450 52428800 104857600 10 ;;
+  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18631903 52428800 104857600 10 ;;
+esac
+
 WRITE_CHECK="$(mktemp "$PARENT/.portalai-macos-write-check.XXXXXX")" || {
   echo "The destination volume is not writable by macOS: $PARENT" >&2
   exit 2
@@ -58,11 +63,6 @@ if ! chmod 700 "$WRITE_CHECK" || [[ ! -x "$WRITE_CHECK" ]]; then
   exit 2
 fi
 rm -f "$WRITE_CHECK"
-AVAILABLE_KIB="$(df -Pk "$PARENT" | awk 'NR==2 {print $4}')"
-if [[ ! "$AVAILABLE_KIB" =~ ^[0-9]+$ ]] || (( AVAILABLE_KIB < 8 * 1024 * 1024 )); then
-  echo "The install volume needs at least 8 GiB free for the local Metal build." >&2
-  exit 2
-fi
 
 (cd "$SELF_DIR" && shasum -a 256 -c SHA256SUMS)
 STAGE="$(mktemp -d "$PARENT/.portalai-macos-install.XXXXXX")"

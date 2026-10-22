@@ -1,0 +1,31 @@
+{
+  "platform": "Mac",
+  "edition": "Academic",
+  "scope": "initial native installation; optional later model/media installs retain their own checks",
+  "architectures": {
+    "arm64": {
+      "base_kib": 18631450,
+      "payload_bytes": 713208751,
+      "runtime_bytes": 65186210,
+      "initial_model_bytes": 1834437560,
+      "dependency_and_download_allowance_bytes": 4294967296,
+      "compiler_allowance_bytes": 8589934592,
+      "allocation_unit_upper_bound": 65536,
+      "output_reserve_kib": 104857600,
+      "minimum_free_kib": 52428800,
+      "minimum_free_percent": 10
+    },
+    "x86_64": {
+      "base_kib": 18631903,
+      "payload_bytes": 713208751,
+      "runtime_bytes": 65847372,
+      "initial_model_bytes": 1834437560,
+      "dependency_and_download_allowance_bytes": 4294967296,
+      "compiler_allowance_bytes": 8589934592,
+      "allocation_unit_upper_bound": 65536,
+      "output_reserve_kib": 104857600,
+      "minimum_free_kib": 52428800,
+      "minimum_free_percent": 10
+    }
+  }
+}

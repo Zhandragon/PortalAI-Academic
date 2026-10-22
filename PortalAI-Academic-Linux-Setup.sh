@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r2'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz'
-ARCHIVE_HASH='04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f'
-TOP='PortalAI Academic Linux Installer'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r3'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261022-r3.tar.gz'
+ARCHIVE_HASH='13f1b832850e222e70080237e743d9e85a47fb61baee0a5383851862f746b855'
+TOP='PortalAI-Academic-Linux-Installer-20261022-r3'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261022-r2-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261022-r3-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -42,6 +42,44 @@ if [ -d "$SETUP" ] && [ -n "$(ls -A "$SETUP")" ]; then
         echo 'Choose a new, empty setup folder. This folder contains unrelated files.' >&2; exit 1
     fi
 fi
+check_setup_space() {
+DESTINATION=$1
+BASE_KIB=$2
+MIN_FREE_KIB=$3
+OUTPUT_KIB=$4
+FREE_PERCENT=$5
+for value in "$BASE_KIB" "$MIN_FREE_KIB" "$OUTPUT_KIB" "$FREE_PERCENT"; do
+    case "$value" in ''|*[!0-9]*) echo 'Invalid installer disk-space budget.' >&2; exit 2 ;; esac
+done
+PROBE=$DESTINATION
+while [ ! -d "$PROBE" ]; do
+    [ ! -e "$PROBE" ] || { echo 'Installation destination is not a directory.' >&2; exit 2; }
+    PARENT=$(dirname -- "$PROBE")
+    [ "$PARENT" != "$PROBE" ] || { echo 'Cannot locate destination volume.' >&2; exit 2; }
+    PROBE=$PARENT
+done
+SPACE=$(LC_ALL=C df -Pk "$PROBE") || { echo 'Cannot determine destination disk space.' >&2; exit 2; }
+printf '%s\n' "$SPACE" | awk -v base="$BASE_KIB" -v floor="$MIN_FREE_KIB" -v output="$OUTPUT_KIB" -v fraction="$FREE_PERCENT" -v destination="$DESTINATION" '
+    NR == 2 && $2 ~ /^[0-9]+$/ && $4 ~ /^[0-9]+$/ {
+        valid=1; available=$4; reserve=int(($2*fraction+99)/100);
+        if(reserve<floor) reserve=floor;
+        need=base+reserve+output;
+        printf "Disk space at %s: required %.2f GiB; available %.2f GiB.\n",destination,need/1048576,available/1048576;
+        printf "Includes installation, downloads, working space and %.2f GiB of output/free-space reserves.\n",(reserve+output)/1048576;
+        if(available<need) {
+            printf "Not enough disk space: need %.2f GiB more. Choose another destination or free space before retrying.\n",(need-available)/1048576;
+            failed=1;
+        }
+    }
+    END { if(!valid) { print "Cannot determine destination disk space; installation stopped."; exit 2 } if(failed) exit 1 }
+'
+
+}
+if [ "$PREPARE_ONLY" -eq 1 ]; then
+    check_setup_space "$SETUP" 2409965 0 0 0
+else
+    check_setup_space "$SETUP" 17112367 52428800 104857600 10
+fi
 mkdir -p "$SETUP"
 SETUP=$(cd "$SETUP" && pwd -P)
 printf '%s' "$OWNER" > "$SETUP/.portalai-academic-setup"
@@ -75,13 +113,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz|618677345|04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f
+PortalAI-Academic-Linux-Installer-20261022-r3.tar.gz|592575275|13f1b832850e222e70080237e743d9e85a47fb61baee0a5383851862f746b855
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261022-r2.tar.gz|618677345|04e9187a49db28db94f79149065c698e3dd1fe73d837e1128cf5c9ef21ad2c1f
+PortalAI-Academic-Linux-Installer-20261022-r3.tar.gz|592575275|13f1b832850e222e70080237e743d9e85a47fb61baee0a5383851862f746b855
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -102,12 +140,14 @@ while IFS='|' read -r name size expected; do
     fi
 done <<'ACADEMIC_FILES'
 ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
-install.sh|3520|98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019
-manifest.json|12289|a96b55ab07bad73b718a9dfff88040d1fe19e54e36f8564494cdfc09e42c270c
-payload.tar.gz|493480436|8a467c0b7b2b579e960e04db9c5e3b9159dd31dcedf6a7f481a246406cbb4501
+install.sh|3605|32f3784c3a8c78a2234ce1a51e5b9d14c6dfe47297fd74b07a1c7b2546e8c35b
+manifest.json|12938|a9f65ae0d0444c4f3b19d3360744ec9023cdbf65f17aa189edb8c1fd592162ba
+payload.tar.gz|467144460|1d440d9d762a4384801acc598d71a9f5bd6471b64dcc6914d2da9690960bee44
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
 README.txt|6598|27c946099c13ad199e95569035a649d7327ff01ba4aa3f44d147907da47d8f5d
-SHA256SUMS|205293|9fcdca1b1b1e311c2b73182b0390e8b5acbaf36d73a9cc7ec8c8fcc4820d5fa1
+SHA256SUMS|205464|1b0c5d0d6721151131bc7252fd0910aa7aaf362a97e633d8a48b25c6ef1f6a9e
+storage-plan.json|589|f2da3a4f3cce514be36e666e4facc35ba4341c8d17fd5d6c24137b03d00f7a21
+storage-preflight.sh|1697|44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67
 Utilities/PortalAI HA Setup/Install PortalAI HA.sh|312|e9faf65cb70c4e9e06143e4586a73040454d8a8d404809b6a144242b5699e548
 Utilities/PortalAI HA Setup/README.txt|3114|19d382cee8759952042cb86fa513134fc78cb9f9c0f39e2c44f50df3336916b2
 Utilities/PortalAI HA Setup/Setup Files/HomeAssistant/AOOSTAR_HANDOFF.txt|1643|446352772e118becd6c8dd01d3d2291e78116a2733dfca70e5f6df6f6431637f
