@@ -8,7 +8,7 @@ import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.5.11"
+VERSION = "0.5.12"
 NAME = "PortalAI-HomeAssistant-" + VERSION + "-recovery-0.1.0"
 TEMPLATES = ['install.py', 'configure.py', 'finish.py', 'install.sh', 'Install Home Assistant.cmd', 'README_FIRST.txt', 'DISTRIBUTION.txt', 'VALIDATION.txt', 'RECOVERY.txt', 'STABILITY.txt', 'MERGE_NOTES.txt', 'AOOSTAR_HANDOFF.txt', 'HTTP_COMPATIBILITY.txt', 'PORTABLE_MERGE.txt', 'PORTABLE_VALIDATION.txt']
 EXAMPLES = ['configuration.merge.yaml', 'resources.yaml', 'projection-dashboard.yaml', 'quick-chat-card.yaml', 'quick-controls-card.yaml', 'recovery-card.yaml', 'quick-view.yaml', 'desktop-projection-card.yaml']
@@ -18,7 +18,7 @@ COMPONENTS = {
     "portalai_recovery": ["__init__.py", "receiver.py", "manifest.json", "services.yaml"],
 }
 WEB = ["visibility-grace.js", "catalog.js", "state.js", "portalai-viewer-demand.js", "live-state.js", "patch-dom.js", "rich-chat.js", "iphone-attachments.js", "native-workflows.js", "portalai-native-panel.js", "portalai-live-panel.js", "portalai-quick-card.js", "portalai-projection.js", "panel.css", "assets/icon.png", "assets/emblem.png", "assets/wordmark.png"]
-TESTS = ["history-preview.test.mjs", "upload-v2.test.mjs", "visibility-grace.test.mjs", "test_upload_v2.py", "iphone-attachments.test.mjs", "live-state.test.mjs", "state.test.mjs", "test_native_receiver.py", "test_native_websocket.py", "test_quick_chat.py", "test_workflow_priority.py", "test_batch_media_receiver.py", "test_batch_rich_bridge.py", "test_ha_installer.py"]
+TESTS = ["chat-timeline.test.mjs","history-preview.test.mjs", "upload-v2.test.mjs", "visibility-grace.test.mjs", "test_upload_v2.py", "iphone-attachments.test.mjs", "live-state.test.mjs", "state.test.mjs", "test_native_receiver.py", "test_native_websocket.py", "test_quick_chat.py", "test_workflow_priority.py", "test_batch_media_receiver.py", "test_batch_rich_bridge.py", "test_ha_installer.py"]
 
 
 def checksum(data):
@@ -58,9 +58,9 @@ def build():
             add("Source/ha/" + relative, "ha/" + relative)
         if json.loads(files[f"custom_components/{domain}/manifest.json"])["version"] != ('0.1.0' if domain=='portalai_recovery' else VERSION):
             raise ValueError("Integration version must match the release")
-    for name in ("portalai-live-v0.5.11.js", "portalai-quick-chat-v0.4.3.js"):
+    for name in ("portalai-live-v0.5.12.js", "portalai-quick-chat-v0.4.3.js"):
         add("www/" + name, "dist/" + name)
-    add("www/portalai-projection-v0.5.11.js", "dist/portalai-projection-v0.5.11.js")
+    add("www/portalai-projection-v0.5.12.js", "dist/portalai-projection-v0.5.12.js")
     for name in WEB+['browser-crypto.js']:
         add("Source/web/" + name, "web/" + name)
     for name in TESTS+['browser-crypto.test.mjs','http-bundles.test.mjs','projection-lifecycle.test.mjs','test_ha_autosetup.py','test_recovery_receiver.py','iphone-review-server.mjs','iphone-review-fixture.js']:
@@ -68,12 +68,12 @@ def build():
     for name in ("build-live.mjs", "build-quick.mjs", "build-projection.mjs", "package.json", "tools/build-ha-distribution.py", "aoostar-compatibility-20261012/examples/ready-empty-unknown.json"):
         add("Source/" + name, name)
     files["RELEASE.json"] = (json.dumps({
-        "name": "PortalAI Home Assistant", "version": VERSION, "release_date": "2026-10-16",
-        "native_ui": "0.5.11", "quick_chat": "0.4.3", "desktop_card": "0.5.11 (reconnect fix retained)",
+        "name": "PortalAI Home Assistant", "version": VERSION, "release_date": "2026-10-22",
+        "native_ui": "0.5.12", "quick_chat": "0.4.3", "desktop_card": "0.5.12 (reconnect fix retained)",
         "integrations": {name: '0.1.0' if name=='portalai_recovery' else VERSION for name in COMPONENTS},
         "distribution_revision": "portable-1", "host_changes_included": False, "cold_start_companion": False,
         "configuration_merge_required": False, "custom_yaml_layouts_may_require_manual_merge": True, "python_installer_minimum": "3.9",
-        "edition":"0.5.11-recovery-0.1.0", "first_pairing_required":True, "recovery_helper_required":True,
+        "edition":"0.5.12-recovery-0.1.0", "first_pairing_required":True, "recovery_helper_required":True,
     }, indent=2) + "\n").encode()
     # Avoid accidentally redistributing this workstation's identities or URLs.
     # Keep the exact private values out of the builder shipped in the archive.

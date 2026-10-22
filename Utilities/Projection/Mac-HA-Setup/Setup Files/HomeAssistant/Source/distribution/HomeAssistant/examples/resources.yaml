@@ -7,5 +7,5 @@ lovelace:
   resources:
     - url: /local/portalai-quick-chat-v0.4.3.js
       type: module
-    - url: /local/portalai-projection-v0.5.11.js
+    - url: /local/portalai-projection-v0.5.12.js
       type: module

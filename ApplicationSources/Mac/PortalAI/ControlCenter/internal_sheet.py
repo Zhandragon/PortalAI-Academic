@@ -7,7 +7,7 @@ from ornate_ui import ConnectedBorder
 
 
 class InternalSheet(tk.Frame):
-    def __init__(self, parent, title, colors, *, embedded=False, framed=True):
+    def __init__(self, parent, title, colors, *, embedded=False, framed=True, fill_height=False):
         host = parent if embedded else getattr(parent, '_portalai_account_host', parent)
         self.colors = {'bg':'#EFE8DC', 'panel':'#F8F3EA', 'panel2':'#E9E0D2',
             'text':'#202224', 'muted':'#6E665E', 'accent':'#3E91A2', **colors}
@@ -30,7 +30,7 @@ class InternalSheet(tk.Frame):
         skin.borders.append(heading_border)
         skin.label(head, title, heading=True, surface='panel2').pack(side='left', fill='x', expand=True, padx=16, pady=6 if embedded else 8)
         if not embedded:skin.button(head, '✕', lambda: self.on_close()).pack(side='right', padx=4)
-        self.content = skin.scrolling_body(inset)
+        self.content = skin.scrolling_body(inset, fill_height=fill_height)
         for widget, roles in skin.widgets:
             if widget is self.content:
                 roles['bg'] = 'panel'

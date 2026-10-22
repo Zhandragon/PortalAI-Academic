@@ -37,7 +37,7 @@ Use a fresh folder for a new copy. Existing encrypted keys/pairings are private.
 
 HA side: open ../PortalAI HA Setup/Install PortalAI HA.command. Choose a writable
 HA config folder/share or prepare a deployment ZIP for a trusted HA terminal.
-This installs the SAME current HA 0.5.11 receiver/cards + Recovery 0.1.0; HA runs
+This installs the SAME current HA 0.5.12 receiver/cards + Recovery 0.1.0; HA runs
 on its existing server, independently of whether the projector host is a Mac.
 It preserves pairings and uses the existing verified backup/rollback installer.
 Advanced YAML layouts require its documented files-only/manual-merge route.
@@ -81,3 +81,5 @@ https://developer.apple.com/documentation/screencapturekit/scstreamconfiguration
 https://pyobjc.readthedocs.io/en/latest/supported-platforms.html
 
 Do not describe the synthetic test results as completed native acceptance.
+
+Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.

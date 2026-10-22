@@ -3441,7 +3441,7 @@ class NativeChat:
 
     def regenerate_last(self):
         if getattr(self, '_closing', False): return
-        if self.busy or not self.session:
+        if self.busy or not self.session or getattr(self, "_history_render_pending", False):
             return
         msgs = self.session.get("messages") or []
         last_user = None
@@ -3470,17 +3470,19 @@ class NativeChat:
         self._set_llm_dot("busy"); self.model_lbl.configure(text="regenerating…", fg=self.COL["gold"])
         self._thread(target=self.agent_worker, args=(self.session["id"],), name="PortableAIRegenerate", daemon=True).start()
 
+    def _cancel_history_render(self):
+        self._history_render_generation = int(getattr(self, '_history_render_generation', 0)) + 1
+        token = getattr(self, '_history_render_after', None)
+        self._history_render_after = None
+        self._history_render_pending = False
+        if token is not None:
+            try: self.app.after_cancel(token)
+            except tk.TclError: pass
+
     def render_history_incremental(self):
         """Render a loaded chat in short Tk slices instead of one giant callback."""
-        try:
-            old = getattr(self, "_history_render_after", None)
-            if old is not None:
-                self.app.after_cancel(old)
-        except Exception:
-            pass
-        self._history_render_after = None
-        generation = int(getattr(self, "_history_render_generation", 0)) + 1
-        self._history_render_generation = generation
+        self._cancel_history_render()
+        generation = self._history_render_generation
 
         self._trace_blocks = []
         self._refresh_action_buttons()
@@ -3494,6 +3496,8 @@ class NativeChat:
         if not self.session:
             return
 
+        self._history_render_pending = True
+        self.send_btn.configure(state="disabled")
         sid = str(self.session.get("id") or "")
         messages = list(self.session.get("messages") or [])
         pending_tools = {}
@@ -3520,6 +3524,9 @@ class NativeChat:
                 if reasoning and self.settings.get("show_thinking", True):
                     b = self.create_trace_block("thinking", "Thinking", state="saved", initial=clip_display(reasoning))
                     self.finish_trace_block(b, "saved")
+                content = str(msg.get("content") or "")
+                if content:
+                    self.assistant_text(clip_display(content) + "\n")
                 for call in msg.get("tool_calls") or []:
                     fn = call.get("function") or {}
                     name = str(fn.get("name") or "tool")
@@ -3533,9 +3540,6 @@ class NativeChat:
                     cid = str(call.get("id") or "")
                     if cid:
                         pending_tools[cid] = b
-                content = str(msg.get("content") or "")
-                if content:
-                    self.assistant_text(clip_display(content) + "\n")
             elif role == "tool":
                 name = msg.get("name") or "tool"
                 cid = str(msg.get("tool_call_id") or "")
@@ -3557,7 +3561,13 @@ class NativeChat:
             processed = 0
             while state["i"] < len(messages):
                 i = state["i"]
-                one(i, messages[i])
+                try:
+                    one(i, messages[i])
+                except Exception:
+                    self._cancel_history_render()
+                    if not self.busy: self.send_btn.configure(state="normal")
+                    self.model_lbl.configure(text="Conversation display failed; reopen this chat.", fg=self.COL["muted"])
+                    return
                 state["i"] += 1
                 processed += 1
                 # Give Tk back to Windows frequently. Four messages OR ~10 ms,
@@ -3567,6 +3577,8 @@ class NativeChat:
             if state["i"] < len(messages):
                 self._history_render_after = self.app.after(1, step)
             else:
+                self._history_render_pending = False
+                if not self.busy: self.send_btn.configure(state="normal")
                 try:
                     self.chat.see("end")
                 except Exception:
@@ -3575,6 +3587,8 @@ class NativeChat:
         self._history_render_after = self.app.after_idle(step)
 
     def render_history(self):
+        self._cancel_history_render()
+        if not self.busy: self.send_btn.configure(state="normal")
         self._trace_blocks=[]; self._live_thinking_block=None; self._live_tool_block=None; self._message_marks={}; self._inline_edit_frame=None
         self._refresh_action_buttons()
         self.chat.configure(state="normal"); self.chat.delete("1.0","end"); self.chat.configure(state="disabled")
@@ -3590,6 +3604,8 @@ class NativeChat:
                 self.header("Qwen"); reasoning=str(msg.get("reasoning") or "")
                 if reasoning and self.settings.get("show_thinking",True):
                     b=self.create_trace_block("thinking","Thinking",state="saved",initial=reasoning.rstrip()); self.finish_trace_block(b,"saved")
+                content=str(msg.get("content") or "")
+                if content: self.assistant_text(content+"\n")
                 for call in msg.get("tool_calls") or []:
                     fn=call.get("function") or {}; name=str(fn.get("name") or "tool"); raw=fn.get("arguments") or "{}"
                     try:
@@ -3597,8 +3613,6 @@ class NativeChat:
                     except Exception: display=str(raw)
                     b=self.create_trace_block("tool",f"Tool · {name}",state="call",initial="Call\n"+display); cid=str(call.get("id") or "")
                     if cid: pending_tools[cid]=b
-                content=str(msg.get("content") or "")
-                if content: self.assistant_text(content+"\n")
             elif role=="tool":
                 name=msg.get("name") or "tool"; cid=str(msg.get("tool_call_id") or ""); b=pending_tools.pop(cid,None) if cid else None
                 if b is None: b=self.create_trace_block("tool",f"Tool · {name}",state="result")
@@ -4825,6 +4839,8 @@ class NativeChat:
         usage = {'limit': 0, 'calls': 0, 'history_reads': 0, 'checkpoints': 0}
         from chat_task_checkpoint import Cycle, validate as checkpoint_validate, commit as checkpoint_commit
         cycle = Cycle(self.settings.get('checkpoint_no_tool_limit',4))
+        from chat_priority import Foreground
+        foreground = None
         repair_state['attempted_actions'] = attempted_actions
         self._continuation_remaining = 2
         try:
@@ -4849,6 +4865,8 @@ class NativeChat:
             # Model loading keeps its own bounded lifecycle and Stop guards.
             if remote_admission is not None and not remote_admission.worker_ready(self.cancel_event):
                 return
+            foreground = Foreground(self.root)
+            if not foreground.acquire(self.cancel_event,self._check_login,lambda message:self.ev.put(('progress',message))):return
             if effort is not None and not effort.prepare_request(self.cancel_event):
                 return
             if remote_admission is not None and not remote_admission.worker_prepared(self.cancel_event):
@@ -5064,7 +5082,9 @@ class NativeChat:
             self._reply_without_tools = False
             self._checkpoint_final_only = ''
             self._image_lookup_active = False
-            self.ev.put(("done", None))
+            try:
+                if foreground is not None:foreground.close()
+            finally:self.ev.put(("done", None))
 
     def prepare_media_from_tool_result(self, text: str) -> list[dict]:
         self._check_login()
@@ -5130,7 +5150,8 @@ class NativeChat:
 
     # ---------- submit / stop ----------
     def submit(self, event=None, *, remote_text=None, remote_admission=None):
-        if getattr(self, '_session_load_request', None) is not None:
+        if (getattr(self, '_session_load_request', None) is not None
+                or getattr(self, '_history_render_pending', False)):
             return 'break'
         self._memory_paused_by_stop = False
         if getattr(self, '_closing', False): return 'break'
@@ -6069,6 +6090,8 @@ class NativeChat:
                 from native_rich_chat import observe as observe_rich_chat
                 observe_rich_chat(self,kind,data)
                 handled += 1
+                from native_chat_timers_v15_128e import observe as observe_timer
+                observe_timer(self, kind, data)
                 if kind == "content":
                     if self._live_thinking_block is not None:
                         self.finish_trace_block(self._live_thinking_block, "done"); self._live_thinking_block = None
@@ -6121,10 +6144,14 @@ class NativeChat:
                     was_cancelled = self.cancel_event.is_set()
                     self._activity_event('cancelled' if was_cancelled else 'idle', 'Chat request')
                     self.busy=False; self.cancel_event.clear()
+                    for block in list(getattr(self, '_trace_blocks', [])):
+                        if block.get('state') in ('live', 'running'):
+                            try: self.finish_trace_block(block, 'cancelled' if was_cancelled else 'done')
+                            except Exception: pass
                     self.stop_btn.configure(state="disabled"); self.send_btn.configure(state="normal"); self.session_list.configure(state="normal")
                     if getattr(self, 'effort', None) is not None:
                         self.effort.set_busy(False)
-                    self.finish_trace_block(self._live_thinking_block,"done"); self.finish_trace_block(self._live_tool_block,"cancelled" if was_cancelled else "done")
+                    self.finish_trace_block(self._live_thinking_block,"cancelled" if was_cancelled else "done"); self.finish_trace_block(self._live_tool_block,"cancelled" if was_cancelled else "done")
                     self._live_thinking_block=None; self._live_tool_block=None
                     self.refresh_sessions_labels_only(); self.refresh_status(); self.update_token_label(); self._maybe_schedule_auto_title(); self._schedule_model_probe(force=True)
                     self._schedule_memory_maintenance(30000)

@@ -33,11 +33,15 @@ def sanitize(value):
 def observe(panel,kind,data):
     """Tk's already-delivered stream only; bounded RAM and no disk/network work."""
     if kind=='assistant_start':
-        panel._native_rich_live={'session':panel.session,'index':data.get('index',len(panel.session.get('messages',[]))) if isinstance(data,dict) else len(panel.session.get('messages',[])), 'reasoning':'','length':0}
+        panel._native_rich_live={'session':panel.session,'index':data.get('index',len(panel.session.get('messages',[]))) if isinstance(data,dict) else len(panel.session.get('messages',[])), 'reasoning':'','length':0,'thinking':False}
     elif kind=='reasoning':
         live=getattr(panel,'_native_rich_live',None)
         if live and live['session'] is panel.session:
+            live['thinking']=True
             value=str(data);live['length']+=len(value);live['reasoning']=(live['reasoning']+value[:16000])[:16000]
+    elif kind in ('content','tool_start','error'):
+        live=getattr(panel,'_native_rich_live',None)
+        if live and live['session'] is panel.session:live['thinking']=False
     elif kind=='done':panel._native_rich_live=None
 
 class MediaRead:
@@ -136,7 +140,7 @@ class Controller:
                 add(owner,'media'+str(index)+'_'+str(n),'media',media.get('name') or name,'available',{'reference':media['path'],'attachment':role=='user','conversation':p['conversation'],'row':row,'entry':media})
         live=getattr(panel,'_native_rich_live',None)
         if live and live['session'] is panel.session and panel.busy and live['reasoning'] and live['index']>=len(rows):
-            add(live['index'],'thinking','thinking','Thinking','streaming',lambda:live['reasoning'])
+            add(live['index'],'thinking','thinking','Reasoning','streaming' if live.get('thinking') else 'saved',lambda:live['reasoning'])
         self.records=records
         self.refs={k:v for k,v in self.refs.items() if k[0]>=start and k[0]<=len(rows)}
         return blocks,truncated

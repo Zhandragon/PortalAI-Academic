@@ -1,22 +1,22 @@
 {
   "name": "PortalAI Home Assistant",
-  "version": "0.5.11",
-  "release_date": "2026-10-16",
-  "native_ui": "0.5.11",
+  "version": "0.5.12",
+  "release_date": "2026-10-22",
+  "native_ui": "0.5.12",
   "quick_chat": "0.4.3",
-  "desktop_card": "0.5.11 (reconnect fix retained)",
+  "desktop_card": "0.5.12 (reconnect fix retained)",
   "integrations": {
-    "portalai_native": "0.5.11",
-    "portalai_projection": "0.5.11",
+    "portalai_native": "0.5.12",
+    "portalai_projection": "0.5.12",
     "portalai_recovery": "0.1.0"
   },
+  "distribution_revision": "portable-1",
   "host_changes_included": false,
   "cold_start_companion": false,
   "configuration_merge_required": false,
   "custom_yaml_layouts_may_require_manual_merge": true,
   "python_installer_minimum": "3.9",
-  "edition": "0.5.11-recovery-0.1.0",
+  "edition": "0.5.12-recovery-0.1.0",
   "first_pairing_required": true,
-  "recovery_helper_required": true,
-  "distribution_revision": "portable-1"
+  "recovery_helper_required": true
 }

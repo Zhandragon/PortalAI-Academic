@@ -53,10 +53,12 @@ class Schedules:
             not 0<=s['runs_completed']<=s['runs_started'] or
             (s['interval_seconds']!=0 and not 60<=s['interval_seconds']<=365*86400) or
             not isinstance(s.get('next_run_at'),(int,float)) or not math.isfinite(s['next_run_at']) or s['next_run_at']<0 or
-            s.get('status') not in {'paused','scheduled','running','complete','needs_review'} or
+            s.get('status') not in {'paused','scheduled','running','complete','needs_review','removed'} or
+            ('setup_failures' in s and (type(s['setup_failures']) is not int or not 0<=s['setup_failures']<=1000000)) or
             not isinstance(s.get('history'),list)):
             raise ValueError('Invalid schedule values; original file preserved')
         if s.get('active_run'):self.store.folder(s['active_run'])
+        if s.get('source_mission'):self.store.folder(s['source_mission'])
         return s
 
     def list(self):
@@ -78,8 +80,10 @@ class Schedules:
     def any_enabled(self):
         return any(self.enabled(s) for s in self.list())
 
-    def create(self, objective, mode='observe', max_steps=12, interval_seconds=3600, first_run_at=None, max_runs=0):
+    def create(self, objective, mode='observe', max_steps=12, interval_seconds=3600, first_run_at=None, max_runs=0,
+               source_mission=None, *, origin=None):
         profile(mode)
+        if origin not in (None,'user','diagnostic'):raise ValueError('Invalid schedule origin')
         interval_seconds=int(interval_seconds);max_steps=int(max_steps);max_runs=int(max_runs)
         if not str(objective).strip() or len(str(objective))>16000 or not 1<=max_steps<=100:
             raise ValueError('Objective or per-run action budget is invalid')
@@ -89,16 +93,24 @@ class Schedules:
             raise ValueError('Run limit must be 0 (until stopped) to 10000')
         first=time.time() if first_run_at is None else float(first_run_at)
         if not math.isfinite(first) or first<0:raise ValueError('Invalid first-run timestamp')
+        if source_mission is not None:
+            source=self.store.load(source_mission)
+            if source.get('parent') or source.get('schedule_id'):
+                raise ValueError('Choose an unscheduled top-level mission as the schedule template')
         require_space(self.root, 1024**2, for_outputs=True)
         s={'id':uuid.uuid4().hex,'objective':str(objective),'mode':mode,'max_steps':max_steps,
            'interval_seconds':interval_seconds,'max_runs':1 if not interval_seconds else max_runs,
            'next_run_at':first,'runs_started':0,'runs_completed':0,'active_run':None,
-           'enabled':False,'status':'paused','history':[],'created_at':time.time()}
+           'enabled':False,'status':'paused','history':[],'setup_failures':0,'created_at':time.time()}
+        if origin is not None:s['origin']={'kind':origin,'recorded_at':time.time()}
+        if source_mission is not None:s['source_mission']=source_mission
         self.save(s);return s
 
     def enable(self, sid):
         with process_lock(self.store.base/'schedules.lock'):
             s=self.load(sid)
+            if s.get('status')=='removed':
+                raise ValueError('Restore this removed schedule before enabling it')
             if s.get('active_run'):
                 m=self.store.load(s['active_run'])
                 if m['status'] not in ACTIVE|{'complete'} or m.get('pending_action') or self.store.stopped(m):
@@ -112,10 +124,34 @@ class Schedules:
 
     def disable(self, sid):
         with process_lock(self.store.base/'schedules.lock'):
-            s=self.load(sid);s.update(enabled=False,status='paused');self.save(s)
+            s=self.load(sid)
+            if s.get('status')=='removed':raise ValueError('Restore this removed schedule before pausing it')
+            s.update(enabled=False,status='paused');self.save(s)
         if s.get('active_run') and (self.store.folder(s['active_run'])/'mission.json').exists():
             from mission_supervisor import disarm
             disarm(self.root,s['active_run'])
+        return s
+
+    def remove(self, sid):
+        """Reversibly remove a schedule from active lists; retain every run record."""
+        with process_lock(self.store.base/'schedules.lock'):
+            s=self.load(sid)
+            if s.get('status')!='removed':
+                s.update(enabled=False,status='removed',removed_at=time.time())
+                self.save(s)
+        if s.get('active_run') and (self.store.folder(s['active_run'])/'mission.json').exists():
+            from mission_supervisor import disarm
+            disarm(self.root,s['active_run'])
+        return self.load(sid)
+
+    def restore(self, sid):
+        """Restore a removed schedule paused; never restart it implicitly."""
+        with process_lock(self.store.base/'schedules.lock'):
+            s=self.load(sid)
+            if s.get('status')!='removed':raise ValueError('This schedule is not in Removed schedules')
+            s.update(enabled=False,status='paused')
+            s.pop('removed_at',None)
+            self.save(s)
         return s
 
     def _ensure_run(self, s):
@@ -128,6 +164,10 @@ class Schedules:
             # ID was checkpointed in the schedule BEFORE creating the mission.
             # Recovery reuses that ID and never duplicates an occurrence.
             m=self.store.create(s['objective'],s['mode'],s['max_steps'],mission_id=mid,schedule_id=s['id'])
+        if s.get('setup_failures') or s.get('error'):
+            s['setup_failures']=0
+            s.pop('error',None)
+            self.save(s)
         if not self.enabled(s) or (self.store.base/'supervisor.stop').exists():return
         if m.get('pending_action') or m['status'] not in ACTIVE or self.store.stopped(m):return
         from mission_supervisor import policy_path
@@ -137,12 +177,17 @@ class Schedules:
 
     def tick(self, now=None):
         now=time.time() if now is None else float(now)
-        if (self.store.base/'supervisor.stop').exists():return
+        from chat_priority import active as direct_chat_active
+        if (self.store.base/'supervisor.stop').exists() or direct_chat_active(self.root):return
         with process_lock(self.store.base/'schedules.lock'):
             for s in self.list():
                 if not self.enabled(s):continue
                 try:
                     if s.get('active_run'):
+                        # Preparation may retry safely only before a mission
+                        # checkpoint exists; the saved timestamp is its backoff.
+                        if s['next_run_at']>now and not (self.store.folder(s['active_run'])/'mission.json').exists():
+                            continue
                         self._ensure_run(s)
                         m=self.store.load(s['active_run'])
                         if m['status']=='complete':
@@ -166,7 +211,32 @@ class Schedules:
                     self.save(s)
                     self._ensure_run(s)
                 except (OSError,ValueError,KeyError,TypeError,RuntimeError) as exc:
-                    s.update(enabled=False,status='needs_review',error=str(exc));self.save(s)
+                    # Retry only when the assigned run has no checkpoint, or
+                    # has a valid active checkpoint with no uncertain action.
+                    # A pending action, STOP, corrupt record, or identity
+                    # mismatch must remain behind the explicit review gate.
+                    mid=s.get('active_run')
+                    retry_preparation=not mid
+                    try:
+                        if mid:
+                            mission=self.store.load(mid)
+                            retry_preparation=(mission.get('schedule_id')==s['id'] and
+                                               mission.get('mode')==s['mode'] and
+                                               mission['status'] in ACTIVE and
+                                               not mission.get('pending_action') and
+                                               not self.store.stopped(mission))
+                    except FileNotFoundError:
+                        retry_preparation=True
+                    except (OSError,ValueError,KeyError,TypeError,RuntimeError):
+                        retry_preparation=False
+                    if retry_preparation:
+                        failures=min(1000000,int(s.get('setup_failures',0))+1)
+                        delay=min(300,30*(2**min(failures-1,4)))
+                        s.update(setup_failures=failures,status='scheduled',next_run_at=now+delay,
+                                 error=f'Run setup failed before any mission action; retrying in {delay} seconds: {type(exc).__name__}: {exc}')
+                    else:
+                        s.update(enabled=False,status='needs_review',error=str(exc))
+                    self.save(s)
 
 
 def main():
@@ -175,14 +245,16 @@ def main():
     p=sub.add_parser('create');p.add_argument('objective');p.add_argument('--mode',choices=('observe','full','vm'),default='observe')
     p.add_argument('--steps',type=int,default=12);p.add_argument('--interval',type=int,default=3600)
     p.add_argument('--first-at',type=float);p.add_argument('--max-runs',type=int,default=0)
-    for name in ('enable','disable'):sub.add_parser(name).add_argument('id')
+    for name in ('enable','disable','remove','restore'):sub.add_parser(name).add_argument('id')
     sub.add_parser('list');ns=ap.parse_args();store=Schedules(ns.root)
-    if ns.command=='create':r=store.create(ns.objective,ns.mode,ns.steps,ns.interval,ns.first_at,ns.max_runs)
+    if ns.command=='create':r=store.create(ns.objective,ns.mode,ns.steps,ns.interval,ns.first_at,ns.max_runs,origin='user')
     elif ns.command=='enable':
         r=store.enable(ns.id)
         from mission_supervisor import ensure_running
         r={'schedule':r,'supervisor':ensure_running(ns.root)}
     elif ns.command=='disable':r=store.disable(ns.id)
+    elif ns.command=='remove':r=store.remove(ns.id)
+    elif ns.command=='restore':r=store.restore(ns.id)
     else:r=store.list()
     print(json.dumps(r,indent=2))
 

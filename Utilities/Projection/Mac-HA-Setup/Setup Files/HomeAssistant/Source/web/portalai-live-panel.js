@@ -128,7 +128,7 @@ export class PortalAILivePanel extends PortalAINativePanel {
     this.shadowRoot.querySelector('.status-chip').textContent=status;
     const banner=this.shadowRoot.querySelector('.preview-banner');
     banner.innerHTML=`<strong>${this.ready ? 'LIVE' : 'NATIVE UI'}</strong><span>${esc(status)} · shared Aoostar session</span><button data-action="${this._connection ? 'disconnect-live' : 'connect-live'}">${this._connection ? 'Disconnect' : 'Connect'}</button>`;
-    this.shadowRoot.querySelector('.footer').innerHTML='<span>Home Assistant controls access · browser memory only</span><span>Native UI 0.5.11 · rich chat</span>';
+    this.shadowRoot.querySelector('.footer').innerHTML='<span>Home Assistant controls access · browser memory only</span><span>Native UI 0.5.12 · rich chat</span>';
     this.configureWorkflows();
     this.configureRich();
     const tools=this.shadowRoot.querySelector('.chat-tools-dialog');
@@ -217,7 +217,7 @@ export class PortalAILivePanel extends PortalAINativePanel {
   }
   messagesMarkup() {
     const c=this.model.snapshot.chat;
-    return `${c.window.messagesComplete ? '' : '<p class="note">Partial transcript · earlier messages are not included.</p>'}${c.messages.length ? c.messages.map(m => `<article class="message ${m.role}" data-message="${m.id}"><div class="speaker">${m.role === 'assistant' ? 'PortalAI' : 'You'}</div><p>${esc(m.text)}</p>${m.truncated ? '<small>Message shortened in this view.</small>' : ''}<portalai-rich-message data-message="${m.id}"></portalai-rich-message></article>`).join('') : '<div class="chat-intro"><h2>No messages in this view.</h2><p>Open a conversation in PortalAI on the Aoostar.</p></div>'}<div data-rich-pending></div>`;
+    return `${c.window.messagesComplete ? '' : '<p class="note">Partial transcript · earlier messages are not included.</p>'}${c.messages.length ? c.messages.map(m => `<article class="message ${m.role}" data-message="${m.id}"><div class="speaker">${m.role === 'assistant' ? 'PortalAI' : 'You'}</div>${m.role === 'assistant' ? `<portalai-rich-message data-rich-kind="thinking" data-message="${m.id}"></portalai-rich-message>` : ''}<p>${esc(m.text)}</p>${m.truncated ? '<small>Message shortened in this view.</small>' : ''}<portalai-rich-message data-rich-kind="results" data-message="${m.id}"></portalai-rich-message></article>`).join('') : '<div class="chat-intro"><h2>No messages in this view.</h2><p>Open a conversation in PortalAI on the Aoostar.</p></div>'}<div data-rich-pending></div>`;
   }
   contextMarkup() {
     const c=this.model.snapshot.chat;

@@ -1,0 +1,674 @@
+{
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "outer_files_verified": 1364
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "outer_files_verified": 1985
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "outer_files_verified": 1364
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "outer_files_verified": 1985
+    }
+  ],
+  "tests": [
+    {
+      "name": "Full-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 12.617s\n\nOK\n"
+    },
+    {
+      "name": "Full-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.028s\n\nOK\n"
+    },
+    {
+      "name": "Full-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Full-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 13.962s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.026s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.163s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.090s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Linux-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.044s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.082s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Mac-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.059s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.083s\n\nOK\n"
+    },
+    {
+      "name": "Full-chat_timeline",
+      "passed": true,
+      "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.625s\n\nOK\n"
+    },
+    {
+      "name": "Full-chat_completion_recovery",
+      "passed": true,
+      "tail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 0.398s\n\nOK\n"
+    },
+    {
+      "name": "Full-chat_loading_jobs",
+      "passed": true,
+      "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.175s\n\nOK\n"
+    },
+    {
+      "name": "Full-native_rich_chat",
+      "passed": true,
+      "tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 14.880s\n\nOK\n"
+    },
+    {
+      "name": "Academic-chat_timeline",
+      "passed": true,
+      "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.657s\n\nOK\n"
+    },
+    {
+      "name": "Academic-chat_completion_recovery",
+      "passed": true,
+      "tail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 0.372s\n\nOK\n"
+    },
+    {
+      "name": "Academic-chat_loading_jobs",
+      "passed": true,
+      "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.394s\n\nOK\n"
+    },
+    {
+      "name": "Academic-native_rich_chat",
+      "passed": true,
+      "tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 14.254s\n\nOK\n"
+    }
+  ],
+  "privacy": {
+    "path_findings": [],
+    "credential_candidates": []
+  },
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "passed": true,
+  "local_tests": [
+    {
+      "name": "chat_timeline",
+      "passed": true,
+      "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.577s\n\nOK\n"
+    },
+    {
+      "name": "chat_completion_recovery",
+      "passed": true,
+      "tail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 0.088s\n\nOK\n"
+    },
+    {
+      "name": "chat_reasoning_continuation",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 0.012s\n\nOK\n"
+    },
+    {
+      "name": "chat_rolling_resume",
+      "passed": true,
+      "tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 12.652s\n\nOK\n"
+    },
+    {
+      "name": "chat_task_checkpoint",
+      "passed": true,
+      "tail": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.012s\n\nOK\n"
+    },
+    {
+      "name": "chat_loading_jobs",
+      "passed": true,
+      "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.393s\n\nOK\n"
+    },
+    {
+      "name": "native_rich_chat",
+      "passed": true,
+      "tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 11.742s\n\nOK\n"
+    },
+    {
+      "name": "native_chat_command",
+      "passed": true,
+      "tail": "................................\n----------------------------------------------------------------------\nRan 32 tests in 26.100s\n\nOK\n"
+    },
+    {
+      "name": "gui_stop_contract",
+      "passed": true,
+      "tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.046s\n\nOK\n"
+    },
+    {
+      "name": "writer_jobs",
+      "passed": true,
+      "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.023s\n\nOK\n"
+    },
+    {
+      "name": "chat_zoom_tk_compatible_fixture",
+      "passed": true,
+      "tail": "..................\n----------------------------------------------------------------------\nRan 18 tests in 9.722s\n\nOK\n"
+    },
+    {
+      "name": "navigation_activity",
+      "passed": true,
+      "tail": "..............\n----------------------------------------------------------------------\nRan 14 tests in 8.845s\n\nOK\n"
+    }
+  ],
+  "fixture_note": "The existing zoom fixture omitted the current hydrate keyword. The unchanged 18-test suite passed with that test lambda accepting keyword options in memory; production code and shipped test were not altered.",
+  "handoff": {
+    "passed": true,
+    "cases": [
+      "read-only preflight",
+      "source conflicts refused",
+      "open account refused",
+      "partial write rollback including added files",
+      "verified apply and repeat no-op",
+      "private fixture preserved"
+    ],
+    "private_owner_data_used": false
+  },
+  "ha_browser": {
+    "passed": true,
+    "browser": "bundled Chromium, headless Windows",
+    "checks": {
+      "order": true,
+      "disclosure_preserved": true,
+      "idle_status": true,
+      "tool_slot": true
+    },
+    "live_HA": false
+  },
+  "ha_tests": {
+    "javascript": 92,
+    "python": 71,
+    "passed": true
+  },
+  "bootstrap": {
+    "passed": true,
+    "checks": [
+      {
+        "platform": "Windows",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 5,
+        "network_download_tested": false,
+        "native_OS": true
+      },
+      {
+        "platform": "Linux",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1364,
+        "network_download_tested": false,
+        "native_OS": false
+      },
+      {
+        "platform": "Mac",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1985,
+        "network_download_tested": false,
+        "native_OS": false
+      }
+    ],
+    "full_installs_started": false
+  },
+  "projection_ui": {
+    "passed": true,
+    "native_mac_linux_tested": false,
+    "tests": [
+      {
+        "name": "Windows_UI_and_real_tray",
+        "count": 14,
+        "passed": true
+      },
+      {
+        "name": "exact_Windows_companion",
+        "count": 14,
+        "passed": true
+      },
+      {
+        "name": "existing_lifecycle",
+        "count": 6,
+        "passed": true
+      },
+      {
+        "name": "Mac_contracts_on_Windows",
+        "count": 16,
+        "passed": true
+      }
+    ],
+    "bundles": [
+      {
+        "platform": "Windows",
+        "archive_sha256": "40eae62e5d5bead99d5782f94f955bc22d738be01e63b2b5a7a0e99356ebc531",
+        "files_verified": 2436
+      },
+      {
+        "platform": "Linux",
+        "archive_sha256": "4d6234ed97597e4ac4f6b7e23dbf1858910b01a7ab63128ad226b8cfede7a4b3",
+        "files_verified": 1359
+      },
+      {
+        "platform": "Mac",
+        "archive_sha256": "2cc8438bbb5d9cf52aa6753a34ebd2781292a92f41181e9b1da8f1a888a07c26",
+        "files_verified": 1976
+      }
+    ],
+    "installers": [
+      {
+        "edition": "Full",
+        "platform": "Windows",
+        "projection_files_verified": 33,
+        "sha256": "25b47855b5bb07be815fe46bf5faa18aa9a64b73b16023ea0ed5bfb7dc9dc1bc"
+      },
+      {
+        "edition": "Full",
+        "platform": "Linux",
+        "projection_files_verified": 33,
+        "sha256": "cade3553d6f45d3c751d035915989e617feee1c876c7787a31f791b97be2aa61"
+      },
+      {
+        "edition": "Full",
+        "platform": "Mac",
+        "projection_files_verified": 33,
+        "sha256": "55c9a66fffdd0af158a1bfa4a739590509d2de1d59272fe816b131716266258d"
+      },
+      {
+        "edition": "Academic",
+        "platform": "Windows",
+        "projection_files_verified": 33,
+        "sha256": "5634b33afc535b232d06aabbb40ab9670d368221ca70230aa814fda100308249"
+      },
+      {
+        "edition": "Academic",
+        "platform": "Linux",
+        "projection_files_verified": 33,
+        "sha256": "8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220"
+      },
+      {
+        "edition": "Academic",
+        "platform": "Mac",
+        "projection_files_verified": 33,
+        "sha256": "bff2d3d05f38d9e556ce763b29d48caa14bef28a64d0d72f54ddaed022c4fe26"
+      }
+    ],
+    "handoff": {
+      "passed": true,
+      "cases": [
+        "read-only preflight",
+        "source conflict",
+        "running companion refusal",
+        "rollback after partial write",
+        "apply and repeat no-op",
+        "connection and preferences preserved"
+      ],
+      "private_data_used": false
+    }
+  },
+  "chat_priority": {
+    "passed": true,
+    "host": {
+      "passed": true,
+      "tests": [
+        {
+          "name": "mission_runner",
+          "passed": true,
+          "tail": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.733s\n\nOK\n"
+        },
+        {
+          "name": "persistence_supervisor",
+          "passed": true,
+          "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.425s\n\nOK\n"
+        },
+        {
+          "name": "mission_context",
+          "passed": true,
+          "tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.111s\n\nOK\n"
+        },
+        {
+          "name": "chat_handoff",
+          "passed": true,
+          "tail": "Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpopwagmiu'>\n  _warnings.warn(warn_message, ResourceWarning)\n.....D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpttnh9l7a'>\n  _warnings.warn(warn_message, ResourceWarning)\nD:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpyqg5_tv2'>\n  _warnings.warn(warn_message, ResourceWarning)\n..D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpiku5l404'>\n  _warnings.warn(warn_message, ResourceWarning)\n..\n----------------------------------------------------------------------\nRan 23 tests in 0.101s\n\nOK\n"
+        },
+        {
+          "name": "chat_completion_recovery",
+          "passed": true,
+          "tail": "untime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmph_yqywb_'>\n  _warnings.warn(warn_message, ResourceWarning)\nD:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpbve0i2u5'>\n  _warnings.warn(warn_message, ResourceWarning)\nD:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpj7f442q4'>\n  _warnings.warn(warn_message, ResourceWarning)\n...D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpgxddxmij'>\n  _warnings.warn(warn_message, ResourceWarning)\n.......\n----------------------------------------------------------------------\nRan 29 tests in 0.140s\n\nOK\n"
+        },
+        {
+          "name": "chat_loading_jobs",
+          "passed": true,
+          "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.298s\n\nOK\n"
+        },
+        {
+          "name": "chat_task_checkpoint",
+          "passed": true,
+          "tail": "Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmplsixywu3'>\n  _warnings.warn(warn_message, ResourceWarning)\n.D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmppdoyf2_9'>\n  _warnings.warn(warn_message, ResourceWarning)\n..D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmplvgp0uyj'>\n  _warnings.warn(warn_message, ResourceWarning)\n..D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\\\Users\\\\genes\\\\AppData\\\\Local\\\\Temp\\\\tmpxb4i_0yv'>\n  _warnings.warn(warn_message, ResourceWarning)\n....\n----------------------------------------------------------------------\nRan 12 tests in 0.049s\n\nOK\n"
+        },
+        {
+          "name": "chat_timeline",
+          "passed": true,
+          "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.565s\n\nOK\n"
+        },
+        {
+          "name": "gui_stop_contract",
+          "passed": true,
+          "tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.042s\n\nOK\n"
+        },
+        {
+          "name": "writer_jobs",
+          "passed": true,
+          "tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.020s\n\nOK\n"
+        },
+        {
+          "name": "gui_maintenance",
+          "passed": true,
+          "tail": "s...............\n----------------------------------------------------------------------\nRan 16 tests in 0.106s\n\nOK (skipped=1)\n"
+        },
+        {
+          "name": "page_scroll_tk",
+          "passed": true,
+          "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.268s\n\nOK\n"
+        },
+        {
+          "name": "chat_rolling_resume",
+          "passed": true,
+          "tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 13.159s\n\nOK\n"
+        },
+        {
+          "name": "chat_reasoning_continuation",
+          "passed": true,
+          "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 0.020s\n\nOK\n"
+        },
+        {
+          "name": "mission_catalog_tk",
+          "passed": true,
+          "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 2.696s\n\nOK\n"
+        },
+        {
+          "name": "mission_modes",
+          "passed": true,
+          "tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.057s\n\nOK\n"
+        },
+        {
+          "name": "runtime_policy",
+          "passed": true,
+          "tail": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.172s\n\nOK\n"
+        },
+        {
+          "name": "small_model_chat",
+          "passed": true,
+          "tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.014s\n\nOK\n"
+        },
+        {
+          "name": "chat_priority",
+          "passed": true,
+          "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.093s\n\nOK\n"
+        },
+        {
+          "name": "schedule_catalog",
+          "passed": true,
+          "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.082s\n\nOK\n"
+        },
+        {
+          "name": "persistence_priority_tk",
+          "passed": true,
+          "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 14.308s\n\nOK\n"
+        },
+        {
+          "name": "mission_schedule",
+          "passed": true,
+          "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.620s\n\nOK\n"
+        },
+        {
+          "name": "native_chat_command",
+          "passed": true,
+          "tail": "................................\n----------------------------------------------------------------------\nRan 32 tests in 35.347s\n\nOK\n"
+        },
+        {
+          "name": "settings_surfaces_tk",
+          "passed": true,
+          "tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 18.109s\n\nOK\n"
+        }
+      ],
+      "process_smoke": {
+        "test_root": "D:\\Backups\\PortalAI-Chat-Priority-20261022\\process-fixture\\Maintenance\\Reports\\persistence-tests\\2d709a2a229d418b8a3bab66e09c7b2f",
+        "checks": [
+          {
+            "name": "second supervisor cannot dispatch",
+            "passed": true,
+            "exit_code": 1
+          },
+          {
+            "name": "scheduled wait survives supervisor exit",
+            "passed": true
+          },
+          {
+            "name": "fresh supervisor resumes when due",
+            "passed": true,
+            "mission": "47bc0b9f98aa4955886900955b97fc78",
+            "completed_at": 1792645226.5991223,
+            "scheduled_at": 1792645226.2326965
+          },
+          {
+            "name": "crashed action effect is not replayed",
+            "passed": true,
+            "effects": 1
+          },
+          {
+            "name": "controller crash kills its worker tree",
+            "passed": true
+          },
+          {
+            "name": "stop prevents late planning effects",
+            "passed": true
+          }
+        ],
+        "uses_test_worker": true
+      },
+      "known_fixture_limitations": {
+        "legacy_mtls_bridge": {
+          "unchanged_baseline_failure": true,
+          "baseline": {
+            "name": "legacy_mtls_baseline",
+            "passed": false,
+            "tail": "_json_protocol\n    with urllib.request.urlopen(request,context=client,timeout=3) as response:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 515, in open\n    response = self._open(req, data)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 532, in _open\n    result = self._call_chain(self.handle_open, protocol, protocol +\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 1392, in https_open\n    return self.do_open(http.client.HTTPSConnection, req,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 1347, in do_open\n    raise URLError(err)\nurllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>\n\n----------------------------------------------------------------------\nRan 12 tests in 0.392s\n\nFAILED (errors=1)\n"
+          },
+          "current": {
+            "name": "home_assistant_remote",
+            "passed": false,
+            "tail": "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 515, in open\n    response = self._open(req, data)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 532, in _open\n    result = self._call_chain(self.handle_open, protocol, protocol +\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 1392, in https_open\n    return self.do_open(http.client.HTTPSConnection, req,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\PortalAI Windows\\Runtime\\BootstrapPython\\Lib\\urllib\\request.py\", line 1347, in do_open\n    raise URLError(err)\nurllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>\n\n----------------------------------------------------------------------\nRan 12 tests in 0.278s\n\nFAILED (errors=1)\n"
+          }
+        },
+        "settings_fixture": "Existing settings fixture needs its Tests directory on sys.path under -I; run with a test-only runpy wrapper.",
+        "live_model_gpu_tests": "Not run against the active owner installation. Real OS locks, loopback HTTP, process crash/restart and disposable account tests cover the changed boundary."
+      },
+      "live_pause_label": {
+        "passed": true,
+        "active_chat_then_future_wait": true
+      }
+    },
+    "exact_payload_tests": [
+      {
+        "name": "Full-chat_priority",
+        "passed": true,
+        "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.755s\n\nOK\n"
+      },
+      {
+        "name": "Full-schedule_catalog",
+        "passed": true,
+        "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.698s\n\nOK\n"
+      },
+      {
+        "name": "Full-persistence_priority_tk",
+        "passed": true,
+        "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 13.175s\n\nOK\n"
+      },
+      {
+        "name": "Full-mission_schedule",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 14.360s\n\nOK\n"
+      },
+      {
+        "name": "Full-persistence_supervisor",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 7.614s\n\nOK\n"
+      },
+      {
+        "name": "Full-chat_handoff",
+        "passed": true,
+        "tail": ".......................\n----------------------------------------------------------------------\nRan 23 tests in 0.780s\n\nOK\n"
+      },
+      {
+        "name": "Full-native_chat_command",
+        "passed": true,
+        "tail": "................................\n----------------------------------------------------------------------\nRan 32 tests in 45.551s\n\nOK\n"
+      },
+      {
+        "name": "Academic-chat_priority",
+        "passed": true,
+        "tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 1.730s\n\nOK\n"
+      },
+      {
+        "name": "Academic-schedule_catalog",
+        "passed": true,
+        "tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.340s\n\nOK\n"
+      },
+      {
+        "name": "Academic-persistence_priority_tk",
+        "passed": true,
+        "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 15.719s\n\nOK\n"
+      },
+      {
+        "name": "Academic-mission_schedule",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 11.476s\n\nOK\n"
+      },
+      {
+        "name": "Academic-persistence_supervisor",
+        "passed": true,
+        "tail": "................\n----------------------------------------------------------------------\nRan 16 tests in 9.195s\n\nOK\n"
+      },
+      {
+        "name": "Academic-chat_handoff",
+        "passed": true,
+        "tail": ".......................\n----------------------------------------------------------------------\nRan 23 tests in 0.859s\n\nOK\n"
+      },
+      {
+        "name": "Academic-native_chat_command",
+        "passed": true,
+        "tail": "................................\n----------------------------------------------------------------------\nRan 32 tests in 67.832s\n\nOK\n"
+      }
+    ],
+    "packages": [
+      {
+        "edition": "Full",
+        "platform": "Windows",
+        "sha256": "25b47855b5bb07be815fe46bf5faa18aa9a64b73b16023ea0ed5bfb7dc9dc1bc",
+        "files": 19
+      },
+      {
+        "edition": "Full",
+        "platform": "Linux",
+        "sha256": "cade3553d6f45d3c751d035915989e617feee1c876c7787a31f791b97be2aa61",
+        "files": 19
+      },
+      {
+        "edition": "Full",
+        "platform": "Mac",
+        "sha256": "55c9a66fffdd0af158a1bfa4a739590509d2de1d59272fe816b131716266258d",
+        "files": 19
+      },
+      {
+        "edition": "Academic",
+        "platform": "Windows",
+        "sha256": "5634b33afc535b232d06aabbb40ab9670d368221ca70230aa814fda100308249",
+        "files": 19
+      },
+      {
+        "edition": "Academic",
+        "platform": "Linux",
+        "sha256": "8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220",
+        "files": 19
+      },
+      {
+        "edition": "Academic",
+        "platform": "Mac",
+        "sha256": "bff2d3d05f38d9e556ce763b29d48caa14bef28a64d0d72f54ddaed022c4fe26",
+        "files": 19
+      }
+    ],
+    "handoff": {
+      "passed": true,
+      "cases": [
+        "read-only preflight",
+        "source conflicts refused",
+        "open account refused",
+        "partial write rollback including added files",
+        "verified apply and repeat no-op",
+        "private fixture preserved"
+      ],
+      "private_owner_data_used": false
+    },
+    "native_mac_linux_tested": false,
+    "live_owner_model_tested": false
+  }
+}

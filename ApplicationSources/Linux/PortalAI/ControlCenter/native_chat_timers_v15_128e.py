@@ -61,9 +61,9 @@ def _refresh_labels(self):
     if not timer:
         return
     now = time.monotonic()
-    total = max(0.0, now - float(timer.get("started") or now))
+    total = max(0.0, now - float(timer.get("started") or now)) if timer.get("active") else float(timer.get("elapsed", 0))
     try:
-        timer["steps_label"].configure(text="⏱ " + _timeline(timer, now))
+        timer["steps_label"].configure(text="⏱ " + ("" if timer.get("active") else timer.get("outcome", "Completed") + " · ") + _timeline(timer, now))
         timer["total_label"].configure(text=f"Response {_fmt(total)}" + ("" if timer.get("active") else " total"))
     except Exception:
         pass
@@ -73,13 +73,14 @@ def _refresh_labels(self):
             except Exception: pass
 
 
-def _finish_response(self):
+def _finish_response(self, outcome="Completed"):
     timer = getattr(self, "_pai128e_timer", None)
     if not timer or not timer.get("active"):
         return
     now = time.monotonic()
     _finalize_segment(timer, now)
     timer["active"] = False
+    timer["outcome"] = outcome
     timer["elapsed"] = max(0.0, now - float(timer.get("started") or now))
     _refresh_labels(self)
     try:
@@ -94,6 +95,23 @@ def _finish_response(self):
                     break
     except Exception:
         pass
+
+
+def observe(self, kind, data):
+    """Use the same FIFO events as the transcript, not a later polling tick."""
+    timer = getattr(self, '_pai128e_timer', None)
+    if not timer or not timer.get('active'):
+        return
+    if kind == 'error':
+        timer['failed'] = True
+    elif kind == 'done':
+        outcome = 'Stopped' if self.cancel_event.is_set() else 'Failed' if timer.get('failed') else 'Completed'
+        _finish_response(self, outcome)
+    elif kind in ('assistant_start', 'reasoning', 'content', 'tool_start', 'tool_result'):
+        title = {'assistant_start': 'Preparing', 'reasoning': 'Thinking', 'content': 'Writing',
+                 'tool_result': 'Preparing'}.get(kind)
+        if kind == 'tool_start': title = 'Tool · ' + str(data.get('name') or 'tool')
+        _start_stage(self, title)
 
 
 def _tick(self):

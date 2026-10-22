@@ -31,15 +31,15 @@ class InstallerTests(unittest.TestCase):
             "custom_components/portalai_native/__init__.py": b"# new native\n",
             "custom_components/portalai_projection/__init__.py": b"# new projection\n",
             "custom_components/portalai_recovery/__init__.py": b"# recovery\n",
-            "www/portalai-live-v0.5.11.js": b"// new native UI\n",
+            "www/portalai-live-v0.5.12.js": b"// new native UI\n",
             "www/portalai-quick-chat-v0.4.3.js": b"// quick\n",
-            "www/portalai-projection-v0.5.11.js": b"// desktop\n",
+            "www/portalai-projection-v0.5.12.js": b"// desktop\n",
             "examples/configuration.merge.yaml": b"device_id: REPLACE_WITH_MODULE_DEVICE_ID\n",
-            "RELEASE.json": b'{"version":"0.5.11"}',
+            "RELEASE.json": b'{"version":"0.5.12"}',
             "install.py": (ROOT / "distribution/HomeAssistant/install.py").read_bytes(),
         }
         for domain in ("portalai_native", "portalai_projection", "portalai_recovery"):
-            self.data[f"custom_components/{domain}/manifest.json"] = b'{"version":"0.5.11"}'
+            self.data[f"custom_components/{domain}/manifest.json"] = b'{"version":"0.5.12"}'
             self.data[f"custom_components/{domain}/services.yaml"] = b"services: {}\n"
         for name in ('configure.py','finish.py','vendor/PyYAML-LICENSE.txt','vendor/yaml/__init__.py'):
             self.data[name]=(ROOT/'distribution/HomeAssistant'/name).read_bytes()
@@ -67,7 +67,7 @@ class InstallerTests(unittest.TestCase):
         self.assert_private_preserved()
         for name, data in self.files.items():
             self.assertEqual((self.root / name).read_bytes(), data)
-        self.assertIn(b"a" * 32, (self.root / "portalai/examples/0.5.11/configuration.merge.yaml").read_bytes())
+        self.assertIn(b"a" * 32, (self.root / "portalai/examples/0.5.12/configuration.merge.yaml").read_bytes())
         self.assertIsNone(self.install())
         self.assertEqual(len(list((self.root / ".portalai-installer/backups").iterdir())), 1)
 
@@ -82,7 +82,7 @@ class InstallerTests(unittest.TestCase):
         installer.rollback(self.root, backup)
         self.assertEqual(old.read_bytes(), b"# previous user version\n")
         self.assertEqual(legacy.read_bytes(), b"old versioned frontend")
-        self.assertFalse((self.root / "www/portalai-live-v0.5.11.js").exists())
+        self.assertFalse((self.root / "www/portalai-live-v0.5.12.js").exists())
         self.assert_private_preserved()
         installer.rollback(self.root, backup)  # Repeated rollback is harmless.
 
@@ -99,10 +99,10 @@ class InstallerTests(unittest.TestCase):
         self.assert_private_preserved()
 
     def test_tampered_or_unlisted_payload_refused_before_install(self):
-        (self.package / "www/portalai-live-v0.5.11.js").write_bytes(b"tampered")
+        (self.package / "www/portalai-live-v0.5.12.js").write_bytes(b"tampered")
         with self.assertRaisesRegex(ValueError, "checksum failed"):
             installer.payload(self.package, "a" * 32)
-        (self.package / "www/portalai-live-v0.5.11.js").write_bytes(self.data["www/portalai-live-v0.5.11.js"])
+        (self.package / "www/portalai-live-v0.5.12.js").write_bytes(self.data["www/portalai-live-v0.5.12.js"])
         (self.package / "custom_components/portalai_native/extra.py").write_bytes(b"unexpected")
         with self.assertRaisesRegex(ValueError, "Unlisted"):
             installer.payload(self.package, "a" * 32)
@@ -130,7 +130,7 @@ class InstallerTests(unittest.TestCase):
 
     def test_rollback_refuses_later_user_edit_before_any_restoration(self):
         backup = self.install()
-        new = self.root / "www/portalai-live-v0.5.11.js"
+        new = self.root / "www/portalai-live-v0.5.12.js"
         new.write_bytes(b"user edit after install")
         with self.assertRaisesRegex(ValueError, "Changed since installation"):
             installer.rollback(self.root, backup)
@@ -159,7 +159,7 @@ class InstallerTests(unittest.TestCase):
         # A power loss can leave some files still original, some replaced,
         # and some new files not yet copied. All must be recoverable.
         old.write_bytes(b"original")
-        (self.root / "www/portalai-live-v0.5.11.js").unlink()
+        (self.root / "www/portalai-live-v0.5.12.js").unlink()
         installer.rollback(self.root, backup)
         self.assertEqual(old.read_bytes(), b"original")
         self.assertFalse((self.root / "custom_components/portalai_projection/__init__.py").exists())

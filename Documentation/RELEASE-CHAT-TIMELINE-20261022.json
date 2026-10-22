@@ -1,0 +1,47 @@
+{
+  "repository": "Zhandragon/PortalAI-Academic",
+  "tag": "v2026.10.22-r1",
+  "edition": "Academic",
+  "assets": {
+    "PortalAI-Academic-Linux-Installer-20261022-r1.tar.gz": {
+      "bytes": 618689412,
+      "sha256": "8923a5c9896f631c369f4146734411201d9a93d86e9616ad98234e52f7b54220"
+    },
+    "PortalAI-Academic-Linux-Setup.sh": {
+      "bytes": 216709,
+      "sha256": "ce37997ce67614521bf002b62c77195e67b11571cac9a9c26d59c7c3a9961bfd"
+    },
+    "PortalAI-Academic-Mac-Installer-20261022-r1.tar.gz": {
+      "bytes": 680564323,
+      "sha256": "bff2d3d05f38d9e556ce763b29d48caa14bef28a64d0d72f54ddaed022c4fe26"
+    },
+    "PortalAI-Academic-Mac-Setup.zip": {
+      "bytes": 102836,
+      "sha256": "d292304094b489e5fd093475546ff146d06be897cea5e488e8163d24db53d336"
+    },
+    "PortalAI-Academic-Windows-Installer-20261022-r1.zip": {
+      "bytes": 335366745,
+      "sha256": "5634b33afc535b232d06aabbb40ab9670d368221ca70230aa814fda100308249"
+    },
+    "PortalAI-Academic-Windows-Setup.exe": {
+      "bytes": 22016,
+      "sha256": "570d58aa91968e6f58bda5810b500281689450c59c32e55f5749e093cf87e3ee"
+    },
+    "PortalAI-HomeAssistant-0.5.12-recovery-0.1.0.zip": {
+      "bytes": 679400,
+      "sha256": "811641c9b9d932ed235cc1d8a4f6070ac6aee63f2155a6f45dd22d11fd04b79d"
+    },
+    "PortalAI-Projection-Linux-20261022-r1.tar.gz": {
+      "bytes": 60815343,
+      "sha256": "4d6234ed97597e4ac4f6b7e23dbf1858910b01a7ab63128ad226b8cfede7a4b3"
+    },
+    "PortalAI-Projection-Mac-20261022-r1.tar.gz": {
+      "bytes": 81028757,
+      "sha256": "2cc8438bbb5d9cf52aa6753a34ebd2781292a92f41181e9b1da8f1a888a07c26"
+    },
+    "PortalAI-Projection-Windows-20261022-r1.zip": {
+      "bytes": 22369046,
+      "sha256": "40eae62e5d5bead99d5782f94f955bc22d738be01e63b2b5a7a0e99356ebc531"
+    }
+  }
+}

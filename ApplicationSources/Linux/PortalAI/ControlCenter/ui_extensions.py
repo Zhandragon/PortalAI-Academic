@@ -329,13 +329,15 @@ class ContextHelpManager:
         return "break"
 
 
-def adaptive_columns(parent, widgets, *, minimum=850):
+def adaptive_columns(parent, widgets, *, minimum=850, stretch=False):
     """Two equal columns when useful, preserving reading order when stacked."""
     previous=[None]
     def layout(event):
         cols=2 if event.width>=minimum else 1
         if previous[0]==cols:return
         previous[0]=cols
+        if stretch:
+            for row in range(len(widgets)):parent.rowconfigure(row,weight=1 if row<(len(widgets)+cols-1)//cols else 0)
         for column in range(2):parent.columnconfigure(column,weight=1 if column<cols else 0,uniform='pair' if column<cols else '')
         for index,widget in enumerate(widgets):
             widget.grid(row=index//cols,column=index%cols,sticky='nsew',padx=(0,10) if cols==2 and index%2==0 else 0,pady=(0,4))

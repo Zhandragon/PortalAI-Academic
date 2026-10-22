@@ -10,7 +10,7 @@ panel_custom:
     sidebar_title: PortalAI Native
     sidebar_icon: mdi:monitor-dashboard
     url_path: portalai-native
-    module_url: /local/portalai-live-v0.5.11.js
+    module_url: /local/portalai-live-v0.5.12.js
     require_admin: true
     config:
       device_id: "REPLACE_WITH_MODULE_DEVICE_ID"

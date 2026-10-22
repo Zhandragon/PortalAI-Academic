@@ -18,7 +18,7 @@ import time
 import uuid
 import importlib.util
 
-RELEASE = "0.5.11"
+RELEASE = "0.5.12"
 HERE = Path(__file__).resolve().parent
 META = ".portalai-installer"
 PLACEHOLDER = "REPLACE_WITH_MODULE_DEVICE_ID"
@@ -70,7 +70,7 @@ def managed(name):
         and rel.parts[1] in ("portalai_native", "portalai_projection", "portalai_recovery")
         and rel.suffix in (".py", ".json", ".yaml")
     ) or (len(rel.parts) == 2 and rel.parts[0] == "www"
-          and rel.name in ("portalai-live-v0.5.11.js", "portalai-quick-chat-v0.4.3.js", "portalai-projection-v0.5.11.js", *ALIASES))
+          and rel.name in ("portalai-live-v0.5.12.js", "portalai-quick-chat-v0.4.3.js", "portalai-projection-v0.5.12.js", *ALIASES))
 
 
 def generated(name):
@@ -78,19 +78,19 @@ def generated(name):
     return name in ('configuration.yaml','portalai/dashboard.yaml') or (len(rel.parts) == 4 and rel.parts[:3] == ("portalai", "examples", RELEASE) and rel.suffix == ".yaml")
 
 
-ALIASES={**{name:'portalai-live-v0.5.11.js' for name in ('portalai-live-v0.5.1.js','portalai-live-v0.5.2.js','portalai-live-v0.5.3.js','portalai-live-v0.5.4.js','portalai-live-v0.5.5.js','portalai-live-v0.5.6.js','portalai-live-v0.5.7.js','portalai-live-v0.5.8.js','portalai-live-v0.5.9.js','portalai-live-v0.5.10.js')},
+ALIASES={**{name:'portalai-live-v0.5.12.js' for name in ('portalai-live-v0.5.1.js','portalai-live-v0.5.2.js','portalai-live-v0.5.3.js','portalai-live-v0.5.4.js','portalai-live-v0.5.5.js','portalai-live-v0.5.6.js','portalai-live-v0.5.7.js','portalai-live-v0.5.8.js','portalai-live-v0.5.9.js','portalai-live-v0.5.10.js')},
          'portalai-quick-chat-v0.4.1.js':'portalai-quick-chat-v0.4.3.js',
          'portalai-quick-chat-v0.4.2.js':'portalai-quick-chat-v0.4.3.js',
-         'portalai-projection-demand-v1.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-demand-v2.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-demand-v3.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.4.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.5.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.6.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.7.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.8.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.9.js':'portalai-projection-v0.5.11.js',
-         'portalai-projection-v0.5.10.js':'portalai-projection-v0.5.11.js'}
+         'portalai-projection-demand-v1.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-demand-v2.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-demand-v3.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.4.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.5.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.6.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.7.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.8.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.9.js':'portalai-projection-v0.5.12.js',
+         'portalai-projection-v0.5.10.js':'portalai-projection-v0.5.12.js'}
 
 class PreparedFiles(dict):
     """Remember the configuration bytes used to prepare a merge."""
@@ -134,7 +134,7 @@ def verify_package(package=HERE):
     required = {"custom_components/" + domain + "/" + file
                 for domain in ("portalai_projection", "portalai_native", "portalai_recovery")
                 for file in ("__init__.py", "manifest.json", "services.yaml")}
-    required |= {"www/portalai-live-v0.5.11.js", "www/portalai-quick-chat-v0.4.3.js", "www/portalai-projection-v0.5.11.js",
+    required |= {"www/portalai-live-v0.5.12.js", "www/portalai-quick-chat-v0.4.3.js", "www/portalai-projection-v0.5.12.js",
                  "examples/configuration.merge.yaml", "RELEASE.json", "install.py", "configure.py", "finish.py", "vendor/yaml/__init__.py", "vendor/PyYAML-LICENSE.txt"}
     if not required.issubset(manifest):
         raise ValueError("Incomplete release payload")
@@ -293,7 +293,7 @@ def main(argv=None):
         print(f"Verified {len(verify_package())} package files.")
         return
     if args.action == "wizard":
-        print("PortalAI HA 0.5.11 - installs files to an existing HA configuration directory.")
+        print("PortalAI HA 0.5.12 - installs files to an existing HA configuration directory.")
         print("Use a writable HA config share or mounted directory. This does not configure remote access.")
         args.config = args.config or input("HA config directory (or writable share): ").strip().strip('"')
         if args.device_id==PLACEHOLDER:args.device_id = input("Public device ID (32 lowercase hexadecimal characters): ").strip()

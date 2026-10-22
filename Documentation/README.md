@@ -22,3 +22,5 @@ Only Windows has been thoroughly tested; Linux has partial validation. macOS ins
 [Current web/agents/ports/Mac update](UPDATE-20261021.md) · [Usage](WebAgents/USAGE.txt) · [Mac setup](MacProjection/SETUP.txt).
 
 [Silent web tools update and current installers](SILENT-WEB-20261021.md).
+
+[Chat timeline update and current installers](CHAT-TIMELINE-20261022.md).

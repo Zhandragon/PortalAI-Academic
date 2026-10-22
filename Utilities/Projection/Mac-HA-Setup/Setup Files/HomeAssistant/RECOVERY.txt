@@ -1,4 +1,4 @@
-NOTE FOR THE COMBINED 0.5.11 INSTALLER
+NOTE FOR THE COMBINED 0.5.12 INSTALLER
 The automatic installer already adds portalai_recovery to configuration.yaml
 and creates the Recovery dashboard view. Do not add a duplicate YAML key.
 If setup also completed the HA restart, skip historical installation steps

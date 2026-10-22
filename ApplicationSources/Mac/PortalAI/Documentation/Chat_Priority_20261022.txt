@@ -1,0 +1,41 @@
+PortalAI direct chat priority, schedules and resizing — 2026-10-22
+
+A message sent in chat (including the same panel projected through Home
+Assistant), Edit & regenerate, or Regenerate takes priority over this instance's
+background mission and schedule workers. No additional option is required.
+
+Planning requests yield promptly. An already admitted tool finishes its current
+operation before chat begins; force-killing an operation could leave its effect
+unknown. The UI reports that background work is checkpointing while it waits.
+The worker saves a bounded progress summary to the existing mission-family or
+schedule memory, with references to the complete action/result ledger. Completed
+actions and remaining budgets are retained. A new background action cannot start
+while chat owns the execution lease.
+
+After the reply completes, fails or is cancelled, the lease is released. The
+existing supervisor automatically continues work that is still armed/enabled.
+Explicit mission Stop, schedule Disable, global Stop, logout and epoch revocation
+remain authoritative. Unknown pending effects or failed checkpoint writes require
+review; they are never automatically replayed. A crashed chat cannot leave a
+permanent lock because the operating system owns the leases. Separate portable
+instances retain their own identity, profile state and priority gates.
+
+Schedules has one Enable/Disable button. Selecting an enabled schedule shows
+Disable; selecting a paused schedule shows Enable. Click again to change state.
+The saved list and selected button refresh from disk. During chat, an enabled
+schedule is shown as paused for chat; disabling it is a lasting user choice.
+
+Saved schedules has separate State and Source filters. Source offers All origins,
+User created, Diagnostic, and Legacy / unclassified. Combine them to show, for
+example, only removed user schedules. New schedules created in the GUI or command
+line record their origin. Known historical self-test wording is grouped under
+Diagnostic with a legacy label. Older records without evidence stay unclassified;
+they are not guessed to be user work. Changing filters never enables, disables,
+removes or rewrites a schedule. All origins remains the default.
+
+Missions & Access and Schedules now allocate additional window height to their
+saved lists and detail panes. Scroll extents adjust after responsive columns
+rearrange. Schedule setup fields use multiple columns when space permits.
+
+Close and restart PortalAI normally to load updated code. Do not force a restart
+of an active account or overwrite its workspace with a clean installer.

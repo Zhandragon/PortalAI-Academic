@@ -26,6 +26,7 @@ def mission_details(mission=None, *, mode=None, catalogue=None, memory=None, sup
         ('Actions used / allowed', f"{m.get('steps', 0)} / {m.get('max_steps', 0)}" if mission else None),
         ('Record source', (catalogue or {}).get('origin', {}).get('label')), ('Schedule ID', m.get('schedule_id')),
         ('Automatic continuation', ('Armed to continue' if supervision.get('enabled') else 'Not armed') if supervision is not None else None),
+        ('Direct chat checkpoint', m.get('chat_checkpoint')),
         ('Next planned run', when(m.get('next_run_at'))), ('Subtasks being waited for', m.get('waiting_for_children')),
         ('Action awaiting execution or review', m.get('pending_action')),
         ('Latest action and result', m.get('history', [])[-1:]), ('Recent remembered context', memory),
@@ -53,7 +54,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     store = Missions(root)
     catalog = MissionCatalog(root, store=store)
     from internal_sheet import InternalSheet
-    win = InternalSheet(parent, 'Missions and access', colors,embedded=embedded,framed=framed)
+    win = InternalSheet(parent, 'Missions and access', colors,embedded=embedded,framed=framed,fill_height=True)
     bg = colors.get("panel", colors.get("bg", "#17202A"))
     fg = colors.get("text", "#E5E5E5")
     accent = colors.get("accent", "#55C5BF")
@@ -104,7 +105,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     table=tk.Frame(data_area,bg=bg)
     detail_host=tk.Frame(data_area,bg=bg)
     from ui_extensions import adaptive_columns
-    adaptive_columns(data_area,[table,detail_host],minimum=850 if embedded else 10000)
+    adaptive_columns(data_area,[table,detail_host],minimum=850 if embedded else 1350,stretch=True)
     win.skin.label(table, 'Saved missions', heading=True).pack(fill='x', anchor='w', pady=(0, 2))
     list_note = tk.StringVar()
     tk.Label(table, textvariable=list_note, anchor='w', bg=bg, fg=fg, wraplength=480, justify='left').pack(fill='x', pady=(0, 2))
@@ -159,9 +160,11 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         count.set(f'{len(rows)} records shown')
         list_note.set('Select a row for its full objective, permissions and results.' if rows else
                       'Nothing found to report. Columns below show source, access, status, actions used / limit and objective.')
+        from chat_priority import active as direct_chat_active
+        chat_is_active=direct_chat_active(root)
         for row in reversed(rows):
             m = row['mission']
-            label = 'Deleted · ' + m['status'] if row['deleted'] else m['status']
+            label = 'Deleted · ' + m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
             values = (row['origin']['label'], profile(m["mode"])["label"], label, f"{m['steps']}/{m['max_steps']}", m["objective"][:150])
             if m["id"] in existing:
                 tree.item(m["id"], values=values)

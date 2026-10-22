@@ -39,10 +39,10 @@ class AutoSetupTests(unittest.TestCase):
             root=Path(temp);before=b'default_config:\n'
             (root/'configuration.yaml').write_bytes(before);(root/'www').mkdir()
             old=root/'www/portalai-projection-demand-v2.js';old.write_bytes(b'previous reconnect version')
-            files={'www/portalai-live-v0.5.11.js':b'new native','www/portalai-quick-chat-v0.4.3.js':b'new quick','www/portalai-projection-v0.5.11.js':b'new desktop with reconnect'}
+            files={'www/portalai-live-v0.5.12.js':b'new native','www/portalai-quick-chat-v0.4.3.js':b'new quick','www/portalai-projection-v0.5.12.js':b'new desktop with reconnect'}
             files=i.automatic_setup(root,files,'b'*32)
             backup=i.install(root,files)
-            self.assertEqual(old.read_bytes(),files['www/portalai-projection-v0.5.11.js'])
+            self.assertEqual(old.read_bytes(),files['www/portalai-projection-v0.5.12.js'])
             self.assertIsNone(i.install(root,i.automatic_setup(root,dict(files),'b'*32)))
             i.rollback(root,backup)
             self.assertEqual((root/'configuration.yaml').read_bytes(),before)

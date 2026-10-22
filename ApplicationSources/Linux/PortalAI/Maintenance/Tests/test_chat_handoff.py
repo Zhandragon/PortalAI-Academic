@@ -20,6 +20,10 @@ import service_manager as services
 
 def panel():
     p = chat.NativeChat.__new__(chat.NativeChat)
+    p._fixture_directory = tempfile.TemporaryDirectory()
+    import weakref
+    weakref.finalize(p,p._fixture_directory.cleanup)
+    p.root = Path(p._fixture_directory.name)
     p.settings = {**chat.DEFAULT_SETTINGS, "tool_step_limit": 3}
     p.cancel_event = threading.Event(); p.active_http = chat.ActiveHTTP(); p.ev = queue.Queue()
     p.session = {"id": "test", "messages": [{"role": "user", "content": "Test"}]}

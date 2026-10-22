@@ -12,7 +12,7 @@ Projection is an optional portable companion to the PortalAI application. It con
 | --- | --- |
 | Windows x64 | [Windows Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe). An unlocked, signed-in desktop is required. The downloader needs .NET Framework 4.5+, included with Windows 10/11. |
 | Linux x86-64 | [Linux Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh). Requires Linux 5.14+, an unlocked X11/XWayland TrueColor desktop, a drive mounted with execution allowed, and a delegated cgroup v2 with memory control. The launcher requests a systemd user scope without sudo. Download setup uses Bash, curl, tar and SHA-256 utilities. |
-| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz). Bundled runtime, verified owned-window capture and separate recovery. Physical Mac acceptance pending. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz). Bundled runtime, verified owned-window capture and separate recovery. Physical Mac acceptance pending. |
 
 Linux has partial validation; physical Linux desktops remain unvalidated. ARM Linux, headless/locked desktops, native Wayland without XWayland, missing cgroup delegation and unusual visual formats are unsupported. Physical HA Green/Home Assistant Cloud deployment has not been validated end to end. Report problems to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues) with OS versions and the error message, excluding passwords, tokens and private connection files.
 
@@ -47,7 +47,7 @@ Use Home Assistant's own sign-in on a trusted device. The Projection connection 
 
 ## 3. Install the matching Home Assistant integration
 
-The bundle includes **PortalAI Home Assistant 0.5.11 + Recovery 0.1.0**. HA must already be installed, onboarded and accessible to its administrator. Back up its configuration, then use a writable HA configuration folder or share.
+The bundle includes **PortalAI Home Assistant 0.5.12 + Recovery 0.1.0**. HA must already be installed, onboarded and accessible to its administrator. Back up its configuration, then use a writable HA configuration folder or share.
 
 **From Windows:** open `utilities/PortalAI HA Setup/Install PortalAI HA.cmd`. Choose **Install** for a writable config/share, or **Prepare** to create a deployment ZIP for a trusted HA device. Enter the public device ID generated above. This uses the sibling companion's bundled Python.
 
@@ -97,3 +97,5 @@ Connections use AES-GCM encryption with a password-derived scrypt key for the UR
 ## Package verification
 
 The setup files embed the expected SHA-256 hashes for the downloaded parts, reconstructed archive and extracted files. [Packaging metadata and source](../Utilities/Projection/) are published alongside them. Every repository file stays below the browser upload size limit; launchers retrieve and join the parts automatically. Current Mac installer packages include the companion; Windows/Linux standalone downloads retain their previously published versions.
+
+Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.

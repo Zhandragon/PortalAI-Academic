@@ -1,4 +1,4 @@
-PortalAI Home Assistant 0.5.11 + Recovery 0.1.0
+PortalAI Home Assistant 0.5.12 + Recovery 0.1.0
 
 Extract this complete folder, then double-click Install Home Assistant.cmd.
 The launcher uses ../Runtime/Python/python.exe from the PortalAI distribution,
@@ -36,9 +36,9 @@ Never put the token in an argument or distributed file; it is prompted privately
 
 UPGRADES / ADVANCED YAML
 Canonical URLs:
-  /local/portalai-live-v0.5.11.js
+  /local/portalai-live-v0.5.12.js
   /local/portalai-quick-chat-v0.4.3.js
-  /local/portalai-projection-v0.5.11.js
+  /local/portalai-projection-v0.5.12.js
 Recognized older PortalAI resource URLs on disk get the compatible new payload
 with backups, so older resource registrations cannot load the known broken code.
 Unrecognized custom aliases need owner updates.
@@ -47,7 +47,7 @@ Automatic merge stops BEFORE writes for existing packages, external includes
 in edited frontend/panel/Lovelace sections, anchors/aliases, duplicate keys or
 conflicting dashboard URLs. For these advanced existing layouts use:
   python install.py install --files-only --config /config --device-id YOUR_PUBLIC_DEVICE_ID
-Then merge portalai/examples/0.5.11/*.yaml into the existing layout, validate and
+Then merge portalai/examples/0.5.12/*.yaml into the existing layout, validate and
 restart. File-only mode does not edit configuration or legacy resource aliases.
 Copy only frontend JS into public www; keep installer, source and backups private.
 
@@ -64,7 +64,7 @@ remove only the stale .portalai-installer/install.lock, then run rollback.
 FEATURES
 Attachment controls clear their loading notice after a completed/failed read
 and rediscover the file picker when a blocking host dialog closes. Existing
-host dialog checks still apply; 0.5.11 requires no additional host protocol.
+host dialog checks still apply; 0.5.12 requires no additional host protocol.
 Uploads use larger chunks when the updated Aoostar GUI and companion advertise
 support; old hosts continue in compatibility mode. See AOOSTAR_HANDOFF.txt for
 host compatibility. Install HA backend and frontend together for the
@@ -84,5 +84,5 @@ See AOOSTAR_HANDOFF.txt, VALIDATION.txt and RECOVERY.txt.
 STABILITY.txt and MERGE_NOTES.txt are historical 0.5.3 provenance documents.
 
 
-0.5.11: pair with the matching Aoostar history/vision/media host update.
+0.5.12: pair with the matching Aoostar history/vision/media host update.
 See AOOSTAR_HANDOFF.txt for update order and compatibility.

@@ -294,9 +294,13 @@ class Supervisor:
             if stopped or overdue or too_large: self.finish_worker(cancelled=True)
             elif self.worker.poll() is not None: self.finish_worker()
             else:
-                self.heartbeat("running"); return True
+                from chat_priority import active as direct_chat_active
+                self.heartbeat('checkpointing_for_chat' if direct_chat_active(self.root) else 'running'); return True
         if stopping:
             self.heartbeat("stopped"); return False
+        from chat_priority import active as direct_chat_active
+        if direct_chat_active(self.root):
+            self.heartbeat('paused_for_chat');return True
         # Surviving workers from another controller/legacy CLI retain this lock.
         try:
             with process_lock(self.store.base/"execution.lock"): pass

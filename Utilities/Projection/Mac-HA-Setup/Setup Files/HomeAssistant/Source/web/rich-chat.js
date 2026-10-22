@@ -91,17 +91,19 @@ export class RichChat{
     for(const slot of this.root.querySelectorAll('portalai-rich-message')){
       if(slot.scope!==this.scope){slot.shadowRoot.replaceChildren(element('style',style));slot.groups.clear();slot.scope=this.scope;}
       for(const kind of ['thinking','tool','media']){
+        if(slot.dataset.richKind==='thinking'&&kind!=='thinking'||slot.dataset.richKind==='results'&&kind==='thinking')continue;
         const rows=[...this.blocks.values()].filter(b=>b.message===slot.dataset.message&&b.kind===kind);
         let group=slot.groups.get(kind);
         if(!rows.length){if(group){group.remove();slot.groups.delete(kind);}continue;}
         if(!group){group=element('details');group.append(element('summary'));slot.shadowRoot.append(group);slot.groups.set(kind,group);
           group.addEventListener('toggle',()=>{if(group.open){for(const n of group.querySelectorAll('details'))if(n.open)this.load(n.dataset.block,n);}else{for(const m of group.querySelectorAll('audio,video'))m.pause();}});}
-        group.querySelector('summary').textContent=({thinking:'Thinking',tool:'Tool calls',media:'Media & attachments'})[kind]+' ('+rows.length+')';
+        group.querySelector('summary').textContent=({thinking:'Reasoning',tool:'Tool calls',media:'Media & attachments'})[kind]+' ('+rows.length+')';
         for(const b of rows){
           let node=this.nodes.get(b.id);
           if(!node){node=element('details');node.dataset.block=b.id;node.append(element('summary'),element('div'));this.nodes.set(b.id,node);
             node.addEventListener('toggle',()=>{if(this.open(node))this.load(b.id,node);else for(const m of node.querySelectorAll('audio,video'))m.pause();});}
-          node.querySelector('summary').textContent=b.title+(b.kind==='media'?'':' · '+b.status);
+          const status=b.status==='streaming'&&this.snapshot?.chat.busy===false?'saved':b.status;
+          node.querySelector('summary').textContent=(b.kind==='thinking'?'Reasoning':b.title)+(b.kind==='media'?'':' · '+status);
           if(node.parentElement!==group){const expanded=node.open&&node.parentElement?.open===true;group.append(node);if(expanded)group.open=true;}
         }
       }

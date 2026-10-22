@@ -1,4 +1,4 @@
-Current portable merge: 0.5.11 + Recovery 0.1.0
+Current portable merge: 0.5.12 + Recovery 0.1.0
 Upstream runtime, backend, frontend, crypto and lifecycle guards are unchanged.
 Portable launcher, documentation and examples are retained in Source for rebuilding.
 Host history/preview files are a separate Aoostar update. HA deployment is coordinated separately.

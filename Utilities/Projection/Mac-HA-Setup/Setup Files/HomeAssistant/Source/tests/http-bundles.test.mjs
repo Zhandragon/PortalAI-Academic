@@ -26,7 +26,7 @@ function fixture(){
   return {context,classes,timers};
 }
 
-for(const [file,tag] of [['portalai-live-v0.5.11.js','portalai-live-panel'],['portalai-quick-chat-v0.4.3.js','portalai-quick-chat'],['portalai-projection-v0.5.11.js','portalai-projection']]){
+for(const [file,tag] of [['portalai-live-v0.5.12.js','portalai-live-panel'],['portalai-quick-chat-v0.4.3.js','portalai-quick-chat'],['portalai-projection-v0.5.12.js','portalai-projection']]){
   test('HTTP-only crypto can construct deployed '+file,()=>{
     const f=fixture();
     const source=fs.readFileSync(new URL('../dist/'+file,import.meta.url),'utf8');
@@ -40,7 +40,7 @@ for(const [file,tag] of [['portalai-live-v0.5.11.js','portalai-live-panel'],['po
 
 test('HTTP-only crypto can acquire and release a real viewer-demand controller',async()=>{
   const f=fixture(),calls=[];
-  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.11.js',import.meta.url),'utf8')+'\nglobalThis.Demand=PortalAIViewerDemand;',f.context);
+  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.12.js',import.meta.url),'utf8')+'\nglobalThis.Demand=PortalAIViewerDemand;',f.context);
   const demand=new f.context.Demand({callWS:async request=>{calls.push(request);return {accepted:true,lease_seconds:15};}},'a'.repeat(32),'native');
   await demand.connect();assert.equal(demand.connected,true);assert.equal(f.timers.size,1);
   assert.match(calls[0].viewer,/^[0-9a-f]{32}$/);
@@ -49,7 +49,7 @@ test('HTTP-only crypto can acquire and release a real viewer-demand controller',
 
 test('bundled native panel keeps workflow active through a short hide and retires it after frozen grace',()=>{
   const f=fixture();let now=100000;f.context.Date={now:()=>now};
-  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.11.js',import.meta.url),'utf8'),f.context);
+  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.12.js',import.meta.url),'utf8'),f.context);
   const panel=new (f.classes.get('portalai-live-panel'))();let background=0,foreground=0,released=0,active;
   panel.page='chat';panel.chatToolsOpen=true;panel._connection={removeEventListener(){}};
   panel.configureRich=()=>{};panel.session={demand:{connected:true,background(){background++;},foreground(){foreground++;}},clear(){released++;panel.session.demand=null;}};
@@ -62,7 +62,7 @@ test('bundled native panel keeps workflow active through a short hide and retire
 
 test('bundled projection pauses polling during grace and never resumes a retired connection',async()=>{
   const f=fixture();let now=100000;f.context.Date={now:()=>now};
-  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-projection-v0.5.11.js',import.meta.url),'utf8'),f.context);
+  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-projection-v0.5.12.js',import.meta.url),'utf8'),f.context);
   const card=new (f.classes.get('portalai-projection'))();card.connected=true;card.config={device_id:'a'.repeat(32)};
   let polls=0;const requests=[];card.poll=()=>polls++;card._hass={callWS:async p=>{requests.push(p);return {accepted:true};}};
   f.context.document.hidden=true;card.visibilityChange();await Promise.resolve();assert.equal(card.connected,true);assert.equal(polls,0);
@@ -73,7 +73,7 @@ test('bundled projection pauses polling during grace and never resumes a retired
 
 test('heartbeat returning across a hide/show cycle cannot create a second renewal loop',async()=>{
   const f=fixture();let renew;
-  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.11.js',import.meta.url),'utf8')+'\nglobalThis.Demand=PortalAIViewerDemand;',f.context);
+  vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.12.js',import.meta.url),'utf8')+'\nglobalThis.Demand=PortalAIViewerDemand;',f.context);
   const demand=new f.context.Demand({callWS:async p=>p.action==='renew'?new Promise(resolve=>renew=resolve):{accepted:true,lease_seconds:15}},'a'.repeat(32),'native');
   await demand.connect();const [id,timer]=[...f.timers.entries()][0];f.timers.delete(id);const pending=timer();
   await demand.background();await demand.foreground();assert.equal(f.timers.size,1);
@@ -82,7 +82,7 @@ test('heartbeat returning across a hide/show cycle cannot create a second renewa
 });
 
 function pickerPanel(){
-  const f=fixture();vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.11.js',import.meta.url),'utf8'),f.context);
+  const f=fixture();vm.runInNewContext(fs.readFileSync(new URL('../dist/portalai-live-v0.5.12.js',import.meta.url),'utf8'),f.context);
   const panel=new (f.classes.get('portalai-live-panel'))();
   const snapshot={view:'view',epoch:'epoch',account:{state:'ready'},chat:{current:'chat'}};
   panel._panel={config:{device_id:'d'.repeat(32)}};panel.model.snapshot=snapshot;panel.model.status='ready';

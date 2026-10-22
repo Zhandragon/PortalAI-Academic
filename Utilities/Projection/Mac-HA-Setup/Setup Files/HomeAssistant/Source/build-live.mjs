@@ -6,7 +6,7 @@ const modules=[['browser-crypto.js',['randomId','sha256Hex']],['catalog.js',['CA
 const css=await read('web/panel.css');
 const images={};
 for (const name of ['icon.png','emblem.png','wordmark.png']) images[name]='data:image/png;base64,'+(await readFile(new URL('web/assets/'+name,root))).toString('base64');
-let bundle='// PortalAI native UI 0.5.11, native workflows. Built from reviewed local modules.\n';
+let bundle='// PortalAI native UI 0.5.12, native workflows. Built from reviewed local modules.\n';
 bundle+='const PANEL_CSS='+JSON.stringify(css)+';\nconst PANEL_IMAGES='+JSON.stringify(images)+';\n';
 for (const [name,exports] of modules) {
   let source=(await read('web/'+name)).replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'');
@@ -17,5 +17,5 @@ for (const [name,exports] of modules) {
   bundle+=(exports.length?'const {'+exports.join(',')+'}=':'')+'(()=>{\n'+source+'\n'+(exports.length?'return {'+exports.join(',')+'};':'')+'\n})();\n';
 }
 await mkdir(new URL('dist/',root),{recursive:true});
-await writeFile(new URL('dist/portalai-live-v0.5.11.js',root),bundle);
-console.log('Built dist/portalai-live-v0.5.11.js ('+Buffer.byteLength(bundle)+' bytes)');
+await writeFile(new URL('dist/portalai-live-v0.5.12.js',root),bundle);
+console.log('Built dist/portalai-live-v0.5.12.js ('+Buffer.byteLength(bundle)+' bytes)');

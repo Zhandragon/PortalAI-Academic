@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.21-r3-Academic-Linux",
+  "release": "PortalAI-2026.10.22-r1-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 493447689,
-      "sha256": "e27bc416d1a6d1595d0c9f1f0e5733e50455bcb604f46c0ce79054eb00324bea"
+      "bytes": 493480968,
+      "sha256": "fcc65fe4a07eb245f5a92b7f3bf9efa9269e97bb86171322412725e86773ac06"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -128,5 +128,82 @@
     "job_ownership_preserved": true,
     "source_sha256": "0ef89f5913d6b2b3196e4f521e7200af133b44e38f988352b6497d4f65406d19",
     "shared_process_helper_included": true
+  },
+  "chat_timeline": {
+    "revision": "20261022-r1",
+    "ha_frontend": "0.5.12",
+    "source_sha256": {
+      "ControlCenter/native_chat.py": "1d214a61134f881a8e49cebb3d9696e3a2b6315a96069ccf6e51f996ff231de8",
+      "ControlCenter/native_chat_timers_v15_128e.py": "f72917730aa1a52fa5faeb23feef37f03192d9e4e12c894c8b6f169be8777b50",
+      "ControlCenter/native_rich_chat.py": "41d6559700aba4ceb6326aef8090b5d1ecc2b1e77b3ee998b87fd5815df312f2",
+      "Maintenance/Tests/test_chat_timeline.py": "0a640f5b740daf953b29f6a604027f12c98e562592f482dfec7608c652dae49f",
+      "Documentation/Chat_Timeline_20261022.txt": "cddc4bcb0c0e76af1d4c721f4930df5377d5f60d1f86253ed506a0fe2df20106"
+    }
+  },
+  "projection_ui": {
+    "revision": "20261022-r1",
+    "source_sha256": {
+      "app/connection_vault.py": "6e3c2c62a0aeece7cfa78ed41728365897a4d4a24a95ba308fb07316bfb5a080",
+      "app/elegant_native_ui.py": "edcc9639f47bb1e582e105a47e19b89d6aed4edd37e4032b1496684b0b7092c2",
+      "app/host_runtime.py": "be4825cf74a228bd4ce9e6f843d6bc91d781088b9f979fcaf83e124ba3b99ad6",
+      "app/linux_desktop.py": "b9f0dce5d8bb9ed50a8248ea186241c0679c3ec15364d1912e1dc40c1bc04730",
+      "app/linux_target.py": "eba110bfee0b033e34b373951933486595368fdf59f41a811718951cdec170b2",
+      "app/macos_check.py": "2cdce3ab1a7b55b7efd4824f80dffd89748273e9047de444fc46b1207df09bfc",
+      "app/macos_desktop.py": "f37421044663a1421bff20361470d0ad9941e4a668bd850419bb121faa53cba7",
+      "app/macos_target.py": "284e13f075a11023d1c77ea2b84c2c58984bd8bf7f9548f7fbb99717652fb2ac",
+      "app/native_receiver_schema.py": "f570f0f7e4bc65be326353b1f523aca4723ae2423dfa7b7d166ff9c5c4f2c658",
+      "app/native_state_client.py": "b34e8c500aa4f288a5cf2255564a28c1534cde6bdaa00702009aef269e6a2283",
+      "app/native_transport.py": "9b3ec7d01f246f8cac45a0794645096653377a40000e624df64a51123f0abf3e",
+      "app/ornate_ui.py": "ecf95c5d6cce4406584c584ebb6a669fca15dc1e50a342926aace86d08050ff8",
+      "app/portalai_target.py": "4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9",
+      "app/projection_boot.py": "76e33a441b5e3650c8b45a84de3753b69021930d095315ee0e7d5cbf7a1b41cb",
+      "app/projection_client.py": "a50f0022a81076ccb5cb2f5c70574772b1f544e87c481f024c8a59e6ea75c76c",
+      "app/projection_local.py": "67b418d13880b1a51d5b8e4f7cd59365ef9684cc539648c04b620ca60d337e87",
+      "app/projection_theme.py": "339d5392f811afade237d04699a9bf2460d2963be3c22af15c22f840a295d506",
+      "app/projection_tray.py": "73585ff3f6bd1bd08ee6c41866426033e3b5151922aa494a1eba38e8a2d67f0c",
+      "app/projection_ui.py": "45132f53aa0ec226444682d9b6bb582d336f80cee562cdc2bbeba90e96b278be",
+      "app/projection_worker.py": "f552782bd724c23e653ee13baa94d49a7d65232a7f5edcf663d3f8077e350c0a",
+      "app/recovery_runtime.py": "c159e6d5e6d6ea0ec4b989ec0ff166614784b534c9d5f7be1060fd82b8d5ed82",
+      "app/recovery_transport.py": "3cc2baa97f396702b9bccb32187d214fcaa96bf425cf8354b79d2af50540c278",
+      "app/recovery_ui.py": "b8bb1148d38a7fddb967b1f38b3f1dfab5efaec22987bc978b51f023ccfec3db",
+      "app/ui_style_cache.py": "850c9389b4b869b5c555f12520227317aa83c7d2a87afa2726331170264f4bc8",
+      "app/viewer_demand.py": "6111572a21176284ad5a28c03ff3c90681c06486c39bb0af66e36ac48f2dd9fe",
+      "app/windows_desktop.py": "7e1181fd801b66c3c97e713d00b4cd27816d80c8aa6bb7316b6f23c53cf6a726",
+      "app/assets/projection-dark.ico": "a71cd6fe8d82ffbb84563c8edce144161e4e9cf52ad8190f9b064a3e3d6d8cdc",
+      "app/assets/projection-dark.png": "a9daf13f592f688560e0166017474b48058e1864993d0a6a6c3e2ed2a3e090e6",
+      "Tests/test_macos_projection.py": "5512d155524f282dd1b59a5cd7c3baf7548b20e7396908a2f88856f2180c3ade",
+      "Tests/test_macos_setup.py": "232c4cedb9c00fe9618367c8545ccbe41e792c8ebb47a98f9ee943c0ff5566cb",
+      "Tests/test_projection_ui.py": "48694fd6a00bfd631c9b345add187116d3826b5b5f57edcda345cd217c0605d3",
+      "README-PROJECTION-UI.txt": "9cc0204c038f7c2f7102920b2bb42a7ec39414bfa22e0d9b3637addce1d707e0",
+      "README-MAC.txt": "a8aee5d9a0630bff78df6f72917ef85a8d97db98e307383c45084056eb2f7b19"
+    },
+    "companion": "PortalAI-Projection-Linux-20261022-r1.tar.gz",
+    "companion_sha256": "4d6234ed97597e4ac4f6b7e23dbf1858910b01a7ab63128ad226b8cfede7a4b3",
+    "native_mac_linux_tested": false
+  },
+  "chat_priority": {
+    "revision": "20261022-r1",
+    "source_sha256": {
+      "Agent/chat_priority.py": "321cc264bad40eb81661514a8e34b6e3a5b93e8816fedd7abefbfa1eee161e98",
+      "Agent/mission_runner.py": "3d2d5d54330b26626f06cb5786164f7f9ac34280fec190629cddc7d22a93d0d7",
+      "Agent/mission_supervisor.py": "6c8a36fc01f97227a4e3a316f28313cd28fd6d8efc172292d2c7c6d0c305f28e",
+      "Agent/mission_schedule.py": "30d4f1035145738c8c43d31544f3cfb6bb40bfa94143c9b5ec1f673bcebedb6a",
+      "ControlCenter/native_chat.py": "1d214a61134f881a8e49cebb3d9696e3a2b6315a96069ccf6e51f996ff231de8",
+      "ControlCenter/schedule_settings.py": "8cbc7514daa002e97714e91ea93f92ff369a17251311d157bbaa07a7f4173891",
+      "ControlCenter/mission_settings.py": "c3d11fa81473e612b61abca9530acedd832e2600d11e990e5b4535ffffda2865",
+      "ControlCenter/internal_sheet.py": "8444816e5d4c47657bc63bb34a54d2f2e68d731d292ea2d6a207c53211208ad6",
+      "ControlCenter/settings_style.py": "80d674a9c195cf4c4fccb7ab292196fc4bc64dc81d2f6e1dad965864fb06fabc",
+      "ControlCenter/page_scroll.py": "61b3c81e3bfbdb43d3bea6709609867f23d9f1658f535e84e6829e0e1b5fcb87",
+      "Maintenance/Tests/test_chat_priority.py": "43513a8b1fecc6e2c77f9283daadbab8d8d45ec8620d6cd6430cfd2a35c09b28",
+      "Maintenance/Tests/test_persistence_priority_tk.py": "86ed0f45d10c7d73753ee4b013000eba440fae354dc79dca23aec24d14f7934f",
+      "Documentation/Chat_Priority_20261022.txt": "0eb4f75bce393e92ab5d5be14af9589d5619d86d9074262a98bb7eb44753bc82",
+      "ControlCenter/ui_extensions.py": "0f9d13b1a043a540c9cd7ae07cde88de9465d5126452bac67405c5960daed4ed",
+      "Maintenance/Tests/test_chat_handoff.py": "5c4728955655f892c691cadf27bc77e4da5279112b858567acdce94229653c0c",
+      "Maintenance/Tests/test_mission_runner.py": "0e24a10cd59a714cb74cce0b8c8e78abe537a6d6c0dbd50305326ddbb3837e85",
+      "Agent/schedule_catalog.py": "6b50008e5480507628ef20de88fa4d2d5a725584425052c5dc292aacaef5f87c",
+      "Maintenance/Tests/test_native_chat_command.py": "612ed58a59da9f017317ab633931ff72f23a29cc905d725dbb4be59bd1a55320",
+      "Maintenance/Tests/test_schedule_catalog.py": "3cd2c829cdf27a631725941a07dc579a16493b1df80828833613be1845203051"
+    },
+    "schedule_origin_filters": true
   }
 }

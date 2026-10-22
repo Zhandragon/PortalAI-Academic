@@ -181,7 +181,7 @@ class CommandTests(unittest.TestCase):
 
     def test_slow_vision_loading_is_acknowledged_first_then_rechecked(self):
         from test_chat_handoff import panel as make_panel
-        p=make_panel();p.session=self.panel.session;p.cancel_event=self.panel.cancel_event
+        p=make_panel();p.root=self.root;p.session=self.panel.session;p.cancel_event=self.panel.cancel_event
         p._check_login=self.panel._check_login
         receipt=self.execute();self.export.chat=p
         loading=threading.Event();release=threading.Event()
@@ -244,7 +244,7 @@ class CommandTests(unittest.TestCase):
 
     def test_model_failure_after_ack_does_not_replay_or_infer(self):
         from test_chat_handoff import panel as make_panel
-        p=make_panel();p.session=self.panel.session;p.cancel_event=self.panel.cancel_event
+        p=make_panel();p.root=self.root;p.session=self.panel.session;p.cancel_event=self.panel.cancel_event
         p._check_login=self.panel._check_login
         payload=self.payload();receipt=self.execute(payload);self.export.chat=p
         p.effort=SimpleNamespace(prepare_request=Mock(side_effect=RuntimeError('Synthetic missing projector')),active_plan={})

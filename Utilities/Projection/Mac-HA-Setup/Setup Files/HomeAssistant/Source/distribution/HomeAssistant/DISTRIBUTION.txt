@@ -1,4 +1,4 @@
-PortalAI HA-only setup 0.5.11 + Recovery 0.1.0.
+PortalAI HA-only setup 0.5.12 + Recovery 0.1.0.
 Includes three custom integrations, Native UI, Quick Chat, desktop projection,
 Recovery dashboard, automatic setup/backup/rollback, sources, builds and tests.
 No truck configuration, .storage, keys, accounts, logs or private host addresses.

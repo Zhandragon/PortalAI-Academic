@@ -30,22 +30,21 @@ class MissionTests(unittest.TestCase):
         (self.store.root/'Agent/hardware_profiles.json').write_text(json.dumps({**policy,
             'storage':{'minimum_free_gib':1,'minimum_free_fraction':0.0001,'output_reserve_gib':1}}))
         requests=[]
-        def response(request, **kwargs):
-            url=request if isinstance(request,str) else request.full_url
+        def response(root, url, payload=None, **kwargs):
             if url.endswith('/props'):data={'default_generation_settings':{'n_ctx':8192}}
-            elif url.endswith('/apply-template'):data={'prompt':json.loads(request.data)['messages'][0]['content']}
+            elif url.endswith('/apply-template'):data={'prompt':payload['messages'][0]['content']}
             elif url.endswith('/tokenize'):data={'tokens':list(range(100))}
             elif url.endswith('/v1/chat/completions'):
-                requests.append(request)
+                requests.append(payload)
                 data={'choices':[{'message':{'content':'{"action":"note","text":"planned"}'}}]}
             else:raise AssertionError('Unexpected model endpoint: '+url)
-            return io.BytesIO(json.dumps(data).encode())
+            return data
         with patch('runtime_policy.load_effective_policy',return_value=policy), \
-             patch('mission_runner.urllib.request.urlopen',side_effect=response):
+             patch('chat_priority.planning_json',side_effect=response):
             action=self.store.model_action(m)
         self.assertEqual(action['action'],'note')
         self.assertEqual(len(requests),1)
-        payload=json.loads(requests[0].data)
+        payload=requests[0]
         prompt=payload['messages'][0]['content']
         self.assertIn('chat=uncensored; media=standard',prompt)
         self.assertIn('Academic policy permits standard models only.',prompt)

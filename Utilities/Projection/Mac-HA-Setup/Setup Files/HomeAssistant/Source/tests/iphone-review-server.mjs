@@ -1,7 +1,7 @@
 // Local-only fixture; no credentials, real account, or host requests.
 import http from 'node:http';
 import {readFile} from 'node:fs/promises';
-const files={'/full.js':'dist/portalai-live-v0.5.11.js','/fixture.js':'tests/iphone-review-fixture.js'};
+const files={'/full.js':'dist/portalai-live-v0.5.12.js','/fixture.js':'tests/iphone-review-fixture.js'};
 const server=http.createServer(async(req,res)=>{
   const path=new URL(req.url,'http://localhost').pathname;
   if(req.method!=='GET'){res.writeHead(405).end();return;}

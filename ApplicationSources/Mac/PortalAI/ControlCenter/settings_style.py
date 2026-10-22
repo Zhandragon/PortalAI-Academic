@@ -194,7 +194,7 @@ class SettingsSkin:
         row.bind('<Configure>', reflow, add='+')
         return buttons
 
-    def scrolling_body(self, body):
+    def scrolling_body(self, body, *, fill_height=False):
         shell = self.frame(body, surface='bg')
         shell.pack(fill='both', expand=True)
         canvas = tk.Canvas(shell, bd=0, highlightthickness=0)
@@ -208,7 +208,7 @@ class SettingsSkin:
         scrollbar.pack(side='right', fill='y')
         canvas.pack(side='left', fill='both', expand=True)
         from page_scroll import bind_page_scroll
-        bind_page_scroll(canvas, inner, window)
+        bind_page_scroll(canvas, inner, window, fill_height=fill_height)
         return inner
 
     def _wheel(self, event):

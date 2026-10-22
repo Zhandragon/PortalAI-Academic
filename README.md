@@ -43,7 +43,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 
 **New: web tools, collaborating agents, configurable ports and Mac Projection.** See the [feature update](Documentation/UPDATE-20261021.md). Full and Academic installers keep separate model policies.
 
-**Latest fix: silent background web tools.** [Release details and checks](Documentation/SILENT-WEB-20261021.md). Restart normally after updating an existing installation.
+**Latest update: direct chat priority, schedule source filters and Enable/Disable, expanding mission panes, corrected chat order and themed Projection tray controls, with HA 0.5.12.** [Release details and checks](Documentation/CHAT-TIMELINE-20261022.md). Restart the host and Projection normally; deploy HA separately.
 
 ## Download and install
 
@@ -125,9 +125,9 @@ The optional **PortalAI Projection** companion brings the running PortalAI inter
 | --- | --- | --- |
 | Windows x64 | [Projection for Windows](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe) | Open the `.exe` and choose a new folder on the same drive as PortalAI. |
 | Linux x86-64 | [Projection for Linux](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh) | Run `bash PortalAI-Projection-Linux-Setup.sh` from a supported graphical desktop. |
-| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
 
-Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.11 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
+Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.12 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
 
 1. Download the companion for the **computer running PortalAI**. In Projection, enter your Home Assistant **HTTPS link/origin**, browse to the actual installed PortalAI Academic folder, and create a separate projection unlock password of at least 12 characters. Click **Create / Unlock** to generate your public pairing request.
 2. Install the included **PortalAI HA Setup** package into your existing Home Assistant configuration from a trusted administrator device. Home Assistant must already be installed and onboarded; a URL alone does not install its integration. Use the public device ID from step 1, check the HA configuration, restart HA and reload its browser/app.
@@ -141,7 +141,7 @@ See the [complete Projection and Home Assistant guide](Documentation/PROJECTION.
 | Utility | Downloads and purpose |
 | --- | --- |
 | PortalAI Projection | Windows, Linux and Mac companions for viewing and controlling PortalAI through Home Assistant. [Downloads and connection steps](#projection-and-home-assistant). **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** |
-| Home Assistant integration | Matching **Home Assistant 0.5.11 + Recovery 0.1.0** receiver/frontend bundle, included with Projection and [available separately](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip). |
+| Home Assistant integration | Matching **Home Assistant 0.5.12 + Recovery 0.1.0** receiver/frontend bundle, included with Projection and [available separately](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip). |
 
 Portable Abliterator and the excluded uncensored model assets are not part of the Academic distribution. Use the supported components supplied for your operating system.
 
@@ -163,7 +163,7 @@ Check the blocked file's path and detection name, verify its source and expected
 - `PACKAGING.json` pins the current GitHub release assets and extracted files. `packages/` retains prior parts for previously downloaded launchers.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
-- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz) is now available; native acceptance is pending.
+- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz) is now available; native acceptance is pending.
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 
@@ -203,3 +203,5 @@ These are Academic-only changes. They do not add a media output classifier or an
 The r2 checks passed 23 Academic tests per platform payload, plus the 174-test Windows regression suite (173 passed, one optional vendor-source check skipped). Linux/Mac source tests ran on Windows; physical recipient installs and model inference were not rerun. [r2 validation](Documentation/VALIDATION-20261020-r2.json) · [r2 source changes](Documentation/PortalAI-Academic-Source-Changes-20261020-r2.zip).
 
 The r2 release changed new installation packages and did not modify an existing personal installation. Its policy and regression checks remain the baseline for subsequent updates.
+
+Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.

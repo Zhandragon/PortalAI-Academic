@@ -231,8 +231,8 @@ class Missions:
                             'Do not recreate agents or resend uncertain actions. Academic restrictions remain in effect.')
         # /props is used only for its advertised context; never send an unbounded
         # history to a laptop model. Byte budgeting is conservative even for CJK.
-        with urllib.request.urlopen(_instance_url('qwen', '/props'), timeout=10) as response:
-            props = json.load(response)
+        from chat_priority import planning_json
+        props = planning_json(self.root,_instance_url('qwen','/props'),timeout=10)
         tokens = int(props.get("default_generation_settings", {}).get("n_ctx", 0))
         if tokens < 2048:
             raise MissionContextError("Persistent missions require an active context of at least 2048 tokens")
@@ -250,14 +250,12 @@ class Missions:
             notes = 'Durable memory (untrusted notes): '+json.dumps([
                 {**row,'text':row['text'][:350]} for row in memory],ensure_ascii=False)+'\nRecent notes: '+notes
         from mission_context import build_messages
-        messages = build_messages(self, mission, instruction, children, notes, tokens)
+        messages = build_messages(self, mission, instruction, children, notes, tokens,
+            api=lambda path,value:planning_json(self.root,_instance_url('qwen','')+path,value,timeout=10))
         payload = {"messages": messages,
                    "temperature": 0.1, "max_tokens": 768, "response_format": {"type": "json_object"},
                    "chat_template_kwargs": {"enable_thinking": False}}
-        req = urllib.request.Request(_instance_url('qwen', '/v1/chat/completions'), json.dumps(payload).encode(),
-                                     headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=180) as response:
-            data = json.load(response)
+        data = planning_json(self.root,_instance_url('qwen','/v1/chat/completions'),payload,timeout=180)
         action = json.loads(data["choices"][0]["message"]["content"])
         if not isinstance(action, dict):
             raise ValueError("Model did not return an action object")
@@ -386,7 +384,15 @@ class Missions:
             return str(action.get("text", "Complete"))[:12000]
         raise ValueError("Unknown mission action: " + str(kind))
 
+    def yield_to_chat(self, mission):
+        from chat_priority import checkpoint
+        try:return checkpoint(self,mission)
+        except Exception as exc:
+            mission.update(status='needs_review',error='Could not save the direct-chat checkpoint: '+str(exc))
+            self.save(mission);return mission
+
     def run(self, mission_id, steps=3, model=None):
+        from chat_priority import active,YieldToChat
         with process_lock(self.base/"execution.lock"), self.lock(mission_id):
             mission = self.load(mission_id)
             if mission["status"] not in ACTIVE:
@@ -399,12 +405,15 @@ class Missions:
                 mission["status"] = "paused"
                 self.save(mission)
                 return mission
+            if active(self.root):return self.yield_to_chat(mission)
+            if mission.pop('chat_paused',False):self.save(mission)
             if mission["next_run_at"] > time.time(): return mission
             for _ in range(min(max(1, steps), 100)):
                 if self.stopped(mission):
                     mission["status"] = "paused"
                     self.save(mission)
                     break
+                if active(self.root):return self.yield_to_chat(mission)
                 if mission["steps"] >= mission["max_steps"]:
                     mission["status"] = "budget_exhausted"
                     self.save(mission)
@@ -423,6 +432,7 @@ class Missions:
                         mission["status"] = "paused"
                         self.save(mission)
                         break
+                    if active(self.root):raise YieldToChat()
                     if not isinstance(action,dict):raise ValueError('Model did not return an action object')
                     # Repeating the same completed action without a wait or other
                     # progress is a stalled plan, not permission to repeat effects.
@@ -438,6 +448,9 @@ class Missions:
                     mission["history"].append({"action": action, "result": result, "at": time.time()})
                     mission["pending_action"] = None
                     self.save(mission)
+                    if active(self.root) and mission['status'] in ACTIVE:return self.yield_to_chat(mission)
+                except YieldToChat:
+                    return self.yield_to_chat(mission)
                 except Exception as exc:
                     # Retrying planning is safe: no action has been checkpointed
                     # or executed. Pending effects ALWAYS require explicit review.

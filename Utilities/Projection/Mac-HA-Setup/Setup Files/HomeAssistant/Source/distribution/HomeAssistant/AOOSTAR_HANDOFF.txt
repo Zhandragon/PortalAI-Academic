@@ -1,4 +1,13 @@
-PortalAI Home Assistant 0.5.11 + Recovery 0.1.0
+PortalAI 0.5.12 chat timeline update (2026-10-22)
+
+Reasoning now appears above the associated answer, with tool/media details after it.
+Completed snapshots no longer label cached reasoning as streaming. Install the matching
+host update for phase and desktop timer corrections. Existing protocols, accounts,
+Stop, media caches and Recovery 0.1.0 are unchanged. Native Mac and live HA deployment
+require recipient verification. Use the installer and reload browser resources.
+
+Previous baseline notes:
+PortalAI Home Assistant 0.5.12 + Recovery 0.1.0
 
 This release pairs with the 20261016 History / Vision controls / Media host delta.
 Install the host delta and restart PortalAI and Projection normally, then install

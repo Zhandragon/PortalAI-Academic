@@ -20,27 +20,34 @@ from connection_vault import new_connection,public_pairing,save,unlock,url
 class Window:
     def __init__(self,app):
         self.app=app;self.connection=None;self.path=None;self.worker=None;self.messages=queue.Queue();self.secret=None
-        self.stop_deadline=None
-        app.title('PortalAI Projection');app.geometry('780x700');app.minsize(620,570)
-        page=ttk.Frame(app,padding=20);page.pack(fill='both',expand=True);page.columnconfigure(1,weight=1);page.rowconfigure(10,weight=1)
-        ttk.Label(page,text='PortalAI Projection',font=('Segoe UI',20,'bold')).grid(row=0,column=0,columnspan=3,sticky='w')
-        ttk.Label(page,text='A separate portable host for the real PortalAI interface.',wraplength=700).grid(row=1,column=0,columnspan=3,sticky='w',pady=(4,14))
+        self.stop_deadline=None;self.local_starting=False;self.closing=False;self.hidden=False;self.close_timer=None
+        self.ui_events=queue.Queue()
+        app.title('PortalAI Projection')
         self.files=[];self.selected=tk.StringVar();self.name=tk.StringVar(value='My PortalAI');self.address=tk.StringVar();self.target=tk.StringVar(value=str(default_target()));self.password=tk.StringVar();self.status=tk.StringVar(value='Create a connection or select a saved connection and unlock it.')
-        ttk.Label(page,text='Saved connection').grid(row=2,column=0,sticky='w');self.saved=ttk.Combobox(page,textvariable=self.selected,state='readonly');self.saved.grid(row=2,column=1,sticky='ew',padx=8)
-        ttk.Button(page,text='New',command=self.new).grid(row=2,column=2)
-        for row,label,var in ((3,'Connection name',self.name),(4,'Home Assistant Cloud URL',self.address),(5,'PortalAI folder',self.target),(6,'Projection unlock password',self.password)):
-            ttk.Label(page,text=label).grid(row=row,column=0,sticky='w',pady=7)
-            ttk.Entry(page,textvariable=var,show='*' if row==6 else '').grid(row=row,column=1,columnspan=1 if row==5 else 2,sticky='ew',padx=8)
-        ttk.Button(page,text='Browse',command=self.browse).grid(row=5,column=2)
-        bar=ttk.Frame(page);bar.grid(row=7,column=0,columnspan=3,sticky='ew',pady=10)
-        for label,command in [('Create / Unlock',self.load),('Save changes',self.save),('Change unlock password',self.change_password),('Lock',self.lock)]:ttk.Button(bar,text=label,command=command).pack(side='left',padx=(0,5))
-        controls=ttk.Frame(page);controls.grid(row=8,column=0,columnspan=3,sticky='w')
-        ttk.Button(controls,text='Start projection',command=self.start).pack(side='left',padx=(0,6));ttk.Button(controls,text='Stop projection',command=self.stop).pack(side='left',padx=(0,6));ttk.Button(controls,text='Open PortalAI locally',command=self.open_portalai).pack(side='left')
-        if sys.platform=='darwin':ttk.Button(controls,text='Screen permission',command=self.screen_permission).pack(side='left',padx=6)
-        ttk.Label(page,textvariable=self.status,wraplength=710).grid(row=9,column=0,columnspan=3,sticky='ew',pady=12)
-        self.instructions=tk.Text(page,height=12,wrap='word',font=('Segoe UI',10));self.instructions.grid(row=10,column=0,columnspan=3,sticky='nsew')
-        self.show('No Home Assistant password, cookie or API token is requested or saved.\n\n1. Install the supplied receiver on your HA instance once.\n2. Create/unlock a connection here. Copy its public pairing request to HA on a trusted device.\n3. Start projection, then use the HA card to open PortalAI and sign in.\n\nThe unlock password encrypts connection details and a projection-only device key at rest. It is separate from your PortalAI and HA passwords. A process with unrestricted access as this OS user can tamper with this app while unlocked.\n\nWindows or Linux X11/XWayland; no incoming LAN port or router change is needed.')
-        self.refresh();self.timer=app.after(100,self.tick);app.protocol('WM_DELETE_WINDOW',self.close)
+        from projection_theme import Skin,DOCUMENTATION
+        from projection_tray import create
+        self.skin=Skin(self,MODULE);self.skin.build()
+        self.tray=create(app,self.ui_events,MODULE/'app/assets/projection-dark.ico')
+        self.show('Create or unlock a connection to see its public pairing request.\n\nNo Home Assistant password, cookie or API token is requested or saved.\n\n1. Install the supplied receiver on HA.\n2. Create/unlock a connection here and approve its public pairing request on a trusted HA device.\n3. Start projection, then open PortalAI and sign in.\n\nSee Documentation for setup, tray controls and platform help.')
+        self.refresh();self.skin.update_actions();self.timer=app.after(100,self.tick)
+        self.tray_timer=app.after(500,self.tray.show)
+        app.bind('<Unmap>',self.on_unmap,add='+');app.protocol('WM_DELETE_WINDOW',self.close)
+
+    def on_unmap(self,event):
+        if event.widget==self.app and not self.closing and self.app.state()=='iconic':self.minimize()
+
+    def minimize(self):
+        self.skin.dismiss()
+        if self.closing:return
+        if self.tray.show():self.hidden=True;self.app.withdraw()
+        else:
+            self.hidden=False;self.status.set('Tray unavailable on this desktop; use the taskbar to reopen Projection.')
+            if self.app.state()!='iconic':self.app.iconify()
+
+    def restore(self):
+        if self.closing:return
+        self.skin.dismiss();self.hidden=False;self.app.deiconify();self.app.lift();self.app.focus_force()
+
     def screen_permission(self):
         try:
             import Quartz
@@ -99,12 +106,13 @@ class Window:
         except Exception as exc:self.status.set(str(exc))
     def pairing(self):
         value=public_pairing(self.connection);identity=value['device_id']
-        instructions='On HA, use Developer Tools â†’ Actions â†’ portalai_projection.pair_device.\nPaste this public JSON into pairing_request:\n\n'+json.dumps(value,indent=2)
+        instructions='On HA, use Developer Tools > Actions > portalai_projection.pair_device.\nPaste this public JSON into pairing_request:\n\n'+json.dumps(value,indent=2)
         instructions+='\n\nDedicated dashboard card:\n\ntype: custom:portalai-projection\ntitle: PortalAI\ndevice_id: '+identity+'\n\nUse this device_id with the separate full_restart / force_shutdown actions. HA login happens on your trusted device. No login information is entered here.'
         self.show(instructions)
         # Public export only; no URL, private key, password, token or cookies.
         export=MODULE/'Connections'/(identity+'.public-pairing.json');export.write_text(json.dumps(value,indent=2),encoding='utf-8')
     def start(self):
+        if self.closing:return
         try:
             self.guard_stopped()
             if self.connection is None:raise RuntimeError('Unlock a connection first')
@@ -116,7 +124,7 @@ class Window:
                 for line in worker.stdout:
                     try:self.messages.put(json.loads(line)['status'])
                     except (ValueError,KeyError):pass
-            threading.Thread(target=read,daemon=True).start();self.status.set('Connecting to the paired receiverâ€¦')
+            threading.Thread(target=read,daemon=True).start();self.status.set('Connecting to the paired receiver...')
         except Exception as exc:self.status.set(str(exc))
     def stop(self):
         if self.worker and self.worker.poll() is None:
@@ -125,24 +133,57 @@ class Window:
             except OSError:pass
             self.status.set('Stopping projection; PortalAI remains under its normal account lifecycle.')
     def open_portalai(self):
-        if not self.worker or self.worker.poll() is not None:self.status.set('Start projection first, then use Open PortalAI in HA.');return
-        try:self.worker.stdin.write('{"command":"open"}\n');self.worker.stdin.flush();self.status.set('Opening PortalAI through the standalone hostâ€¦')
-        except OSError:self.status.set('Projection host has stopped. Start it again before opening PortalAI.')
+        if self.local_starting or self.closing:return
+        try:
+            target=Path(self.target.get()).resolve()
+            if not target_valid(target):raise ValueError('Select the actual PortalAI portable folder before starting it.')
+            if os.name!='nt' and target.stat().st_dev!=MODULE.stat().st_dev:raise ValueError('Keep PortalAI and Projection on the same mounted drive.')
+            target=os.path.relpath(target,MODULE).replace('\\','/')
+        except (OSError,ValueError) as exc:self.status.set(str(exc));return
+        self.local_starting=True;self.status.set('Starting local PortalAI; sign in through its normal account window.')
+        self.skin.update_actions()
+        def launch():
+            try:
+                result=subprocess.run(python_command('projection_local.py'),cwd=MODULE,
+                    input=json.dumps({'target':target}),stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+                    text=True,encoding='utf-8',timeout=45,**launch_options())
+                reply=json.loads(result.stdout);message=reply.get('message') or 'Local start finished without a status.'
+            except subprocess.TimeoutExpired:message='Local start readiness timed out. Check PortalAI before trying again; no start request was replayed.'
+            except Exception:message='Local PortalAI could not be started. Check the selected folder and its runtime.'
+            self.ui_events.put(('local_done',message))
+        threading.Thread(target=launch,name='PortalAI-Projection-LocalStart',daemon=True).start()
     def lock(self):
         if self.worker and self.worker.poll() is None:self.status.set('Stop projection and wait for it to exit before locking.');return
         self.connection=None;self.secret=None;self.password.set('');self.address.set('');self.show('Connection locked. Select it and enter its projection unlock password to continue.');self.status.set('Locked')
     def tick(self):
+        self.app.after_cancel(self.timer)
         if self.stop_deadline and self.worker and self.worker.poll() is None and time.monotonic()>self.stop_deadline:
-            # Popen retains this exact process handle. Only the stateless
-            # projection host is stopped; PortalAI/profile processes stay alone.
+            # Only this exact stateless projection worker is stopped.
             self.worker.terminate();self.stop_deadline=None
             self.status.set('Projection host stopped after a network timeout. PortalAI was not terminated.')
-        while not self.messages.empty():self.status.set(self.messages.get_nowait())
-        self.timer=self.app.after(100,self.tick)
+        # Bound per-frame work even if a failing receiver generates a burst.
+        for _ in range(64):
+            try:message=self.messages.get_nowait()
+            except queue.Empty:break
+            self.status.set(message)
+        for _ in range(32):
+            try:action,value=self.ui_events.get_nowait()
+            except queue.Empty:break
+            if action=='restore':self.restore()
+            elif action=='menu' and not self.closing:self.skin.menu(value)
+            elif action=='local_done':self.local_starting=False;self.status.set(value)
+            elif action=='tray_failed' and self.hidden:self.restore();self.status.set('Tray icon unavailable; Projection has reopened.')
+        self.skin.update_actions();self.timer=self.app.after(100,self.tick)
+
     def close(self):
-        self.stop()
-        if self.worker and self.worker.poll() is None:self.app.after(200,self.close);return
-        self.connection=None;self.secret=None;self.app.destroy()
+        if self.close_timer:self.app.after_cancel(self.close_timer);self.close_timer=None
+        self.closing=True;self.skin.dismiss();self.stop()
+        if self.local_starting or (self.worker and self.worker.poll() is None):
+            self.close_timer=self.app.after(200,self.close);return
+        self.app.after_cancel(self.timer);self.app.after_cancel(self.tray_timer)
+        for border in self.skin.borders:
+            if border._after:self.app.after_cancel(border._after);border._after=None
+        self.tray.close();self.connection=None;self.secret=None;self.password.set('');self.app.destroy()
 
 
 if __name__=='__main__':

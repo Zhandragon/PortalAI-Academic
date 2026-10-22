@@ -11,7 +11,7 @@ import yaml
 from yaml.nodes import MappingNode, SequenceNode, ScalarNode
 
 DOMAINS=('portalai_projection','portalai_native','portalai_recovery')
-MODULES=('/local/portalai-quick-chat-v0.4.3.js','/local/portalai-projection-v0.5.11.js')
+MODULES=('/local/portalai-quick-chat-v0.4.3.js','/local/portalai-projection-v0.5.12.js')
 
 def node(value):
     return yaml.compose(yaml.safe_dump(value,sort_keys=False,allow_unicode=True),Loader=yaml.SafeLoader)
@@ -66,7 +66,7 @@ def configure(text,device_id):
         if name and name.value=='portalai-live-panel':continue
         if url and url.value=='portalai-native':raise ValueError('portalai-native URL belongs to a different custom panel.')
         kept.append(p)
-    panels.value=kept+[node({'name':'portalai-live-panel','sidebar_title':'PortalAI Native','sidebar_icon':'mdi:monitor-dashboard','url_path':'portalai-native','module_url':'/local/portalai-live-v0.5.11.js','require_admin':True,'config':{'device_id':device_id}})]
+    panels.value=kept+[node({'name':'portalai-live-panel','sidebar_title':'PortalAI Native','sidebar_icon':'mdi:monitor-dashboard','url_path':'portalai-native','module_url':'/local/portalai-live-v0.5.12.js','require_admin':True,'config':{'device_id':device_id}})]
     changed['panel_custom']=panels
     lovelace=mapping(get(root,'lovelace',node({})),'lovelace')
     dashboards=mapping(get(lovelace,'dashboards',node({})),'lovelace.dashboards')

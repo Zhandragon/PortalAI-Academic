@@ -1,0 +1,8 @@
+
+Silent web worker update v2026.10.21-r3: Windows background web calls no longer allocate a console. Existing installations must exit normally before the guarded update, then restart.
+
+Chat timeline v2026.10.22-r1: chronological reasoning/answer/tool rendering and explicit completed/stopped timers. HA 0.5.12 is included; install it on HA and reload its frontend. Restart the host normally.
+
+Projection UI 20261022-r1: minimize to the dark tray emblem, themed action menus, custom appearance and Documentation. Start local PortalAI independently of HA. Native utilities are alongside this installer in Utilities; keep both sibling utility folders together on the drive. Use Browse to select the installed PortalAI folder. Native Mac/Linux acceptance remains pending.
+
+Direct chat priority: background work checkpoints and yields, then continues only while still armed/enabled. Schedule Enable/Disable toggles dynamically; source and state filters separate user, diagnostic and legacy records. Mission/schedule lists expand with the window. See Documentation/Chat_Priority_20261022.txt.

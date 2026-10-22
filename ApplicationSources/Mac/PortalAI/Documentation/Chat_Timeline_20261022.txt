@@ -1,0 +1,23 @@
+PortalAI chat timeline update - 2026-10-22
+
+Desktop history finishes drawing before accepting a new Send/Regenerate. The
+draft is retained while the short, bounded history slices complete. Replacing
+the displayed history cancels old callbacks. Reopened assistant rows now show
+reasoning, response prose, then tool calls/results, matching live delivery.
+
+Response timers follow the same queued phases as the transcript: Preparing,
+Thinking, Writing and tool execution. A terminal event immediately freezes the
+timer with Completed, Stopped or Failed and settles outstanding trace cards.
+Stop remains active until the request's existing cleanup emits its terminal event.
+
+The native host rich API ends reasoning's streaming state when answer content
+or tool execution begins. HA 0.5.12 places reasoning above its answer and tool/
+media details after it; cached reasoning settles when the host reports idle.
+This is a presentation update; saved messages, API schemas, account guards,
+tool execution, continuation budgets and no-replay rules are unchanged.
+
+Exit PortalAI normally and restart to activate installed source updates. HA
+requires the included 0.5.12 receiver/frontend installation and browser reload.
+Clean Full/Academic installers target new folders; do not overlay account roots.
+Use the guarded Full Windows source handoff on existing Aoostar installations.
+Physical Aoostar, native Mac/Linux and live HA acceptance remain recipient checks.

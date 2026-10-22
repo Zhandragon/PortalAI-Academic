@@ -1,7 +1,7 @@
 {
   "domain": "portalai_native",
   "name": "PortalAI Native State",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "documentation": "https://developers.home-assistant.io/docs/frontend/extending/websocket-api/",
   "codeowners": [],
   "requirements": [],
