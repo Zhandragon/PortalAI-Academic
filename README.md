@@ -48,6 +48,16 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 
 ## Download and install
 
+**Prepare the drive for the operating system that will run PortalAI.** Use the following formats for both the extracted setup folder and installed application, including on external SSDs and USB drives:
+
+| Operating system | Recommended drive format |
+| --- | --- |
+| Windows | **NTFS** |
+| macOS | **APFS** (standard, case-insensitive); choose **GUID Partition Map** when preparing a new drive |
+| Linux | **ext4**, mounted read/write with program execution allowed (not `noexec`) |
+
+**Do not use FAT32 or exFAT as the PortalAI installation volume.** FAT32 cannot hold model files of 4 GiB or more; exFAT lacks the native permissions and links used by application runtimes. An exFAT volume can be used to transfer downloaded archives or exported files, then extract/install on the appropriate native filesystem. **Formatting erases data: back up the drive first.** See [drive preparation and the reasons for these recommendations](Documentation/INSTALLATION.md#drive-format-and-preparation).
+
 <a id="download-an-installer"></a>
 
 Download **one file for your operating system**. The launcher downloads its pinned complete installer from this repository’s GitHub release, verifies the archive and extracted files, and starts the Academic installation. Older downloaded launchers can still use their original retained package parts.

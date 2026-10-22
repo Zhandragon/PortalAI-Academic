@@ -7,6 +7,7 @@ Documentation and help are already inside PortalAI. Open **Help** to browse or s
 | Topic | Guide |
 | --- | --- |
 | Install and launch | [Installation and platform requirements](INSTALLATION.md) |
+| Drive format: Windows NTFS, Mac APFS, Linux ext4 | [Drive preparation and filesystem recommendations](INSTALLATION.md#drive-format-and-preparation) |
 | Home Assistant link, pairing and projection | [Projection guide](PROJECTION.md) |
 | Interface and hardware controls | [Gallery and settings overview](../README.md#a-look-inside) |
 | Local accounts and encryption | [Privacy and local accounts](../README.md#privacy-and-local-accounts) |

@@ -2,6 +2,26 @@
 
 [Documentation index](README.md) · [Current installer downloads](../README.md#download-and-install)
 
+## Drive format and preparation
+
+Use **NTFS for Windows, APFS for macOS, and ext4 for Linux** for the volume containing PortalAI. These recommendations apply to the setup/extraction folder, the installed application and its native runtimes, whether the drive is internal or external. Check the drive's existing format first; a correctly formatted, writable volume does not need reformatting. **Formatting erases existing data, so make a verified backup before changing a drive's format.**
+
+| Platform | Recommended format | Why it fits PortalAI |
+| --- | --- | --- |
+| Windows | **NTFS** | Supports large model files, Windows access-control lists, links and metadata journaling. PortalAI's Windows runtime preparation includes native permission checks. |
+| macOS | **APFS**, using the standard case-insensitive format | Apple's native format for modern Macs, optimized for SSDs and suitable for external drives. It preserves the native file metadata and links needed by bundled runtimes and local builds. Select **GUID Partition Map** when initializing a new drive in Disk Utility. |
+| Linux | **ext4** | A mature, widely supported Linux filesystem with large-file support, Unix ownership and executable permissions, symbolic links and journaling. It is the straightforward default for a dedicated portable PortalAI drive. |
+
+On Linux, the volume must be mounted **read/write with execution permitted**; a `noexec` mount prevents bundled programs from running even if a launcher is invoked with Bash. The installing user must own or have write access to the chosen application directory. Keep normal executable permissions and symbolic links when extracting native packages, and run the installer as your regular user. Existing native filesystems such as XFS or Btrfs can provide the required features, but ext4 is our recommendation for a newly prepared PortalAI drive; this is not a separate validation claim for those alternatives.
+
+On a Mac, choose standard **APFS**, rather than a case-sensitive variant, as the default for a new application drive. macOS normally cannot write to NTFS without an additional driver, so a Windows NTFS installation drive is not the recommended Mac destination. An APFS volume must be mounted and writable before installation or launch.
+
+**FAT32 and exFAT are not recommended installation formats.** FAT32's maximum individual file size is less than 4 GiB, below many PortalAI model files. exFAT supports large files but does not preserve native Unix permissions or symbolic links and lacks Windows access-control lists and filesystem journaling. Being able to copy a model onto a drive does not establish that the complete application can install and run there.
+
+For use across operating systems, keep separate OS-specific installations on appropriately formatted volumes or drives. A separate exFAT volume is useful for transferring intact installer archives or exported documents/media; extract native application files on their destination filesystem. Do not run one account/profile concurrently from multiple operating systems. Exit PortalAI normally, wait for saving and account sealing to finish, and safely eject before unplugging.
+
+These filesystem recommendations follow the installers' native runtime requirements; they do not change the platform-testing limits below or claim new physical Mac/Linux validation. See [Microsoft's filesystem comparison](https://learn.microsoft.com/en-us/windows/win32/fileio/filesystem-functionality-comparison), [Apple's APFS guidance](https://support.apple.com/guide/disk-utility/file-system-formats-dsku19ed921c/mac), [Apple's partition schemes](https://support.apple.com/guide/disk-utility/partition-schemes-dsku1c614201/mac), and the Linux kernel documentation for [ext4 file metadata and permissions](https://docs.kernel.org/filesystems/ext4/inodes.html) and [journaling](https://docs.kernel.org/filesystems/ext4/journal.html).
+
 ## Download and launch
 
 Download **one file for your operating system**. The launcher downloads its pinned complete installer from this repository’s GitHub release, verifies the archive and extracted files, and starts the Academic installation. Older downloaded launchers can still use their original retained package parts.
