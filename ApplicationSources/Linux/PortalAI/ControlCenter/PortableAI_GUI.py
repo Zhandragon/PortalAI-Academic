@@ -1170,6 +1170,8 @@ def main(authenticated=None):
     persistence_tab = _make_tab_page("persistence", scrollable=False)
     maintenance_tab = _make_tab_page("maintenance", scrollable=True)
     help_tab = _make_tab_page("help", scrollable=False)
+    donation_tab = _make_tab_page("donation", scrollable=True)
+    from donation_panel import DonationPanel, sponsor_button
 
     # PORTABLEAI_TAB_BRANDING_v15_134D
     # place() overlays never participate in pack/grid geometry, so these badges do
@@ -1266,6 +1268,9 @@ def main(authenticated=None):
         "PortalAI Native Chat is the primary frontend. Use the tabs above for lifecycle controls, chat, live activity/GPU telemetry, runtime state, installed capabilities, and generalized maintenance.",
         9, fg=COLORS["muted"], wraplength=900, justify="left",
     ).pack(fill="x", padx=14, pady=(0, 12))
+
+    welcome_sponsor_button = sponsor_button(welcome_note, COLORS)
+    welcome_sponsor_button.pack(anchor="w", padx=14, pady=(0,12))
 
     # PORTABLEAI_BRAND_IDENTITY_v15_131_HERO
     # The Welcome tab deliberately gives the emblem the remaining vertical space.
@@ -1403,6 +1408,7 @@ def main(authenticated=None):
         ("persistence", "Persistence"),
         ("maintenance", "Maintenance"),
         ("help", "Help"),
+        ("donation", "Donation"),
     ):
         b = ElegantButton(
             tabs_left, text=display_caps(title), command=lambda k=key: show_tab(k),
@@ -1443,6 +1449,7 @@ def main(authenticated=None):
         missions=open_account_missions, on_save=lambda: force_scan.set(), session=current_account_session)
     settings_page.pack(fill="both", expand=True, pady=(0, 10))
     documentation_panel = DocumentationPanel(help_tab, COLORS)
+    donation_panel = DonationPanel(donation_tab, root, COLORS)
 
     # PORTALAI_HELP_DECOR_v15_136
     portal_help_decorator = decorate_help_page(help_tab, COLORS)
@@ -2184,6 +2191,7 @@ def main(authenticated=None):
             pass
         try:
             documentation_panel.apply_palette(COLORS)
+            donation_panel.apply_palette(COLORS)
             ui_context.apply_palette(COLORS)
         except Exception:
             pass

@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467144460,
-      "sha256": "1d440d9d762a4384801acc598d71a9f5bd6471b64dcc6914d2da9690960bee44"
+      "bytes": 467228106,
+      "sha256": "7b7a7e640e1733cb0e78711f6db878c6bf702e1e1e68134d087a2d4b31a5b370"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -224,8 +224,8 @@
     "scope": "initial native installation; optional later model/media installs retain their own checks",
     "architectures": {
       "x86_64": {
-        "base_kib": 14702402,
-        "payload_bytes": 941812831,
+        "base_kib": 14703007,
+        "payload_bytes": 941907698,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,
@@ -236,5 +236,6 @@
         "minimum_free_percent": 10
       }
     }
-  }
+  },
+  "donation_panel": true
 }

@@ -11,7 +11,7 @@ def build_public_welcome(host, root, colors):
     frame.images=[]; frame.borders=[]
     nav=tk.Frame(frame,bg=colors['panel3']); nav.pack(fill='x',padx=8,pady=4)
     frame.borders.append(ConnectedBorder(nav,colors,radius=11))
-    for name in ('Welcome','Controls','Chat','Activity/GPU','Runtime','Installed','Settings','Help'):
+    for name in ('Welcome','Controls','Chat','Activity/GPU','Runtime','Installed','Settings','Help','Donation'):
         ElegantButton(nav,text=display_caps(name),command=lambda:None,
                       bg=colors['button'],fg=colors['text'],font=(portal_display_font(host),10,'bold'),
                       padx=8,pady=5,bd=0,takefocus=0).pack(side='left',padx=3,pady=5)
@@ -37,5 +37,8 @@ def build_public_welcome(host, root, colors):
     message=tk.Label(note,text='PortalAI Native Chat is the primary frontend. Use the tabs above for lifecycle controls, chat, live activity/GPU telemetry, runtime state, installed capabilities, and generalized maintenance.',bg=colors['panel'],fg=colors['muted'],anchor='w',justify='left',wraplength=900)
     message.pack(fill='x',padx=16,pady=(0,12))
     message.bind('<Configure>',lambda e:message.configure(wraplength=max(100,e.width)))
+    from donation_panel import sponsor_button
+    frame.sponsor_button=sponsor_button(note,colors)
+    frame.sponsor_button.pack(anchor='w',padx=16,pady=(0,12))
     image('PortalAI_Emblem_HeroBright_240.png',content) or image('PortableAI_Header_72.png',content)
     return frame

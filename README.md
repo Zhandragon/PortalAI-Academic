@@ -21,6 +21,8 @@
 
 **Welcome to PortalAI:** a portable workspace for local chat, tools, science, images, video, speech and music.
 
+<p align="center"><a href="https://github.com/sponsors/Zhandragon"><img src="Documentation/assets/sponsor-button.svg" width="252" height="48" alt="Sponsor on GitHub" /></a><br/><sub>Support continued PortalAI development · <a href="Documentation/DONATIONS.md">Donation options</a></sub></p>
+
 > This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
 
 The Academic edition keeps PortalAI's main interface and supported workflows, with standard/censored chat, vision and media enforced. Variant controls remain visible but inert, excluded model and LoRA assets are not downloaded, and an Academic instruction appendix is applied to the chat and mission harnesses.
@@ -46,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Installer update (2026-10-22 r3):** Setup checks destination disk space before downloading/extracting, reports any shortfall, and includes a verified SoX archive in the Windows packages. [Details and validation](Documentation/STORAGE-PREFLIGHT-20261022.md).
+**Latest update (2026-10-22 r3):** A new **Donation** tab follows Help, with click-to-copy QR destinations and sponsorship links on Welcome. Setup checks destination disk space before downloading/extracting, reports any shortfall, and includes a verified SoX archive in the Windows packages. [Details and validation](Documentation/STORAGE-PREFLIGHT-20261022.md).
 
 ## Download and install
 

@@ -1,0 +1,25 @@
+{
+  "source": "Four QR images supplied by the maintainer, 2026-10-22; originals preserved byte-for-byte.",
+  "assets": [
+    {
+      "file": "bitcoin.png",
+      "sha256": "9819767b7a281d683c37569298aab745f19d44bd32481045dfb36f2ab687c0b1",
+      "bytes": 3860
+    },
+    {
+      "file": "ethereum.png",
+      "sha256": "b1fe1411f80a20393c3fb35085fe3d9a8af2f7c0ce3f6c7e549ef7d7b17edf94",
+      "bytes": 3849
+    },
+    {
+      "file": "paypal.png",
+      "sha256": "a536f077fd67947400b1161c5d9b1978b1a0442284164ac77a23b2154eb71924",
+      "bytes": 68810
+    },
+    {
+      "file": "polygon.png",
+      "sha256": "6e2ab2a5d3ddbd6bf919c683612060ea6bde1298907038be27371514cf226260",
+      "bytes": 3732
+    }
+  ]
+}

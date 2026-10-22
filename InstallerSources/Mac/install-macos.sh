@@ -48,8 +48,8 @@ fi
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
 case "$ARCH" in
-  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18631450 52428800 104857600 10 ;;
-  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18631903 52428800 104857600 10 ;;
+  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18632050 52428800 104857600 10 ;;
+  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18632504 52428800 104857600 10 ;;
 esac
 
 WRITE_CHECK="$(mktemp "$PARENT/.portalai-macos-write-check.XXXXXX")" || {
