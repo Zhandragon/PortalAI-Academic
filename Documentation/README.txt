@@ -1,3 +1,7 @@
+CURRENT: v2026.10.21-r2. Web tools, agents, ports and Mac Projection.
+See UPDATE-20261021.md and PUBLISH-VALIDATION.json. Academic restrictions remain.
+
+Historical baseline notes:
 CURRENT: Academic 2026-10-21 r1. Access-request notice added to the welcome panel.
 See the root README and Documentation/VALIDATION.json for current validation.
 

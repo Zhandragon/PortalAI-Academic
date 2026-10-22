@@ -1,0 +1,56 @@
+ComfyUI Windows memory loading repair - 2026-10-18
+
+The original hostbuf_file_reader_read failure occurred in Wan's second sampler,
+not PNG decoding. The attachment had already passed image validation. The exact
+original low-level cause was not captured, so it must not be claimed proven.
+
+Controlled, synthetic Wan 2.2 tests on this RTX 3090 / 32 GB Windows host showed
+severe Windows commit pressure despite available physical RAM. Baseline loading,
+unpinned-only, conservative non-dynamic, alternative allocator, fast-disk and
+cache-none trials reached the diagnostic memory floor and were stopped. These
+were watchdog stops, not reproductions of the exact original exception.
+
+Disabling the pinned host cache and reserving 12 GiB of DynamicVRAM headroom
+completed two consecutive 256x256, 9-frame generations with both 14B model stages,
+the original 4-step LoRAs, and saved MP4 output. No model weights, prompts from
+the failed job, or user profiles were modified. Larger-policy test results are
+recorded separately in the release validation evidence.
+
+Final actual-policy acceptance also passed two consecutive 512x512, 17-frame
+generations and one normal 640x640, 81-frame segment. All five MP4s decoded, with
+every frame distinct. The actual policy selected 14 GiB GPU headroom on this host.
+Minimum commit headroom was 4.076 GiB for the 512 tests and 3.778 GiB for the
+normal segment; the system commit limit stayed 41.009 GiB throughout. The 81-frame
+segment took 218.93 seconds. No OS paging setting was changed. This verifies the
+Wan motion stage, not the complete 20-second voice/MuseTalk/dialogue pipeline.
+The standalone owned workers were stopped after testing; a live signed-in chat
+stop/restore sequence was not exercised by these isolated backend tests.
+
+Agent/runtime_policy.py now reads Windows commit headroom alongside physical RAM.
+After the existing LLM handoff, CUDA ComfyUI can use at most available commit minus
+6 GiB as its GPU budget. It rounds the required DynamicVRAM headroom upward and
+disables pinned caching when this limit applies. A budget below 4 GiB is rejected
+with a Windows commit explanation. Machines with sufficient headroom retain their
+normal settings; Linux, Radeon and CPU policies retain their existing behavior.
+The flags can reduce speed; they do not reduce resolution, frames, steps or model
+quality. Stop, login, ownership and GPU lease behavior are unchanged. Normal
+application restart is required for existing imports; fresh media workers read
+the updated policy. No automatic replay of failed or uncertain work is added.
+
+Windows system-managed pagefile.sys on C: grew during test allocations and shrank
+when the diagnostic worker exited. Comfy model files were already mapped read-only
+from D:; changing a TEMP directory does not redirect Windows commit backing.
+The OS paging file has not been moved, resized or disabled. D: is removable, per
+the owner, so it must not become a hidden permanent Windows paging dependency.
+Standalone diagnostic inputs, outputs, caches, logs and new release artifacts
+were explicitly kept on D:. No guarantee of zero Windows paging is made.
+
+Upstream context, not proof of this host's original cause:
+https://github.com/Comfy-Org/comfy-aimdo/issues/61
+https://github.com/Comfy-Org/ComfyUI/issues/14250
+https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/introduction-to-the-page-file
+
+Aoostar: the CUDA change does not apply to its Radeon GPU. Measure RAM/commit and
+use the existing Radeon admission rules. Keep checks for Accounts, Avast
+IDP.Generic, llama-server/DLL integrity and the root launcher from the earlier
+handoff. Never bypass a real memory limit or quarantine without verifying origin.

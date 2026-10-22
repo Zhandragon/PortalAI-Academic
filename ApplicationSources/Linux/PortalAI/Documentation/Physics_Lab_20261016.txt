@@ -1,0 +1,129 @@
+PORTALAI PHYSICS LAB — 2026-10-16
+
+OPEN AND USE
+Ask Nice: "Call physics.world_schema, then make an interactive physics.world
+scene with a spring, a hanging rope and a two-mass pulley. Include a comparison
+with the ideal analytical prediction and state the assumptions."
+Open world.html in the returned account outputs. It is self-contained and
+offline. A WebGL-capable browser is required; no local server, Python, Node,
+CDN or new download is needed. Documentation/Physics_Lab_Demo.html is a public
+synthetic starter with all four presets. Nice can supply a complete bounded
+JSON scene, not arbitrary executable game code.
+
+Use Pause/Run, One step and Reset setup. Drag the view to orbit, wheel to zoom.
+Load example replaces the setup. Select objects, add/move/remove them, apply
+impulses or wind, and connect a second selected endpoint. The mechanism form
+creates pulley anchors 3 m above the endpoints; use JSON for arbitrary fixed
+supports and ratios. Heat/fuel and impact-break thresholds are editable.
+Particle controls create visual emitters. The liquid-particle and buoyancy
+presets expose both fluid approaches. All settings are available in the JSON
+editor. Read current setup, edit, then Apply JSON explicitly resets simulation.
+
+Save setup exports current rigid positions, velocities, temperatures, fuel and
+active links. This is not an exact simulation checkpoint: internal rope/fluid
+motion and visual particles restart, released loose rope nodes are omitted,
+and radial bursts never replay. Constraint lengths tolerate up to 1% (minimum
+1 cm) of solver stretch when importing/exporting; large inconsistencies fail.
+Reset restores the last explicitly loaded/applied setup. It discards unsaved
+edits. Simulations pause while the browser document is hidden.
+
+PortalAI Stop cancels scene creation/publication using existing account/Stop
+gates. It cannot stop an independently opened browser file: pause or close
+that browser tab. No background service or GPU model is launched by the lab.
+
+MODELS AND INPUTS
+Units: metres, kilograms, seconds, Celsius; Y up and ground Y=0. The full input
+schema is Scientific/world_schema.json, shared by Python and the browser.
+physics.world_schema returns that schema, examples, limits and limitations.
+
+objects: boxes/spheres, stable id, position/rotation/velocity/angular_velocity,
+mass (0=fixed), size, color. Thermal fields: temperature, heat_capacity in J/K
+(total body capacity, not specific heat), convection in W/K, fuel_j, burn_w,
+ignition_c. break_speed is impact-normal speed in m/s, zero disables breakage.
+
+Wind uses a uniform velocity and approximate projected area with quadratic
+relative-air drag. The stable update approaches wind velocity without an
+overshoot. This excludes lift, turbulent flow, shielding and rotating drag.
+
+connections: kind spring/rope/pulley/weld, a and b body IDs. Springs use Hooke
+force plus linear damping at body centers; unstable stiffness/damping versus
+mass and fixed timestep is rejected. Ropes model wire/string tension with
+massive segmented nodes and unilateral constraints; slack cannot push. There
+is no bending stiffness, plasticity, knots or self-collision. Neighbor nodes
+do not collide with their directly connected endpoint.
+
+Ideal pulley equation: |A-anchor_a| + ratio*|B-anchor_b| <= length. Anchors are
+fixed, massless, frictionless supports. Ratio changes mechanical advantage,
+not wheel geometry/inertia. Welds lock relative position/orientation. Optional
+break_force (N) and break_torque (N m; weld only) release overloaded links.
+Released rope nodes retain their mass as free particles until explicit reset.
+Solver tolerances and extreme mass ratios limit quantitative accuracy.
+
+Pre-cut fracture divides a dynamic box into eight smaller boxes after the
+declared impact-speed threshold. Mass, volume, heat capacity, fuel and initial
+linear/angular velocity field are partitioned. Impact strength does not infer
+material stress, cracks, fatigue, structural integrity or blast damage.
+
+liquids: axis-aligned zones with position/size, density, flow, drag, temperature
+and heat_transfer (W/K at full immersion). Archimedes buoyancy uses actual body
+volume times its AABB overlap fraction, so rotated/partial immersion is an
+approximation. Bulk liquid does not move or react back to bodies; use downward
+Y gravity. No waves, liquid pressure field or phase change is solved.
+
+fluids: actual Cannon SPH particles with position, counts [nx,ny,nz], spacing,
+density, viscosity, sound_speed and color. Particle mass is density*spacing^3;
+smoothing radius is 2*spacing. All clumps share one material/solver; material
+parameters must match. Physical particles interact through pressure/viscosity
+and collide with rigid bodies/ground. This is a small weakly-compressible demo,
+not calibrated water, a general CFD solver or proof of fluid/material behavior.
+Bulk zones and initial SPH regions cannot overlap. Speed/stability violations
+pause rather than silently changing timestep or requested parameters.
+
+Thermodynamics uses lumped body temperatures and capacities. Convection is
+exact exponential relaxation to an ambient reservoir. Connection conductance
+(W/K) uses energy-conserving pairwise exchange. Heaters distribute specified
+power within a radius. These models omit internal temperature gradients,
+latent heat, radiation, phase changes and full fluid heat transport.
+
+Fire consumes finite fuel_j at burn_w when temperature reaches ignition_c;
+half the energy heats the fuel body, half goes to nearby bodies (or is lost
+if none are in range). Ignite explicitly supplies and records ignition energy.
+There is no oxygen, reaction chemistry, material loss, smoke toxicity or fire
+spread certification. Flame/smoke rendering is visual only.
+
+Explosion control means a generic radial impulse event, with bounded scalar
+impulse divided among nearby rigid bodies by distance. It emits sparks; it
+does not estimate explosive yield, pressure waves, fragments or damage.
+
+emitters: visual smoke/sparks/fire particles with position, velocity, rate and
+lifetime. They move with simplified wind/gravity and exert no physical force.
+Physical SPH particles and rope nodes are separate from these visual effects.
+
+PERFORMANCE AND VALIDATION
+Fixed physics step 1/120 second, at most 10 catch-up steps/frame, 80 constraint
+iterations. Hard caps: 96 rigid bodies including reserved box fragments,
+128 rope nodes, 48 connections per runtime, 256 physical fluid particles,
+256 visual particles. Rendering resolution adapts; physical constants and
+requested particle counts do not. Overload slows simulated time. Clearing
+released rope nodes requires an explicit reset. High-speed discrete collisions
+can tunnel. Nonfinite/out-of-bounds states stop with an error.
+
+Automated numerical fixtures check spring period, pulley acceleration and
+ratio, rope tension/slack, heat conservation/cooling, buoyancy, finite fuel,
+impulse budget, fracture conservation, bounded particles and example runs.
+Python checks schemas, routing, script escaping and existing science/account
+publication contracts. Headless UI handler checks do not establish visual
+browser acceptance or engineering fidelity. No physical GPU/recipient test
+or CFD/combustion validation is implied.
+
+IMPLEMENTATION / LICENSING
+Reuses the existing pinned cannon-es 0.20.0 and Three.js 0.160.1 with their
+bundled license files and science-expansion asset hashes. No new engine/runtime
+download. First-party schema, orchestration and UI are portable source.
+Primary engine references:
+https://pmndrs.github.io/cannon-es/docs/modules.html
+https://pmndrs.github.io/cannon-es/docs/classes/Spring.html
+https://github.com/pmndrs/cannon-es/blob/v0.20.0/src/objects/SPHSystem.ts
+
+The separate physics.coupled_demo remains available and unchanged. These new
+features do not change account/vault, mission, GPU lease or model routing.

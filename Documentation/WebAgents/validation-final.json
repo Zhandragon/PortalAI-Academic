@@ -1,0 +1,138 @@
+{
+  "installed_root": "D:\\PortalAI Windows",
+  "source_files": 60,
+  "installed_update_files_verified": 438,
+  "source_scan_files": 786,
+  "source_regressions": {
+    "tests": 273,
+    "expected_skips": 1,
+    "passed": true
+  },
+  "final_full_windows_extracted_regressions": {
+    "tests": 293,
+    "passed": true,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "academic_policy_tests": {
+    "tests_per_platform": 23,
+    "platform_source_variants": [
+      "Windows",
+      "Linux",
+      "Mac"
+    ],
+    "passed": true
+  },
+  "academic_windows_web_agent_tests": {
+    "tests": 20,
+    "passed": true
+  },
+  "windows_installer_plans": {
+    "passed": true,
+    "checks": [
+      {
+        "edition": "Full",
+        "components": 51,
+        "component_definitions_and_receipts_unchanged": true,
+        "required_plan": true,
+        "all_components_combined_plan": true
+      },
+      {
+        "edition": "Academic",
+        "components": 51,
+        "component_definitions_and_receipts_unchanged": true,
+        "required_plan": true,
+        "all_components_combined_plan": true
+      }
+    ]
+  },
+  "archives": {
+    "passed": true,
+    "archives": [
+      {
+        "edition": "Full",
+        "system": "Windows",
+        "outer_files": 5,
+        "exact_bytes_verified": true
+      },
+      {
+        "edition": "Full",
+        "system": "Linux",
+        "outer_files": 6,
+        "exact_bytes_verified": true
+      },
+      {
+        "edition": "Full",
+        "system": "Mac",
+        "outer_files": 8,
+        "exact_bytes_verified": true
+      },
+      {
+        "edition": "Academic",
+        "system": "Windows",
+        "outer_files": 5,
+        "exact_bytes_verified": true
+      },
+      {
+        "edition": "Academic",
+        "system": "Linux",
+        "outer_files": 6,
+        "exact_bytes_verified": true
+      },
+      {
+        "edition": "Academic",
+        "system": "Mac",
+        "outer_files": 8,
+        "exact_bytes_verified": true
+      }
+    ]
+  },
+  "updater": {
+    "passed": true,
+    "cases": [
+      "conflict refuses all writes",
+      "before-hash preflight",
+      "verified backup and apply",
+      "idempotent second apply"
+    ],
+    "owner_data_used": false
+  },
+  "linux_native_browser": {
+    "passed": true,
+    "sandbox_enabled": true,
+    "network": false,
+    "host_mounts": [],
+    "physical_linux_test": false,
+    "browser": "Chromium 156.0.8078.4"
+  },
+  "windows_native_browser": {
+    "real_dom_interaction_screenshot": true,
+    "owned_worker_public_page": true
+  },
+  "model": {
+    "custom_port_start": 24080,
+    "owned_healthy_start": true,
+    "live_restore_smoke": "Timed out after fixture llama-server.exe disappeared; cause unconfirmed",
+    "watchdog_smoke": "Not reached",
+    "original_executables": "Still present"
+  },
+  "limitations": [
+    "Physical Linux/Mac/Aoostar acceptance and complete clean recipient installs not performed",
+    "Mac runtime/archive integrity verified, not native Mac execution",
+    "Live model restoration must be retested; not counted as passed",
+    "Agents in one root use serialized mission steps; separate roots need sufficient memory",
+    "Pairing is same-user same-computer loopback; sender Stop is not distributed cancellation"
+  ],
+  "accounts_models_private_data_changed": false,
+  "recovery": {
+    "path": "D:\\PortalAI Windows\\Maintenance\\Patches\\WebAgents_before_20261021_201253\\source.zip",
+    "sha256": "95db7876f5d14205702a23b2e899bb086a5b219b70dccb395333244463b1263b"
+  },
+  "pdf_reader": {
+    "passed": true,
+    "selected_page_text": "Second page evidence",
+    "pdf_pages": 2,
+    "out_of_range_refused": true
+  }
+}

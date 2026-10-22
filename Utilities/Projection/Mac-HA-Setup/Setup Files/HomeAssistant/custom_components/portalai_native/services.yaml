@@ -1,0 +1,16 @@
+allow_state:
+  name: Allow current PortalAI state
+  description: Allow read-only native UI state from an already paired PortalAI device. No commands or general HA access.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:
+revoke_state:
+  name: Revoke current PortalAI state
+  description: Clear native state and revoke this device's native read scope. Existing projection pairing is retained.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:

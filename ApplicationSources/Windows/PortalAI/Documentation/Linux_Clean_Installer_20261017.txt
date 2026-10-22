@@ -1,0 +1,59 @@
+PortalAI Linux Clean Installer — 2026-10-17
+
+Package
+  Output folder: PortalAI Linux Installer/
+    PortalAI-Linux-Clean-Installer-20261019-r13-x86_64.tar.gz
+    PortalAI-Linux-Clean-Installer-20261019-r13-x86_64.tar.gz.sha256
+    manifest.json, SHA256SUMS, README.txt
+
+This is a separate Linux x86-64 installer built from the checksum-verified
+current clean application payload. It filters Windows-native executables, owner
+data, mission history, caches, outputs, and model weights. It bundles the
+verified standalone CPython 3.12.15 runtime, Linux CPU llama.cpp, Linux QEMU,
+and the Linux installers' receipts. It downloads the Debian Trixie rootfs and
+the pinned Linux GUI/account Python layers on the recipient's machine, verifies
+package and file hashes, and keeps them under the selected PortalAI folder.
+It does not use sudo or install host packages.
+
+Install:
+  tar -xzf PortalAI-Linux-Clean-Installer-20261019-r13-x86_64.tar.gz
+  cd PortalAI-Linux-Clean-Installer-r13
+  ./install.sh
+  "./PortalAI Linux/PortalAI.sh"
+
+The default app destination is a new `PortalAI Linux` folder inside the
+installer's own folder, beside install.sh. Launching it from another working
+directory does not change that location. Start the resulting PortalAI.sh from
+the installed app folder. Pass a new destination as the first argument to
+override the default.
+The target filesystem must be writable by Linux and preserve executable bits;
+the installer checks this before unpacking the large app payload.
+
+Installer target: Linux x86-64, glibc 2.28 or newer. Persistent mission
+supervision requires delegated cgroup v2; the launcher may use a systemd user
+scope. Core install requires internet access and keeps the configured
+50-GiB/10%-of-volume free-space floor plus the 100-GiB output reserve.
+
+The package source hash is
+64ab5f29ab3e3ecd70300c5ef52ac14ec53edb6a4ea35de3a385b520bbccf934.
+The pinned standalone Python receipt and every bundled Python file were checked.
+The Linux QEMU receipt and every bundled QEMU file were checked. Every CPU
+llama.cpp backend file is recorded by SHA-256 in the installed
+Maintenance/Imports/linux-clean-installer-r13.json receipt. The installer package
+and nested payload archives passed archive/path/integrity scans on the Windows
+builder.
+
+The actual online installer has not been run on a physical Linux machine.
+The Linux guest test could not run on the Windows build host: WSL is not
+installed and available free RAM is below that test's 14-GiB minimum. Physical
+Linux desktop, account, audio, GPU, and KVM behavior therefore remains
+unverified beyond archive-level integrity and static checks.
+
+The core install omits GGUF model weights and optional Torch/media/science,
+CUDA, and ROCm stacks. It installs no owner credentials, accounts, mission
+history, or HA pairing. The installer doesn't start the GUI, arm missions, or
+install an auto-start service. Model inference requires a supported local model
+to be added after installation.
+
+2026-10-19 r13: shared GUI style reuse avoids global theme redraws on menu opening.
+See Documentation/UI_Responsiveness_20261019.txt in the application.

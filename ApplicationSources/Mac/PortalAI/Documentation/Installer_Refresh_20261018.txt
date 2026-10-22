@@ -1,0 +1,12 @@
+October 18, 2026 clean installer refresh (Windows r14, Linux/Mac r4)
+Includes unconditional account startup gating, explicit reviewed recovery support
+(no recovery ticket or accounts are included), the corrected Windows drive launcher,
+automatic chat context reclamation and checkpoint reserve, read-only chat_history,
+saved tool evidence and duplicate-action protection, and account-aware media inputs.
+Windows installer destinations now accept PortalAI Windows while retaining private
+data exclusions and pinned archive verification. CPU/Vulkan llama-server pins are
+unchanged. Antivirus exclusions are not added; no promise of avoiding IDP.Generic
+is made. Real memory admission remains enforced, including shared Radeon memory.
+No private account, workspace, recovery ticket, password or media output is shipped.
+Physical Aoostar, Linux and Mac installation and a 20-second dialogue job remain
+separate recipient checks. Existing installations/accounts are never overwritten.

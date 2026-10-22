@@ -1,0 +1,128 @@
+NOTE FOR THE COMBINED 0.5.11 INSTALLER
+The automatic installer already adds portalai_recovery to configuration.yaml
+and creates the Recovery dashboard view. Do not add a duplicate YAML key.
+If setup also completed the HA restart, skip historical installation steps
+2 and 3 below. Continue with the separate helper arming and recovery pairing.
+Its separate approval is still required; ordinary projection pairing does
+not authorize recovery. The following describes the unchanged 0.1.0 helper.
+
+Portable HA application recovery - Windows - version 0.1.0
+=========================================================
+
+What it does
+------------
+This is a THIRD, separately launched helper. Leave it open and armed before
+leaving the Aoostar. It keeps a separate outbound HTTPS recovery connection to
+Home Assistant when the ordinary Projection UI/worker or PortalAI GUI crashes.
+Nothing is restarted automatically. An HA administrator must click Recover
+PortalAI apps each time. The helper restores the projection worker in the
+background and opens PortalAI's normal sign-in/recovery screen when safe.
+The original Projection connection-management window need not be reopened.
+
+Everything remains on the portable SSD. No host Python, Windows service,
+scheduled task, firewall change, HA login credential or OpenClaw dependency
+is installed. It requires Windows already running in the signed-in desktop
+session and this helper still alive. It cannot recover its own crash, Windows
+freeze/reboot, missing SSD, lost network or a still-running hung application.
+It does not fix the intermittent USB/storage dropout diagnosed on October 15.
+This Windows implementation does not claim Linux recovery support.
+
+One-time installation on HA (trusted device)
+--------------------------------------------
+1. Install this combined HA package using README_FIRST.txt. Its installer
+   includes portalai_recovery alongside Native/Projection 0.5.3. The recovery
+   component has its own domain/endpoint and does not replace their protocols.
+2. Add this top-level entry to configuration.yaml without overwriting anything:
+
+     portalai_recovery:
+
+3. Validate HA configuration and restart HA normally from the trusted device.
+4. On the Aoostar, run Utilities/PortalAI-Projection/Start HA Recovery.cmd.
+   Browse to the EXISTING encrypted file in this companion's Connections
+   folder. Enter its projection unlock password, then click Unlock and arm.
+   This reads the saved connection; it does not create/replace it or change
+   its existing projection key, password, target or original HA approval.
+5. Copy the PUBLIC recovery pairing JSON shown by the helper. On trusted HA,
+   Developer Tools > Actions, run portalai_recovery.pair_device with that JSON
+   in pairing_request. Approve it once for each HA destination. Approval for
+   ordinary projection does not automatically approve recovery.
+6. Copy the dashboard button YAML shown beneath that JSON into your HA
+   dashboard. The helper inserts your public device_id. A generic example is
+   included in examples/recovery-card.yaml. The helper should say Armed and
+   connected to HA. Keep this window open; minimizing it is fine.
+
+Each Windows/helper restart requires local Unlock and arm again. There is no
+automatic OS-login task, unattended password storage or unlock bypass. The
+unlocked projection key and destination remain in the helper's memory only;
+no HA password, cookie, API token or profile encryption key is accepted.
+
+Using recovery after an application crash
+----------------------------------------
+Click Recover PortalAI apps in HA. Then open the EXISTING projection card.
+If a projection worker still exists, no duplicate is launched. If it is absent,
+a new worker receives the existing unlocked projection connection through a
+private inherited pipe. No key is put in command arguments or environment.
+
+If the main GUI is absent and no owned workers remain, the helper launches
+PortalAI.exe with the ordinary projection/input adapters. You sign in through
+PortalAI's real account gate. Unsealed/crashed profile evidence is retained;
+opening a login window does not claim successful sealing or recovery.
+
+If a GUI is already running it is left alone. Leftover owned model/tool workers
+or a closing profile cause a review result instead of another main-app launch.
+The restored projection channel can make the existing explicit Force Shutdown
+control reachable; that remains a separate unsafe action with its existing
+confirmation, ownership checks and durable mission/schedule fence.
+
+No helper action terminates PortalAI, reboots Windows, replays tools/missions,
+cleans recovery journals, resets accounts, unlocks profiles or revives stopped
+schedule/mission epochs. A new Stop during recovery invalidates the launch.
+Failed/uncertain commands are not automatically retried after network failure.
+Launch requested is an honest launch result, not a guarantee of GUI readiness,
+HA screen delivery, successful login, or sealed profiles. Inspect the normal
+projection card and any recovery prompt before continuing work.
+
+Disarming
+---------
+Click Disarm or close the helper and wait for completion. It stops ONLY a
+projection worker it started, using that exact retained child handle. An
+independently started Projection worker and all PortalAI processes are left
+alone. PortalAI retains its normal login/Stop/logout/sealing lifecycle. If
+cleanup cannot be verified the helper stays open with its lock/handle and
+asks for an explicit Disarm retry. Do not remove the SSD before normal PortalAI
+shutdown/sealing, even when this helper has disarmed.
+
+The sensor sensor.portalai_recovery_FIRST_8_DEVICE_ID_CHARS reports offline
+after its heartbeat expires (15 seconds plus up to five seconds refresh).
+Revoke recovery independently with portalai_recovery.remove_device. Removing
+this recovery approval does not remove the ordinary projection approval.
+
+Security and deployment limits
+------------------------------
+Only an authenticated HA administrator can approve, revoke or request recovery.
+A separate P-256 challenge namespace and recovery-only sessions accept one
+fixed action, recover_apps; no remote executable, path, arguments, shell,
+desktop input or account/password operation can be supplied. Session sequence,
+command lifetime and one-time dispatch checks reject stale/replayed commands.
+Commands are dropped on reconnection, never silently replayed. HTTPS is verified
+against the bundled CA roots; redirects and compressed/oversized responses are
+refused. No inbound listener is opened on the Aoostar.
+
+The same existing projection key is separately approved for this narrow HA
+recovery domain. It remains unable to call general HA APIs/services. Keeping
+an unlocked helper running retains that key in current-user process memory;
+same-user unrestricted host access is not OS isolation or a secrecy boundary.
+Only one helper can be armed per companion root. Source changes require disarm,
+review and rearm because launch files are pinned while armed.
+
+This package has local synthetic, Tk and HTTPS tests. Installation/routing on
+the user's actual HA/Cloud/iPhone and real production crash recovery still need
+deployment validation. Never test by unplugging the live SSD or killing a live
+profile. Existing projection files/keys/accounts and the HA instance were not
+modified or used by the tests.
+
+Developer references
+--------------------
+https://developers.home-assistant.io/docs/creating_component_index/
+https://developers.home-assistant.io/docs/dev_101_services/
+https://developers.home-assistant.io/docs/auth_permissions/

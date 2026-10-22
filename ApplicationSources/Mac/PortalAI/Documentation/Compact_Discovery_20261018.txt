@@ -1,0 +1,49 @@
+NICE COMPACT INSTRUCTIONS / DISCOVERY RECOVERY — 18 OCTOBER 2026
+
+The compact harness guide still existed, but larger model contexts automatically
+included the full shared reference manual as well. A targeted dialogue-video
+catalog response returned 8,734 characters, mostly model metadata. Under context
+pressure, exact history pages exposed only a few hundred characters at a time.
+The observed recovery loop made 12 history reads without completing discovery.
+No private conversation, prompt, account data or media is included in this report.
+
+CHANGES
+- Use the compact harness guide by default at every context size. Custom
+  instructions and current saved media preferences remain included. Instructions
+  has an explicit option to include the full reference manual; it is still bounded
+  by model capacity. The full manual remains available for a specific missing fact.
+- The guide and media_tool schema explain the basic command directly:
+  command="dialogue-video",
+  arguments=[IMAGE,WORDS,"--duration","20","--motion",ACTION].
+  Duration is total video time. The runtime measures natural speech and verifies
+  that it fits. The assistant need not calculate speech length or internal frames.
+  Optional --dialogue-start places speech; --motion-plan describes timed actions.
+- available_tools(command="dialogue-video") now returns compact targeted metadata
+  with complete basic execution help first. detail="full" retains optional model
+  and capability reference data. Essential help fits in the minimum 600-character
+  tool view, avoiding multiple history pages just to recover basic syntax.
+- After repeated catalog/history discovery, a runtime cue supplies the current
+  public execution help. It uses call metadata, never saved tool prose as system
+  instructions. It does not dispatch, replay or prohibit a tool, and resets after
+  other tool progress or a new user turn. Requested history audits remain possible.
+- Exact standalone media paths returned by shell searches are retained as reported
+  artifact evidence during compaction. A reported path does not establish success
+  or file existence. Saved raw results and exact history paging remain intact.
+
+VALIDATION AND LIMITS
+Regression tests cover minimum views, an 8K admitted request, a legacy oversized
+catalog with seven successive history reads, optional full lookup, history audits,
+account denial before lookup, and state preservation. Installer validation repeats
+the regression suite against extracted public package source. See release
+VALIDATION_20261018.json for actual counts/results and platform limitations.
+
+Existing unlimited/default and adjustable tool-call budgets, Stop, model memory
+admission, account boundaries, dialogue timing and uncertain-action recovery remain.
+These changes reduce a known source of repeated deliberation; they cannot guarantee
+that every model follows the guidance. A fresh benign Nice chat after a normal
+restart is needed to validate behavior on each physical machine. Do not restart a
+running user job or replay a pending action automatically.
+
+Windows r17 and Linux/Mac r7 include these changes. Install placement is unchanged:
+extract the complete installer beside the intended destination, then run it there.
+The installers refuse existing application folders instead of merging into them.

@@ -4,7 +4,7 @@
 
 ## Download and launch
 
-Download **one file for your operating system**. The launcher downloads its required package parts from this repository, checks their sizes and SHA-256 hashes, reconstructs the full installer, and starts the Academic installation. You do not need to download or join parts yourself.
+Download **one file for your operating system**. The launcher downloads its pinned complete installer from this repository’s GitHub release, verifies the archive and extracted files, and starts the Academic installation. Older downloaded launchers can still use their original retained package parts.
 
 | Operating system | Download | Open it |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
 
-The first stage downloads approximately 88 MB (Windows), 128 MB (Linux), or 102 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+The first stage downloads approximately 344 MB (Windows), 557 MB (Linux), or 680 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
 
 Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 
@@ -32,4 +32,6 @@ The current r2 installers label intentionally omitted assets EXCLUDED. Missing r
 
 ## Accounts and support
 
-Create your own account after installation. Help and searchable documentation are available in PortalAI itself. Only Windows has been thoroughly tested; Linux has partial validation and physical macOS installation remains unvalidated. Report errors to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including OS and installer versions and error text without passwords, tokens or private content. **macOS Projection is not supported yet.**
+Create your own account after installation. Help and searchable documentation are available in PortalAI itself. Only Windows has been thoroughly tested; Linux has partial validation and physical macOS installation remains unvalidated. Report errors to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including OS and installer versions and error text without passwords, tokens or private content. **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.**
+
+The current installers include web tools, collaborating agents and configurable ports. See [this release](UPDATE-20261021.md) for package versions, instructions and validation limits.

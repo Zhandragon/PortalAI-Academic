@@ -1,0 +1,4 @@
+0.5.11 portable distribution
+All upstream archive and payload hashes verified before adaptation.
+Only portable launcher, documentation, example inclusion and release metadata differ.
+Run install.py verify before preparing or installing. Host and HA live acceptance are separate.

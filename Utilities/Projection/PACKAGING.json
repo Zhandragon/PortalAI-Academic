@@ -1,7 +1,7 @@
 {
   "version": "20261020-r1",
   "source_base_url": "https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection",
-  "scope": "Clean Windows/Linux companion plus HA 0.5.11 + Recovery 0.1.0; no macOS Projection support.",
+  "scope": "Previously published Windows/Linux companions plus Mac 20261021-r1; HA 0.5.11 + Recovery 0.1.0.",
   "packages": {
     "Windows": {
       "path": "packages/20261020-r1/Windows",
@@ -18800,5 +18800,12 @@
         }
       ]
     }
+  },
+  "mac_release": {
+    "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz",
+    "bytes": 80821488,
+    "sha256": "384374b871e23874c0d29bc1ed73ac46de49347a0b1921519fa4db10d2be02cd",
+    "minimum_macos": "14",
+    "native_tested": false
   }
 }

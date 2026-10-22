@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "release": "PortalAI-Academic-2026.10.21-WebAgents-Linux",
+  "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
+  "platform": "Linux x86-64, glibc >= 2.28",
+  "built_utc": "2026-10-19T07:02:17.628578+00:00",
+  "source_release": "PortalAI clean payload",
+  "source_payload": {
+    "file_name": "payload.zip",
+    "bytes": 73198392,
+    "sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
+    "included_files": 2936,
+    "excluded_files": 1597
+  },
+  "components": {
+    "payload.tar.gz": {
+      "bytes": 493444182,
+      "sha256": "922e6cbb7ac2346c0ca353f0a06b719ff5b159a6a0495643112153247310694a"
+    },
+    "python-runtime.tar.gz": {
+      "bytes": 67038113,
+      "sha256": "1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4",
+      "python_files": 4507
+    },
+    "linux-cpu-llama-backend": {
+      "files": 60,
+      "bytes": 69587342,
+      "sha256_manifest": "b2e92030483960777ec5dd2cc99a0d243877eb7b0dc865cc8852f84ca2618796"
+    },
+    "linux-qemu": {
+      "files": 93,
+      "bytes": 13195455
+    },
+    "target_downloads": [
+      "Debian Trixie rootfs",
+      "pinned Linux GUI wheels",
+      "pinned Linux account wheels"
+    ]
+  },
+  "excluded": [
+    "owner data and credentials",
+    "model weights",
+    "Windows executables and runtimes",
+    "optional Torch/media/science/GPU layers"
+  ],
+  "installation": {
+    "host_python_required": false,
+    "host_node_required": false,
+    "sudo_required": false,
+    "host_packages_modified": false,
+    "internet_required": true
+  },
+  "verification_scope": "Academic Python/source and archive checks on Windows; physical Linux/macOS installation untested.",
+  "base_release": "PortalAI-2026.10.19-Linux-x86_64-r13",
+  "edition": "Academic",
+  "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
+  "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
+  "supersedes_release": "PortalAI-Academic-2026.10.21-r1-Linux",
+  "web_agents": {
+    "revision": "20261021",
+    "platforms": [
+      "linux-x64"
+    ],
+    "source_files": [
+      "Agent/_common.py",
+      "Agent/abort_watchdog.py",
+      "Agent/acestep_embedded_entry.py",
+      "Agent/ai_tools.py",
+      "Agent/assistant_guidance.py",
+      "Agent/bounded_comfy.py",
+      "Agent/chat_model_switch.py",
+      "Agent/effort_policy.py",
+      "Agent/linux_lifecycle.py",
+      "Agent/media_server.py",
+      "Agent/media_url.py",
+      "Agent/mission_context.py",
+      "Agent/mission_modes.py",
+      "Agent/mission_runner.py",
+      "Agent/mission_supervisor.py",
+      "Agent/runtime_policy.py",
+      "Agent/service_manager.py",
+      "Agent/video_understanding_bridge.py",
+      "Agent/web_tools.py",
+      "ControlCenter/PortableAI_GUI.py",
+      "ControlCenter/control_center_bootstrap.py",
+      "ControlCenter/inline_chat_images.py",
+      "ControlCenter/model_connection.py",
+      "ControlCenter/native_chat.py",
+      "ControlCenter/persistent_memory.py",
+      "ControlCenter/portable_chat.py",
+      "ControlCenter/runtime_health.py",
+      "ControlCenter/settings_page.py",
+      "Launchers/Qwen_Supervisor.py",
+      "Launchers/Start_PortableAI_Controller.py",
+      "Launchers/Start_PortableAI_Native_v15_133.py",
+      "Launchers/Stop_PortableAI.py",
+      "Maintenance/Tests/test_chat_effort_ui.py",
+      "PortableAI_Master_Instructions_v45.txt",
+      "Tools/build_linux_installer.py",
+      "Tools/build_macos_installer.py",
+      "Tools/smoke_chat_handoff.py",
+      "Agent/instance_runtime.py",
+      "Agent/instance_cli.py",
+      "Agent/instance-settings.json",
+      "Agent/web_runtime.py",
+      "Agent/web_capabilities.py",
+      "Agent/web_worker.py",
+      "Agent/agent_collaboration.py",
+      "ControlCenter/web_tool_api.py",
+      "ControlCenter/instance_settings.py",
+      "Tools/check_web_runtime.py",
+      "Documentation/Web_Agents_Ports_20261021.txt",
+      "Maintenance/Tests/test_web_agents.py",
+      "Maintenance/Imports/web-runtime-pins.json",
+      "Tools/web_installer_assets.py"
+    ],
+    "native_acceptance": "Windows real browser and synthetic collaboration; sandboxed Chromium in offline Linux guest passed; physical Linux/Mac/Aoostar acceptance pending; live model restoration smoke unresolved"
+  },
+  "certificate_packaging": {
+    "bundle": "Runtime/Certificates/cacert.pem",
+    "bytes": 240216,
+    "sha256": "9cc2a774b5198dcff14d9be1e66091f538975d867ce029a96bce15a55dfd730f",
+    "license": "Runtime/Certificates/LICENSE.certifi",
+    "checked_against": "Agent/web_tls.py"
+  }
+}

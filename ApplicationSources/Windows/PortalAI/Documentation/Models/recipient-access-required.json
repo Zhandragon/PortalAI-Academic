@@ -1,0 +1,19 @@
+[
+  {
+    "feature": "comfy-model-additive",
+    "repository": "black-forest-labs/FLUX.2-klein-base-9b-fp8",
+    "revision": "9ecf2143d71542449960c5584340269c6d401449",
+    "file": "flux-2-klein-base-9b-fp8.safetensors",
+    "url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9b-fp8/resolve/9ecf2143d71542449960c5584340269c6d401449/flux-2-klein-base-9b-fp8.safetensors",
+    "bytes": 9567278472,
+    "sha256": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4",
+    "destination": "PortalAI/Generative/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/flux-2-klein-base-9b-fp8.safetensors",
+    "license": "other",
+    "gated": "auto",
+    "validation": "Exact upstream commit, LFS size/SHA-256; no heavy payload read/download in this review",
+    "historical_identity": "Filename matched retained public inventory; old installed bytes not asserted equal",
+    "activation_allowed": false,
+    "download_policy": "Recipient must obtain access/accept upstream terms themselves; no owner credentials and no alternate mirror selected to bypass access. Exclude from unattended anonymous download plan.",
+    "asset_id": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4"
+  }
+]

@@ -1,0 +1,4 @@
+# Requires /local/portalai-quick-chat-v0.4.3.js as a module dashboard resource.
+type: custom:portalai-quick-chat
+title: PortalAI
+device_id: "REPLACE_WITH_MODULE_DEVICE_ID"

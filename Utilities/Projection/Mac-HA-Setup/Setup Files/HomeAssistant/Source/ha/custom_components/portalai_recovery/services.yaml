@@ -1,0 +1,24 @@
+pair_device:
+  name: Approve portable recovery helper
+  description: Separately approve the public recovery request from the armed helper. Requires an HA administrator.
+  fields:
+    pairing_request:
+      required: true
+      selector:
+        text:
+          multiline: true
+remove_device:
+  name: Revoke portable recovery helper
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:
+recover_apps:
+  name: Recover PortalAI apps
+  description: Ask the separately armed helper to restore projection and open PortalAI's normal login. No force-kill, task replay, reboot or account unlock.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:

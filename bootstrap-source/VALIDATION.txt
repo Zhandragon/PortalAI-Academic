@@ -1,3 +1,7 @@
+CURRENT: v2026.10.21-r2
+
+Exact production launchers passed prepare-only extraction with pinned, preloaded release archives. Windows ran the managed EXE; Linux/Mac shell launchers ran under Git Bash on Windows. Every extracted installer file was independently hash-verified. This is not a physical Mac/Linux install or a network-download test. Old fault-handling validation below remains historical.
+
 CURRENT: Academic 2026-10-21 r1
 
 The exact Windows, Linux and Mac setup launchers reconstructed the new archives from preloaded, verified package parts in prepare-only mode. Every extracted installer file matched its pinned hash. Windows ran its managed EXE; Linux and Mac shell paths ran under Git Bash on Windows. No full install or model worker was started. Native Linux/macOS behavior remains untested for this update.

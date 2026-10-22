@@ -20,6 +20,9 @@ def configure(root):
 
 
 def gui_row(root, row):
+    if sys.platform=='darwin':
+        from macos_target import gui_row as mac_gui
+        return mac_gui(root,row)
     if os.name!='nt':
         from linux_target import gui_row as linux_gui
         return linux_gui(root,row)
@@ -34,6 +37,9 @@ class Manager:
             if os.name=='nt':
                 from windows_desktop import Desktop
                 desktop=Desktop()
+            elif sys.platform=='darwin':
+                from macos_desktop import Desktop
+                desktop=Desktop(self)
             else:
                 from linux_desktop import Desktop
                 desktop=Desktop(self)
@@ -46,9 +52,9 @@ class Manager:
         self.operation={'state':'idle'};self.seen={};self.viewer=None
 
     def inventory(self, fresh=False):
-        from profile_shutdown import _windows_snapshot, _linux_snapshot
+        from profile_shutdown import _windows_snapshot, _linux_snapshot, _mac_snapshot
         if fresh or time.monotonic()-self.inventory_at>3:
-            self.rows=(_windows_snapshot if os.name=='nt' else _linux_snapshot)();self.inventory_at=time.monotonic()
+            self.rows=(_mac_snapshot(self.root) if sys.platform=='darwin' else (_windows_snapshot if os.name=='nt' else _linux_snapshot)());self.inventory_at=time.monotonic()
         return self.rows
 
     def owned(self, rows):
@@ -82,7 +88,7 @@ class Manager:
         with self.lock:
             result={'running':any(gui_row(self.root,r) for r in rows.values()),
                     'profile_state':profile_state,
-                    'operation':dict(self.operation),'platform':'windows' if os.name=='nt' else 'linux-x11',
+                    'operation':dict(self.operation),'platform':'macos' if sys.platform=='darwin' else 'windows' if os.name=='nt' else 'linux-x11',
                     'stream':'PortalAI windows only; shared desktop login session'}
             if native:result['native_chat_protocol']=1
             if native_attachments:result['native_chat_attachment_protocol']=1
@@ -301,6 +307,9 @@ class Manager:
         # Opts into a separate local read-only capability. The v1 projection
         # protocol cannot forward native state or confer a native receiver grant.
         environment['PORTALAI_NATIVE_STATE']='2'
+        if sys.platform=='darwin':
+            from macos_target import launch
+            return launch(self,environment)
         if os.name!='nt':
             from linux_target import launch
             return launch(self,environment)
@@ -320,6 +329,9 @@ class Manager:
                     if not remaining:break
                     if os.name=='nt':
                         for row in sorted(remaining.values(),key=lambda r:r['start'],reverse=True):_windows_stop(row,self.root)
+                    elif sys.platform=='darwin':
+                        from macos_target import stop_owned
+                        stop_owned(self,remaining)
                     else:
                         from linux_target import stop_owned
                         stop_owned(self,remaining)

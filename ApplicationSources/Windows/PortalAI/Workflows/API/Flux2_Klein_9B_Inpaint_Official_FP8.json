@@ -1,0 +1,371 @@
+{
+  "1": {
+    "inputs": {
+      "image": "source.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Source Image"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "mask.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Mask Image (white = edit, black = preserve)"
+    }
+  },
+  "3": {
+    "inputs": {
+      "image": [
+        "2",
+        0
+      ],
+      "channel": "red"
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Mask from Red Channel"
+    }
+  },
+  "4": {
+    "inputs": {
+      "mask": [
+        "24",
+        0
+      ],
+      "expand": 4,
+      "tapered_corners": true
+    },
+    "class_type": "GrowMask",
+    "_meta": {
+      "title": "Grow Mask 4 px"
+    }
+  },
+  "5": {
+    "inputs": {
+      "unet_name": "flux-2-klein-base-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load FLUX.2 Klein 9B"
+    }
+  },
+  "6": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load Qwen Text Encoder"
+    }
+  },
+  "7": {
+    "inputs": {
+      "vae_name": "full_encoder_small_decoder.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load FLUX.2 Full Encoder VAE"
+    }
+  },
+  "8": {
+    "inputs": {
+      "text": "replace the masked area as instructed",
+      "clip": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Positive Prompt"
+    }
+  },
+  "9": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Negative Prompt"
+    }
+  },
+  "10": {
+    "inputs": {
+      "pixels": [
+        "22",
+        0
+      ],
+      "vae": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "Encode Source for FLUX.2 Reference"
+    }
+  },
+  "11": {
+    "inputs": {
+      "conditioning": [
+        "8",
+        0
+      ],
+      "latent": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "Positive ReferenceLatent"
+    }
+  },
+  "12": {
+    "inputs": {
+      "conditioning": [
+        "9",
+        0
+      ],
+      "latent": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "Negative ReferenceLatent"
+    }
+  },
+  "13": {
+    "inputs": {
+      "positive": [
+        "11",
+        0
+      ],
+      "negative": [
+        "12",
+        0
+      ],
+      "vae": [
+        "7",
+        0
+      ],
+      "pixels": [
+        "22",
+        0
+      ],
+      "mask": [
+        "4",
+        0
+      ],
+      "noise_mask": true
+    },
+    "class_type": "InpaintModelConditioning",
+    "_meta": {
+      "title": "Masked Inpaint Conditioning (noise only in mask)"
+    }
+  },
+  "14": {
+    "inputs": {
+      "image": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "Source Size"
+    }
+  },
+  "15": {
+    "inputs": {
+      "steps": 20,
+      "width": [
+        "14",
+        0
+      ],
+      "height": [
+        "14",
+        1
+      ]
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "FLUX.2 Scheduler"
+    }
+  },
+  "16": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "Euler Sampler"
+    }
+  },
+  "17": {
+    "inputs": {
+      "noise_seed": 42
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "Seed"
+    }
+  },
+  "18": {
+    "inputs": {
+      "cfg": 5.0,
+      "model": [
+        "5",
+        0
+      ],
+      "positive": [
+        "13",
+        0
+      ],
+      "negative": [
+        "13",
+        1
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG 5"
+    }
+  },
+  "19": {
+    "inputs": {
+      "noise": [
+        "17",
+        0
+      ],
+      "guider": [
+        "18",
+        0
+      ],
+      "sampler": [
+        "16",
+        0
+      ],
+      "sigmas": [
+        "15",
+        0
+      ],
+      "latent_image": [
+        "13",
+        2
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "Masked Sampling"
+    }
+  },
+  "20": {
+    "inputs": {
+      "samples": [
+        "19",
+        0
+      ],
+      "vae": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decode Inpainted Image"
+    }
+  },
+  "21": {
+    "inputs": {
+      "filename_prefix": "Flux2-Klein-9B-Inpaint-Official-Fast1MP",
+      "images": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Inpaint Result"
+    }
+  },
+  "22": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "WORKING SOURCE - Scale to 1 MP before FLUX"
+    }
+  },
+  "23": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "WORKING MASK IMAGE - Scale to 1 MP"
+    }
+  },
+  "24": {
+    "inputs": {
+      "image": [
+        "23",
+        0
+      ],
+      "channel": "red"
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Working Mask from Scaled Red Channel"
+    }
+  },
+  "25": {
+    "inputs": {
+      "destination": [
+        "1",
+        0
+      ],
+      "source": [
+        "20",
+        0
+      ],
+      "x": 0,
+      "y": 0,
+      "resize_source": true,
+      "mask": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "ImageCompositeMasked",
+    "_meta": {
+      "title": "Restore Original Resolution / Preserve Unmasked Pixels"
+    }
+  }
+}

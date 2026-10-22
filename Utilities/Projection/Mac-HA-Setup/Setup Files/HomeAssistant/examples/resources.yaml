@@ -1,0 +1,11 @@
+# Add/update these TWO JavaScript module dashboard resources.
+# UI-managed dashboards: Settings > Dashboards > Resources (Advanced Mode).
+# YAML-managed resources: merge the list below into your existing lovelace.resources.
+# Do not register both old and new URLs for the same custom element.
+# The native panel uses panel_custom.module_url, not a dashboard resource.
+lovelace:
+  resources:
+    - url: /local/portalai-quick-chat-v0.4.3.js
+      type: module
+    - url: /local/portalai-projection-v0.5.11.js
+      type: module

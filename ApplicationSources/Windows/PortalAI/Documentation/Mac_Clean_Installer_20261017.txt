@@ -1,0 +1,52 @@
+PortalAI Mac clean installer — 2026-10-17
+
+Package
+  PortalAI-Mac-Clean-Installer-20261019-r13-universal.tar.gz
+
+Install from a Mac terminal after extracting the package:
+  cd PortalAI-Mac-Clean-Installer-r13
+  bash install-macos.sh
+
+Supports Apple silicon arm64 and Intel x86_64. Requires macOS, Apple Command
+Line Tools, an available Xcode Metal shader compiler, CMake, network access for
+pinned Python wheels, and 8 GiB free on the install volume while llama.cpp
+builds. The Mac profile also preserves the larger of 10 GiB or 10% of the
+volume as free space, plus a 5 GiB output reserve; the installer checks that
+reserve and build headroom before compiling. If Homebrew is already installed
+and CMake is missing, the installer prints `brew install cmake`; it does not
+install system packages automatically and never asks for administrator
+credentials.
+
+The default install location is a new `PortalAI Mac` folder inside the
+installer's own folder, beside install-macos.sh. The launch working directory
+does not change that default. Pass a destination as the first command-line
+argument to choose another location. Put and extract the installer
+on the drive intended for the Mac copy, and ensure macOS can write there. The
+current Windows SSDs are NTFS and are not writable by macOS by default, so they
+cannot receive the Mac install unless the filesystem is changed or a separate
+writable Mac volume is used. The installer checks write access before its build.
+The destination must have at least 8 GiB free before the local Metal build
+begins. Existing targets are never overwritten. Installer inputs are SHA-256
+checked before extraction. The installer builds a local Metal-capable
+llama-server and then runs
+Tools/macos_installer_smoke.py. Any failed check leaves the destination
+unpublished and removes only the generated staging folder.
+
+The app bundle is unsigned and not notarized. On first launch, Control-click
+PortalAI.app and choose Open if Gatekeeper asks. No model weights, accounts,
+credentials, user history, HA configuration, FFmpeg utilities, or CUDA/ROCm
+media packages are bundled. Add a compatible GGUF model under LLM/models and
+configure it in PortalAI after installation.
+
+No login item or background launch agent is installed. PortalAI missions run
+when the app is open and supervision is started. Full remote-desktop control,
+macOS audio/video capture, and the optional science runtime are outside this
+first release.
+
+The build receipt and installer documentation explicitly say
+BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED until a real Mac runs the package.
+The app's first-run smoke suite is a focused acceptance check, not evidence of
+every GUI state, model, service, or Apple hardware combination.
+
+2026-10-19 r13: shared GUI style reuse avoids global theme redraws on menu opening.
+See Documentation/UI_Responsiveness_20261019.txt in the application.

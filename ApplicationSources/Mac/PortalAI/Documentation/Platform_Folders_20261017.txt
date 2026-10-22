@@ -1,0 +1,48 @@
+PORTALAI PLATFORM FOLDERS AND STARTUP — 2026-10-17
+
+The product uses a separate native installer and runtime for each OS:
+
+  Windows: PortalAI Windows\PortalAI.exe; SSD shortcut: Start PortalAI Windows.cmd
+  Linux:   PortalAI Linux\PortalAI.sh; SSD shortcut: Start PortalAI Linux.sh
+  macOS:   PortalAI Mac\PortalAI.app; SSD shortcut: Start PortalAI Mac.command
+
+The three launchers are not interchangeable. The Windows installer creates a
+PortalAI Windows folder at the chosen SSD root; Linux and Mac installers use
+PortalAI Linux and PortalAI Mac defaults. The Mac installer should be installed
+on the Mac's APFS volume or local Applications folder, not run from this
+Windows NTFS SSD. Linux and Mac installs may be directed to a native filesystem
+on their own host. Models and private accounts are not copied between OS builds.
+
+The old drive-level PortalAI.exe was not rebuilt because no Windows C compiler
+is installed here. It may not locate the new folder name. Use the new Windows
+command launcher. The drive-level PortalAI.sh resolves the Linux-named folder.
+Each launcher refuses ambiguous or missing installs.
+
+SAFE ROOT MIGRATION STATUS
+
+The live D:\PortalAI directory has not yet been renamed. On 2026-10-17 the
+application processes were stopped, but Private/active-session.json still said
+state=open after a crash. Windows Application Error 1000 recorded the bundled
+pythonw.exe failing with status 0xc0000006 (an in-page/read error). Separate
+PortalAI-Projection pythonw.exe failures were also recorded. This evidence does
+not identify a failing hardware component and does not authorize editing the
+session marker. No private recovery data was changed.
+
+To finish migration, reopen PortalAI and authenticate as the same administrator
+so the app can run its verified interrupted-session recovery. Wait for recovery
+to complete, log out or exit normally, and confirm the session is sealed. Then
+close Codex Desktop and run D:\Rename PortalAI.cmd. The helper checks for a
+closed marker, empty recoverable workspace, absence of bundled processes,
+exclusive runtime lock, and key-file hashes before a same-parent rename. If it
+refuses, keep the folder in place and follow the reason it prints; do not edit
+the marker or use a recursive move.
+
+VALIDATION
+
+The synthetic profile-path/root-rename suite passed 18 tests. The Linux r2
+package passed archive, hash, payload, and file-selection checks on Windows;
+the Mac r2 package passed its archive, hash, payload, architecture, and file
+selection checks on Windows. These are packaging checks, not physical Linux or
+Mac recipient-install tests. The Windows r12 archive passed its outer-file
+integrity checks; recipient install was not run. The current live directory
+rename is pending verified account recovery.

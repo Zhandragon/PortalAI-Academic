@@ -4,7 +4,7 @@
 
 Projection is an optional portable companion to the PortalAI application. It connects the real running interface to your Home Assistant (HA) dashboard and Companion App over an outbound, verified HTTPS connection. Models still run on the PortalAI host. This remote feature sends interface state, screen frames and control requests through HA; it is not an offline-only workflow.
 
-**macOS Projection is not supported yet.** Install the companion for the computer running PortalAI, not the phone, tablet or computer used to view Home Assistant.
+**macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** Install the companion for the computer running PortalAI, not the phone, tablet or computer used to view Home Assistant.
 
 ## Host requirements and downloads
 
@@ -12,9 +12,13 @@ Projection is an optional portable companion to the PortalAI application. It con
 | --- | --- |
 | Windows x64 | [Windows Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe). An unlocked, signed-in desktop is required. The downloader needs .NET Framework 4.5+, included with Windows 10/11. |
 | Linux x86-64 | [Linux Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh). Requires Linux 5.14+, an unlocked X11/XWayland TrueColor desktop, a drive mounted with execution allowed, and a delegated cgroup v2 with memory control. The launcher requests a systemd user scope without sudo. Download setup uses Bash, curl, tar and SHA-256 utilities. |
-| macOS | **Not supported yet for the Projection host.** The separate macOS PortalAI Academic installer does not include a supported macOS Projection runtime. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz). Bundled runtime, verified owned-window capture and separate recovery. Physical Mac acceptance pending. |
 
 Linux has partial validation; physical Linux desktops remain unvalidated. ARM Linux, headless/locked desktops, native Wayland without XWayland, missing cgroup delegation and unusual visual formats are unsupported. Physical HA Green/Home Assistant Cloud deployment has not been validated end to end. Report problems to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues) with OS versions and the error message, excluding passwords, tokens and private connection files.
+
+## Mac setup
+
+Extract the Mac bundle and keep its two Utilities folders together, outside the main PortalAI account root. Open `Start Projection.command`, select the installed PortalAI folder containing `PortalAI.app`, and grant Screen Recording permission for desktop projection. Use `Install PortalAI HA.command` in the sibling HA setup folder. Existing compatible hosts can use the separately guarded `Update PortalAI Mac Host.command` with PortalAI closed. Read [Mac setup](MacProjection/SETUP.txt) for prerequisites and limitations.
 
 ## 1. Prepare the companion
 
@@ -86,10 +90,10 @@ To change the HA link or application folder, stop projection, wait for the worke
 
 Connections use AES-GCM encryption with a password-derived scrypt key for the URL, relative application path and projection device key. This protects stored files; it is not isolation from software running as the same OS user while unlocked. No existing connection, pairing, account, screen capture or runtime state is distributed here.
 
-## Optional Windows recovery
+## Optional Windows/Mac recovery
 
-`Start HA Recovery.cmd` is a separate **Windows-only** helper. It needs its own explicit pairing and local arming; ordinary Projection pairing does not enable recovery. Follow the included `PortalAI HA Setup/Setup Files/HomeAssistant/RECOVERY.txt`. It can assist with application crashes while Windows, the helper and storage remain available; it does not repair an OS crash or a disconnected drive. It is optional for normal projection.
+`Start HA Recovery.cmd` on Windows and `Start HA Recovery.command` on Mac are separate recovery helpers. It needs its own explicit pairing and local arming; ordinary Projection pairing does not enable recovery. Follow the included `PortalAI HA Setup/Setup Files/HomeAssistant/RECOVERY.txt`. It can assist with application crashes while the operating system, helper and storage remain available; it does not repair an OS crash or a disconnected drive. It is optional for normal projection.
 
 ## Package verification
 
-The setup files embed the expected SHA-256 hashes for the downloaded parts, reconstructed archive and extracted files. [Packaging metadata and source](../Utilities/Projection/) are published alongside them. Every repository file stays below the browser upload size limit; launchers retrieve and join the parts automatically. Existing PortalAI installer packages are unchanged.
+The setup files embed the expected SHA-256 hashes for the downloaded parts, reconstructed archive and extracted files. [Packaging metadata and source](../Utilities/Projection/) are published alongside them. Every repository file stays below the browser upload size limit; launchers retrieve and join the parts automatically. Current Mac installer packages include the companion; Windows/Linux standalone downloads retain their previously published versions.

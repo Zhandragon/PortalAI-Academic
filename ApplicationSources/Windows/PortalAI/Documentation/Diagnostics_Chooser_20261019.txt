@@ -1,0 +1,44 @@
+TARGETED DIAGNOSTICS CHOOSER - 2026-10-19
+
+The local Targeted Diagnostics selector now opens a searchable alphabetical
+list inside the PortalAI window. Click the field or arrow, choose a component,
+then Use selection. Down/Space/Enter/F4 also opens it; Down from Search enters
+the results, and Enter accepts the selected row. Cancel, X, Escape or navigating
+to another page closes the chooser without changing the previous value.
+The default Qwen entry is one component in the catalog, not the only option.
+The counter shows the visible/total choices. Choosing never runs a diagnostic;
+Run selected retains its existing action, account checks and saved report keys.
+
+Reason for change
+The owner continued to report a non-opening Windows dropdown even though both
+an isolated fixture and direct desktop automation opened the old native popup.
+The exact intermittent/input-route cause was not reproduced. This targeted
+workaround removes reliance on a separate transient OS popup for this selector.
+It uses the existing themed InternalSheet, with no global mouse hooks, focus
+stealing, account guard changes or changes to other dropdowns.
+
+Compatibility
+The widget keeps its TCombobox class, values, variable and selection event for
+the existing HA native form adapter. No HA receiver or Projection companion
+protocol changed. Windows/Linux/macOS share the same Tk implementation.
+
+Validation
+Six real-Tk chooser cases cover text/arrow press-release, same-window display,
+all choices, filtering, keyboard acceptance, no match, cancellation, disabled
+state, stale catalog values, theme changes, small-window actions, cleanup and
+the HA combobox contract. The real full launcher uses a disposable account;
+opening/search/selection/navigation and normal account sealing are checked.
+Diagnostics/catalog, rounded controls, navigation, HA workflow and Stop tests
+are recorded in Maintenance/Validation/DiagnosticsDropdown-20261019.
+The surrounding navigation test fixture still expected the retired combined
+chat/tool preference save. It now verifies the existing explicit model-choice
+save and separate tool-effort save, and verifies that Cancel calls neither.
+No live owner diagnostic/model work was run or replayed. Physical Linux/macOS
+GUI behavior and the owner's exact mouse/RDP route still require confirmation.
+
+Release and activation
+Windows r21 / Linux and macOS r11 include the fix and tests. They retain the
+portable current-OS/hardware detection and existing installer-relative placement.
+No credentials, user data or workspace AGENTS history are packaged. E: was not
+available. Close PortalAI normally and reopen it to activate this update; the
+running process is not hot-patched or forcibly restarted.

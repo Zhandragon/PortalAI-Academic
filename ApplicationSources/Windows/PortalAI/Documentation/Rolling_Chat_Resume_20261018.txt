@@ -1,0 +1,48 @@
+PortalAI rolling working memory and continuation — 18 October 2026
+
+Chat Preferences > Tools & limits > Tool calls per request (0 = unlimited)
+is now the effective budget. It counts individual non-history tool requests;
+the effort slider no longer overrides it with 4/12/24 rounds. Internal
+chat_history reads have a separate counter. A finite limit leaves a final-answer
+pass. Each follow-up starts a new budget. Stop and per-tool/model timeouts remain.
+The unused default fallback of 12 migrates to unlimited; a nondefault legacy
+choice is retained. Changing this setting does not alter the model's RAM limit.
+
+Chat Preferences > Reply & memory now exposes recent tool exchanges to retain
+and the checkpoint interval. Automatic memory checkpoints completed exchanges
+within the current turn, retaining complete recent call/return batches and the
+original request. Context pressure can reduce the recent-exchange count. The
+raw transcript, including exact results, is retained and indexed by message ID.
+Failed summaries fall back to labelled quoted evidence rather than abandoning
+an otherwise recoverable task. Stop/login checks still gate checkpoint commits.
+
+Follow-ups automatically receive the latest working note, earlier user requests,
+recent result fields and exact output paths. These are fallible conversation
+evidence, not new instructions or proof that an output still exists. Reading
+whole session JSON/WIP files should no longer be needed to rediscover this state.
+Explicit continue/resume requests inherit action receipts: identical effectful
+actions return their prior result, including an uncertain error, without replay.
+Dispatch intent is saved before execution so a crash cannot imply a safe retry.
+Missing tool returns receive an uncertain receipt only in the API projection.
+A new explicit request to repeat work is not treated as a continuation.
+
+Settings > Chat model and memory > Context limit controls the loaded context.
+Chat Preferences > Context budget is a per-request ceiling and cannot enlarge
+that physical context. Rolling checkpoints permit tasks longer than one window;
+they do not provide unlimited simultaneous input or bypass memory admission.
+Very large current attachments/instructions can still exceed the loaded context.
+
+Normal PortalAI restart is required; running code is not hot-reloaded. Existing
+accounts/chats are preserved. No antivirus settings, models or runtimes changed.
+
+Validation: test_chat_rolling_resume covers 140 exchanges at 8K, raw-log retention,
+follow-up paths/unfinished work, summary failure, Stop/login invalidation,
+interrupted batches, finite/unlimited budgets, history accounting, saved uncertain
+effects and explicit repeats. Existing chat/context/handoff/reasoning/recovery
+tests passed. Broader account/Stop/UI checks and installer hashes are recorded in
+the release validation report. These are deterministic fixtures; physical Aoostar
+inference and an actual long image-to-dialogue-video task remain recipient tests.
+
+Pre-edit source: Maintenance/Patches/RollingChat_before_20261018_153610/source.zip
+SHA256: 8486db8bd22e577224e3d29d376d0331c92f3a5eece06e54d1ec07d26e851a76
+Verified SSD mirror: D:/Backups/PortalAI-Source-Recovery/RollingChat_before_20261018_153610

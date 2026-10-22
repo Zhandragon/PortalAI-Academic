@@ -1,0 +1,8 @@
+HA 0.5.11 compatibility
+The clean installer includes the matching host history, preview and vision UI code.
+Use ../PortalAI HA Setup/Install PortalAI HA.cmd for the matching HA receiver.
+Create your own account and pairing; no existing connection or account is included.
+Existing hosts require a normal PortalAI restart/sign-in and Projection worker restart.
+Native state v2, native UI 1, upload v2, crypto and Recovery 0.1.0 are preserved.
+
+The earlier Send-admission fix and the complete 24 model-switch regression tests are retained. No uncertain chat action is automatically replayed.

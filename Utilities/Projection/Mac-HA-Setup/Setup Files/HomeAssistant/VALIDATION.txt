@@ -1,0 +1,12 @@
+0.5.11 validation scope
+
+Focused local JavaScript, HA receiver and host regression tests accompany this
+release. The synthetic iPhone-width browser fixture checks History navigation,
+Search/Open, thumbnail-first reads, cache reuse, and original download on request.
+The Pillow test uses a generated image and checks size bounds and EXIF removal.
+Vision diagnostics use synthetic pinned files and deliberately corrupt one.
+
+These checks do not claim physical iPhone/HA-app acceptance, live network timings,
+Aoostar SSD stability, live model inference or successful live deployment.
+After installation: use only a new synthetic image/request for acceptance;
+never replay an uncertain Send or an older user message.

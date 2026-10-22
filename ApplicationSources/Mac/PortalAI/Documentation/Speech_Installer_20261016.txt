@@ -1,0 +1,32 @@
+PORTALAI CLEAN INSTALLER r5 - SPEECH RUNTIME CONFIGURATION
+
+This release includes the portable speech-runtime binding required by STT.
+It points to the bundled Python 3.12 and isolated faster-whisper package layer
+using paths relative to PortalAI. It contains no account, connection, device
+selection, GPU probe or other settings copied from a running installation.
+
+After the required components finish installing, transcription can resolve its
+runtime without running the legacy repair command. The installer still verifies
+every downloaded archive and installed member against its pinned size/SHA-256.
+The app will refuse transcription if its interpreter or package layer is absent.
+
+Whisper transcribes speech into text for the selected chat model. This works
+independently of chat-model size and the Standard/Abliterated selection. Manual
+microphone dictation and hands-free input currently request CPU transcription.
+Chat effort controls the reply; separate tool effort can change transcription
+search depth. TTS retains its separate Qwen/Piper hardware policy.
+
+Whisper Base and its CPU runtime are required installer components. Existing
+automatic file transcription can use a larger locally installed Turbo model on
+CUDA, with CPU fallback on an automatic CUDA load/inference failure. This update
+does not add Turbo weights or change speech-model selection. Explicit requests
+for an unavailable model still require that model to be installed.
+
+The r4 Help/maintenance refresh, 2B/4B vision companions, HA 0.5.11, Recovery
+0.1.0, and all 49 pinned component recipes are retained unchanged.
+
+Validation: the pinned Python/package combination imported successfully on both
+SSDs without loading a model or recording a microphone. Focused fresh-location,
+moved-location and missing-component resolver checks accompany the package.
+No live microphone, TTS, GPU, account or HA session was exercised for this merge.
+Broad installer verification remains covered by the owner's existing waiver.

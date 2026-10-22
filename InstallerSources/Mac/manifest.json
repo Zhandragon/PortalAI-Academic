@@ -1,0 +1,161 @@
+{
+  "release": "PortalAI-Academic-2026.10.21-WebAgents-MacProjection",
+  "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
+  "platforms": [
+    "macOS arm64 (Apple silicon)",
+    "macOS x86_64 (Intel)"
+  ],
+  "macOS_physical_tested": false,
+  "source_payload": {
+    "sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
+    "release": "PortalAI-2026.10.19-complete-r23-ui-responsiveness-ha0.5.11"
+  },
+  "application": {
+    "files": 2080,
+    "skipped_source_entries": 3228,
+    "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
+    "payload_sha256": "cc2deb4db01aeb7d97d27125e050864a55e75517ee3ef91859d9110cee40c32e",
+    "payload_bytes": 512954043,
+    "owner_data_included": false,
+    "model_weights_included": false,
+    "windows_native_files_included": false,
+    "linux_native_files_included": false
+  },
+  "python_runtimes": {
+    "arm64": {
+      "asset": "python-runtime-arm64.tar.gz",
+      "bytes": 25030095,
+      "sha256": "233f8e15255b3e1d1fd47ea5dd5230dfed803f371138e896e54d98c60ae19f6f",
+      "files": 1653
+    },
+    "x86_64": {
+      "asset": "python-runtime-x86_64.tar.gz",
+      "bytes": 24751118,
+      "sha256": "fb3187d95334813b88940db0f1ca57b84cedfd552739c3a5771c3ea0e49988c9",
+      "files": 1650
+    }
+  },
+  "llama_cpp_source": {
+    "asset": "llama.cpp-source.tar.gz",
+    "bytes": 38183379,
+    "sha256": "55d67acf3ad2ad747a9bbeb75f9f0e173dbcc0d1753a471038a90c819421c5e1",
+    "upstream_tag": "v0.7.0",
+    "metal_build": true
+  },
+  "components": {
+    "local_gui": true,
+    "missions_and_schedules": true,
+    "encrypted_accounts": true,
+    "metal_llama_server": "compiled on recipient Mac",
+    "model_weights_included": false,
+    "optional_media_stack_included": false,
+    "vm_transport_included": false,
+    "notarized": false,
+    "signed": false
+  },
+  "limitations": [
+    "macOS process group and sampled memory supervision are not a kernel sandbox",
+    "model handoff/recovery is disabled on macOS",
+    "recipient-side GUI/model acceptance remains required"
+  ],
+  "artifacts": {
+    "payload.tar.gz": {
+      "bytes": 512954043,
+      "sha256": "cc2deb4db01aeb7d97d27125e050864a55e75517ee3ef91859d9110cee40c32e"
+    },
+    "python-runtime-arm64.tar.gz": {
+      "bytes": 25030095,
+      "sha256": "233f8e15255b3e1d1fd47ea5dd5230dfed803f371138e896e54d98c60ae19f6f"
+    },
+    "python-runtime-x86_64.tar.gz": {
+      "bytes": 24751118,
+      "sha256": "fb3187d95334813b88940db0f1ca57b84cedfd552739c3a5771c3ea0e49988c9"
+    },
+    "llama.cpp-source.tar.gz": {
+      "bytes": 38183379,
+      "sha256": "55d67acf3ad2ad747a9bbeb75f9f0e173dbcc0d1753a471038a90c819421c5e1"
+    }
+  },
+  "base_release": "PortalAI-2026.10.19-Mac-r13",
+  "edition": "Academic",
+  "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
+  "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
+  "verification_scope": "Academic Python/source and archive checks on Windows; physical Linux/macOS installation untested.",
+  "supersedes_release": "PortalAI-Academic-2026.10.21-WebAgents-Mac",
+  "web_agents": {
+    "revision": "20261021",
+    "platforms": [
+      "macos-x64",
+      "macos-arm64"
+    ],
+    "source_files": [
+      "Agent/_common.py",
+      "Agent/abort_watchdog.py",
+      "Agent/acestep_embedded_entry.py",
+      "Agent/ai_tools.py",
+      "Agent/assistant_guidance.py",
+      "Agent/bounded_comfy.py",
+      "Agent/chat_model_switch.py",
+      "Agent/effort_policy.py",
+      "Agent/linux_lifecycle.py",
+      "Agent/media_server.py",
+      "Agent/media_url.py",
+      "Agent/mission_context.py",
+      "Agent/mission_modes.py",
+      "Agent/mission_runner.py",
+      "Agent/mission_supervisor.py",
+      "Agent/runtime_policy.py",
+      "Agent/service_manager.py",
+      "Agent/video_understanding_bridge.py",
+      "Agent/web_tools.py",
+      "ControlCenter/PortableAI_GUI.py",
+      "ControlCenter/control_center_bootstrap.py",
+      "ControlCenter/inline_chat_images.py",
+      "ControlCenter/model_connection.py",
+      "ControlCenter/native_chat.py",
+      "ControlCenter/persistent_memory.py",
+      "ControlCenter/portable_chat.py",
+      "ControlCenter/runtime_health.py",
+      "ControlCenter/settings_page.py",
+      "Launchers/Qwen_Supervisor.py",
+      "Launchers/Start_PortableAI_Controller.py",
+      "Launchers/Start_PortableAI_Native_v15_133.py",
+      "Launchers/Stop_PortableAI.py",
+      "Maintenance/Tests/test_chat_effort_ui.py",
+      "PortableAI_Master_Instructions_v45.txt",
+      "Tools/build_linux_installer.py",
+      "Tools/build_macos_installer.py",
+      "Tools/smoke_chat_handoff.py",
+      "Agent/instance_runtime.py",
+      "Agent/instance_cli.py",
+      "Agent/instance-settings.json",
+      "Agent/web_runtime.py",
+      "Agent/web_capabilities.py",
+      "Agent/web_worker.py",
+      "Agent/agent_collaboration.py",
+      "ControlCenter/web_tool_api.py",
+      "ControlCenter/instance_settings.py",
+      "Tools/check_web_runtime.py",
+      "Documentation/Web_Agents_Ports_20261021.txt",
+      "Maintenance/Tests/test_web_agents.py",
+      "Maintenance/Imports/web-runtime-pins.json",
+      "Tools/web_installer_assets.py"
+    ],
+    "native_acceptance": "Windows real browser and synthetic collaboration; sandboxed Chromium in offline Linux guest passed; physical Linux/Mac/Aoostar acceptance pending; live model restoration smoke unresolved"
+  },
+  "mac_projection": {
+    "bundle": "PortalAI-Mac-Projection-HA-20261021-r1.tar.gz",
+    "sha256": "384374b871e23874c0d29bc1ed73ac46de49347a0b1921519fa4db10d2be02cd",
+    "utilities": "Utilities",
+    "native_tested": false,
+    "host_adapter_sha256": "66572515b0e51a057cbb9dcb43e9b95476843e536ae363554faf41b95e414706",
+    "minimum_macos": "14"
+  },
+  "certificate_packaging": {
+    "bundle": "Runtime/Certificates/cacert.pem",
+    "bytes": 240216,
+    "sha256": "9cc2a774b5198dcff14d9be1e66091f538975d867ce029a96bce15a55dfd730f",
+    "license": "Runtime/Certificates/LICENSE.certifi",
+    "checked_against": "Agent/web_tls.py"
+  }
+}

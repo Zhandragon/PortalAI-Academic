@@ -1,0 +1,48 @@
+PORTALAI LIGHTWEIGHT PROTEIN STRUCTURE WORKFLOW - 2026-10-16
+
+Uses the installed Biopython CPU runtime; no new model or package download.
+The science tool remains administrator-only with the existing account/Stop and
+identity-checked output publication guards. Attach a file through PortalAI so
+the tool receives its active-account path; do not bypass private file admission.
+
+1. Inspect a PDB or mmCIF structure:
+   {"operation":"protein.inspect","input":{"file":"<attachment path>"}}
+   Optional chain is the AUTHOR chain ID; model_index defaults to zero.
+   Limits: 20 MiB file, 200000 atoms, 10000 observed protein residues per chain.
+   The JSON report contains exact input SHA-256, selected model, chain sequences,
+   author residue numbers/insertion codes, missing backbone atoms, numbering gaps,
+   alternate conformers and other residue counts. Numbering gaps alone do not
+   establish an exact missing sequence. It does not repair incomplete coordinates.
+   structure-sequences.fasta has declared and observed sequences where available.
+   FASTA chain_N follows chain_details order in structure.json.
+
+2. Generate explicit candidate sequences:
+   operation: protein.structure_variants
+   input: file, chain, sequence_source declared|observed,
+          variants:[{"name":"candidate_1","substitutions":["A12G"]}]
+   This is an illustrative substitution, not a recommended biological change.
+   Positions are 1-based within the selected SEQUENCE, not PDB/mmCIF author
+   residue numbers. Each original amino acid must match. Duplicate/out-of-range
+   positions, ambiguous residues and absent declared sequence are rejected.
+   No silent switch between declared and observed sequence is permitted.
+   Declared sequence comes from the file and may already contain engineered
+   changes; observed sequence omits unresolved regions. Inspect the report first.
+   Exports: reference + candidates FASTA, candidate-report.json, structure.json
+   and result.json. Descriptor calculations are not function/stability assays.
+   No modified PDB or rebuilt side chains are claimed or produced.
+
+3. Existing ProteinMPNN inverse folding remains a separate small-chain route:
+   {"operation":"protein.design","input":{"pdb":"<PDB path>","chain":"A"}}
+   One complete consecutive 8..256-residue chain, <=2 MiB file, CPU backend.
+   Missing input.pdb now returns schema guidance instead of an opaque KeyError.
+   No PAM/binding/function optimization, de novo folding or validation is added.
+   Do not silently truncate a large structure to fit the design limits.
+
+Protein minimization and legacy backbone rendering retain their PDB-only inputs;
+this increment adds mmCIF support to inspection and explicit sequence variants.
+Analysis is structural inventory, not a biological safety/function assessment.
+
+Activation: science children load these files on their next call. The expanded
+chat tool description and Help page load after normal PortalAI restart/sign-in.
+No forced restart, account access, live chat Send or protein inference is needed
+to install this source update.

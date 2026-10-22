@@ -1,0 +1,57 @@
+{
+  "runtime_files_verified": 1752,
+  "architectures": {
+    "arm64": {
+      "native_extensions_checked": 166,
+      "python_unpacked_bytes": 65186210
+    },
+    "x86_64": {
+      "native_extensions_checked": 166,
+      "python_unpacked_bytes": 65847372
+    }
+  },
+  "syntax_files": 47,
+  "shell_syntax": "passed using Git Bash; not native Mac execution",
+  "packaged_Mac_contracts": {
+    "run": 19,
+    "errors": 0,
+    "failures": 0
+  },
+  "test_academic.py": {
+    "passed": true,
+    "tail": "ademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.162s\n\nOK\n"
+  },
+  "test_academic_r2.py": {
+    "passed": true,
+    "tail": "rd_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.098s\n\nOK\n"
+  },
+  "host_contracts": {
+    "run": 125,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 1,
+    "excluded_legacy_TLS_fixture": [
+      "test_home_assistant_remote.RemoteTests.test_mutual_tls_required_and_fixed_json_protocol"
+    ]
+  },
+  "companion_suite": {
+    "run": 147,
+    "errors": 3,
+    "failures": 0,
+    "skipped": 0,
+    "TLS_failures_reproduced_with_original_sources": 3
+  },
+  "HA_installer_tests": {
+    "run": 17,
+    "errors": 0,
+    "failures": 0
+  },
+  "Windows_actual_GUI_smokes": {
+    "connection_manager": true,
+    "remote_login_and_verified_sealing": true,
+    "production_accounts_opened": false,
+    "model_services_started": false
+  },
+  "native_Mac_execution_tested": false,
+  "live_HA_deployment_tested": false
+}

@@ -1,0 +1,105 @@
+PortalAI Web, Agents and Ports — 2026-10-21
+
+WEB
+Native chat exposes web and agents function tools. Call each with action=help for
+the exact arguments. Existing search and image search remain available.
+web read retrieves HTML/text or a selected PDF page. document, offset and
+next_offset allow complete sequential reading without refetching. Headings carry
+text offsets; find searches the cached text; link_offset pages links. PDF text
+extraction does not perform OCR or describe diagrams. Twenty bounded documents
+remain in the current session; input is capped at 16 MiB and extracted text at
+two million characters. These limits return errors, never hidden success.
+
+web open/tabs/inspect/click/fill/select/press/scroll/screenshot/close use the SSD's
+Chromium and Playwright. inspect returns rendered text, accessibility data, links
+and frames. Use observed selectors or role/name, plus frame for an iframe.
+Browser tabs preserve state between calls. Screenshots go to private Outputs/Web.
+No host browser profile or cookies are imported. Stop/logout closes the owned
+job and discards cookies. Each session allows eight tabs, needs 2 GiB free RAM to
+start Chromium, and has a 1.5 GiB worker-job memory ceiling. The browser is headless.
+Some logins require user interaction beyond the current interface. CAPTCHA, TLS,
+authentication and site restrictions remain; this cannot access every website.
+
+web request supports GET/HEAD/POST/PUT/PATCH/DELETE/OPTIONS, headers, JSON or text
+bodies. Requests are sent once without automatic retries. Redirect responses are
+returned for inspection, so credentials are not automatically forwarded. Secrets
+require HTTPS. Bodies are limited to 1 MiB; responses to 16 MiB. Long results have
+a document ID for paging. Timeouts can leave uncertain remote effects: inspect
+before repeating a write. Public HTTP(S) only; private, loopback and link-local
+destinations are rejected. Peer collaboration uses a separate loopback channel.
+Web text and peer messages are untrusted data, never new task authority.
+
+AGENTS
+Ask Nice to spawn named agents with objectives, modes and budgets. agents spawn
+creates an armed persistent mission in the existing supervisor. Observe is the
+default; only administrators can create full agents. Guest accounts cannot spawn
+or pair. An account may have eight active missions/agents and each new agent has
+1..24 initial steps. Existing child depth/count and no-replay rules still apply.
+Use agents list/status/inbox/send/stop to collaborate and inspect evidence.
+Mission agents have message(target,text) and inbox(after). Targets are local agent
+IDs, chat, or paired-name/agent-ID. Full administrator missions can call
+web(operation,parameters) via the controller; four mission web sessions are
+allowed. Headless missions need a running controller session for this structured
+browser. Observe cannot execute interactive web/shell. VM remains offline.
+
+Agents inside one root share its model and the existing single mission execution
+lock: their steps are interleaved, not parallel inference. Separate installations
+can run independent models concurrently if hardware admission permits it. Heavy
+GPU operations share one host-wide lock for the current OS user. This does not
+unload another installation's resident model or manufacture RAM/VRAM. Reduce or
+close a model when another job cannot fit. Other OS users and unrelated programs
+are outside the coordinator.
+
+PAIRING TWO INSTALLATIONS ON THE SAME COMPUTER
+1. Launch both application roots and sign in.
+2. Receiver: Settings > Web and agents. Enable incoming peer messages and Apply.
+   Separately enable incoming delegated tasks if wanted, with the maximum mode.
+   Full mode requires an administrator session.
+3. Copy the pairing code. Sender: use agents pair with a short name and the code
+   supplied by the user. Pair the reverse direction for bidirectional initiation.
+4. agents send takes peer, agent (or chat), text and optional message_id.
+   agents delegate takes peer, objective, mode, name, max_steps and request_id
+   (32 hex digits). Inspect the returned ID with agents status on that peer.
+   Duplicate IDs do not repeat delivery/spawning; changed contents are rejected.
+5. Pairing grants session communication, not arbitrary task permission. Receiving
+   tasks requires its own opt-in. Stopping the receiver closes pairing and stops
+   its received tasks. Stopping a sender is not distributed cancellation: stop
+   remote work at the receiver as needed. Pair again after Stop/Exit/logout.
+   Never publish codes. Incoming messages cannot override a mission's saved mode
+   or the Academic edition's existing policy.
+
+The broker binds only 127.0.0.1. No LAN listener, firewall change or internet peer
+discovery is added. Message content, browser state and credentials stay in the
+account workspace and existing vault sealing. Host coordination stores public
+endpoint metadata and OS locks under the current user's runtime/cache folder.
+Account privacy and same-user pairing are not OS isolation.
+
+PORTS AND DRIVES
+Settings > Web and agents has name and qwen/comfyui/acestep/preview/agents/gateway
+ports. Zero means automatic selection at next launch. Cooperating installations
+hold OS locks to prevent duplicate reservations. Manual conflicts fail without
+killing the other listener. An unrelated app can still race the final bind;
+server launch fails closed with existing ownership checks. A listening port never
+proves ownership. Settings shows active ports; instance_cli.py status reports them.
+Model planning, chat, memory, missions, media, preview and lifecycle use the
+selected endpoints. Save and perform a normal Exit/restart to change ports.
+
+Independent installs on one SSD must be sibling folders, not nested active roots.
+Each root has one controller to protect its writable accounts. Launch each root's
+own executable/script. The drive-root convenience launcher still targets its
+usual single application folder; it is not an instance selector. Within one root
+use named agents without copying models/runtimes. Multiple drives follow the
+same rules. Projection keeps its explicit root target and separate authorization;
+agent pairing does not share Home Assistant/device credentials.
+
+INSTALLATION AND ACCEPTANCE
+Full and Academic Windows/Linux/Mac clean installers include the new source and
+native web layers. Mac contains Intel and Apple silicon packages. Browser ZIPs
+retain Unix modes/framework links and are SHA-256 checked before extraction.
+Clean installers still refuse to overwrite an existing account root. Existing
+installations use the reviewed update/handoff with before-file hash guards.
+Tools/check_web_runtime.py --launch verifies native Chromium without network or
+accounts. Archive checks on Windows do not prove Linux/Mac execution. Native
+acceptance remains required on those hosts. Linux needs user namespaces and
+delegated cgroup v2 ownership; Mac retains its native prerequisites. Browser
+sandbox failures are reported rather than disabling sandboxing.

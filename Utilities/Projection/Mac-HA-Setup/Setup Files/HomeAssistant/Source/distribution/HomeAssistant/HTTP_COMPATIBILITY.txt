@@ -1,0 +1,20 @@
+HTTP compatibility retained in 0.5.11
+
+The 0.5.4 browser-crypto.js remains byte-identical: getRandomValues IDs and
+SHA-256 with WebCrypto or a bounded yielding HTTP fallback. No weak ID fallback
+or skipped integrity. Existing account/form/cancellation/no-replay checks remain.
+
+Current URLs:
+  /local/portalai-live-v0.5.11.js
+  /local/portalai-quick-chat-v0.4.3.js
+  /local/portalai-projection-v0.5.11.js
+The installer configures standard layouts and recognized legacy resources with
+verified backups. Advanced YAML/include layouts require files-only/manual merge.
+
+Historical fix retained: 0.5.8 fixed the 0.5.7 background-grace timer receiver error that blocked Connect.
+Larger negotiated uploads, desktop drop/chooser, later-page attachment controls
+and iPhone source menus remain. Old hosts retain compatibility upload chunks.
+The frontend bug is not evidence of a whole-server HA crash or a USB failure.
+
+0.5.11 also settles loading/error notices and rediscovers attachment controls
+after accepted form changes. Current resource URLs above match this release.

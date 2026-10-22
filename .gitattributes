@@ -1,3 +1,8 @@
 * -text
 *.sh text eol=lf
 *.part[0-9][0-9][0-9] -diff -merge
+
+# Preserve exact packaged source bytes for archive/source verification.
+ApplicationSources/** -text
+Utilities/Projection/source/** -text
+Utilities/Projection/Mac-HA-Setup/** -text

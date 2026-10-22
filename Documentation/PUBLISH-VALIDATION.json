@@ -1,0 +1,114 @@
+{
+  "packages": [
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "outer_files_verified": 5,
+      "installer_required_and_all_plans": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "outer_files_verified": 6
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "outer_files_verified": 1968
+    }
+  ],
+  "tests": [
+    {
+      "name": "Academic-Windows-web-agents",
+      "passed": true,
+      "tail": "....................\n----------------------------------------------------------------------\nRan 20 tests in 23.431s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-certificate-packaging",
+      "passed": true,
+      "tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.032s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.515s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Windows-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.118s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Linux-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.405s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Linux-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.125s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-shell",
+      "passed": true,
+      "tail": ""
+    },
+    {
+      "name": "Academic-Mac-test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.368s\n\nOK\n"
+    },
+    {
+      "name": "Academic-Mac-test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.122s\n\nOK\n"
+    }
+  ],
+  "privacy": {
+    "path_findings": [],
+    "credential_candidates": []
+  },
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "passed": true,
+  "release": "v2026.10.21-r2",
+  "edition": "Academic",
+  "bootstrap": {
+    "passed": true,
+    "checks": [
+      {
+        "platform": "Windows",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 5,
+        "network_download_tested": false,
+        "native_OS": true
+      },
+      {
+        "platform": "Linux",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 6,
+        "network_download_tested": false,
+        "native_OS": false
+      },
+      {
+        "platform": "Mac",
+        "exact_launcher_prepare_only": true,
+        "files_verified": 1968,
+        "network_download_tested": false,
+        "native_OS": false
+      }
+    ],
+    "full_installs_started": false
+  },
+  "limitations": [
+    "Native Mac and live HA acceptance pending.",
+    "Earlier companion suite: three TLS fixture errors also reproduced with original transport.",
+    "Earlier live model-restore smoke incomplete; not counted as passing.",
+    "Current tests do not perform full recipient installs or live inference."
+  ]
+}

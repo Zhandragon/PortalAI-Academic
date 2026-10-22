@@ -1,0 +1,101 @@
+Current portable merge: 0.5.11 + Recovery 0.1.0
+Upstream runtime, backend, frontend, crypto and lifecycle guards are unchanged.
+Portable launcher, documentation and examples are retained in Source for rebuilding.
+Host history/preview files are a separate Aoostar update. HA deployment is coordinated separately.
+
+Historical merge notes follow:
+
+Aoostar HA 0.5.10 portable-1 - October 16, 2026
+
+The upstream 0.5.10 recovery fix supersedes Aoostar's 0.5.9 portable-2 loading
+notice fix. It also rediscovers attachment controls after a host form changes,
+without replaying failed pagination, upload or Send. Keep modal/account guards.
+No host protocol/runtime change or further host restart is needed for HA 0.5.10.
+The separate small-vision host work requires its own normal launcher restart.
+
+Portable changes retain the bundled-Python Windows launcher, extra dashboard
+examples and historical merge/validation notes. The setup root remains README,
+installer and Setup Files. No host Python/Node install is needed by recipients.
+Source rebuilds require development Node; the installer uses standard Python.
+
+Recovery 0.1.0 and browser-crypto.js are byte-identical. The original supplied
+archive rebuilt byte-identically before portable adaptations. Final package
+verification, JS/HA Python tests and install/upgrade/repeat/rollback are checked
+locally. Live HA status is separately attributed to HA Codex's supplied record;
+Aoostar did not deploy to HA. That record reports 0.5.10 live, rich details ready,
+and attachment page 2 discovered. Physical iPhone/photo inference is separate.
+
+Historical 0.5.9 portable notes follow:
+
+Portable HA 0.5.9 integration - October 16, 2026
+Distribution revision: portable-1
+
+Original complete HA ZIP SHA256:
+4a75081bb96b3adef886b30b391ebeb728b82deaf6b8aa6904fa7eb6794c075f
+Both supplied ZIPs agree. Manifests verified; original Source rebuild is
+byte-identical. Untouched inputs are in Setup Files/Incoming/0.5.9-HA-Codex.
+
+HA runtime, tests, installer logic and vendor bytes remain upstream. Portable
+adaptations retain the bundled-Python launcher, extra examples, HTTP notes,
+root Install/Prepare workflow, .NET hashing and these portable notes.
+
+0.5.9 retains an iPhone file input through a long picker pause, then obtains
+fresh authenticated same-account/same-conversation authority before uploading.
+Changed scope refuses the selection. Ordinary background grace is ten seconds;
+full iOS web-view destruction loses unsubmitted selections. No outbox or Send
+retry is introduced. Keep HA open until attachment admission completes.
+
+The Aoostar attachment Send change was merged into current host source,
+preserving the newer account-dialog guard omitted by the reference snapshot.
+It advertises native_chat_attachment_protocol=1 only with the new controller.
+Explicit opt-in uses existing NativeChat.submit and its admission/duplicate
+receipts. Upload protocol 2 is already merged and was not reapplied. Account,
+modal, busy, transfer-processing and stale-conversation guards remain.
+
+The host change requires a normal PortalAI restart and projection stop/start.
+Sign in normally afterward. Do not reset pairing, force shutdown, or replay a
+failed/uncertain Send. This HA installer does not install host code itself.
+Recovery remains independent at 0.1.0. Rich diagnostics identify a safe failure
+stage; the local prior open-attachments modal was closed without bypassing it.
+
+LIVE_HA_STATUS.json is HA Codex evidence of its live 0.5.9 deployment, not a
+new Aoostar deployment. Do not reinstall current HA solely to refresh the SSD.
+Physical iPhone and actual model/photo acceptance remain separate checks.
+
+HA 0.5.9 portable-2 loading-status repair - October 16, 2026
+
+Immediate live incident: the Aoostar GUI and projection worker kept the same
+processes. A read-only rich_index returned native_chat_modal. Chat instructions
+was open behind Welcome. Closing that dialog with its X (without saving) made
+rich_index and chat describe succeed. The owner confirmed HA recovered.
+Account, modal, rich-read, attachment and request-replay guards remain intact.
+No host runtime patch or additional host restart is required for this repair.
+
+Separate reproducible HA frontend bug: accept() renders attachment status while
+refresh.fetching is still set. refresh finally clears fetching without drawing
+buttons/status again. With an open host modal, upload fields are absent, so the
+old Loading attachment controls text remains after the request has finished.
+The initial-read error path also has no settled attachment status.
+
+Fix: refresh redraws buttons/status only when it still owns the current fetch;
+attachmentNotice calls a genuinely in-flight request Loading, and gives a
+Refresh controls instruction when no usable model has been obtained. Current
+same-account, same-form, viewer epoch, modal, no-replay and upload checks remain.
+This does not close host dialogs automatically or send pending messages.
+
+Three regressions added: modal reply settles to dialog recovery guidance;
+initial request failure settles to Refresh controls guidance; a late reply
+cannot redraw after disconnect. The first two fail on portable-1; all 83 JS
+tests pass on portable-2 with rebuilt bundles. Prior 408-test host/backend
+validation belongs to the preceding portable-1 merge and was not repeated.
+
+Changed runtime source: Source/web/native-workflows.js. Regression additions:
+Source/tests/iphone-attachments.test.mjs. The Native bundle is rebuilt; backend,
+Quick Chat, Desktop, Recovery and HTTP crypto are unchanged. Archive manifests
+and bundled installer verify. The distribution revision is portable-2 while
+HA integration/module version remains 0.5.9; reload browser cache after updating.
+
+Live HA has NOT received this frontend repair from Aoostar. The local installer
+now includes it. HA Codex can merge the focused source patch and rebuild; do not
+overwrite newer HA source blindly. No HA credentials, addresses, pairing keys,
+account data, production attachments or messages are included in the handoff.

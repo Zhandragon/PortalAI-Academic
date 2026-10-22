@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "platform": "Windows-x64-Python3.12",
+  "piper_version": "1.8.0",
+  "piper_source": "https://github.com/OHF-Voice/piper1-gpl/tree/639388b6317fc4731e91d53da42aea68fd4166ff",
+  "voice": "en_US-ljspeech-medium",
+  "assets": [
+    {
+      "id": "piper-wheel-piper-tts",
+      "revision": "1.8.0",
+      "url": "https://files.pythonhosted.org/packages/12/9c/c736d1961cf9ce0655278731b9430df41892ca2ded7b09dabcb340612158/piper_tts-1.8.0-cp39-abi3-win_amd64.whl",
+      "size": 34119688,
+      "sha256": "5da9bfdb05dfe15da3536859d422e605483ffa6d2b3ec2c5b9593bae6b5aa6a4",
+      "dest": "Voice/Piper/wheels/piper_tts-1.8.0-cp39-abi3-win_amd64.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-onnxruntime",
+      "revision": "1.31.0",
+      "url": "https://files.pythonhosted.org/packages/be/ed/b12cea136ccd7b03d924f46b8393faf7ceac21115c0c50e729faa248cf23/onnxruntime-1.31.0-cp312-cp312-win_amd64.whl",
+      "size": 14888841,
+      "sha256": "09d56445c1753e66e0912de69d3f0184016ad9a191dcd6925bf5dd570d2bfbe5",
+      "dest": "Voice/Piper/wheels/onnxruntime-1.31.0-cp312-cp312-win_amd64.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-pathvalidate",
+      "revision": "3.3.1",
+      "url": "https://files.pythonhosted.org/packages/9a/70/875f4a23bfc4731703a5835487d0d2fb999031bd415e7d17c0ae615c18b7/pathvalidate-3.3.1-py3-none-any.whl",
+      "size": 24305,
+      "sha256": "5263baab691f8e1af96092fa5137ee17df5bdfbd6cff1fcac4d6ef4bc2e1735f",
+      "dest": "Voice/Piper/wheels/pathvalidate-3.3.1-py3-none-any.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-numpy",
+      "revision": "2.5.3",
+      "url": "https://files.pythonhosted.org/packages/3c/a1/accf6d4f0c80c5d9ba9735d6b1550e444180599f34dec69ca01360f717ad/numpy-2.5.3-cp312-cp312-win_amd64.whl",
+      "size": 12567828,
+      "sha256": "0a59a421a32580a009e8a1751345bf829631b990dc1794b80514ab722b435def",
+      "dest": "Voice/Piper/wheels/numpy-2.5.3-cp312-cp312-win_amd64.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-protobuf",
+      "revision": "7.36.2",
+      "url": "https://files.pythonhosted.org/packages/8a/55/b77bda4e5e5f5971fb51b07663694690e9afdb9402136c16a522bd621cad/protobuf-7.36.2-cp310-abi3-win_amd64.whl",
+      "size": 456514,
+      "sha256": "a300819d441e078a5608c0d3c709796bb548136058fda017ae51d425b44fd353",
+      "dest": "Voice/Piper/wheels/protobuf-7.36.2-cp310-abi3-win_amd64.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-flatbuffers",
+      "revision": "25.12.19",
+      "url": "https://files.pythonhosted.org/packages/e8/2d/d2a548598be01649e2d46231d151a6c56d10b964d94043a335ae56ea2d92/flatbuffers-25.12.19-py2.py3-none-any.whl",
+      "size": 26661,
+      "sha256": "7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4",
+      "dest": "Voice/Piper/wheels/flatbuffers-25.12.19-py2.py3-none-any.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-wheel-packaging",
+      "revision": "26.3",
+      "url": "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl",
+      "size": 129956,
+      "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "dest": "Voice/Piper/wheels/packaging-26.3-py3-none-any.whl",
+      "kind": "wheel"
+    },
+    {
+      "id": "piper-voice-MODEL_CARD",
+      "revision": "c10ece1aade47bb51c153c893d14e5bf8e5b7117",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/ljspeech/medium/MODEL_CARD",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/c10ece1aade47bb51c153c893d14e5bf8e5b7117/en/en_US/ljspeech/medium/MODEL_CARD",
+      "size": 517,
+      "sha256": "fbee1529c89d36b3fe76d7e9f3f832dce17f44900a52d76a9bda735654766b4d",
+      "dest": "Voice/Piper/models/MODEL_CARD",
+      "kind": "model"
+    },
+    {
+      "id": "piper-voice-en_US-ljspeech-medium-onnx",
+      "revision": "c10ece1aade47bb51c153c893d14e5bf8e5b7117",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/ljspeech/medium/en_US-ljspeech-medium.onnx",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/c10ece1aade47bb51c153c893d14e5bf8e5b7117/en/en_US/ljspeech/medium/en_US-ljspeech-medium.onnx",
+      "size": 63531379,
+      "sha256": "6f52a751e2349abe7a76735eb09dc1875298c77ea2342ffd2fef79ff81b87f22",
+      "dest": "Voice/Piper/models/en_US-ljspeech-medium.onnx",
+      "kind": "model"
+    },
+    {
+      "id": "piper-voice-en_US-ljspeech-medium-onnx-json",
+      "revision": "c10ece1aade47bb51c153c893d14e5bf8e5b7117",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/ljspeech/medium/en_US-ljspeech-medium.onnx.json",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/c10ece1aade47bb51c153c893d14e5bf8e5b7117/en/en_US/ljspeech/medium/en_US-ljspeech-medium.onnx.json",
+      "size": 4972,
+      "sha256": "141d612cc0a95ed7efc1ca936b845c2364967f2e9217c5dbfcf69fc4d6c65860",
+      "dest": "Voice/Piper/models/en_US-ljspeech-medium.onnx.json",
+      "kind": "model"
+    }
+  ]
+}

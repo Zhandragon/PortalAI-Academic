@@ -1,0 +1,59 @@
+[
+  {
+    "name": "hierplace",
+    "version": "1.1.0",
+    "bytes": 7605,
+    "sha256": "7802894457d48fdb30b962b36db9dddd4bf215b11ce7fc148b4d314560d725b7",
+    "source_pin": {
+      "url": "https://files.pythonhosted.org/packages/19/01/1d98cd0e18ab5485850f1b30c28ad4e8a768dfe43a2852c2efaf6c369775/hierplace-1.1.0.tar.gz",
+      "bytes": 313737,
+      "sha256": "1386717bb9e6759d9b319013d6edd0f568b717f834e29d9d804ab5cc4c0d0ad0"
+    },
+    "build_dependencies": "Python3.12.14, setuptools78.1.0, wheel0.45.1; pytest-runner6.0.1",
+    "pytest_runner_pin": {
+      "id": "science-build-pytest-runner",
+      "url": "https://files.pythonhosted.org/packages/23/2b/73982c02d28538b6a1182c0a2faf764ca6a76a6dbe89a69288184051a67b/pytest_runner-6.0.1-py3-none-any.whl",
+      "bytes": 7186,
+      "sha256": "ea326ed6f6613992746062362efab70212089a4209c08d67177b3df1c52cd9f2"
+    },
+    "source_date_epoch": 1767225600
+  },
+  {
+    "name": "kinet2pcb",
+    "version": "1.1.4",
+    "bytes": 9681,
+    "sha256": "63adc1beeffd6792dc1453f47d67581a7fa25d571f90998ea25a5a96c2cbbaa9",
+    "source_pin": {
+      "url": "https://files.pythonhosted.org/packages/98/a8/2e1fead21b6bd2a8bf1bdf4e4e40829e397b1fd34ff200fd25e6bf9f07e0/kinet2pcb-1.1.4.tar.gz",
+      "bytes": 201452,
+      "sha256": "9374a09ba58f64895b5e47c972b20315d624e06eec48925df26a308e2746f661"
+    },
+    "build_dependencies": "Python3.12.14, setuptools78.1.0, wheel0.45.1; pytest-runner6.0.1",
+    "pytest_runner_pin": {
+      "id": "science-build-pytest-runner",
+      "url": "https://files.pythonhosted.org/packages/23/2b/73982c02d28538b6a1182c0a2faf764ca6a76a6dbe89a69288184051a67b/pytest_runner-6.0.1-py3-none-any.whl",
+      "bytes": 7186,
+      "sha256": "ea326ed6f6613992746062362efab70212089a4209c08d67177b3df1c52cd9f2"
+    },
+    "source_date_epoch": 1767225600
+  },
+  {
+    "name": "skidl",
+    "version": "2.3.0",
+    "bytes": 4626945,
+    "sha256": "23877d6a611dabbd9567a11d48ce5d91c2cce4ddbb545321426e40146b512c00",
+    "source_pin": {
+      "url": "https://files.pythonhosted.org/packages/da/9c/95a0279c5ec810cf78e922366ad7e17dbf91f3d7956a577609c51ceea5d4/skidl-2.3.0.tar.gz",
+      "bytes": 4230573,
+      "sha256": "f3f14ac02ff07e426111aebd8a659a52ce19cfb398cf103cc82473227dcb1af0"
+    },
+    "build_dependencies": "Python3.12.14, setuptools78.1.0, wheel0.45.1; pytest-runner6.0.1",
+    "pytest_runner_pin": {
+      "id": "science-build-pytest-runner",
+      "url": "https://files.pythonhosted.org/packages/23/2b/73982c02d28538b6a1182c0a2faf764ca6a76a6dbe89a69288184051a67b/pytest_runner-6.0.1-py3-none-any.whl",
+      "bytes": 7186,
+      "sha256": "ea326ed6f6613992746062362efab70212089a4209c08d67177b3df1c52cd9f2"
+    },
+    "source_date_epoch": 1767225600
+  }
+]

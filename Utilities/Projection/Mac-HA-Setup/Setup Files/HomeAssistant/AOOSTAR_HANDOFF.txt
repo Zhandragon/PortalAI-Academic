@@ -1,0 +1,18 @@
+PortalAI Home Assistant 0.5.11 + Recovery 0.1.0
+
+This release pairs with the 20261016 History / Vision controls / Media host delta.
+Install the host delta and restart PortalAI and Projection normally, then install
+this HA package, validate HA configuration, restart HA once, and refresh app caches.
+
+History now opens the full account catalog through guarded native controls.
+Search is explicit and Open chooses one chat. The matching host update is required.
+Image previews request a <=24 KiB JPEG through rich_preview/1. Existing originals
+remain unchanged and are fetched only by Load original. An older host retains
+original downloads; it cannot provide the new quick preview. The host companion
+also removes the idle polling penalty during upload bursts.
+
+Keep current desktop reconnect and chat-admission fixes. Preserve HTTP crypto,
+upload v2, modal/Stop/account guards, picker reconnect, and Recovery 0.1.0.
+The host delta includes model diagnostics, checksum controls and Help updates.
+This package contains no credentials, account records or live connection settings.
+Live HA and Aoostar have NOT been updated by this release build.

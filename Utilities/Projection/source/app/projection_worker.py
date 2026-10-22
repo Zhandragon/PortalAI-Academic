@@ -115,9 +115,12 @@ def main():
     portalai_target.configure(target)
     from projection_client import Client
     from mission_runner import process_lock
-    if os.name!='nt':
+    if sys.platform.startswith('linux'):
         from linux_job import prepare_delegation,preflight
         prepare_delegation();preflight()
+    elif sys.platform=='darwin':
+        from macos_job import preflight
+        preflight()
     client=Client(connection,MODULE/'Runtime/cacert.pem');manager=portalai_target.Manager(target)
     import hashlib
     sid=input_owner()

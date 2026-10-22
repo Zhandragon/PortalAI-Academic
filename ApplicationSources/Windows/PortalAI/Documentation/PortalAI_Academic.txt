@@ -1,0 +1,16 @@
+PORTALAI ACADEMIC — 2026-10-20 r2
+
+This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.
+
+Censored/standard mode is permanent in this edition. The existing variant controls are inert. Right-click (Control-click on Mac) for Academic help. Saved variant preferences and legacy flags are normalized to standard. Chat size, hardware selection, scientific tools, normal media workflows, accounts, Stop and memory/storage admission retain their existing behavior.
+
+Uncensored/abliterated weights, alternate SD1.5 DreamShaper, alternate Wan/FLUX weights, anatomical LoRAs and Portable Abliterator are excluded. Catalogs and historical diagnostics may still name them; absence of these optional assets is intentional. Install only Academic updates.
+
+Agent/Academic_Instructions.txt is appended at the end of the native chat system harness and mission instruction harness, even with the optional manual disabled. A built-in copy remains effective if the sidecar is missing or altered. The shared master text also contains the appendix.
+
+This is application policy and model guidance, not an OS security boundary or a guarantee of model refusals. For controlled student deployment, retain administrator credentials with staff, use standard/guest student accounts and OS permissions protecting application files. Existing platform/hardware limitations remain; standard media models do not acquire a new output classifier.
+
+R2: excluded package rows are labeled EXCLUDED, tool discovery and mission guidance describe standard-only routes, and loader admission checks nested/multiple adapters plus known excluded download hashes. These checks do not add media output classification or OS isolation.
+
+2026-10-21 r1: Access to the separate unrestricted repository is by special request and approval only.
+The unrestricted version of PortalAI is currently private to prevent misuse. To request access to the abliterated/uncensored PortalAI distribution repository, please contact genesislung@gmail.com

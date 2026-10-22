@@ -9,6 +9,7 @@ import stat
 import subprocess
 import threading
 import time
+import sys
 from host_runtime import MODULE,resolve_target,target_valid,input_owner,launch_options
 from recovery_transport import RecoveryClient,identity
 
@@ -28,20 +29,28 @@ def file_digest(path,base):
 
 class LaunchController:
     def __init__(self,connection,stop,*,module=MODULE,manager=None,snapshot=None,popen=subprocess.Popen,clock=time.monotonic,scope=None):
-        if os.name!='nt':raise RuntimeError('This recovery helper currently supports Windows only')
+        if os.name!='nt' and sys.platform!='darwin':raise RuntimeError('This recovery helper supports Windows and macOS')
         self.module=Path(module);self.connection=dict(connection);self.root=resolve_target(connection['target']) if module==MODULE else (self.module/connection['target']).resolve()
         if not target_valid(self.root):raise ValueError('Invalid PortalAI target')
         import portalai_target
         portalai_target.configure(self.root)
-        from profile_shutdown import _windows_snapshot
+        from profile_shutdown import _windows_snapshot,_mac_snapshot
         self.manager=manager if manager is not None else portalai_target.Manager(self.root)
-        self.snapshot=snapshot or _windows_snapshot;self.popen=popen;self.clock=clock
+        self.snapshot=snapshot or ((lambda:_mac_snapshot(self.root)) if sys.platform=='darwin' else _windows_snapshot);self.popen=popen;self.clock=clock
         self.stop=stop;self.gate=threading.Lock();self.worker=None;self.main_launch=None
         self.scope=scope or self.module/'state/input'/hashlib.sha256(input_owner().encode()).hexdigest()[:32]
         self.manager.endpoint_dir=self.scope
         self.pins={}
-        for base,names in ((self.module,('Runtime/Python/pythonw.exe','Runtime/Python/python312.dll','app/projection_worker.py')),
-                           (self.root,('PortalAI.exe','ControlCenter/control_center_bootstrap.py'))):
+        if sys.platform=='darwin':
+            from host_runtime import mac_arch
+            self.worker_python=self.module/'Runtime'/('MacPython-'+mac_arch())/'bin/python3.12'
+            launch_files=((self.module,(self.worker_python.relative_to(self.module).as_posix(),'app/projection_worker.py')),
+                          (self.root,('Runtime/MacPython/bin/python3.12','Launchers/portalai_gui_macos.py','ControlCenter/control_center_bootstrap.py')))
+        else:
+            self.worker_python=self.module/'Runtime/Python/pythonw.exe'
+            launch_files=((self.module,('Runtime/Python/pythonw.exe','Runtime/Python/python312.dll','app/projection_worker.py')),
+                          (self.root,('PortalAI.exe','ControlCenter/control_center_bootstrap.py')))
+        for base,names in launch_files:
             for name in names:self.pins[(base,base/name)]=file_digest(base/name,base)
     def verify(self):
         for (base,path),digest in self.pins.items():
@@ -61,7 +70,7 @@ class LaunchController:
         self.verify()
         if self.fence()!=fence:raise RuntimeError('Stop superseded recovery')
     def projection_rows(self,rows):
-        found=[];executables={self.module/'Runtime/Python/python.exe',self.module/'Runtime/Python/pythonw.exe'}
+        found=[];executables=({self.worker_python.resolve()} if sys.platform=='darwin' else {self.module/'Runtime/Python/python.exe',self.module/'Runtime/Python/pythonw.exe'})
         script=str(self.module/'app/projection_worker.py')
         for row in rows.values():
             exe=Path(row.get('executable') or '')
@@ -83,7 +92,7 @@ class LaunchController:
         with self.gate:
             self.guard(deadline,initial)
             if not projection and (self.worker is None or self.worker.poll() is not None):
-                command=[str(self.module/'Runtime/Python/pythonw.exe'),'-B','-I',str(self.module/'app/projection_worker.py')]
+                command=[str(self.worker_python),'-B','-I',str(self.module/'app/projection_worker.py')]
                 self.worker=self.popen(command,cwd=self.module,env=clean_environment(),stdin=subprocess.PIPE,
                     stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,text=True,encoding='utf-8',**launch_options())
                 # Only this inherited anonymous pipe receives the unlocked key.
@@ -107,9 +116,13 @@ class LaunchController:
         with self.gate:
             self.guard(deadline,initial)
             if _marker(self.root)!=marker:raise RuntimeError('Profile state changed during recovery')
-            self.main_launch=self.popen([str(self.root/'PortalAI.exe')],cwd=self.root,env=environment,
-                stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
-                creationflags=subprocess.CREATE_NO_WINDOW|subprocess.CREATE_NEW_PROCESS_GROUP|subprocess.DETACHED_PROCESS)
+            if sys.platform=='darwin':
+                from macos_target import launch
+                self.main_launch=launch(self.manager,environment,popen=self.popen)
+            else:
+                self.main_launch=self.popen([str(self.root/'PortalAI.exe')],cwd=self.root,env=environment,
+                    stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
+                    creationflags=subprocess.CREATE_NO_WINDOW|subprocess.CREATE_NEW_PROCESS_GROUP|subprocess.DETACHED_PROCESS)
         return 'launch_requested'  # Process launch is not a claim of login/sealing/readiness.
     def close(self):
         self.stop.set()

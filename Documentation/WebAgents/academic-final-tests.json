@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "suites": [
+    {
+      "system": "Windows",
+      "suite": "test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 1.915s\n\nOK\n"
+    },
+    {
+      "system": "Windows",
+      "suite": "test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.082s\n\nOK\n"
+    },
+    {
+      "system": "Linux",
+      "suite": "test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 1.905s\n\nOK\n"
+    },
+    {
+      "system": "Linux",
+      "suite": "test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.084s\n\nOK\n"
+    },
+    {
+      "system": "Mac",
+      "suite": "test_academic.py",
+      "passed": true,
+      "tail": "t_vision_uses_standard_companion_despite_stale_preference (__main__.AcademicTests.test_vision_uses_standard_companion_despite_stale_preference) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 2.072s\n\nOK\n"
+    },
+    {
+      "system": "Mac",
+      "suite": "test_academic_r2.py",
+      "passed": true,
+      "tail": "cR2.test_prose_and_graph_links_are_not_asset_names) ... ok\ntest_standard_graphs_still_pass (__main__.AcademicR2.test_standard_graphs_still_pass) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.089s\n\nOK\n"
+    }
+  ]
+}

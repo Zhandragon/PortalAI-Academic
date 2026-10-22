@@ -1,0 +1,11 @@
+PortalAI native chat admission repair, 2026-10-16
+
+Remote Send now acknowledges an admitted worker before loading its vision model.
+Loading no longer consumes the short input acknowledgement timeout.
+Authentication, conversation, modal, reconnect and Stop guards remain active;
+the GUI checks authority again before inference. Failed requests are never replayed.
+Requests without a completed answer do not start background chat-title inference.
+
+HA 0.5.10, HTTP crypto, Recovery 0.1.0, GPU ownership and profile formats are unchanged.
+Existing installations load source changes after normal closure and sign-in.
+An acknowledgement confirms accepted work, not completed inference.

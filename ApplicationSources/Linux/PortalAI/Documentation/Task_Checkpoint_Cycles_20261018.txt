@@ -1,0 +1,41 @@
+Proactive task checkpoints - 18 October 2026
+
+Nice receives a compact budget notice in every admitted chat request: generated
+tokens (thinking plus answer/tool call), context capacity, estimated input,
+remaining tool calls, and remaining checkpoints before a new tool result.
+This is planning information, not a live hidden-token counter while reasoning.
+
+Nice may choose chat_checkpoint at a completed step or before a long phase.
+It supplies concise progress, a proposed next step, uncertainty, and optional
+saved tool-result message IDs. The tool is called alone between complete tool
+batches. The host saves the model-written note as explicitly fallible, retains
+the original request and host tool evidence, compacts only complete earlier
+exchanges, and automatically runs the next cycle of the SAME active request.
+No extra model summary request is needed for a voluntary checkpoint. Original
+messages remain unchanged and retrievable. Model notes never prove execution.
+
+Checkpoints do not count against or reset the explicit tool-call budget. They
+renew the existing per-cycle reasoning continuation allowance. Completed and
+uncertain action receipts survive, so a checkpoint cannot authorize replay.
+Stop, sign-out, closing the app, invalid tool batches, real model/context limits
+and timeouts remain effective. This feature does not schedule background work
+or restart a stopped chat. Missions remain separate.
+
+Chat Preferences > Tools & limits includes:
+  Checkpoints without new tool results (0 = unlimited)
+Default is 4. A genuinely new non-history tool result renews this allowance;
+the same call/result repeated does not. Identical idle checkpoint notes stop
+automatic cycling even with the count limit removed. The host then requests
+an answer or concrete blocker with tools disabled. These are loop heuristics,
+not a proof that every changed note or new tool result is useful progress.
+
+Reasoning that still hits the hard token cap retains the existing two bounded
+continuations, including its final-answer-only pass. The accompanying summary
+recovery fix uses bounded original-note excerpts when that emergency summary
+is incomplete; partial generated summaries are still rejected.
+
+Restart normally when idle to activate. No live user task or model was replayed.
+Synthetic integration tests verify checkpoint -> next step, compaction, budgets,
+no replay, invalid/mixed batches, Stop/login gates and repeated idle cycles.
+Actual model choice of checkpoint timing requires post-restart acceptance on
+the target host; an exposed tool and prompt are not a guarantee of perfect timing.

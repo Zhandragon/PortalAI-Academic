@@ -1,0 +1,29 @@
+Merge provenance - October 15, 2026
+===================================
+Base: user-supplied PortalAI-HomeAssistant-0.5.2.zip, 498542 bytes,
+SHA256 2f7fd8984fc67ab4ef1222ea59b1dd4dae04587579b659e3d6ad196205905944.
+All 85 checksummed members and the complete 86-entry ZIP/extraction matched.
+This includes the full iPhone attachment UI, source/tests and rollback installer.
+
+Recovery: independently developed portalai_recovery 0.1.0, copied exactly from
+the companion's reviewed recovery receiver. Original standalone ZIP SHA256:
+40cf1717e955d61ff539981f5aeb474aa3bb4b3a0a2d6fed26cc7f7a8dd89ce4.
+No recovery protocol or host runtime change was made for this merge.
+
+Preserved from the earlier reusable setup: generic projection-host wording,
+combined Quick View card and standalone desktop card. Replaced: the 0.5.1
+active frontend, simpler shell-copy installer, old templates and staging wizard.
+The current installer now verifies/backs up/rolls back all three HA integrations;
+source/build manifests and templates describe the combined edition.
+
+Before editing, 131 source/package files (2147392 bytes) were hash-verified in
+PortalAI/Maintenance/Patches/HASetup_052_before_20261015_210146 on the SSD.
+The snapshot also includes root instructions/configuration/hardware policy and
+all numbered root master manuals. It is not a complete SSD or account backup.
+Original 0.5.2 files and old setup files are retained separately, never deployed
+by the updated wizard. No production HA files or accounts were accessed.
+
+0.5.3 stability follow-up: desktop request/decoding/timer/input callbacks are
+bound to a connection epoch. The native iPhone attachment implementation and
+HA receiver logic remain unchanged. Desktop resource is now demand-v2.js to
+avoid loading the cached vulnerable card. Original releases remain historical.

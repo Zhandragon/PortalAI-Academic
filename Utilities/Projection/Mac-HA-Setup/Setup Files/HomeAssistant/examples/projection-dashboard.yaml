@@ -1,0 +1,9 @@
+title: PortalAI
+views:
+  - title: PortalAI
+    path: portalai
+    panel: true
+    cards:
+      - type: custom:portalai-projection
+        title: PortalAI
+        device_id: "REPLACE_WITH_MODULE_DEVICE_ID"

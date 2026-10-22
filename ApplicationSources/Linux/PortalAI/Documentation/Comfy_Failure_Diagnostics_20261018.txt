@@ -1,0 +1,33 @@
+COMFYUI HOST-BUFFER FAILURE DIAGNOSTICS — 18 OCTOBER 2026
+
+hostbuf_file_reader_read failed is raised by comfy_aimdo while transferring model
+tensor data. It is not an image-decoder error. A failure at KSamplerAdvanced does
+not establish that a source PNG is corrupt or that its path separators are wrong.
+The same error can involve memory/system resources, GPU/runtime behavior or model
+file I/O. The short message alone cannot identify the underlying cause.
+
+PortalAI previously kept the failing node/message but discarded the traceback.
+ComfyExecutionError now preserves bounded node, exception, prompt ID and traceback
+metadata in the saved tool result. Workflow prompts, current_inputs, current_outputs
+and tensor values are excluded. Known host-buffer transfer messages receive a
+short explanation in the main error so it survives ordinary tool-view compaction.
+Other errors retain their original meaning. No job is replayed or automatically
+retried, and no driver/model/runtime, memory setting or lifecycle guard is changed.
+
+This fixes misleading error reporting and evidence loss. It is not a demonstrated
+fix for ComfyUI's underlying transfer failure. A benign controlled reproduction with
+fresh diagnostics is still needed before selecting a backend-specific remedy.
+The service console may not be captured on Windows; do not claim that a short
+launcher log contains the full traceback. Read diagnostics from the saved tool
+result rather than guessing or rerunning a completed/partially completed pipeline.
+
+Local implementation evidence:
+Generative/ComfyUI_windows_portable/ComfyUI/comfy/memory_management.py
+Generative/ComfyUI_windows_portable/python_embeded/Lib/site-packages/comfy_aimdo/host_buffer.py
+Related upstream reports (different machines; not proof of this host's cause):
+https://github.com/Comfy-Org/comfy-aimdo/issues/61
+https://github.com/Comfy-Org/ComfyUI/issues/14250
+
+Regression tests: test_comfy_errors. Full local and extracted-package validation
+are recorded beside Windows r18 and Linux/Mac r8 in VALIDATION_20261018.json.
+No owner chat, image or other private data is included in this public note.

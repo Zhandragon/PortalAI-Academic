@@ -1,0 +1,35 @@
+PortalAI HA 0.5.3 desktop reconnect stability update - October 15, 2026
+
+Confirmed defect: a desktop disconnect/reconnect while a screenshot request or
+image decode was pending allowed the old callback to continue in the new
+connection. Ten synthetic reconnects left eleven continuing polling timers.
+The same defect exists in the earlier companion desktop card and 0.5.2 card.
+
+The corrected card binds requests, image decoding, error publication, timers
+and queued input to the original connection. The same reproduction now leaves
+one continuing timer. Stale input is canceled, never replayed after reconnect.
+
+This can reduce excessive screenshot traffic and browser/HA load. It does not
+establish the cause of a reported whole-HA restart. No HA crash logs, deployed
+receiver version, kernel OOM evidence or live HA installation were available.
+Do not describe this release as a proven fix for HA server restarts.
+
+Install through the normal reviewed installer. Change the desktop resource to
+/local/portalai-projection-demand-v2.js, remove the older PortalAI desktop
+resource entry, and reload frontend caches. Do not load both desktop versions.
+Native UI is /local/portalai-live-v0.5.3.js; Quick Chat stays 0.4.1 and the
+separate Recovery integration stays 0.1.0. Existing pairing is retained.
+
+For diagnosis, stop projection on the companion and leave HA running normally.
+This removes the companion traffic and does not close the local PortalAI login.
+On a trusted HA device, inspect Settings > System > Logs, Core and Supervisor,
+and host/kernel logs when available. Preserve entries around the restart,
+including OOM, Killed, watchdog, traceback or portalai messages. Never include
+passwords or tokens in a shared report. A Cloud-only disconnect is distinct
+from a confirmed local server restart; check local reachability/uptime too.
+
+Validation: 37 frontend tests and 54 HA receiver/installer tests passed.
+This includes six new reconnect, stale-response, decode and queued-input
+regressions. Tests use synthetic browser timing and a stub HA registration
+shell with real local aiohttp sockets. They do not reproduce a live HA
+server crash or prove hardware/resource stability on the installed server.

@@ -41,11 +41,13 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 - **Context-aware help and a nonintrusive interface.** Right-click controls for relevant actions and built-in help. Switch between the full workspace and Compact chat, or keep PortalAI reachable through the Windows notification icon while the window is hidden.
 
 
+**New: web tools, collaborating agents, configurable ports and Mac Projection.** See the [current update and downloads](Documentation/UPDATE-20261021.md). Full and Academic installers keep separate model policies.
+
 ## Download and install
 
 <a id="download-an-installer"></a>
 
-Download **one file for your operating system**. The launcher downloads its required package parts from this repository, checks their sizes and SHA-256 hashes, reconstructs the full installer, and starts the Academic installation. You do not need to download or join parts yourself.
+Download **one file for your operating system**. The launcher downloads its pinned complete installer from this repository’s GitHub release, verifies the archive and extracted files, and starts the Academic installation. Older downloaded launchers can still use their original retained package parts.
 
 | Operating system | Download | Open it |
 | --- | --- | --- |
@@ -59,7 +61,7 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
 
-The first stage downloads approximately 88 MB (Windows), 128 MB (Linux), or 102 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+The first stage downloads approximately 344 MB (Windows), 557 MB (Linux), or 680 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
 
 Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 
@@ -115,12 +117,13 @@ The [documentation index](Documentation/README.md) links installation, Projectio
 
 The optional **PortalAI Projection** companion brings the running PortalAI interface to your Home Assistant dashboard or Companion App. Chat and model execution stay on the PortalAI computer; Home Assistant provides the remote viewing and control connection. Select your installed Academic folder to retain its Academic restrictions.
 
-> **macOS Projection is not supported yet.** The Projection host utility is available for Windows x64 and Linux x86-64. This is separate from the macOS Academic installer above. Linux has partial validation and requires an unlocked X11/XWayland desktop, Linux 5.14+, an executable drive and delegated cgroup v2 memory control through a systemd user scope. Physical Linux desktops and end-to-end Home Assistant Cloud deployment have not been validated.
+> **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** The companion is available for Windows x64, Linux x86-64 and macOS 14+; the Mac package is also included beside the Academic Mac installer. Linux has partial validation and requires an unlocked X11/XWayland desktop, Linux 5.14+, an executable drive and delegated cgroup v2 memory control through a systemd user scope. Physical Linux desktops and end-to-end Home Assistant Cloud deployment have not been validated.
 
 | Projection host | Download | Open it |
 | --- | --- | --- |
 | Windows x64 | [Projection for Windows](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe) | Open the `.exe` and choose a new folder on the same drive as PortalAI. |
 | Linux x86-64 | [Projection for Linux](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh) | Run `bash PortalAI-Projection-Linux-Setup.sh` from a supported graphical desktop. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
 
 Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.11 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
 
@@ -129,13 +132,13 @@ Each download reconstructs and verifies its complete portable companion, bundled
 3. In HA **Developer Tools > Actions**, run `portalai_projection.pair_device` with the public JSON in `pairing_request`. For the Native UI, also run `portalai_native.allow_state` with your `device_id`. The installer's optional first-pairing flow can perform both approvals.
 4. Click **Start projection**, then **Open PortalAI locally** in the companion. Sign in to PortalAI and open the PortalAI Native sidebar or Desktop/Quick Chat dashboard in Home Assistant.
 
-See the [complete Projection and Home Assistant guide](Documentation/PROJECTION.md) for Windows/Linux installation, HTTPS link requirements, pairing, troubleshooting and the difference between stopping projection and signing out. For installation directly on a trusted HA device, the [matching HA integration ZIP](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip) is also available separately.
+See the [complete Projection and Home Assistant guide](Documentation/PROJECTION.md) for Windows/Linux/Mac installation, HTTPS link requirements, pairing, troubleshooting and the difference between stopping projection and signing out. For installation directly on a trusted HA device, the [matching HA integration ZIP](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip) is also available separately.
 
 ## Companion utilities
 
 | Utility | Downloads and purpose |
 | --- | --- |
-| PortalAI Projection | Windows and Linux companions for viewing and controlling PortalAI through Home Assistant. [Downloads and connection steps](#projection-and-home-assistant). **macOS Projection is not supported yet.** |
+| PortalAI Projection | Windows, Linux and Mac companions for viewing and controlling PortalAI through Home Assistant. [Downloads and connection steps](#projection-and-home-assistant). **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** |
 | Home Assistant integration | Matching **Home Assistant 0.5.11 + Recovery 0.1.0** receiver/frontend bundle, included with Projection and [available separately](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip). |
 
 Portable Abliterator and the excluded uncensored model assets are not part of the Academic distribution. Use the supported components supplied for your operating system.
@@ -155,10 +158,10 @@ Check the blocked file's path and detection name, verify its source and expected
 ## Source, licensing and verification
 
 - The three setup downloads and their checksums are at the repository root.
-- `packages/20261021-r1/` contains the verified package parts, grouped by operating system. The launchers download these automatically.
+- `PACKAGING.json` pins the current GitHub release assets and extracted files. `packages/` retains prior parts for previously downloaded launchers.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
-- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. **No macOS Projection package is available yet.**
+- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2/PortalAI-Mac-Projection-HA-20261021-r1.tar.gz) is now available; native acceptance is pending.
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 
@@ -176,6 +179,11 @@ PortalAI's existing [license](LICENSE) is retained. Third-party runtime and mode
 
 ## Release notes
 
+### Current: web tools, agents, ports and Mac projection
+
+See [the current release notes](Documentation/UPDATE-20261021.md) and [publication checks](Documentation/PUBLISH-VALIDATION.json). The earlier records below describe the release baseline.
+
+
 **2026-10-21 r1 — welcome access notice.** The GitHub welcome page and Academic GUI now explain that the unrestricted repository is private and provide the maintainer's access-request email. In the GUI, the notice appears in small, theme-aware text below the feature tagline and wraps with the window width. Academic model restrictions and runtime behavior remain as in r2.
 
 The Windows, Linux and Mac installer packages were rebuilt and their archive/member hashes verified. Only the welcome UI source and Academic documentation changed inside each application payload; every other payload file matches r2. The real Windows welcome panel was checked in Light and Dark modes, including a narrower window. Native Linux/macOS installation and model inference were not rerun. [Current validation](Documentation/VALIDATION.json) · [Source changes](Documentation/PortalAI-Academic-Source-Changes-20261021-r1.zip).
@@ -192,4 +200,4 @@ These are Academic-only changes. They do not add a media output classifier or an
 
 The r2 checks passed 23 Academic tests per platform payload, plus the 174-test Windows regression suite (173 passed, one optional vendor-source check skipped). Linux/Mac source tests ran on Windows; physical recipient installs and model inference were not rerun. [r2 validation](Documentation/VALIDATION-20261020-r2.json) · [r2 source changes](Documentation/PortalAI-Academic-Source-Changes-20261020-r2.zip).
 
-The r2 release changed new installation packages and did not modify an existing personal installation. Its policy and regression checks remain the baseline for the current welcome-only update.
+The r2 release changed new installation packages and did not modify an existing personal installation. Its policy and regression checks remain the baseline for subsequent updates.

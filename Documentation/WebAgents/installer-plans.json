@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "edition": "Full",
+      "components": 51,
+      "component_definitions_and_receipts_unchanged": true,
+      "required_plan": true,
+      "all_components_combined_plan": true
+    },
+    {
+      "edition": "Academic",
+      "components": 51,
+      "component_definitions_and_receipts_unchanged": true,
+      "required_plan": true,
+      "all_components_combined_plan": true
+    }
+  ]
+}

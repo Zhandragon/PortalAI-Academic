@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/packages/20261021-r1/Linux'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz'
-ARCHIVE_HASH='8efa43d13a4059d1d2fd14a3c31d5a55b1e2eaa71926b5502f57f6a9f9afadd7'
-TOP='PortalAI-Academic-Linux-Installer-20261021-r1'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.21-r2'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz'
+ARCHIVE_HASH='326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db'
+TOP='PortalAI Academic Linux Installer'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261021-r1-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261021-r2-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -68,30 +68,20 @@ while IFS='|' read -r name size expected; do
             if [ "$attempt" -lt 3 ]; then echo 'Retrying the interrupted download...'; sleep 1; fi
         done
         if [ "$downloaded" -ne 1 ]; then
-            echo 'Download failed. Check the connection and that all package parts have been committed to main.' >&2; exit 1
+            echo 'Download failed. Check the connection and that the pinned release asset is available.' >&2; exit 1
         fi
         if ! valid "$TEMP" "$size" "$expected"; then echo "Downloaded part failed size/SHA-256 verification: $name" >&2; exit 1; fi
         mv -f "$TEMP" "$CACHE/$name"
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part001|24000000|7c561025861c5e7fd63b2dbda4f0e6d7e8f1ccef69fc2e64de805392471eda3f
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part002|24000000|f53e73a33ec243c8015fa55fdb10ba003c4152c40ad319fb0f5476c2d8a4434e
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part003|24000000|fee227f30ab04bf26e884ee58cef598626d2b7598cc65b35a7dfad643d3b09b6
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part004|24000000|7932b8b9838aebd733c0b11bade3b6032d930b5145b45a3c89c5ff2b875c6ac9
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part005|24000000|475a3e898514aea6e7112f572ebea2fa1d28ec463e688be7a6bae06cb704717c
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part006|7529248|1d06c52ec8a16262cfddfcafd2938ca90d77309d9cce174ff27f9a48678cc3d3
+PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz|557176021|326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part001|24000000|7c561025861c5e7fd63b2dbda4f0e6d7e8f1ccef69fc2e64de805392471eda3f
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part002|24000000|f53e73a33ec243c8015fa55fdb10ba003c4152c40ad319fb0f5476c2d8a4434e
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part003|24000000|fee227f30ab04bf26e884ee58cef598626d2b7598cc65b35a7dfad643d3b09b6
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part004|24000000|7932b8b9838aebd733c0b11bade3b6032d930b5145b45a3c89c5ff2b875c6ac9
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part005|24000000|475a3e898514aea6e7112f572ebea2fa1d28ec463e688be7a6bae06cb704717c
-PortalAI-Academic-Linux-Installer-20261021-r1-x86_64.tar.gz.part006|7529248|1d06c52ec8a16262cfddfcafd2938ca90d77309d9cce174ff27f9a48678cc3d3
+PortalAI-Academic-Linux-Installer-20261021-r3.tar.gz|557176021|326a6c550e007564443982fd3026d4619dc20bfb1a63ef0e9eb8d52952b8d5db
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -112,11 +102,11 @@ while IFS='|' read -r name size expected; do
     fi
 done <<'ACADEMIC_FILES'
 install.sh|3520|98e2ec1b8ce35adc3a2a204fa9a2bf90b0f4b262f0e38e9adedabc084128e019
-manifest.json|2018|354bd668c6e51b9bc8b1909b9b23b7f697b9ed5561db37c6161b350ddea85be8
-payload.tar.gz|61257137|9ee31faaf14072933ec6bec95c6732832117fbf07f8d635fcebc63f4310da4ab
+manifest.json|4666|e5fe0a860969cc4ea7845a3c4e48c1c7a5b1959391ca104b3b10ba83555cec7a
+payload.tar.gz|493444182|922e6cbb7ac2346c0ca353f0a06b719ff5b159a6a0495643112153247310694a
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
-README.txt|5885|298422bc6bc7dce02f20fb26dfed6efe8de3a35bf33c2f42e92eff42e712dc7e
-SHA256SUMS|408|5abb50fca5ac74fea5d730001d30477c969b14df31632f12027c76b5246e6e98
+README.txt|6598|27c946099c13ad199e95569035a649d7327ff01ba4aa3f44d147907da47d8f5d
+SHA256SUMS|403|951d4a02bf14fa751dd3c9637aa2cd8e77053478304dbd46f1e50105a13965ef
 ACADEMIC_FILES
 echo 'The complete Academic installer has been downloaded and verified.'
 if [ "$PREPARE_ONLY" -eq 1 ]; then printf 'Prepared installer: %s\n' "$PACKAGE"; exit 0; fi

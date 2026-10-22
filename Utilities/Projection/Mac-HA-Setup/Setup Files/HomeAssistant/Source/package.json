@@ -1,0 +1,9 @@
+{
+  "name": "portalai-native-ha-panel",
+  "private": true,
+  "version": "0.5.11",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

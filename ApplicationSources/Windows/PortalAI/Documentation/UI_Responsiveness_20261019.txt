@@ -1,0 +1,56 @@
+PORTALAI MENU AND RESIZE RESPONSIVENESS - 2026-10-19
+
+PortalAI already keeps its main pages and many images in memory. The delay
+was not a full application or model reload on every resize. Reapplying an
+unchanged ttk style broadcasts ThemeChanged across the widget tree, causing
+unnecessary layout and painting. The old dropdown did this every time it opened.
+
+Changes
+- Reuse presentation styles for buttons, input fields, dropdown popup frames,
+  settings selectors and internal-sheet trees within the same Tk root/theme.
+- Cache font-family selection instead of enumerating installed fonts for each
+  control. Existing artwork reuse remains; no screenshots or window-size images
+  are cached. Resizing repositions the existing controls.
+- Repaint popup colors only when their palette/theme changes or the native
+  popup was destroyed and recreated.
+- Skip package layout while hidden and reuse unchanged layout. Current text,
+  fonts, status dimensions, query, page and viewport size invalidate that result.
+  Existing resize-event coalescing remains in place.
+
+Fresh content is not cached with styles. Fields keep independent values and
+commands; changing one button's colors cannot recolor other buttons. A newly
+opened sheet does not retain an old sheet's contents. No profile/account data,
+credentials, action results or permissions enter this presentation cache.
+Keys do not include window width/height, so resizing does not grow a collection
+of full-window copies. The cache ends with the application process.
+
+Measured evidence on this Windows Aoostar
+Disposable-account full-GUI fixtures measured the ordinary popup at roughly
+395-561 ms before and 40-41 ms after. The same navigation sample improved from
+241-505 ms to 129-377 ms, and resize settling from 709-1045 ms to 462-740 ms.
+These are small local samples, not cross-platform guarantees or RDP latency
+measurements. First-time artwork still has a cost. The searchable diagnostics
+sheet remains more expensive to lay out than a small dropdown: warm default-
+size opens improved from about 1.17-1.24 s to 0.64-0.65 s, with a larger window
+around 1.33 s. This change reduces redundant work; it does not claim every
+surface is instantaneous. Original timing/profile evidence is retained under
+Maintenance/Validation/DiagnosticsDropdown-20261019.
+
+Validation and activation
+test_ui_style_cache covers no global repaint when reopening an unchanged popup,
+palette and Tk-theme changes, recreated popups, independent commands/values,
+fresh sheet content, hidden/changed package layouts and size-independent caches.
+Surrounding settings, rounded controls, navigation, compact panels, diagnostics,
+Stop/native workflows and Windows minimize regressions are run as well.
+Results and disposable-account GUI checks are under
+Maintenance/Validation/UIResponsiveness-20261019.
+
+The installed source and Windows r22 / Linux r12 / Mac r12 clean installer
+packages carry this change. No HA receiver or Projection companion protocol
+changed. Their existing native forms use the same host control behavior.
+Close PortalAI normally after current work, then reopen to load the update.
+No running user GUI or model job was forcibly restarted. E: was unavailable;
+its installed copy was not updated. Physical Linux/macOS GUI performance
+remains untested on this Windows machine.
+
+Desktop merge: Windows r23 / Linux-Mac r13. The timings above are supplied Aoostar measurements, not new desktop measurements. This merge also fixes first-use SettingsSkin style construction: scrollbar element creation must not overwrite the cached combobox style name. A regression covers each Tk theme. Existing local minimize behavior and HA receiver/companion protocols were preserved.

@@ -1,0 +1,11 @@
+{
+  "domain": "portalai_recovery",
+  "name": "PortalAI Portable Recovery",
+  "version": "0.1.0",
+  "documentation": "https://developers.home-assistant.io/docs/auth_permissions/",
+  "codeowners": [],
+  "requirements": [],
+  "dependencies": ["http"],
+  "iot_class": "cloud_polling",
+  "integration_type": "hub"
+}

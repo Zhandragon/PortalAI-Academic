@@ -1,0 +1,61 @@
+PortalAI pLannotate annotation - Windows x64, 2026-10-16
+
+USING IT
+Attach one FASTA or GenBank file to Nice and ask:
+"Annotate this plasmid with pLannotate. Explain the feature matches and fragments,
+and give me the GenBank file, evidence CSV and feature map."
+For linear DNA, say that it is linear. FASTA/direct sequence defaults to circular;
+GenBank topology is respected unless you explicitly override circular.
+
+science genome.annotate input:
+  {"file":"path/to/plasmid.fasta","circular":true,"mode":"standard"}
+Or supply sequence instead of file. Limit: 20..100000 A/C/G/T/N bases, one record.
+Existing features:[{name,sequence,role,source}] requests retain exact matching.
+No catalog is needed for automatic pLannotate annotation.
+
+METHOD AND COVERAGE
+Real pLannotate 2.0.0 source revision eb043a4fbf16ddca9206451c490c9dbc38dcdb0e,
+database bundle v2. BLAST+ 2.17.0 nucleotide alignment and DIAMOND 2.2.8 translated
+protein alignment use the upstream scoring/filtering/fragment/nesting pipeline.
+Standard: SnapGene, FPbase, Swiss-Prot. Fast: SnapGene and FPbase only.
+Circular queries are doubled in both modes to retain upstream seam handling.
+Rfam/Infernal RNA covariance searches are NOT included. This is the DNA/protein
+portion of pLannotate, not complete pLannotate database coverage or whole-genome
+annotation. Similarity, fragments and partial matches do not prove function,
+expression, activity, binding, phenotype or safety. No-hit does not prove absence.
+
+OUTPUTS
+annotated.gb: annotated sequence with upstream feature/alignment qualifiers.
+features.csv: complete feature evidence table.
+feature-map.svg: static readable map, first 100 features; full list remains in CSV.
+Nice can summarize these files; open SVG normally to view and use a GenBank viewer
+for detailed inspection. No new viewer service, browser network access or upload.
+
+CONTROLS, DIAGNOSTICS AND PRIVACY
+Help > Science / Engineering and DNA annotation / pLannotate describe these routes.
+System Test, Full Component Diagnosis and Science/Biology targeted checks include
+science-extension prerequisite rows. Routine checks inspect public paths/sizes,
+not inference accuracy or full database checksums. Annotation verifies installed
+asset hashes before using them. Missing/damaged assets fail with an explicit error.
+No new main Controls buttons: Startup remains on-demand, without loading annotation
+databases. Stop/account cancellation uses the existing owned worker job and profile
+epoch checks. CPU search is bounded to one search thread, 2 GiB worker memory and 100 s;
+DIAMOND uses 0.1-billion-letter blocks and 1 MiB file buffers to fit this cap;
+inputs/temp files stay within the account workspace and outputs use guarded export.
+No sequence is sent to a remote annotation service. Account/HA settings are untouched.
+Restart PortalAI normally after installation to refresh loaded code and Help.
+
+UPSTREAM AND LICENSES
+https://github.com/mmcguffi/pLannotate
+https://github.com/bbuchfink/diamond
+https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.17.0/
+Upstream pLannotate GPLv3 source and license are included in Tools/pLannotate/vendor;
+DIAMOND license and BLAST notices are included under Tools/pLannotate/licenses.
+Exact public archive/file SHA-256 pins: Maintenance/Imports/plannotate.json.
+
+VALIDATION
+107 focused/regression checks passed, one skipped. Actual public pUC19 standard,
+one-base variant and circular-shift cases passed under a 2 GiB Windows job, each
+with 11 features and parsed GenBank/CSV/SVG. Standard took about 2.4 seconds on this
+host; this is not a latency promise for other inputs or machines. No live account,
+GUI session or HA request was used in validation.

@@ -1,0 +1,37 @@
+{
+  "comfy": {
+    "base_url": "http://127.0.0.1:8188",
+    "workflows_dir": "Workflows/API",
+    "input_dir": "Generative/ComfyUI_windows_portable/ComfyUI/input",
+    "output_dir": "Generative/ComfyUI_windows_portable/ComfyUI/output",
+    "poll_seconds": 1.0,
+    "timeout_seconds": 3600,
+    "workflows": {
+      "image_official": "Flux2_Klein_9B_T2I_Official_FP8.json",
+      "image_uncensored": "Flux2_Klein_9B_T2I_Official_FP8.json",
+      "edit_official": "Flux2_Klein_9B_Image_Edit_Official_FP8.json",
+      "edit_uncensored": "Flux2_Klein_9B_Image_Edit_Official_FP8.json",
+      "video_official": "Wan2.2_14B_I2V_Official.json",
+      "video_uncensored": "Wan2.2_14B_I2V_Official.json",
+      "inpaint_official": "Flux2_Klein_9B_Inpaint_Official_FP8.json",
+      "inpaint_uncensored": "Flux2_Klein_9B_Inpaint_Official_FP8.json",
+      "mask_object": "SAM2_GroundingDINO_ObjectMask.json"
+    }
+  },
+  "acestep": {
+    "base_url": "http://127.0.0.1:8001",
+    "poll_seconds": 2.0,
+    "timeout_seconds": 3600,
+    "default_duration": 60
+  },
+  "llm": {
+    "base_url": "http://127.0.0.1:8080/v1"
+  },
+  "outputs": {
+    "images": "Outputs/Images",
+    "edited": "Outputs/Edited",
+    "videos": "Outputs/Videos",
+    "music": "Outputs/Music",
+    "masks": "Outputs/Masks"
+  }
+}

@@ -1,0 +1,16 @@
+# Merge entries into existing configuration.yaml; never replace that file.
+# Keep one instance of each key. Append/update within an existing panel_custom list.
+# Replace the public device ID placeholder before enabling the panel.
+portalai_projection: {}
+portalai_native: {}
+portalai_recovery: {}
+
+panel_custom:
+  - name: portalai-live-panel
+    sidebar_title: PortalAI Native
+    sidebar_icon: mdi:monitor-dashboard
+    url_path: portalai-native
+    module_url: /local/portalai-live-v0.5.11.js
+    require_admin: true
+    config:
+      device_id: "REPLACE_WITH_MODULE_DEVICE_ID"

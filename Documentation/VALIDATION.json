@@ -1,65 +1,15 @@
 {
-  "release": "20261021-r1",
-  "scope": "Package integrity, exact source delta from Academic r2 and syntax checks on Windows. No physical Linux/macOS install or model inference was run.",
-  "platforms": {
-    "Windows": {
-      "passed": true,
-      "payload_files": 4177,
-      "changed_payload_files": [
-        "PortalAI/ControlCenter/portal_frontend_v15136.py",
-        "PortalAI/Documentation/PortalAI_Academic.txt"
-      ],
-      "other_payload_files_identical_to_r2": 4175
-    },
-    "Linux": {
-      "passed": true,
-      "payload_files": 3087,
-      "changed_payload_files": [
-        "PortalAI/ControlCenter/portal_frontend_v15136.py",
-        "PortalAI/Documentation/PortalAI_Academic.txt"
-      ],
-      "other_payload_files_identical_to_r2": 3085
-    },
-    "Mac": {
-      "passed": true,
-      "payload_files": 1307,
-      "changed_payload_files": [
-        "PortalAI/ControlCenter/portal_frontend_v15136.py",
-        "PortalAI/Documentation/PortalAI_Academic.txt"
-      ],
-      "other_payload_files_identical_to_r2": 1305
-    }
-  },
-  "ui_validation": {
-    "real_windows_widgets": true,
-    "themes": [
-      "Light",
-      "Dark"
-    ],
-    "narrower_window_checked": true,
-    "personal_account_or_model_services_started": false
-  },
-  "downloaders": {
-    "Windows": {
-      "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "b5e6053d240d4fb6ae3c2dabcca92efdf3406ecf9eb8ca783f5bbbc4adeea870",
-      "extracted_files_verified": 5,
-      "full_installer_started": false,
-      "parts": "preloaded verified files"
-    },
-    "Linux": {
-      "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "8efa43d13a4059d1d2fd14a3c31d5a55b1e2eaa71926b5502f57f6a9f9afadd7",
-      "extracted_files_verified": 6,
-      "full_installer_started": false,
-      "parts": "preloaded verified files"
-    },
-    "Mac": {
-      "exact_published_launcher_prepare_only": "passed",
-      "reconstructed_sha256": "46ce1a0c4215f89c268af53232be1435fd37f695f8e51374846465840b733b4d",
-      "extracted_files_verified": 8,
-      "full_installer_started": false,
-      "parts": "preloaded verified files"
-    }
-  }
+  "release": "v2026.10.21-r2",
+  "publication_checks": "PUBLISH-VALIDATION.json",
+  "web_agent_checks": "WebAgents/validation-final.json",
+  "mac_projection_checks": "MacProjection/validation.json",
+  "previous_release_checks": "VALIDATION-before-WebAgents.json",
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "limitations": [
+    "Native Mac and live HA acceptance pending.",
+    "Earlier companion suite: three TLS fixture errors also reproduced with original transport.",
+    "Earlier live model-restore smoke incomplete; not counted as passing.",
+    "Current tests do not perform full recipient installs or live inference."
+  ]
 }

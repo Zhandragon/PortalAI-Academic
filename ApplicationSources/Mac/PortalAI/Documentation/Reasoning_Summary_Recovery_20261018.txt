@@ -1,0 +1,28 @@
+Reasoning checkpoint summary recovery - 18 October 2026
+
+When a reasoning response exhausted its generated-token allowance, Nice tried to
+summarize the unfinished reasoning before continuing. If that separate summary
+also ended at its token limit, the exception escaped the continuation path and
+aborted the task. The original reasoning and tool outcomes were saved, but the
+user had to resume manually.
+
+Incomplete, empty and oversized summary text is still rejected. The reasoning
+continuation now falls back to a bounded excerpt of the original saved working
+notes, explicitly labeled as unfinished and fallible, with its chat_history
+message reference. It includes the start and latest part of the working notes;
+omitted detail stays in exact history. Partial model summaries are not accepted
+as complete or used as evidence. The original request and saved tool outcomes
+remain separate in the resumed request. No extra summarizer retry is introduced.
+
+The fallback uses the existing admitted context and existing two-continuation
+allowance. Final-answer-only, Stop, profile/login, deadline and duplicate-action
+guards remain. Network/protocol failures still propagate; this is not a blanket
+exception bypass. Historical-turn summaries keep their previous summary on
+failure; working-turn compaction retains its existing evidence fallback.
+
+Restart PortalAI normally when idle to load the change, then resume the chat.
+No saved user conversation, pending action, account or model selection is edited.
+Regression tests exercise actual summary-response parsing with simulated HTTP
+responses and continuation, including cancellation, revoked login, empty output,
+repeated length stops, context bounds and no replay. These do not constitute a
+replay of the owner's task or an independent real-model acceptance test.

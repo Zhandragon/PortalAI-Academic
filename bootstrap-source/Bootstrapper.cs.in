@@ -18,7 +18,7 @@ internal static class Bootstrap {
     internal const string Source = "@SOURCE@";
     internal const string Archive = "@ARCHIVE@";
     internal const string ArchiveHash = "@ARCHIVE_HASH@";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261021-r1-Windows";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261021-r2-Windows";
     internal static readonly Item[] Parts = new Item[] { @PARTS@ };
     internal static readonly Item[] Files = new Item[] { @FILES@ };
     internal static string Digest(string path) {
@@ -61,7 +61,7 @@ internal static class Bootstrap {
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261021-r1";
+                            request.UserAgent="PortalAI-Academic-Installer/20261021-r2";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
@@ -83,7 +83,7 @@ internal static class Bootstrap {
                           catch (Exception error) { last=error; if (attempt<3) Thread.Sleep(1000); }
                           finally { if (File.Exists(temp)) File.Delete(temp); }
                     }
-                    if (last!=null) throw new IOException("Could not download a verified part from GitHub. Check your connection and that the full upload has been committed to main. " + last.Message, last);
+                    if (last!=null) throw new IOException("Could not download a verified part from GitHub. Check your connection and that the pinned release asset is available. " + last.Message, last);
                 }
                 completed+=item.Bytes;
                 report((int)(completed*85/total), "Verified part " + (index+1) + " of " + Parts.Length);
@@ -156,7 +156,7 @@ internal sealed class SetupForm : Form {
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 88 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 344 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
         start.Text="Download and install"; start.AutoSize=true; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);

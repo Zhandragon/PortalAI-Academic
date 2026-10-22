@@ -1,0 +1,9 @@
+PortalAI native workflow UI follow-up — 2026-10-17
+
+The Windows host adapter now exposes the Persistence page's real “Missions & access” and “Schedules” navigation buttons once each. The launcher no longer registers a second set of aliases for those same buttons. The Home Assistant dashboard/card and its installer were not changed; the duplicate controls came from the PortalAI host's native workflow description.
+
+Native form serialization now resolves Tkinter's internal PY_VAR handles against the live Tk interpreter before publishing control labels, values, and select-option labels. If a handle no longer resolves, the UI shows an empty value rather than the implementation token. This keeps the native workflow readable without changing the underlying local Tk controls or account permissions.
+
+Regression coverage is in Maintenance/Tests/test_native_workflow_guards.py. Tools/smoke_native_workflows.py checks that each described page has no PY_VAR_* artifacts and that the Persistence page contains exactly one action for each of its two navigation buttons. The smoke uses a disposable account and Windows GUI; it must not be run against a production account. Local focused guard tests passed after the change. The live Home Assistant browser and the clean installer recipient path were not exercised by those unit tests; the clean installer payload is separately hash-verified.
+
+A normal PortalAI GUI restart is needed to load this Windows host code. No Home Assistant restart or dashboard reinstall is required for this fix.

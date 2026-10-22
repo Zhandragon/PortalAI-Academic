@@ -1,0 +1,4 @@
+{
+  "name": "PortalAI",
+  "ports": {"qwen": 0, "comfyui": 0, "acestep": 0, "preview": 0, "agents": 0, "gateway": 0}
+}

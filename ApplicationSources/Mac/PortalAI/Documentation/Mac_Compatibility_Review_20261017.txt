@@ -1,0 +1,51 @@
+PortalAI macOS compatibility status — 2026-10-17
+
+Release state
+  A dual-architecture macOS installer is built for Apple silicon (arm64) and
+  Intel (x86_64). Its package is statically verified on Windows,
+  but no physical Mac install, GUI session, Metal inference, or notarized build
+  has been completed. Do not describe it as Mac-tested until the recipient-side
+  smoke suite and a real GUI/model session pass on each architecture.
+
+First-release scope
+  - Native Tk Control Center, bundled Python 3.12/Tk runtime, local profiles,
+    mission and schedule APIs, and the local account wallet/email libraries.
+  - A recipient-side llama.cpp build with GGML Metal enabled, plus CPU fallback.
+    The installer compiles from the pinned upstream v0.7.0 source using Apple
+    Command Line Tools and CMake. GGUF model weights are not bundled.
+  - Managed workers use a macOS process group and an EOF guardian. A psutil
+    watchdog samples resident memory. These provide practical Stop/cancel
+    behavior; they are not a kernel-enforced sandbox or hard memory ceiling.
+  - Account secrets remain in PortalAI's password-encrypted local vault. The
+    Mac port does not read or migrate secrets from Apple Keychain.
+  - Mac storage admission uses a 10-GiB minimum / 10%-of-volume free-space
+    floor plus a separate 5-GiB output reserve instead of the much larger
+    Windows source defaults.
+
+Platform-specific pins
+  The shared Mac account layer pins cryptography 48.0.1 and ckzg 2.1.5 because
+  the newer Windows pins do not publish Intel macOS wheels. These exact wheel
+  artifacts are resolved on the recipient Mac, checked against PyPI's published
+  byte size and SHA-256, validated against wheel RECORD, and installed into
+  app-local layers. No credentials or user account data are packaged.
+
+Not included in this first Mac package
+  CUDA/ROCm, ComfyUI, Stable Diffusion.cpp, FFmpeg-based media tools, QEMU VM
+  transport, full remote-desktop control, and the optional science runtime.
+  macOS microphone/video capture and the Linux-specific cgroup worker backend
+  are not included. Safe live model
+  handoff/recovery is also disabled on macOS; if a model is already running,
+  an effort/profile handoff fails without stopping it. Model files must be
+  copied to LLM/models and selected by the user.
+
+Distribution and remaining acceptance
+  The package is unsigned and not notarized because this project has no Apple
+  Developer ID release identity. macOS Gatekeeper may require Control-click →
+  Open once. The installer requires 8 GiB of temporary llama.cpp build
+  headroom in addition to the Mac storage/output reserves. It does not use
+  sudo and refuses to overwrite an existing destination. The included
+  macos_installer_smoke.py validates bundled Python,
+  Tk/Tcl, account crypto, mission imports, compiled llama-server, and worker
+  cancellation on the target Mac. A human must still open the GUI, configure a
+  model, exercise chat, and test a mission/schedule on both Apple silicon and
+  Intel before claiming full Mac compatibility.

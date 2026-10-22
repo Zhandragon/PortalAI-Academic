@@ -1,0 +1,54 @@
+Dialogue timing and exact evidence pages — 18 October 2026
+
+The reported repeated help reads exposed two real gaps: dialogue-video lacked a
+duration option, and a compacted chat_history page could omit its middle without
+correcting its continuation cursor. Relative shell/file paths also had a misleading
+application-root description despite running in the signed-in private workspace.
+
+Implemented:
+- dialogue-video --duration 20 sets the final timeline independently of speech.
+  --dialogue-start 5 starts natural-speed dialogue at five seconds. Silence fills
+  the remaining audio. Speech that does not fit fails before motion generation;
+  words are not removed, invented or sped up. Without duration, speech plus its
+  start offset determines the length. Supported total duration: 0.2..120 seconds.
+- --motion-plan accepts a JSON array of {seconds, prompt} action beats summing to
+  duration. Each beat gets its own prompt; boundaries are rounded up to frames.
+  --motion alone remains available. available_tools(command="dialogue-video")
+  gives the timing contract and a complete 20-second example.
+- Windows CUDA Wan graphs stay at or below 81 frames; Radeon/Linux VACE graphs
+  stay at or below 17. Each continues from the last retained generated frame.
+  Rounded graph padding is trimmed. No still/frozen-frame substitute fills time.
+  Lip sync uses balanced segments no longer than eight seconds, preserving its
+  existing backend admission limits. One existing GPU lease owns the pipeline.
+  Stop and the captured login are checked between stages. Radeon optional music
+  remains subject to its existing 10..30-second backend limit.
+- FFmpeg helpers accept their existing executable-prefixed and arguments-only
+  call styles without accidentally passing a second executable as an output.
+- Compacted chat_history/read_file pages remain valid JSON with a contiguous
+  exact text prefix, returned_chars, complete and an accurate next_offset. Paging
+  does not rewrite saved conversation evidence. File tool calls now have offsets.
+  Internal read_file callers retain their text-return compatibility.
+- Tool guidance distinguishes the private working directory from host-resolved
+  registered application scripts. Account access restrictions are unchanged.
+
+The earlier rolling-chat improvements remain: zero/unlimited is the default tool
+budget, adjustable under Chat Preferences > Tools & limits; active tasks compact
+completed exchanges and follow-ups receive working state and saved action results.
+These fixes cannot guarantee every model will avoid repetitive reasoning, or that
+an arbitrarily large individual request fits the selected model context.
+
+Validation includes synthetic model output with real bundled FFmpeg, checking
+20-second assembly, unaltered two-second audio at second five, silence outside
+that interval, continuation images, frame caps, bounded lip segments, exact history
+reconstruction under a 600-character view budget, and Stop/account regressions.
+Synthetic media tests do not establish generated action/identity/lip-sync quality
+or physical Aoostar GPU support. Do a recipient hardware acceptance run separately.
+
+Installer refresh: Windows r16, Linux/Mac r6. Runtime/model pins and installation
+placement are unchanged. Windows installs beside PortalAI-Install.exe after all
+package files are extracted together; existing application folders are refused.
+Public source/tests only; no account registries, user files or AV configuration.
+
+Restart PortalAI normally to load the updated chat harness. Do not force-stop an
+active media job or hot-reload modules. Pre-edit source backup and all build/test/
+handoff artifacts are on the SSD under Maintenance/Patches and D:/Backups.

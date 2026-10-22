@@ -1,0 +1,31 @@
+PORTALAI CLEAN INSTALLER r6 - SPEECH AND FIRST-LAUNCH PREREQUISITES
+
+Includes the r5 root-relative STT binding, pinned Python 3.12.14, isolated
+faster-whisper 1.2.1 / CTranslate2 4.8.2 / PyAV 18.1.0, and Whisper Base.
+The configuration contains no microphone choice, account or cached GPU result.
+The existing CPU microphone transcription and separate TTS hardware policy are
+unchanged. No host Python or legacy online repair is required for speech setup.
+
+The installer now creates Maintenance/Imports/protein-mpnn.json only AFTER
+checksum readback of every selected installed file. This missing receipt was
+required by the existing ProteinMPNN integrity guard. Vendor revision remains
+8907e6671bfbfc92303b5f79c4b5e6ce47cdef57; CPU runtime/model pins are unchanged.
+Missing or changed prerequisites cannot produce a valid receipt.
+
+A focused audit checked Windows public configuration references and the required
+startup, speech and microphone files against the release member maps. Fresh
+account state, connection credentials, hardware launch plans, Stop timestamps
+and handoff state are intentionally created locally, never copied from an owner.
+Linux-only receipts are outside this Windows 10/11 x64 installer.
+
+Actual installed D/E CPU checks used one newly synthesized sentence per drive.
+Piper produced nonempty WAV audio; Whisper Base recovered the complete sentence.
+No microphone recording, live account, chat Send, app restart or GPU inference
+was used. These checks do not prove a recipient's microphone permissions or GPU.
+The six fresh/moved/missing-runtime speech configuration regressions passed.
+Focused receipt checks cover prerequisite pin rejection and the existing asset
+verifier. Broad full-installer/utility testing retains the owner's prior waiver.
+
+All 49 component recipes, prior payload and HA 0.5.11 / Recovery 0.1.0 remain.
+Heavy assets download from pinned public upstreams. Optional feature/model and
+physical hardware limitations remain listed by the installer.

@@ -6,7 +6,7 @@ ARCHIVE='@ARCHIVE@'
 ARCHIVE_HASH='@ARCHIVE_HASH@'
 TOP='@TOP@'
 PLATFORM='@PLATFORM@'
-OWNER='PortalAI-Academic-bootstrap-20261021-r1-@PLATFORM@'
+OWNER='PortalAI-Academic-bootstrap-20261021-r2-@PLATFORM@'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -67,7 +67,7 @@ while IFS='|' read -r name size expected; do
             if [ "$attempt" -lt 3 ]; then echo 'Retrying the interrupted download...'; sleep 1; fi
         done
         if [ "$downloaded" -ne 1 ]; then
-            echo 'Download failed. Check the connection and that all package parts have been committed to main.' >&2; exit 1
+            echo 'Download failed. Check the connection and that the pinned release asset is available.' >&2; exit 1
         fi
         if ! valid "$TEMP" "$size" "$expected"; then echo "Downloaded part failed size/SHA-256 verification: $name" >&2; exit 1; fi
         mv -f "$TEMP" "$CACHE/$name"

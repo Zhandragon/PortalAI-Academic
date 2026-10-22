@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "selection": "auto",
+  "backend": "auto",
+  "context_tokens": 32768,
+  "media": {
+    "image_profile": "auto",
+    "speech_model": "auto",
+    "voice_engine": "auto",
+    "media_variant": "standard"
+  },
+  "storage": {
+    "minimum_free_gib": 50,
+    "minimum_free_fraction": 0.1,
+    "output_reserve_gib": 100
+  },
+  "models": [
+    {
+      "id": "qwen27-standard-q4",
+      "path": "LLM/models/Qwen3.8-27B-Q4_K_M.gguf",
+      "projector": "LLM/models/mmproj-Qwen3.8-27B-Standard-BF16.gguf",
+      "layers": 64,
+      "priority": 110,
+      "cpu_auto": false,
+      "buffer_base_gib": 2,
+      "buffer_per_8192_gib": 0.25,
+      "label": "Qwen 3.8 27B Standard Q4_K_M",
+      "variant": "standard",
+      "automatic": true,
+      "source_model": "Qwen/Qwen3.8-27B"
+    },
+    {
+      "id": "qwen4-q4",
+      "path": "LLM/models/Qwen3-4B-Q4_K_M.gguf",
+      "layers": 36,
+      "priority": 50,
+      "cpu_auto": true,
+      "max_context_tokens": 8192,
+      "variant": "standard",
+      "automatic": true
+    },
+    {
+      "id": "qwen1.7-q8",
+      "path": "LLM/models/Qwen3-1.7B-Q8_0.gguf",
+      "layers": 28,
+      "priority": 20,
+      "cpu_auto": true,
+      "max_context_tokens": 8192,
+      "variant": "standard",
+      "automatic": true
+    },
+    {
+      "id": "qwen-vl2-q4",
+      "path": "LLM/models/Qwen3VL-2B-Instruct-Q4_K_M.gguf",
+      "projector": "LLM/models/mmproj-Qwen3VL-2B-Instruct-F16.gguf",
+      "layers": 28,
+      "priority": 10,
+      "cpu_auto": true,
+      "max_context_tokens": 8192,
+      "buffer_base_gib": 2.0,
+      "buffer_per_8192_gib": 1.0,
+      "label": "Qwen3 VL 2B Standard Q4_K_M image companion",
+      "variant": "standard",
+      "automatic": false,
+      "automatic_uncensored": false,
+      "vision_only": true,
+      "source_model": "Qwen/Qwen3-VL-2B-Instruct-GGUF",
+      "image_min_tokens": 1024
+    },
+    {
+      "id": "qwen-vl4-q4",
+      "path": "LLM/models/Qwen3VL-4B-Instruct-Q4_K_M.gguf",
+      "projector": "LLM/models/mmproj-Qwen3VL-4B-Instruct-F16.gguf",
+      "layers": 36,
+      "priority": 40,
+      "cpu_auto": true,
+      "max_context_tokens": 8192,
+      "buffer_base_gib": 2.0,
+      "buffer_per_8192_gib": 1.25,
+      "label": "Qwen3 VL 4B Standard Q4_K_M image companion",
+      "variant": "standard",
+      "automatic": false,
+      "automatic_uncensored": false,
+      "vision_only": true,
+      "source_model": "Qwen/Qwen3-VL-4B-Instruct-GGUF",
+      "image_min_tokens": 1024
+    }
+  ],
+  "variant_preference": "standard",
+  "vision_routing": "automatic"
+}

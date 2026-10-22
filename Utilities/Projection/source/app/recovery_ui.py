@@ -1,4 +1,4 @@
-"""Separately launched, explicitly armed portable recovery helper (Windows)."""
+"""Separately launched, explicitly armed portable recovery helper."""
 from pathlib import Path
 import json
 import os
@@ -34,7 +34,7 @@ class Window:
         app.title('PortalAI Portable Recovery');app.geometry('780x660');app.minsize(620,520)
         page=ttk.Frame(app,padding=18);page.pack(fill='both',expand=True);page.columnconfigure(1,weight=1);page.rowconfigure(6,weight=1)
         ttk.Label(page,text='Portable HA recovery',font=('Segoe UI',20,'bold')).grid(row=0,column=0,columnspan=3,sticky='w')
-        self.intro=ttk.Label(page,text='Keep this separate helper open. It survives companion/app crashes, but not Windows freezes or loss of this SSD.',wraplength=720)
+        self.intro=ttk.Label(page,text='Keep this separate helper open. It survives companion/app crashes, but not operating-system freezes or loss of this SSD.',wraplength=720)
         self.intro.grid(row=1,column=0,columnspan=3,sticky='ew',pady=10)
         ttk.Label(page,text='Saved connection').grid(row=2,column=0,sticky='w')
         self.entry=ttk.Entry(page,textvariable=self.path);self.entry.grid(row=2,column=1,sticky='ew')
@@ -63,7 +63,7 @@ class Window:
         if self.runner is not None or self.closing:return
         connection=None
         try:
-            if os.name!='nt':raise RuntimeError('Windows only')
+            if os.name!='nt' and sys.platform!='darwin':raise RuntimeError('Windows and macOS only')
             path=Path(self.path.get())
             if path.resolve().parent!=(MODULE/'Connections').resolve():raise ValueError('Select the existing connection in this companion Connections folder')
             connection=unlock(path,self.password.get());self.password.set('')

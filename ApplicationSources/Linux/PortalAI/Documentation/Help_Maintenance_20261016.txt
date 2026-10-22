@@ -1,0 +1,58 @@
+PortalAI Help, context menus and maintenance refresh — 2026-10-16
+
+Help contains 55 topics in six categories. Each category is alphabetical; Quick
+start is pinned first. Search matches titles, aliases and topic text. Direct
+context links clear incompatible filters and select the correct topic. Light,
+dark and narrow layouts retain the existing theme and scrollable content.
+
+The six primary Controls buttons remain. Startup already uses current saved
+model policy, idle switching and StartupGate; its behavior was reviewed and its
+tests passed without changing model admission. Stop's existing ownership filter
+now recognizes CPU music, Radeon edit/inpaint, music-understanding/CLAP, protein
+design and FFmpeg/FFprobe/KiCad workers. Account/profile, mission, schedule and
+model handoff gates are preserved. Stop does not log out or seal an account.
+
+Maintenance separates checks/reports, cleanup plans and explicit data deletion.
+Context menus now use the real current button labels, handlers and help topics.
+Queued actions still recheck account and Exit guards. Cleanup/deletion scope,
+confirmation, storage reserve rules and saved failure/timeout handling remain.
+Root-only Cleanup requires its existing verified historical baseline; a missing
+baseline blocks Apply rather than authorizing unverified moves.
+
+The alphabetical diagnostic selector adds Projection, Portable Recovery, Runtime
+Repair, MusicGen CPU, offline Demucs, FFmpeg, native FLUX and offline VM checks.
+These bounded public-file checks also appear in System Test and Full Diagnosis;
+media checks include the media subset. Optional missing payloads are warnings;
+missing source/I/O failures are failures. No private account/connection data is
+opened. Size checks and receipt inventory are explicitly not full hashes,
+inference, pairing, repair or proof of hardware compatibility.
+
+Dependency Isolation Test Standard includes account libraries; Full includes
+Windows music understanding/Demucs and an independent ROCm process with ordered
+Torch/vision/audio imports. MMAudio and ACE use the reviewed codec-free layers.
+Existing isolated interpreter and offline model-library settings remain.
+
+Validation: 137 focused tests passed, one unavailable Windows symlink fixture
+skipped. This includes Help Tk navigation/themes, menu dispatch/confirmation,
+GUI maintenance/Stop, Startup/model switching, account UX and chat handoff.
+One of the passing tests checked installed D source/assets by metadata only;
+all other fixtures ran from internal C with synthetic data. A real Windows
+disposable-worker Stop run passed six checks: owned worker stopped, GUI and
+foreign executable preserved, Stop timestamp persisted, stale restoration
+invalidated, normal Stop succeeded. Light/dark/narrow Help rendered and inspected.
+No live owner account, real model/GPU restore or HA Send was exercised here.
+
+HA 0.5.11, upload/HTTP crypto, history/previews, admission/no-replay and Recovery
+0.1.0 files remain unchanged. Model assets, hardware policy and account state
+remain unchanged. Broad clean-installer tests retain the owner's prior waiver;
+this update does not claim recipient hardware acceptance.
+
+Activation: after saving work, Exit PortalAI normally and let account sealing
+finish, then reopen and sign in. No Projection restart is required for this
+Help/maintenance-only change. Do not force-close or eject an active account.
+
+Recovery is an exact source/manual snapshot with old/new SHA-256 manifest under
+Maintenance/Patches/HelpMaintenance_before_20261016 and an internal-C mirror.
+It is not a full SSD or user-data backup. Rollback only after normal Exit: restore
+the manifest's previous source files; remove newly added files only if they still
+match its postimage hashes. Do not restore config/accounts or an older HA bundle.

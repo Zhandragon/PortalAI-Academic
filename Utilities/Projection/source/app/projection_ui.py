@@ -36,11 +36,18 @@ class Window:
         for label,command in [('Create / Unlock',self.load),('Save changes',self.save),('Change unlock password',self.change_password),('Lock',self.lock)]:ttk.Button(bar,text=label,command=command).pack(side='left',padx=(0,5))
         controls=ttk.Frame(page);controls.grid(row=8,column=0,columnspan=3,sticky='w')
         ttk.Button(controls,text='Start projection',command=self.start).pack(side='left',padx=(0,6));ttk.Button(controls,text='Stop projection',command=self.stop).pack(side='left',padx=(0,6));ttk.Button(controls,text='Open PortalAI locally',command=self.open_portalai).pack(side='left')
+        if sys.platform=='darwin':ttk.Button(controls,text='Screen permission',command=self.screen_permission).pack(side='left',padx=6)
         ttk.Label(page,textvariable=self.status,wraplength=710).grid(row=9,column=0,columnspan=3,sticky='ew',pady=12)
         self.instructions=tk.Text(page,height=12,wrap='word',font=('Segoe UI',10));self.instructions.grid(row=10,column=0,columnspan=3,sticky='nsew')
         self.show('No Home Assistant password, cookie or API token is requested or saved.\n\n1. Install the supplied receiver on your HA instance once.\n2. Create/unlock a connection here. Copy its public pairing request to HA on a trusted device.\n3. Start projection, then use the HA card to open PortalAI and sign in.\n\nThe unlock password encrypts connection details and a projection-only device key at rest. It is separate from your PortalAI and HA passwords. A process with unrestricted access as this OS user can tamper with this app while unlocked.\n\nWindows or Linux X11/XWayland; no incoming LAN port or router change is needed.')
         self.refresh();self.timer=app.after(100,self.tick);app.protocol('WM_DELETE_WINDOW',self.close)
-    def show(self,text):self.instructions.configure(state='normal');self.instructions.delete('1.0','end');self.instructions.insert('1.0',text);self.instructions.configure(state='disabled')
+    def screen_permission(self):
+        try:
+            import Quartz
+            granted=Quartz.CGPreflightScreenCaptureAccess() or Quartz.CGRequestScreenCaptureAccess()
+            self.status.set('Screen permission granted. Stop/start projection to activate it.' if granted else 'Enable Screen Recording for the bundled Python/Terminal in System Settings > Privacy & Security, then quit/reopen Projection. Native HA controls do not require screen recording.')
+        except Exception:self.status.set('Screen permission check failed. Run Check Mac Runtime.command and review README-MAC.txt.')
+    def show(self,text):self.instructions.configure(state='normal');self.instructions.delete('1.0','end');self.instructions.insert('1.0',text.replace('Windows or Linux X11/XWayland;','Windows, Linux X11/XWayland, or macOS 14+;'));self.instructions.configure(state='disabled')
     def refresh(self):
         self.files=sorted((MODULE/'Connections').glob('*.enc'));self.saved['values']=[p.stem for p in self.files]
     def new(self):
