@@ -3,21 +3,21 @@
   "packages": {
     "Windows": {
       "archive": "PortalAI-Academic-Windows-Installer-20261022-r4.zip",
-      "bytes": 338249241,
-      "sha256": "85796febe85daf1c956b01c851ca30641c1392ae7d9483d7f430fbc664f58875",
+      "bytes": 544827808,
+      "sha256": "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d",
       "path": "",
       "parts": [
         {
           "name": "PortalAI-Academic-Windows-Installer-20261022-r4.zip",
-          "bytes": 338249241,
-          "sha256": "85796febe85daf1c956b01c851ca30641c1392ae7d9483d7f430fbc664f58875"
+          "bytes": 544827808,
+          "sha256": "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d"
         }
       ],
       "files": [
         {
           "name": "PACKAGE_SHA256.json",
-          "bytes": 875,
-          "sha256": "100c5ac47525e5076fdb88a50ddf2acaf5824d29d17914958da0709bbfe0443c"
+          "bytes": 1032,
+          "sha256": "331379c193e3afe5f425fc5dde7a7747879fcadb83e3c98e0585e9a965d5d765"
         },
         {
           "name": "payload.zip",
@@ -30,9 +30,14 @@
           "sha256": "12613b8002e051cc86d8e221408151862842b64f35f7b315a7f0db8ac939ee1b"
         },
         {
+          "name": "qemu-w64-setup-20260811.exe",
+          "bytes": 206615928,
+          "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+        },
+        {
           "name": "release.json",
-          "bytes": 139792867,
-          "sha256": "5e50c2100b037854f52e78aa32153a64ac46a8e664aa1f4a204b75ef01684976"
+          "bytes": 139792924,
+          "sha256": "5dfa18e8613a15ff6562438fa2873f45dc0fc3abe62e2eefafe2298da187632d"
         },
         {
           "name": "sox-14.4.2-win32.zip",
@@ -41,8 +46,8 @@
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 3905,
-          "sha256": "273e78654cf0f356bebcf16ce88dee4347e1a610936cab9676e1e1b9c9e399a7"
+          "bytes": 4193,
+          "sha256": "c6b20d2519878e31e02b0878320cf79c260e9ba8d20a216a8487262e1c43d08c"
         },
         {
           "name": "storage-plan.json",
@@ -51,10 +56,10 @@
         }
       ],
       "storage_preflight": {
-        "bootstrap_bytes": 794910215,
-        "bootstrap_files": 8,
-        "install_bytes": 171533069962,
-        "install_files": 303901
+        "bootstrap_bytes": 1208105212,
+        "bootstrap_files": 9,
+        "install_bytes": 171946264959,
+        "install_files": 303902
       }
     },
     "Linux": {

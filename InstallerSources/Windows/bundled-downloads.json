@@ -1,0 +1,20 @@
+{
+  "release": "PortalAI-2026.10.22-r4-Academic-Windows",
+  "purpose": "Public distribution includes the original verified archives; no donor-machine cache is required.",
+  "artifacts": [
+    {
+      "id": "sox-14.4.2",
+      "url": "https://downloads.sourceforge.net/project/sox/sox/14.4.2/sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662",
+      "bundled_file": "sox-14.4.2-win32.zip"
+    },
+    {
+      "id": "qemu-20260811",
+      "url": "https://qemu.weilnetz.de/w64/qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f",
+      "bundled_file": "qemu-w64-setup-20260811.exe"
+    }
+  ]
+}

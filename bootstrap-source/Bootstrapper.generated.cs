@@ -17,15 +17,16 @@ internal sealed class Item {
 internal static class Bootstrap {
     internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r4";
     internal const string Archive = "PortalAI-Academic-Windows-Installer-20261022-r4.zip";
-    internal const string ArchiveHash = "85796febe85daf1c956b01c851ca30641c1392ae7d9483d7f430fbc664f58875";
+    internal const string ArchiveHash = "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d";
     internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r4-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261022-r4.zip", 338249241L, "85796febe85daf1c956b01c851ca30641c1392ae7d9483d7f430fbc664f58875") };
-    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 875L, "100c5ac47525e5076fdb88a50ddf2acaf5824d29d17914958da0709bbfe0443c"),
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261022-r4.zip", 544827808L, "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1032L, "331379c193e3afe5f425fc5dde7a7747879fcadb83e3c98e0585e9a965d5d765"),
 new Item("payload.zip", 302323224L, "65237234a72542b3448cf429a81423ccd770aad32313a9a706fdba26ef40049d"),
 new Item("PortalAI-Academic-Install.exe", 11698176L, "12613b8002e051cc86d8e221408151862842b64f35f7b315a7f0db8ac939ee1b"),
-new Item("release.json", 139792867L, "5e50c2100b037854f52e78aa32153a64ac46a8e664aa1f4a204b75ef01684976"),
+new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
+new Item("release.json", 139792924L, "5dfa18e8613a15ff6562438fa2873f45dc0fc3abe62e2eefafe2298da187632d"),
 new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
-new Item("START_HERE.txt", 3905L, "273e78654cf0f356bebcf16ce88dee4347e1a610936cab9676e1e1b9c9e399a7"),
+new Item("START_HERE.txt", 4193L, "c6b20d2519878e31e02b0878320cf79c260e9ba8d20a216a8487262e1c43d08c"),
 new Item("storage-plan.json", 190784L, "06d4f6ec54d0c64a05faebb78da84b36431165bb12257dceb7da7843d273a425") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
@@ -52,7 +53,7 @@ new Item("storage-plan.json", 190784L, "06d4f6ec54d0c64a05faebb78da84b36431165bb
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 171533069962L : 794910215L, includeInstall ? 303901L : 8L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 171946264959L : 1208105212L, includeInstall ? 303902L : 9L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -163,7 +164,7 @@ internal sealed class SetupForm : Form {
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 339 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 545 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
         start.Text="Download and install"; start.AutoSize=true; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);

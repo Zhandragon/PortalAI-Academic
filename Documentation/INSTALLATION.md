@@ -76,3 +76,5 @@ The current installers include web tools, collaborating agents and configurable 
 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
 
+
+Windows r4 installers include the original checksum-pinned QEMU and SoX archives. Setup reads and verifies these bundled files without contacting their expired-certificate download endpoints. The package is self-contained for these two dependencies; it does not depend on the maintainer's computer. Other components still require downloads. Linux already includes verified native QEMU files. macOS does not include PortalAI VM transport and does not download this Windows QEMU artifact. HTTPS verification remains enabled.
