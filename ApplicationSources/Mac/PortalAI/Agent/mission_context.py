@@ -34,6 +34,18 @@ def digest(value):
     return hashlib.sha256(encoded(value).encode("utf-8")).hexdigest()
 
 
+def result_value(value):
+    """Render JSON tool evidence as data, without double-encoding it as text."""
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+            if isinstance(parsed, (dict, list)):
+                return parsed
+        except (ValueError, TypeError):
+            pass
+    return value
+
+
 def post(path, value):
     req = urllib.request.Request(_instance_url('qwen', '')+path, encoded(value).encode("utf-8"),
                                  headers={"Content-Type": "application/json"})
@@ -44,8 +56,8 @@ def post(path, value):
 
 
 class Budget:
-    def __init__(self, context_tokens, api=post):
-        self.limit = int(context_tokens)-OUTPUT_TOKENS-HEADROOM
+    def __init__(self, context_tokens, api=post, output_tokens=OUTPUT_TOKENS):
+        self.limit = int(context_tokens)-output_tokens-HEADROOM
         self.api = api
         self.method = "rendered-template-tokenizer"
         self.cache = {}
@@ -56,7 +68,7 @@ class Budget:
         if self.method == "rendered-template-tokenizer":
             try:
                 prompt = self.api("/apply-template", {"messages": messages,
-                    "chat_template_kwargs": {"enable_thinking": False}})["prompt"]
+                    "chat_template_kwargs": {"enable_thinking": True}})["prompt"]
                 if not isinstance(prompt, str): raise ValueError("Invalid rendered prompt")
                 tokens = self.api("/tokenize", {"content": prompt, "add_special": True})["tokens"]
                 if not isinstance(tokens, list) or not all(type(t) is int for t in tokens):
@@ -111,9 +123,9 @@ def history_page(mission, start=1, count=1):
         for i, row in enumerate(rows)]})
 
 
-def build_messages(store, mission, instruction, children, notes, context_tokens, api=post):
+def build_messages(store, mission, instruction, children, notes, context_tokens, api=post, *, rejected_action=None, rejection_reason=None, output_tokens=OUTPUT_TOKENS):
     from mission_runner import MissionContextError
-    budget = Budget(context_tokens, api)
+    budget = Budget(context_tokens, api, output_tokens)
     index = rolling_index(store, mission)
     # Critical state is never sourced from a summary or shortened to fit.
     base = {"objective": mission["objective"], "mode": mission["mode"],
@@ -122,6 +134,31 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
             "subtasks": [{"id": c["id"], "status": c["status"], "objective": c["objective"]} for c in children],
             "completed_records": len(mission["history"]),
             "history_rule": "Records 1..completed_records already ran. Use history(start,count) for evidence before repeating an older action."}
+    if mission.get('schedule_id'):
+        from mission_schedule import Schedules
+        schedule = Schedules(store.root).load(mission['schedule_id'])
+        if schedule.get('active_run') != mission['id'] or schedule['mode'] != mission['mode']:
+            raise MissionContextError('This mission is not the current scheduled run; review its schedule before planning.')
+        base['scheduled_run'] = {
+            'occurrence': schedule['runs_started'],
+            'previous_runs_completed': schedule['runs_completed'],
+            'run_limit': schedule['max_runs'] or 'until stopped',
+            'rule': ('This is a later occurrence; the first run has already ended. If the objective distinguishes first-run work from next-run or recurring work, perform the next-run or recurring work NOW. Do not defer it merely because the objective is repeated. '
+                     if schedule['runs_completed'] else 'This is the first occurrence. If the objective distinguishes first-run work from later work, perform the first-run work now. ')+
+                    'Saved memory may describe previous occurrences. Current history contains only actions in this occurrence; a previous run completing does not finish this run.'}
+    if mission['history']:
+        row = mission['history'][-1]
+        base['last_completed_step'] = {
+            'step': len(mission['history']), 'execution': 'already completed',
+            'action': result_value(clip(row['action'], 500)),
+            'result': result_value(clip(row.get('result', ''), 900)),
+            'next_step': 'Use this result to choose the next unfinished action. Do not repeat this action just to obtain the same result.'}
+    if rejected_action is not None:
+        base['planning_feedback'] = {
+            'rejected_proposal': rejected_action,
+            'execution': 'not executed; no action budget was consumed',
+            'reason': rejection_reason or 'This repeats the last completed action. Its result is already available above.',
+            'required': 'Return the next valid action using the objective and completed evidence. Complete only if all required work for THIS occurrence is verified. If waiting for a real external change, wait. Do not fabricate success.'}
     if mission.get('review_instructions'):
         # Current user guidance is critical state, never an optional memory hit
         # or a clipped excerpt. Older versions remain in the saved review log.
@@ -135,10 +172,24 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
     from academic_policy import instruction_suffix
     instruction += instruction_suffix(store.root)
     def messages(value):
-        return [{"role": "system", "content": instruction}, {"role": "user", "content": encoded(value)}]
+        # Present actual actions and their results as exchanges, as in chat.
+        # The ledger remains immutable; these are evidence, not replay requests.
+        state = dict(value)
+        last = state.pop('last_completed_step', None)
+        feedback = state.pop('planning_feedback', None)
+        result = [{"role": "system", "content": instruction}, {"role": "user", "content": encoded(state)}]
+        if last:
+            result.append({'role':'assistant','content':encoded(last['action'])})
+            evidence={'last_completed_step':last}
+            if 'scheduled_run' in state:evidence['scheduled_run']=state['scheduled_run']
+            result.append({'role':'user','content':encoded(evidence)})
+        if feedback:
+            result.append({'role':'assistant','content':encoded(feedback['rejected_proposal'])})
+            result.append({'role':'user','content':encoded({'planning_feedback':feedback})})
+        return result
     if budget.count(messages(base)) > budget.limit:
         raise MissionContextError("The complete objective, review instructions, access mode and child state do not fit this model's context. No action was executed; choose a larger context or shorten the objective/review instructions.")
-    full = {**base, "recent_history": [{"step": i+1, **row} for i, row in enumerate(mission["history"])],
+    full = {**base, "recent_history": [{"step": i+1, **row, "result": result_value(row.get('result', ''))} for i, row in enumerate(mission["history"])],
             "recent_notes": notes}
     compacted = budget.count(messages(full)) > int(budget.limit*.78) or len(mission["history"]) > 8
     chosen = dict(base)
@@ -158,7 +209,7 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
         recent = []
         for i in range(len(mission["history"])-1, max(-1, len(mission["history"])-5), -1):
             row = mission["history"][i]
-            card = {"step": i+1, "action": clip(row["action"], 500), "result": clip(row.get("result", ""), 900)}
+            card = {"step": i+1, "action": result_value(clip(row["action"], 500)), "result": result_value(clip(row.get("result", ""), 900))}
             if add("recent_history", [card]+recent): recent.insert(0, card)
         add("recent_notes", clip(notes, 1000))
         words = set(re.findall(r"\w+", mission["objective"].lower()))
@@ -178,6 +229,6 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
     atomic_json(store.folder(mission["id"])/"context-status.json", {
         "compacted": compacted, "through": index["through"], "history_records": len(mission["history"]),
         "input_tokens_or_upper_bound": count, "count_method": budget.method, "context_tokens": context_tokens,
-        "output_tokens_reserved": OUTPUT_TOKENS, "headroom_tokens": HEADROOM,
+        "output_tokens_reserved": output_tokens, "headroom_tokens": HEADROOM,
         "full_history_preserved": True, "updated_at": time.time()})
     return result

@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-22 r4):** Scheduled missions start an idle engine and show live activity with navigable results. Missing managed executables trigger a review-and-repair popup backed by verified installation copies. Windows also includes **Repair PortalAI.exe**. [Details and validation](Documentation/RECOVERY-MISSIONS-20261022.md).
+**Latest update (2026-10-22 r5):** Missions receive explicit completed results and scheduled-run context, correct repeated or malformed proposals before execution, and show actual reasoning in Live activity. Use the standard 4B model or a more capable installed model for conditional recurring work: 1.7B did not reliably pass the memory/scheduling test. [Details, validation and limits](Documentation/MISSION-PLANNING-20261022.md).
 
 ## Download and install
 

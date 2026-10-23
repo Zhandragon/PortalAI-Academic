@@ -132,7 +132,7 @@ class MissionProgressTests(unittest.TestCase):
 
 class StreamingTests(unittest.TestCase):
     setUp=MissionProgressTests.setUp
-    def serve(self,tail):
+    def serve(self,tail,initial=None):
         first=threading.Event();release=threading.Event()
         class Handler(http.server.BaseHTTPRequestHandler):
             def log_message(self,*_):pass
@@ -141,7 +141,7 @@ class StreamingTests(unittest.TestCase):
                 if not request.get('stream'):self.send_error(400);return
                 self.send_response(200);self.send_header('Content-Type','text/event-stream');self.end_headers()
                 try:
-                    self.wfile.write(b'data: {"choices":[{"delta":{"content":"{\\"action\\":\\"complete\\"}"},"finish_reason":null}]}\n\n');self.wfile.flush()
+                    self.wfile.write(initial or b'data: {"choices":[{"delta":{"content":"{\\"action\\":\\"complete\\"}"},"finish_reason":null}]}\n\n');self.wfile.flush()
                     first.set();release.wait(5)
                     self.wfile.write(tail);self.wfile.flush()
                 except (BrokenPipeError,ConnectionResetError):pass
@@ -149,6 +149,16 @@ class StreamingTests(unittest.TestCase):
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         self.addCleanup(server.server_close);self.addCleanup(server.shutdown);self.addCleanup(release.set)
         return f'http://127.0.0.1:{server.server_port}/v1/chat/completions',first,release
+
+    def test_reasoning_stream_is_visible_but_not_part_of_executable_json(self):
+        reasoning='Uncommitted reasoning; {"action":"shell","command":"not an action"}'
+        initial=('data: '+json.dumps({'choices':[{'delta':{'reasoning_content':reasoning}}]})+'\n\n').encode()
+        tail=b'data: {"choices":[{"delta":{"content":"{\\"action\\":\\"complete\\"}"},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n'
+        url,first,release=self.serve(tail,initial);release.set()
+        reasoning_parts=[];content=[]
+        result=planning_json(self.root,url,{'messages':[]},on_delta=content.append,on_reasoning=reasoning_parts.append)
+        self.assertEqual(reasoning_parts,[reasoning]);self.assertEqual(''.join(content),'{"action":"complete"}')
+        self.assertEqual(json.loads(result['choices'][0]['message']['content']),{'action':'complete'})
 
     def test_real_stream_exposes_output_before_completion(self):
         url,first,release=self.serve(b'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n')

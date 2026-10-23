@@ -112,7 +112,7 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
         if m.get('review_instructions'):rows+=['','CURRENT REVIEW INSTRUCTIONS',m['review_instructions']]
         if controller.get('error_log'):rows+=['','SUPERVISOR ERROR',controller['error_log']]
         if controller.get('error'):rows+=['','STATUS ERROR',controller['error']]
-        if m.get('status')=='complete' and m.get('history'):rows+=['','FINAL RESULT',readable(m['history'][-1].get('result'))]
+        if m.get('status')=='complete' and m.get('history'):rows+=['','MODEL-REPORTED RESULT',readable(m['history'][-1].get('result'))]
         rows+=['','Use Live activity to follow planning, Results for findings, or Action history for each recorded step.']
         return '\n'.join(rows)
     if not m:return 'No run selected. Choose a current or previous run to inspect its activity and results.'
@@ -130,13 +130,17 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
         return '\n'.join(rows)
     history=m.get('history',[])
     if section=='Results':
-        rows=['RESULTS', 'Completed run' if m.get('status')=='complete' else 'Findings so far; this run has not completed.']
-        selected=[(i,r) for i,r in enumerate(history,1) if r.get('action',{}).get('action') in ('note','complete')]
+        rows=['RESULTS', 'Run ended after the model reported completion. Check the recorded actions in Action history to assess the outcome.' if m.get('status')=='complete' else 'Findings so far; this run has not completed.']
+        selected=[(i,r) for i,r in enumerate(history,1) if r.get('action',{}).get('action') in ('note','remember','complete')]
         if not selected:selected=list(enumerate(history,1))[-5:]
         if not selected:rows+=['','No completed action results yet. Live activity shows what the worker is doing.']
         for i,row in selected:
-            result=row['action'].get('text') if row['action'].get('action')=='note' else row.get('result')
-            rows+=['',f"STEP {i} · {str(row['action'].get('action','Action')).upper()}",readable(result)]
+            action=row['action'];kind=action.get('action')
+            result=action.get('text') if kind=='note' else row.get('result')
+            label='MODEL-REPORTED COMPLETION' if kind=='complete' else str(kind or 'Action').upper()
+            rows+=['',f"STEP {i} · {label}"]
+            if kind=='remember':rows+=['Requested memory key: '+str(action.get('key','')),'Requested value',readable(action.get('text')),'Recorded result']
+            rows.append(readable(result))
         return '\n'.join(rows)
     rows=['ACTION HISTORY','These are saved action outcomes. Model previews are shown separately in Live activity.']
     if not history:rows+=['','No actions have finished.']

@@ -1,2 +1,4 @@
 __pycache__/
 PortalAI Academic * Setup/
+# Generated complete file inventory is shipped inside the release installer.
+/InstallerSources/Windows/release.json

@@ -1,0 +1,612 @@
+{
+  "scope": "Disposable authenticated CPU fixtures only. No owner account work or recipient Aoostar execution.",
+  "finding": "The scheduler can execute runs, but the 1.7B planner confuses completed prior occurrences with the active occurrence and can report completion without the requested write. Typed results, explicit schedule state, bounded correction, prompt shortening, sampling changes and native tool calling did not establish reliable 1.7B completion. A valid action or completion label is not a semantic success check.",
+  "full_schedule_experiments": [
+    {
+      "experiment": "candidate1",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "complete",
+            "text": "schedule_probe"
+          }
+        ],
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_3A732F"
+          },
+          {
+            "action": "complete",
+            "text": "FIRST_PASS_3A732F"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate2",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "complete",
+            "text": "schedule_probe"
+          }
+        ],
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_B115CB"
+          },
+          {
+            "action": "complete",
+            "text": "RUN_COMPLETED"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate3",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate4",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": "RuntimeError: Fixture supervisor exited unexpectedly",
+      "actions": [
+        []
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate5",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": "RuntimeError: Fixture supervisor exited unexpectedly",
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "complete",
+            "text": "FIRST_PASS_09B6F0"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate6",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "complete",
+            "text": ""
+          }
+        ],
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_3ACDD4"
+          },
+          {
+            "action": "complete",
+            "text": "RUN_COMPLETED"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate7",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_ACCA06"
+          },
+          {
+            "action": "complete",
+            "text": "run"
+          }
+        ],
+        [
+          {
+            "action": "complete",
+            "text": "Run completed successfully. Memory key 'schedule_probe' exists with value 'FIRST_PASS_ACCA06'."
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "candidate8",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_3061FA"
+          },
+          {
+            "action": "complete",
+            "text": "run_complete"
+          }
+        ],
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "complete",
+            "text": "run completed"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "acceptance4b-observe",
+      "model": "qwen4-q4",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": "RuntimeError: Fixture supervisor exited unexpectedly",
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_137205"
+          },
+          {
+            "action": "wait",
+            "seconds": 1,
+            "text": "Waiting for the next scheduled run to handle the second pass of the objective."
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "acceptance17-final",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": null,
+      "actions": [
+        [
+          {
+            "action": "complete",
+            "text": "RUN_COMPLETED"
+          }
+        ],
+        [
+          {
+            "action": "recall",
+            "query": "schedule_probe"
+          },
+          {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_08B520"
+          },
+          {
+            "action": "complete",
+            "text": "complete the run"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "acceptance17-explicit-full",
+      "model": "qwen1.7-q8",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": "RuntimeError: Fixture supervisor exited unexpectedly",
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "branch_probe"
+          },
+          {
+            "action": "remember",
+            "key": "branch_probe",
+            "text": "FIRST_PASS_465E02"
+          },
+          {
+            "action": "remember",
+            "key": "branch_probe",
+            "text": "SECOND_PASS_465E02"
+          },
+          {
+            "action": "complete",
+            "text": "Occurrence completed with branch_probe set to SECOND_PASS_465E02."
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "acceptance4b-full-final",
+      "model": "qwen4-q4",
+      "passed": false,
+      "exact_memory_writes_verified": false,
+      "error": "PermissionError: [Errno 13] Permission denied: 'D:\\\\Backups\\\\PortalAI-Planner-Progress-20261022\\\\acceptance4b-full-final-fixture-1792720193\\\\Private\\\\Users\\\\133ca851243346c0b6b937ac0620f927\\\\Workspace\\\\Data\\\\Missions\\\\be1c9ea803ef5342a6b6ead8c2ef08a0\\\\mission.json'",
+      "actions": [
+        [
+          {
+            "action": "recall",
+            "query": "continuation_probe"
+          },
+          {
+            "action": "remember",
+            "key": "continuation_probe",
+            "text": "SECOND_PASS_3D768E"
+          }
+        ]
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    }
+  ],
+  "planning_only_comparisons": [
+    {
+      "experiment": "sampling",
+      "scope": "Planning-only real Qwen3-1.7B-Q8 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "nonthinking_07",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "SECOND_PASS_EEB038"
+          },
+          "correct": true,
+          "requests": 2,
+          "seconds": 22.9
+        },
+        {
+          "case": "nonthinking_07_repeat",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_D5A5D2"
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 12.5
+        },
+        {
+          "case": "thinking_06",
+          "action": {
+            "action": "complete",
+            "text": "Run completed successfully."
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 77.9
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "sampling-focus",
+      "scope": "Planning-only real Qwen3-1.7B-Q8 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "focused_nonthinking_0",
+          "action": {
+            "action": "complete",
+            "text": "Look up the memory key schedule_probe. If it does not exist, save FIRST_PASS_88C6D7, then complete the run. On the next scheduled run, read that value, replace it with SECOND_PASS_88C6D7, then complete."
+          },
+          "correct": false,
+          "requests": 3,
+          "seconds": 38.0
+        },
+        {
+          "case": "focused_nonthinking_1",
+          "action": {
+            "action": "history",
+            "start": 1,
+            "count": 1
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 20.5
+        },
+        {
+          "case": "focused_nonthinking_2",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "FIRST_PASS_9702A9"
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 21.9
+        },
+        {
+          "case": "focused_thinking",
+          "action": {
+            "action": "complete",
+            "text": "schedule_probe"
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 59.4
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "sampling-compact",
+      "scope": "Planning-only real Qwen3-1.7B-Q8 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "compact_nonthinking_0",
+          "correct": false,
+          "error": "MissionContextError(\"Planner failed after one correction attempt: Action {'action': 'remember', 'key': 'schedule_probe', 'text': 'SECOND_PASS_1B7DB8'} is not available in observe mode No rejected action was executed; review the objective or use a more capable model.\")",
+          "requests": 2
+        },
+        {
+          "case": "compact_nonthinking_1",
+          "correct": false,
+          "error": "MissionContextError(\"Planner failed after one correction attempt: Action {'action': 'remember', 'key': 'schedule_probe', 'text': 'SECOND_PASS_C08F08'} is not available in observe mode No rejected action was executed; review the objective or use a more capable model.\")",
+          "requests": 2
+        },
+        {
+          "case": "compact_nonthinking_2",
+          "correct": false,
+          "error": "MissionContextError(\"Planner failed after one correction attempt: Action {'action': 'recall', 'query': 'schedule_probe'} is not available in observe mode No rejected action was executed; review the objective or use a more capable model.\")",
+          "requests": 2
+        },
+        {
+          "case": "compact_thinking",
+          "correct": false,
+          "error": "MissionContextError(\"Planner failed after one correction attempt: Action {'action': 'message', 'target': 'next_scheduled_run', 'text': 'Replace schedule_probe with SECOND_PASS_B8CEB5'} is not available in observe mode No rejected action was executed; review the objective or use a more capable model.\")",
+          "requests": 2
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "sampling-schema",
+      "scope": "Planning-only real Qwen3-1.7B-Q8 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "schema_nonthinking_0",
+          "action": {
+            "action": "message",
+            "target": "agent",
+            "text": "Lookup finished. Matching saved memory is shown below."
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 11.7
+        },
+        {
+          "case": "schema_nonthinking_1",
+          "action": {
+            "action": "message",
+            "target": "system",
+            "text": "The memory key schedule_probe is set to FIRST_PASS_E6BEFC. Proceeding to the next step."
+          },
+          "correct": false,
+          "requests": 2,
+          "seconds": 7.1
+        },
+        {
+          "case": "schema_nonthinking_2",
+          "action": {
+            "action": "message",
+            "target": "agent",
+            "text": "The memory key 'schedule_probe' is set to 'FIRST_PASS_DB31BB'. Proceeding to the next step."
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 5.1
+        },
+        {
+          "case": "schema_thinking",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "SECOND_PASS_F40CC5"
+          },
+          "correct": true,
+          "requests": 1,
+          "seconds": 40.2
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "sampling-native",
+      "scope": "Planning-only real Qwen3-1.7B-Q8 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "native_nonthinking_0",
+          "action": {
+            "action": "message",
+            "target": "user",
+            "text": "The memory key 'schedule_probe' was found as 'FIRST_PASS_71FFE8'."
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 17.5
+        },
+        {
+          "case": "native_nonthinking_1",
+          "action": {
+            "action": "message",
+            "target": "user",
+            "text": "The memory key 'schedule_probe' was found as 'FIRST_PASS_9AB72D'."
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 5.5
+        },
+        {
+          "case": "native_nonthinking_2",
+          "action": {
+            "action": "message",
+            "target": "user",
+            "text": "The memory key 'schedule_probe' was found as 'FIRST_PASS_E57BFC'."
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 5.5
+        },
+        {
+          "case": "native_thinking",
+          "action": {
+            "action": "note",
+            "text": "SECOND_PASS_A32401"
+          },
+          "correct": false,
+          "requests": 1,
+          "seconds": 41.7
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    },
+    {
+      "experiment": "sampling-4b",
+      "scope": "Planning-only real Qwen3-4B-Q4 CPU comparison. Harness establishes first-run memory and current second occurrence; model proposals are never executed.",
+      "cases": [
+        {
+          "case": "4b_nonthinking",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "SECOND_PASS_993343"
+          },
+          "correct": true,
+          "requests": 1,
+          "seconds": 31.0
+        },
+        {
+          "case": "4b_thinking_1",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "SECOND_PASS_0088B4"
+          },
+          "correct": true,
+          "requests": 1,
+          "seconds": 65.7
+        },
+        {
+          "case": "4b_thinking_2",
+          "action": {
+            "action": "remember",
+            "key": "schedule_probe",
+            "text": "SECOND_PASS_F8BF0C"
+          },
+          "correct": true,
+          "requests": 1,
+          "seconds": 69.2
+        }
+      ],
+      "sealed": true,
+      "fixture_listener_stopped": true
+    }
+  ],
+  "limitation": "Planning-only comparisons establish first-run memory with test code and never execute model proposals. They do not prove complete scheduled execution; separate live-validation is required.",
+  "discarded_completion_check": "acceptance4b-observe was stopped after an experimental second completion check rewrote a correct completion into a wait for the next scheduled run. That check was removed from the final source. Only invalid/duplicate proposals receive correction.",
+  "explicit_condition_comparison": "The final-source 1.7B Full-mode explicit-condition trial was stopped after it wrote FIRST_PASS and then SECOND_PASS in the same first occurrence despite an explicit one-write-per-occurrence limit. Clearer wording alone did not establish reliable 1.7B execution.",
+  "interrupted_final_4b_trial": "The additional final-source 4B Full-mode trial recorded correct FIRST and SECOND writes, then the harness encountered a Windows PermissionError reading mission.json. It was stopped and sealed; no acceptance pass or model handoff pass is claimed. Further model experiments ended at the user request to finish the current enhancements."
+}

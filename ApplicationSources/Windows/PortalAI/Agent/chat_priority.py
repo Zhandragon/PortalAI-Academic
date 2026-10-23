@@ -58,7 +58,7 @@ class Foreground:
         self.stack.close();self.acquired=False
 
 
-def planning_json(root,url,payload=None,timeout=180,*,on_delta=None,check_cancel=None):
+def planning_json(root,url,payload=None,timeout=180,*,on_delta=None,on_reasoning=None,check_cancel=None):
     """Interrupt only a model-planning HTTP call when direct chat takes priority.
 
     The socket is shut down, including while waiting for response headers. No
@@ -94,6 +94,9 @@ def planning_json(root,url,payload=None,timeout=180,*,on_delta=None,check_cancel
                     for choice in event.get('choices',[]):
                         if choice.get('index',0)!=0:continue
                         delta=choice.get('delta') or {}
+                        reasoning=delta.get('reasoning_content') or ''
+                        if not isinstance(reasoning,str):raise ValueError('Invalid model reasoning text')
+                        if reasoning and on_reasoning:on_reasoning(reasoning)
                         text=delta.get('content') or ''
                         if not isinstance(text,str):raise ValueError('Invalid model stream text')
                         content.append(text)
@@ -108,6 +111,9 @@ def planning_json(root,url,payload=None,timeout=180,*,on_delta=None,check_cancel
                 if on_delta is not None:
                     choice=parsed['choices'][0]
                     if choice.get('finish_reason')!='stop':raise RuntimeError('Model planning response was incomplete; no action executed')
+                    reasoning=choice['message'].get('reasoning_content') or ''
+                    if not isinstance(reasoning,str):raise ValueError('Invalid model reasoning text')
+                    if reasoning and on_reasoning:on_reasoning(reasoning)
                     on_delta(choice['message']['content'])
                 result.put((True,parsed))
         except Exception as exc:result.put((False,exc))

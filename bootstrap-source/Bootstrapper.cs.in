@@ -18,7 +18,7 @@ internal static class Bootstrap {
     internal const string Source = "@SOURCE@";
     internal const string Archive = "@ARCHIVE@";
     internal const string ArchiveHash = "@ARCHIVE_HASH@";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r4-Windows";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r5-Windows";
     internal static readonly Item[] Parts = new Item[] { @PARTS@ };
     internal static readonly Item[] Files = new Item[] { @FILES@ };
     internal static string Digest(string path) {
@@ -62,7 +62,7 @@ internal static class Bootstrap {
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261022-r4";
+                            request.UserAgent="PortalAI-Academic-Installer/20261022-r5";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");

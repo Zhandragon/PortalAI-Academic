@@ -15,19 +15,19 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r4";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261022-r4.zip";
-    internal const string ArchiveHash = "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r4-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261022-r4.zip", 544827808L, "848ef3908bee94b003aa27a716c18e5d1fec019b397180ecb1e601baa6926b5d") };
-    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1032L, "331379c193e3afe5f425fc5dde7a7747879fcadb83e3c98e0585e9a965d5d765"),
-new Item("payload.zip", 302323224L, "65237234a72542b3448cf429a81423ccd770aad32313a9a706fdba26ef40049d"),
-new Item("PortalAI-Academic-Install.exe", 11698176L, "12613b8002e051cc86d8e221408151862842b64f35f7b315a7f0db8ac939ee1b"),
+    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r5";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261022-r5.zip";
+    internal const string ArchiveHash = "43fa59773dbb28857dc2a7e0ca4b6018c847a8e63354f6ee4ee3719c6912b7be";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261022-r5-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261022-r5.zip", 544836630L, "43fa59773dbb28857dc2a7e0ca4b6018c847a8e63354f6ee4ee3719c6912b7be") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1032L, "68301cb88c0c86ebed0de5cf720a8864007cf892fc20eb900ad44e016390c336"),
+new Item("payload.zip", 302332476L, "ff9d364acc1e4fc4aa5531f5b51b8b64ddb375afb4d474d1749e744740d8cf0b"),
+new Item("PortalAI-Academic-Install.exe", 11698176L, "b4683897a50f19a485aeb3b728a50cb2d7145ed82e5eca51d30d9146360a5a58"),
 new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
-new Item("release.json", 139792924L, "5dfa18e8613a15ff6562438fa2873f45dc0fc3abe62e2eefafe2298da187632d"),
+new Item("release.json", 139793516L, "732fa129995070715c86a619712c3f5f94d1abd54ea671d764d939f774899730"),
 new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
 new Item("START_HERE.txt", 4193L, "c6b20d2519878e31e02b0878320cf79c260e9ba8d20a216a8487262e1c43d08c"),
-new Item("storage-plan.json", 190784L, "06d4f6ec54d0c64a05faebb78da84b36431165bb12257dceb7da7843d273a425") };
+new Item("storage-plan.json", 190784L, "b14c5b995b6d78c1ae015ac33d45cd325610dcdf4ee6a71b12174b2b0575097f") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -53,7 +53,7 @@ new Item("storage-plan.json", 190784L, "06d4f6ec54d0c64a05faebb78da84b36431165bb
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 171946264959L : 1208105212L, includeInstall ? 303902L : 9L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 171946313386L : 1208123878L, includeInstall ? 303904L : 9L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -69,7 +69,7 @@ new Item("storage-plan.json", 190784L, "06d4f6ec54d0c64a05faebb78da84b36431165bb
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261022-r4";
+                            request.UserAgent="PortalAI-Academic-Installer/20261022-r5";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
