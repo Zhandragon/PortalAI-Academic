@@ -71,6 +71,10 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 
 **Setup supplies Python and the selected runtime libraries and models**, using bundled files or verified downloads. A separate system Python or CUDA Toolkit installation is normally unnecessary for the supplied runtimes; custom source builds or extensions may need additional development tools. Install GPU drivers through the operating system or GPU vendor. Internet is needed during setup, and available RAM/VRAM must fit the selected models and workflows. The installer checks destination disk space separately.
 
+> **Windows publisher signing and antivirus:** Publicly trusted Windows code signing through commercial certificate authorities or signing services involves fees and publisher identity verification. Because of the cost, the author has not yet completed this process for PortalAI, so its Windows installers remain unsigned and may display **Unknown publisher** or SmartScreen warnings. See [Microsoft's signing options and costs](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/code-signing-options).
+>
+> Avast and other antivirus products may also quarantine the llama.cpp inference server (`llama-server.exe`), preventing model startup. Antivirus detections require separate review; a publisher signature does not certify software as malware-free or guarantee that SmartScreen or antivirus warnings disappear. See [Microsoft's explanation of signing and reputation](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/smartscreen-reputation).
+
 ### Prepare the installation drive
 
 **Prepare the drive for the operating system that will run PortalAI.** Use the following formats for both the extracted setup folder and installed application, including on external SSDs and USB drives:
