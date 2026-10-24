@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r8):** Reviewed account-connection import, selective mission/history loading, remembered chat selection and recovery with fewer plaintext writes. The r7 interface and installer fixes remain included. [Changes and validation](Documentation/LAZY-STARTUP-CONNECTIONS-20261024-r8.md).
+**Latest update (2026-10-24 r9):** Removes the one-off mission migration workflow from public distributions. General encrypted connections, selective history loading, recovery, chat selection and the r7 interface/installer improvements remain. [Changes and validation](Documentation/DISTRIBUTION-SCOPE-20261024-r9.md).
 
 **Interface update (2026-10-24 r7):** Right-click actions for missions and schedules, confirmations inside PortalAI, polished Projection borders/themes, and current-download plus overall installer progress. [Changes and validation](Documentation/INTERFACE-INSTALLER-20261024-r7.md).
 

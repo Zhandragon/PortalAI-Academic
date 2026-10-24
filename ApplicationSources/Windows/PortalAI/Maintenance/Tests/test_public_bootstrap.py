@@ -1,4 +1,4 @@
-"""The setup entry must retain ordinary preflight, instance and diagnostics."""
+"""Public startup retains preflight and rejects one-off mission migration arguments."""
 from pathlib import Path
 import contextlib
 import importlib.util
@@ -13,15 +13,15 @@ spec=importlib.util.spec_from_file_location('setup_bootstrap_under_test',ROOT/'C
 bootstrap=importlib.util.module_from_spec(spec);spec.loader.exec_module(bootstrap)
 
 
-class SetupBootstrapTests(unittest.TestCase):
+class PublicBootstrapTests(unittest.TestCase):
     def test_default_launch_unchanged(self):
         self.assertEqual(bootstrap.gui_arguments(ROOT,[]),[str(ROOT/'ControlCenter/PortableAI_GUI.py'),'--root',str(ROOT)])
 
-    def test_explicit_paths_are_literal_data(self):
-        request='folder with spaces/setup request.json'
-        receipt='folder with spaces/setup receipt.json'
-        result=bootstrap.gui_arguments(ROOT,['--account-setup',request,'--account-setup-receipt',receipt])
-        self.assertEqual(result[-4:],['--account-setup',request,'--account-setup-receipt',receipt])
+    def test_one_off_mission_import_is_not_a_public_startup_option(self):
+        for flag in ('--account-setup','--account-setup-receipt'):
+            with self.subTest(flag=flag),contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit) as exc:
+                bootstrap.gui_arguments(ROOT,[flag,'synthetic-request.json'])
+            self.assertEqual(exc.exception.code,2)
 
     def test_receipt_requires_setup_and_unknown_arguments_fail(self):
         for arguments in (['--account-setup-receipt','receipt.json'],['--root','elsewhere'],['--account-setup']):
@@ -29,7 +29,7 @@ class SetupBootstrapTests(unittest.TestCase):
                 bootstrap.gui_arguments(ROOT,arguments)
             self.assertEqual(exc.exception.code,2)
 
-    def test_setup_uses_normal_startup_and_cleanup(self):
+    def test_normal_startup_and_cleanup(self):
         events=[]
         runtime=types.ModuleType('account_runtime');runtime.AccountRuntimeUnavailable=RuntimeError
         runtime.preflight=lambda:events.append('preflight')
@@ -45,7 +45,7 @@ class SetupBootstrapTests(unittest.TestCase):
         diagnostics.record=lambda text:None
         diagnostics.stderr=lambda text:None
         tk=types.ModuleType('tkinter');tk.Tk=type('Tk',(),{'report_callback_exception':lambda *args:None})
-        argv=['bootstrap.py','--account-setup','request.json','--account-setup-receipt','receipt.json']
+        argv=['bootstrap.py']
         def launch(path,run_name):
             events.append('gui')
             self.assertEqual(sys.argv,bootstrap.gui_arguments(ROOT,argv[1:]))

@@ -1,3 +1,6 @@
+SUPERSEDED SCOPE: r9 removes the one-off import workflow from public distributions.
+See Distribution_Scope_20261024_r9.txt. The remaining r8 changes are retained.
+
 PortalAI October 24, 2026 r8: reviewed Aoostar integration
 
 Account connections can be imported explicitly by a signed-in administrator,

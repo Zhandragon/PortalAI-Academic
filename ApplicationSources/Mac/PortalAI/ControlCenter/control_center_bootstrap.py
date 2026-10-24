@@ -20,19 +20,10 @@ def _append(path: Path, text: str) -> None:
 
 
 def gui_arguments(root: Path, arguments: list[str]) -> list[str]:
-    """Forward explicit setup data through the normal authenticated startup."""
+    """Start the public application with its normal authenticated account flow."""
     parser = argparse.ArgumentParser(description="Open PortalAI with normal account sign-in")
-    parser.add_argument("--account-setup", help="User setup JSON to import after sign-in")
-    parser.add_argument("--account-setup-receipt", help="New file for the sanitized setup receipt")
-    options = parser.parse_args(arguments)
-    if options.account_setup_receipt and not options.account_setup:
-        parser.error("--account-setup-receipt requires --account-setup")
-    result = [str(root / "ControlCenter" / "PortableAI_GUI.py"), "--root", str(root)]
-    if options.account_setup:
-        result.extend(["--account-setup", options.account_setup])
-    if options.account_setup_receipt:
-        result.extend(["--account-setup-receipt", options.account_setup_receipt])
-    return result
+    parser.parse_args(arguments)
+    return [str(root / "ControlCenter" / "PortableAI_GUI.py"), "--root", str(root)]
 
 
 def main() -> int:

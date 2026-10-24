@@ -1,0 +1,15 @@
+{
+  "release": "v2026.10.21-r2",
+  "publication_checks": "PUBLISH-VALIDATION.json",
+  "web_agent_checks": "WebAgents/validation-final.json",
+  "mac_projection_checks": "MacProjection/validation.json",
+  "previous_release_checks": "VALIDATION-before-WebAgents.json",
+  "native_Mac_tested": false,
+  "live_HA_tested": false,
+  "limitations": [
+    "Native Mac and live HA acceptance pending.",
+    "Earlier companion suite: three TLS fixture errors also reproduced with original transport.",
+    "Earlier live model-restore smoke incomplete; not counted as passing.",
+    "Current tests do not perform full recipient installs or live inference."
+  ]
+}

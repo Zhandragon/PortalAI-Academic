@@ -1,94 +1,32 @@
-PORTALAI PROFILE CONNECTIONS AND MISSION IMPORT — 2026-10-24
+PORTALAI PROFILE CONNECTIONS - October 24, 2026
 
-Accounts > Import connections and mission accepts an explicitly selected setup
-JSON. It requires the signed-in administrator, just like Missions, and calls the
-same Missions.create, MissionCatalog.mark_origin and Schedules.create APIs used
-by the interface. The objective and timing are user data, not product defaults.
-The source mission is a template. Both remain unarmed/paused after creation.
-Enable the schedule in Persistence > Schedules when ready; do not also arm the
-standalone template for duplicate work. Existing records are preserved.
+The general connection runtime supports encrypted, profile-bound service
+connections. It does not include the originating machine's one-off migration
+menu, credential-source importers, mission objective or setup request. Users
+create and configure their own missions and schedules through the normal UI.
+Existing connection bundles remain compatible; no migration is performed.
 
-The optional GUI arguments --account-setup PATH and --account-setup-receipt PATH
-perform a requested import after ordinary authenticated sign-in. The receipt
-destination must be a new absolute file and contains only record IDs, connection
-names and sanitized check outcomes. Nothing runs before authentication. Import
-failure never prints credential-bearing source errors. An interrupted request
-can be repeated with the same ID and input; it resumes the same saved records.
-Use a different ID only for genuinely different setup data.
+Connections use an AES-256-GCM bundle under private Data/Accounts. An HMAC-SHA256
+key derived from the authenticated profile key and user ID stays in controller
+memory. Owned mission workers receive only the account-derived key through a
+bounded anonymous startup pipe, never argv, environment, logs or files. The
+profile key is not exported. Lock clears the key and shutdown joins workers
+before sealing. Account switches, wrong keys and tampering fail closed. Legacy
+manually unlocked vaults remain supported. Full host access is not OS isolation.
 
-Security and lifecycle
-Connections are one AES-256-GCM bundle under private Data/Accounts. An HMAC-SHA256
-key derived from the authenticated profile key and user ID is held in controller
-memory. Owned mission supervisors/workers receive the derived account-only key
-through a bounded anonymous startup pipe. It never enters environment variables,
-command arguments, logs or files. Ordinary chat/model/tool children do not receive it.
-The profile key is never exported. Lock clears the controller key; ordinary
-shutdown stops and joins workers before sealing the profile. Account switches,
-wrong keys and tampered ciphertext fail closed. Legacy manually unlocked vaults
-remain supported and are never silently overwritten. Full host access remains
-host access, not OS isolation. Do not put credentials in prompts or memory.
+The account profiles operation exposes supported operations and parameters,
+never secrets. Mail, wallet, GitHub and Moltbook adapters retain their explicit
+connection permissions. GitHub binds both account login and numeric identity;
+repository writes are limited to the configured account, creation is private,
+and pull requests are drafts. API credentials go only to fixed TLS hosts with
+redirects disabled. Results are bounded, untrusted and redacted.
 
-Supported sources, explicitly supplied by the user
-* business-dpapi: a Windows CurrentUser PowerShell SecureString containing the
-  existing Google and Ethereum object. Import on the original Windows user.
-  Gmail uses its app password for TLS IMAP/SMTP. The main login password is
-  encrypted as stored-only material; this is not Google OAuth, Drive/Docs access,
-  browser sign-in or a second-factor bypass. A reportTo address enables the
-  email_send to="owner" alias without putting that address in the objective.
-  Ethereum uses m/44'/60'/0'/0/0 on chain 1. Imported wallet permissions are
-  wallet_balance and wallet_receipt; spending and transfers are not enabled.
-* moltbook-dpapi: the existing protected API key. Requests are pinned to
-  https://www.moltbook.com/api/v1 without redirects. Supports status/home/feed,
-  comment reads, public comments and explicit API numeric verification. A
-  returned verification challenge is not proof a comment is publicly visible.
-* github-cli: the explicitly selected GitHub CLI, config directory and bound
-  login. The existing token is captured in memory, never printed or put in argv.
-  API identity is checked against both login and numeric account ID. Reads and
-  writes are limited to that user's repositories; repository creation is private
-  and pull requests are drafts. GitHub OAuth tokens/PATs are encrypted in PortalAI.
-  No GitHub password, cookie, token rotation or remote account reconfiguration.
+External writes retain durable pending/confirmed journals. Uncertain effects
+are never automatically replayed. Autonomous recovery cannot clear an uncertain
+mail send, wallet transfer, GitHub write or Moltbook post/verification. Rate limits
+persist cooldowns. Credentials must not be placed in model prompts or memory.
 
-The account operation profiles returns supported operations/parameters, not
-secrets. Tokens go only to fixed TLS API hosts. Results are untrusted content and
-bounded/redacted. Email and service writes use durable pending/confirmed journals;
-an uncertain outcome is never automatically replayed. Configured autonomous
-recovery recognizes only known read-only account operations; it never clears an
-uncertain email, wallet transfer, GitHub write or Moltbook post/verification.
-HTTP rate limits persist a cooldown. A service failure need not prevent a mission
-from choosing useful work on another available connection.
-
-Setup JSON schema (no passwords or tokens in this file)
-version: 1
-id: fresh 32-character lowercase hexadecimal UUID
-target_username: receiving PortalAI username
-objective: ordinary mission objective, 1..16000 characters
-max_steps: 1..100
-interval_seconds: 60..31536000
-max_runs: 0..10000 (0 means unlimited)
-autonomous_recovery: boolean
-sources: list of explicitly selected source descriptions:
-  {kind: business-dpapi, name: mail-alias, wallet_name: wallet-alias, path: ABSOLUTE}
-  {kind: moltbook-dpapi, name: social-alias, path: ABSOLUTE}
-  {kind: github-cli, name: git-alias, login: USERNAME,
-   executable: ABSOLUTE_GH_PATH, config_dir: ABSOLUTE_CONFIG_DIRECTORY}
-Connection names: lowercase letter, followed by at most 47 lowercase letters,
-digits, underscores or hyphens. Existing names cannot be overwritten by import.
-Source ciphertext and OS credentials remain intact. No live external writes are
-performed by import or its connection checks. Checks read mail IDs, wallet balance,
-GitHub identity and Moltbook claim status; they do not send email or publish.
-
-Validation uses disposable authenticated accounts, synthetic credentials,
-encrypted roundtrips, real child-process startup-pipe propagation and a native Tk import
-surface. See Maintenance/Validation/NiceConnections-20261024/validation-summary.json.
-Successful setup and read-only connectivity do not prove business profitability
-or reliable model strategy. Owner mission execution is a separate acceptance step.
-
-Official protocol references checked October 24, 2026:
-https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
-https://www.moltbook.com/skill.md
-https://support.google.com/accounts/answer/185833
-
-Packaging: public code/tests/docs only. No owner setup request, credentials,
-profile keys, mission database or account export belongs in a public installer or
-HA Codex handoff. Receiving machines must merge their own platform differences
-and run their own tests. Normal Exit and verified sealing precede replacement.
+Tests use synthetic connections and disposable authenticated accounts. They
+exercise encryption, account/epoch isolation, worker startup pipes, redaction,
+fixed hosts and no-replay behavior without contacting live services. No owner
+account, credential, setup request or mission database belongs in a distribution.

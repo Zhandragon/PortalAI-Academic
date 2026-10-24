@@ -1,3 +1,5 @@
+Superseded scope: r9 excludes the one-off mission migration workflow. See [the correction](DISTRIBUTION-SCOPE-20261024-r9.md).
+
 # Selective startup, recovery and account connections
 
 PortalAI October 24, 2026 r8: reviewed Aoostar integration

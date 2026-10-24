@@ -28,3 +28,5 @@ Only Windows has been thoroughly tested; Linux has partial validation. macOS ins
 
 **Latest update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
 
+
+Current distribution correction: [one-off migration removal](DISTRIBUTION-SCOPE-20261024-r9.md) and [validation](DISTRIBUTION-SCOPE-VALIDATION-20261024-r9.json).

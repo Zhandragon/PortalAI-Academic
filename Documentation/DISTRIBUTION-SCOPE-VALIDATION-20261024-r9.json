@@ -1,0 +1,152 @@
+{
+  "release": "v2026.10.24-r9",
+  "tests": [
+    {
+      "tests": 115,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "edition": "Full"
+    },
+    {
+      "tests": 110,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "edition": "Academic"
+    }
+  ],
+  "native_account_page_checks": [
+    {
+      "theme": "light",
+      "normal_account_actions_present": true,
+      "one_off_import_absent": true
+    },
+    {
+      "theme": "dark",
+      "normal_account_actions_present": true,
+      "one_off_import_absent": true
+    }
+  ],
+  "source_scan": {
+    "passed": true,
+    "files": 840
+  },
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "a38dd11693a981e674914e209cb718328e59a47c7fc67d2fbeb54b95b18041d8",
+      "payload_files": 5031,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "d7f1b6e184ba8c89941c117fff4ac046e1846223cc327a1dd24b1e6de30e7948",
+      "payload_files": 4513,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "ff163f9f8a46b76390024dcf04e928e13a63146e821e9aaf2a2f9142d17db261",
+      "payload_files": 2172,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "de6bad301563de7001f0e74845c4eea344505da4c277d4ffda0d562e0a868e5a",
+      "payload_files": 4675,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "5bea976ed9a3db9cf07b7cc20346f423e83b596c376745df4a251cf827f5d2cf",
+      "payload_files": 4503,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "0be1bb784a563c3e98b31282e09d79359b427a94ca7a23153bbabda940d9a352",
+      "payload_files": 2162,
+      "source_files_verified": 8,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "prior_r8_audit": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "release": "r8",
+      "payload_files": 5035,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "release": "r8",
+      "payload_files": 4517,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "release": "r8",
+      "payload_files": 2176,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "release": "r8",
+      "payload_files": 4679,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "release": "r8",
+      "payload_files": 4507,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "release": "r8",
+      "payload_files": 2166,
+      "private_runtime_records": 0,
+      "setup_request_or_credential_files": 0,
+      "owner_objective_matches": 0
+    }
+  ],
+  "test_selection_note": "Initial Academic run included the five Full-only standard/abliterated variant tests. Three were incompatible with Academic restrictions; rerunning the 110 applicable checks passed. No model policy was changed.",
+  "owner_missions_or_credentials_changed": false,
+  "physical_linux_tested": false,
+  "physical_macos_tested": false,
+  "complete_fresh_installation_tested": false
+}

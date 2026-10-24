@@ -117,7 +117,7 @@ internal sealed class InstallerForm : Form {
     string cancellation,lastStep; bool loading=true,dark=true; volatile bool pauseRequested;
     Color gold=Color.FromArgb(176,134,58); Point? drag;
     internal InstallerForm(bool smoke) {
-        Text="PortalAI Academic installer — 2026.10.24 r8"; Name="PortalAIInstaller";
+        Text="PortalAI Academic installer — 2026.10.24 r9"; Name="PortalAIInstaller";
         Size=new Size(900,830);MinimumSize=new Size(780,690);StartPosition=FormStartPosition.CenterScreen;
         FormBorderStyle=FormBorderStyle.None;Padding=new Padding(8);DoubleBuffered=true;
         Font=new Font("Segoe UI",9F);Icon=Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
