@@ -15,6 +15,7 @@ sys.path.insert(0,str(MODULE/'app'))
 from host_runtime import package_paths,python_command,launch_options,target_valid,resolve_target,default_target
 sys.path[:0]=package_paths()
 from connection_vault import new_connection,public_pairing,save,unlock,url
+from connection_files import delete_saved_connection
 
 
 class Window:
@@ -23,10 +24,11 @@ class Window:
         self.stop_deadline=None;self.local_starting=False;self.closing=False;self.hidden=False;self.close_timer=None
         self.ui_events=queue.Queue()
         app.title('PortalAI Projection')
-        self.files=[];self.selected=tk.StringVar();self.name=tk.StringVar(value='My PortalAI');self.address=tk.StringVar();self.target=tk.StringVar(value=str(default_target()));self.password=tk.StringVar();self.status=tk.StringVar(value='Create a connection or select a saved connection and unlock it.')
+        self.files=[];self.selected=tk.StringVar(master=app);self.name=tk.StringVar(master=app,value='My PortalAI');self.address=tk.StringVar(master=app);self.target=tk.StringVar(master=app,value=str(default_target()));self.password=tk.StringVar(master=app);self.status=tk.StringVar(master=app,value='Create a connection or select a saved connection and unlock it.')
         from projection_theme import Skin,DOCUMENTATION
         from projection_tray import create
         self.skin=Skin(self,MODULE);self.skin.build()
+        self.selected.trace_add('write',lambda *_:self.selection_changed())
         self.tray=create(app,self.ui_events,MODULE/'app/assets/projection-dark.ico')
         self.show('Create or unlock a connection to see its public pairing request.\n\nNo Home Assistant password, cookie or API token is requested or saved.\n\n1. Install the supplied receiver on HA.\n2. Create/unlock a connection here and approve its public pairing request on a trusted HA device.\n3. Start projection, then open PortalAI and sign in.\n\nSee Documentation for setup, tray controls and platform help.')
         self.refresh();self.skin.update_actions();self.timer=app.after(100,self.tick)
@@ -57,14 +59,42 @@ class Window:
     def show(self,text):self.instructions.configure(state='normal');self.instructions.delete('1.0','end');self.instructions.insert('1.0',text.replace('Windows or Linux X11/XWayland;','Windows, Linux X11/XWayland, or macOS 14+;'));self.instructions.configure(state='disabled')
     def refresh(self):
         self.files=sorted((MODULE/'Connections').glob('*.enc'));self.saved['values']=[p.stem for p in self.files]
+        if self.selected.get() not in self.saved['values']:self.selected.set('')
+        self.selection_changed()
+    def selection_changed(self,_event=None):
+        if hasattr(self,'delete_button'):
+            self.delete_button.configure(state='normal' if self.selected.get() in self.saved['values'] else 'disabled')
     def new(self):
         if self.worker and self.worker.poll() is None:self.status.set('Stop projection before changing connections.');return
-        self.connection=None;self.secret=None;self.path=None;self.selected.set('');self.password.set('');self.address.set('');self.status.set('Enter a connection name, HTTPS HA URL and a new projection unlock password.')
+        self.connection=None;self.secret=None;self.path=None;self.selected.set('');self.selection_changed();self.password.set('');self.address.set('');self.status.set('Enter a connection name, HTTPS HA URL and a new projection unlock password.')
     def browse(self):
         target=filedialog.askdirectory(parent=self.app,initialdir=self.target.get())
         if target:self.target.set(target)
     def guard_stopped(self):
         if self.worker and self.worker.poll() is None:raise RuntimeError('Stop projection before changing this connection')
+    def confirm_delete(self,connection_id):
+        return self.skin.confirm_delete(connection_id)
+    def delete_selected(self):
+        try:
+            self.guard_stopped()
+            index=self.saved.current()
+            if not 0<=index<len(self.files):raise ValueError('Select a saved projection to delete')
+            path=self.files[index]
+            if not self.confirm_delete(path.stem):return
+            self.guard_stopped()
+            result=delete_saved_connection(MODULE/'Connections',path)
+            was_loaded=self.path is not None and Path(self.path)==path
+            if was_loaded:
+                self.connection=None;self.path=None;self.secret=None;self.password.set('');self.address.set('')
+                self.show('The selected saved connection was deleted and locked. Create or unlock another saved connection to continue.')
+            self.selected.set('');self.refresh()
+            if result['pairing_error']:
+                self.status.set('Deleted the encrypted connection, but could not remove its local public pairing file. Home Assistant approval was not changed.')
+            elif result['pairing_removed']:
+                self.status.set('Deleted the local encrypted connection and matching public pairing file. Remove its approval separately in Home Assistant if you want to retire that device there too.')
+            else:
+                self.status.set('Deleted the local encrypted connection. No matching public pairing file remained; Home Assistant approval was not changed.')
+        except Exception as exc:self.status.set('Could not delete saved projection: '+str(exc))
     def current_settings(self):
         target=Path(self.target.get()).resolve()
         if not target_valid(target):raise ValueError('Select the actual PortalAI portable folder')
@@ -84,7 +114,7 @@ class Window:
             else:
                 address,target,name=self.current_settings();connection=new_connection(address,target,name)
                 path=MODULE/'Connections'/(connection['device_id']+'.enc');save(path,connection,password)
-            self.connection=connection;self.path=path;self.secret=password;self.password.set('');self.refresh();self.selected.set(path.stem);self.pairing()
+            self.connection=connection;self.path=path;self.secret=password;self.password.set('');self.refresh();self.selected.set(path.stem);self.selection_changed();self.pairing()
             self.status.set('Connection unlocked. Approve pairing in HA on a trusted device, then Start projection.')
         except Exception as exc:self.status.set('Could not unlock/create connection: '+(str(exc) or 'Wrong password or damaged encrypted file'))
     def save(self):

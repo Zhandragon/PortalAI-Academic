@@ -1,0 +1,167 @@
+{
+  "release": "v2026.10.24-r10",
+  "application_tests": [
+    {
+      "tests": 199,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1,
+      "edition": "Full"
+    },
+    {
+      "tests": 194,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1,
+      "edition": "Academic"
+    }
+  ],
+  "projection_tests": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "extra_focus_regression": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "projection_lifecycle_checks": 6,
+  "owned_process_checks": [
+    {
+      "name": "second supervisor cannot dispatch",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "name": "scheduled wait survives supervisor exit",
+      "passed": true
+    },
+    {
+      "name": "fresh supervisor resumes when due",
+      "passed": true,
+      "mission": "b6a04902625a45ec90e3f857a74fd5b0",
+      "completed_at": 1792869785.6500213,
+      "scheduled_at": 1792869784.9088366
+    },
+    {
+      "name": "crashed action effect is not replayed",
+      "passed": true,
+      "effects": 1
+    },
+    {
+      "name": "controller crash kills its worker tree",
+      "passed": true
+    },
+    {
+      "name": "stop prevents late planning effects",
+      "passed": true
+    }
+  ],
+  "native_minimize": {
+    "native_cycles": 4,
+    "same_wrapper": true,
+    "failure_keeps_window_reachable": true
+  },
+  "source_scan": {
+    "passed": true,
+    "files": 841
+  },
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "0194402e4b856b52d3d2c2c6c0d3571accd4b7e2e0490a4fc62a6c2a8875ab91",
+      "payload_files": 5037,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "ba5bb608bbb94d804b0ed944b5eac3213560d5534fb1de75b36242be43f799cd",
+      "payload_files": 4515,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "94f4539ae2fc60ef29d6038098fb4b67881fc0c89e25c945c16eb0d0b6b22746",
+      "payload_files": 2174,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "9e30bd18a81f438ffe8d4f5d65935a9aa57c904a6f14565538101600b5db1874",
+      "payload_files": 4681,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "323c3f8e881aad8c5e261d7a120c0d19ec30edd25dc8eaf059429a534b4e5d43",
+      "payload_files": 4505,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "bc06f521a7b73babf358b0fd0bc519b243b85321fab8aacc8a7edc4766ac8b0e",
+      "payload_files": 2164,
+      "source_files_verified": 5,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "projection_packages": [
+    {
+      "platform": "Windows",
+      "sha256": "466d7b5e73a0dcdbe7fa0fcf5d5fe0fa40701c4e1032315d6a32aef03ce1c126",
+      "source_verified": true,
+      "unchanged_runtime_and_ha": true,
+      "permissions_preserved": true
+    },
+    {
+      "platform": "Linux",
+      "sha256": "9e6384ff468ce1a6dc3c1199f3f95d4ed261380e15f805031cb6432523846f58",
+      "source_verified": true,
+      "unchanged_runtime_and_ha": true,
+      "permissions_preserved": true
+    },
+    {
+      "platform": "Mac",
+      "sha256": "669e104f4c46744fba2f79237660a78a84e0033b979b089e86f3ab696ad85a91",
+      "source_verified": true,
+      "unchanged_runtime_and_ha": true,
+      "permissions_preserved": true
+    }
+  ],
+  "baseline": "The previous source failed five of six incoming shutdown regressions; a real Stop child failed before sealing with the broker paused. The unchanged-login and pending-action checks pass after the selective fix.",
+  "receiving_corrections": [
+    "Kept the temporary importer, its menu and launch flags excluded.",
+    "Preserved receiving donation/executable recovery, platform launch behavior, Mac runtime support and Academic policy.",
+    "Replaced the incoming OS deletion dialog with an internal themed exact-confirmation surface.",
+    "Bound Projection variables to their own Tk window and preserved Tcl-only focus safely."
+  ],
+  "test_notes": [
+    "One symlink fixture per edition is skipped because this host cannot create test symlinks.",
+    "Initial Projection runs exposed default-root variable binding and a test runner selecting Windows-only lifecycle source for Mac contracts; both were corrected and applicable checks passed."
+  ],
+  "physical_linux_tested": false,
+  "physical_macos_tested": false,
+  "physical_aoostar_tested": false,
+  "ha_deployed": false,
+  "complete_fresh_optional_installation_tested": false,
+  "owner_missions_or_credentials_changed": false
+}

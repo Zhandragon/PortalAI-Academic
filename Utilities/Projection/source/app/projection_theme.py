@@ -180,7 +180,11 @@ class Skin:
         page=content(self.connection);page.columnconfigure(1,weight=1);page.rowconfigure(9,weight=1)
         self.label(page,'Saved connection').grid(row=0,column=0,sticky='w',pady=7)
         w.saved=RoundedCombobox(page,palette=p,textvariable=w.selected,state='readonly');self.fields.append(w.saved);w.saved.grid(row=0,column=1,sticky='ew',padx=10)
-        self.button(page,'New',w.new).grid(row=0,column=2,sticky='ew')
+        w.saved.bind('<<ComboboxSelected>>',w.selection_changed)
+        saved_actions=self.frame(page);saved_actions.grid(row=0,column=2,sticky='ew')
+        self.button(saved_actions,'New',w.new).pack(side='left')
+        w.delete_button=self.button(saved_actions,'Delete selected',w.delete_selected)
+        w.delete_button.configure(state='disabled');w.delete_button.pack(side='left',padx=(5,0))
         for row,label,var in ((1,'Connection name',w.name),(2,'Home Assistant Cloud URL',w.address),(3,'PortalAI folder',w.target),(4,'Projection unlock password',w.password)):
             self.label(page,label).grid(row=row,column=0,sticky='w',pady=8)
             field=RoundedEntry(page,palette=p,textvariable=var,show='*' if row==4 else '');self.fields.append(field)
@@ -202,7 +206,7 @@ class Skin:
         a=content(self.appearance)
         self.label(a,'Make Projection your own',font=(heading_font(app),21,'bold'),kind='accent').pack(anchor='w',pady=(0,10))
         self.label(a,'Shared PortalAI styling, saved separately on this drive.',kind='muted').pack(anchor='w',pady=(0,22))
-        self.mode=tk.StringVar(value=self.settings['mode']);combo=RoundedCombobox(a,palette=p,textvariable=self.mode,values=('dark','light'),state='readonly',width=18);self.fields.append(combo);combo.pack(anchor='w');combo.bind('<<ComboboxSelected>>',lambda e:self.change('mode',self.mode.get()))
+        self.mode=tk.StringVar(master=app,value=self.settings['mode']);combo=RoundedCombobox(a,palette=p,textvariable=self.mode,values=('dark','light'),state='readonly',width=18);self.fields.append(combo);combo.pack(anchor='w');combo.bind('<<ComboboxSelected>>',lambda e:self.change('mode',self.mode.get()))
         for key in ('accent','border'):
             row=self.frame(a);self.items[-1]=(row,'card');row.configure(bg=p['panel']);row.pack(anchor='w',pady=15)
             self.button(row,'Choose '+key+' color',lambda k=key:self.choose(k)).pack(side='left')
@@ -236,6 +240,7 @@ class Skin:
             self.popup=None
 
     def menu(self,position=None):
+        if getattr(self,"confirmation",None) is not None:return
         self.dismiss();w=self.window;p=self.palette
         pop=tk.Toplevel(self.app);self.popup=pop;pop.withdraw();pop.overrideredirect(True);pop.configure(bg=p['gold_mid']);pop.attributes('-topmost',True)
         inner=tk.Frame(pop,bg=p['panel'],padx=9,pady=9);inner.pack(fill='both',expand=True,padx=2,pady=2)
@@ -266,3 +271,40 @@ class Skin:
         self.start_button.configure(state='normal' if self.window.connection is not None and not active else 'disabled')
         self.stop_button.configure(state='normal' if active else 'disabled')
         self.local_button.configure(state='disabled' if self.window.local_starting else 'normal')
+
+    def confirm_delete(self,connection_id):
+        """An internal modal surface; never opens an unthemed OS dialog."""
+        self.dismiss()
+        p=self.palette;app=self.app;previous=str(app.tk.call('focus'))
+        overlay=self.frame(self.chrome.body);overlay.place(relx=0,rely=0,relwidth=1,relheight=1);overlay.lift()
+        card=self.frame(overlay,card=True);card.place(relx=.5,rely=.5,anchor='center',relwidth=.9)
+        body=self.frame(card);body.pack(fill='both',expand=True,padx=24,pady=26)
+        self.label(body,'Delete saved connection',font=(heading_font(app),18,'bold'),kind='accent').pack(fill='x')
+        self.label(body,connection_id,kind='muted').pack(fill='x',pady=(6,12))
+        self.label(body,'This removes the selected encrypted key/settings and its public pairing file from this drive. Home Assistant approval stays unchanged.\n\nType CONFIRM to delete:',wraplength=490).pack(fill='x',pady=(0,12))
+        self.confirmation=overlay
+        typed=tk.StringVar(master=app);result=[False]
+        entry=RoundedEntry(body,palette=p,textvariable=typed);self.fields.append(entry);entry.pack(fill='x')
+        buttons=self.frame(body);buttons.pack(fill='x',pady=(16,0))
+        def finish(accepted=False):
+            if accepted and typed.get()!='CONFIRM':return
+            result[0]=accepted;overlay.destroy()
+        confirm=self.button(buttons,'Delete selected',lambda:finish(True));confirm.configure(state='disabled');confirm.pack(side='right')
+        self.button(buttons,'Cancel',finish).pack(side='right',padx=(0,8))
+        typed.trace_add('write',lambda *_:confirm.configure(state='normal' if typed.get()=='CONFIRM' else 'disabled'))
+        overlay.bind('<Escape>',lambda _event:finish())
+        entry.bind('<Return>',lambda _event:finish(True))
+        def bind_modal(widget):
+            widget.bindtags((str(widget),str(overlay),*widget.bindtags()[1:]))
+            for child in widget.winfo_children():bind_modal(child)
+        for child in overlay.winfo_children():bind_modal(child)
+        overlay.grab_set();entry.focus_set()
+        try:app.wait_window(overlay)
+        finally:
+            if overlay.winfo_exists():overlay.grab_release();overlay.destroy()
+            self.items=[(w,k) for w,k in self.items if w.winfo_exists()]
+            self.borders=[b for b in self.borders if b.widget.winfo_exists()]
+            self.fields=[f for f in self.fields if f.winfo_exists()]
+            self.confirmation=None
+            if previous and int(app.tk.call('winfo','exists',previous)):app.tk.call('focus',previous)
+        return result[0]

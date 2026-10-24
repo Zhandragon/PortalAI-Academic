@@ -1,0 +1,26 @@
+PortalAI shutdown integration - October 24, 2026 r10
+
+Reviewed Aoostar Combined Shutdown r9 against the receiving r9 sources.
+Exit had paused file restoration before its Stop helper listed lazy missions.
+Stop now writes durable global, schedule-epoch and per-mission fences using
+already available metadata. It does not require restoring mission histories.
+Checkpoint reconciliation is optional if the same authenticated login remains
+active but restoration is unavailable. Ended logins still fail closed. Pending
+effects remain preserved for review; resuming one root cannot revive the others.
+
+A failed shutdown retains its last phase and a sanitized exception class, stops
+the elapsed timer and offers Retry. Failure never claims that sealing completed.
+Windows minimize posts the native command through Tk instead of reentering it.
+
+Projection gains confirmed deletion of one selected local saved connection and
+its public pairing export. Home Assistant approval is unchanged. The confirmation
+stays inside the themed companion window and requires typing CONFIRM.
+
+The cumulative handoff's temporary Aoostar mission import menu, launch flags,
+importer and transfer tests remain excluded. Existing private connections and
+legacy receipts remain compatible. Receiving donation/recovery features, native
+Mac support, edition policy and current installer safeguards are preserved.
+
+Validation uses disposable records and owned child processes. Sender reports are
+historical evidence only. Native Linux/Mac, HA deployment and Aoostar runtime
+acceptance are separate; no owner mission, credential or account data is changed.

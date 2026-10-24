@@ -45,10 +45,19 @@ class ShutdownStatus:
         self.show()
         self.phase.configure(text=str(message))
 
-    def failure(self):
+    def failure(self, error_type=None):
         self.show()
+        previous_phase = self.phase.cget('text')
+        seconds = max(0, int(time.monotonic()-(self.started or time.monotonic())))
         self.failed = True
-        self.phase.configure(text='Shutdown or encrypted-workspace verification did not finish successfully.')
+        if self.timer is not None:
+            self.app.after_cancel(self.timer)
+            self.timer = None
+        self.elapsed.configure(text=f'Stopped after: {seconds//60}:{seconds%60:02d}')
+        import re
+        code = str(error_type or '')
+        if not re.fullmatch('[A-Za-z][A-Za-z0-9_]{0,63}', code): code = 'ShutdownError'
+        self.phase.configure(text='Shutdown failed during: '+previous_phase+'\nError type: '+code)
         self.dialog.status.set('Private surfaces remain locked. Keep the drive connected and retry verified shutdown. Do not launch a second copy to recover this open session.')
         self.retry_button.configure(state='normal')
 
@@ -65,7 +74,7 @@ class ShutdownStatus:
         if self.timer is not None:
             self.app.after_cancel(self.timer)
         self.timer = None
-        if self.dialog is None or self.dialog.closed:
+        if self.failed or self.dialog is None or self.dialog.closed:
             return
         seconds = max(0, int(time.monotonic()-(self.started or time.monotonic())))
         self.elapsed.configure(text=f'Elapsed: {seconds//60}:{seconds%60:02d}')

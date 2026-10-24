@@ -38,8 +38,10 @@ For isolated downloader checks, build into another directory with `--output` and
 
 ## Mac companion
 
-[Download Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz). This standalone bundle is edition-neutral, supports Intel and Apple silicon on macOS 14+, and is included in both current Mac installers. Open `Utilities/PortalAI-Projection/Start Projection.command`. Native Mac acceptance is pending. [Setup instructions](../../Documentation/MacProjection/SETUP.txt). [Current validation](../../Documentation/MacProjection/validation.json).
+[Download Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r10/PortalAI-Projection-Mac-20261024-r10.tar.gz). This standalone bundle is edition-neutral, supports Intel and Apple silicon on macOS 14+, and is included in both current Mac installers. Open `Utilities/PortalAI-Projection/Start Projection.command`. Native Mac acceptance is pending. [Setup instructions](../../Documentation/MacProjection/SETUP.txt). [Current validation](../../Documentation/MacProjection/validation.json).
 
 Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.
 
 Projection UI 20261024-r7 uses the desktop palettes, decorated Windows chrome and rounded controls. Keep Connections/ and state/ when updating. [Changes and validation](../../Documentation/INTERFACE-INSTALLER-20261024-r7.md).
+
+Projection r10 adds confirmed local saved-connection deletion inside the themed window. The encrypted connection and matching public pairing file are removed only after typing `CONFIRM`; Home Assistant approval remains separate.

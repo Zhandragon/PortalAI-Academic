@@ -836,19 +836,33 @@ def main(authenticated=None):
         try:
             if not use_custom_chrome:
                 app.iconify()
-                return
+                return True
             # Do not toggle overrideredirect(False/True). Tk can leave behind a
             # caption-only wrapper each time that transition races with iconify.
-            # Minimize the existing native wrapper directly instead.
+            # Minimize the existing native wrapper through its message pump.
             import ctypes
             hwnd = _custom_hwnd()
             if hwnd:
                 _ensure_custom_taskbar_style()
-                ctypes.WinDLL("user32", use_last_error=True).ShowWindow(hwnd, 6)  # SW_MINIMIZE
+                from ctypes import wintypes
+                user32 = ctypes.WinDLL("user32", use_last_error=True)
+                user32.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+                user32.PostMessageW.restype = wintypes.BOOL
+                # Queue the normal Windows minimize command. Synchronous
+                # ShowWindow re-enters Tk through the Explorer drop subclass
+                # outside Tcl's event loop, aborting Python's thread state.
+                # The queued message runs on Tk's own native message pump.
+                if not user32.PostMessageW(hwnd, 0x0112, 0xF020, 0):  # WM_SYSCOMMAND / SC_MINIMIZE
+                    raise ctypes.WinError(ctypes.get_last_error())
             else:
-                if getattr(app, '_portalai_main_ready', False): minimize_to_tray()
-        except Exception:
-            if getattr(app, '_portalai_main_ready', False): minimize_to_tray()
+                raise RuntimeError('The PortalAI window is not ready to minimize.')
+            return True
+        except Exception as exc:
+            # Keep the window reachable; never recurse between tray and taskbar
+            # fallbacks if Explorer or the native window is unavailable.
+            if getattr(app, '_portalai_main_ready', False):
+                log(f'Could not minimize PortalAI: {exc}')
+            return False
 
     def _make_resize_handler(direction):
         scheduled = {"after_id": None, "pending": None}
@@ -3391,8 +3405,8 @@ def main(authenticated=None):
             return
         if os.name != "nt" or not tray.show():
             # Fallback is a normal taskbar minimize; never make the window unreachable.
-            app.iconify()
-            log("Tray icon could not be created; minimized to the taskbar instead.")
+            if _iconify_custom():
+                log("Tray icon could not be created; minimized to the taskbar instead.")
             return
         tray_hidden = True
         app.withdraw()
@@ -3457,13 +3471,14 @@ def main(authenticated=None):
         except Exception as exc:
             # A synchronous cleanup failure must take the same visible/retryable
             # path as a background failure; never strand exit_in_progress=True.
-            event_q.put(("exit_complete", {"ok": False, "message": "Shutdown preparation failed: " + type(exc).__name__}))
+            event_q.put(("exit_complete", {"ok": False, "message": "Shutdown preparation failed: " + type(exc).__name__, "error_type":type(exc).__name__}))
             return
 
         def shutdown_worker():
             stop = root / "Launchers" / "Stop_PortableAI.py"
             result = "PortalAI shutdown helper completed."
             ok = True
+            error_type = None
             try:
                 if account_gate is not None:
                     account_gate.close()
@@ -3481,8 +3496,9 @@ def main(authenticated=None):
                     result = f"PortalAI shutdown helper returned {cp.returncode}: {detail}"
             except Exception as exc:
                 ok = False
+                error_type = type(exc).__name__
                 result = f"PortalAI shutdown helper failed: {exc}"
-            event_q.put(("exit_complete", {"ok": ok, "message": result}))
+            event_q.put(("exit_complete", {"ok": ok, "message": result, "error_type":error_type}))
 
         try:
             threading.Thread(target=shutdown_worker, name="PortableAIExit", daemon=True).start()
@@ -3678,13 +3694,13 @@ def main(authenticated=None):
                         # Keep keys alive and private surfaces covered, but show
                         # the failure even when Exit began from a hidden tray.
                         exit_in_progress = False
-                        if shutdown_status is not None: shutdown_status.failure()
+                        if shutdown_status is not None: shutdown_status.failure(data.get("error_type"))
                         else:
                             from shutdown_ui import ShutdownStatus
                             # Logout normally owns its own visible sheet. A
                             # fallback queue failure still needs a retry surface.
                             shutdown_status = ShutdownStatus(app, COLORS, retry_account_shutdown)
-                            shutdown_status.failure()
+                            shutdown_status.failure(data.get("error_type"))
                         continue
                     log(data.get("message", "PortalAI shutdown completed."))
                     if not data.get("ok", False):

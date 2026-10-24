@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r9):** Removes the one-off mission migration workflow from public distributions. General encrypted connections, selective history loading, recovery, chat selection and the r7 interface/installer improvements remain. [Changes and validation](Documentation/DISTRIBUTION-SCOPE-20261024-r9.md).
+**Latest update (2026-10-24 r10):** Fixes shutdown after lazy file restoration is paused, retains visible failure details with a stopped timer, and adds themed confirmation for deleting saved Projection connections. The temporary Aoostar mission importer stays excluded. [Changes and validation](Documentation/SHUTDOWN-20261024-r10.md).
 
 **Interface update (2026-10-24 r7):** Right-click actions for missions and schedules, confirmations inside PortalAI, polished Projection borders/themes, and current-download plus overall installer progress. [Changes and validation](Documentation/INTERFACE-INSTALLER-20261024-r7.md).
 
@@ -146,7 +146,7 @@ The optional **PortalAI Projection** companion brings the running PortalAI inter
 | --- | --- | --- |
 | Windows x64 | [Projection for Windows](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe) | Open the `.exe` and choose a new folder on the same drive as PortalAI. |
 | Linux x86-64 | [Projection for Linux](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh) | Run `bash PortalAI-Projection-Linux-Setup.sh` from a supported graphical desktop. |
-| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI/releases/download/v2026.10.24-r10/PortalAI-Projection-Mac-20261024-r10.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
 
 Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.12 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
 
@@ -184,7 +184,7 @@ Check the blocked file's path and detection name, verify its source and expected
 - `PACKAGING.json` pins the current GitHub release assets and extracted files. `packages/` retains prior parts for previously downloaded launchers.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
-- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz) is now available; native acceptance is pending.
+- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI/releases/download/v2026.10.24-r10/PortalAI-Projection-Mac-20261024-r10.tar.gz) is now available; native acceptance is pending.
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 

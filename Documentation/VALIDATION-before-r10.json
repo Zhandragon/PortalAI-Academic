@@ -1,0 +1,12 @@
+{
+  "release": "v2026.10.24-r9",
+  "current_checks": "DISTRIBUTION-SCOPE-VALIDATION-20261024-r9.json",
+  "previous_release_checks": "VALIDATION-before-r9.json",
+  "native_Mac_tested": false,
+  "physical_Linux_tested": false,
+  "complete_recipient_installation_tested": false,
+  "limitations": [
+    "Physical Mac/Linux/Aoostar acceptance is not performed by the Windows source/package checks.",
+    "Full fresh optional-dependency installation and live model inference are not part of this removal."
+  ]
+}

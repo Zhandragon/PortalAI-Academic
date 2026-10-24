@@ -136,21 +136,68 @@ def disarm(root, mid):
             pass  # Active worker/controller will checkpoint the stop.
 
 
+def _fence_saved_missions(store):
+    """Stop controls need no checkpoint decryption or history listing service.
+
+    Run policies and derived index filenames are eager. They may restrict work,
+    never authorize an action. Cover dormant children as well as armed roots so
+    resuming one root cannot silently revive another stopped record.
+    """
+    from profile_paths import capture, ProfileLocked
+    import re
+    ids = set()
+    for path in store.base.iterdir():
+        if re.fullmatch('[a-f0-9]{32}', path.name):
+            checked = private_path(store.root, 'Data/Missions/'+path.name,
+                                   context=store._profile, hydrate=False)
+            if checked.is_dir(): ids.add(path.name)
+    index = private_path(store.root, 'Data/MissionIndex/mission',
+                         context=store._profile, hydrate=False)
+    if index.exists():
+        for path in index.iterdir():
+            if re.fullmatch('[a-f0-9]{32}\\.json', path.name): ids.add(path.stem)
+    for mid in sorted(ids):
+        stop = private_path(store.root, 'Data/Missions/'+mid+'/STOP',
+                            context=store._profile, hydrate=False)
+        atomic_json(stop, {'stopped_at':time.time()})
+        policy = private_path(store.root, 'Data/Missions/'+mid+'/run-policy.json',
+                              context=store._profile, hydrate=False)
+        if policy.exists():
+            # Only revoke. Malformed policies remain preserved behind STOP.
+            try: value = read_policy(store, mid)
+            except (OSError, ValueError, TypeError): continue
+            if value.get('enabled'):
+                atomic_json(policy, {**value, 'enabled':False, 'stopped_at':time.time()})
+    if capture(store.root) != store._profile:
+        raise ProfileLocked('The mission login ended during Stop')
+    return sorted(ids)
+
+
 def pause_all(root=ROOT):
     store = Missions(root); store.base.mkdir(parents=True, exist_ok=True)
-    (store.base/"supervisor.stop").touch()
+    atomic_json(store.base/'supervisor.stop', {'stopped_at':time.time()})
     from mission_schedule import pause_schedules
     pause_schedules(root)
+    fenced = _fence_saved_missions(store)
+    from profile_paths import capture, ProfileLocked
+    try:
+        records = store.list()
+    except ProfileLocked:
+        # Exit closes restoration admission before invoking its Stop helper.
+        # Durable STOP/policy/epoch fences are sufficient; do not reopen access
+        # merely to refresh optional checkpoint status text.
+        if store._profile is None or capture(store.root) != store._profile:
+            raise
+        return fenced
     stopped = []
-    for m in store.list():
+    for m in records:
         if m.get('parent'):continue
         try:enabled=read_policy(store,m['id']).get('enabled')
         except (OSError,ValueError):enabled=False
         if m['status'] in ACTIVE or enabled:
             try:disarm(root, m['id']);stopped.append(m['id'])
             except (OSError,ValueError,KeyError,TypeError):
-                # The global stop fence is already durable. A damaged child must
-                # not prevent stopping the remaining independent roots.
+                # Every record is already fenced, including dormant children.
                 continue
     return stopped
 

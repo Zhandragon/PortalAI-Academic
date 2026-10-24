@@ -30,3 +30,5 @@ Only Windows has been thoroughly tested; Linux has partial validation. macOS ins
 
 
 Current distribution correction: [one-off migration removal](DISTRIBUTION-SCOPE-20261024-r9.md) and [validation](DISTRIBUTION-SCOPE-VALIDATION-20261024-r9.json).
+
+Current update: [shutdown and Projection repair](SHUTDOWN-20261024-r10.md) and [receiving validation](SHUTDOWN-VALIDATION-20261024-r10.json).
