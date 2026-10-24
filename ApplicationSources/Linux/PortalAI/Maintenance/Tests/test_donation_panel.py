@@ -41,6 +41,9 @@ class DonationTests(unittest.TestCase):
             self.assertEqual(self.panel.intro.cget('text'),INTRODUCTION)
             self.assertEqual(self.panel.address_labels[1].cget('text'),DESTINATIONS[1][3])
             self.assertEqual(self.panel.address_labels[2].cget('text'),DESTINATIONS[2][3])
+            for qr in self.panel.qr_buttons:
+                self.assertEqual(qr.cget('bg'),palette['panel'])
+                self.assertEqual(qr.cget('activebackground'),palette['panel'])
     def test_grid_reflows_and_never_extends_beyond_page_width(self):
         for width,expected in [(1260,4),(900,2),(550,1)]:
             self.app.geometry(f'{width}x850');self.flush()
@@ -75,6 +78,10 @@ class DonationTests(unittest.TestCase):
             displayed=self.panel.qr_buttons[index].cget('image')
             self.assertEqual(int(self.app.tk.call('image','width',displayed)),230)
             self.assertEqual(int(self.app.tk.call('image','height',displayed)),230)
+            for x,y in ((0,0),(229,0),(0,229),(229,229)):
+                self.assertTrue(self.app.tk.getboolean(self.app.tk.call(displayed,'transparency','get',x,y)))
+            for x,y in ((15,115),(115,15),(215,115),(115,215)):
+                self.assertFalse(self.app.tk.getboolean(self.app.tk.call(displayed,'transparency','get',x,y)))
             if name not in QR_INTERIORS:continue
             original=tk.PhotoImage(master=self.app,file=str(ROOT/'ControlCenter/DonationAssets'/name))
             x0,y0,x1,y1=QR_INTERIORS[name][1]
@@ -83,6 +90,7 @@ class DonationTests(unittest.TestCase):
                 for x in range(x1-x0):
                     actual=self.app.tk.call(displayed,'get',left+x,top+y)
                     self.assertEqual(tuple(map(int,self.app.tk.splitlist(actual))),original.get(x0+x,y0+y))
+                    self.assertFalse(self.app.tk.getboolean(self.app.tk.call(displayed,'transparency','get',left+x,top+y)))
             for x,y in ((0,0),(229,0),(0,229),(229,229),(15,115),(115,15),(215,115),(115,215)):
                 self.assertEqual(tuple(map(int,self.app.tk.splitlist(self.app.tk.call(displayed,'get',x,y)))),(255,255,255))
 

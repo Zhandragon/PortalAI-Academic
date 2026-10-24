@@ -719,7 +719,7 @@ def main(authenticated=None):
 
     from donation_panel import DonationLink
     donate_link = DonationLink(titlebar_right, COLORS)
-    donate_link.pack(side="left", padx=(0, 10), pady=(6, 0), anchor="center")
+    donate_link.pack(side="left", padx=(0, 10), pady=(8, 0), anchor="center")
 
     chrome_buttons["minimize"] = _chrome_button(titlebar_right, "—")
     chrome_buttons["maximize"] = _chrome_button(titlebar_right, "▢")

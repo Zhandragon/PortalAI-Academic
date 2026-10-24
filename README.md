@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r13):** The turquoise **Donate** title-bar link now uses PortalAI's display lettering without an underline. Rounded gold donation cards and tighter spacing keep the entire page visible at the default window size; smaller windows still scroll. QR data and destinations are unchanged. [Changes and validation](Documentation/DONATION-POLISH-20261024-r13.md).
+**Latest update (2026-10-24 r14):** The turquoise **Donate** title-bar link now uses PortalAI's display lettering without an underline. Rounded gold donation cards and tighter spacing keep the entire page visible at the default window size; smaller windows still scroll. QR data and destinations are unchanged. [Changes and validation](Documentation/DONATION-POLISH-20261024-r14.md).
 
 **First-launch update (2026-10-24 r11):** Fixes fresh installations incorrectly asking for an existing administrator. First launch now offers **Create initial administrator**; existing account recovery protections remain. [Changes and validation](Documentation/FIRST-LAUNCH-20261024-r11.md).
 

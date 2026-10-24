@@ -1,6 +1,6 @@
 {
   "date": "2026-10-24",
-  "release": "v2026.10.24-r13",
+  "release": "v2026.10.24-r14",
   "approved_option": "B",
   "tests": [
     {
@@ -25,15 +25,15 @@
       "model_services_started": false,
       "one_native_window": true,
       "initial": {
-        "tk_id": 659096,
-        "hwnd": 592854,
+        "tk_id": 985750,
+        "hwnd": 529252,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
       },
       "final": {
-        "tk_id": 659096,
-        "hwnd": 592854,
+        "tk_id": 985750,
+        "hwnd": 529252,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
@@ -60,7 +60,7 @@
           "link_color": "#007C83",
           "link_box": [
             940,
-            39,
+            40,
             94,
             20
           ],
@@ -84,7 +84,7 @@
           "link_color": "#72D8D2",
           "link_box": [
             940,
-            39,
+            40,
             94,
             20
           ],
@@ -112,15 +112,15 @@
       "model_services_started": false,
       "one_native_window": true,
       "initial": {
-        "tk_id": 723850,
-        "hwnd": 3342712,
+        "tk_id": 18352388,
+        "hwnd": 2493070,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
       },
       "final": {
-        "tk_id": 723850,
-        "hwnd": 3342712,
+        "tk_id": 18352388,
+        "hwnd": 2493070,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
@@ -128,7 +128,7 @@
       "root_remap_events": [],
       "wrong_password_rejected": true,
       "busy_chrome_close_refused": true,
-      "progress": "Workspace verified; opening PortalAI...",
+      "progress": "Verifying the restored working files...",
       "private_ui_after_ready": [
         "settings",
         "chat"
@@ -147,7 +147,7 @@
           "link_color": "#007C83",
           "link_box": [
             940,
-            39,
+            40,
             94,
             20
           ],
@@ -171,7 +171,7 @@
           "link_color": "#72D8D2",
           "link_box": [
             940,
-            39,
+            40,
             94,
             20
           ],
@@ -206,11 +206,76 @@
   "physical_aoostar_tested": false,
   "owner_accounts_modified": false,
   "fixture_storage_policy": "Only disposable GUI fixtures use 1 GiB floor plus 1 GiB output reserve; owner and shipping settings unchanged.",
+  "banner_link_pack_padding": [
+    8,
+    0
+  ],
+  "final_banner_adjustment_pixels": -1,
+  "qr_white_canvas_corner_radius": 12,
+  "qr_rounding_only_in_empty_margin": true,
+  "screenshot_client_crosschecks": {
+    "Full": [
+      {
+        "theme": "Full-donation-light",
+        "captures": [
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Full-donation-light.png",
+            "dark_qr_samples": 2585
+          },
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Full-donation-light-client-probe.png",
+            "dark_qr_samples": 2585
+          }
+        ]
+      },
+      {
+        "theme": "Full-donation-dark",
+        "captures": [
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Full-donation-dark.png",
+            "dark_qr_samples": 2585
+          },
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Full-donation-dark-client-probe.png",
+            "dark_qr_samples": 2585
+          }
+        ]
+      }
+    ],
+    "Academic": [
+      {
+        "theme": "Academic-donation-light",
+        "captures": [
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Academic-donation-light.png",
+            "dark_qr_samples": 2585
+          },
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Academic-donation-light-client-probe.png",
+            "dark_qr_samples": 2585
+          }
+        ]
+      },
+      {
+        "theme": "Academic-donation-dark",
+        "captures": [
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Academic-donation-dark.png",
+            "dark_qr_samples": 2585
+          },
+          {
+            "path": "D:\\Backups\\PortalAI-Donation-Polish-20261024\\Academic-donation-dark-client-probe.png",
+            "dark_qr_samples": 2585
+          }
+        ]
+      }
+    ]
+  },
   "packages": [
     {
       "edition": "Full",
       "platform": "Windows",
-      "archive_sha256": "6cb398fa9d3f89d0ba1075e779c75919d23bc1cd41449f914f98aeae469ec76c",
+      "archive_sha256": "56358f710a13155cdc31cadd8cb2098f4f313f66e1a1fd309531d56e5702c227",
       "payload_files": 5041,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -219,7 +284,7 @@
     {
       "edition": "Full",
       "platform": "Linux",
-      "archive_sha256": "a954939eed425bef195e9d8cc6bfa24f0b6d1bc334229ee7e84895461fbc04ac",
+      "archive_sha256": "f7a418ecfee670f54c244f623d4b5974dec50968bf157faca98e4e1abb8c0a00",
       "payload_files": 4519,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -228,7 +293,7 @@
     {
       "edition": "Full",
       "platform": "Mac",
-      "archive_sha256": "4370ec0cbc075bfbada898b7d972aa77ff3782c0a8eb8258bd1d8f0bd3b9ee41",
+      "archive_sha256": "2b574d99e456cad995b1b93ff24f92bb40da6690ad5b97808ac269b2347c626c",
       "payload_files": 2178,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -237,7 +302,7 @@
     {
       "edition": "Academic",
       "platform": "Windows",
-      "archive_sha256": "e8a33c40d7bad21ffc190a9ac31db82d609fd286ea35669f5e1c044704fd2f4b",
+      "archive_sha256": "f8b81bd002651b27d44fbbce447d27fbfb2193589cf2150e7efc62268d5ce651",
       "payload_files": 4685,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -246,7 +311,7 @@
     {
       "edition": "Academic",
       "platform": "Linux",
-      "archive_sha256": "d11a1c902e3adc56cb656dc735a4f826130d03839ead0e56c72b1a5a4ac9bc2f",
+      "archive_sha256": "ceb4fe3e5d6dcf6c672ea69ad387ded565f05a3565f8ed5bd5fc0f9cf8a28911",
       "payload_files": 4509,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -255,7 +320,7 @@
     {
       "edition": "Academic",
       "platform": "Mac",
-      "archive_sha256": "cd312b6b5dc903fbeff6ada13e329574b4e4d8e261eacae804f23587a16ebece",
+      "archive_sha256": "edbcf89bbaee0d83b7fff10bc165f11e637a9ed94cb3e71d9ff619eb8f3c18e0",
       "payload_files": 2168,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,

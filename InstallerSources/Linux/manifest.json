@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.24-r13-Academic-Linux",
+  "release": "PortalAI-2026.10.24-r14-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467357728,
-      "sha256": "90b338caaf269362d2ea6e51e5607af9c195a60d0added9df6fbcf2ecb0406fd"
+      "bytes": 467358045,
+      "sha256": "33c3b18d3a285819380edcbbbadfffacb53d5f21d2f7a276a588d2862e7eb7c8"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -225,7 +225,7 @@
     "architectures": {
       "x86_64": {
         "base_kib": 15192979,
-        "payload_bytes": 942305437,
+        "payload_bytes": 942307094,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,

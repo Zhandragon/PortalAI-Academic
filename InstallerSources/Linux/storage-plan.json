@@ -5,7 +5,7 @@
   "architectures": {
     "x86_64": {
       "base_kib": 15192979,
-      "payload_bytes": 942305437,
+      "payload_bytes": 942307094,
       "runtime_bytes": 194356930,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 8589934592,

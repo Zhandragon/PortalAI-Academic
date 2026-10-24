@@ -51,6 +51,16 @@ def qr_photo(master, source):
     photo.put('#ffffff', to=(0, 0, photo.width(), photo.height()))
     photo.tk.call(str(photo), 'copy', str(original), '-from', *bounds,
                   '-to', (photo.width() - width) // 2, (photo.height() - height) // 2)
+    # Round only the empty outer canvas margin. The QR and its quiet zone stay
+    # untouched; transparency lets the current card color show at the corners.
+    radius = min(12, (photo.width() - width) // 2, (photo.height() - height) // 2)
+    for y in range(radius):
+        for x in range(radius):
+            if (radius - x - .5) ** 2 + (radius - y - .5) ** 2 > radius ** 2:
+                for px, py in ((x, y), (photo.width() - 1 - x, y),
+                               (x, photo.height() - 1 - y),
+                               (photo.width() - 1 - x, photo.height() - 1 - y)):
+                    photo.transparency_set(px, py, True)
     return photo
 
 
@@ -140,7 +150,7 @@ class DonationPanel(tk.Frame):
             except (OSError,tk.TclError):
                 photo=None
             copy=lambda i=index:self.copy_destination(i)
-            qr=tk.Button(body,image=photo,text='' if photo is not None else 'Copy destination',command=copy,bg='#ffffff',activebackground='#ffffff',
+            qr=tk.Button(body,image=photo,text='' if photo is not None else 'Copy destination',command=copy,bg=colors['panel'],activebackground=colors['panel'],
                          width=230,height=230,padx=0,pady=0,bd=0,highlightthickness=0,cursor='hand2',takefocus=0)
             qr.pack(pady=(0,8));self.qr_buttons.append(qr)
             display='paypal.com · personal donation link' if name=='PayPal' else value
@@ -186,6 +196,7 @@ class DonationPanel(tk.Frame):
         for widget,bg,fg in self.palette_widgets:
             widget.configure(bg=colors[bg],**({'fg':colors[fg]} if fg else {}))
         for card in self.cards:card.configure(bg=colors['panel'])
+        for qr in self.qr_buttons:qr.configure(bg=colors['panel'],activebackground=colors['panel'])
         for border in self.borders:border.apply_palette(colors)
         for button in [self.sponsor,*self.copy_buttons]:
             button.configure(bg=colors['button'],fg=colors['accent'] if button is self.sponsor else colors['text'],
