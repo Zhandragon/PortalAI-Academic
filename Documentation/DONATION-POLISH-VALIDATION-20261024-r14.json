@@ -25,15 +25,15 @@
       "model_services_started": false,
       "one_native_window": true,
       "initial": {
-        "tk_id": 985750,
-        "hwnd": 529252,
+        "tk_id": 7406758,
+        "hwnd": 1315140,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
       },
       "final": {
-        "tk_id": 985750,
-        "hwnd": 529252,
+        "tk_id": 7406758,
+        "hwnd": 1315140,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
@@ -59,10 +59,10 @@
         "light": {
           "link_color": "#007C83",
           "link_box": [
-            940,
-            40,
-            94,
-            20
+            956,
+            43,
+            78,
+            17
           ],
           "navigation_rows": 1,
           "footer_fits": true,
@@ -73,7 +73,7 @@
           "rounded_cards": 4,
           "font": {
             "family": "Copperplate Gothic Bold",
-            "size": 11,
+            "size": 9,
             "weight": "bold",
             "slant": "roman",
             "underline": 0,
@@ -83,10 +83,10 @@
         "dark": {
           "link_color": "#72D8D2",
           "link_box": [
-            940,
-            40,
-            94,
-            20
+            956,
+            43,
+            78,
+            17
           ],
           "navigation_rows": 1,
           "footer_fits": true,
@@ -97,7 +97,7 @@
           "rounded_cards": 4,
           "font": {
             "family": "Copperplate Gothic Bold",
-            "size": 11,
+            "size": 9,
             "weight": "bold",
             "slant": "roman",
             "underline": 0,
@@ -112,15 +112,15 @@
       "model_services_started": false,
       "one_native_window": true,
       "initial": {
-        "tk_id": 18352388,
-        "hwnd": 2493070,
+        "tk_id": 1184456,
+        "hwnd": 2102048,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
       },
       "final": {
-        "tk_id": 18352388,
-        "hwnd": 2493070,
+        "tk_id": 1184456,
+        "hwnd": 2102048,
         "caption": false,
         "override": true,
         "geometry": "1260x820+1290+670"
@@ -146,10 +146,10 @@
         "light": {
           "link_color": "#007C83",
           "link_box": [
-            940,
-            40,
-            94,
-            20
+            956,
+            43,
+            78,
+            17
           ],
           "navigation_rows": 1,
           "footer_fits": true,
@@ -160,7 +160,7 @@
           "rounded_cards": 4,
           "font": {
             "family": "Copperplate Gothic Bold",
-            "size": 11,
+            "size": 9,
             "weight": "bold",
             "slant": "roman",
             "underline": 0,
@@ -170,10 +170,10 @@
         "dark": {
           "link_color": "#72D8D2",
           "link_box": [
-            940,
-            40,
-            94,
-            20
+            956,
+            43,
+            78,
+            17
           ],
           "navigation_rows": 1,
           "footer_fits": true,
@@ -184,7 +184,7 @@
           "rounded_cards": 4,
           "font": {
             "family": "Copperplate Gothic Bold",
-            "size": 11,
+            "size": 9,
             "weight": "bold",
             "slant": "roman",
             "underline": 0,
@@ -207,10 +207,10 @@
   "owner_accounts_modified": false,
   "fixture_storage_policy": "Only disposable GUI fixtures use 1 GiB floor plus 1 GiB output reserve; owner and shipping settings unchanged.",
   "banner_link_pack_padding": [
-    8,
+    12,
     0
   ],
-  "final_banner_adjustment_pixels": -1,
+  "final_banner_adjustment_pixels": 2,
   "qr_white_canvas_corner_radius": 12,
   "qr_rounding_only_in_empty_margin": true,
   "screenshot_client_crosschecks": {
@@ -271,11 +271,12 @@
       }
     ]
   },
+  "donate_matches_default_tab_title_size_pt": 9,
   "packages": [
     {
       "edition": "Full",
       "platform": "Windows",
-      "archive_sha256": "56358f710a13155cdc31cadd8cb2098f4f313f66e1a1fd309531d56e5702c227",
+      "archive_sha256": "0633479f4d963b3e7b94d2a6765ab19fdf572c6bdd2acb4e167060f1f83e3e85",
       "payload_files": 5041,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -284,7 +285,7 @@
     {
       "edition": "Full",
       "platform": "Linux",
-      "archive_sha256": "f7a418ecfee670f54c244f623d4b5974dec50968bf157faca98e4e1abb8c0a00",
+      "archive_sha256": "f9e63e27313660271be71738774f037a607d5453aef25159e64a9cd8c44f1ee3",
       "payload_files": 4519,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -293,7 +294,7 @@
     {
       "edition": "Full",
       "platform": "Mac",
-      "archive_sha256": "2b574d99e456cad995b1b93ff24f92bb40da6690ad5b97808ac269b2347c626c",
+      "archive_sha256": "88385c68cbf6a52c8bc957891de28b1b068a803b5a4416b042bc869d32032094",
       "payload_files": 2178,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -302,7 +303,7 @@
     {
       "edition": "Academic",
       "platform": "Windows",
-      "archive_sha256": "f8b81bd002651b27d44fbbce447d27fbfb2193589cf2150e7efc62268d5ce651",
+      "archive_sha256": "5d89bea1094898b20d9e7416731bfb1b6a0b8d40c45fd49d83eac743b7b63977",
       "payload_files": 4685,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -311,7 +312,7 @@
     {
       "edition": "Academic",
       "platform": "Linux",
-      "archive_sha256": "ceb4fe3e5d6dcf6c672ea69ad387ded565f05a3565f8ed5bd5fc0f9cf8a28911",
+      "archive_sha256": "c62fff127428bcb34f667ab9a9406f7c88422a5e06592c5e6269733f4db11df6",
       "payload_files": 4509,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,
@@ -320,7 +321,7 @@
     {
       "edition": "Academic",
       "platform": "Mac",
-      "archive_sha256": "edbcf89bbaee0d83b7fff10bc165f11e637a9ed94cb3e71d9ff619eb8f3c18e0",
+      "archive_sha256": "9849017b9f833505f247ab1c34fd16d9f9d557a3a3db093936d1c2467fd19813",
       "payload_files": 2168,
       "source_files_verified": 4,
       "upstream_pins_unchanged": true,

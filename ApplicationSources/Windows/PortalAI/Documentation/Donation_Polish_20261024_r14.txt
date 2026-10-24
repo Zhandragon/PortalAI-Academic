@@ -1,7 +1,7 @@
 PortalAI Donation polish — 2026-10-24 r14
 
-Approved option B uses the same display face as Support PortalAI at 11pt bold,
-without an underline. Its title-bar placement adds eight pixels above and none
+Approved option B uses the same display face as Support PortalAI at 9pt bold,
+without an underline. Its title-bar placement adds twelve pixels above and none
 below, lowering the text while retaining the subtle turquoise flat control.
 
 The donation page keeps its original QR data and 230px canvases. Tighter spacing
@@ -13,6 +13,9 @@ The QR artwork, destinations, account guards, six Controls actions and model
 policies are unchanged. The temporary Aoostar importer remains excluded.
 Physical Linux/macOS/Aoostar acceptance is separate from Windows GUI checks.
 
-Final refinement: Donate is 1px higher than the 10px-padding preview. QR white
+Final placement: the 9pt Donate text is 2px lower than the 8px-padding preview. QR white
 canvases have 12px rounded corners within their outer margin. QR module pixels
 and their required quiet zones are unchanged; transparent corners follow the theme.
+
+Final typography: Donate uses the main desktop tab titles' 9pt size at the
+default window, retaining the display family, turquoise color and placement.

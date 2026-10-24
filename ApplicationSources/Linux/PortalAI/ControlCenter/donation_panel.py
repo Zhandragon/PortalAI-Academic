@@ -69,7 +69,7 @@ class DonationLink(tk.Button):
     def __init__(self, parent, colors):
         super().__init__(parent, text='Donate', state='disabled', relief='flat',
                          overrelief='flat', bd=0, highlightthickness=0, padx=7, pady=0,
-                         cursor='hand2', takefocus=1, font=(portal_display_font(parent), 11, 'bold'))
+                         cursor='hand2', takefocus=1, font=(portal_display_font(parent), 9, 'bold'))
         self.apply_palette(colors)
         self.bind('<Return>', self._activate, add='+')
         self.bind('<KP_Enter>', self._activate, add='+')

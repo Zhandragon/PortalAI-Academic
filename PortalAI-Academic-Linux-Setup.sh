@@ -3,7 +3,7 @@
 set -euo pipefail
 SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r14'
 ARCHIVE='PortalAI-Academic-Linux-Installer-20261024-r14.tar.gz'
-ARCHIVE_HASH='ceb4fe3e5d6dcf6c672ea69ad387ded565f05a3565f8ed5bd5fc0f9cf8a28911'
+ARCHIVE_HASH='c62fff127428bcb34f667ab9a9406f7c88422a5e06592c5e6269733f4db11df6'
 TOP='PortalAI-Academic-Linux-Installer-20261024-r14'
 PLATFORM='Linux'
 OWNER='PortalAI-Academic-bootstrap-20261024-r14-Linux'
@@ -76,9 +76,9 @@ printf '%s\n' "$SPACE" | awk -v base="$BASE_KIB" -v floor="$MIN_FREE_KIB" -v out
 
 }
 if [ "$PREPARE_ONLY" -eq 1 ]; then
-    check_setup_space "$SETUP" 2410936 0 0 0
+    check_setup_space "$SETUP" 2410942 0 0 0
 else
-    check_setup_space "$SETUP" 17603915 52428800 104857600 10
+    check_setup_space "$SETUP" 17603921 52428800 104857600 10
 fi
 mkdir -p "$SETUP"
 SETUP=$(cd "$SETUP" && pwd -P)
@@ -113,13 +113,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r14.tar.gz|592791279|ceb4fe3e5d6dcf6c672ea69ad387ded565f05a3565f8ed5bd5fc0f9cf8a28911
+PortalAI-Academic-Linux-Installer-20261024-r14.tar.gz|592797006|c62fff127428bcb34f667ab9a9406f7c88422a5e06592c5e6269733f4db11df6
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r14.tar.gz|592791279|ceb4fe3e5d6dcf6c672ea69ad387ded565f05a3565f8ed5bd5fc0f9cf8a28911
+PortalAI-Academic-Linux-Installer-20261024-r14.tar.gz|592797006|c62fff127428bcb34f667ab9a9406f7c88422a5e06592c5e6269733f4db11df6
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -141,12 +141,12 @@ while IFS='|' read -r name size expected; do
 done <<'ACADEMIC_FILES'
 ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
 install.sh|4758|8aa971a6a23f1a7bf879c09fc8babc845ce686152e6e19a36196b787aa7f9575
-manifest.json|13184|70005e177638ff8744e81ef57b83e409cc2f0fdf7a3378e746885b59e848a863
-payload.tar.gz|467358045|33c3b18d3a285819380edcbbbadfffacb53d5f21d2f7a276a588d2862e7eb7c8
+manifest.json|13184|70ed0f943848f1556df9b521b511031284037fe77d612dab9dffd04c848b5233
+payload.tar.gz|467358082|8d87f77a1acb4fb812b2342647ad44d53f400294e540e2fd0026cb7de44ab498
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
 README.txt|7516|aab4d682c85a723c1e70c6aefbd1645ade3e95d9ff2d6c9102a79889c421b8eb
-SHA256SUMS|205464|45e3b4972dee673fbffd3f7ab1bdff7448b2fb594d284f55a0a9a8be6fd37537
-storage-plan.json|768|f1836751e8eebd3f7364600b59ec119f30aebb9bbb1552b936794b8fd197b8cc
+SHA256SUMS|205464|1ab4a47d949310e6ace14ae82aa62de78350cc3ba980bca6e5842045f6f9302e
+storage-plan.json|768|b3024f59ea345cd34ca9db79bb7624e6816e5cecfd8fa65907a1d7c5cc145203
 storage-preflight.sh|1697|44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67
 Utilities/PortalAI HA Setup/Install PortalAI HA.sh|312|e9faf65cb70c4e9e06143e4586a73040454d8a8d404809b6a144242b5699e548
 Utilities/PortalAI HA Setup/README.txt|3114|19d382cee8759952042cb86fa513134fc78cb9f9c0f39e2c44f50df3336916b2

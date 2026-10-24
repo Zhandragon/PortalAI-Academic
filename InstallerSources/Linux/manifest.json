@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467358045,
-      "sha256": "33c3b18d3a285819380edcbbbadfffacb53d5f21d2f7a276a588d2862e7eb7c8"
+      "bytes": 467358082,
+      "sha256": "8d87f77a1acb4fb812b2342647ad44d53f400294e540e2fd0026cb7de44ab498"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -225,7 +225,7 @@
     "architectures": {
       "x86_64": {
         "base_kib": 15192979,
-        "payload_bytes": 942307094,
+        "payload_bytes": 942307257,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,

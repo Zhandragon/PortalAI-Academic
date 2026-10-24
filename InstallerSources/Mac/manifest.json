@@ -14,8 +14,8 @@
     "files": 2093,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "fb44484aa53531ff93bad88f7c045a7d2340e82374f7778b2cb8e0c28b93377f",
-    "payload_bytes": 502307331,
+    "payload_sha256": "1887672fbf05c78c035e40b2587b9061960f682e136313d16892d3a777ab13f2",
+    "payload_bytes": 502307380,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 502307331,
-      "sha256": "fb44484aa53531ff93bad88f7c045a7d2340e82374f7778b2cb8e0c28b93377f"
+      "bytes": 502307380,
+      "sha256": "1887672fbf05c78c035e40b2587b9061960f682e136313d16892d3a777ab13f2"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -259,7 +259,7 @@
     "architectures": {
       "arm64": {
         "base_kib": 18829698,
-        "payload_bytes": 713698619,
+        "payload_bytes": 713698782,
         "runtime_bytes": 65186210,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
@@ -275,7 +275,7 @@
       },
       "x86_64": {
         "base_kib": 18830564,
-        "payload_bytes": 713698619,
+        "payload_bytes": 713698782,
         "runtime_bytes": 65847372,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
