@@ -16,9 +16,10 @@ from mission_runner import Missions, ACTIVE, process_lock
 from mission_supervisor import read_policy
 from profile_paths import capture, _contained, ProfileLocked
 from runtime_policy import require_space
+from mission_search import matches
 
 
-VIEWS = ('User & unclassified', 'All records', 'Validation tests', 'Deleted (recoverable)')
+VIEWS = ('User missions only', 'User & unclassified', 'All records', 'Diagnostics', 'Deleted (recoverable)')
 LEGACY_TEST_PREFIXES = (
     'Perform this exact bounded installation self-test.',
     'Self-test the offline VM.',
@@ -37,12 +38,16 @@ def visible(row, view):
     if view == 'All records': return True
     if view == 'Deleted (recoverable)': return row['deleted']
     if row['deleted']: return False
-    if view == 'Validation tests': return row['origin']['kind'] in {'validation', 'legacy_validation'}
-    # A legacy heuristic never hides an unknown user mission by default.
+    if view == 'User missions only': return row['origin']['kind'] == 'user'
+    # Retain the old view name for callers outside the GUI.
+    if view in {'Diagnostics', 'Validation tests'}: return row['origin']['kind'] in {'validation', 'legacy_validation'}
+    # The broader legacy view remains available without reclassifying records.
     return row['origin']['kind'] != 'validation'
 
 
 class MissionCatalog:
+    identity_key = 'mission_id'
+
     def __init__(self, root, *, store=None):
         self.store = store or Missions(root)
         self.root = self.store.root
@@ -62,11 +67,11 @@ class MissionCatalog:
 
     def read(self, mid):
         path = self.path(mid)
-        if not path.exists(): return {'version': 1, 'mission_id': mid}
+        if not path.exists(): return {'version': 1, self.identity_key: mid}
         if path.stat().st_size > 128 * 1024: raise ValueError('Oversized mission catalogue entry; original preserved')
         data = json.loads(path.read_text(encoding='utf-8'))
         self.check(path)
-        if not isinstance(data, dict) or data.get('version') != 1 or data.get('mission_id') != mid:
+        if not isinstance(data, dict) or data.get('version') != 1 or data.get(self.identity_key) != mid:
             raise ValueError('Invalid mission catalogue entry; original preserved')
         return data
 
@@ -112,17 +117,36 @@ class MissionCatalog:
             entry['origin'] = {'kind': kind, 'source': source, 'recorded_at': time.time()}
             self._write(mid, entry)
 
+    def classify(self, mid, kind=None):
+        """Save a presentation override without changing the original origin or run."""
+        if kind not in (None, 'user', 'validation', 'unknown'):
+            raise ValueError('Invalid mission classification')
+        self.store.load(mid)
+        with process_lock(self.check(self.base / 'catalog.lock')):
+            entry = self.read(mid)
+            if kind is None:
+                entry.pop('classification', None)
+            else:
+                entry['classification'] = {'kind': kind, 'recorded_at': time.time()}
+            self._write(mid, entry)
+        return entry
+
     @staticmethod
     def origin(mission, entry):
+        manual = entry.get('classification', {})
+        labels = {'user': 'User mission', 'validation': 'Diagnostic', 'unknown': 'Unclassified'}
+        if isinstance(manual, dict) and manual.get('kind') in labels:
+            return {**manual, 'label': labels[manual['kind']], 'confirmed': True,
+                    'manual': True, 'source': 'Manually classified'}
         explicit = entry.get('origin', {})
         if isinstance(explicit, dict) and explicit.get('kind') in {'user', 'validation'}:
-            return {**explicit, 'label': 'User mission' if explicit['kind'] == 'user' else 'Validation test',
+            return {**explicit, 'label': 'User mission' if explicit['kind'] == 'user' else 'Diagnostic',
                     'confirmed': True}
         if any(mission['objective'].startswith(prefix) for prefix in LEGACY_TEST_PREFIXES):
-            return {'kind': 'legacy_validation', 'label': 'Legacy test?', 'confirmed': False,
-                    'source': 'Matches known validation-script wording; original origin was not recorded'}
+            return {'kind': 'legacy_validation', 'label': 'Legacy diagnostic', 'confirmed': False,
+                    'source': 'Grouped for diagnostics by known self-test wording; original origin was not recorded'}
         return {'kind': 'unknown', 'label': 'Unclassified', 'confirmed': False,
-                'source': 'Legacy mission without recorded origin; treated as user work'}
+                'source': 'Legacy mission without recorded origin; available in User & unclassified or All records'}
 
     def _family(self, mid, missions):
         if mid not in missions: raise ValueError('Mission checkpoint is missing or unreadable')
@@ -171,7 +195,7 @@ class MissionCatalog:
         except (OSError, ValueError, KeyError, TypeError): return False
         return True
 
-    def rows(self, view='All records'):
+    def rows(self, view='All records', query=''):
         self.check()
         missions = {row['id']: row for row in self.store.list()}
         self.errors = list(getattr(self.store, 'load_errors', []))
@@ -187,16 +211,37 @@ class MissionCatalog:
             if self._deletion_current(entry, missions):
                 for child in entry['deleted']['checkpoints']: deleted_by[child] = mid
         result = []
+        schedules = {}
+        if any(m.get('schedule_id') for m in missions.values()):
+            from mission_schedule import Schedules
+            schedules = {s['id']: s for s in Schedules(self.root).list()}
         for mid, mission in missions.items():
             origin = self.origin(mission, entries[mid])
             parent = mission.get('parent'); seen = {mid}
-            while origin['kind'] == 'unknown' and parent in missions and parent not in seen:
+            ancestor = mission
+            while origin['kind'] == 'unknown' and not origin.get('manual') and parent in missions and parent not in seen:
                 seen.add(parent)
                 origin = self.origin(missions[parent], entries[parent])
+                ancestor = missions[parent]
                 parent = missions[parent].get('parent')
+            schedule = schedules.get(ancestor.get('schedule_id'), {})
+            manual = schedule.get('classification', {})
+            if (origin['kind'] == 'unknown' and not origin.get('manual') and isinstance(manual, dict)
+                    and manual.get('kind') in {'user', 'diagnostic', 'legacy'}):
+                from schedule_catalog import origin as schedule_origin
+                inherited = schedule_origin(schedule)
+                kind = {'user': 'user', 'diagnostic': 'validation', 'legacy': 'unknown'}[inherited['kind']]
+                origin = {**inherited, 'kind': kind, 'label': {'user': 'User mission', 'validation': 'Diagnostic', 'unknown': 'Unclassified'}[kind],
+                          'source': 'Inherited manual schedule classification'}
             row = {'mission': mission, 'origin': origin,
+                   'classification': (entries[mid].get('classification') or {}).get('kind') if isinstance(entries[mid].get('classification', {}),dict) else None,
                    'deleted': mid in deleted_by, 'deleted_root': deleted_by.get(mid)}
-            if visible(row, view): result.append(row)
+            # Search deliberately spans hidden classifications and recoverable records.
+            if query.strip():
+                if matches(query, mid, mission.get('objective'), mission.get('schedule_id'),
+                           mission.get('parent'), mission.get('status'), origin['label']):
+                    result.append(row)
+            elif visible(row, view): result.append(row)
         self.check()
         return result
 

@@ -5,8 +5,9 @@ import time
 import tkinter as tk
 
 from rounded_text import RoundedText
+from mission_review_issue import SECTION as REVIEW_SECTION, needs_attention, summary as review_summary
 
-SECTIONS=('Overview','Live activity','Results','Action history','Details')
+SECTIONS=('Overview',REVIEW_SECTION,'Live activity','Results','Action history','Details')
 
 
 def when(value):
@@ -85,10 +86,11 @@ def live_state(mission, activity, controller, *, enabled=None):
             'paused_for_chat':'Paused for direct chat'}.get(activity.get('phase'),activity.get('message') or 'Worker active')
 
 
-def render(section, mission, activity, controller, *, details='', schedule=None, enabled=None):
+def render(section, mission, activity, controller, *, details='', schedule=None, enabled=None, historical=False):
     m=mission or {};s=schedule
     state=live_state(m,activity,controller,enabled=enabled)
     if section=='Details':return details
+    if section==REVIEW_SECTION:return review_summary(m,activity,schedule=s,historical=historical)
     if section=='Overview':
         if not m and not s:return details
         if s and not m:
@@ -98,7 +100,11 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
                    'Waiting until '+when(s.get('next_run_at')) if s.get('next_run_at',0)>time.time() else
                    'Waiting for the supervisor to start this run')
         objective=(s or m).get('objective','')
-        rows=['CURRENT ACTIVITY',state,'','OBJECTIVE',objective,'','PROGRESS',
+        rows=['CURRENT ACTIVITY',state,'Mission ID: '+str(m.get('id') or 'No run yet'),
+              *(['Schedule ID: '+str(s.get('id'))] if s else [])]
+        if needs_attention(m,s if not historical else None):
+            rows+=['',review_summary(m,activity,schedule=s,historical=historical)]
+        rows+=['','OBJECTIVE',objective,'','PROGRESS',
               'Actions used / allowed: '+(str(m.get('steps',0))+' / '+str(m.get('max_steps',0)) if m else 'No run yet'),
               'Action awaiting execution or review: '+((m.get('pending_action') or {}).get('action') or 'Nothing found to report.')]
         if s:
@@ -107,8 +113,10 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
                    'Repeat interval: '+('Once only' if not interval else f'Every {interval/60:g} minutes'),
                    'Next planned run: '+when(s.get('next_run_at')),
                    'Run limit: '+(str(s.get('max_runs')) if s.get('max_runs') else 'Until stopped'),
-                   f"Runs completed / started: {s.get('runs_completed',0)} / {s.get('runs_started',0)}"]
-        if m.get('error') or (s or {}).get('error'):rows+=['','NEEDS ATTENTION',m.get('error') or s['error']]
+                   f"Runs completed / started: {s.get('runs_completed',0)} / {s.get('runs_started',0)}",
+                   'Autonomous recovery: '+('On; failed attempts use this run’s budget' if s.get('autonomous_recovery') else 'Off')]
+        if (m.get('error') or (s or {}).get('error')) and not needs_attention(m,s):
+            rows+=['','Use Most Recent Review Issue for a short explanation; Details retains the full error.']
         if m.get('review_instructions'):rows+=['','CURRENT REVIEW INSTRUCTIONS',m['review_instructions']]
         if controller.get('error_log'):rows+=['','SUPERVISOR ERROR',controller['error_log']]
         if controller.get('error'):rows+=['','STATUS ERROR',controller['error']]
@@ -131,7 +139,7 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
     history=m.get('history',[])
     if section=='Results':
         rows=['RESULTS', 'Run ended after the model reported completion. Check the recorded actions in Action history to assess the outcome.' if m.get('status')=='complete' else 'Findings so far; this run has not completed.']
-        selected=[(i,r) for i,r in enumerate(history,1) if r.get('action',{}).get('action') in ('note','remember','complete')]
+        selected=[(i,r) for i,r in enumerate(history,1) if r.get('action',{}).get('action') in ('note','remember','complete','pause')]
         if not selected:selected=list(enumerate(history,1))[-5:]
         if not selected:rows+=['','No completed action results yet. Live activity shows what the worker is doing.']
         for i,row in selected:
@@ -141,6 +149,8 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
             rows+=['',f"STEP {i} · {label}"]
             if kind=='remember':rows+=['Requested memory key: '+str(action.get('key','')),'Requested value',readable(action.get('text')),'Recorded result']
             rows.append(readable(result))
+        if m.get('recovery_history'):
+            rows+=['','AUTONOMOUS RECOVERY','Failed attempts; no successful result was recorded.',readable(m['recovery_history'][-3:])]
         return '\n'.join(rows)
     rows=['ACTION HISTORY','These are saved action outcomes. Model previews are shown separately in Live activity.']
     if not history:rows+=['','No actions have finished.']
@@ -148,6 +158,8 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
         action=row.get('action',{})
         rows+=['',f"STEP {i} · {str(action.get('action','Action')).upper()} · {when(row.get('at'))}",
                'Request',readable({k:v for k,v in action.items() if k!='action'}),'Result',readable(row.get('result'))]
+    if m.get('recovery_history'):
+        rows+=['','FAILED ATTEMPTS / AUTONOMOUS RECOVERY','These consumed budget but did not complete an action.',readable(m['recovery_history'])]
     return '\n'.join(rows)
 
 
@@ -157,10 +169,10 @@ class RunViewer(tk.Frame):
         self.store=store;self.skin=skin;self.context={};self.run_ids={};self.identity=None
         bar=skin.frame(self);bar.pack(fill='x',pady=(0,3))
         self.section=tk.StringVar(self,value='Overview')
-        self.sections=skin.combo(bar,self.section,SECTIONS);self.sections.configure(width=15)
+        self.sections=skin.combo(bar,self.section,SECTIONS);self.sections.configure(width=26)
         self.sections.pack(side='left',padx=(0,4))
         self.run=tk.StringVar(self,value='Selected mission')
-        self.runs=skin.combo(bar,self.run,['Selected mission']);self.runs.configure(width=20)
+        self.runs=skin.combo(bar,self.run,['Selected mission']);self.runs.configure(width=12)
         self.runs.pack(side='left',fill='x',expand=True)
         self.text=RoundedText(self,palette=skin.colors,scrollbars=True,horizontal=False,height=height,
                               font=('Segoe UI',9),wrap='word',bg=skin.colors['panel'],fg=skin.colors['text'],state='disabled')
@@ -171,10 +183,15 @@ class RunViewer(tk.Frame):
     def update_view(self,mission=None,*,details='',schedule=None,enabled=None):
         identity=(schedule or mission or {}).get('id')
         changed=identity!=self.identity;self.identity=identity
+        attention=needs_attention(mission,schedule)
+        focus_issue=attention and (changed or not needs_attention(self.context.get('mission'),self.context.get('schedule')) and self.section.get()=='Overview')
+        if focus_issue:
+            self.section.set(REVIEW_SECTION)
         self.context=dict(mission=mission,details=details,schedule=schedule,enabled=enabled)
         options={}
         if schedule:
             if schedule.get('active_run'):options['Current run']=schedule['active_run']
+            elif schedule.get('status')=='needs_review':options['Schedule issue']=None
             history=schedule.get('history',[])
             for i,row in reversed(list(enumerate(history,1))):
                 if isinstance(row,dict) and isinstance(row.get('mission'),str):
@@ -183,7 +200,7 @@ class RunViewer(tk.Frame):
         self.run_ids=options;choices=list(options) or ['No runs yet']
         self.runs.configure(values=choices,state='readonly' if len(choices)>1 else 'disabled')
         if changed or self.run.get() not in options:self.run.set(choices[0])
-        self.draw(reset=changed)
+        self.draw(reset=changed or focus_issue)
 
     def draw(self,*,reset=False):
         from mission_activity import read
@@ -191,9 +208,13 @@ class RunViewer(tk.Frame):
         try:
             mid=self.run_ids.get(self.run.get())
             if mid:mission=self.store.load(mid);activity=read(self.store,mid)
+            elif self.run.get()=='Schedule issue':mission=None
             controller=controller_status(self.store)
-            text=render(self.section.get(),mission,activity,controller,**{k:v for k,v in context.items() if k!='mission'})
-        except (OSError,ValueError,KeyError,TypeError) as exc:text='Run details unavailable: '+str(exc)
+            historical=bool(context.get('schedule') and mid and mid!=context['schedule'].get('active_run'))
+            text=render(self.section.get(),mission,activity,controller,historical=historical,**{k:v for k,v in context.items() if k!='mission'})
+        except (OSError,ValueError,KeyError,TypeError) as exc:
+            text=(review_summary({'id':mid} if mid else None,schedule=context.get('schedule'),unavailable=exc)
+                  if self.section.get()==REVIEW_SECTION else 'Run details unavailable: '+str(exc))
         if len(text)>160000:text=text[:160000]+'\n\nDisplay limit reached. The complete records remain in the mission folder.'
         if self.text.get('1.0','end-1c')==text:return
         position=0 if reset else self.text.yview()[0]

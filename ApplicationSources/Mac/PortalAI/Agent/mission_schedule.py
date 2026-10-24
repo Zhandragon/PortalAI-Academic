@@ -55,6 +55,7 @@ class Schedules:
             not isinstance(s.get('next_run_at'),(int,float)) or not math.isfinite(s['next_run_at']) or s['next_run_at']<0 or
             s.get('status') not in {'paused','scheduled','running','complete','needs_review','removed'} or
             ('setup_failures' in s and (type(s['setup_failures']) is not int or not 0<=s['setup_failures']<=1000000)) or
+            ('autonomous_recovery' in s and type(s['autonomous_recovery']) is not bool) or
             not isinstance(s.get('history'),list)):
             raise ValueError('Invalid schedule values; original file preserved')
         if s.get('active_run'):self.store.folder(s['active_run'])
@@ -121,6 +122,29 @@ class Schedules:
             s.pop('error',None);self.save(s)
             (self.store.base/'supervisor.stop').unlink(missing_ok=True)
             return s
+
+    def classify(self, sid, kind=None):
+        """Change only a presentation override under the scheduler's write lock."""
+        if kind not in (None, 'user', 'diagnostic', 'legacy'):
+            raise ValueError('Invalid schedule classification')
+        self.path(sid)  # Check the captured login before opening the lock.
+        with process_lock(self.store.base/'schedules.lock'):
+            s=self.load(sid)
+            if kind is None:
+                s.pop('classification',None)
+            else:
+                s['classification']={'kind':kind,'recorded_at':time.time()}
+            self.save(s)
+        return s
+
+    def set_autonomous_recovery(self, sid, enabled):
+        if type(enabled) is not bool:raise ValueError('Autonomous recovery must be true or false')
+        self.path(sid)
+        with process_lock(self.store.base/'schedules.lock'):
+            s=self.load(sid)
+            s['autonomous_recovery']=enabled
+            self.save(s)
+        return s
 
     def disable(self, sid):
         with process_lock(self.store.base/'schedules.lock'):
@@ -190,15 +214,31 @@ class Schedules:
                             continue
                         self._ensure_run(s)
                         m=self.store.load(s['active_run'])
-                        if m['status']=='complete':
-                            s['runs_completed']+=1
-                            s['history']=(s['history']+[{'mission':m['id'],'finished_at':m['updated_at'],'status':'complete'}])[-128:]
+                        if m['status']=='needs_review' and s.get('autonomous_recovery'):
+                            from mission_recovery import recover
+                            try:
+                                with self.store.lock(m['id']):
+                                    m=self.store.load(m['id'])
+                                    if m['status']=='needs_review':recover(self.store,m,m.get('error','Planning needs another strategy'))
+                            except OSError:
+                                continue  # A worker owns the checkpoint; inspect it on the next tick.
+                            m=self.store.load(m['id'])
+                        if m['status']=='complete' or (m['status']=='budget_exhausted' and s.get('autonomous_recovery') and not m.get('pending_action') and not self.store.stopped(m)):
+                            s['runs_completed']+=int(m['status']=='complete')
+                            outcome={'mission':m['id'],'finished_at':m['updated_at'],'status':m['status']}
+                            if m['status']=='budget_exhausted':
+                                outcome['error']='Occurrence budget used; continue unfinished work with a different strategy on the next heartbeat.'
+                                outcome['last_failure']=m.get('recovery_history',[])[-1:]
+                            s['history']=(s['history']+[outcome])[-128:]
                             s['active_run']=None
                             if not s['interval_seconds'] or (s['max_runs'] and s['runs_started']>=s['max_runs']):
                                 s.update(enabled=False,status='complete')
                             else:
                                 # Coalesce missed ticks; never replay a backlog or overlap work.
                                 s.update(next_run_at=max(s['next_run_at']+s['interval_seconds'],now+s['interval_seconds']),status='scheduled')
+                            self.save(s)
+                        elif m.get('agent_pause'):
+                            s.update(enabled=False,status='paused',error='Agent paused: '+str(m.get('error','No further progress possible')))
                             self.save(s)
                         elif m.get('pending_action') or m['status'] not in ACTIVE or self.store.stopped(m):
                             s.update(enabled=False,status='needs_review',error='Active run requires review/resume; no later run will start')

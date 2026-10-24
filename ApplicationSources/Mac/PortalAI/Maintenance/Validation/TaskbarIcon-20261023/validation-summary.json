@@ -1,0 +1,65 @@
+{
+  "change": "High-resolution Windows taskbar and Alt+Tab window icons",
+  "date": "2026-10-23",
+  "tests": 33,
+  "passed": 32,
+  "skipped": 1,
+  "modules": [
+    {
+      "module": "test_gui_maintenance",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1
+    },
+    {
+      "module": "test_gui_stop_contract",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_window_icons",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_window_minimize",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "source_scan": {
+    "passed": true,
+    "files_checked": 691,
+    "errors": [],
+    "warnings": []
+  },
+  "native_evidence": {
+    "before_class_icon_pixels": [
+      32,
+      16
+    ],
+    "after_window_icon_pixels": [
+      256,
+      64
+    ],
+    "wrapper_recreation_cycles": 12,
+    "resize_cycles": 20,
+    "file_drop_minimize_restore_cycles": 6,
+    "dpi_policy_changed": false
+  },
+  "baseline": "Installed Windows r33; cumulative handoff retains every r31/r32/r33 change",
+  "not_claimed": [
+    "Owner mission execution",
+    "Physical multi-monitor/high-DPI visual acceptance",
+    "Linux/macOS visual acceptance"
+  ],
+  "owner_missions_resumed": false,
+  "owner_model_preferences_changed": false
+}

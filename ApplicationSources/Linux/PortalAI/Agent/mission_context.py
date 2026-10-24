@@ -140,12 +140,20 @@ def build_messages(store, mission, instruction, children, notes, context_tokens,
         if schedule.get('active_run') != mission['id'] or schedule['mode'] != mission['mode']:
             raise MissionContextError('This mission is not the current scheduled run; review its schedule before planning.')
         base['scheduled_run'] = {
+            'autonomous_recovery': schedule.get('autonomous_recovery',False),
+            'previous_run_outcome': result_value(clip(schedule.get('history',[])[-1:],1800)),
             'occurrence': schedule['runs_started'],
             'previous_runs_completed': schedule['runs_completed'],
             'run_limit': schedule['max_runs'] or 'until stopped',
-            'rule': ('This is a later occurrence; the first run has already ended. If the objective distinguishes first-run work from next-run or recurring work, perform the next-run or recurring work NOW. Do not defer it merely because the objective is repeated. '
-                     if schedule['runs_completed'] else 'This is the first occurrence. If the objective distinguishes first-run work from later work, perform the first-run work now. ')+
-                    'Saved memory may describe previous occurrences. Current history contains only actions in this occurrence; a previous run completing does not finish this run.'}
+            'rule': ('This is a later occurrence; inspect the previous outcome and continue unfinished work. An ended run may have exhausted its budget without completing. If the objective distinguishes first-run work from next-run or recurring work, perform the next-run or recurring work NOW. Do not defer it merely because the objective is repeated. '
+                     if schedule['runs_started']>1 else 'This is the first occurrence. If the objective distinguishes first-run work from later work, perform the first-run work now. ')+
+                    'Saved memory may describe previous occurrences. Current history contains only actions in this occurrence; a previous run completing does not finish this run. Use previous_run(start,count) to inspect the preceding run before repeating effects, especially after budget exhaustion.'}
+    if mission.get('recovery_history'):
+        base['autonomous_recovery']={
+            'recent_failures':[{'action':result_value(clip(row.get('action'),500)),
+                                'error':clip(row.get('error',''),1200),'outcome':row.get('outcome')}
+                               for row in mission['recovery_history'][-2:]],
+            'rule':'These attempts failed; they are not completed actions. Change strategy using the error and saved access. Use pause(text) if you cannot proceed. Do not repeat uncertain external effects.'}
     if mission['history']:
         row = mission['history'][-1]
         base['last_completed_step'] = {

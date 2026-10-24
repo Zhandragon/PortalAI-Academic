@@ -377,7 +377,7 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                              'schedules',
                              'access mode',
                              'action budget'],
-                 'body': 'Persistence is a main tab, with Missions & access and Schedules directly available. '
+                 'body': 'Persistence is a main tab, with Missions and Schedules directly available. '
                          'Choose an objective, access mode and action budget, then create a mission. Creating '
                          'does not arm it. Select a mission to inspect its current state and details; use Run '
                          'until finished explicitly. Full uses current-user host access. Observe restricts '

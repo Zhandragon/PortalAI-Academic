@@ -1,0 +1,63 @@
+MISSION REVIEW CLARITY AND READING LAYOUT - 2026-10-23 (Windows r33)
+
+QUICK REVIEW
+Select a mission or schedule, then choose Most Recent Review Issue in the
+details viewer. A blocked selection opens this view automatically. If a run
+becomes blocked while you are on Overview, its summary opens at the top.
+Refreshing preserves other manually selected views and unsaved drafts.
+
+The summary presents the problem and what to do next, plus the attempted read
+path when available and the mission ID to search for. It explains common file
+restrictions, missing inputs, repeated plans, invalid model responses, context
+limits, memory/service problems, blocked subtasks and exhausted budgets.
+Unknown errors remain short attributed excerpts; Details and Action history
+retain the original evidence. No extra LLM inference is needed for this view.
+The view never treats the model's uncommitted response preview as an error,
+proof of execution, a review decision or an instruction.
+
+An interrupted action with possible external effects still needs its outcome
+checked before choosing skip or retry. Reading a summary does not approve,
+resume or enable anything. Saved review-history entries and retained activity
+events allow earlier issues to remain visible after review, clearly labeled as
+earlier rather than current. No historical issue is invented if the older
+records lack evidence. Previous-run selection scopes the summary to that run.
+Schedule setup failures without an active run have a separate Schedule issue
+choice, so an old completed run cannot conceal the current setup problem.
+Unreadable linked missions have a plain explanation and the linked ID.
+
+To address a scheduled run, search its Mission ID in Missions. Expand Add review
+instructions to provide corrected input or a different strategy. Review any
+pending action explicitly, Resume if it is stopped, then Enable the schedule
+when ready. Exhausted runs need a new budget/occurrence; Stop and access limits
+remain authoritative. Removed schedules must be restored before enabling.
+
+READING-FIRST LAYOUT
+New mission / New schedule opens the creation form. It starts collapsed, keeps
+its draft while collapsed and leaves most of the page for saved records and
+their details. Create paused schedule is inside its creation form.
+Search is always visible and accepts IDs and keywords. Filters (and mission
+list actions such as Delete/Restore) are in a compact expandable panel.
+Classification and schedule recovery settings are expandable beside the details.
+Frequent run/Stop/Resume/review and schedule Enable/Disable actions remain at
+the bottom. Add review instructions expands only when you need to enter guidance.
+
+At wider widths, details receive 60 percent of the two-column area. Narrow
+windows stack the list above the details, with scrolling retained. Both panes
+grow and shrink with the window. Schedule numeric entries have practical widths;
+the Autonomous recovery checkbox keeps a readable single-line label. Collapsing,
+resizing, refreshing and changing theme do not discard draft text or selection.
+Expanded forms can require page scrolling at small window sizes.
+
+DISTRIBUTION AND VALIDATION
+This revision includes the r31 organization/autonomy and r32 sorting changes.
+The r3 HA Codex source handoff supersedes r1/r2 and includes their final data.
+Merge it against the receiving copy's platform-specific code; do not overwrite
+newer files wholesale. No HA or Projection protocol change is required.
+Windows r33 installer and Windows mirrors contain the update. Other platform
+archives retain their previous versions.
+
+Exact disposable-record and native Tk results are recorded in
+Maintenance/Validation/ReviewIssue-20261023/validation-summary.json.
+No owner mission execution, live-model business outcome, physical HA/Linux/macOS
+or clean-recipient installer acceptance is claimed. Normal Exit, completed
+account sealing and verified source recovery are required before replacement.

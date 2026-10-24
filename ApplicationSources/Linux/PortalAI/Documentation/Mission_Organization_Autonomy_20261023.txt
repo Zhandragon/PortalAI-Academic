@@ -1,0 +1,79 @@
+PortalAI mission organization and autonomous schedule recovery - 2026-10-23
+
+Interface
+The Persistence subtab and Controls menu now say Missions. The introduction is:
+Missions are one-shot tasks that run until completed.
+Schedules explains periodic heartbeat runs, the selected run limit, and indefinite
+operation. Existing action budgets, access modes and Stop still apply.
+
+Search
+Both saved-record lists have Search IDs / keywords. Matching is literal,
+case-insensitive and partial. Multiple whitespace-separated words must all match
+somewhere in the record's ID, objective, linked IDs, saved status or category.
+Mission searches also match their schedule and parent IDs; schedules also match
+the active mission and source template IDs. Search spans all classifications and
+recoverable deleted/removed records. Clear restores the existing filters. A unique
+match is selected automatically. Search only reads existing records.
+
+Classification
+Select a record, choose Automatic, User, Diagnostic or Unclassified, then Apply.
+The manual choice wins over inferred and recorded origins without erasing those
+origins. Automatic removes the override. Mission overrides live in the private
+mission catalog; schedule overrides live in the schedule under its write lock.
+Unclassified scheduled runs inherit a manual schedule classification unless the
+run has its own explicit classification. Classification never changes permissions,
+arming, Stop, pending actions, history, timing or run counts.
+
+Autonomous recovery
+Select a schedule and check Autonomous recovery. This setting defaults OFF for
+all existing and new schedules. It saves immediately; it does not Enable a
+schedule, clear Stop, or resolve an existing uncertain action.
+
+When ON, ordinary planning failures and failed/interrupted read-only actions
+(read_file, history, previous_run, recall and inbox) may replan after bounded
+backoff. Failure evidence is retained separately from completed actions and is
+included in the next plan. A failed attempt consumes one unit of the existing
+per-run action budget. The next plan should change strategy instead of repeating
+the same failed proposal. One proposal correction remains bounded as before.
+
+An occurrence that uses its budget can yield to the next scheduled heartbeat;
+there is no overlapping run or missed-run backlog. Its outcome is explicitly
+budget_exhausted, not a successful completion. The selected run limit still ends
+the schedule. The next occurrence receives the previous outcome and can use
+previous_run(start,count) to inspect exact saved action evidence from the most
+recent ended occurrence of the same schedule and access mode. The tool cannot
+choose unrelated mission IDs or access another account.
+
+pause(text) lets Nice state that it cannot achieve the objective or needs human
+input. The reason is saved and the scheduler pauses. A paused subtask propagates
+its agent decision to the parent. Human Resume or reviewed guidance can clear
+the agent pause; a schedule still requires explicit Enable.
+
+Uncertain external effects (shell, sends, account operations, writes), corrupted
+records, revoked account sessions, explicit Stop/Disable/Exit and permission
+boundaries remain protected. These are not treated as successful or safe to
+repeat. The toggle is autonomous strategy recovery, not unrestricted replay or
+a way to elevate a mission's saved access mode. A failed read_file of an external
+workspace still fails; only an already-authorized Full mission may choose shell
+for external files. Unsupported inputs may lead Nice to pause with a reason.
+
+Review and visibility
+Enable is unavailable when the schedule's linked run needs review or has Stop,
+even if the schedule itself says paused. The exact mission ID appears beside
+the recovery control and in Overview. Search that ID in Missions to inspect it.
+Results and Action history distinguish failed recovery attempts from successes.
+
+Validation
+See the accompanying validation-summary.json and per-module logs for actual
+results. Tests use disposable records and native Tk controls. The process smoke
+uses owned synthetic workers. These checks do not establish business success or
+small-model planning quality. No owner mission was resumed or reclassified by
+the implementation, and no model preference was changed.
+
+Installation
+Merge against the receiving copy's current source; preserve newer platform,
+account and lifecycle code. Use normal Exit and verify account sealing before
+replacing live source. Keep a checksum-verified source recovery including shared
+configuration and numbered master instructions. Reopen normally after install.
+This is a shared Python desktop feature. HA projection protocol and companion
+payloads are unchanged; a projected native UI uses the updated desktop controls.

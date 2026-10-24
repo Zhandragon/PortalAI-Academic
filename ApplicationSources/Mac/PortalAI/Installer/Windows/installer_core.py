@@ -236,8 +236,6 @@ def extract_allowlist(archive_path, members, root, stop):
             raise InstallError('Archive has duplicate member names')
         for info in infos:
             relative(info.filename.rstrip('/'))
-            if stat.S_ISLNK(info.external_attr >> 16):
-                raise InstallError('Archive links are not supported')
         for row in members:
             validate_pin(row)
             relative(row['member'])
@@ -246,6 +244,11 @@ def extract_allowlist(archive_path, members, root, stop):
                 raise InstallError('Duplicate destination')
             destinations.add(row['dest'].casefold())
             info = archive.getinfo(row['member'])
+            # Unselected upstream entries are never opened or installed. Some
+            # source archives include development-only symlinks; reject links
+            # only when selected, without following or materializing them.
+            if stat.S_ISLNK(info.external_attr >> 16):
+                raise InstallError('Selected archive member is a link: ' + row['member'])
             if info.is_dir() or info.file_size != row['bytes']:
                 raise InstallError('Archive member does not match pinned metadata')
             checked_path(root, row['dest'])
@@ -566,8 +569,10 @@ def install(package, destination, selected, stop=None, progress=None):
     stage = checked_path(work_parent, '.PortalAI-installing-' + uuid.uuid4().hex[:12])
     stage.mkdir()
     progress('Installing and verifying files in ' + str(stage), 0, len(expected_files))
+    progress('Installing bundled application files', 0, 0)
     extract_allowlist(payload, manifest['payload']['members'], stage, stop)
     for artifact, path in downloaded:
+        progress('Installing ' + artifact['id'], 0, 0)
         if artifact.get('format') == 'file':
             if len(artifact['members']) != 1:
                 raise InstallError('Direct files require one destination')

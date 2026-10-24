@@ -1,0 +1,115 @@
+{
+  "change": "Clickable mission and schedule property sorting with durable presentation-date fallbacks",
+  "date": "2026-10-23",
+  "tests": 76,
+  "passed": 76,
+  "skipped": 0,
+  "modules": [
+    {
+      "module": "test_account_permissions",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_catalog",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_catalog_tk",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_organization",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_organization_tk",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_review_tk",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_schedule",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_persistence_priority_tk",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_persistence_readability_tk",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_portable_profile_paths",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_record_dates",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_record_sorting_tk",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_schedule_catalog",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "source_scan": {
+    "passed": true,
+    "files_checked": 686,
+    "errors": [],
+    "warnings": []
+  },
+  "scope": "Disposable records and native Tk heading callbacks; refresh, search, review drafts, typed sorting, date persistence, deleted-record and profile guards, compact layouts.",
+  "baseline": "Installed and published Windows r31 before implementing sorting, as requested.",
+  "not_claimed": [
+    "Owner mission or schedule execution",
+    "Live-model strategy or business success",
+    "Physical HA/Linux/macOS or clean-recipient install acceptance"
+  ],
+  "owner_missions_resumed": false,
+  "owner_model_preferences_changed": false
+}

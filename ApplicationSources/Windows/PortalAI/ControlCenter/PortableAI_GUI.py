@@ -638,6 +638,8 @@ def main(authenticated=None):
             app.iconbitmap(default=str(portable_icon_path))
         except Exception:
             pass
+    from window_icons import install as install_window_icons
+    install_window_icons(app, portable_icon_path)
     app.configure(bg=COLORS["bg"])
     app.minsize(500, 400)
     app.resizable(True, True)
@@ -4156,7 +4158,7 @@ def main(authenticated=None):
             elif tab == "settings":
                 items += [_menu_item("Check chat hardware fit", settings_page.probe), _menu_item("Save chat settings", settings_page.save), _menu_item("Check media hardware fit", lambda:settings_page.probe("media")), _menu_item("Save media settings", lambda:settings_page.save("media")), _menu_item("Persistence", open_account_missions)]
             elif tab == "persistence":
-                items += [_menu_item("Missions & access", lambda:persistence_page.select("missions")), _menu_item("Schedules", lambda:persistence_page.select("schedules"))]
+                items += [_menu_item("Missions", lambda:persistence_page.select("missions")), _menu_item("Schedules", lambda:persistence_page.select("schedules"))]
             elif tab == "maintenance":
                 items += [_menu_item("Run selected diagnostic", show_or_run_component_diagnostic),
                           _menu_item("Repair missing executables", repair_executables),

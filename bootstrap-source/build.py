@@ -80,7 +80,7 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261022.5', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261024.6', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:

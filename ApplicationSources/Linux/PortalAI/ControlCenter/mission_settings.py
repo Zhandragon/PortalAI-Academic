@@ -6,6 +6,8 @@ import queue
 import sys
 import threading
 import tkinter as tk
+from record_dates import RecordDates, describe as describe_dates, formatted as date_text
+from record_controls import RecordSort, record_name, FoldPanel, record_columns
 from rounded_text import RoundedText
 from gold_controls import GoldSpinbox
 from tkinter import ttk, messagebox
@@ -16,15 +18,20 @@ def mission_details(mission=None, *, mode=None, catalogue=None, memory=None, sup
     def when(item):
         if item is None:return None
         try:return datetime.fromtimestamp(item).strftime('%Y-%m-%d %H:%M:%S (local time)')
-        except (ValueError, TypeError, OSError):return 'Invalid saved time; review required.'
+        except (ValueError, TypeError, OverflowError, OSError):return 'Invalid saved time; review required.'
     def value(item):
         if item is None or item == '' or item == [] or item == {}: return 'Nothing found to report.'
         return json.dumps(item, indent=2, ensure_ascii=False) if isinstance(item, (dict, list)) else str(item)
+    dates = (catalogue or {}).get("dates") or describe_dates(m)
     fields = [
-        ('Mission ID', m.get('id')), ('Objective', m.get('objective')),
+        ('Mission ID', m.get('id')), ('Name', record_name(m)), ('Objective', m.get('objective')),
+        ('Created (local)', date_text(dates['created_at'], dates['created_fallback'])),
+        ('Updated (local)', date_text(dates['updated_at'], dates['updated_fallback'])),
+        ('Date information', dates['note']),
         ('Access permissions', (mode or {}).get('description')), ('Current status', m.get('status')),
         ('Actions used / allowed', f"{m.get('steps', 0)} / {m.get('max_steps', 0)}" if mission else None),
-        ('Record source', (catalogue or {}).get('origin', {}).get('label')), ('Schedule ID', m.get('schedule_id')),
+        ('Record source', (catalogue or {}).get('origin', {}).get('label')),
+        ('Classification basis', (catalogue or {}).get('origin', {}).get('source')), ('Schedule ID', m.get('schedule_id')),
         ('Automatic continuation', ('Armed to continue' if supervision.get('enabled') else 'Not armed') if supervision is not None else None),
         ('Direct chat checkpoint', m.get('chat_checkpoint')),
         ('Next planned run', when(m.get('next_run_at'))), ('Subtasks being waited for', m.get('waiting_for_children')),
@@ -55,20 +62,24 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     from mission_catalog import MissionCatalog, VIEWS
     store = Missions(root)
     catalog = MissionCatalog(root, store=store)
+    date_catalog = RecordDates(root, "missions", store=store)
     from internal_sheet import InternalSheet
-    win = InternalSheet(parent, 'Missions and access', colors,embedded=embedded,framed=framed,fill_height=True)
+    win = InternalSheet(parent, 'Missions', colors,embedded=embedded,framed=framed,fill_height=True)
     bg = colors.get("panel", colors.get("bg", "#17202A"))
     fg = colors.get("text", "#E5E5E5")
     accent = colors.get("accent", "#55C5BF")
     win.configure(bg=bg)
     frame = tk.Frame(win.content, bg=bg, padx=12, pady=5)
     frame.pack(fill="both", expand=True)
-    tk.Label(frame, text="Armed missions can resume after sign-in. Stop pauses them; runtime services are separate. Delete hides stopped records; Restore keeps files and history.", bg=bg, fg=fg, anchor='w', wraplength=1100, justify="left").pack(fill='x', pady=(0, 4))
-    win.skin.label(frame, 'New mission objective', heading=True).pack(fill='x', anchor='w')
-    objective = RoundedText(frame,palette=win.skin.colors,scrollbars=True,horizontal=False, height=2 if embedded else 3, wrap="word", bg=bg, fg=fg, insertbackground=fg, relief="solid", bd=1)
+    tk.Label(frame, text="Missions are one-shot tasks that run until completed.", bg=bg, fg=fg, anchor='w', wraplength=1100, justify="left").pack(fill='x', pady=(0, 4))
+    creation = FoldPanel(frame,win.skin,'New mission')
+    creation.pack(fill='x',pady=(0,3));create_body=creation.body
+    win.creation_panel=creation
+    win.skin.label(create_body, 'New mission objective', heading=True).pack(fill='x', anchor='w')
+    objective = RoundedText(create_body,palette=win.skin.colors,scrollbars=True,horizontal=False, height=2 if embedded else 3, wrap="word", bg=bg, fg=fg, insertbackground=fg, relief="solid", bd=1)
     objective.pack(fill="x")
     objective_state = tk.StringVar(value='No objective entered. Describe the outcome, inputs and limits; choose access and a budget, then Create mission.')
-    tk.Label(frame, textvariable=objective_state, anchor='w', bg=bg, fg=accent, wraplength=780, justify='left').pack(fill='x', pady=(3, 0))
+    tk.Label(create_body, textvariable=objective_state, anchor='w', bg=bg, fg=accent, wraplength=780, justify='left').pack(fill='x', pady=(3, 0))
     def objective_changed(*_):
         if objective.edit_modified():
             objective_state.set('Draft only; nothing runs until you create and explicitly start the mission.' if objective.get('1.0', 'end').strip() else
@@ -76,7 +87,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             objective.edit_modified(False)
     objective.bind('<<Modified>>', objective_changed, add='+')
     from ui_extensions import ResponsiveFlow
-    settings = ResponsiveFlow(frame, bg=bg, hgap=6, vgap=5)
+    settings = ResponsiveFlow(create_body, bg=bg, hgap=6, vgap=5)
     settings.pack(fill="x", pady=3)
     mode_labels = {profile(key)["label"]: key for key in MODES}
     mode = tk.StringVar(value=profile("observe")["label"])
@@ -92,49 +103,59 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         mode_description.set(profile(mode_labels[mode.get()])["description"] + " Applies to new missions.")
     mode.trace_add("write", describe)
     describe()
-    tk.Label(frame, textvariable=mode_description, bg=bg, fg=fg, anchor='w', justify="left", wraplength=1100).pack(fill='x', pady=(0, 3))
-    filters = ResponsiveFlow(frame, bg=bg, hgap=6, vgap=4)
+    tk.Label(create_body, textvariable=mode_description, bg=bg, fg=fg, anchor='w', justify="left", wraplength=1100).pack(fill='x', pady=(0, 3))
+    from record_controls import RecordSearch, RecordClassification
+    data_area=tk.Frame(frame,bg=bg);data_area.pack(fill='both',expand=True)
+    table=tk.Frame(data_area,bg=bg)
+    detail_host=tk.Frame(data_area,bg=bg)
+    record_columns(data_area,table,detail_host)
+    win.skin.label(table, 'Saved missions', heading=True).pack(fill='x', anchor='w', pady=(0, 2))
+    search = RecordSearch(table, win.skin, lambda: refresh())
+    search.pack(fill='x',pady=(0,3))
+    filter_panel=FoldPanel(table,win.skin,'Filters & list actions');filter_panel.pack(fill='x')
+    win.filters_panel=filter_panel
+    filters = ResponsiveFlow(filter_panel.body, bg=bg, hgap=6, vgap=4)
     filters.pack(fill='x', pady=(0, 3))
     filters.add(tk.Label(filters,text='Show',bg=bg,fg=fg))
     view = tk.StringVar(value=VIEWS[0])
     picker = win.skin.combo(filters,view,VIEWS);picker.configure(width=23)
     filters.add(picker)
     count = tk.StringVar()
-    filters.add(tk.Label(filters, textvariable=count, bg=bg, fg=fg))
-    tk.Label(frame, text='Legacy test? is a wording hint, not proven origin. Unclassified records stay visible.',
-             bg=bg, fg=fg, anchor='w', wraplength=1100, justify='left').pack(fill='x', pady=(0, 2))
-    data_area=tk.Frame(frame,bg=bg);data_area.pack(fill='both',expand=True)
-    table=tk.Frame(data_area,bg=bg)
-    detail_host=tk.Frame(data_area,bg=bg)
-    from ui_extensions import adaptive_columns
-    adaptive_columns(data_area,[table,detail_host],minimum=850 if embedded else 1350,stretch=True)
-    win.skin.label(table, 'Saved missions', heading=True).pack(fill='x', anchor='w', pady=(0, 2))
+
     list_note = tk.StringVar()
     tk.Label(table, textvariable=list_note, anchor='w', bg=bg, fg=fg, wraplength=480, justify='left').pack(fill='x', pady=(0, 2))
     win.skin.label(detail_host, 'Selected mission details', heading=True).pack(fill='x', anchor='w', pady=(0, 2))
-    tree = ttk.Treeview(table, columns=("origin", "mode", "status", "steps", "objective"), show="headings", height=4 if embedded else 8, selectmode="browse")
-    for key, label, width in [("origin", "Record source", 112), ("mode", "Access", 130), ("status", "Status", 100), ("steps", "Used / limit", 85), ("objective", "Mission objective", 365)]:
+    tree = ttk.Treeview(table, columns=("origin", "mode", "status", "steps", "objective", "name", "created", "updated", "id"), displaycolumns=("name", "status", "origin", "created", "updated", "mode", "steps", "objective", "id"), show="headings", height=4 if embedded else 8, selectmode="browse")
+    for key, label, width in [("origin", "Category / source", 150), ("mode", "Access", 130), ("status", "Status", 150), ("steps", "Used / limit", 105), ("objective", "Description", 365), ("name", "Name", 240), ("created", "Created (local)", 175), ("updated", "Updated (local)", 175), ("id", "Mission ID", 290)]:
         tree.heading(key, text=label)
         tree.column(key, width=width, stretch=key == "objective")
     tree.pack(fill="both", expand=True)
     win.style_tree(tree)
+    sorter = RecordSort(tree, lambda: refresh())
+    win.record_sort = sorter
     from ui_extensions import ResponsiveGrid
     controls = ResponsiveGrid(frame,bg=bg,min_cell_width=145,max_columns=5,hgap=6,vgap=5)
     controls.pack(fill="x", pady=3)
     status = tk.StringVar(value="Select a mission to inspect its latest action and outcome.")
+    options=FoldPanel(detail_host,win.skin,'Classification');options.pack(fill='x',pady=(0,3))
+    win.options_panel=options
+    classification = RecordClassification(options.body, win.skin, lambda: classify(), mission=True)
+    classification.pack(fill='x', pady=(0, 3))
     from mission_monitor import RunViewer,controller_status,live_state,mission_enabled
     viewer=RunViewer(detail_host,win.skin,store,height=7 if embedded else 10)
     viewer.pack(fill='both',expand=True);detail=viewer.text;win.run_viewer=viewer
-    review_host=tk.Frame(detail_host,bg=bg)
-    win.skin.label(review_host,'Additional instructions for this mission',heading=True).pack(fill='x')
-    tk.Label(review_host,text='Edit the current guidance; prior versions are kept. Applies to this run only. Stop and schedule Enable remain separate.',
+    review_host=FoldPanel(detail_host,win.skin,'Add review instructions')
+    win.review_panel=review_host
+    review_body=review_host.body
+    win.skin.label(review_body,'Additional instructions for this mission',heading=True).pack(fill='x')
+    tk.Label(review_body,text='Edit the current guidance; prior versions are kept. Applies to this run only. Stop and schedule Enable remain separate.',
              bg=bg,fg=fg,anchor='w',wraplength=620,justify='left').pack(fill='x')
-    review_text=RoundedText(review_host,palette=win.skin.colors,scrollbars=True,horizontal=False,height=3,
+    review_text=RoundedText(review_body,palette=win.skin.colors,scrollbars=True,horizontal=False,height=3,
                             wrap='word',bg=bg,fg=fg,insertbackground=fg,relief='solid',bd=1)
     review_text.pack(fill='x')
     review_choices={'Unresolved: save guidance only':None,'Reviewed: skip pending action':'skip','Reviewed: allow retry / replan':'retry'}
     review_resolution=tk.StringVar(value=next(iter(review_choices)))
-    review_picker=win.skin.combo(review_host,review_resolution,list(review_choices));review_picker.pack(fill='x',pady=3)
+    review_picker=win.skin.combo(review_body,review_resolution,list(review_choices));review_picker.pack(fill='x',pady=3)
     review_drafts={};review_current=[None];review_results=queue.Queue()
     def sync_review(m=None):
         mid=m['id'] if m else None
@@ -174,12 +195,14 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             m = store.load(selected())
         except (ValueError, OSError) as exc:
             viewer.update_view(details=mission_details(unavailable=exc if tree.selection() else None))
+            classification.show()
             sync_review()
             return
         from mission_memory import Memory
         try:memory=Memory(store,m).recall(limit=3)
         except Exception as exc:memory={'error':str(exc)}
         policy=read_policy(store,m['id'])
+        classification.show(m['id'], listed.get(m['id'], {}).get('classification'))
         viewer.update_view(m,details=mission_details(m,mode=profile(m['mode']),catalogue=listed.get(m['id']),
                                                    memory=memory,supervision=policy),enabled=mission_enabled(store,m))
         sync_review(m)
@@ -187,15 +210,15 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     def refresh():
         require_admin(root, session)
         existing = set(tree.get_children())
-        rows = catalog.rows(view.get())
+        rows = catalog.rows(view.get(), search.query.get())
         listed.clear()
         listed.update((row['mission']['id'], row) for row in rows)
-        count.set(f'{len(rows)} records shown')
-        list_note.set('Select a row for its full objective, permissions and results.' if rows else
-                      'Nothing found to report. Columns below show source, access, status, actions used / limit and objective.')
+        count.set(f'{len(rows)} '+('search matches (all records)' if search.query.get().strip() else 'records shown'))
+        list_note.set(count.get()+'. Search IDs/keywords; click headings to sort.' if rows else 'No matches. Search an ID/keyword or change Filters.')
         from chat_priority import active as direct_chat_active
         chat_is_active=direct_chat_active(root)
         controller=controller_status(store)
+        order = {}
         for row in reversed(rows):
             m = row['mission']
             label = 'Deleted · ' + m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
@@ -204,7 +227,13 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
                     from mission_activity import read as read_activity
                     label=live_state(m,read_activity(store,m['id']),controller,enabled=mission_enabled(store,m))
                 except (OSError,ValueError,KeyError,TypeError):label='Status unavailable; review details'
-            values = (row['origin']['label'], profile(m["mode"])["label"], label, f"{m['steps']}/{m['max_steps']}", m["objective"][:150])
+            dates = row['dates'] = date_catalog.info(m)
+            name = record_name(m)
+            values = (row['origin']['label'], profile(m["mode"])["label"], label, f"{m['steps']}/{m['max_steps']}", m["objective"][:150], name[:150],
+                      date_text(dates['created_at'], dates['created_fallback']), date_text(dates['updated_at'], dates['updated_fallback']), m['id'])
+            order[m['id']] = dict(zip(tree['columns'], values))
+            order[m['id']].update(name=name, objective=m['objective'], steps=(m['steps'], m['max_steps']),
+                                  created=dates['created_at'], updated=dates['updated_at'])
             if m["id"] in existing:
                 tree.item(m["id"], values=values)
                 existing.remove(m["id"])
@@ -212,9 +241,23 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
                 tree.insert("", "end", iid=m["id"], values=values)
         for key in existing:
             tree.delete(key)
+        sorter.apply(order)
+        if search.query.get().strip() and len(rows) == 1 and not tree.selection():
+            tree.selection_set(rows[0]['mission']['id']);tree.see(rows[0]['mission']['id'])
         if catalog.errors:
             status.set('Some records need review; original files preserved: '+', '.join(x['mission'] for x in catalog.errors))
         show_detail()
+
+    def classify():
+        try:
+            require_admin(root, session)
+            if busy[0]:raise ValueError('Wait for the current request to finish')
+            mid=selected()
+            catalog.classify(mid, classification.chosen())
+            classification.current=None
+            refresh()
+            status.set('Classification saved for '+mid+'. Automatic uses the original recorded or inferred source.')
+        except Exception as exc:status.set(str(exc))
 
     def background(task):
         if busy[0]:
@@ -323,7 +366,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
                     'Instructions saved for the next plan. An armed mission can continue; otherwise use Run until finished on its root.')
         background(task)
 
-    review_button=win.skin.button(review_host,'Reviewed: additional instructions',review_with_instructions)
+    review_button=win.skin.button(review_body,'Reviewed: additional instructions',review_with_instructions)
     review_button.pack(fill='x')
 
     def delete():
@@ -402,6 +445,8 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     win.on_close = close
     win.refresh_records=refresh
     win.mission_tree=tree
+    win.record_search=search
+    win.record_classification=classification
     win.mission_detail=detail
     win.review_instructions=review_text
     win.review_resolution=review_resolution

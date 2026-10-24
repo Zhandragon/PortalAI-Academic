@@ -1,0 +1,194 @@
+{
+  "change": "Mission organization, search and autonomous schedule recovery",
+  "date": "2026-10-23",
+  "tests": 168,
+  "passed": 168,
+  "skipped": 0,
+  "modules": [
+    {
+      "module": "test_account_permissions",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_gui_stop_contract",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_autonomous_recovery",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_catalog",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_catalog_tk",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_context",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_modes",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_observability",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_organization",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_organization_tk",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_planner_progress",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_review",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_review_tk",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_runner",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_mission_schedule",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_persistence_priority_tk",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_persistence_readability_tk",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_persistence_supervisor",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_portable_profile_paths",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "module": "test_schedule_catalog",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "process_checks": [
+    {
+      "name": "second supervisor cannot dispatch",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "name": "scheduled wait survives supervisor exit",
+      "passed": true
+    },
+    {
+      "name": "fresh supervisor resumes when due",
+      "passed": true,
+      "mission": "081a208dd9ab4246907790d4019b14c7",
+      "completed_at": 1792775556.0126944,
+      "scheduled_at": 1792775555.700711
+    },
+    {
+      "name": "crashed action effect is not replayed",
+      "passed": true,
+      "effects": 1
+    },
+    {
+      "name": "controller crash kills its worker tree",
+      "passed": true
+    },
+    {
+      "name": "stop prevents late planning effects",
+      "passed": true
+    }
+  ],
+  "source_scan": {
+    "passed": true,
+    "files_checked": 683,
+    "errors": [],
+    "warnings": []
+  },
+  "scope": "Disposable source fixtures and real Tk controls; six owned process tests with a synthetic worker.",
+  "not_claimed": [
+    "Owner business mission execution or success",
+    "Live-model strategy quality",
+    "Physical Linux/macOS or remote HA acceptance"
+  ],
+  "owner_missions_resumed": false,
+  "owner_model_preferences_changed": false
+}

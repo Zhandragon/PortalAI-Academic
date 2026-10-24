@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-22 r5):** Missions receive explicit completed results and scheduled-run context, correct repeated or malformed proposals before execution, and show actual reasoning in Live activity. Use the standard 4B model or a more capable installed model for conditional recurring work: 1.7B did not reliably pass the memory/scheduling test. [Details, validation and limits](Documentation/MISSION-PLANNING-20261022.md).
+**Latest update (2026-10-24 r6):** Fixed the Windows installer’s “Archive links are not supported” failure. Missions and schedules now include search, sortable lists, clearer review summaries, optional autonomous recovery, and a more compact layout; Windows taskbar icons use the existing detailed artwork. [Details and validation](Documentation/INSTALLER-HANDOFF-20261024.md).
+
+**Mission planning update (2026-10-22 r5):** Missions receive explicit completed results and scheduled-run context, correct repeated or malformed proposals before execution, and show actual reasoning in Live activity. Use the standard 4B model or a more capable installed model for conditional recurring work: 1.7B did not reliably pass the memory/scheduling test. [Details, validation and limits](Documentation/MISSION-PLANNING-20261022.md).
 
 ## Download and install
 
@@ -78,7 +80,7 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
 
-The first stage downloads approximately 339 MB (Windows), 593 MB (Linux), or 671 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+The first stage downloads approximately 545 MB (Windows), 593 MB (Linux), or 671 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
 
 Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 

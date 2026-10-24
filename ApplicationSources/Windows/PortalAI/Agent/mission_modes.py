@@ -28,7 +28,7 @@ PROFILES = {
         "shell_location": "host", "os_isolation": False,
     },
 }
-COMMON = ("note(text)", "remember(key,text)", "recall(query)", "history(start,count)", "complete(text)", "wait(seconds,text)", "subtask(objective)")
+COMMON = ("note(text)", "remember(key,text)", "recall(query)", "history(start,count)", "previous_run(start,count)", "complete(text)", "pause(text)", "wait(seconds,text)", "subtask(objective)")
 ACTIONS = {
     "observe": ("read_file(path)", "diagnostics()", "message(target,text)", "inbox(after)", *COMMON),
     "vm": ("shell(command)", *COMMON),

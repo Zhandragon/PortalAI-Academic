@@ -16,7 +16,7 @@ class PersistencePage(tk.Frame):
         content=skin.frame(self);content.pack(fill='both',expand=True,padx=12,pady=10)
         self.buttons={}
         bar=ResponsiveFlow(content,bg=colors['panel']);skin.remember(bar,bg='panel');bar.pack(fill='x',pady=(0,6))
-        for key,title in (('missions','Missions & access'),('schedules','Schedules')):
+        for key,title in (('missions','Missions'),('schedules','Schedules')):
             self.buttons[key]=bar.add(skin.button(bar,title,lambda key=key:self.select(key)))
             self.buttons[key].configure(font=(portal_display_font(bar),9,'bold'))
         self.host=skin.frame(content);self.host.pack(fill='both',expand=True)

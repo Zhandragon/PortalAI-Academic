@@ -1,0 +1,54 @@
+MISSION AND SCHEDULE SORTING - 2026-10-23 (Windows r32)
+
+Click any heading in Saved missions or Saved schedules to sort ascending.
+Click the same heading again to reverse it. An up/down arrow identifies the
+active column and direction. Scroll horizontally to reach all properties.
+Sorting stays in effect through refresh, search, filtering and classification
+changes while the page remains open. Reopening the page restores its original
+default order. Selecting another sort does not discard the selected record or
+an unsaved review/classification draft.
+
+Name is the first nonempty line of the objective, with leading Markdown heading
+marks removed. Description is the complete objective; sorting uses its full
+contents even when the table preview is shortened. Text sorts alphabetically
+without case sensitivity. Category/source uses the displayed classification,
+and Status uses the displayed current state. IDs and access labels are sortable.
+Created, Updated and Next run sort by their actual timestamps, displayed in
+local time. Action/run counts and limits sort numerically. Paired counts use the
+first count, then the second. A run limit of zero means unlimited and sorts as
+zero. Equal values use record ID order; unavailable values stay at the bottom
+in both directions. Status sorting can move a running record as its state changes.
+
+MISSING DATES
+The first authenticated list display of a readable record without a valid
+Created or Updated timestamp saves the current date/time once as a fallback.
+Updated then shows at least that correction date. Missing creation dates use the
+same fallback for ordering and display with an asterisk; the details explicitly
+say that the original creation date is unknown. Known creation dates are kept.
+A later real update supersedes the fallback. Refreshing does not keep advancing
+the correction date. Invalid/nonfinite/out-of-range timestamps count as missing.
+
+Fallbacks are separate private presentation metadata at
+Data/Missions/PresentationDates/{missions|schedules}/<id>.json under the existing
+profile path resolver. They do not rewrite execution checkpoints, action history,
+schedule timing, Stop state or deletion fingerprints. Corrupt records remain
+subject to existing validation, and corrupt metadata is preserved with a detail
+warning. Date correction cannot repair an invalid mission checkpoint. Captured
+account epochs, administrator authorization and atomic writes still apply.
+The installation does not access sealed owner records; correction happens when
+the relevant list is next opened after normal sign-in.
+
+The r31 mission search, manual classification, requested page wording and
+optional autonomous schedule recovery are included. Read
+Documentation/Mission_Organization_Autonomy_20261023.txt for those behaviors and
+their existing review, permission and Stop boundaries. This change does not
+start missions or schedules or change model/access preferences.
+
+VALIDATION AND DISTRIBUTION
+See Maintenance/Validation/MissionSorting-20261023/validation-summary.json for
+the exact disposable-record, native Tk, profile and surrounding test results.
+No owner mission, live-model business outcome or physical HA/Linux/macOS
+acceptance is claimed. Windows installer and Windows mirrors carry r32. HA and
+Projection protocols and the other platform installer archives are unchanged.
+The cumulative HA Codex source handoff has reference originals, final sources,
+a patch and hashes; the other copy must merge its own platform differences.

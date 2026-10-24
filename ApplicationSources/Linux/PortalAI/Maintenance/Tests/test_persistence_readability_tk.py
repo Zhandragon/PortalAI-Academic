@@ -40,6 +40,8 @@ class PersistenceReadabilityTests(unittest.TestCase):
 
     def test_mission_fields_and_titles_remain_when_no_data(self):
         self.sheet=show_mission_settings(self.app,self.root,LIGHT,embedded=True);self.app.update()
+        self.sheet.creation_panel.set_open();self.app.update()
+
         fields=self.texts();draft=next(w for w in fields if str(w.cget('state'))=='normal')
         details=next(w for w in fields if str(w.cget('state'))=='disabled')
         self.assertEqual(draft.get('1.0','end').strip(),'')
@@ -110,13 +112,14 @@ class PersistenceReadabilityTests(unittest.TestCase):
                 mode.set(profile(key)['label']);self.app.update()
                 canvas=self.sheet.skin.canvas
                 self.assertEqual(canvas.yview(),(0.0,1.0),(factory.__name__,key,canvas.bbox('all'),canvas.winfo_height()))
+                review_submit=getattr(self.sheet,'review_submit',None)
                 bottom=canvas.winfo_rooty()+canvas.winfo_height()
                 for control in widgets(self.sheet.content):
-                    if isinstance(control,ttk.Button):
-                        # Review-only controls deliberately hide without a selected problem.
-                        parent=control.master
-                        if any(isinstance(w,tk.Label) and w.cget('text')=='Additional instructions for this mission'
-                               for w in parent.winfo_children()) and not parent.winfo_ismapped():continue
+
+                    folded={w for panel in (self.sheet.creation_panel,self.sheet.options_panel,self.sheet.filters_panel) if not panel.expanded for w in widgets(panel.body)}
+                    if getattr(self.sheet,'review_panel',None) and not self.sheet.review_panel.winfo_ismapped():folded.update(widgets(self.sheet.review_panel))
+                    if isinstance(control,ttk.Button) and control is not review_submit and control not in folded:
+
                         self.assertTrue(control.winfo_ismapped())
                         self.assertLessEqual(control.winfo_rooty()+control.winfo_height(),bottom)
                 self.assertEqual(draft.get('1.0','end').strip(),'')

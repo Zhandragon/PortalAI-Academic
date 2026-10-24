@@ -1,0 +1,39 @@
+PortalAI installer archive fix and Aoostar handoff integration - 2026-10-24 r6
+
+Windows installer correction
+The pinned MOSS source ZIP includes three development symlinks that are not in
+PortalAI's selected file list. The old extractor rejected the whole ZIP. The
+updated extractor ignores unselected link entries without reading or creating
+them, while rejecting any selected link. Path, duplicate-name, destination,
+size, SHA-256, cancellation and no-overwrite checks remain. The progress log
+now identifies each component as it is installed. Both Windows editions are
+fixed. Native Linux/macOS installers do not use this Windows ZIP extractor.
+
+The exact failed download reproduced the old error and all nine required MOSS
+files then extracted and passed readback using the rebuilt executable's bundled
+engine. All 880 cached ZIP artifact entries (249,607 selected member checks)
+passed their pinned content checks. These include repeated uses of shared
+downloads. Optional packages absent from that cache were not exercised.
+The 26 installer tests passed in each edition. A complete recipient install
+of every selected runtime/model has not been rerun.
+
+Aoostar cumulative r4 source handoff
+Merged PortalAI-Aoostar-Missions-Taskbar-Handoff-20261023-r4.zip against the
+receiving code, retaining platform differences, Academic policy, r5 planning,
+donation pages and account/Stop boundaries. Shared mission search, classification,
+typed sorting, date fallback, review summaries and collapsible forms are included.
+Windows uses the existing large icon artwork for native window/taskbar icons.
+Autonomous recovery remains OFF unless explicitly enabled for a schedule.
+It spends the saved action budget, retains failure evidence and never retries
+uncertain writes, shell commands, sends or account operations automatically.
+
+Receiving-host checks: 216 core cases (one expected skip), 32 native Tk cases,
+29 account lifecycle cases and six real-process persistence checks. Source scan
+passed. The handoff's separate test_window_minimize module was not provided;
+the native icon suite tested six minimize/restore cycles with Explorer file-drop
+hooking. Tests use isolated synthetic records; owner work was not run. No new
+live-model capability, physical Linux/macOS or Aoostar deployment is claimed.
+
+Existing Windows installations: close normally and use a source-aware update;
+clean installers never overwrite an existing application. Relaunch loads the
+new interface. Stop/Exit still requires explicit Enable for scheduled work.

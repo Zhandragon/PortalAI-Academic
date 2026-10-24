@@ -1,0 +1,11 @@
+# Installer archive fix and mission interface update
+
+The Windows extractor now ignores development links outside the explicitly selected file list. It still rejects selected links and verifies paths, sizes and SHA-256 before publishing files. Progress identifies each component. Both Windows editions include the fix. Linux and macOS do not use that extractor.
+
+The cumulative Aoostar source handoff adds mission/schedule search, manual classifications, typed heading sorting, saved fallback dates, Most Recent Review Issue, collapsible forms, and detailed Windows taskbar icons. Autonomous recovery is optional and **off by default**. It uses the existing action budget and never automatically repeats uncertain external effects. Stop, account access, Academic restrictions and explicit Enable remain authoritative.
+
+Validation on the receiving Windows host: reproduced the original MOSS archive failure, extracted and verified all nine selected files using the rebuilt executable, checked 880 cached ZIP artifact entries and 249,607 selected member hashes, and passed 26 installer tests per edition. Handoff checks passed: 216 core tests (one expected skip), 32 native Tk tests, 29 account lifecycle tests and six process persistence checks. These tests use disposable records. No owner mission was run.
+
+All six release archives include the shared interface changes. Physical Linux/macOS acceptance and a complete fresh installation of every model/runtime were not performed. The reported installer defect is reproduced and fixed; this is not a claim that every optional dependency or arbitrary model objective succeeds.
+
+If an existing **r5** setup failed on archive links, close its installer and save the matching [Windows resume fix](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r6/PortalAI-Academic-Windows-r5-Resume-Fix.exe) beside its existing `release.json` and `payload.zip`. Run that executable and click **Install here**. Keep the original manifest and downloads. This repairs installation of the retained r5 application payload; use the complete r6 package in a new setup folder for the new interface features. [Resume instructions](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r6/Windows-r5-Resume-Fix-Instructions.txt).

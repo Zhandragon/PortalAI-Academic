@@ -10,7 +10,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'Agent'))
 from mission_runner import Missions, process_lock
-from mission_catalog import MissionCatalog, VIEWS
+from mission_catalog import MissionCatalog, VIEWS, LEGACY_TEST_PREFIXES
 from mission_supervisor import arm, disarm, read_policy
 from mission_schedule import Schedules
 from profile_paths import ProfileLocked, UID_ENV, EPOCH_ENV
@@ -34,20 +34,46 @@ class MissionCatalogTests(unittest.TestCase):
         disarm(self.root, row['id'])
         return self.store.load(row['id'])
 
-    def test_default_user_view_keeps_unknown_and_heuristic_legacy_records(self):
+    def test_default_user_view_excludes_unknown_and_groups_legacy_diagnostics(self):
         ordinary = self.store.create('My weekly research')
         legacy = self.store.create('Stop lifecycle test: do not execute any model actions')
         user = self.store.create('Test my business plan')
         self.catalog.mark_origin(user['id'])
         validation = self.store.create('Explicit synthetic regression')
         self.catalog.mark_origin(validation['id'], 'validation', 'Tools/smoke_fixture.py')
+        before = {row['id']: (self.store.folder(row['id'])/'mission.json').read_bytes()
+                  for row in (ordinary, legacy, user, validation)}
+        self.assertEqual(VIEWS[0], 'User missions only')
         rows = self.catalog.rows(VIEWS[0])
+        self.assertEqual({row['mission']['id'] for row in rows}, {user['id']})
+        rows = self.catalog.rows('User & unclassified')
         self.assertEqual({row['mission']['id'] for row in rows}, {ordinary['id'], legacy['id'], user['id']})
         origins = {row['mission']['id']: row['origin'] for row in rows}
-        self.assertEqual(origins[legacy['id']]['label'], 'Legacy test?')
+        self.assertEqual(origins[legacy['id']]['label'], 'Legacy diagnostic')
         self.assertFalse(origins[legacy['id']]['confirmed'])
-        self.assertEqual(len(self.catalog.rows('Validation tests')), 2)
+        self.assertEqual({row['mission']['id'] for row in self.catalog.rows('Diagnostics')},
+                         {legacy['id'], validation['id']})
+        self.assertEqual(self.catalog.rows('Validation tests'), self.catalog.rows('Diagnostics'))
         self.assertEqual(len(self.catalog.rows('All records')), 4)
+        self.assertEqual(before, {mid: (self.store.folder(mid)/'mission.json').read_bytes() for mid in before})
+
+    def test_known_legacy_self_tests_are_diagnostics_but_explicit_user_origin_wins(self):
+        diagnostics = [self.store.create(prefix + ' fixture') for prefix in LEGACY_TEST_PREFIXES]
+        user = self.store.create(LEGACY_TEST_PREFIXES[0] + ' requested by the user')
+        self.catalog.mark_origin(user['id'])
+        self.store.create('An ambiguous older mission')
+        self.assertEqual({row['mission']['id'] for row in self.catalog.rows('Diagnostics')},
+                         {row['id'] for row in diagnostics})
+        self.assertEqual({row['mission']['id'] for row in self.catalog.rows(VIEWS[0])}, {user['id']})
+
+    def test_user_origin_is_inherited_by_child_work_without_including_unknown_roots(self):
+        parent = self.store.create('User project')
+        child = self.store.create('Project subtask', parent=parent['id'], depth=1)
+        parent['children'] = [child['id']]; self.store.save(parent)
+        self.catalog.mark_origin(parent['id'])
+        self.store.create('Unclassified root')
+        self.assertEqual({row['mission']['id'] for row in self.catalog.rows(VIEWS[0])},
+                         {parent['id'], child['id']})
 
     def test_delete_and_restore_keep_every_original_byte_and_never_arm(self):
         row = self.stopped()
@@ -60,7 +86,7 @@ class MissionCatalogTests(unittest.TestCase):
         self.assertEqual(len(self.catalog.rows('Deleted (recoverable)')), 1)
         self.assertEqual(len(self.catalog.rows('All records')), 1)
         self.catalog.restore(row['id'])
-        self.assertEqual(len(self.catalog.rows(VIEWS[0])), 1)
+        self.assertEqual(len(self.catalog.rows('User & unclassified')), 1)
         after = {p.name: p.read_bytes() for p in folder.iterdir() if p.is_file()}
         self.assertEqual(before, after)
         self.assertFalse(read_policy(self.store, row['id'])['enabled'])
@@ -78,12 +104,12 @@ class MissionCatalogTests(unittest.TestCase):
         row = self.stopped()
         self.catalog.delete(row['id'])
         changed = self.store.load(row['id']); changed['objective'] += ' updated'; self.store.save(changed)
-        self.assertEqual(len(self.catalog.rows(VIEWS[0])), 1)
+        self.assertEqual(len(self.catalog.rows('User & unclassified')), 1)
         self.assertEqual(self.catalog.rows('Deleted (recoverable)'), [])
         self.catalog.delete(row['id'])
         from runtime_policy import atomic_json
         atomic_json(self.store.folder(row['id'])/'run-policy.json', {'enabled': True, 'mode': 'observe'})
-        self.assertEqual(len(self.catalog.rows(VIEWS[0])), 1)
+        self.assertEqual(len(self.catalog.rows('User & unclassified')), 1)
 
     def test_stopped_family_is_deleted_together_and_child_path_stays_valid(self):
         parent = self.store.create('Parent')
@@ -96,7 +122,7 @@ class MissionCatalogTests(unittest.TestCase):
         self.assertEqual(len(self.catalog.rows('Deleted (recoverable)')), 2)
         self.assertEqual(self.store.load(child['id'])['parent'], parent['id'])
         self.catalog.restore(parent['id'])
-        self.assertEqual(len(self.catalog.rows(VIEWS[0])), 2)
+        self.assertEqual(len(self.catalog.rows('User & unclassified')), 2)
 
     def test_explicit_validation_origin_is_inherited_by_children(self):
         parent = self.store.create('Explicit fixture')
@@ -104,7 +130,7 @@ class MissionCatalogTests(unittest.TestCase):
         parent['children'] = [child['id']]; self.store.save(parent)
         self.catalog.mark_origin(parent['id'], 'validation', 'Tools/fixture.py')
         self.assertEqual(self.catalog.rows(VIEWS[0]), [])
-        self.assertEqual(len(self.catalog.rows('Validation tests')), 2)
+        self.assertEqual(len(self.catalog.rows('Diagnostics')), 2)
 
     def test_schedule_link_and_external_reference_are_refused(self):
         schedule = Schedules(self.root).create('Scheduled user work')
@@ -159,7 +185,8 @@ class MissionCatalogTests(unittest.TestCase):
         row = self.stopped()
         path = self.catalog.path(row['id']); path.parent.mkdir(parents=True)
         path.write_text('{invalid')
-        self.assertEqual(len(self.catalog.rows(VIEWS[0])), 1)
+        self.assertEqual(self.catalog.rows(VIEWS[0]), [])
+        self.assertEqual(len(self.catalog.rows('User & unclassified')), 1)
         self.assertTrue(self.catalog.errors)
         with self.assertRaises(ValueError): self.catalog.delete(row['id'])
         self.assertEqual(path.read_text(), '{invalid')

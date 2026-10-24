@@ -65,7 +65,7 @@ def validate_proposal(mode, action):
     if extra:
         raise ValueError('Unknown fields for '+signature+': '+', '.join(sorted(extra)))
     required = {'read_file':('path',), 'message':('target','text'), 'remember':('key','text'),
-                'note':('text',), 'subtask':('objective',), 'shell':('command',), 'account':('operation',)}
+                'note':('text',), 'pause':('text',), 'subtask':('objective',), 'shell':('command',), 'account':('operation',)}
     for key in required.get(kind, ()):
         if not isinstance(action.get(key),str) or not action[key].strip():
             raise ValueError(signature+' requires a nonempty string field '+key)
@@ -77,7 +77,7 @@ def validate_proposal(mode, action):
     for key in ('seconds','start','count','after'):
         if key in action and (type(action[key]) is not int or action[key]<0):
             raise ValueError(key+' must be a nonnegative integer in '+signature)
-    if kind=='history' and (action.get('start',1)<1 or not 1<=action.get('count',1)<=4):
+    if kind in {'history','previous_run'} and (action.get('start',1)<1 or not 1<=action.get('count',1)<=4):
         raise ValueError('history requires start >= 1 and count between 1 and 4')
     if kind=='remember' and (len(action['key'].strip())>120 or len(action['text'].strip().encode('utf-8'))>8000):
         raise ValueError('remember needs a key of 1–120 characters and text of 1–8000 UTF-8 bytes')
@@ -192,6 +192,7 @@ class Missions:
             (self.folder(mission_id) / "STOP").unlink(missing_ok=True)
             mission.update(status="queued", next_run_at=0)
             mission.pop("error", None)
+            mission.pop('agent_pause', None)
             self.save(mission)
             return mission
 
@@ -233,6 +234,7 @@ class Missions:
                 mission['status']='needs_review'
             else:
                 mission.update(status='paused' if self.stopped(mission) else 'queued',next_run_at=0,planning_failures=0)
+                mission.pop('agent_pause',None)
                 mission.pop('error',None)
             self.save(mission)
             return mission
@@ -327,6 +329,11 @@ class Missions:
             "For example, {\"action\":\"history\",\"start\":3,\"count\":1} reads record 3; recall searches saved memory, not history. "
             "scheduled_run identifies the current occurrence. Apply first-run instructions only to the first occurrence and next-run instructions to later occurrences. "
             "Scheduled runs must inspect remembered progress and avoid repeating completed external effects. Complete only when THIS run's required actions have results in its history."
+            " pause(text) stops this mission and its schedule when you judge the objective cannot be achieved or needs human input; explain the blocker. "
+            "If scheduled_run.autonomous_recovery is true, adapt strategy after failures using recovery evidence. Do not repeat a failed read or claim it succeeded. "
+            "Ordinary failures may replan within the saved budget; uncertain external effects still require review. Never bypass permissions or replay an uncertain send/write. "
+            "read_file accepts only source/documentation paths inside PortalAI. Full mode can use shell for authorized external files; Observe cannot. "
+            "previous_run(start,count) retrieves saved action evidence from the immediately preceding occurrence of THIS schedule. Use it before repeating any external effect after an unfinished run. An ended or failed run is not proof that its effects did not happen. "
         )
         if mission["mode"] == "vm":
             instruction += (
@@ -406,6 +413,8 @@ class Missions:
             if not problem and (mission['history'] and action.get('action') not in {'wait','complete'}
                                 and mission['history'][-1].get('action') == action):
                 problem = 'This repeats the last completed action. Its result is already available.'
+            if not problem and any(row.get('action')==action for row in mission.get('recovery_history',[])[-3:]):
+                problem = 'This action already failed. Use the recorded error to change strategy, or pause with an explanation.'
             if not problem:
                 break
             if attempt:
@@ -438,6 +447,9 @@ class Missions:
         if kind == "history":
             from mission_context import history_page
             return history_page(mission, action.get("start", 1), action.get("count", 1))
+        if kind == 'previous_run':
+            from mission_recovery import previous_run_history
+            return previous_run_history(self,mission,action.get('start',1),action.get('count',1))
         if mission["mode"] == "vm" and kind in {"read_file", "diagnostics"}:
             raise PermissionError("VM missions cannot inspect host files or invoke host diagnostics")
         if kind == "read_file":
@@ -534,6 +546,11 @@ class Missions:
             seconds = max(10, min(86400, int(action.get("seconds", 60))))
             mission.update(status="waiting", next_run_at=time.time()+seconds)
             return str(action.get("text", "Waiting"))[:4000]
+        if kind == 'pause':
+            text=str(action.get('text','')).strip()
+            if not text:raise ValueError('pause requires an explanation')
+            mission.update(status='paused',agent_pause=True,error=text[:4000])
+            return 'Agent paused this mission: '+text[:4000]
         if kind == "complete":
             if any(self.load(child)["status"] != "complete" for child in mission["children"]):
                 raise RuntimeError("Child missions must complete first")
@@ -557,6 +574,9 @@ class Missions:
             if mission["status"] not in ACTIVE:
                 return mission
             if mission.get("pending_action"):
+                from mission_recovery import recover
+                if recover(self,mission,'Interrupted read-only action did not produce a saved result'):
+                    return mission
                 mission.update(status="needs_review", error="Interrupted action has an unknown outcome; it will not be replayed automatically")
                 self.save(mission)
                 return mission
@@ -580,11 +600,16 @@ class Missions:
                 unfinished = [child for child in mission["children"] if self.load(child)["status"] != "complete"]
                 if unfinished:
                     blocked = [child for child in unfinished if self.load(child)["status"] not in ACTIVE]
+                    agent_blocked=[child for child in blocked if self.load(child).get('agent_pause')]
+                    if agent_blocked:
+                        mission.update(status='paused',agent_pause=True,error='Subtask paused: '+str(self.load(agent_blocked[0]).get('error','Cannot proceed')))
+                        self.save(mission);break
                     mission.update(status="needs_review" if blocked else "waiting", next_run_at=time.time()+2, waiting_for_children=unfinished)
                     if blocked: mission["error"] = "Child missions need attention: " + ", ".join(blocked)
                     self.save(mission)
                     break
                 mission.pop("waiting_for_children", None)
+                phase='planning'
                 try:
                     self.activity.update('planning','Planning the next action',preview='',generated_chars=0)
                     action = (model or self.model_action)(mission)
@@ -600,15 +625,19 @@ class Missions:
                         row.get('action')==action for row in mission['history'][-3:]):
                         raise MissionContextError('Repeated identical actions without progress; review the plan before continuing')
                     mission.update(status="running", pending_action=action)
+                    phase='checkpointing'
                     mission["planning_failures"] = 0
                     mission.pop("error", None)
                     self.save(mission)  # Write-ahead checkpoint, before any external effect.
+                    phase='executing'
                     self.activity.update('executing','Running action: '+str(action.get('action','unknown')),force=True)
                     result = self.execute(mission, action)
+                    phase='saving_result'
                     mission["steps"] += 1
                     mission["history"].append({"action": action, "result": result, "at": time.time()})
                     mission["pending_action"] = None
                     self.save(mission)
+                    phase='saved'
                     self.activity.update('complete' if mission['status']=='complete' else 'checkpointed',
                                          'Run completed' if mission['status']=='complete' else 'Action result saved: '+str(action.get('action','unknown')),force=True)
                     if active(self.root) and mission['status'] in ACTIVE:return self.yield_to_chat(mission)
@@ -620,10 +649,14 @@ class Missions:
                     self.activity.update('paused',str(exc),force=True)
                     break
                 except Exception as exc:
+                    from mission_recovery import recover
+                    if phase in {'planning','executing'} and recover(self,mission,f'{type(exc).__name__}: {exc}'):
+                        self.activity.update('retrying','Autonomous recovery: changing strategy after '+str(exc),force=True)
+                        break
                     # Retrying planning is safe: no action has been checkpointed
                     # or executed. Pending effects ALWAYS require explicit review.
                     count = mission.get("planning_failures", 0)+1
-                    retry = not mission.get("pending_action") and not isinstance(exc, MissionContextError) and count < 6
+                    retry = phase=='planning' and not mission.get("pending_action") and not isinstance(exc, MissionContextError) and count < 6
                     mission.update(status="waiting" if retry else "needs_review", error=f"{type(exc).__name__}: {exc}")
                     if not mission.get("pending_action"):
                         mission["planning_failures"] = count
@@ -632,7 +665,7 @@ class Missions:
                     self.save(mission)
                     self.activity.update('retrying' if retry else 'needs_review',mission['error'],force=True)
                     break
-                if mission["status"] in {"complete", "waiting"}:
+                if mission["status"] in {"complete", "waiting", "paused"}:
                     break
             return mission
 

@@ -1,0 +1,44 @@
+PortalAI Windows taskbar icon — October 23, 2026
+
+The existing PortableAI.ico already contains nine sizes from 16 through 256
+pixels, including the detailed 256px artwork. The native launcher embeds the
+same icon. No new artwork, image library, runtime or launcher rebuild is needed.
+
+The bundled Tk 8.6 iconbitmap(default=...) path was verified to supply only a
+32px large / 16px small window-class icon pair, with no explicit window icon.
+Those small images are susceptible to enlargement by the Windows shell.
+
+ControlCenter/window_icons.py now gives the actual native Tk wrapper explicit
+256px large and 64px small icons through WM_SETICON, loaded directly from the
+existing multiresolution ICO. Both are large enough for ordinary scaled
+taskbar/Alt+Tab rendering. Native WM_GETICON/GetIconInfo tests confirm those
+pixel dimensions rather than assuming that the source file is being used.
+
+The helper attaches on coalesced Map/Configure events, handles wrapper
+recreation, reuses the two owned handles, and releases only its own handles
+when the root is destroyed. Ordinary resize does not reload images or resend
+unchanged handles. The existing Tk icon remains a fallback if loading fails.
+Non-Windows hosts retain their existing path. No WndProc subclass, new global
+DPI policy, taskbar grouping identity, tray change or minimize change is added.
+
+Validation
+Seven new native icon tests pass, including repeated wrapper recreation,
+resize, missing-artwork fallback, handle ownership and six queued minimize /
+restore cycles with the real Explorer file-drop hook installed. Existing
+minimize, GUI maintenance and Stop contracts were also tested. Exact totals
+and exclusions are in Maintenance/Validation/TaskbarIcon-20261023.
+No owner mission, physical multi-monitor/high-DPI visual comparison, or Linux /
+macOS visual acceptance is claimed. Restart normally to activate the fix.
+
+Distribution
+Windows r34 includes the already completed r31/r32/r33 mission organization,
+sorting, review summaries and responsive layout. The cumulative r4 HA Codex
+source handoff supersedes r1/r2/r3 and preserves their reference originals.
+Keep platform-specific receiving code when merging the GUI integration.
+Install only after normal Exit and verified account sealing; preserve user
+data, mission state and settings. HA/Projection protocols remain unchanged.
+
+API references
+https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-seticon
+https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-geticon
+https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadimagew

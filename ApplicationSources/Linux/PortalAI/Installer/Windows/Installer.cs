@@ -72,7 +72,7 @@ internal sealed class InstallerForm : Form {
     readonly BackgroundWorker worker = new BackgroundWorker();
     string cancellation; bool loading = true; volatile bool pauseRequested;
     internal InstallerForm(bool smoke) {
-        Text = "PortalAI Academic installer — 2026.10.20 r1"; Size = new Size(850, 700); MinimumSize = new Size(750, 620); StartPosition = FormStartPosition.CenterScreen;
+        Text = "PortalAI Academic installer — 2026.10.24 r6"; Size = new Size(850, 700); MinimumSize = new Size(750, 620); StartPosition = FormStartPosition.CenterScreen;
         TableLayoutPanel layout = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(18), RowCount = 5, ColumnCount = 1 };
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100)); layout.RowStyles.Add(new RowStyle(SizeType.Percent, 60));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 35)); layout.RowStyles.Add(new RowStyle(SizeType.Percent, 40)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));

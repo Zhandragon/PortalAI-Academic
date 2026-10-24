@@ -19,6 +19,7 @@ class ReviewTkTests(unittest.TestCase):
     tearDown=fixtures.PersistenceReadabilityTests.tearDown
     def select(self,mid):
         self.sheet.mission_tree.selection_set(mid);self.sheet.mission_tree.event_generate('<<TreeviewSelect>>');self.app.update()
+        self.sheet.review_panel.set_open();self.app.update()
     def wait(self,predicate):
         until=time.monotonic()+5
         while not predicate() and time.monotonic()<until:self.app.update();time.sleep(.02)
@@ -72,7 +73,8 @@ class ReviewTkTests(unittest.TestCase):
                 canvas=self.sheet.skin.canvas;self.assertEqual(canvas.yview(),(0.0,1.0))
                 bottom=canvas.winfo_rooty()+canvas.winfo_height()
                 for control in widgets(self.sheet.content):
-                    if isinstance(control,ttk.Button):
+                    folded={w for panel in (self.sheet.creation_panel,self.sheet.options_panel,self.sheet.filters_panel) if not panel.expanded for w in widgets(panel.body)}
+                    if isinstance(control,ttk.Button) and control not in folded:
                         self.assertTrue(control.winfo_ismapped())
                         self.assertLessEqual(control.winfo_rooty()+control.winfo_height(),bottom)
         self.assertEqual(self.sheet.schedule_state_filter.get(),'Active and paused')
