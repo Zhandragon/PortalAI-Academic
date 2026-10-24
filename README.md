@@ -58,6 +58,21 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 
 ## Download and install
 
+### Hardware and software dependencies
+
+**Windows NVIDIA image/video generation requires CUDA 13 compatibility.** The supplied ComfyUI runtime uses **CUDA 13.0**: install an **NVIDIA R580 or newer driver** that supports your GPU, and use a GPU supported by the supplied PyTorch runtime. See [NVIDIA's driver compatibility requirements](https://docs.nvidia.com/deploy/cuda-compatibility/minor-version-compatibility.html) and [official driver downloads](https://www.nvidia.com/Download/index.aspx). Other Windows media components use CUDA 12.8; the CUDA 13 requirement applies to the current ComfyUI GPU path.
+
+| Platform or feature | Dependencies you provide |
+| --- | --- |
+| Windows x64 | .NET Framework 4.5 or later (included in Windows 10/11); a compatible graphics driver for GPU acceleration. For NVIDIA image/video generation, meet the CUDA 13 requirement above. |
+| Linux x86-64 | glibc 2.28+, Bash, curl, tar and a SHA-256 utility. The optional NVIDIA PyTorch media layer uses **CUDA 12.8** and needs a compatible NVIDIA GPU and driver. |
+| macOS, Apple silicon / Intel | Bash, curl, tar, a SHA-256 utility, **CMake and Xcode Metal build tools**. The installer builds the Metal chat backend locally; CUDA is not required. |
+| CPU or Vulkan chat | CUDA is not required. Vulkan acceleration needs a compatible GPU and Vulkan-capable graphics driver; CPU chat remains available. |
+
+**Setup supplies Python and the selected runtime libraries and models**, using bundled files or verified downloads. A separate system Python or CUDA Toolkit installation is normally unnecessary for the supplied runtimes; custom source builds or extensions may need additional development tools. Install GPU drivers through the operating system or GPU vendor. Internet is needed during setup, and available RAM/VRAM must fit the selected models and workflows. The installer checks destination disk space separately.
+
+### Prepare the installation drive
+
 **Prepare the drive for the operating system that will run PortalAI.** Use the following formats for both the extracted setup folder and installed application, including on external SSDs and USB drives:
 
 | Operating system | Recommended drive format |
