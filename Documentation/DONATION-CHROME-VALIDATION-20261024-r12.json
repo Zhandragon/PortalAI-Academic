@@ -1,0 +1,225 @@
+{
+  "date": "2026-10-24",
+  "tests": [
+    {
+      "edition": "Full",
+      "run": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "edition": "Academic",
+      "run": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    }
+  ],
+  "gui": {
+    "Full": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 331238,
+        "hwnd": 11273610,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 331238,
+        "hwnd": 11273610,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Workspace verified; opening PortalAI...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": false,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "link_color": "#007C83",
+          "link_box": [
+            975,
+            32,
+            59,
+            28
+          ],
+          "navigation_rows": 1
+        },
+        "dark": {
+          "link_color": "#72D8D2",
+          "link_box": [
+            975,
+            32,
+            59,
+            28
+          ],
+          "navigation_rows": 1
+        }
+      }
+    },
+    "Academic": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 9308580,
+        "hwnd": 527310,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 9308580,
+        "hwnd": 527310,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Verifying the restored working files...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": false,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "link_color": "#007C83",
+          "link_box": [
+            975,
+            32,
+            59,
+            28
+          ],
+          "navigation_rows": 1
+        },
+        "dark": {
+          "link_color": "#72D8D2",
+          "link_box": [
+            975,
+            32,
+            59,
+            28
+          ],
+          "navigation_rows": 1
+        }
+      }
+    }
+  },
+  "qr_screenshot_checks": [
+    {
+      "edition": "Full",
+      "theme": "light",
+      "all_four_destinations_verified": true
+    },
+    {
+      "edition": "Full",
+      "theme": "dark",
+      "all_four_destinations_verified": true
+    },
+    {
+      "edition": "Academic",
+      "theme": "light",
+      "all_four_destinations_verified": true
+    },
+    {
+      "edition": "Academic",
+      "theme": "dark",
+      "all_four_destinations_verified": true
+    }
+  ],
+  "original_qr_assets_unchanged": true,
+  "all_rendered_qr_canvases_230_square": true,
+  "crypto_module_pixels_unchanged": true,
+  "physical_linux_macos_tested": false,
+  "physical_aoostar_tested": false,
+  "owner_accounts_modified": false,
+  "fixture_storage_policy": "Only disposable GUI fixtures use 1 GiB floor plus 1 GiB output reserve; owner and shipping settings unchanged.",
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "68bcdb9c491a8c15ec1d3a8ed7979f74c08c2ca740c2f3a8a18087cdf9ee9ff4",
+      "payload_files": 5040,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "3bd30113c753e4a6a4da49e8c2ebf39dff2384e1184a3c4fc3eec6f429a01aa6",
+      "payload_files": 4518,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "979f15cf272e16f615846666fb21096076c05cf7579f7afabf18fb495053b502",
+      "payload_files": 2177,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "bd748a07ddff8bede53b60544fd95417c9ddd987c0c289ca2444eaead990d286",
+      "payload_files": 4684,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "6c510179dbc60f97ce5dcfd17466e47ec526214ff0354a6ca7cecab50eacc9d1",
+      "payload_files": 4508,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "30c11f0abaa8f39eeb464e280d475d43d7adfb5bb4c81dd17ba66746f8dcffc9",
+      "payload_files": 2167,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "windows_installer_forms_and_academic_pins_verified": true
+}

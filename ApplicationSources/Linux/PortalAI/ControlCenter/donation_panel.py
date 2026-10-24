@@ -24,6 +24,58 @@ DESTINATIONS = (
      'bc1q24y4u2xe5pzk9pg3q7qyjty8vhxvp4nskunqle'),
 )
 
+# Exact QR module bounds in the supplied originals; presentation only. Keep the
+# PNGs, module pixels, logos and encoded destinations unchanged.
+QR_INTERIORS = {
+    'ethereum.png': ((217, 221), (26, 27, 191, 192)),
+    'polygon.png': ((215, 216), (24, 26, 189, 191)),
+    'bitcoin.png': ((220, 221), (26, 26, 191, 191)),
+}
+
+
+def qr_photo(master, source):
+    source = Path(source)
+    original = tk.PhotoImage(master=master, file=str(source))
+    interior = QR_INTERIORS.get(source.name)
+    if interior and (original.width(), original.height()) == interior[0]:
+        bounds = interior[1]
+    else:
+        # Retain the established PayPal scale, or show unrecognized artwork
+        # intact rather than applying coordinates from a different image.
+        if original.width() > 300:
+            original = original.zoom(2, 2).subsample(5, 5)
+        bounds = (0, 0, original.width(), original.height())
+    width, height = bounds[2] - bounds[0], bounds[3] - bounds[1]
+    photo = tk.PhotoImage(master=master, width=max(230, width), height=max(230, height))
+    photo.put('#ffffff', to=(0, 0, photo.width(), photo.height()))
+    photo.tk.call(str(photo), 'copy', str(original), '-from', *bounds,
+                  '-to', (photo.width() - width) // 2, (photo.height() - height) // 2)
+    return photo
+
+
+class DonationLink(tk.Button):
+    """A quiet title-bar link using native keyboard/click button dispatch."""
+    def __init__(self, parent, colors):
+        super().__init__(parent, text='Donate', state='disabled', relief='flat',
+                         overrelief='flat', bd=0, highlightthickness=0, padx=7, pady=3,
+                         cursor='hand2', takefocus=1, font=(ui_font(parent), 10, 'underline'))
+        self.apply_palette(colors)
+        self.bind('<Return>', self._activate, add='+')
+        self.bind('<KP_Enter>', self._activate, add='+')
+
+    def _activate(self, _event=None):
+        self.invoke()
+        return 'break'
+
+    def apply_palette(self, colors):
+        background = colors.get('panel3', colors['panel'])
+        rgb = self.winfo_rgb(background)
+        dark = sum(rgb) < 3 * 32768
+        foreground = '#72D8D2' if dark else '#007C83'
+        self.configure(bg=background, activebackground=background, fg=foreground,
+                       activeforeground='#A0EBE5' if dark else '#005D64',
+                       disabledforeground=colors.get('muted', foreground))
+
 
 def sponsor_button(parent, colors, *, command=None):
     """Opening the sponsor page is always a deliberate button action."""
@@ -75,16 +127,15 @@ class DonationPanel(tk.Frame):
             title=self._label(card,name,12,'text',bold=True,background='panel');title.pack(pady=(2,2))
             subtitle=self._label(card,network,9,'muted',background='panel');subtitle.pack(pady=(0,9))
             source=self.root_path/'ControlCenter/DonationAssets'/filename
-            # Keep the original QR artwork intact; integer downsampling preserves crisp modules.
+            # Shared white canvases remove screenshot framing without editing QR pixels.
             try:
-                photo=tk.PhotoImage(master=self,file=str(source))
-                if photo.width()>300:photo=photo.zoom(2,2).subsample(5,5)
+                photo=qr_photo(self,source)
                 self.images.append(photo)
             except (OSError,tk.TclError):
                 photo=None
             copy=lambda i=index:self.copy_destination(i)
             qr=tk.Button(card,image=photo,text='' if photo is not None else 'Copy destination',command=copy,bg='#ffffff',activebackground='#ffffff',
-                         width=230,height=230,bd=0,highlightthickness=0,cursor='hand2',takefocus=0)
+                         width=230,height=230,padx=0,pady=0,bd=0,highlightthickness=0,cursor='hand2',takefocus=0)
             qr.pack(pady=(0,8));self.qr_buttons.append(qr)
             display='paypal.com · personal donation link' if name=='PayPal' else value
             address=self._label(card,display,9,'muted',background='panel',wraplength=240,justify='center')

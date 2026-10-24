@@ -717,6 +717,10 @@ def main(authenticated=None):
         b.pack(side="left", padx=3, ipady=2)
         return b
 
+    from donation_panel import DonationLink
+    donate_link = DonationLink(titlebar_right, COLORS)
+    donate_link.pack(side="left", padx=(0, 10), anchor="center")
+
     chrome_buttons["minimize"] = _chrome_button(titlebar_right, "—")
     chrome_buttons["maximize"] = _chrome_button(titlebar_right, "▢")
     chrome_buttons["tray"] = _chrome_button(titlebar_right, "◫")
@@ -1424,7 +1428,6 @@ def main(authenticated=None):
         ("persistence", "Persistence"),
         ("maintenance", "Maintenance"),
         ("help", "Help"),
-        ("donation", "Donation"),
     ):
         b = ElegantButton(
             tabs_left, text=display_caps(title), command=lambda k=key: show_tab(k),
@@ -2152,6 +2155,7 @@ def main(authenticated=None):
                 titlebar_gem.itemconfigure(titlebar_gem_items["v"], fill=COLORS["gold_shine"])
                 titlebar_gem.itemconfigure(titlebar_gem_items["h"], fill=COLORS["border"])
             titlebar_text.configure(bg=COLORS["panel3"], fg=COLORS["text"])
+            donate_link.apply_palette(COLORS)
             for name, btn in chrome_buttons.items():
                 role = getattr(btn, "_portableai_role", "normal")
                 bg_key = "danger" if role == "close" else "button"
@@ -3541,6 +3545,13 @@ def main(authenticated=None):
     button("Minimize to tray", minimize_to_tray)
     button("Stop all components", stop_components, kind="warning")
     button("Exit PortalAI", begin_exit_portableai, kind="danger")
+
+    def open_donation_page():
+        if exit_in_progress or (account_gate is not None and account_gate.locked):
+            return
+        show_tab("donation")
+
+    donate_link.configure(command=open_donation_page, state="normal")
 
     # PORTALAI_RESPONSIVE_COMPACT_v15_136E
     # PORTALAI_RESPONSIVE_CONTROL_MENU_v15_138

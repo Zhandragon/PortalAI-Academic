@@ -1,0 +1,5 @@
+PortalAI Donation presentation — 2026-10-24 r12
+
+Donation is reached through a subtle turquoise Donate link immediately left of minimize. It opens the existing in-app page and no longer occupies a row of navigation tabs. Account-lock and shutdown guards remain.
+
+Crypto QR artwork is displayed through an exact pixel viewport on a shared 230-pixel white square. Original PNGs, QR module pixels, encoded destinations and click-to-copy values remain unchanged. PayPal retains its established scale. The link follows light/dark title-bar colors and supports keyboard activation.

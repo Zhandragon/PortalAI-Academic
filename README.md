@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r11):** Fixes fresh installations incorrectly asking for an existing administrator. First launch now offers **Create initial administrator**; existing account recovery protections remain. [Changes and validation](Documentation/FIRST-LAUNCH-20261024-r11.md).
+**Latest update (2026-10-24 r12):** Donation now opens from a subtle turquoise **Donate** link beside minimize, keeping the navigation row clear. Crypto QR codes have evenly spaced white backgrounds; their data and copy destinations are unchanged. [Changes and validation](Documentation/DONATION-CHROME-20261024-r12.md).
+
+**First-launch update (2026-10-24 r11):** Fixes fresh installations incorrectly asking for an existing administrator. First launch now offers **Create initial administrator**; existing account recovery protections remain. [Changes and validation](Documentation/FIRST-LAUNCH-20261024-r11.md).
 
 **Shutdown update (2026-10-24 r10):** Fixes shutdown after lazy file restoration is paused, retains visible failure details with a stopped timer, and adds themed confirmation for deleting saved Projection connections. The temporary Aoostar mission importer stays excluded. [Changes and validation](Documentation/SHUTDOWN-20261024-r10.md).
 

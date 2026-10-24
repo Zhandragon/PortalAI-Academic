@@ -5,7 +5,7 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'ControlCenter'),str(ROOT/'Agent'),str(ROOT/'Maintenance/Tests')]
 import tkinter as tk
-from donation_panel import DonationPanel,DESTINATIONS,SPONSOR_URL,INTRODUCTION
+from donation_panel import DonationPanel,DonationLink,DESTINATIONS,SPONSOR_URL,INTRODUCTION,QR_INTERIORS
 from test_settings_surfaces_tk import LIGHT,DARK
 
 class DonationTests(unittest.TestCase):
@@ -39,10 +39,43 @@ class DonationTests(unittest.TestCase):
             self.assertEqual(self.panel._columns,expected)
             for card in self.panel.cards:
                 self.assertLessEqual(card.winfo_x()+card.winfo_width(),self.panel.grid_host.winfo_width())
-    def test_navigation_registers_donation_immediately_after_help(self):
+    def test_navigation_uses_title_link_without_a_donation_tab_button(self):
         source=(ROOT/'ControlCenter/PortableAI_GUI.py').read_text('utf-8-sig')
-        self.assertIn('("help", "Help"),\n        ("donation", "Donation"),',source)
+        self.assertNotIn('("donation", "Donation"),',source)
+        self.assertLess(source.index('donate_link = DonationLink('),source.index('chrome_buttons["minimize"] ='))
+        self.assertIn('donate_link.configure(command=open_donation_page, state="normal")',source)
+        self.assertIn('donate_link.apply_palette(COLORS)',source)
         self.assertIn('donation_panel.apply_palette(COLORS)',source)
         ast.parse(source)
+    def test_title_link_is_plain_and_explicitly_activated(self):
+        from unittest.mock import Mock
+        link=DonationLink(self.app,LIGHT);action=Mock();link.configure(command=action)
+        self.assertEqual(link.cget('text'),'Donate')
+        self.assertEqual(int(link.cget('borderwidth')),0)
+        self.assertEqual(int(link.cget('highlightthickness')),0)
+        link.invoke();action.assert_not_called()
+        link.configure(state='normal');link._activate();action.assert_called_once()
+        for palette in (DARK,LIGHT):
+            link.apply_palette(palette)
+            self.assertEqual(link.cget('bg'),palette['panel'])
+            self.assertEqual(link.cget('activebackground'),palette['panel'])
+            self.assertNotEqual(link.cget('fg'),palette['text'])
+        link.destroy()
+    def test_crypto_viewports_preserve_every_module_pixel_and_white_margin(self):
+        for index,entry in enumerate(DESTINATIONS):
+            name=entry[2]
+            displayed=self.panel.qr_buttons[index].cget('image')
+            self.assertEqual(int(self.app.tk.call('image','width',displayed)),230)
+            self.assertEqual(int(self.app.tk.call('image','height',displayed)),230)
+            if name not in QR_INTERIORS:continue
+            original=tk.PhotoImage(master=self.app,file=str(ROOT/'ControlCenter/DonationAssets'/name))
+            x0,y0,x1,y1=QR_INTERIORS[name][1]
+            left=(230-(x1-x0))//2;top=(230-(y1-y0))//2
+            for y in range(y1-y0):
+                for x in range(x1-x0):
+                    actual=self.app.tk.call(displayed,'get',left+x,top+y)
+                    self.assertEqual(tuple(map(int,self.app.tk.splitlist(actual))),original.get(x0+x,y0+y))
+            for x,y in ((0,0),(229,0),(0,229),(229,229),(15,115),(115,15),(215,115),(115,215)):
+                self.assertEqual(tuple(map(int,self.app.tk.splitlist(self.app.tk.call(displayed,'get',x,y)))),(255,255,255))
 
 if __name__=='__main__':unittest.main(verbosity=2)
