@@ -177,7 +177,8 @@ def ensure_running(root=ROOT):
     require_space(root, for_outputs=True)
     logpath = store.base/"supervisor-error.log"
     with logpath.open("wb") as log:
-        p = subprocess.Popen([str(py), "-B", str(root/"Agent/mission_supervisor.py"), "--root", str(root), "run"],
+        from account_connections import start_account_process
+        p = start_account_process([str(py), "-B", str(root/"Agent/mission_supervisor.py"), "--root", str(root), "run"], root,
                              cwd=root, env=portable_env(root, include_account_unlock=True), stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=log,
                              creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     return {"started": True, "pid": p.pid}
@@ -244,7 +245,24 @@ class Supervisor:
             self.mid = self.root_id = None
 
     def selection(self):
-        all_missions = {m["id"]:m for m in self.store.list()}
+        all_missions = {}; self.store.load_errors = []
+        for path in sorted(self.store.base.glob('*/run-policy.json')):
+            mid = path.parent.name
+            try:
+                if not read_policy(self.store, mid).get('enabled'): continue
+                root = self.store.load(mid)
+                if root.get('parent'): continue
+                all_missions[mid] = root
+                pending = list(root['children']); seen = {mid}
+                while pending:
+                    child = pending.pop()
+                    if child in seen: continue
+                    seen.add(child)
+                    if len(seen) > 128: raise ValueError('Mission family exceeds selection limit')
+                    member = self.store.load(child); all_missions[child] = member
+                    pending.extend(member['children'])
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                self.store.load_errors.append({'mission': mid, 'error': str(exc)})
         roots = []; candidates = []
         for root in all_missions.values():
             if root.get('parent'):continue
@@ -329,7 +347,8 @@ class Supervisor:
             gate.unlink(missing_ok=True)
             env = portable_env(self.root, include_account_unlock=True); env["PORTALAI_MISSION_GATE"] = str(gate)
             try:
-                self.worker = subprocess.Popen([*self.worker_command, "run", self.mid, "--steps", "1"], cwd=self.root,
+                from account_connections import start_account_process
+                self.worker = start_account_process([*self.worker_command, "run", self.mid, "--steps", "1"], self.root, cwd=self.root,
                     env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=self.log,
                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
                 self.job = WorkerJob(self.worker)
@@ -364,6 +383,8 @@ def main():
     sub.add_parser("stop-all")
     sub.add_parser("status")
     args = parser.parse_args()
+    from account_connections import receive_worker_input
+    receive_worker_input(args.root)
     if args.command == "run": Supervisor(args.root).run(args.seconds)
     elif args.command == "arm":
         arm(args.root, args.mission); print(json.dumps(ensure_running(args.root)))

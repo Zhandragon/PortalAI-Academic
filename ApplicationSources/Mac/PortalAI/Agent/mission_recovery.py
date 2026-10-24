@@ -3,6 +3,13 @@ import time
 from copy import deepcopy
 
 READ_ONLY = {'read_file', 'history', 'previous_run', 'recall', 'inbox'}
+ACCOUNT_READ_ONLY = {'profiles','email_list','email_read','wallet_balance','wallet_receipt',
+                     'github_identity','github_get','moltbook_status','moltbook_home','moltbook_feed','moltbook_comments'}
+
+
+def read_only(action):
+    return (action.get('action') in READ_ONLY or
+            (action.get('action')=='account' and action.get('operation') in ACCOUNT_READ_ONLY))
 
 
 def previous_run_history(store,mission,start=1,count=1):
@@ -45,7 +52,7 @@ def recover(store, mission, error):
     if not schedule_for(store,mission):return False
     if mission.get('agent_pause') or mission.get('waiting_for_children'):return False
     pending=mission.get('pending_action')
-    if pending and pending.get('action') not in READ_ONLY:return False
+    if pending and not read_only(pending):return False
     if mission['steps']>=mission['max_steps']:
         mission['status']='budget_exhausted';store.save(mission);return True
     original=mission

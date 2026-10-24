@@ -220,13 +220,15 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         chat_is_active=direct_chat_active(root)
         controller=controller_status(store)
         order = {}
+        summaries = {row['mission']['id']: row['mission'] for row in catalog.rows('All records')}
         for row in reversed(rows):
             m = row['mission']
             label = 'Deleted · ' + m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
             if not row['deleted'] and m['status'] in ACTIVE:
                 try:
                     from mission_activity import read as read_activity
-                    label=live_state(m,read_activity(store,m['id']),controller,enabled=mission_enabled(store,m))
+                    enabled=mission_enabled(store,m,summaries)
+                    label=live_state(m,read_activity(store,m['id']) if enabled else {},controller,enabled=enabled)
                 except (OSError,ValueError,KeyError,TypeError):label='Status unavailable; review details'
             dates = row['dates'] = date_catalog.info(m)
             name = record_name(m)

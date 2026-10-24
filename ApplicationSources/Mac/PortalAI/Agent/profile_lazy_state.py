@@ -20,6 +20,10 @@ DEFERRED_PREFIXES = ('Outputs', 'User Folder', 'Data/LegacyRecovery', 'Data/Sess
 
 def is_deferred_path(relative):
     value = str(relative).replace('\\', '/').strip('/')
+    # Full run histories are loaded on selection/execution; small policies,
+    # Stop fences, indexes and memory remain available immediately.
+    if re.fullmatch(r'Data/Missions/[a-f0-9]{32}/mission(?:\.previous)?\.json', value, re.I): return True
+    if re.fullmatch(r'Data/Missions/Schedules/[a-f0-9]{32}\.json', value, re.I): return True
     return any(value.casefold() == prefix.casefold() or
                value.casefold().startswith(prefix.casefold() + '/') for prefix in DEFERRED_PREFIXES)
 

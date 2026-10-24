@@ -34,11 +34,14 @@ class Schedules:
 
     def path(self, sid):
         self.store.folder(sid)  # Same strict ID validation as mission folders.
-        return self.base/(sid+'.json')
+        return private_path(self.root, f'Data/Missions/Schedules/{sid}.json')
 
     def save(self, schedule):
+        if schedule.get('_summary'): raise ValueError('List summaries cannot be saved as schedules')
         schedule['updated_at'] = time.time()
         atomic_json(self.path(schedule['id']),schedule)
+        from mission_index import remember
+        remember(self, 'schedule', schedule)
 
     def load(self, sid):
         s=json.loads(self.path(sid).read_text(encoding='utf-8'))
@@ -62,24 +65,26 @@ class Schedules:
         if s.get('source_mission'):self.store.folder(s['source_mission'])
         return s
 
-    def list(self):
+    def list(self, *, summaries=False):
+        from mission_index import listing, read_summary
+        records, hashes = listing(self, 'schedule')
         rows=[]
-        for p in sorted(self.base.glob('*.json')):
+        for sid, name in records:
             try:
-                row=self.load(p.stem)
+                row=read_summary(self, 'schedule', sid, hashes.get(name)) if summaries else self.load(sid)
                 profile(row['mode'])
-                if row['id'] != p.stem or not isinstance(row['next_run_at'],(int,float)):
+                if row['id'] != sid or not isinstance(row['next_run_at'],(int,float)):
                     raise ValueError('Invalid schedule metadata')
                 rows.append(row)
             except (OSError,ValueError,KeyError,TypeError) as exc:
-                rows.append({'id':p.stem,'enabled':False,'status':'needs_review','error':str(exc),'objective':'Unreadable schedule; original file preserved'})
+                rows.append({'id':sid,'enabled':False,'status':'needs_review','error':str(exc),'objective':'Unreadable schedule; original file preserved'})
         return rows
 
     def enabled(self, s):
         return bool(s.get('enabled')) and s.get('epoch') == epoch(self.root)
 
     def any_enabled(self):
-        return any(self.enabled(s) for s in self.list())
+        return any(self.enabled(s) for s in self.list(summaries=True))
 
     def create(self, objective, mode='observe', max_steps=12, interval_seconds=3600, first_run_at=None, max_runs=0,
                source_mission=None, *, origin=None):
@@ -151,7 +156,7 @@ class Schedules:
             s=self.load(sid)
             if s.get('status')=='removed':raise ValueError('Restore this removed schedule before pausing it')
             s.update(enabled=False,status='paused');self.save(s)
-        if s.get('active_run') and (self.store.folder(s['active_run'])/'mission.json').exists():
+        if s.get('active_run') and self.store.checkpoint_path(s['active_run']).exists():
             from mission_supervisor import disarm
             disarm(self.root,s['active_run'])
         return s
@@ -163,7 +168,7 @@ class Schedules:
             if s.get('status')!='removed':
                 s.update(enabled=False,status='removed',removed_at=time.time())
                 self.save(s)
-        if s.get('active_run') and (self.store.folder(s['active_run'])/'mission.json').exists():
+        if s.get('active_run') and self.store.checkpoint_path(s['active_run']).exists():
             from mission_supervisor import disarm
             disarm(self.root,s['active_run'])
         return self.load(sid)
@@ -179,7 +184,7 @@ class Schedules:
         return s
 
     def _ensure_run(self, s):
-        mid=s['active_run'];path=self.store.folder(mid)/'mission.json'
+        mid=s['active_run'];path=self.store.checkpoint_path(mid)
         if path.exists():
             m=self.store.load(mid)
             if m.get('schedule_id')!=s['id'] or m['mode']!=s['mode']:
@@ -204,13 +209,16 @@ class Schedules:
         from chat_priority import active as direct_chat_active
         if (self.store.base/'supervisor.stop').exists() or direct_chat_active(self.root):return
         with process_lock(self.store.base/'schedules.lock'):
-            for s in self.list():
-                if not self.enabled(s):continue
+            for summary in self.list(summaries=True):
+                if not self.enabled(summary):continue
+                s = summary
                 try:
+                    s = self.load(summary['id'])
+                    if not self.enabled(s): continue
                     if s.get('active_run'):
                         # Preparation may retry safely only before a mission
                         # checkpoint exists; the saved timestamp is its backoff.
-                        if s['next_run_at']>now and not (self.store.folder(s['active_run'])/'mission.json').exists():
+                        if s['next_run_at']>now and not self.store.checkpoint_path(s['active_run']).exists():
                             continue
                         self._ensure_run(s)
                         m=self.store.load(s['active_run'])
@@ -255,6 +263,7 @@ class Schedules:
                     # has a valid active checkpoint with no uncertain action.
                     # A pending action, STOP, corrupt record, or identity
                     # mismatch must remain behind the explicit review gate.
+                    if s.get('_summary'): continue
                     mid=s.get('active_run')
                     retry_preparation=not mid
                     try:

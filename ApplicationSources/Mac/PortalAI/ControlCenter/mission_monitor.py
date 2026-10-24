@@ -51,15 +51,16 @@ def controller_status(store):
     return result
 
 
-def mission_enabled(store, mission):
+def mission_enabled(store, mission, summaries=None):
     """Children share their root's arming and durable schedule epoch."""
     from mission_supervisor import read_policy
     root=mission;seen=set()
     while root.get('parent'):
         if root['id'] in seen:raise ValueError('Invalid mission ancestry')
-        seen.add(root['id']);root=store.load(root['parent'])
+        seen.add(root['id']);root=summaries[root['parent']] if summaries is not None else store.load(root['parent'])
     policy=read_policy(store,root['id'])
-    if not policy.get('enabled') or store.stopped(mission):return False
+    if not policy.get('enabled'):return False
+    if store.stopped(mission):return False
     if policy.get('schedule_id'):
         from mission_schedule import Schedules,epoch
         schedules=Schedules(store.root)

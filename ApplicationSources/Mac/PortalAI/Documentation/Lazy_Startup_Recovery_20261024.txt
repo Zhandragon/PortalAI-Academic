@@ -1,0 +1,62 @@
+Selective startup and recovery writes — October 24, 2026
+
+The October 12 lazy chat/media feature was still present. A separate interrupted
+login recovery branch called eager restore before resealing and reopening. That
+branch could write every untouched historical file, even though the next normal
+login would defer those same files. This update removes that unnecessary restore.
+It does not establish the hardware cause of observed USB dismounts.
+
+Authenticated recovery now verifies the encrypted generation and any existing
+plaintext against its manifest, records the exact verified hydration inventory,
+and seals through the existing incremental path. Untouched bodies remain in the
+vault. An interrupted journal transition resumes only with matching generation
+and inventory evidence. Unknown partial files, changed plaintext, corrupt vault
+data and durability failures still stop recovery. Normal password authentication,
+writer shutdown, account epochs, fsync, source-deletion verification and sealing
+remain required. Keys never leave the normal authenticated controller.
+
+Normal startup restores account settings, compact chat/list indexes, operational
+policies and memory capsules. Full saved mission checkpoints, their prior recovery
+copies and schedule histories are now deferred too. Mission/schedule summaries
+live under Data/MissionIndex and are derived from exact checkpoint bytes. Listings,
+ID/keyword search, sorting and classification display use those summaries. Missing
+or stale entries repair only the corresponding record when listed; older profiles
+therefore incur a one-time index-building read. Summary records cannot be saved as
+checkpoints or used to execute actions. Execution and review load the authoritative
+full record. Supervision loads armed roots and their children, and enabled schedules
+load their current run. Stop, pending-effect review and durable schedule epochs
+retain their existing meaning; opening a record never arms it.
+
+The last successfully selected chat is remembered per account in the small private
+Data/Chat/selection.json file. Startup opens that chat, even if another chat was
+edited more recently. A missing/deleted/invalid selection falls back to the newest
+listed chat. Existing versions did not save this pointer, so the first upgraded
+opening uses that fallback. Repeated refresh of the same selection does not rewrite
+the pointer. Stale asynchronous completions still cannot change the selected chat.
+
+Other chat transcripts and media remain encrypted until selection, playback,
+explicit history search, memory processing, export or another permitted operation
+needs them. Background memory processing may read an included source chat. Full
+host-access shell actions retain their explicit whole-workspace hydration boundary.
+This is application-managed encrypted storage, not OS process isolation or a claim
+that only mouse clicks can decrypt files. Older chat generations without the chat
+catalog retain their existing one-time transcript catalog migration.
+
+The Ethereum RPC client now sends the honest User-Agent PortalAI/1.0 and accepts
+JSON. A public eth_chainId probe returned HTTP 403 with the default Python identity
+and Ethereum chain 1 with the product identity. HTTPS, bounded responses, redirect
+refusal, chain verification and existing wallet permissions remain. This change
+does not authorize transfers, trading or spending. Read-only owner-wallet validation
+requires the normal signed-in account and is separate from the public endpoint probe.
+
+Validation and source recovery: see Maintenance/Validation/LazyStartup-20261024.
+Tests use disposable accounts and synthetic records; process smokes use owned
+fixture workers. No profitability, autonomous strategy success or physical USB
+removal tolerance is implied. Package the complete set of readers, writers and
+tests together. Install only after normal Exit and verified account sealing.
+
+Windows r36 and cumulative HA Codex handoff r6 include the prior r31-r35a mission,
+layout, review, icon and encrypted-connections changes. Owner credentials, setup
+requests, chat bodies, mission records and private receipts are never packaged.
+Other platform binary installers and HA/Projection protocols are unchanged;
+recipient code merging/testing and native platform acceptance remain separate.

@@ -43,6 +43,8 @@ class ProfileRuntime:
         self._hydration = None
 
     def pause_hydration(self):
+        from account_connections import clear_session
+        clear_session()
         if self._hydration is not None:
             self._hydration.pause()
 
@@ -205,10 +207,10 @@ class ProfileRuntime:
                     if (workspace.base/'seal-pending.json').exists():
                         workspace.seal(writers_stopped=True)
                     if (workspace.base/'restore-pending.json').exists():
-                        workspace.restore()
+                        workspace.recover_for_seal(writers_stopped=True)
                     elif (not (workspace.base/'hydration.enc').exists() and
                           not workspace.inventory() and (workspace.vault/'current.enc').exists()):
-                        workspace.restore()
+                        workspace.recover_for_seal(writers_stopped=True)
                     self._harvest(owner)
                     self._clean_legacy()
                     receipt = workspace.seal(writers_stopped=True)
@@ -262,6 +264,8 @@ class ProfileRuntime:
                     os.environ.pop(UID_ENV, None); os.environ.pop(EPOCH_ENV, None)
                     self._write_marker(session.user_id, epoch, 'opening', session.role)
                     raise
+            from account_connections import unlock_session
+            unlock_session(self.root, session)
             self._progress('ready', 'Workspace verified; opening PortalAI...')
             return {'ready': True, 'user_id': session.user_id, 'epoch': epoch}
 
@@ -272,6 +276,9 @@ class ProfileRuntime:
                 raise PermissionError('Replacement authentication must belong to the open profile')
             self.session = session
 
+            from account_connections import unlock_session
+            unlock_session(self.root, session)
+
     def close(self, session, *, writers_stopped=False):
         with self._mutex:
             self._validate(session)
@@ -281,13 +288,15 @@ class ProfileRuntime:
             if not prior or prior['user_id'] != session.user_id or prior['epoch'] != self.epoch:
                 raise RuntimeError('Runtime identity changed before profile shutdown.')
             self._close_hydration()  # Admission, cancellation and thread join precede sealing.
+            from account_connections import clear_session
+            clear_session()
             self._stop(session, prior)  # Recheck; a caller's old boolean is insufficient.
             self._harvest(session)
             self._clean_legacy()
             self._write_marker(session.user_id, self.epoch, 'closing', session.role)
             workspace = ProfileWorkspace(self.root, session)
             if (workspace.base/'restore-pending.json').exists():
-                workspace.restore()
+                workspace.recover_for_seal(writers_stopped=True)
             result = workspace.seal(writers_stopped=True)
             if result.get('sealed') is not True or workspace.inventory():
                 raise RuntimeError('Profile sealing did not verify an empty plaintext workspace.')

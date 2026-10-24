@@ -237,7 +237,7 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     def refresh():
         require_admin(root,session)
         old=set(tree.get_children())
-        rows=select_schedules(store.list(),schedule_view.get(),origin_view.get(),search.query.get())
+        rows=select_schedules(store.list(summaries=True),schedule_view.get(),origin_view.get(),search.query.get())
         list_note.set(f'{len(rows)} matches across all schedules. Clear restores filters.' if search.query.get().strip() else
                       'Search IDs/keywords; click a heading to sort.' if rows else 'No schedules match these filters.')
         controller=controller_status(store.store)

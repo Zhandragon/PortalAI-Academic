@@ -81,6 +81,8 @@ from portal_frontend_v15136 import (
 def main(authenticated=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", required=True)
+    ap.add_argument("--account-setup", help="Import a user setup JSON after normal authenticated sign-in")
+    ap.add_argument("--account-setup-receipt", help="Optional new file for the sanitized setup receipt")
     ns = ap.parse_args()
     root = Path(ns.root).resolve()
 
@@ -4274,6 +4276,9 @@ def main(authenticated=None):
     app.update_idletasks()
     app._portalai_main_ready = True
     if account_gate is not None: account_gate.application_ready()
+    if ns.account_setup and authenticated is None:
+        from account_setup_ui import show_setup
+        app.after(300,lambda:show_setup(account_gate,ns.account_setup,apply_requested=True,receipt_path=ns.account_setup_receipt))
     try:
         from native_ui_state import install as install_native_ui_state
         install_native_ui_state(app, root, account_gate, native_chat_panel, settings_page)

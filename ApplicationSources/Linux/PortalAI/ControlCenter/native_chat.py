@@ -120,7 +120,7 @@ def creationflags() -> int:
 def clean_env(root: Path, *, prepend_bootstrap: bool = True, profile=None) -> dict[str, str]:
     profile = profile or CapturedProfile(root)
     env = os.environ.copy()
-    for key in ("PYTHONHOME", "PYTHONPATH", "VIRTUAL_ENV", "__PYVENV_LAUNCHER__", "PORTALAI_ACCOUNT_UNLOCK"):
+    for key in ("PYTHONHOME", "PYTHONPATH", "VIRTUAL_ENV", "__PYVENV_LAUNCHER__", "PORTALAI_ACCOUNT_UNLOCK", "PORTALAI_CONNECTION_UNLOCK"):
         env.pop(key, None)
     env["PYTHONNOUSERSITE"] = "1"
     if prepend_bootstrap:
@@ -683,6 +683,24 @@ class ChatStore:
         from chat_catalog import ChatCatalog
         self.catalog = ChatCatalog(self)
 
+    def selected_session(self):
+        self.profile.check()
+        path = self.base / 'selection.json'
+        try:
+            if path.stat().st_size > 1024: return None
+            value = json.loads(path.read_text(encoding='utf-8'))
+            sid = value.get('session_id') if isinstance(value, dict) and value.get('version') == 1 else None
+            self._valid_id(sid)
+        except (FileNotFoundError, ValueError, TypeError): return None
+        self.profile.check()
+        return sid
+
+    def remember_selection(self, sid):
+        self.profile.check(); self._valid_id(sid)
+        if self.selected_session() == sid: return
+        write_json(self.base / 'selection.json', {'version': 1, 'session_id': sid})
+        self.profile.check()
+
     def save_settings(self):
         self.profile.check()
         write_json(self.settings_path, self.settings)
@@ -887,6 +905,7 @@ class ToolRuntime:
         env.pop('PORTALAI_TOOL_EFFORT', None)
         env.pop('PORTALAI_TOOL_EFFORT_UNLOCKED', None)
         env.pop('PORTALAI_ACCOUNT_UNLOCK', None)
+        env.pop('PORTALAI_CONNECTION_UNLOCK', None)
         # Model-authored flags are not automatically a user override of a named
         # saved image profile. The worker resolves the current account after
         # handoff; do not freeze a stale profile into this environment.
@@ -2597,7 +2616,7 @@ class NativeChat:
         rows = self.store.list_sessions()
         if not rows:
             rows = [self.store.new_session()]
-        current = self.session.get("id") if self.session else None
+        current = self.session.get("id") if self.session else self.store.selected_session()
         # Initial load should not be filtered by an empty/placeholder query.
         filtered = self._filtered_sessions() if hasattr(self, "history_search") else rows
         if not filtered:
@@ -2652,6 +2671,7 @@ class NativeChat:
     def _apply_loaded_session(self, s):
         if not s:
             return
+        self.store.remember_selection(s["id"])
         self.session = s
         self.pending_attachments = []
         self.update_attachment_label()
@@ -2714,6 +2734,7 @@ class NativeChat:
         try: self.history_search.set('')
         except Exception: pass
         self.session=self.store.new_session()
+        self.store.remember_selection(self.session['id'])
         try: self.refresh_sessions_labels_only()
         except Exception: pass
         self.render_history(); self.update_token_label()

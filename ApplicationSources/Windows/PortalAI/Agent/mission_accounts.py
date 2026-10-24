@@ -24,9 +24,10 @@ import urllib.request
 
 from runtime_policy import ROOT, atomic_json, require_space
 from profile_paths import private_path
+from account_services import OPERATIONS as SERVICE_OPERATIONS, EFFECTS as SERVICE_EFFECTS
 
-OPERATIONS={'email_list','email_read','email_send','wallet_balance','wallet_send','wallet_receipt'}
-EFFECTS={'email_send','wallet_send'}
+OPERATIONS={'email_list','email_read','email_send','wallet_balance','wallet_send','wallet_receipt'} | SERVICE_OPERATIONS
+EFFECTS={'email_send','wallet_send'} | SERVICE_EFFECTS
 
 
 def activate(root=ROOT):
@@ -91,13 +92,24 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 class Accounts:
     def __init__(self,root=ROOT):
+        from profile_paths import capture
+        self.context=capture(root)
         self.root=Path(root).resolve();self.base=private_path(self.root,'Data/Accounts')
 
+    def check_context(self):
+        from profile_paths import capture, ProfileLocked
+        if capture(self.root)!=self.context:raise ProfileLocked('The connection login ended')
+
     def profiles(self):
+        self.check_context()
         path=self.base/'profiles.json'
-        if not path.is_file():return {}
-        if path.stat().st_size>64*1024:raise ValueError('Account profile file exceeds limit')
-        profiles=json.loads(path.read_text(encoding='utf-8'))
+        if path.is_file() and path.stat().st_size>64*1024:raise ValueError('Account profile file exceeds limit')
+        profiles=json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+        if not isinstance(profiles,dict):raise ValueError('Expected named account profiles')
+        from account_connections import read
+        connected=read(self.root)['profiles']
+        if profiles.keys() & connected.keys():raise ValueError('Duplicate dedicated account name; resolve connection configuration')
+        profiles.update(connected)
         if not isinstance(profiles,dict) or len(profiles)>64:raise ValueError('Expected at most 64 named account profiles')
         for name,item in profiles.items():
             if not re.fullmatch(r'[a-z][a-z0-9_-]{0,47}',name) or not isinstance(item,dict):
@@ -113,21 +125,26 @@ class Accounts:
         if not profiles:raise RuntimeError('No dedicated accounts configured; use Tools/configure_accounts.py')
         item=profiles.get(name)
         if not isinstance(item,dict) or item.get('enabled') is not True:raise PermissionError('Account profile is not enabled')
-        if item.get('backend') not in ('mock','imap-smtp','evm'):raise ValueError('Unsupported account backend')
+        if item.get('backend') not in ('mock','imap-smtp','evm','github','moltbook'):raise ValueError('Unsupported account backend')
         return item
 
     def call(self,mission,profile,operation,parameters=None):
+        self.check_context()
         if mission.get('mode')!='full':raise PermissionError('Dedicated accounts require a full host mission; observe/VM have no account access')
         if operation=='profiles':
             profiles=self.profiles()
+            from account_services import HELP
+            from account_connections import unlocked
             return {'profiles':[{'name':name,'backend':cfg.get('backend'),'enabled':cfg.get('enabled') is True,
-                'permissions':cfg.get('permissions',[])} for name,cfg in profiles.items()],
-                'unlock_secret_present_in_session':bool(os.environ.get('PORTALAI_ACCOUNT_UNLOCK'))}
+                'permissions':cfg.get('permissions',[]),
+                'owner_report_available':bool(cfg.get('report_to')),
+                'operations':{op:HELP[op] for op in cfg.get('permissions',[]) if op in HELP}} for name,cfg in profiles.items()],
+                'unlock_secret_present_in_session':bool(os.environ.get('PORTALAI_ACCOUNT_UNLOCK') or unlocked(self.root))}
         if operation not in OPERATIONS:raise ValueError('Unknown account operation')
         if parameters is None:parameters={}
         if not isinstance(parameters,dict) or len(json.dumps(parameters).encode())>64000:raise ValueError('Account parameters exceed limit')
         cfg=self.profile(profile)
-        op_family={'imap-smtp':'email_','evm':'wallet_'}.get(cfg['backend'])
+        op_family={'imap-smtp':'email_','evm':'wallet_','github':'github_','moltbook':'moltbook_'}.get(cfg['backend'])
         if op_family and not operation.startswith(op_family):
             raise ValueError('Operation does not belong to this account backend')
         if operation not in cfg.get('permissions',[]):raise PermissionError('Operation is not enabled for this dedicated account')
@@ -147,16 +164,22 @@ class Accounts:
                    'status':'pending','simulated':cfg['backend']=='mock','started_at':time.time()}
             atomic_json(journal,state)  # Durable before an external effect.
             def prepared(**fields):
+                self.check_context()
                 state.update(fields);atomic_json(journal,state)
             try:
                 receipt=self.dispatch(cfg,profile,operation,parameters,(key,prepared))
             except Exception:
                 # Never infer that a timeout means the server did nothing.
                 raise RuntimeError('Account action did not return a confirmed result; review journal '+key) from None
+            self.check_context()
             state.update(status='confirmed',receipt=receipt,finished_at=time.time());atomic_json(journal,state)
             return receipt
 
     def dispatch(self,cfg,name,op,params,effect):
+        self.check_context()
+        if cfg['backend'] in ('github','moltbook'):
+            from account_services import call
+            return call(self,cfg,name,op,params,effect)
         if cfg['backend']=='mock':return self.mock(name,op,params,effect)
         if cfg['backend']=='imap-smtp' and op.startswith('email_'):return self.email(cfg,name,op,params,effect)
         if cfg['backend']=='evm' and op.startswith('wallet_'):return self.wallet(cfg,name,op,params,effect)
@@ -186,10 +209,13 @@ class Accounts:
         return {'simulated':True,**result}
 
     def email(self,cfg,name,op,p,effect):
-        secret=vault_read(self.root)[name];username=address(cfg['username'])
+        from account_connections import secret as account_secret, read, redact
+        secret=account_secret(self.root,name);username=address(cfg['username'])
         password=secret['password'];tls=ssl.create_default_context()
         if op=='email_send':
-            message=EmailMessage();message['From']=username;message['To']=address(p.get('to',''))
+            if redact(p,read(self.root)['secrets'])!=p:raise PermissionError('Connection secrets cannot be sent in email')
+            recipient=cfg.get('report_to','') if p.get('to')=='owner' else p.get('to','')
+            message=EmailMessage();message['From']=username;message['To']=address(recipient)
             subject=str(p.get('subject',''))
             if '\r' in subject or '\n' in subject or len(subject)>998:raise ValueError('Invalid email subject')
             message['Subject']=subject;message['Message-ID']='<'+effect[0]+'@portalai.local>'
@@ -228,7 +254,7 @@ class Accounts:
     def rpc(self,cfg,method,params):
         url=cfg['rpc_url'];parsed=urllib.parse.urlsplit(url)
         if parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password:raise ValueError('Wallet RPC requires HTTPS without embedded credentials')
-        request=urllib.request.Request(url,json.dumps({'jsonrpc':'2.0','id':1,'method':method,'params':params}).encode(),headers={'Content-Type':'application/json'})
+        request=urllib.request.Request(url,json.dumps({'jsonrpc':'2.0','id':1,'method':method,'params':params}).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'PortalAI/1.0'})
         with urllib.request.build_opener(NoRedirect).open(request,timeout=30) as response:raw=response.read(1024**2+1)
         if len(raw)>1024**2:raise RuntimeError('Wallet RPC response exceeds limit')
         data=json.loads(raw)
@@ -268,7 +294,8 @@ class Accounts:
         tx['gas']=gas
         if 'max_value_wei' in cfg and value>uint(cfg['max_value_wei'],'max_value_wei'):raise PermissionError('Transfer exceeds configured value limit')
         if 'max_fee_wei' in cfg and gas*price>uint(cfg['max_fee_wei'],'max_fee_wei'):raise PermissionError('Transfer exceeds configured fee limit')
-        secret=vault_read(self.root)[name]
+        from account_connections import secret as account_secret
+        secret=account_secret(self.root,name)
         try:account=Account.from_key(secret['private_key'])
         except Exception:raise ValueError('Invalid key in the dedicated wallet vault') from None
         if account.address!=owner:raise PermissionError('Wallet vault key does not match the configured address')

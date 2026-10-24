@@ -167,6 +167,7 @@ class GUIAccountGate:
             self._status('Stopping owned models, tools and explicitly armed missions…')
             from portable_runtime import bootstrap_python
             env = dict(os.environ); env.pop('PORTALAI_ACCOUNT_UNLOCK', None)
+            env.pop('PORTALAI_CONNECTION_UNLOCK', None)
             cp = subprocess.run([str(bootstrap_python(self.root)), str(self.root/'Launchers/Stop_PortableAI.py'),
                                  '--root', str(self.root), '--include-opengui'],
                                 cwd=str(self.root), env=env, stdin=subprocess.DEVNULL,
@@ -197,10 +198,13 @@ class GUIAccountGate:
         from account_ui import show_accounts
         from profile_exports import export_factory
         from account_reset_ui import show_start_fresh
-        return show_accounts(parent,self.controller,self.session,self.colors,page=True,
+        panel = show_accounts(parent,self.controller,self.session,self.colors,page=True,
             lock_application=lock_application,stop_and_seal=self.close,
             exit_application=exit_application,on_session_changed=self.replace_session,
             export_history=export_factory(self.root,'history'),export_outputs=export_factory(self.root,'outputs'),
             export_both=export_factory(self.root,'both'),change_user=change_user,
             start_fresh_adapter=lambda:show_start_fresh(self.app,self,self.colors,
                 lock_application=lock_application,exit_application=exit_application))
+        from account_setup_ui import show_setup
+        panel.button('Import connections and mission…',lambda:show_setup(self),enabled=self.session.role=='admin')
+        return panel

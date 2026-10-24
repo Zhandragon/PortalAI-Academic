@@ -123,6 +123,7 @@ $rows=@(Get-CimInstance Win32_Process | ForEach-Object {
     powershell = Path(os.environ.get('SystemRoot', r'C:\Windows'))/'System32/WindowsPowerShell/v1.0/powershell.exe'
     env = dict(os.environ)
     env.pop('PORTALAI_ACCOUNT_UNLOCK', None)
+    env.pop('PORTALAI_CONNECTION_UNLOCK', None)
     result = subprocess.run([str(powershell), '-NoProfile', '-NonInteractive', '-Command', script],
                             env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, text=True, encoding='utf-8', errors='strict',

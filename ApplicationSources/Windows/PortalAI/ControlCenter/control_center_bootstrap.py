@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import faulthandler
 import os
 import runpy
@@ -18,9 +19,26 @@ def _append(path: Path, text: str) -> None:
         pass
 
 
+def gui_arguments(root: Path, arguments: list[str]) -> list[str]:
+    """Forward explicit setup data through the normal authenticated startup."""
+    parser = argparse.ArgumentParser(description="Open PortalAI with normal account sign-in")
+    parser.add_argument("--account-setup", help="User setup JSON to import after sign-in")
+    parser.add_argument("--account-setup-receipt", help="New file for the sanitized setup receipt")
+    options = parser.parse_args(arguments)
+    if options.account_setup_receipt and not options.account_setup:
+        parser.error("--account-setup-receipt requires --account-setup")
+    result = [str(root / "ControlCenter" / "PortableAI_GUI.py"), "--root", str(root)]
+    if options.account_setup:
+        result.extend(["--account-setup", options.account_setup])
+    if options.account_setup_receipt:
+        result.extend(["--account-setup-receipt", options.account_setup_receipt])
+    return result
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     gui = root / "ControlCenter" / "PortableAI_GUI.py"
+    arguments = gui_arguments(root, sys.argv[1:])
 
     # Avoid accidental imports from host user-site packages. PortableAI components
     # use explicit private runtimes; the Control Center itself is stdlib/Tk based.
@@ -80,7 +98,7 @@ def main() -> int:
 
     old_argv = sys.argv[:]
     try:
-        sys.argv = [str(gui), "--root", str(root)]
+        sys.argv = arguments
         try:
             runpy.run_path(str(gui), run_name="__main__")
         except SystemExit as exc:

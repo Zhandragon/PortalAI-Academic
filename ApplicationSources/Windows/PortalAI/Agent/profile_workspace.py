@@ -503,6 +503,71 @@ class ProfileWorkspace:
         intent_path.unlink(); _fsync_dir(self.base)
 
     @exclusive
+    def recover_for_seal(self, *, writers_stopped=False):
+        """Keep untouched recovery files encrypted instead of restoring to delete.
+
+        Authenticate the complete generation and every existing plaintext file.
+        The ordinary hydration ledger preserves all unmaterialized files during
+        snapshot/seal; no format change, skipped verification or dropped file.
+        """
+        if writers_stopped is not True:
+            raise RuntimeError('Verified writer shutdown is required before recovery for sealing')
+        self._key()
+        journal = _contained(self.root, self.base/'restore-pending.json')
+        intent = _contained(self.root, self.base/'restore-inflight.enc')
+        hydration = self._hydration()
+        if journal.exists():
+            if journal.stat().st_size > 16384:
+                raise ValueError('Oversized restore recovery journal')
+            state = json.loads(journal.read_text(encoding='utf-8'))
+            if state.get('version') != 1 or state.get('user_id') != self.uid:
+                raise ValueError('Restore recovery identity mismatch')
+            manifest = self.verify(state['generation'])
+        else:
+            if intent.exists():
+                raise RuntimeError('Restore journal is missing; explicit verified recovery is required')
+            if hydration is not None or self.inventory():
+                raise RuntimeError('Sealed recovery staging requires an empty workspace')
+            manifest = self.verify()
+        if hydration is not None:
+            # A crash can leave both journals after the authenticated ledger is
+            # durable but before the old journal is removed. Accept only that
+            # exact transition; never merge different generations or intents.
+            if (hydration.manifest['generation'] != manifest['generation'] or
+                    hydration.inflight is not None or intent.exists()):
+                raise ValueError('Hydration and eager recovery journals do not match')
+            hydration.verify_initial_inventory()
+        else:
+            self._recover_restore_intent(manifest)
+            present = self.inventory()
+            expected = {row['path']: {k: row[k] for k in ('path','bytes','sha256')}
+                        for row in manifest['files']}
+            if any(row != expected.get(row['path']) for row in present):
+                raise RuntimeError('Unexpected workspace files prevent restore recovery')
+            from profile_lazy_state import HydrationState
+            hydration = HydrationState(self, manifest=manifest)
+            for row in present:
+                hydration.mark(row['path'])
+            hydration.verify_initial_inventory()
+            # Closing is still the authoritative runtime state. Mark this
+            # verified partial inventory ready so subsequent crash-log harvest
+            # can add legitimate files before snapshot/seal. No UI opens here.
+            hydration.ready = True
+            # This durable authenticated bitmap is committed before retiring
+            # the eager journal. Existing plaintext remains untouched.
+            hydration.save()
+            hydration.verify_initial_inventory()
+        if not hydration.ready:
+            hydration.ready = True
+            hydration.save()
+        if journal.exists():
+            journal.unlink(); _fsync_dir(self.base)
+        return {'verified': True, 'generation': manifest['generation'],
+                'materialized_files': len(hydration.materialized),
+                'kept_encrypted_files': len(hydration.pending()),
+                'restored_bytes': 0}
+
+    @exclusive
     def restore(self, *, lazy=False):
         """Restore a verified snapshot only into an empty, unlinked workspace."""
         if (self.base / 'seal-pending.json').exists():

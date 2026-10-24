@@ -175,7 +175,7 @@ class MissionCatalog:
             if mission.get('schedule_id'):
                 raise ValueError('Scheduled run records are retained with their schedule; they cannot be deleted here')
         from mission_schedule import Schedules
-        for schedule in Schedules(self.root).list():
+        for schedule in Schedules(self.root).list(summaries=True):
             if schedule.get('error') and 'active_run' not in schedule:
                 raise ValueError('An unreadable schedule may reference this mission; review it first')
             if schedule.get('active_run') in family:
@@ -189,7 +189,7 @@ class MissionCatalog:
         try:
             family = self._family(entry['mission_id'], missions)
             if set(family) != set(fingerprints): return False
-            if any(fingerprint(row) != fingerprints[mid] for mid, row in family.items()): return False
+            if any((row['_checkpoint_fingerprint'] if row.get('_summary') else fingerprint(row)) != fingerprints[mid] for mid, row in family.items()): return False
             self._stopped_family(family)
         except ProfileLocked: raise
         except (OSError, ValueError, KeyError, TypeError): return False
@@ -197,7 +197,7 @@ class MissionCatalog:
 
     def rows(self, view='All records', query=''):
         self.check()
-        missions = {row['id']: row for row in self.store.list()}
+        missions = {row['id']: row for row in self.store.summaries()}
         self.errors = list(getattr(self.store, 'load_errors', []))
         entries = {}
         deleted_by = {}
@@ -214,7 +214,7 @@ class MissionCatalog:
         schedules = {}
         if any(m.get('schedule_id') for m in missions.values()):
             from mission_schedule import Schedules
-            schedules = {s['id']: s for s in Schedules(self.root).list()}
+            schedules = {s['id']: s for s in Schedules(self.root).list(summaries=True)}
         for mid, mission in missions.items():
             origin = self.origin(mission, entries[mid])
             parent = mission.get('parent'); seen = {mid}

@@ -102,8 +102,10 @@ def atomic_json(path: Path, data: dict) -> None:
 
 def portable_env(root: Path = ROOT, *, include_account_unlock: bool = False, before_login: bool = False) -> dict:
     env = os.environ.copy()
-    if not include_account_unlock:
+    if not include_account_unlock or before_login:
         env.pop('PORTALAI_ACCOUNT_UNLOCK', None)
+    env.pop('PORTALAI_CONNECTION_UNLOCK', None)
+    env.pop('PORTALAI_CONNECTION_INPUT', None)
     for key in ("PYTHONHOME", "PYTHONPATH", "VIRTUAL_ENV", "__PYVENV_LAUNCHER__"):
         env.pop(key, None)
     env.update(PYTHONNOUSERSITE="1", PYTHONDONTWRITEBYTECODE="1",
