@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r10'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261024-r10.tar.gz'
-ARCHIVE_HASH='323c3f8e881aad8c5e261d7a120c0d19ec30edd25dc8eaf059429a534b4e5d43'
-TOP='PortalAI-Academic-Linux-Installer-20261024-r10'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r11'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261024-r11.tar.gz'
+ARCHIVE_HASH='bb0335316172f1a3f57abe2f54be31e1cc8b3d21cde8831190ad86f4b16e79ec'
+TOP='PortalAI-Academic-Linux-Installer-20261024-r11'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261024-r10-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261024-r11-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -76,9 +76,9 @@ printf '%s\n' "$SPACE" | awk -v base="$BASE_KIB" -v floor="$MIN_FREE_KIB" -v out
 
 }
 if [ "$PREPARE_ONLY" -eq 1 ]; then
-    check_setup_space "$SETUP" 2410939 0 0 0
+    check_setup_space "$SETUP" 2410941 0 0 0
 else
-    check_setup_space "$SETUP" 17603918 52428800 104857600 10
+    check_setup_space "$SETUP" 17603920 52428800 104857600 10
 fi
 mkdir -p "$SETUP"
 SETUP=$(cd "$SETUP" && pwd -P)
@@ -113,13 +113,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r10.tar.gz|592799185|323c3f8e881aad8c5e261d7a120c0d19ec30edd25dc8eaf059429a534b4e5d43
+PortalAI-Academic-Linux-Installer-20261024-r11.tar.gz|592799427|bb0335316172f1a3f57abe2f54be31e1cc8b3d21cde8831190ad86f4b16e79ec
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r10.tar.gz|592799185|323c3f8e881aad8c5e261d7a120c0d19ec30edd25dc8eaf059429a534b4e5d43
+PortalAI-Academic-Linux-Installer-20261024-r11.tar.gz|592799427|bb0335316172f1a3f57abe2f54be31e1cc8b3d21cde8831190ad86f4b16e79ec
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -141,12 +141,12 @@ while IFS='|' read -r name size expected; do
 done <<'ACADEMIC_FILES'
 ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
 install.sh|4758|8aa971a6a23f1a7bf879c09fc8babc845ce686152e6e19a36196b787aa7f9575
-manifest.json|13183|d7f3281d590a4e2d65e7b610ad906ac211528a3215e0d309eacbc507fd30240a
-payload.tar.gz|467353444|6992e7b2112591d27ff6b309363907f31c5efc0fbc29680a6245ed62a8f0ce6b
+manifest.json|13184|0b7c72efa8b6c53d8f68460a557b3c19f7a80bf63b70cfecbc7945e5676ddb8e
+payload.tar.gz|467355090|a7e2bec459db70341ac76019703abd18921bdca49f399c4b8ca76808fa714d7f
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
-README.txt|6832|95ba968655b184a688b432257b99fd3bbc5f0d67deac52683d2cfc1a7c98e1e6
-SHA256SUMS|205464|1c004c6c5b6422b0997456043077492544a2ee3b4e7b1c265fc1f7f074f0da31
-storage-plan.json|768|72a25b4ffde4d6a74f2db974edd221c6905f435bb0d2feaf7d033ee942a90853
+README.txt|7054|193d016b50708dd10fe10dd50888ec811444eda1f9b2cbd892fd52b240a00274
+SHA256SUMS|205464|e36f051db90cc34d2cfdca09bdd057cbb6c69d7e5eadacc35512feee05c5b10d
+storage-plan.json|768|fd85d39e5160b8403d352fe71ebfc8ea4f4e4e6f07d12a5ec3d3f66a38d326de
 storage-preflight.sh|1697|44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67
 Utilities/PortalAI HA Setup/Install PortalAI HA.sh|312|e9faf65cb70c4e9e06143e4586a73040454d8a8d404809b6a144242b5699e548
 Utilities/PortalAI HA Setup/README.txt|3114|19d382cee8759952042cb86fa513134fc78cb9f9c0f39e2c44f50df3336916b2

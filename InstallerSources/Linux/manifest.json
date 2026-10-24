@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.24-r10-Academic-Linux",
+  "release": "PortalAI-2026.10.24-r11-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467353444,
-      "sha256": "6992e7b2112591d27ff6b309363907f31c5efc0fbc29680a6245ed62a8f0ce6b"
+      "bytes": 467355090,
+      "sha256": "a7e2bec459db70341ac76019703abd18921bdca49f399c4b8ca76808fa714d7f"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -55,7 +55,7 @@
   "edition": "Academic",
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
-  "supersedes_release": "PortalAI-2026.10.24-r9-Academic-Linux",
+  "supersedes_release": "PortalAI-2026.10.24-r10-Academic-Linux",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -225,7 +225,7 @@
     "architectures": {
       "x86_64": {
         "base_kib": 15192979,
-        "payload_bytes": 942292151,
+        "payload_bytes": 942298208,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,
@@ -236,7 +236,7 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 180967870,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 4505,
+        "payload_files": 4507,
         "handoff_update_allowance_bytes": 8388608
       }
     }

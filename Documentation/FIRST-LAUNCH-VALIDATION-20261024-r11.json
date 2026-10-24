@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-24",
+  "purpose": "First administrator setup on fresh installations",
+  "tests": {
+    "Full": {
+      "run": 70,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Academic": {
+      "run": 70,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "baseline_targeted": {
+    "run": 7,
+    "failures": 4,
+    "errors": 1
+  },
+  "private_data_protections_preserved": true,
+  "physical_linux_tested": false,
+  "physical_macos_tested": false,
+  "account_data_modified": false,
+  "model_download_pins_changed": false,
+  "source_copies_verified": 6,
+  "new_checks": [
+    "first launch after InstanceSession starts",
+    "first administrator creation after speech/service metadata exists",
+    "private request files still require recovery",
+    "nested metadata filenames remain private",
+    "missing registry with session evidence stays locked",
+    "unknown account files stay protected",
+    "migration preserves shared runtime files and seals private chat"
+  ],
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "f1ff8fb0412ab8c9349e60a30d03052a8a6dc58d80d09f347b7165798a3970e3",
+      "payload_files": 5039,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "e26a7ad4ce21f7918dc5192c370527a2379b67dca3b332899154be0d1cb8c2d0",
+      "payload_files": 4517,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "6b98c9aba94e48a79ae51f19291200ad4161f446809a9b8f021c4c622ef14c08",
+      "payload_files": 2176,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "13632d53e8935dad3997cc0913eba72fb76567893fdfe398d68f7177df6712d7",
+      "payload_files": 4683,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "bb0335316172f1a3f57abe2f54be31e1cc8b3d21cde8831190ad86f4b16e79ec",
+      "payload_files": 4507,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "413306f6eeed38b1448252027c245dc74a13d406003731c24e4a0e38cad10485",
+      "payload_files": 2166,
+      "source_files_verified": 3,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "windows_installer_forms_and_academic_pins_verified": true
+}

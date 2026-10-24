@@ -1,0 +1,18 @@
+First-launch account setup repair - 2026-10-24 r11
+
+A fresh installation could incorrectly request account recovery because startup
+creates public service-endpoint metadata and setup supplies a speech-runtime
+binding file. Neither file contains an account registry or user history.
+
+The account inventory now keeps these two direct Agent/.runtime files shared:
+instance-endpoints.json and stt_runtime.json. A new installation offers Create
+initial administrator. Existing accounts, private prompts, nested runtime data,
+and missing-registry lifecycle evidence retain their original recovery checks.
+
+The repair creates no account and does not change passwords, model downloads,
+missions, or the one-time importer exclusion. Existing installations use the
+corrected source on their next normal launch.
+
+Validation: seven targeted startup/migration regressions and the existing
+account, migration, account-gate and public-bootstrap suites. Native Linux and
+macOS execution remains untested; the same account-inventory source is packaged.

@@ -1,7 +1,7 @@
 {
-  "release": "PortalAI-2026.10.24-r10-Academic-Windows",
-  "payload_bytes": 627892520,
-  "payload_files": 4681,
+  "release": "PortalAI-2026.10.24-r11-Academic-Windows",
+  "payload_bytes": 627898577,
+  "payload_files": 4683,
   "bootstrap_bytes": 22640669,
   "components": [
     {

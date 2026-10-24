@@ -46,7 +46,9 @@ HISTORICAL_FILES = tuple('ControlCenter/' + name for name in
 )
 RUNTIME_PUBLIC = frozenset(('qwen_last_stop.json', 'qwen_handoff_generation.json',
     'qwen_launch_command.txt', 'qwen_launch_executable.txt', 'hardware_launch_plan.json',
-    'component_runtime_locks.json', 'control_center_theme.json', 'comfy_vram_profile.txt'))
+    'component_runtime_locks.json', 'control_center_theme.json', 'comfy_vram_profile.txt',
+    # Created before first login: public ports/ownership and speech package binding.
+    'instance-endpoints.json', 'stt_runtime.json'))
 PLAN_PATH = 'Data/ProfileMigration/legacy-plan.json'
 
 
