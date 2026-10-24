@@ -15,19 +15,19 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r6";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261024-r6.zip";
-    internal const string ArchiveHash = "c548ab355f5f5fc4d1421e0dc2eb30e6dcc0fe24c47740d1809dfc203931a0df";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261024-r6-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261024-r6.zip", 544880619L, "c548ab355f5f5fc4d1421e0dc2eb30e6dcc0fe24c47740d1809dfc203931a0df") };
-    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1032L, "b438b2c43f0d9d0338552fecf75b805eececcc33a3ac2816579c06daeba7e5ab"),
-new Item("payload.zip", 302376955L, "b02f1741cceed3da738135db755c4615420c7cd0e267728e073b2e7c0d07b3e3"),
-new Item("PortalAI-Academic-Install.exe", 11698688L, "4670c9c0f3c64263e210567f553023f7738d2d3db180405ca41d289a1fd4141f"),
+    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261024-r7.zip";
+    internal const string ArchiveHash = "b4faec75b4a23efdb5dd1798562e54cabf454cc35b724e062c61c52717954b5b";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261024-r7-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261024-r7.zip", 545055555L, "b4faec75b4a23efdb5dd1798562e54cabf454cc35b724e062c61c52717954b5b") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1032L, "183bcec29761c1904b615eced032d9f5169a13d7e8a7641a7aed43646ef9e186"),
+new Item("payload.zip", 302396716L, "668f86a32baf0ff4b5f266c970d6f4615062d13fdac5e5108cf6967fe2ddfaff"),
+new Item("PortalAI-Academic-Install.exe", 11863040L, "6b864d1f403cb93dbb712fd1c372a79efa0e7372c0c2506ec735eb058cc39a8d"),
 new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
-new Item("release.json", 139800050L, "e6abe39787ac23d6635d85d0fae0d5d80ca57bb09b512c8d468d2bdd6299f499"),
+new Item("release.json", 139801962L, "8c72e50a79493a57aeac1f120dfb037b22df449cf9144fd962603ef91fe36da8"),
 new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
 new Item("START_HERE.txt", 4193L, "c6b20d2519878e31e02b0878320cf79c260e9ba8d20a216a8487262e1c43d08c"),
-new Item("storage-plan.json", 190784L, "385972ce64c05e1c437b84f0269f340f6c67e9c1aa9d676ad56dd19c89940875") };
+new Item("storage-plan.json", 190784L, "8ff8579b3545fc9e3c2311652873317d5b6a52624e3a16789b30d5f891187124") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -53,7 +53,7 @@ new Item("storage-plan.json", 190784L, "385972ce64c05e1c437b84f0269f340f6c67e9c1
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 171946533356L : 1208219392L, includeInstall ? 303927L : 9L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 171946956761L : 1208580353L, includeInstall ? 303934L : 9L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -69,7 +69,7 @@ new Item("storage-plan.json", 190784L, "385972ce64c05e1c437b84f0269f340f6c67e9c1
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261024-r6";
+                            request.UserAgent="PortalAI-Academic-Installer/20261024-r7";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
@@ -80,7 +80,7 @@ new Item("storage-plan.json", 190784L, "385972ce64c05e1c437b84f0269f340f6c67e9c1
                                         Check(cancelled()); received+=count;
                                         if (received>item.Bytes) throw new IOException("Download exceeded the expected size.");
                                         output.Write(buffer,0,count);
-                                        report((int)((completed+received)*85/total), "Downloading part " + (index+1) + " of " + Parts.Length);
+                                        report((int)((completed+received)*85/total), String.Format("Downloading part {0}/{1}: {2:F1} / {3:F1} MiB",index+1,Parts.Length,received/1048576.0,item.Bytes/1048576.0));
                                     }
                                 }
                             }
@@ -149,39 +149,122 @@ new Item("storage-plan.json", 190784L, "385972ce64c05e1c437b84f0269f340f6c67e9c1
         Application.Run(new SetupForm(args.Length==1 && args[0]=="--ui-smoke")); return 0;
     }
 }
+internal static class PortalPaint {
+    internal static System.Drawing.Drawing2D.GraphicsPath Round(RectangleF r, float radius) {
+        var p = new System.Drawing.Drawing2D.GraphicsPath(); float d = Math.Min(radius * 2, Math.Min(r.Width, r.Height));
+        if (d <= 0) { p.AddRectangle(r); return p; }
+        p.AddArc(r.X,r.Y,d,d,180,90); p.AddArc(r.Right-d,r.Y,d,d,270,90);
+        p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90); p.AddArc(r.X,r.Bottom-d,d,d,90,90); p.CloseFigure(); return p;
+    }
+}
+internal sealed class PortalButton : Button {
+    internal Color Edge = Color.FromArgb(176,134,58), Hover = Color.FromArgb(54,58,61);
+    bool hovering;
+    internal PortalButton() { FlatStyle=FlatStyle.Flat; FlatAppearance.BorderSize=0; UseVisualStyleBackColor=false; Height=33; Width=110; Cursor=Cursors.Hand; SetStyle(ControlStyles.OptimizedDoubleBuffer|ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint,true); }
+    protected override void OnMouseEnter(EventArgs e) { hovering=true; Invalidate(); base.OnMouseEnter(e); }
+    protected override void OnMouseLeave(EventArgs e) { hovering=false; Invalidate(); base.OnMouseLeave(e); }
+    protected override void OnPaint(PaintEventArgs e) {
+        e.Graphics.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        e.Graphics.Clear(Parent == null ? BackColor : Parent.BackColor);
+        using (var path=PortalPaint.Round(new RectangleF(1,1,Width-3,Height-3),7)) {
+            using (var fill=new SolidBrush(hovering && Enabled ? Hover : BackColor)) e.Graphics.FillPath(fill,path);
+            using (var pen=new Pen(Focused ? Edge : Color.FromArgb(100,Edge),Focused ? 2 : 1)) e.Graphics.DrawPath(pen,path);
+        }
+        TextRenderer.DrawText(e.Graphics,Text,Font,ClientRectangle,Enabled ? ForeColor : SystemColors.GrayText,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis);
+    }
+}
+internal sealed class PortalProgress : Control {
+    internal double Fraction; internal bool Indeterminate; internal Color Accent=Color.FromArgb(88,175,193);
+    readonly System.Windows.Forms.Timer animation = new System.Windows.Forms.Timer(); int offset;
+    internal PortalProgress() {
+        Height=15; SetStyle(ControlStyles.OptimizedDoubleBuffer|ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint,true);
+        animation.Interval=40; animation.Tick+=delegate { if (Indeterminate && Visible) { offset=(offset+5)%Math.Max(1,Width+80); Invalidate(); } }; animation.Start();
+    }
+    protected override void OnPaint(PaintEventArgs e) {
+        e.Graphics.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias; e.Graphics.Clear(Parent.BackColor);
+        using (var path=PortalPaint.Round(new RectangleF(0,0,Math.Max(1,Width-1),Math.Max(1,Height-1)),6)) {
+            using (var brush=new SolidBrush(BackColor))e.Graphics.FillPath(brush,path);
+            var saved=e.Graphics.Save();e.Graphics.SetClip(path);
+            int width=(int)(Width*Math.Max(0,Math.Min(1,Fraction)));
+            using (var brush=new SolidBrush(Accent))e.Graphics.FillRectangle(brush,Indeterminate ? offset-80 : 0,0,Indeterminate ? 80 : width,Height);
+            e.Graphics.Restore(saved);
+        }
+    }
+    protected override void Dispose(bool disposing) { if(disposing)animation.Dispose();base.Dispose(disposing); }
+}
 internal sealed class SetupForm : Form {
-    TextBox destination=new TextBox(); Label status=new Label(); ProgressBar progress=new ProgressBar();
-    Button browse=new Button(), start=new Button(), cancel=new Button(); volatile bool stop; bool busy;
+    TextBox destination=new TextBox(); Label status=new Label(); PortalProgress progress=new PortalProgress();
+    PortalButton theme=new PortalButton(); Label title=new Label(); bool dark=true; Color gold; Point? drag;
+    PortalButton browse=new PortalButton(), start=new PortalButton(), cancel=new PortalButton(); volatile bool stop; bool busy;
     internal SetupForm(bool smoke) {
-        Text="PortalAI Academic - Windows Setup"; ClientSize=new Size(680,340); MinimumSize=new Size(680,370); StartPosition=FormStartPosition.CenterScreen;
-        var layout=new TableLayoutPanel { Dock=DockStyle.Fill, Padding=new Padding(18), ColumnCount=1, RowCount=6 };
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,90)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));
+        Text="PortalAI Academic - Windows Setup"; ClientSize=new Size(780,450); MinimumSize=new Size(780,450); FormBorderStyle=FormBorderStyle.None; Padding=new Padding(8); DoubleBuffered=true; Font=new Font("Segoe UI",9F); StartPosition=FormStartPosition.CenterScreen;
+        var layout=new TableLayoutPanel { Dock=DockStyle.Fill, Padding=new Padding(18), ColumnCount=1, RowCount=7 };
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,55));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,90)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute,40)); layout.RowStyles.Add(new RowStyle(SizeType.Absolute,50));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute,30)); layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));
+        var header=new Panel { Dock=DockStyle.Fill };
+        title.Text="PortalAI Academic";title.Font=new Font("Georgia",18F,FontStyle.Bold);title.Dock=DockStyle.Fill;title.TextAlign=ContentAlignment.MiddleLeft;
+        var chrome=new FlowLayoutPanel { Dock=DockStyle.Right,Width=278,FlowDirection=FlowDirection.RightToLeft,Padding=new Padding(0,7,0,0) };
+        var exit=new PortalButton { Text="✕",Width=40,AccessibleName="Close installer" };
+        var maximize=new PortalButton { Text="▢",Width=40,AccessibleName="Maximize or restore installer" };
+        var minimize=new PortalButton { Text="—",Width=40,AccessibleName="Minimize installer" };
+        theme.Width=125;theme.Click+=delegate { dark=!dark;ApplyTheme(); };
+        exit.Click+=delegate { Close(); };minimize.Click+=delegate { WindowState=FormWindowState.Minimized; };
+        maximize.Click+=delegate { MaximizedBounds=Screen.FromControl(this).WorkingArea;WindowState=WindowState==FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized; };
+        chrome.Controls.AddRange(new Control[]{exit,maximize,minimize,theme});header.Controls.Add(title);header.Controls.Add(chrome);
+        title.MouseDown+=delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left && WindowState==FormWindowState.Normal)drag=new Point(Cursor.Position.X-Left,Cursor.Position.Y-Top); };
+        title.MouseMove+=delegate { if(drag.HasValue && Control.MouseButtons==MouseButtons.Left)Location=new Point(Cursor.Position.X-drag.Value.X,Cursor.Position.Y-drag.Value.Y); };
+        title.MouseUp+=delegate { drag=null; };
+        layout.Controls.Add(header);
         layout.Controls.Add(new Label { Dock=DockStyle.Fill, Text="Download and install PortalAI Academic for Windows.\r\n\r\nThis is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students." });
         layout.Controls.Add(new Label { Dock=DockStyle.Fill, Text="Setup folder (choose a drive with room for the application and models):" });
         var pathRow=new TableLayoutPanel { Dock=DockStyle.Fill, ColumnCount=2 }; pathRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); pathRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,90));
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 545 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 546 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
-        start.Text="Download and install"; start.AutoSize=true; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);
+        start.Text="Download and install"; start.Width=180; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);ApplyTheme();
         start.Click+=async delegate {
             busy=true; stop=false; start.Enabled=browse.Enabled=destination.Enabled=false; cancel.Enabled=true;
             try {
                 string target=destination.Text;
                 string installer=await Task.Run(()=>Bootstrap.Prepare(target,UpdateProgress,()=>stop));
                 Bootstrap.Check(stop); Bootstrap.Launch(installer); status.Text="Academic installer opened. Continue in its window.";
-            } catch(Exception error) { status.Text=error.Message; MessageBox.Show(this,error.Message,"PortalAI Academic setup",MessageBoxButtons.OK,MessageBoxIcon.Information); }
+            } catch(Exception error) { status.Text=error.Message;  }
             finally { busy=false; start.Enabled=browse.Enabled=destination.Enabled=true; cancel.Enabled=false; }
         };
         cancel.Click+=delegate {stop=true; cancel.Enabled=false; status.Text="Cancelling...";};
         FormClosing+=delegate(object sender,FormClosingEventArgs e) {if(busy) {e.Cancel=true; stop=true; status.Text="Cancelling download before closing...";}};
         if(smoke) {var timer=new System.Windows.Forms.Timer {Interval=300}; timer.Tick+=delegate {timer.Stop();Close();};timer.Start();}
     }
-    void UpdateProgress(int percent,string text) { BeginInvoke((Action)delegate {progress.Value=percent;status.Text=text;}); }
+    void ApplyTheme() {
+        Color bg=ColorTranslator.FromHtml(dark ? "#111315" : "#EEE7DC"),panel=ColorTranslator.FromHtml(dark ? "#1C1E20" : "#F8F3EA"),text=ColorTranslator.FromHtml(dark ? "#F2ECE2" : "#202224");
+        gold=ColorTranslator.FromHtml(dark ? "#B0863A" : "#A87D32");
+        PaintControls(this,bg,panel,text,ColorTranslator.FromHtml(dark ? "#2A2D2F" : "#E6DCCB"),ColorTranslator.FromHtml(dark ? "#363A3D" : "#D9CBB3"));
+        progress.BackColor=panel;progress.Accent=title.ForeColor=ColorTranslator.FromHtml(dark ? "#58AFC1" : "#3E91A2");theme.Text=dark ? "Light mode" : "Dark mode";Invalidate(true);
+    }
+    void PaintControls(Control root,Color bg,Color panel,Color text,Color button,Color hover) {
+        root.BackColor=root is TextBox ? panel : bg;root.ForeColor=text;
+        var b=root as PortalButton;if(b!=null) { b.BackColor=button;b.Hover=hover;b.Edge=gold; }
+        foreach(Control child in root.Controls)PaintControls(child,bg,panel,text,button,hover);
+    }
+    protected override void OnPaint(PaintEventArgs e) {
+        base.OnPaint(e);e.Graphics.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        using(var path=PortalPaint.Round(new RectangleF(2,2,Width-5,Height-5),17))using(var pen=new Pen(gold,2))e.Graphics.DrawPath(pen,path);
+        using(var path=PortalPaint.Round(new RectangleF(6,6,Width-13,Height-13),13))using(var pen=new Pen(gold,1))e.Graphics.DrawPath(pen,path);
+    }
+    protected override void WndProc(ref Message m) {
+        base.WndProc(ref m);
+        if(m.Msg==0x84 && WindowState==FormWindowState.Normal) {
+            Point p=PointToClient(new Point((short)(m.LParam.ToInt64()&65535),(short)((m.LParam.ToInt64()>>16)&65535)));
+            bool left=p.X<8,right=p.X>=Width-8,top=p.Y<8,bottom=p.Y>=Height-8;
+            int hit=top ? (left ? 13 : right ? 14 : 12) : bottom ? (left ? 16 : right ? 17 : 15) : left ? 10 : right ? 11 : 0;
+            if(hit!=0)m.Result=(IntPtr)hit;
+        }
+    }
+    void UpdateProgress(int percent,string text) { BeginInvoke((Action)delegate {progress.Fraction=Math.Max(0,Math.Min(1,percent/100.0));progress.Invalidate();status.Text=text+" (setup "+percent+"%)";}); }
 }
 
 // Shared by the native Windows installer and the Academic download launcher.

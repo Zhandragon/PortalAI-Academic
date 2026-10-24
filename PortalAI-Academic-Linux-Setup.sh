@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r6'
-ARCHIVE='PortalAI-Academic-Linux-Installer-20261024-r6.tar.gz'
-ARCHIVE_HASH='a2b8ac55a4d12c3ae5479a4e198654a8942e8527ec0c89bbc681d754b2cf4371'
-TOP='PortalAI-Academic-Linux-Installer-20261024-r6'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7'
+ARCHIVE='PortalAI-Academic-Linux-Installer-20261024-r7.tar.gz'
+ARCHIVE_HASH='a46fc2e6178f9dcdf04f7b126eb0cc726fe5e66c61035117fa00ef25d2529be6'
+TOP='PortalAI-Academic-Linux-Installer-20261024-r7'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261024-r6-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261024-r7-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -76,9 +76,9 @@ printf '%s\n' "$SPACE" | awk -v base="$BASE_KIB" -v floor="$MIN_FREE_KIB" -v out
 
 }
 if [ "$PREPARE_ONLY" -eq 1 ]; then
-    check_setup_space "$SETUP" 2410312 0 0 0
+    check_setup_space "$SETUP" 2410632 0 0 0
 else
-    check_setup_space "$SETUP" 17586907 52428800 104857600 10
+    check_setup_space "$SETUP" 17595419 52428800 104857600 10
 fi
 mkdir -p "$SETUP"
 SETUP=$(cd "$SETUP" && pwd -P)
@@ -113,13 +113,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r6.tar.gz|592753179|a2b8ac55a4d12c3ae5479a4e198654a8942e8527ec0c89bbc681d754b2cf4371
+PortalAI-Academic-Linux-Installer-20261024-r7.tar.gz|592777595|a46fc2e6178f9dcdf04f7b126eb0cc726fe5e66c61035117fa00ef25d2529be6
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-20261024-r6.tar.gz|592753179|a2b8ac55a4d12c3ae5479a4e198654a8942e8527ec0c89bbc681d754b2cf4371
+PortalAI-Academic-Linux-Installer-20261024-r7.tar.gz|592777595|a46fc2e6178f9dcdf04f7b126eb0cc726fe5e66c61035117fa00ef25d2529be6
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -140,13 +140,13 @@ while IFS='|' read -r name size expected; do
     fi
 done <<'ACADEMIC_FILES'
 ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
-install.sh|3696|fcab51e6d3e67c1a0701acaea7227cfbf9c36b713e94c2ffa0ef111e05e95c81
-manifest.json|13182|7d849e8e1635076b3b560ef6bbd952ff88534f81913e1978a6edd2d20b1da81f
-payload.tar.gz|467321492|68333499508bc7ecaaa7680280d149e1d9fe060efc682fa42c3ad5dc4efd2060
+install.sh|4758|f654d81a0e9ca7546b251dc852ea5bb97cf22e6eafde5b852ad19600dc3eb73f
+manifest.json|13182|832794efc4b1b72b7f478ba4e7bff649eb112415acf006d5ad5e9952ccfa8d28
+payload.tar.gz|467336624|c8e746ed753dd458793d63f9ecd3fcdbf28ab4602924d6ad4a25ed603ec7bc1f
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
 README.txt|6598|27c946099c13ad199e95569035a649d7327ff01ba4aa3f44d147907da47d8f5d
-SHA256SUMS|205464|2dbbe1fb434c64225bf71721e8e4866278083e0bf5d02269459f0b882f390a1e
-storage-plan.json|768|a84b68a48b6934341a244e887f015c4f4c2c2eeb3f4878c36e8c1eb4f9d40ca6
+SHA256SUMS|205464|77d907be4cfe5fed7a1062623474129322bff7fbd60dd826549a75be37181825
+storage-plan.json|768|4816fbc0f981bb393435174873b4a0008369b6a02057f1d3573426d21b690dbf
 storage-preflight.sh|1697|44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67
 Utilities/PortalAI HA Setup/Install PortalAI HA.sh|312|e9faf65cb70c4e9e06143e4586a73040454d8a8d404809b6a144242b5699e548
 Utilities/PortalAI HA Setup/README.txt|3114|19d382cee8759952042cb86fa513134fc78cb9f9c0f39e2c44f50df3336916b2
@@ -327,7 +327,7 @@ Utilities/PortalAI-HomeAssistant-0.5.12-recovery-0.1.0.zip|679400|811641c9b9d932
 Utilities/PortalAI-Projection/app/assets/projection-dark.ico|15622|a71cd6fe8d82ffbb84563c8edce144161e4e9cf52ad8190f9b064a3e3d6d8cdc
 Utilities/PortalAI-Projection/app/assets/projection-dark.png|15600|a9daf13f592f688560e0166017474b48058e1864993d0a6a6c3e2ed2a3e090e6
 Utilities/PortalAI-Projection/app/connection_vault.py|3628|6e3c2c62a0aeece7cfa78ed41728365897a4d4a24a95ba308fb07316bfb5a080
-Utilities/PortalAI-Projection/app/elegant_native_ui.py|16970|edcc9639f47bb1e582e105a47e19b89d6aed4edd37e4032b1496684b0b7092c2
+Utilities/PortalAI-Projection/app/elegant_native_ui.py|17768|44596d01e9b814ccca6d378b9e93ebfa0435b810f4e9d2e9c37d5181074ea09e
 Utilities/PortalAI-Projection/app/host_runtime.py|2814|be4825cf74a228bd4ce9e6f843d6bc91d781088b9f979fcaf83e124ba3b99ad6
 Utilities/PortalAI-Projection/app/linux_desktop.py|8860|b9f0dce5d8bb9ed50a8248ea186241c0679c3ec15364d1912e1dc40c1bc04730
 Utilities/PortalAI-Projection/app/linux_target.py|1942|eba110bfee0b033e34b373951933486595368fdf59f41a811718951cdec170b2
@@ -337,18 +337,22 @@ Utilities/PortalAI-Projection/app/macos_target.py|1280|284e13f075a11023d1c77ea2b
 Utilities/PortalAI-Projection/app/native_receiver_schema.py|6252|f570f0f7e4bc65be326353b1f523aca4723ae2423dfa7b7d166ff9c5c4f2c658
 Utilities/PortalAI-Projection/app/native_state_client.py|5927|b34e8c500aa4f288a5cf2255564a28c1534cde6bdaa00702009aef269e6a2283
 Utilities/PortalAI-Projection/app/native_transport.py|10047|9b3ec7d01f246f8cac45a0794645096653377a40000e624df64a51123f0abf3e
-Utilities/PortalAI-Projection/app/ornate_ui.py|23230|ecf95c5d6cce4406584c584ebb6a669fca15dc1e50a342926aace86d08050ff8
+Utilities/PortalAI-Projection/app/ornate_ui.py|23365|30a6935f4d1066f150bdcfbc612fcdec7ab6845d99a2aca61bb6ed5770dbab01
 Utilities/PortalAI-Projection/app/portalai_target.py|23833|4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9
 Utilities/PortalAI-Projection/app/projection_boot.py|2660|76e33a441b5e3650c8b45a84de3753b69021930d095315ee0e7d5cbf7a1b41cb
+Utilities/PortalAI-Projection/app/projection_chrome.py|7833|e5511abdaee5d4124c95d2e05c2dc6c8441ca871acb9bb131247ff639537c3e8
 Utilities/PortalAI-Projection/app/projection_client.py|3922|a50f0022a81076ccb5cb2f5c70574772b1f544e87c481f024c8a59e6ea75c76c
 Utilities/PortalAI-Projection/app/projection_local.py|1724|67b418d13880b1a51d5b8e4f7cd59365ef9684cc539648c04b620ca60d337e87
-Utilities/PortalAI-Projection/app/projection_theme.py|19043|339d5392f811afade237d04699a9bf2460d2963be3c22af15c22f840a295d506
+Utilities/PortalAI-Projection/app/projection_palette.py|1742|c4f60ca172fad1e4b1492784fb977c827ec1364817a82e732c95da23a11ae018
+Utilities/PortalAI-Projection/app/projection_theme.py|21253|c469af566fd4f386d1f3e397d22d798041b06c5b56f25471e58f7fc2c0914ded
 Utilities/PortalAI-Projection/app/projection_tray.py|8812|73585ff3f6bd1bd08ee6c41866426033e3b5151922aa494a1eba38e8a2d67f0c
-Utilities/PortalAI-Projection/app/projection_ui.py|13613|45132f53aa0ec226444682d9b6bb582d336f80cee562cdc2bbeba90e96b278be
+Utilities/PortalAI-Projection/app/projection_ui.py|13692|2cdeff2139232114665050dfc6e103f4492681ce707f680ea24c7e9e2e3e4943
 Utilities/PortalAI-Projection/app/projection_worker.py|16096|f552782bd724c23e653ee13baa94d49a7d65232a7f5edcf663d3f8077e350c0a
 Utilities/PortalAI-Projection/app/recovery_runtime.py|12769|c159e6d5e6d6ea0ec4b989ec0ff166614784b534c9d5f7be1060fd82b8d5ed82
 Utilities/PortalAI-Projection/app/recovery_transport.py|4266|3cc2baa97f396702b9bccb32187d214fcaa96bf425cf8354b79d2af50540c278
 Utilities/PortalAI-Projection/app/recovery_ui.py|7663|b8bb1148d38a7fddb967b1f38b3f1dfab5efaec22987bc978b51f023ccfec3db
+Utilities/PortalAI-Projection/app/rounded_controls.py|6621|bf91aa333c09cf9ae0294a68db2e2afc0d6dffac45c343b859de9b0cd679f122
+Utilities/PortalAI-Projection/app/rounded_text.py|2354|266e97dcc24bfc5cfcdc1d8e6fa25ec672c250ec8de1832e004ed68c675b586c
 Utilities/PortalAI-Projection/app/ui_style_cache.py|827|850c9389b4b869b5c555f12520227317aa83c7d2a87afa2726331170264f4bc8
 Utilities/PortalAI-Projection/app/viewer_demand.py|2437|6111572a21176284ad5a28c03ff3c90681c06486c39bb0af66e36ac48f2dd9fe
 Utilities/PortalAI-Projection/app/windows_desktop.py|13814|7e1181fd801b66c3c97e713d00b4cd27816d80c8aa6bb7316b6f23c53cf6a726
@@ -1504,7 +1508,7 @@ Utilities/PortalAI-Projection/Runtime/NativeState/websockets-15.0.1-py3-none-any
 Utilities/PortalAI-Projection/Start Projection.sh|446|a4cb64b362ef582ccc45bdf0c389245a5821fae73beb40bcf302a83fabe6c5e9
 Utilities/PortalAI-Projection/Tests/test_macos_projection.py|6618|5512d155524f282dd1b59a5cd7c3baf7548b20e7396908a2f88856f2180c3ade
 Utilities/PortalAI-Projection/Tests/test_macos_setup.py|3040|232c4cedb9c00fe9618367c8545ccbe41e792c8ebb47a98f9ee943c0ff5566cb
-Utilities/PortalAI-Projection/Tests/test_projection_ui.py|8642|48694fd6a00bfd631c9b345add187116d3826b5b5f57edcda345cd217c0605d3
+Utilities/PortalAI-Projection/Tests/test_projection_ui.py|11333|d9cffe99c859a1f0a1dedc6ef49a82a4d676710ba703e02f4bef4034b28625fb
 ACADEMIC_FILES
 echo 'The complete Academic installer has been downloaded and verified.'
 if [ "$PREPARE_ONLY" -eq 1 ]; then printf 'Prepared installer: %s\n' "$PACKAGE"; exit 0; fi

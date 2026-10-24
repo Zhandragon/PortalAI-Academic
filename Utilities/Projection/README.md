@@ -36,8 +36,10 @@ The packager copies allowlisted runtime receipt entries and explicitly selected 
 
 For isolated downloader checks, build into another directory with `--output` and a local test `--source-base-url`. Windows accepts `--prepare-only PATH`; Linux accepts `--directory PATH --prepare-only`. These flags verify extraction without opening Projection. See [validation results](source/VALIDATION.json). Linux reconstruction was checked under Git Bash; it does not establish physical Linux desktop or HA Cloud compatibility.
 
-## Mac companion (20261021-r1)
+## Mac companion
 
-[Download Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz). This standalone bundle is edition-neutral, supports Intel and Apple silicon on macOS 14+, and is included in both current Mac installers. Open `Utilities/PortalAI-Projection/Start Projection.command`. Native Mac acceptance is pending. [Setup instructions](../../Documentation/MacProjection/SETUP.txt). [Current validation](../../Documentation/MacProjection/validation.json). The Windows/Linux downloader hashes above still describe their previous bundles.
+[Download Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz). This standalone bundle is edition-neutral, supports Intel and Apple silicon on macOS 14+, and is included in both current Mac installers. Open `Utilities/PortalAI-Projection/Start Projection.command`. Native Mac acceptance is pending. [Setup instructions](../../Documentation/MacProjection/SETUP.txt). [Current validation](../../Documentation/MacProjection/validation.json).
 
 Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.
+
+Projection UI 20261024-r7 uses the desktop palettes, decorated Windows chrome and rounded controls. Keep Connections/ and state/ when updating. [Changes and validation](../../Documentation/INTERFACE-INSTALLER-20261024-r7.md).

@@ -40,7 +40,7 @@ def build(root, source_base=None, compiler=None):
                 return ',\n'.join('new Item(%s, %dL, %s)' % (json.dumps(p['name']), p['bytes'], json.dumps(p['sha256'])) for p in rows)
             values.update(PARTS=items(package['parts']), FILES=items(package['files']))
             generated = source / 'Bootstrapper.generated.cs'
-            generated.write_text(render((source / 'Bootstrapper.cs.in').read_text(), values), encoding='utf-8', newline='\n')
+            generated.write_text(render((source / 'Bootstrapper.cs.in').read_text(encoding='utf-8'), values), encoding='utf-8', newline='\n')
             exe = root / 'PortalAI-Academic-Windows-Setup.exe'
             csc = compiler or Path(os.environ['SystemRoot']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
             command = [str(csc), '/nologo', '/target:winexe', '/optimize+', '/platform:anycpu', '/out:' + str(exe),
@@ -59,7 +59,7 @@ def build(root, source_base=None, compiler=None):
                 values['PLATFORM_CHECK'] = '''    [ "$(uname -s)" = Darwin ] || { echo 'This installer requires macOS.' >&2; exit 2; }
     case "$(uname -m)" in arm64|x86_64) ;; *) echo 'This installer requires an Apple silicon or Intel Mac.' >&2; exit 2 ;; esac'''
                 values['LAUNCH'] = 'bash "$PACKAGE/install-macos.sh" "$SETUP/PortalAI Academic Mac"'
-            script = render((source / 'native.sh.in').read_text(), values).encode()
+            script = render((source / 'native.sh.in').read_text(encoding='utf-8'), values).encode()
             if platform == 'Linux':
                 path = root / 'PortalAI-Academic-Linux-Setup.sh'
                 path.write_bytes(script)
@@ -80,7 +80,7 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261024.6', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261024.7', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:

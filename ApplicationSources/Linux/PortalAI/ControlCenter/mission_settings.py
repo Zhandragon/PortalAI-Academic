@@ -10,7 +10,8 @@ from record_dates import RecordDates, describe as describe_dates, formatted as d
 from record_controls import RecordSort, record_name, FoldPanel, record_columns
 from rounded_text import RoundedText
 from gold_controls import GoldSpinbox
-from tkinter import ttk, messagebox
+from tkinter import ttk
+from confirmation_dialog import ask_yes_no
 
 def mission_details(mission=None, *, mode=None, catalogue=None, memory=None, supervision=None, unavailable=None):
     """Show the same readable field guide with and without saved mission data."""
@@ -371,7 +372,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
 
     def delete():
         try:
-            require_admin(root, session)
+            deletion_session = require_admin(root, session)
             if busy[0]: raise ValueError('Wait for the current request to finish')
             mid = selected()
             mission = store.load(mid)
@@ -381,12 +382,13 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
                 raise ValueError('Stop this mission and wait for its worker to finish before deleting')
             if mission.get('schedule_id'):
                 raise ValueError('Scheduled run records are retained with their schedule; they cannot be deleted here')
-            if not messagebox.askyesno('Delete mission from working list?',
+            if not ask_yes_no('Delete mission from working list?',
                     'Move this stopped mission and its subtasks into the Deleted view?\n\n'
                     + mission['objective'][:240] + '\n\n'
                     'All original checkpoints, history, memory and generated files remain on this account’s SSD workspace. '
                     'This does not free disk space. Restore makes the records visible again without starting them. '
-                    'Active, armed or schedule-linked missions are refused.', parent=win): return
+                    'Active, armed or schedule-linked missions are refused.', parent=win, colors=win.skin.colors,
+                    validate=lambda: require_admin(root, deletion_session)): return
         except Exception as exc:
             status.set(str(exc)); return
         def task():
@@ -415,6 +417,30 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         controls.add(win.skin.button(controls,label,command))
     for title,command in (('Refresh',refresh),('Delete…',delete),('Restore',restore)):
         filters.add(win.skin.button(filters,title,command))
+    def context_actions(mid):
+        try:
+            m=store.load(mid);deleted=bool(listed.get(mid,{}).get('deleted'))
+            armed=bool(read_policy(store,mid).get('enabled'));stopped=store.stopped(m)
+            pending=bool(m.get('pending_action'));available=not deleted and not busy[0]
+            version=m.get('updated_at')
+            def reviewed(resolution):
+                if store.load(mid).get('updated_at')!=version:
+                    status.set('Mission changed. Inspect its latest action before reviewing it.');refresh();return
+                resume(resolution)
+            return [
+                dict(label='Run',command=start,enabled=available and m['status'] in ACTIVE and not stopped and not pending and not armed),
+                dict(label='Stop',command=stop,enabled=not deleted and (armed or (m['status'] in ACTIVE and not stopped))),
+                dict(label='Resume',command=resume,enabled=available and not pending and (stopped or m['status']=='needs_review')),
+                None,
+                dict(label='Review: retry',command=lambda:reviewed('retry'),enabled=available and pending),
+                dict(label='Review: skip',command=lambda:reviewed('skip'),enabled=available and pending),
+                None,
+                dict(label='Delete…',command=delete,tone='danger',enabled=available and not m.get('parent') and not m.get('schedule_id') and m['status'] not in ACTIVE and not armed),
+                dict(label='Restore',command=restore,enabled=deleted and not busy[0])]
+        except (ValueError,OSError,KeyError,PermissionError):
+            return [dict(label='Record unavailable — refresh the list',enabled=False)]
+    from record_context_menu import RecordContextMenu
+    win.record_context_menu=RecordContextMenu(win,tree,context_actions,title='Mission actions')
     picker.bind('<<ComboboxSelected>>', lambda _event: refresh())
     tree.bind("<<TreeviewSelect>>", show_detail)
     timer = [None]
@@ -453,6 +479,12 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     win.review_submit=review_button
     win.review_status=status
     win.bind('<Destroy>', lambda event: win.after_cancel(timer[0]) if event.widget is win and timer[0] is not None else None, add='+')
+    def resize_objective(event=None):
+        viewport=max(1,int(event.height if event is not None else win.skin.canvas.winfo_height()))
+        base=2 if embedded else 3
+        rows=base+max(0,min(5,(viewport-850)//180))
+        if int(objective.cget('height'))!=rows:objective.configure(height=rows)
+    win.skin.canvas.bind('<Configure>',resize_objective,add='+')
     refresh()
     win.finish()
     timer[0] = win.after(1500, tick)

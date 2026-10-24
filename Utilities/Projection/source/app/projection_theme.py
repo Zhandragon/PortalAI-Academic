@@ -8,8 +8,11 @@ import tkinter as tk
 from tkinter import colorchooser, ttk
 from ornate_ui import ConnectedBorder, heading_font
 from elegant_native_ui import ElegantButton, blend
+from rounded_controls import RoundedEntry, RoundedCombobox
+from rounded_text import RoundedText
+from projection_palette import THEMES
 
-DEFAULT={'mode':'dark','accent':'#55B7C7','border':'#B88A32'}
+DEFAULT={'mode':'dark','accent':None,'border':None,'palette_version':2}
 DOCUMENTATION='''PORTALAI PROJECTION
 
 GETTING STARTED
@@ -49,8 +52,10 @@ def validate(value):
     if not isinstance(value,dict):raise ValueError('Invalid appearance preferences')
     result=dict(DEFAULT)
     if value.get('mode') in ('dark','light'):result['mode']=value['mode']
+    # The former shipped pair was a default, not a per-mode desktop palette.
+    legacy = value.get('palette_version', 1) == 1 and value.get('accent') == '#55B7C7' and value.get('border') == '#B88A32'
     for key in ('accent','border'):
-        if key in value:
+        if key in value and value[key] is not None and not legacy:
             if not isinstance(value[key],str) or not re.fullmatch(r'#[0-9a-fA-F]{6}',value[key]):raise ValueError('Use a six-digit color')
             result[key]=value[key].upper()
     return result
@@ -69,7 +74,7 @@ def save_settings(module,value):
 class Skin:
     def __init__(self,window,module):
         self.window=window;self.app=window.app;self.module=module;self.settings=read_settings(module)
-        self.items=[];self.borders=[];self.popup=None;self.palette={}
+        self.items=[];self.borders=[];self.fields=[];self.popup=None;self.palette={};self.nav_buttons={}
         self.style=ttk.Style(self.app);self.style.theme_use('clam');self.apply()
 
     def frame(self,parent,card=False,**kw):
@@ -85,20 +90,32 @@ class Skin:
         self.items.append((b,'primary' if accent else 'button'));return b
 
     def text(self,parent,**kw):
-        f=tk.Text(parent,wrap='word',relief='flat',bd=0,padx=12,pady=10,font=('TkDefaultFont',10),**kw)
+        f=RoundedText(parent,palette=self.palette,scrollbars=True,horizontal=False,wrap='word',bg=self.palette['model_bg'],fg=self.palette['text'],padx=5,pady=5,font=('TkDefaultFont',10),**kw)
         self.items.append((f,'entry'));self.paint(f,'entry');return f
 
     def paint(self,w,kind):
         p=self.palette
         if kind in ('button','primary'):
             primary=kind=='primary';w.configure(bg=p['accent' if primary else 'button'],fg=p['ink' if primary else 'text']);return
-        if kind=='entry':w.configure(bg=p['input'],fg=p['text'],insertbackground=p['text'],selectbackground=p['accent'],selectforeground=p['ink']);return
+        if kind=='entry':
+            if hasattr(w,'apply_palette'):w.apply_palette(p)
+            w.configure(bg=p['input'],fg=p['text'],insertbackground=p['text'],selectbackground=p['accent'],selectforeground=p['ink']);return
         if kind in ('frame','card'):w.configure(bg=p['panel' if kind=='card' else 'bg']);return
         w.configure(bg=w.master.cget('bg'),fg=p[kind])
 
     def apply(self):
-        dark=self.settings['mode']=='dark';bg='#131B22' if dark else '#F3EEE4';panel='#1D2933' if dark else '#FFF9EC'
-        self.palette.update(bg=bg,panel=panel,input='#111A21' if dark else '#FFFCF6',text='#E9E4D8' if dark else '#25231F',muted='#A5B6BD' if dark else '#58615F',button='#30434E' if dark else '#E4D8BE',ink='#102027',accent=self.settings['accent'],gold_mid=self.settings['border'],gold_shine=blend(self.settings['border'],'#FFFFFF',.4),shadow='#080C10' if dark else '#BEAD8D')
+        dark=self.settings['mode']=='dark'
+        self.palette.clear();self.palette.update(THEMES[self.settings['mode']])
+        if self.settings['accent']:self.palette['accent']=self.settings['accent']
+        if self.settings['border']:
+            self.palette['gold_mid']=self.settings['border']
+            self.palette['gold_shine']=blend(self.settings['border'],'#FFFFFF',.4)
+        accent=self.palette['accent']
+        rgb=[int(accent[i:i+2],16)/255 for i in (1,3,5)]
+        linear=[v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4 for v in rgb]
+        lum=sum(a*b for a,b in zip(linear,(.2126,.7152,.0722)))
+        self.palette.update(input=self.palette['model_bg'],ink='#101214' if lum>.179 else '#FFFFFF')
+        bg=self.palette['bg'];panel=self.palette['panel']
         p=self.palette;self.app.configure(bg=bg)
         for name in ('TFrame','TLabel','TNotebook','TNotebook.Tab'):self.style.configure(name,background=panel,foreground=p['text'])
         self.style.configure('TNotebook',background=bg,borderwidth=0);self.style.configure('TNotebook.Tab',padding=(18,9))
@@ -109,9 +126,13 @@ class Skin:
         self.app.option_add('*TCombobox*Listbox.background',p['input']);self.app.option_add('*TCombobox*Listbox.foreground',p['text'])
         for w,kind in self.items:
             if w.winfo_exists():self.paint(w,kind)
+        for field in self.fields:field.apply_palette(p)
+        self.style.configure('Projection.TNotebook',background=panel,bordercolor=panel,lightcolor=panel,darkcolor=panel,borderwidth=0)
         for border in self.borders:border.apply_palette(p)
         if hasattr(self,'accent_label'):
-            self.accent_label.configure(text=self.settings['accent']);self.border_label.configure(text=self.settings['border'])
+            self.accent_label.configure(text=p['accent']);self.border_label.configure(text=p['gold_mid'])
+        if hasattr(self,'chrome'):self.chrome.apply_palette(p)
+        self.paint_navigation()
         if os.name=='nt':
             try:
                 import ctypes as c
@@ -127,33 +148,43 @@ class Skin:
         except OSError:self.window.status.set('Appearance applied for this session; preferences could not be saved on the drive.')
 
     def choose(self,key):
-        value=colorchooser.askcolor(self.settings[key],parent=self.app,title='Projection '+key+' color')[1]
+        value=colorchooser.askcolor(self.palette['accent' if key=='accent' else 'gold_mid'],parent=self.app,title='Projection '+key+' color')[1]
         if value:self.change(key,value)
 
     def build(self):
         w=self.window;p=self.palette;app=self.app
         app.geometry('900x810');app.minsize(720,680)
-        shell=self.frame(app);shell.pack(fill='both',expand=True,padx=18,pady=14)
-        header=self.frame(shell);header.pack(fill='x',pady=(0,12))
+        from projection_chrome import ProjectionChrome
+        self.chrome=ProjectionChrome(self)
+        shell=self.frame(self.chrome.body);shell.pack(fill='both',expand=True,padx=10,pady=10)
+        header=self.frame(shell);header.pack(fill='x',pady=(0,6))
         self.logo=tk.PhotoImage(master=app,file=str(Path(self.module)/'app/assets/projection-dark.png'))
         app.iconphoto(True,self.logo)
         self.small_logo=self.logo.subsample(2,2);emblem=self.label(header,image=self.small_logo);emblem.pack(side='left',padx=(0,12))
         title=self.frame(header);title.pack(side='left',fill='x',expand=True)
         self.label(title,'PortalAI Projection',font=(heading_font(app),24,'bold'),kind='accent').pack(anchor='w')
         self.label(title,'Your portable companion for Home Assistant',kind='muted').pack(anchor='w',pady=(2,0))
-        self.button(header,'Minimize to tray',w.minimize).pack(side='right')
-        self.tabs=ttk.Notebook(shell);self.tabs.pack(fill='both',expand=True)
+        nav=self.frame(shell);nav.pack(fill='x',pady=(0,6))
+        self.style.layout('Projection.TNotebook.Tab',[])
+        self.style.layout('Projection.TNotebook',[])
+        self.style.configure('Projection.TNotebook',borderwidth=0,tabmargins=0)
+        self.tabs=ttk.Notebook(shell,style='Projection.TNotebook');self.tabs.pack(fill='both',expand=True)
         self.connection=self.frame(self.tabs,card=True);self.appearance=self.frame(self.tabs,card=True);self.documentation=self.frame(self.tabs,card=True)
-        for page,title in ((self.connection,'Connection'),(self.appearance,'Appearance'),(self.documentation,'Documentation')):self.tabs.add(page,text=title)
+        for page,title in ((self.connection,'Connection'),(self.appearance,'Appearance'),(self.documentation,'Documentation')):
+            self.tabs.add(page,text=title)
+            button=self.button(nav,title,lambda target=page:self.tabs.select(target))
+            button.pack(side='left',padx=(0,8),ipady=3);self.nav_buttons[str(page)]=button
+        self.tabs.bind('<<NotebookTabChanged>>',lambda e:self.paint_navigation())
         def content(parent):
             inner=self.frame(parent);self.items[-1]=(inner,'card');inner.configure(bg=p['panel']);inner.pack(fill='both',expand=True,padx=20,pady=22);return inner
         page=content(self.connection);page.columnconfigure(1,weight=1);page.rowconfigure(9,weight=1)
         self.label(page,'Saved connection').grid(row=0,column=0,sticky='w',pady=7)
-        w.saved=ttk.Combobox(page,textvariable=w.selected,state='readonly');w.saved.grid(row=0,column=1,sticky='ew',padx=10)
+        w.saved=RoundedCombobox(page,palette=p,textvariable=w.selected,state='readonly');self.fields.append(w.saved);w.saved.grid(row=0,column=1,sticky='ew',padx=10)
         self.button(page,'New',w.new).grid(row=0,column=2,sticky='ew')
         for row,label,var in ((1,'Connection name',w.name),(2,'Home Assistant Cloud URL',w.address),(3,'PortalAI folder',w.target),(4,'Projection unlock password',w.password)):
             self.label(page,label).grid(row=row,column=0,sticky='w',pady=8)
-            ttk.Entry(page,textvariable=var,show='*' if row==4 else '').grid(row=row,column=1,columnspan=1 if row==3 else 2,sticky='ew',padx=(10,0))
+            field=RoundedEntry(page,palette=p,textvariable=var,show='*' if row==4 else '');self.fields.append(field)
+            field.grid(row=row,column=1,columnspan=1 if row==3 else 2,sticky='ew',padx=(10,0))
         self.button(page,'Browse',w.browse).grid(row=3,column=2,padx=(8,0),sticky='ew')
         bar=self.frame(page,card=False);bar.configure(bg=p['panel']);bar.grid(row=5,column=0,columnspan=3,sticky='ew',pady=(12,8))
         # These frames share their card background across theme switches.
@@ -167,26 +198,30 @@ class Skin:
         if sys.platform=='darwin':self.button(page,'Screen permission',w.screen_permission).grid(row=7,column=0,columnspan=3,sticky='w',pady=4)
         self.label(page,textvariable=w.status,wraplength=630,kind='accent').grid(row=8,column=0,columnspan=3,sticky='ew',pady=(9,10))
         w.instructions=self.text(page,height=10);w.instructions.grid(row=9,column=0,columnspan=3,sticky='nsew')
-        scroll=ttk.Scrollbar(page,command=w.instructions.yview);scroll.grid(row=9,column=3,sticky='ns');w.instructions.configure(yscrollcommand=scroll.set)
         self.label(shell,'Right-click inside this window for actions and help.',kind='muted').pack(anchor='w',pady=(10,0))
         a=content(self.appearance)
         self.label(a,'Make Projection your own',font=(heading_font(app),21,'bold'),kind='accent').pack(anchor='w',pady=(0,10))
         self.label(a,'Shared PortalAI styling, saved separately on this drive.',kind='muted').pack(anchor='w',pady=(0,22))
-        self.mode=tk.StringVar(value=self.settings['mode']);combo=ttk.Combobox(a,textvariable=self.mode,values=('dark','light'),state='readonly',width=18);combo.pack(anchor='w');combo.bind('<<ComboboxSelected>>',lambda e:self.change('mode',self.mode.get()))
+        self.mode=tk.StringVar(value=self.settings['mode']);combo=RoundedCombobox(a,palette=p,textvariable=self.mode,values=('dark','light'),state='readonly',width=18);self.fields.append(combo);combo.pack(anchor='w');combo.bind('<<ComboboxSelected>>',lambda e:self.change('mode',self.mode.get()))
         for key in ('accent','border'):
             row=self.frame(a);self.items[-1]=(row,'card');row.configure(bg=p['panel']);row.pack(anchor='w',pady=15)
             self.button(row,'Choose '+key+' color',lambda k=key:self.choose(k)).pack(side='left')
-            label=self.label(row,self.settings[key]);label.pack(side='left',padx=14);setattr(self,key+'_label',label)
+            label=self.label(row,p['accent' if key=='accent' else 'gold_mid']);label.pack(side='left',padx=14);setattr(self,key+'_label',label)
         def reset():
             self.settings=dict(DEFAULT);self.mode.set(DEFAULT['mode']);self.change('mode',DEFAULT['mode'])
         self.button(a,'Restore default appearance',reset).pack(anchor='w',pady=12)
         self.label(a,'The dark tray emblem stays the same in both themes.\nMinimizing leaves an unlocked connection available.',kind='muted').pack(anchor='w',pady=20)
         d=content(self.documentation);d.rowconfigure(0,weight=1);d.columnconfigure(0,weight=1)
         docs=self.text(d);docs.insert('1.0',DOCUMENTATION);docs.configure(state='disabled');docs.grid(row=0,column=0,sticky='nsew')
-        scroll=ttk.Scrollbar(d,command=docs.yview);scroll.grid(row=0,column=1,sticky='ns');docs.configure(yscrollcommand=scroll.set)
         app.bind('<Button-3>',self.context_event,add='+')
         if sys.platform=='darwin':app.bind('<Control-Button-1>',self.context_event,add='+')
         self.apply()
+
+    def paint_navigation(self):
+        if not hasattr(self,'tabs'):return
+        p=self.palette;selected=self.tabs.select()
+        for page,button in self.nav_buttons.items():
+            button.configure(bg=p['accent'] if page==selected else p['button'],fg=p['ink'] if page==selected else p['text'])
 
     def page(self,name):
         self.window.restore();self.tabs.select(getattr(self,name))

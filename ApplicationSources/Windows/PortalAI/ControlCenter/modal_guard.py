@@ -76,8 +76,8 @@ class ModalGuard:
     def focus(self):
         if self.surface is None: return
         try:
-            focused = self.app.focus_get()
-            if focused is not None and self.allowed(str(focused)): return
+            focused = str(self.app.tk.call("focus"))
+            if focused and self.allowed(focused): return
             self.surface.card.focus_set()
         except tk.TclError: pass
 

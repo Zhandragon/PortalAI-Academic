@@ -80,6 +80,18 @@ def download(asset, part, root):
         else:
             raise RuntimeError('Unexpected download status: ' + str(status))
         total = offset
+        last_progress = [0.0, -1]
+        def show_progress(done):
+            percent = min(100, int(done * 100 / max(1, asset['size'])))
+            now = time.monotonic()
+            terminal = sys.stdout.isatty()
+            if done != asset['size'] and (now-last_progress[0] < .2 if terminal else percent//10 == last_progress[1]//10): return
+            last_progress[:] = [now, percent]
+            bar = '#'*(percent//5) + '-'*(20-percent//5)
+            color = terminal and not os.environ.get('NO_COLOR')
+            begin, end = ('\x1b[38;5;73m','\x1b[0m') if color else ('','')
+            print(('\r' if terminal else '') + f"{begin}[{bar}]{end} {percent:3d}%  {done/1024**2:.1f}/{asset['size']/1024**2:.1f} MiB  {asset['id']}", end=('\n' if done==asset['size'] or not terminal else ''), flush=True)
+        show_progress(total)
         with part.open('ab' if offset else 'wb') as f:
             while True:
                 block = response.read(4 * 1024**2)
@@ -88,6 +100,7 @@ def download(asset, part, root):
                 if total > asset['size']: raise RuntimeError('Download exceeds pinned size')
                 checked_space(root, len(block))
                 f.write(block)
+                show_progress(total)
             f.flush()
             os.fsync(f.fileno())
     return total

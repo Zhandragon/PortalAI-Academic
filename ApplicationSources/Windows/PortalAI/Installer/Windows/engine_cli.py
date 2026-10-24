@@ -29,14 +29,18 @@ def main():
         return 1
     try:
         request = json.loads(Path(sys.argv[1]).read_text('utf-8-sig'))
-        last = [0.0]
-        def progress(label, done, total):
-            now = time.monotonic()
-            if now-last[0] > .3 or done == total or done == 0:
-                last[0] = now
-                emit(kind='progress', message=label, done=done, total=total)
+        last=[0.0];state=[None]
+        def progress(label,done,total):
+            # Detailed byte updates use structured events, never repeated log rows.
+            if total==0 and label!=state[0]:
+                state[0]=label;emit(kind='log',message=label)
+        def events(**message):
+            now=time.monotonic();key=(message.get('phase'),message.get('message'))
+            changed=key!=getattr(events,'key',None)
+            if changed or now-last[0]>.15 or (message.get('total',0)>0 and message.get('done')==message.get('total')):
+                events.key=key;last[0]=now;emit(**message)
         report = core.install(request['package'], request['destination'], request['selected'],
-                              FileCancellation(request['cancel_file']), progress)
+                              FileCancellation(request['cancel_file']), progress, events)
         emit(kind='complete', message='Installation verified. Open PortalAI in the new folder to create your own account.', report=report)
         return 0
     except core.Cancelled as exc:

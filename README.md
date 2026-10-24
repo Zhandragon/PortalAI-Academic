@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r6):** Fixed the Windows installer’s “Archive links are not supported” failure. Missions and schedules now include search, sortable lists, clearer review summaries, optional autonomous recovery, and a more compact layout; Windows taskbar icons use the existing detailed artwork. [Details and validation](Documentation/INSTALLER-HANDOFF-20261024.md).
+**Latest update (2026-10-24 r7):** Right-click actions for missions and schedules, confirmations inside PortalAI, polished Projection borders/themes, and current-download plus overall installer progress. [Changes and validation](Documentation/INTERFACE-INSTALLER-20261024-r7.md).
+
+**Archive fix (2026-10-24 r6):** Fixed the Windows installer’s “Archive links are not supported” failure. Missions and schedules now include search, sortable lists, clearer review summaries, optional autonomous recovery, and a more compact layout; Windows taskbar icons use the existing detailed artwork. [Details and validation](Documentation/INSTALLER-HANDOFF-20261024.md).
 
 **Mission planning update (2026-10-22 r5):** Missions receive explicit completed results and scheduled-run context, correct repeated or malformed proposals before execution, and show actual reasoning in Live activity. Use the standard 4B model or a more capable installed model for conditional recurring work: 1.7B did not reliably pass the memory/scheduling test. [Details, validation and limits](Documentation/MISSION-PLANNING-20261022.md).
 
@@ -142,7 +144,7 @@ The optional **PortalAI Projection** companion brings the running PortalAI inter
 | --- | --- | --- |
 | Windows x64 | [Projection for Windows](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe) | Open the `.exe` and choose a new folder on the same drive as PortalAI. |
 | Linux x86-64 | [Projection for Linux](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh) | Run `bash PortalAI-Projection-Linux-Setup.sh` from a supported graphical desktop. |
-| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
+| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz) | Extract, open `Utilities/PortalAI-Projection/Start Projection.command`; use `Utilities/PortalAI HA Setup/Install PortalAI HA.command` for HA setup. |
 
 Each download reconstructs and verifies its complete portable companion, bundled Python runtime and matching **Home Assistant 0.5.12 + Recovery 0.1.0** integration package. No host Python or Node installation is needed for the companion. The packages contain no saved connections, pairing identities or user accounts.
 
@@ -180,7 +182,7 @@ Check the blocked file's path and detection name, verify its source and expected
 - `PACKAGING.json` pins the current GitHub release assets and extracted files. `packages/` retains prior parts for previously downloaded launchers.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
 - `bootstrap-source/` contains the online launcher source and build instructions.
-- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.22-r1/PortalAI-Projection-Mac-20261022-r1.tar.gz) is now available; native acceptance is pending.
+- `Utilities/Projection/` contains the optional Windows/Linux Projection downloads, verified package parts, matching Home Assistant integration and source. [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r7/PortalAI-Projection-Mac-20261024-r7.tar.gz) is now available; native acceptance is pending.
 
 Maintainers can follow [the publishing guide](Documentation/PUBLISHING.md) to update this repository. Students only need the download for their operating system above.
 

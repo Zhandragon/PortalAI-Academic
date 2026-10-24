@@ -1,6 +1,19 @@
 #!/bin/sh
 set -eu
 
+# Milestones describe completed stages, not elapsed time or estimated bytes.
+portal_stage() {
+  portal_done=$1; shift
+  portal_bar=''; portal_i=0
+  while [ "$portal_i" -lt 10 ]; do
+    if [ "$portal_i" -lt "$portal_done" ]; then portal_bar="${portal_bar}#"; else portal_bar="${portal_bar}-"; fi
+    portal_i=$((portal_i + 1))
+  done
+  if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[38;5;73mPortalAI\033[0m  \033[38;5;136m[%s]\033[0m  %s/10 stages complete | %s\n' "$portal_bar" "$portal_done" "$*"
+  else printf 'PortalAI [%s] %s/10 stages complete | %s\n' "$portal_bar" "$portal_done" "$*"; fi
+}
+portal_stage 0 'Checking destination and requirements'
+
 case "$(uname -s)" in
   Linux) ;;
   *) echo "This installer supports Linux x86-64 only." >&2; exit 2 ;;
@@ -40,7 +53,7 @@ if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   exit 2
 fi
 
-sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 15176595 52428800 104857600 10
+sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 15184787 52428800 104857600 10
 
 # Check executable-bit support before unpacking the multi-gigabyte payload.
 EXEC_CHECK=$(mktemp "$DEST_PARENT/.portalai-exec-check.XXXXXX")
@@ -52,6 +65,7 @@ if ! chmod 700 "$EXEC_CHECK" || [ ! -x "$EXEC_CHECK" ]; then
 fi
 rm -f -- "$EXEC_CHECK"
 
+portal_stage 1 'Verifying package checksums'
 (
   cd "$SCRIPT_DIR"
   sha256sum --check SHA256SUMS
@@ -68,8 +82,10 @@ cleanup() {
 }
 trap cleanup EXIT HUP INT TERM
 
+portal_stage 2 'Unpacking application'
 tar -xzf "$SCRIPT_DIR/payload.tar.gz" -C "$STAGE"
 mkdir -p "$STAGE/PortalAI/Runtime"
+portal_stage 3 'Unpacking Python runtime'
 tar -xzf "$SCRIPT_DIR/python-runtime.tar.gz" -C "$STAGE/PortalAI/Runtime"
 chmod 755 "$STAGE/PortalAI/Runtime/LinuxPython/run-python"
 chmod 755 "$STAGE/PortalAI/PortalAI.sh" "$STAGE/PortalAI/Launchers/portalai.sh" "$STAGE/PortalAI/Launchers/portalai-missions.sh" "$STAGE/PortalAI/LLM/backends/linux-cpu/llama-server" "$STAGE/PortalAI/Runtime/QEMU/linux-x64/bin/qemu-system-x86_64"
@@ -82,20 +98,26 @@ fi
 unset PYTHONHOME PYTHONPATH VIRTUAL_ENV __PYVENV_LAUNCHER__ LD_LIBRARY_PATH
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 
+portal_stage 4 'Checking runtime'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --preflight
+portal_stage 5 'Installing runtime components'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --install-core
 
 # Academic installs one standard chat model; no alternate downloads.
+portal_stage 6 'Downloading and verifying models'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
 
+portal_stage 8 'Creating verified recovery backups'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/repair_executables.py" --seed-fresh-native-install
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2
   exit 2
 fi
+portal_stage 9 'Publishing verified installation'
 mv -- "$STAGE/PortalAI" "$DEST"
 echo
+portal_stage 10 'Installation complete'
 echo "PortalAI installed at: $DEST"
 echo "Start the desktop app with: $DEST/PortalAI.sh"
 echo "No mission or background service was started automatically."

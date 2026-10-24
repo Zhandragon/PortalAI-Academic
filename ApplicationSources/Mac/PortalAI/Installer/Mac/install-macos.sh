@@ -1,6 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
+# Milestones describe completed stages, not elapsed time or estimated bytes.
+portal_stage() {
+  portal_done=$1; shift
+  portal_bar=''; portal_i=0
+  while [ "$portal_i" -lt 10 ]; do
+    if [ "$portal_i" -lt "$portal_done" ]; then portal_bar="${portal_bar}#"; else portal_bar="${portal_bar}-"; fi
+    portal_i=$((portal_i + 1))
+  done
+  if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[38;5;73mPortalAI\033[0m  \033[38;5;136m[%s]\033[0m  %s/10 stages complete | %s\n' "$portal_bar" "$portal_done" "$*"
+  else printf 'PortalAI [%s] %s/10 stages complete | %s\n' "$portal_bar" "$portal_done" "$*"; fi
+}
+portal_stage 0 'Checking destination and requirements'
+
 SELF_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
 unset PYTHONHOME PYTHONPATH VIRTUAL_ENV DYLD_LIBRARY_PATH DYLD_FRAMEWORK_PATH
 ARCH="$(uname -m)"
@@ -48,8 +61,8 @@ fi
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
 case "$ARCH" in
-  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18813314 52428800 104857600 10 ;;
-  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18814180 52428800 104857600 10 ;;
+  arm64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18821506 52428800 104857600 10 ;;
+  x86_64) sh "$SELF_DIR/storage-preflight.sh" "$PARENT" 18822372 52428800 104857600 10 ;;
 esac
 
 WRITE_CHECK="$(mktemp "$PARENT/.portalai-macos-write-check.XXXXXX")" || {
@@ -64,6 +77,7 @@ if ! chmod 700 "$WRITE_CHECK" || [[ ! -x "$WRITE_CHECK" ]]; then
 fi
 rm -f "$WRITE_CHECK"
 
+portal_stage 1 'Verifying package checksums'
 (cd "$SELF_DIR" && shasum -a 256 -c SHA256SUMS)
 STAGE="$(mktemp -d "$PARENT/.portalai-macos-install.XXXXXX")"
 cleanup() {
@@ -71,6 +85,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
+portal_stage 2 'Unpacking application'
 tar -xzf "$SELF_DIR/payload.tar.gz" -C "$STAGE"
 ROOT="$STAGE/PortalAI"
 if [[ ! -d "$ROOT/Agent" || ! -f "$ROOT/ControlCenter/PortableAI_GUI.py" ]]; then
@@ -78,6 +93,7 @@ if [[ ! -d "$ROOT/Agent" || ! -f "$ROOT/ControlCenter/PortableAI_GUI.py" ]]; the
   exit 1
 fi
 mkdir -p "$ROOT/Runtime/MacPython"
+portal_stage 3 'Unpacking Python runtime'
 tar -xzf "$RUNTIME" --strip-components=1 -C "$ROOT/Runtime/MacPython"
 PYTHON="$ROOT/Runtime/MacPython/bin/python3.12"
 if [[ ! -x "$PYTHON" ]]; then echo "Bundled Mac Python did not extract." >&2; exit 1; fi
@@ -87,6 +103,7 @@ if ! "$PYTHON" -I -c 'import platform,sys,tkinter; assert sys.version_info[:2] =
 fi
 "$PYTHON" -B -I -c 'import sys; from pathlib import Path; root=Path(sys.argv[1]); sys.path.insert(0,str(root/"Agent")); from runtime_policy import require_space; require_space(root,8*1024**3)' "$ROOT"
 
+portal_stage 4 'Preparing model engine build'
 mkdir -p "$STAGE/llama-source" "$STAGE/llama-build"
 tar -xzf "$SELF_DIR/llama.cpp-source.tar.gz" --strip-components=1 -C "$STAGE/llama-source"
 JOBS="${PORTALAI_BUILD_JOBS:-2}"
@@ -96,6 +113,7 @@ cmake -S "$STAGE/llama-source" -B "$STAGE/llama-build" \
   -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" \
   -DGGML_METAL=ON -DGGML_NATIVE=ON -DLLAMA_BUILD_SERVER=ON \
   -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF
+portal_stage 5 'Building model engine'
 cmake --build "$STAGE/llama-build" --target llama-server --parallel "$JOBS"
 cmake --install "$STAGE/llama-build"
 if [[ ! -x "$PREFIX/bin/llama-server" ]]; then
@@ -103,10 +121,12 @@ if [[ ! -x "$PREFIX/bin/llama-server" ]]; then
   exit 1
 fi
 
+portal_stage 6 'Installing and checking runtime components'
 "$PYTHON" -B "$ROOT/Tools/import_macos_layers.py"
 "$PYTHON" -B "$ROOT/Tools/macos_installer_smoke.py"
 
 # Academic installs one standard chat model; no alternate downloads.
+portal_stage 7 'Downloading and verifying models'
 "$PYTHON" -B "$ROOT/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
 
 # The fresh wheelhouses and pip resolution reports are installer scratch only.
@@ -149,15 +169,18 @@ json.dump({'python':'3.12.15','architecture':sys.argv[3],'archive':row['asset'],
           open(sys.argv[2],'w',encoding='utf-8'),indent=2)
 PY
 
+portal_stage 8 'Creating verified recovery backups'
 "$PYTHON" -B -I "$ROOT/Tools/repair_executables.py" --seed-fresh-native-install
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2
   exit 2
 fi
+portal_stage 9 'Publishing verified installation'
 mv "$ROOT" "$DEST"
 rmdir "$STAGE"
 STAGE=""
+portal_stage 10 'Installation complete'
 echo "PortalAI Academic Mac installed at: $DEST"
 echo "Open $DEST/PortalAI.app. The standard Qwen 1.7B chat model was installed. Academic mode is permanent."
 echo "This build is unsigned and not notarized. On first launch, Control-click PortalAI.app and choose Open."

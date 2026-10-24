@@ -1,5 +1,5 @@
 {
-  "release": "PortalAI-2026.10.24-r6-Academic-Mac",
+  "release": "PortalAI-2026.10.24-r7-Academic-Mac",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platforms": [
     "macOS arm64 (Apple silicon)",
@@ -14,8 +14,8 @@
     "files": 2093,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "193ecf5588a1df88ed99e17df94b20a8fb01b83c34b27437734d5ec66d799fbe",
-    "payload_bytes": 502272215,
+    "payload_sha256": "244d060e5970e1b61b27bf50004a60fa386297064e11ce10589d50cbcdfd384d",
+    "payload_bytes": 502279984,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 502272215,
-      "sha256": "193ecf5588a1df88ed99e17df94b20a8fb01b83c34b27437734d5ec66d799fbe"
+      "bytes": 502279984,
+      "sha256": "244d060e5970e1b61b27bf50004a60fa386297064e11ce10589d50cbcdfd384d"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -81,7 +81,7 @@
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
   "verification_scope": "Academic Python/source and archive checks on Windows; physical Linux/macOS installation untested.",
-  "supersedes_release": "PortalAI-2026.10.22-r5-Academic-Mac",
+  "supersedes_release": "PortalAI-2026.10.24-r6-Academic-Mac",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -258,8 +258,8 @@
     "scope": "initial native installation; optional later model/media installs retain their own checks",
     "architectures": {
       "arm64": {
-        "base_kib": 18813314,
-        "payload_bytes": 713554554,
+        "base_kib": 18821506,
+        "payload_bytes": 713594181,
         "runtime_bytes": 65186210,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
@@ -270,12 +270,12 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 35045340,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 2145,
+        "payload_files": 2149,
         "handoff_update_allowance_bytes": 8388608
       },
       "x86_64": {
-        "base_kib": 18814180,
-        "payload_bytes": 713554554,
+        "base_kib": 18822372,
+        "payload_bytes": 713594181,
         "runtime_bytes": 65847372,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
@@ -286,7 +286,7 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 35466611,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 2145,
+        "payload_files": 2149,
         "handoff_update_allowance_bytes": 8388608
       }
     }

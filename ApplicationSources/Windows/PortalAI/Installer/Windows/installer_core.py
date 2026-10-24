@@ -51,9 +51,14 @@ def is_comfy_user_destination(value):
     return any(lower == root or lower.startswith(root + '/') for root in COMFY_USER_ROOTS)
 
 
-def sha256(path):
+def sha256(path, progress=None):
     with Path(path).open('rb') as f:
-        return hashlib.file_digest(f, 'sha256').hexdigest()
+        if progress is None:return hashlib.file_digest(f, 'sha256').hexdigest()
+        digest=hashlib.sha256();done=0;total=Path(path).stat().st_size
+        progress(0,total)
+        while block:=f.read(4*1024**2):
+            digest.update(block);done+=len(block);progress(done,total)
+        return digest.hexdigest()
 
 
 def relative(value):
@@ -199,13 +204,14 @@ def _fetch_one(item, cache, stop, progress, opener=None):
     return target
 
 
-def write_verified(source, target, expected, stop):
+def write_verified(source, target, expected, stop, progress=None):
     validate_pin(expected)
     target.parent.mkdir(parents=True, exist_ok=True)
     partial = target.with_name(target.name + '.installing')
     if target.exists() or partial.exists():
         raise InstallError('Refusing to replace an existing installation file: ' + str(target))
     total = 0
+    if progress:progress(expected,0,expected['bytes'])
     digest = hashlib.sha256()
     with partial.open('xb') as output:
         while True:
@@ -219,6 +225,7 @@ def write_verified(source, target, expected, stop):
                 raise InstallError('Extracted file exceeds pinned size')
             digest.update(block)
             output.write(block)
+            if progress:progress(expected,total,expected['bytes'])
         output.flush()
         os.fsync(output.fileno())
     if total != expected['bytes'] or digest.hexdigest() != expected['sha256']:
@@ -226,7 +233,7 @@ def write_verified(source, target, expected, stop):
     partial.rename(target)
 
 
-def extract_allowlist(archive_path, members, root, stop):
+def extract_allowlist(archive_path, members, root, stop, progress=None):
     """Every installed member has an explicit destination, size and digest."""
     destinations = set()
     with zipfile.ZipFile(archive_path) as archive:
@@ -254,10 +261,10 @@ def extract_allowlist(archive_path, members, root, stop):
             checked_path(root, row['dest'])
         for row in members:
             with archive.open(row['member']) as source:
-                write_verified(source, checked_path(root, row['dest']), row, stop)
+                write_verified(source, checked_path(root, row['dest']), row, stop, progress)
 
 
-def extract_tar_allowlist(archive_path, members, root, stop):
+def extract_tar_allowlist(archive_path, members, root, stop, progress=None):
     with tarfile.open(archive_path) as archive:
         infos = archive.getmembers()
         names = [i.name.casefold() for i in infos]
@@ -271,7 +278,7 @@ def extract_tar_allowlist(archive_path, members, root, stop):
                 raise InstallError('Only explicitly pinned regular tar members can be installed')
         for row in members:
             with archive.extractfile(row['member']) as source:
-                write_verified(source, checked_path(root, row['dest']), row, stop)
+                write_verified(source, checked_path(root, row['dest']), row, stop, progress)
 
 
 NSIS_HELPER = 'PortalAI Windows/Tools/Archive'
@@ -344,7 +351,7 @@ def _verified_nsis_extractor(root):
     return checked_path(root, NSIS_HELPER+'/7z.exe')
 
 
-def extract_nsis_allowlist(archive_path, artifact, root, stop):
+def extract_nsis_allowlist(archive_path, artifact, root, stop, progress=None):
     """Read a pinned NSIS/ISO archive; never execute an installer or boot it."""
     validate_pin(artifact)
     archive_type = {'nsis': 'NSIS', 'iso': 'Iso'}.get(artifact.get('format', 'nsis'))
@@ -403,6 +410,7 @@ def extract_nsis_allowlist(archive_path, artifact, root, stop):
         path = checked_path(root, row['dest'])
         if path.stat().st_size != row['bytes'] or sha256(path) != row['sha256']:
             raise InstallError('NSIS file checksum failed: '+row['dest'])
+        if progress:progress(row,row['bytes'],row['bytes'])
     if stop.is_set():
         raise Cancelled('Paused after verified archive extraction')
 
@@ -528,7 +536,36 @@ def plan(manifest, selected):
     return chosen, artifacts, expected_files, need
 
 
-def install(package, destination, selected, stop=None, progress=None):
+
+class InstallationProgress:
+    """Actual selected download/write/readback bytes; final publication owns 100%."""
+    def __init__(self, events, artifacts, files):
+        self.events=events or (lambda **kw:None)
+        self.total=sum(a['bytes'] for a in artifacts)+2*sum(r['bytes'] for r in files)
+        self.completed=0;self.phase='preparing';self.label='Preparing installation'
+        self.size=0;self.done=0;self.member=None;self.member_done=0
+
+    def start(self,phase,label,size=0):
+        self.phase=phase;self.label=label;self.size=size;self.done=0;self.member=None;self.member_done=0
+        self.send()
+
+    def advance(self,label,done,total):
+        self.done=max(0,min(done,self.size));self.send()
+
+    def file(self,row,done,total):
+        name=row['dest']
+        if self.member!=name:self.member=name;self.member_done=0
+        self.done+=max(0,done-self.member_done);self.member_done=done;self.send()
+
+    def finish(self):
+        self.done=self.size;self.send();self.completed+=self.size;self.done=0
+
+    def send(self):
+        self.events(kind='progress',phase=self.phase,message=self.label,done=self.done,total=self.size,
+                    overall_done=min(self.total,self.completed+self.done),overall_total=self.total)
+
+
+def install(package, destination, selected, stop=None, progress=None, events=None):
     """Build a new directory beside the requested final path, then publish it."""
     stop = stop or threading.Event()
     progress = progress or (lambda *_: None)
@@ -537,6 +574,8 @@ def install(package, destination, selected, stop=None, progress=None):
     manifest_path = package / 'release.json'
     manifest = read_manifest(package)
     chosen, artifacts, expected_files, need = plan(manifest, selected)
+    meter=InstallationProgress(events,artifacts,expected_files)
+    meter.start("preparing","Checking selected files and disk space")
     destination = Path(destination).absolute()
     if not destination.name or destination == destination.parent:
         raise InstallError('Choose a new installation folder, not a drive root')
@@ -563,38 +602,48 @@ def install(package, destination, selected, stop=None, progress=None):
     for artifact in artifacts:
         if stop.is_set():
             raise Cancelled('Paused before installation')
-        downloaded.append((artifact, download_artifact(artifact, package, cache, stop, progress)))
+        meter.start('download',artifact['id'],artifact['bytes'])
+        def download_progress(label,done,total):
+            progress(label,done,total);meter.advance(label,done,total)
+        downloaded.append((artifact, download_artifact(artifact, package, cache, stop, download_progress)))
+        meter.finish()
     # Downloads are now on disk; recheck the remaining extraction requirement.
     check_space(work_parent, expected_files, [])
     stage = checked_path(work_parent, '.PortalAI-installing-' + uuid.uuid4().hex[:12])
     stage.mkdir()
     progress('Installing and verifying files in ' + str(stage), 0, len(expected_files))
     progress('Installing bundled application files', 0, 0)
-    extract_allowlist(payload, manifest['payload']['members'], stage, stop)
+    meter.start('install','Bundled application files',sum(r['bytes'] for r in manifest['payload']['members']))
+    extract_allowlist(payload, manifest['payload']['members'], stage, stop, meter.file)
+    meter.finish()
     for artifact, path in downloaded:
         progress('Installing ' + artifact['id'], 0, 0)
+        meter.start('install',artifact['id'],sum(r['bytes'] for r in artifact['members']))
         if artifact.get('format') == 'file':
             if len(artifact['members']) != 1:
                 raise InstallError('Direct files require one destination')
             row = artifact['members'][0]
             with path.open('rb') as source:
-                write_verified(source, checked_path(stage, row['dest']), row, stop)
+                write_verified(source, checked_path(stage, row['dest']), row, stop, meter.file)
         elif artifact.get('format') == 'zip':
-            extract_allowlist(path, artifact['members'], stage, stop)
+            extract_allowlist(path, artifact['members'], stage, stop, meter.file)
         elif artifact.get('format') == 'tar':
-            extract_tar_allowlist(path, artifact['members'], stage, stop)
+            extract_tar_allowlist(path, artifact['members'], stage, stop, meter.file)
         elif artifact.get('format') in ('nsis', 'iso'):
-            extract_nsis_allowlist(path, artifact, stage, stop)
+            extract_nsis_allowlist(path, artifact, stage, stop, meter.file)
         else:
             raise InstallError('Unsupported pinned artifact format')
+        meter.finish()
     if stop.is_set():
         raise Cancelled('Installation paused before publication')
+    meter.start('verify','Verifying installed files',sum(r['bytes'] for r in expected_files if 'receipt_utf8' not in r))
     for row in expected_files:
         if 'receipt_utf8' in row:
             continue
         target = checked_path(stage, row['dest'])
-        if target.stat().st_size != row['bytes'] or sha256(target) != row['sha256']:
+        if target.stat().st_size != row['bytes'] or sha256(target,lambda done,total:meter.file(row,done,total)) != row['sha256']:
             raise InstallError('Final readback failed: ' + row['dest'])
+    meter.finish()
     # Receipts are created only after every selected public payload passes full
     # readback, and before publication. A failed/cancelled install cannot mark an
     # absent optional model as verified.
@@ -602,12 +651,17 @@ def install(package, destination, selected, stop=None, progress=None):
         if 'receipt_utf8' not in row:
             continue
         target = checked_path(stage, row['dest'])
+        meter.start('install','Writing installation receipts',row['bytes'])
         with io.BytesIO(row['receipt_utf8'].encode('utf-8')) as stream:
-            write_verified(stream, target, row, stop)
+            write_verified(stream, target, row, stop, meter.file)
+        meter.finish()
+        meter.start('verify','Verifying installation receipts',row['bytes'])
         if target.stat().st_size != row['bytes'] or sha256(target) != row['sha256']:
             raise InstallError('Generated receipt readback failed: '+row['dest'])
+        meter.finish()
     # Snapshot only fingerprint-verified public runtime files. The storage plan
     # reserves these backups before any dependency downloads begin.
+    meter.start('recovery','Creating verified executable recovery backups')
     progress('Creating verified executable recovery backups', 0, 0)
     import importlib.util
     app_root = checked_path(stage, 'PortalAI Windows')
@@ -623,6 +677,7 @@ def install(package, destination, selected, stop=None, progress=None):
               'accounts_created': False, 'projection_connections_created': False}
     (stage / 'INSTALL_RECEIPT.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     # On Windows rename fails when a concurrent process creates the target.
+    meter.start('publish','Publishing the verified installation')
     if in_place:
         # Publish only this release's verified top-level entries. Never merge
         # into or replace unrelated folders already beside the installer.

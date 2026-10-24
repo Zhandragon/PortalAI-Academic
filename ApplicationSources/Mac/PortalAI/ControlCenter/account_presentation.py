@@ -76,7 +76,11 @@ class AccountSurface:
         self.full_window = startup and login_host is None
         self.palette = dict(colors)
         self.on_close = lambda: None
-        self.previous_focus = self.app.focus_get()
+        try:
+            self.previous_focus = self.app.focus_get()
+        except (KeyError, tk.TclError):
+            # Tk owns combobox popdown widgets that have no Python wrapper.
+            self.previous_focus = None
         self.host = getattr(self.app, '_portalai_login_host', None) or login_host or getattr(self.app, '_portalai_account_host', self.app)
         dialogs = [d for d in getattr(self.app, '_portalai_account_dialogs', ()) if not d.closed]
         if hasattr(self.app, '_portalai_account_lock_snapshot'):
@@ -160,7 +164,7 @@ class AccountSurface:
             width = self.host.winfo_width(); height = self.host.winfo_height()
         self.overlay.place(x=x, y=y, width=max(1,width), height=max(1,height))
         card_width = min(690 if self.startup else 720, max(1, width-32))
-        card_height = min(740, max(1, height-28))
+        card_height = min(getattr(self, "preferred_height", 740), max(1, height-28))
         left, top = self.moved or ((width-card_width)//2, (height-card_height)//2)
         left = max(8, min(left, max(8,width-card_width-8)))
         top = max(8, min(top, max(8,height-card_height-8)))

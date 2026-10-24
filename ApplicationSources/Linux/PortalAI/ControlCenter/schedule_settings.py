@@ -7,7 +7,8 @@ import tkinter as tk
 from record_dates import RecordDates, describe as describe_dates, formatted as date_text
 from record_controls import RecordSort, record_name, FoldPanel, record_columns
 from rounded_text import RoundedText
-from tkinter import ttk, messagebox
+from tkinter import ttk
+from confirmation_dialog import ask_yes_no
 from schedule_catalog import ORIGIN_VIEWS, STATE_VIEWS, origin as schedule_origin, select as select_schedules
 
 
@@ -311,13 +312,15 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
         except Exception as exc:status.set(str(exc))
     def remove():
         try:
-            require_admin(root, session)
+            deletion_session=require_admin(root, session)
             sid=selected();s=store.load(sid)
             if s.get('status')=='removed':raise ValueError('This schedule is already removed')
             prompt=('Remove this schedule from the active list? It will be paused; its history and generated mission records stay on the SSD. '
                     'Any in-progress mission will be stopped. An interrupted external action may still need review. Restore never starts it automatically.\n\n'
                     +s['objective'][:240])
-            if not messagebox.askyesno('Remove schedule?',prompt,parent=win):return
+            if not ask_yes_no('Remove schedule?',prompt,parent=win,colors=win.skin.colors,
+                    validate=lambda:require_admin(root,deletion_session),
+                    yes_label='Yes — remove schedule',no_label='No — keep schedule'):return
             store.remove(sid)
             status.set('Schedule removed and paused. Its records remain under Removed schedules; Restore does not resume it.')
             refresh()
@@ -334,6 +337,40 @@ def show_schedule_settings(parent, root, colors, *, session=None, embedded=False
     toggle_button[0]=win.skin.button(controls,'Enable',toggle);controls.add(toggle_button[0]);win.schedule_toggle=toggle_button[0]
     for text,cmd in [('Remove…',remove),('Restore',restore),('Refresh',refresh)]:
         controls.add(win.skin.button(controls,text,cmd))
+    def context_actions(sid):
+        try:
+            s=store.load(sid);enabled=store.enabled(s);removed=s.get('status')=='removed'
+            active=store.store.load(s['active_run']) if s.get('active_run') else None
+            pending=bool(active and active.get('pending_action'))
+            stopped=bool(active and store.store.stopped(active))
+            needs_review=bool(active and (active['status'] not in {'queued','running','waiting','complete'} or pending or stopped))
+            available=not removed and s.get('status')!='complete'
+            version=active.get('updated_at') if active else None
+            def resume_run(reviewed=None):
+                try:
+                    require_admin(root,session)
+                    current=store.load(sid)
+                    if store.enabled(current):raise ValueError('Stop this schedule before reviewing its active run')
+                    if not active or current.get('active_run')!=active['id']:raise ValueError('The active run changed; inspect it before resuming')
+                    if store.store.load(active['id']).get('updated_at')!=version:raise ValueError('The mission changed; inspect its latest action before reviewing')
+                    store.store.resume(active['id'],reviewed)
+                    status.set('Mission resumed. Choose Run / enable schedule when ready; its timing and run limits are preserved.')
+                    refresh();show()
+                except Exception as exc:status.set(str(exc))
+            return [
+                dict(label='Run / enable schedule',command=lambda:toggle(True),enabled=available and not enabled and not needs_review),
+                dict(label='Stop / pause schedule',command=lambda:toggle(False),enabled=available and (enabled or bool(active and not stopped))),
+                dict(label='Resume active mission',command=resume_run,enabled=available and not enabled and needs_review and not pending),
+                None,
+                dict(label='Review: retry',command=lambda:resume_run('retry'),enabled=available and not enabled and pending),
+                dict(label='Review: skip',command=lambda:resume_run('skip'),enabled=available and not enabled and pending),
+                None,
+                dict(label='Delete…',command=remove,tone='danger',enabled=not removed),
+                dict(label='Restore',command=restore,enabled=removed)]
+        except (ValueError,OSError,KeyError,PermissionError):
+            return [dict(label='Record unavailable — refresh the list',enabled=False)]
+    from record_context_menu import RecordContextMenu
+    win.record_context_menu=RecordContextMenu(win,tree,context_actions,title='Schedule actions')
     tree.bind('<<TreeviewSelect>>',show)
     view_combo.bind('<<ComboboxSelected>>',lambda _event:refresh())
     origin_combo.bind('<<ComboboxSelected>>',lambda _event:refresh())

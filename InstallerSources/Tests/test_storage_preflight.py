@@ -78,7 +78,7 @@ class EngineBoundary(unittest.TestCase):
             with self.subTest(edition=edition),tempfile.TemporaryDirectory(dir=HERE) as t:
                 core=self.load(edition);package=Path(t);(package/'payload.zip').write_bytes(b'')
                 manifest={'payload':{'file':'payload.zip','bytes':0,'sha256':'x'}}
-                with patch.object(core,'read_manifest',return_value=manifest),patch.object(core,'plan',return_value=([],[{}],[{'dest':'PortalAI Windows/a','bytes':1}],100)),patch.object(core,'sha256',return_value='x'),patch.object(storage,'check_space',side_effect=[{'message':'enough'},OSError('space consumed by another process')]) as check,patch.object(core,'fetch',return_value=package/'download') as fetch,patch.object(core,'extract_allowlist') as extract:
+                with patch.object(core,'read_manifest',return_value=manifest),patch.object(core,'plan',return_value=([],[{'id':'fixture','bytes':0}],[{'dest':'PortalAI Windows/a','bytes':1}],100)),patch.object(core,'sha256',return_value='x'),patch.object(storage,'check_space',side_effect=[{'message':'enough'},OSError('space consumed by another process')]) as check,patch.object(core,'fetch',return_value=package/'download') as fetch,patch.object(core,'extract_allowlist') as extract:
                     with self.assertRaisesRegex(OSError,'space consumed'):core.install(package,package,[])
                     self.assertEqual(check.call_count,2);fetch.assert_called_once();extract.assert_not_called()
                     self.assertFalse(any(p.name.startswith('.PortalAI-installing') for p in package.iterdir()))

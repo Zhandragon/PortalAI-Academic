@@ -98,7 +98,7 @@ class MissionCatalogTkTests(unittest.TestCase):
 
     def test_delete_requires_confirmation_and_refuses_active_work_before_prompt(self):
         self.tree.selection_set(self.user['id'])
-        with patch.object(mission_settings.messagebox, 'askyesno', return_value=False) as confirm:
+        with patch.object(mission_settings, 'ask_yes_no', return_value=False) as confirm:
             self.delete.invoke()
             confirm.assert_not_called()
             disarm(self.root, self.user['id'])

@@ -46,7 +46,7 @@ class WindowTests(unittest.TestCase):
         self.w.restore();self.assertFalse(self.w.hidden);self.assertIs(self.w.connection,connection);worker.terminate.assert_not_called();worker.stdin.close.assert_not_called()
     def test_no_tray_keeps_taskbar_window(self):
         self.native.available=False
-        with patch.object(self.app,'iconify') as iconify:
+        with patch.object(self.w.skin.chrome,'minimize_to_taskbar') as iconify:
             self.w.minimize();iconify.assert_called_once()
         self.assertFalse(self.w.hidden);self.assertIn('taskbar',self.w.status.get())
     def test_native_minimize_event(self):
@@ -98,6 +98,43 @@ class WindowTests(unittest.TestCase):
         for b in (self.w.skin.start_button,self.w.skin.stop_button,self.w.skin.local_button):
             self.assertLess(b.winfo_rootx()+b.winfo_width(),self.app.winfo_rootx()+self.app.winfo_width())
         self.assertIn('MINIMIZE AND TRAY',theme.DOCUMENTATION);self.assertIn('taskbar',theme.DOCUMENTATION)
+
+    def test_desktop_palettes_and_legacy_defaults(self):
+        from projection_palette import THEMES
+        self.assertEqual(theme.validate({'mode':'dark','accent':'#55B7C7','border':'#B88A32'}),theme.DEFAULT)
+        for mode in ('light','dark','light','dark'):
+            self.w.skin.settings={**theme.DEFAULT,'mode':mode};self.w.skin.apply();self.app.update_idletasks()
+            self.assertEqual(self.w.skin.palette['bg'],THEMES[mode]['bg'])
+            self.assertEqual(self.w.skin.palette['panel3'],THEMES[mode]['panel3'])
+            for field in self.w.skin.fields:
+                style=self.w.skin.style
+                self.assertEqual(style.lookup(field.cget('style'),'background'),field.master.cget('bg'))
+            for button in (self.w.skin.start_button,self.w.skin.stop_button):
+                self.assertEqual(self.w.skin.style.lookup(button.cget('style'),'background',('disabled',)),button.master.cget('bg'))
+
+    @unittest.skipUnless(os.name=='nt','Windows decorated window')
+    def test_custom_chrome_keeps_one_wrapper_through_minimize_and_restore(self):
+        self.app.deiconify();self.app.update();chrome=self.w.skin.chrome;chrome.taskbar_style()
+        hwnd=chrome.hwnd();user=ctypes.WinDLL('user32');from ctypes import wintypes
+        user.GetWindowLongW.argtypes=[wintypes.HWND,ctypes.c_int];user.GetWindowLongW.restype=ctypes.c_long
+        user.IsIconic.argtypes=[wintypes.HWND];user.IsIconic.restype=wintypes.BOOL
+        self.assertFalse(user.GetWindowLongW(hwnd,-16)&0x00C00000)
+        self.assertTrue(user.GetWindowLongW(hwnd,-20)&0x00040000)
+        self.native.available=False
+        for _ in range(4):
+            self.w.minimize();self.app.update();self.assertTrue(user.IsIconic(hwnd))
+            self.w.restore();self.app.update();self.assertFalse(user.IsIconic(hwnd));self.assertEqual(chrome.hwnd(),hwnd)
+        before=self.app.geometry();chrome.toggle_maximize();self.app.update();self.assertTrue(chrome.maximized)
+        chrome.toggle_maximize();self.app.update();self.assertEqual(self.app.geometry(),before)
+
+    def test_rounded_controls_keep_native_input_and_custom_colors(self):
+        from rounded_controls import RoundedEntry,RoundedCombobox
+        self.assertIsInstance(self.w.saved,RoundedCombobox)
+        entry=next(f for f in self.w.skin.fields if isinstance(f,RoundedEntry))
+        entry.delete(0,'end');entry.insert(0,'Draft retained')
+        self.w.skin.change('accent','#123456');self.w.skin.change('mode','light')
+        self.assertEqual(entry.get(),'Draft retained');self.assertEqual(self.w.skin.palette['accent'],'#123456')
+        self.assertEqual(self.w.skin.palette['ink'],'#FFFFFF')
 
 @unittest.skipUnless(os.name=='nt','Real Win32 tray test')
 class NativeTrayTests(unittest.TestCase):

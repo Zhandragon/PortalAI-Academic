@@ -42,11 +42,11 @@ class Window:
         if self.tray.show():self.hidden=True;self.app.withdraw()
         else:
             self.hidden=False;self.status.set('Tray unavailable on this desktop; use the taskbar to reopen Projection.')
-            if self.app.state()!='iconic':self.app.iconify()
+            if self.app.state()!='iconic':self.skin.chrome.minimize_to_taskbar()
 
     def restore(self):
         if self.closing:return
-        self.skin.dismiss();self.hidden=False;self.app.deiconify();self.app.lift();self.app.focus_force()
+        self.skin.dismiss();self.hidden=False;self.app.deiconify();self.skin.chrome.restore_native();self.app.lift();self.app.focus_force()
 
     def screen_permission(self):
         try:
@@ -183,7 +183,7 @@ class Window:
         self.app.after_cancel(self.timer);self.app.after_cancel(self.tray_timer)
         for border in self.skin.borders:
             if border._after:self.app.after_cancel(border._after);border._after=None
-        self.tray.close();self.connection=None;self.secret=None;self.password.set('');self.app.destroy()
+        self.skin.chrome.close();self.tray.close();self.connection=None;self.secret=None;self.password.set('');self.app.destroy()
 
 
 if __name__=='__main__':

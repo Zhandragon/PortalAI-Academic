@@ -419,7 +419,7 @@ class RoundedWindowController:
         if os.name=="nt":
             app.bind("<Configure>",self._schedule,add="+")
             app.bind("<Map>",self._schedule,add="+")
-            try:app.after(250,self.refresh)
+            try:self._after=app.after(250,self.refresh)
             except Exception:pass
     def _schedule(self,_e=None):
         if os.name!="nt":return
@@ -432,6 +432,9 @@ class RoundedWindowController:
         try:self._after=self.app.after(35,self.refresh)
         except Exception:self._after=None
     def refresh(self):
+        if self._after is not None:
+            try:self.app.after_cancel(self._after)
+            except tk.TclError:pass
         self._after=None
         if os.name!="nt":return
         try:

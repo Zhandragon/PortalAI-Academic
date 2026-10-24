@@ -4,8 +4,8 @@
   "scope": "initial native installation; optional later model/media installs retain their own checks",
   "architectures": {
     "arm64": {
-      "base_kib": 18813314,
-      "payload_bytes": 713554554,
+      "base_kib": 18821506,
+      "payload_bytes": 713594181,
       "runtime_bytes": 65186210,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -16,12 +16,12 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 35045340,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 2145,
+      "payload_files": 2149,
       "handoff_update_allowance_bytes": 8388608
     },
     "x86_64": {
-      "base_kib": 18814180,
-      "payload_bytes": 713554554,
+      "base_kib": 18822372,
+      "payload_bytes": 713594181,
       "runtime_bytes": 65847372,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -32,7 +32,7 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 35466611,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 2145,
+      "payload_files": 2149,
       "handoff_update_allowance_bytes": 8388608
     }
   }

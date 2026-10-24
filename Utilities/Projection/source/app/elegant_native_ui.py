@@ -392,6 +392,10 @@ class ElegantButton(ttk.Button):
         )
         style.map(
             name,
+            # Image corners are transparent in every state. Do not inherit
+            # clam's gray disabled/active background behind the rounded image.
+            background=[('disabled', self._parent_bg), ('pressed', self._parent_bg),
+                        ('active', self._parent_bg), ('focus', self._parent_bg)],
             foreground=[
                 ("disabled", disabled_fg),
                 ("active", active_fg),
