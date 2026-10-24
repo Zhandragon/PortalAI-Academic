@@ -4,6 +4,7 @@ import tkinter as tk
 import webbrowser
 
 from elegant_native_ui import ElegantButton, ui_font
+from ornate_ui import ConnectedBorder
 from portal_frontend_v15136 import portal_display_font
 
 SPONSOR_URL = 'https://github.com/sponsors/Zhandragon'
@@ -57,8 +58,8 @@ class DonationLink(tk.Button):
     """A quiet title-bar link using native keyboard/click button dispatch."""
     def __init__(self, parent, colors):
         super().__init__(parent, text='Donate', state='disabled', relief='flat',
-                         overrelief='flat', bd=0, highlightthickness=0, padx=7, pady=3,
-                         cursor='hand2', takefocus=1, font=(ui_font(parent), 10, 'underline'))
+                         overrelief='flat', bd=0, highlightthickness=0, padx=7, pady=0,
+                         cursor='hand2', takefocus=1, font=(portal_display_font(parent), 11, 'bold'))
         self.apply_palette(colors)
         self.bind('<Return>', self._activate, add='+')
         self.bind('<KP_Enter>', self._activate, add='+')
@@ -95,7 +96,7 @@ class DonationPanel(tk.Frame):
         self.images=[];self.borders=[];self.cards=[];self.palette_widgets=[]
         self.copy_buttons=[];self.qr_buttons=[];self.address_labels=[]
         self._columns=None
-        self.pack(fill='both',expand=True,padx=20,pady=16)
+        self.pack(fill='both',expand=True,padx=20,pady=8)
         self.header=tk.Frame(self,bg=colors['bg']);self.header.pack(fill='x')
         self.brand_row=tk.Frame(self.header,bg=colors['bg']);self.brand_row.pack()
         self.wordmark=tk.Label(self.brand_row,bg=colors['bg'],bd=0)
@@ -113,19 +114,24 @@ class DonationPanel(tk.Frame):
         except (OSError,tk.TclError):
             pass
         self.heading=self._label(self.header,'Support PortalAI',16,'accent',bold=True)
-        self.heading.pack(pady=(0,8))
+        self.heading.pack(pady=(0,4))
         self.intro=self._label(self,INTRODUCTION,10,'text',justify='center',wraplength=1000)
-        self.intro.pack(fill='x',padx=12,pady=(0,10))
-        self.sponsor=sponsor_button(self,colors);self.sponsor.pack(pady=(0,7))
+        self.intro.pack(fill='x',padx=12,pady=(0,6))
+        self.sponsor=sponsor_button(self,colors);self.sponsor.pack(pady=(0,4))
         self.hint=self._label(self,'Scan a code, or click a code or its button to copy the destination.',9,'muted')
-        self.hint.pack(pady=(0,12))
+        self.hint.pack(pady=(0,6))
         self.grid_host=tk.Frame(self,bg=colors['bg']);self.grid_host.pack(fill='x')
         for index,(name,network,filename,value) in enumerate(DESTINATIONS):
-            card=tk.Frame(self.grid_host,bg=colors['panel'],padx=12,pady=12,
-                          highlightthickness=1,highlightbackground=colors.get('gold_mid',colors['accent']))
+            card=tk.Frame(self.grid_host,bg=colors['panel'],bd=0,highlightthickness=0)
             self.cards.append(card)
-            title=self._label(card,name,12,'text',bold=True,background='panel');title.pack(pady=(2,2))
-            subtitle=self._label(card,network,9,'muted',background='panel');subtitle.pack(pady=(0,9))
+            border=ConnectedBorder(card,colors,radius=12,shine=False,filigree=False,simple=True)
+            border.simple_radius=12
+            self.borders.append(border)
+            body=tk.Frame(card,bg=colors['panel'],bd=0)
+            body.pack(fill='both',expand=True,padx=12,pady=10)
+            self.palette_widgets.append((body,'panel',None))
+            title=self._label(body,name,12,'text',bold=True,background='panel');title.pack(pady=(2,2))
+            subtitle=self._label(body,network,9,'muted',background='panel');subtitle.pack(pady=(0,9))
             source=self.root_path/'ControlCenter/DonationAssets'/filename
             # Shared white canvases remove screenshot framing without editing QR pixels.
             try:
@@ -134,21 +140,21 @@ class DonationPanel(tk.Frame):
             except (OSError,tk.TclError):
                 photo=None
             copy=lambda i=index:self.copy_destination(i)
-            qr=tk.Button(card,image=photo,text='' if photo is not None else 'Copy destination',command=copy,bg='#ffffff',activebackground='#ffffff',
+            qr=tk.Button(body,image=photo,text='' if photo is not None else 'Copy destination',command=copy,bg='#ffffff',activebackground='#ffffff',
                          width=230,height=230,padx=0,pady=0,bd=0,highlightthickness=0,cursor='hand2',takefocus=0)
             qr.pack(pady=(0,8));self.qr_buttons.append(qr)
             display='paypal.com · personal donation link' if name=='PayPal' else value
-            address=self._label(card,display,9,'muted',background='panel',wraplength=240,justify='center')
+            address=self._label(body,display,9,'muted',background='panel',wraplength=240,justify='center')
             address.pack(fill='x',pady=(0,8));address.bind('<Button-1>',lambda _event,i=index:self.copy_destination(i))
             address.configure(cursor='hand2');self.address_labels.append(address)
-            button=ElegantButton(card,text='Copy PayPal link' if name=='PayPal' else 'Copy address',
+            button=ElegantButton(body,text='Copy PayPal link' if name=='PayPal' else 'Copy address',
                 command=copy,bg=colors['button'],fg=colors['text'],activebackground=colors.get('button_hover', colors['button']),
                 activeforeground=colors['text'],font=(portal_display_font(self),9,'bold'),
                 padx=12,pady=7,bd=0,cursor='hand2',takefocus=1)
             button.pack(side='bottom',fill='x',pady=(4,0));self.copy_buttons.append(button)
         self.status=tk.StringVar(self,value='Thank you for supporting continued development.')
         self.status_label=self._label(self,'',9,'accent');self.status_label.configure(textvariable=self.status)
-        self.status_label.pack(fill='x',pady=(12,2))
+        self.status_label.pack(fill='x',pady=(6,2))
         self.bind('<Configure>',self._layout,add='+')
         self.after_idle(self._layout)
 
@@ -179,7 +185,7 @@ class DonationPanel(tk.Frame):
         for widget in [self,self.header,self.brand_row,self.wordmark,self.grid_host]:widget.configure(bg=colors['bg'])
         for widget,bg,fg in self.palette_widgets:
             widget.configure(bg=colors[bg],**({'fg':colors[fg]} if fg else {}))
-        for card in self.cards:card.configure(bg=colors['panel'],highlightbackground=colors.get('gold_mid',colors['accent']))
+        for card in self.cards:card.configure(bg=colors['panel'])
         for border in self.borders:border.apply_palette(colors)
         for button in [self.sponsor,*self.copy_buttons]:
             button.configure(bg=colors['button'],fg=colors['accent'] if button is self.sponsor else colors['text'],

@@ -1,0 +1,266 @@
+{
+  "date": "2026-10-24",
+  "release": "v2026.10.24-r13",
+  "approved_option": "B",
+  "tests": [
+    {
+      "edition": "Full",
+      "run": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "edition": "Academic",
+      "run": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    }
+  ],
+  "gui": {
+    "Full": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 659096,
+        "hwnd": 592854,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 659096,
+        "hwnd": 592854,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Verifying the restored working files...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": false,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "link_color": "#007C83",
+          "link_box": [
+            940,
+            39,
+            94,
+            20
+          ],
+          "navigation_rows": 1,
+          "footer_fits": true,
+          "page_yview": [
+            0.0,
+            1.0
+          ],
+          "rounded_cards": 4,
+          "font": {
+            "family": "Copperplate Gothic Bold",
+            "size": 11,
+            "weight": "bold",
+            "slant": "roman",
+            "underline": 0,
+            "overstrike": 0
+          }
+        },
+        "dark": {
+          "link_color": "#72D8D2",
+          "link_box": [
+            940,
+            39,
+            94,
+            20
+          ],
+          "navigation_rows": 1,
+          "footer_fits": true,
+          "page_yview": [
+            0.0,
+            1.0
+          ],
+          "rounded_cards": 4,
+          "font": {
+            "family": "Copperplate Gothic Bold",
+            "size": 11,
+            "weight": "bold",
+            "slant": "roman",
+            "underline": 0,
+            "overstrike": 0
+          }
+        }
+      }
+    },
+    "Academic": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 723850,
+        "hwnd": 3342712,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 723850,
+        "hwnd": 3342712,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Workspace verified; opening PortalAI...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": false,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "link_color": "#007C83",
+          "link_box": [
+            940,
+            39,
+            94,
+            20
+          ],
+          "navigation_rows": 1,
+          "footer_fits": true,
+          "page_yview": [
+            0.0,
+            1.0
+          ],
+          "rounded_cards": 4,
+          "font": {
+            "family": "Copperplate Gothic Bold",
+            "size": 11,
+            "weight": "bold",
+            "slant": "roman",
+            "underline": 0,
+            "overstrike": 0
+          }
+        },
+        "dark": {
+          "link_color": "#72D8D2",
+          "link_box": [
+            940,
+            39,
+            94,
+            20
+          ],
+          "navigation_rows": 1,
+          "footer_fits": true,
+          "page_yview": [
+            0.0,
+            1.0
+          ],
+          "rounded_cards": 4,
+          "font": {
+            "family": "Copperplate Gothic Bold",
+            "size": 11,
+            "weight": "bold",
+            "slant": "roman",
+            "underline": 0,
+            "overstrike": 0
+          }
+        }
+      }
+    }
+  },
+  "original_qr_assets_unchanged": true,
+  "crypto_module_pixels_unchanged": true,
+  "all_rendered_qr_canvases_230_square": true,
+  "default_window": "1260x820",
+  "default_footer_fits": true,
+  "smaller_windows_retain_scrolling": true,
+  "rounded_card_corner_radius": 12,
+  "rounded_card_canvas_containment_verified": true,
+  "physical_linux_macos_tested": false,
+  "physical_aoostar_tested": false,
+  "owner_accounts_modified": false,
+  "fixture_storage_policy": "Only disposable GUI fixtures use 1 GiB floor plus 1 GiB output reserve; owner and shipping settings unchanged.",
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "6cb398fa9d3f89d0ba1075e779c75919d23bc1cd41449f914f98aeae469ec76c",
+      "payload_files": 5041,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "a954939eed425bef195e9d8cc6bfa24f0b6d1bc334229ee7e84895461fbc04ac",
+      "payload_files": 4519,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "4370ec0cbc075bfbada898b7d972aa77ff3782c0a8eb8258bd1d8f0bd3b9ee41",
+      "payload_files": 2178,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "e8a33c40d7bad21ffc190a9ac31db82d609fd286ea35669f5e1c044704fd2f4b",
+      "payload_files": 4685,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "d11a1c902e3adc56cb656dc735a4f826130d03839ead0e56c72b1a5a4ac9bc2f",
+      "payload_files": 4509,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "cd312b6b5dc903fbeff6ada13e329574b4e4d8e261eacae804f23587a16ebece",
+      "payload_files": 2168,
+      "source_files_verified": 4,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "windows_installer_forms_and_academic_pins_verified": true
+}

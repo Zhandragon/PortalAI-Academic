@@ -5,7 +5,7 @@
   "architectures": {
     "x86_64": {
       "base_kib": 15192979,
-      "payload_bytes": 942303726,
+      "payload_bytes": 942305437,
       "runtime_bytes": 194356930,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 8589934592,
@@ -16,7 +16,7 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 180967870,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 4508,
+      "payload_files": 4509,
       "handoff_update_allowance_bytes": 8388608
     }
   }

@@ -30,6 +30,14 @@ class DonationTests(unittest.TestCase):
         for palette in [DARK,LIGHT]:
             self.panel.apply_palette(palette);self.flush()
             self.assertEqual(self.panel.wordmark.cget('bg'),palette['bg'])
+            self.assertEqual(len(self.panel.borders),4)
+            for card,border in zip(self.panel.cards,self.panel.borders):
+                self.assertEqual(int(card.cget('highlightthickness')),0)
+                self.assertEqual((border.canvas.winfo_x(),border.canvas.winfo_y()),(0,0))
+                self.assertEqual((border.canvas.winfo_width(),border.canvas.winfo_height()),(card.winfo_width(),card.winfo_height()))
+                masks=border.canvas.find_withtag('ornate-corner-mask')
+                self.assertEqual(len(masks),4)
+                for mask in masks:self.assertEqual(border.canvas.itemcget(mask,'fill'),palette['bg'])
             self.assertEqual(self.panel.intro.cget('text'),INTRODUCTION)
             self.assertEqual(self.panel.address_labels[1].cget('text'),DESTINATIONS[1][3])
             self.assertEqual(self.panel.address_labels[2].cget('text'),DESTINATIONS[2][3])
