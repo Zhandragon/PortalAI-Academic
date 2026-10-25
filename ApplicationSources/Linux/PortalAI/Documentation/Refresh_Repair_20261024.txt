@@ -1,0 +1,22 @@
+PortalAI refresh repair - receiving integration v2026.10.24-r15
+
+Reviewed the Aoostar refresh-repair r1 handoff and merged its scoped changes into
+Full and Academic on Windows, Linux and macOS. Platform/edition code, Donation
+r14 styling, installer recovery and the exclusion of the temporary Aoostar
+mission importer are preserved.
+
+Record views read display data through the tracked background-job gate. Hidden
+views stop record polling and discard in-flight results. Only the latest pending
+selection/filter can publish, after checking the captured account. A mission
+refresh reads its catalogue once. Selected detail, run activity and schedule
+templates load off the Tk thread. Projection overrides remain supported.
+
+Runtime counts only explicitly armed roots. Derived index opens keep path and
+account checks without repeatedly requesting hydration. Exact checkpoint hashes,
+authoritative command/review reads, Stop, uncertain-effect no-replay and verified
+account sealing remain required. This repair does not fix disconnected storage.
+
+Receiving validation is recorded in Documentation/REFRESH-REPAIR-VALIDATION-
+20261024-r15.json in each source repository and the maintenance handoff. Synthetic
+tests use disposable accounts; no owner mission is run. Physical Linux/macOS/
+Aoostar acceptance and complete fresh model downloads are separate acceptance.

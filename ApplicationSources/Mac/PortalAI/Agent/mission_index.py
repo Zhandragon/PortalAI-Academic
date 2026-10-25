@@ -36,7 +36,10 @@ def check(store, mid):
 
 def index_path(store, kind, mid):
     relative(kind, mid); check(store, mid)
-    return private_path(store.root, f'Data/MissionIndex/{kind}/{mid}.json')
+    # Derived indexes are eager operational metadata. If one is absent, the
+    # existing fallback repairs only that record; do not hydrate the whole
+    # account manifest just to open each already-present index.
+    return private_path(store.root, f'Data/MissionIndex/{kind}/{mid}.json', hydrate=False)
 
 
 def summary(kind, record, raw):

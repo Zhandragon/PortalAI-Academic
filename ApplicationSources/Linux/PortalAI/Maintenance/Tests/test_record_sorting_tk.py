@@ -5,6 +5,7 @@ from tkinter import ttk
 
 import test_persistence_readability_tk as fixtures
 from test_settings_surfaces_tk import LIGHT, DARK
+from record_refresh_fixture import settle_records
 from mission_runner import Missions
 from mission_catalog import MissionCatalog
 from mission_schedule import Schedules
@@ -20,7 +21,7 @@ class SortingTkTests(unittest.TestCase):
 
     def click(self, tree, key):
         tree.tk.call(tree.heading(key, 'command'))
-        self.app.update()
+        settle_records(self.app)
 
     def test_mission_headings_sort_full_text_counts_dates_and_preserve_review_draft(self):
         store = Missions(self.root); catalog = MissionCatalog(self.root)
@@ -29,9 +30,9 @@ class SortingTkTests(unittest.TestCase):
         for m, steps, created in ((a, 2, 1700000000), (b, 10, 1600000000)):
             disarm(self.root, m['id']); m = store.load(m['id'])
             m.update(steps=steps, created_at=created); store.save(m); catalog.mark_origin(m['id'])
-        self.sheet = show_mission_settings(self.app, self.root, LIGHT, embedded=True); self.app.update()
+        self.sheet = show_mission_settings(self.app, self.root, LIGHT, embedded=True); settle_records(self.app)
         tree = self.sheet.mission_tree
-        tree.selection_set(a['id']); self.app.update()
+        tree.selection_set(a['id']); settle_records(self.app)
         review = self.sheet.review_instructions
         review.insert('end', 'Keep this unsaved strategy')
         for key, expected in (('name', (b['id'],a['id'])), ('steps', (a['id'],b['id'])),
@@ -39,7 +40,7 @@ class SortingTkTests(unittest.TestCase):
             self.click(tree,key); self.assertEqual(tree.get_children(),expected)
             self.click(tree,key); self.assertEqual(tree.get_children(),expected[::-1])
             self.assertIn('▼',tree.heading(key,'text'))
-            self.sheet.refresh_records(); self.assertEqual(tree.get_children(),expected[::-1])
+            self.sheet.refresh_records();settle_records(self.app); self.assertEqual(tree.get_children(),expected[::-1])
             self.assertEqual(tree.selection(),(a['id'],))
             self.assertIn('Keep this unsaved strategy',review.get('1.0','end'))
         # Description compares the complete objective, even beyond its table preview.
@@ -47,11 +48,11 @@ class SortingTkTests(unittest.TestCase):
         a['objective']='same '+'x'*180+' z'; b['objective']='same '+'x'*180+' a'
         store.save(a);store.save(b)
         self.click(tree,'objective');self.assertEqual(tree.get_children(),(b['id'],a['id']))
-        self.sheet.record_search.query.set(a['id'][5:16]);self.sheet.record_search.run()
+        self.sheet.record_search.query.set(a['id'][5:16]);self.sheet.record_search.run();settle_records(self.app)
         self.assertEqual(tree.get_children(),(a['id'],))
-        self.sheet.record_search.query.set('');self.sheet.record_search.run()
+        self.sheet.record_search.query.set('');self.sheet.record_search.run();settle_records(self.app)
         self.assertEqual(tree.get_children(),(b['id'],a['id']))
-        self.sheet.apply_palette(DARK);self.sheet.refresh_records();self.app.update()
+        self.sheet.apply_palette(DARK);self.sheet.refresh_records();settle_records(self.app);settle_records(self.app)
         self.assertEqual(tree.get_children(),(b['id'],a['id']))
         self.assertIn('▲',tree.heading('objective','text'))
         self.assertTrue(all(tree.heading(k,'command') for k in tree['columns']))
@@ -64,16 +65,16 @@ class SortingTkTests(unittest.TestCase):
         b.update(runs_completed=10,runs_started=10,created_at=1600000000,updated_at=1600000000)
         for s in (a,b):store.path(s['id']).write_text(json.dumps(s))
         store.classify(a['id'],'user');store.classify(b['id'],'diagnostic')
-        self.sheet=show_schedule_settings(self.app,self.root,LIGHT,embedded=True);self.app.update()
-        tree=self.sheet.schedule_tree;tree.selection_set(a['id']);self.app.update()
+        self.sheet=show_schedule_settings(self.app,self.root,LIGHT,embedded=True);settle_records(self.app)
+        tree=self.sheet.schedule_tree;tree.selection_set(a['id']);settle_records(self.app)
         for key,expected in (('name',(b['id'],a['id'])),('runs',(a['id'],b['id'])),
                              ('limit',(b['id'],a['id'])),('next',(b['id'],a['id'])),
                              ('created',(b['id'],a['id'])),('origin',(b['id'],a['id']))):
             self.click(tree,key);self.assertEqual(tree.get_children(),expected)
             self.click(tree,key);self.assertEqual(tree.get_children(),expected[::-1])
-            self.sheet.refresh_records();self.assertEqual(tree.get_children(),expected[::-1])
+            self.sheet.refresh_records();settle_records(self.app);self.assertEqual(tree.get_children(),expected[::-1])
             self.assertEqual(tree.selection(),(a['id'],))
-        control=self.sheet.record_classification;control.value.set('Diagnostic');control.button.invoke();self.app.update()
+        control=self.sheet.record_classification;control.value.set('Diagnostic');control.button.invoke();settle_records(self.app)
         self.assertEqual(tree.selection(),(a['id'],))
         self.assertEqual(tree.get_children(),tuple(sorted((a['id'],b['id']))))
         self.assertTrue(all(tree.heading(k,'command') for k in tree['columns']))

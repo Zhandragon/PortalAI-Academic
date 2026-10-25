@@ -51,6 +51,24 @@ def controller_status(store):
     return result
 
 
+def armed_status(store):
+    """Advisory Runtime count; only enabled roots may require a checkpoint read."""
+    from mission_supervisor import read_policy
+    from mission_runner import ACTIVE
+    from mission_index import read_summary
+    if (store.base/'supervisor.stop').exists():
+        return []
+    result = []
+    for path in sorted(store.base.glob('*/run-policy.json')):
+        mid = path.parent.name
+        if not read_policy(store, mid).get('enabled'):
+            continue
+        record = read_summary(store, 'mission', mid)
+        if not record.get('parent') and record['status'] in ACTIVE:
+            result.append(mid)
+    return result
+
+
 def mission_enabled(store, mission, summaries=None):
     """Children share their root's arming and durable schedule epoch."""
     from mission_supervisor import read_policy
@@ -165,7 +183,7 @@ def render(section, mission, activity, controller, *, details='', schedule=None,
 
 
 class RunViewer(tk.Frame):
-    def __init__(self,parent,skin,store,*,height=7):
+    def __init__(self,parent,skin,store,*,height=7,jobs=None):
         super().__init__(parent,bg=skin.colors['panel'])
         self.store=store;self.skin=skin;self.context={};self.run_ids={};self.identity=None
         bar=skin.frame(self);bar.pack(fill='x',pady=(0,3))
@@ -180,6 +198,10 @@ class RunViewer(tk.Frame):
         self.text.pack(fill='both',expand=True)
         self.sections.bind('<<ComboboxSelected>>',lambda _event:self.draw(reset=True))
         self.runs.bind('<<ComboboxSelected>>',lambda _event:self.draw(reset=True))
+        from record_refresh import RecordRefresh
+        self.reader=RecordRefresh(self,self._read,self._display,
+            check=lambda:store.folder('0'*32),error=self._failed,jobs=jobs)
+
 
     def update_view(self,mission=None,*,details='',schedule=None,enabled=None):
         identity=(schedule or mission or {}).get('id')
@@ -204,18 +226,37 @@ class RunViewer(tk.Frame):
         self.draw(reset=changed or focus_issue)
 
     def draw(self,*,reset=False):
+        from copy import deepcopy
+        request = dict(context=deepcopy(self.context),mid=self.run_ids.get(self.run.get()),
+                       run=self.run.get(),section=self.section.get(),reset=reset)
+        self.reader.request(request)
+
+    def _read(self, request):
         from mission_activity import read
-        context=dict(self.context);mission=context.get('mission');activity={};controller={}
+        context=request['context'];mission=context.get('mission');activity={};controller={}
+        mid=request['mid'];section=request['section']
         try:
-            mid=self.run_ids.get(self.run.get())
-            if mid:mission=self.store.load(mid);activity=read(self.store,mid)
-            elif self.run.get()=='Schedule issue':mission=None
+            if mid:
+                if not mission or mission.get('id')!=mid or mission.get('_summary'):
+                    mission=self.store.load(mid)
+                activity=read(self.store,mid)
+            elif request['run']=='Schedule issue':mission=None
             controller=controller_status(self.store)
             historical=bool(context.get('schedule') and mid and mid!=context['schedule'].get('active_run'))
-            text=render(self.section.get(),mission,activity,controller,historical=historical,**{k:v for k,v in context.items() if k!='mission'})
+            text=render(section,mission,activity,controller,historical=historical,**{k:v for k,v in context.items() if k!='mission'})
         except (OSError,ValueError,KeyError,TypeError) as exc:
+            from profile_paths import ProfileLocked
+            if isinstance(exc,ProfileLocked):raise
             text=(review_summary({'id':mid} if mid else None,schedule=context.get('schedule'),unavailable=exc)
-                  if self.section.get()==REVIEW_SECTION else 'Run details unavailable: '+str(exc))
+                  if section==REVIEW_SECTION else 'Run details unavailable: '+str(exc))
+        return (text,request['reset'])
+
+    def _failed(self, error):
+        self.context={};self.run_ids={}
+        self._display(('Run details unavailable: '+str(error),True))
+
+    def _display(self, result):
+        text,reset=result
         if len(text)>160000:text=text[:160000]+'\n\nDisplay limit reached. The complete records remain in the mission folder.'
         if self.text.get('1.0','end-1c')==text:return
         position=0 if reset else self.text.yview()[0]

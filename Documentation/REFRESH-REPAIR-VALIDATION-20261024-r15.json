@@ -1,0 +1,1385 @@
+{
+  "passed": true,
+  "release": "v2026.10.24-r15",
+  "date": "2026-10-24",
+  "source_handoff_sha256": "c7a61a774ddafebec3bc6f5f9a9c85060c06624edeba547c1cdc536cd71008c5",
+  "tests": [
+    {
+      "edition": "Full",
+      "run": 233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "cases": {
+        "test_account_gate.AccountGateTests.test_background_timeout_cannot_be_sealed_or_reported_stopped": "passed",
+        "test_account_gate.AccountGateTests.test_explicit_exit_requires_json_success_before_sealing": "passed",
+        "test_account_gate.AccountGateTests.test_login_gate_precedes_every_private_gui_consumer": "passed",
+        "test_account_gate.AccountGateTests.test_presentation_failure_still_closes_all_writer_gates_and_cancels_chat": "passed",
+        "test_account_gate.AccountGateTests.test_rechecks_owned_processes_after_all_writers_join": "passed",
+        "test_account_gate.AccountGateTests.test_shutdown_presentation_status_failure_cannot_abort_verification": "passed",
+        "test_account_gate.AccountGateTests.test_startup_does_not_disarm_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cache_named_link_cannot_delete_models": "skipped 'Host does not allow creating test symlinks'",
+        "test_gui_maintenance.MaintenanceTests.test_changed_cleanup_candidate_is_preserved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cleanup_only_allowlisted_bytecode": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_data_cleanup_scope_leaves_settings_and_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_failed_report_remains_failed_when_reopened": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_forged_cleanup_candidate_refused": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_hardlinks_not_counted_as_separate_duplicate_storage": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_missing_model_is_not_saved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_model_save_preserves_new_fields_and_reserves": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_old_report_never_assumed_success": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_report_key_cannot_escape": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_leaves_user_assets_and_current_instructions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_requires_verified_baseline": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_samples_do_not_prove_equality": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_stop_cancels_a_late_startup_helper": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_timeout_replaces_stale_success": "passed",
+        "test_gui_stop_contract.StopContractTests.test_argument_mention_not_ownership": "passed",
+        "test_gui_stop_contract.StopContractTests.test_explicit_owned_powershell_file": "passed",
+        "test_gui_stop_contract.StopContractTests.test_failed_inventory_cannot_report_clean_shutdown": "passed",
+        "test_gui_stop_contract.StopContractTests.test_owned_child_path": "passed",
+        "test_gui_stop_contract.StopContractTests.test_prefix_sibling_not_owned": "passed",
+        "test_gui_stop_contract.StopContractTests.test_unknown_identity_not_owned": "passed",
+        "test_lazy_missions.LazyMissionTests.test_armed_mission_loads_its_children_only": "passed",
+        "test_lazy_missions.LazyMissionTests.test_deletion_classification_stays_visible_without_history": "passed",
+        "test_lazy_missions.LazyMissionTests.test_dormant_id_collision_refused_and_full_list_is_explicit": "passed",
+        "test_lazy_missions.LazyMissionTests.test_explicit_selection_restores_only_requested_checkpoint": "passed",
+        "test_lazy_missions.LazyMissionTests.test_index_write_failure_does_not_lose_completed_checkpoint": "passed",
+        "test_lazy_missions.LazyMissionTests.test_login_lists_and_search_do_not_decrypt_histories": "passed",
+        "test_lazy_missions.LazyMissionTests.test_pending_schedule_occurrence_is_not_duplicated": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stale_index_repairs_only_its_record": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stale_profile_cannot_read_index": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stop_fences_armed_work_and_schedules": "passed",
+        "test_lazy_missions.LazyMissionTests.test_summaries_cannot_replace_checkpoints_or_schedule": "passed",
+        "test_mission_accounts.AccountTests.test_addresses_and_amounts_do_not_accept_injection_or_rounding": "passed",
+        "test_mission_accounts.AccountTests.test_disabled_or_missing_permission_fails_before_journaling": "passed",
+        "test_mission_accounts.AccountTests.test_email_simulation_cannot_be_mistaken_for_live_delivery": "passed",
+        "test_mission_accounts.AccountTests.test_lost_response_never_replays_a_completed_effect": "passed",
+        "test_mission_accounts.AccountTests.test_mined_wallet_receipt_does_not_imply_success_or_finality": "passed",
+        "test_mission_accounts.AccountTests.test_mission_dispatch_checkpoints_an_account_result": "passed",
+        "test_mission_accounts.AccountTests.test_observe_and_vm_cannot_access_dedicated_accounts": "passed",
+        "test_mission_accounts.AccountTests.test_profile_discovery_and_execution_share_bounded_schema": "passed",
+        "test_mission_accounts.AccountTests.test_profile_listing_has_no_credentials": "passed",
+        "test_mission_accounts.AccountTests.test_real_signing_uses_configured_chain_and_key_without_broadcasting": "passed",
+        "test_mission_accounts.AccountTests.test_success_receipt_is_idempotent_across_controller_restart": "passed",
+        "test_mission_accounts.AccountTests.test_vault_round_trip_wrong_key_and_ciphertext_tamper": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_active_and_still_armed_missions_are_refused": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_catalogue_and_paths_fail_closed_after_login_changes": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_changed_checkpoint_or_arming_makes_deleted_record_visible_again": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_default_user_view_excludes_unknown_and_groups_legacy_diagnostics": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_delete_and_restore_keep_every_original_byte_and_never_arm": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_explicit_validation_origin_is_inherited_by_children": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_invalid_catalogue_is_visible_and_never_repaired_implicitly": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_known_legacy_self_tests_are_diagnostics_but_explicit_user_origin_wins": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_live_worker_lock_refuses_deletion": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_pending_action_evidence_is_retained_without_review_or_replay": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_revocation_after_catalogue_publication_removes_only_own_new_record": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_schedule_link_and_external_reference_are_refused": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_stopped_family_is_deleted_together_and_child_path_stays_valid": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_user_origin_is_inherited_by_child_work_without_including_unknown_roots": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_default_view_shows_only_user_work_and_other_views_preserve_old_records": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_delete_requires_confirmation_and_refuses_active_work_before_prompt": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_deleted_filter_restore_and_revised_record_refresh": "passed",
+        "test_mission_observability.MissionProgressTests.test_activity_is_bounded_and_does_not_change_execution_checkpoint": "passed",
+        "test_mission_observability.MissionProgressTests.test_child_status_uses_parent_arming_and_schedule_stop_epoch": "passed",
+        "test_mission_observability.MissionProgressTests.test_cold_model_prepares_saved_policy_then_records_real_progress": "passed",
+        "test_mission_observability.MissionProgressTests.test_damaged_optional_timeline_does_not_block_a_mission": "passed",
+        "test_mission_observability.MissionProgressTests.test_due_schedule_dispatches_even_when_engine_is_off": "passed",
+        "test_mission_observability.MissionProgressTests.test_ended_login_during_stream_cannot_execute_or_write_new_activity": "passed",
+        "test_mission_observability.MissionProgressTests.test_new_worker_identity_is_visible_without_waiting_for_heartbeat_interval": "passed",
+        "test_mission_observability.MissionProgressTests.test_results_show_note_content_and_action_history_has_readable_output": "passed",
+        "test_mission_observability.MissionProgressTests.test_saved_running_state_is_not_live_execution_proof": "passed",
+        "test_mission_observability.MissionProgressTests.test_stop_during_cold_start_prevents_planning_and_effects": "passed",
+        "test_mission_observability.MissionProgressTests.test_telemetry_io_failure_does_not_replay_a_completed_action": "passed",
+        "test_mission_observability.StreamingTests.test_real_stream_exposes_output_before_completion": "passed",
+        "test_mission_observability.StreamingTests.test_reasoning_stream_is_visible_but_not_part_of_executable_json": "passed",
+        "test_mission_observability.StreamingTests.test_stop_interrupts_a_stream_without_waiting_for_model": "passed",
+        "test_mission_observability.StreamingTests.test_truncated_response_cannot_become_an_action": "passed",
+        "test_mission_organization.OrganizationTests.test_invalid_labels_and_scheduler_lock_do_not_write": "passed",
+        "test_mission_organization.OrganizationTests.test_manual_classification_preserves_checkpoint_origin_and_arming": "passed",
+        "test_mission_organization.OrganizationTests.test_schedule_override_survives_execution_and_is_inherited_unless_run_overridden": "passed",
+        "test_mission_organization.OrganizationTests.test_search_finds_hidden_deleted_full_and_partial_ids_keywords_and_links": "passed",
+        "test_mission_organization_tk.OrganizationTkTests.test_mission_search_classify_filter_and_refresh_preserve_draft": "passed",
+        "test_mission_organization_tk.OrganizationTkTests.test_schedule_search_by_active_id_policy_and_blocked_enable": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_compact_schedule_keeps_all_actions_visible_in_each_mode": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_entry_submit_uncertainty_and_drafts_survive_refresh_theme_selection": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_reviewed_scheduled_run_can_be_enabled_again": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_stale_decision_is_not_applied_to_new_problem": "passed",
+        "test_mission_schedule.ScheduleTests.test_bad_checkpoint_does_not_hide_other_missions_or_replay_old_copy": "passed",
+        "test_mission_schedule.ScheduleTests.test_bad_run_policy_does_not_block_start_or_stop_of_healthy_work": "passed",
+        "test_mission_schedule.ScheduleTests.test_completion_coalesces_missed_runs_and_honors_run_limit": "passed",
+        "test_mission_schedule.ScheduleTests.test_corrupt_typed_fields_do_not_break_other_scheduled_work": "passed",
+        "test_mission_schedule.ScheduleTests.test_create_is_paused": "passed",
+        "test_mission_schedule.ScheduleTests.test_due_only_and_no_overlapping_or_duplicate_runs": "passed",
+        "test_mission_schedule.ScheduleTests.test_epoch_change_during_creation_cannot_arm_late_run": "passed",
+        "test_mission_schedule.ScheduleTests.test_future_schedule_keeps_supervisor_alive_without_model_calls": "passed",
+        "test_mission_schedule.ScheduleTests.test_invalid_mission_sort_values_are_quarantined": "passed",
+        "test_mission_schedule.ScheduleTests.test_memory_budget_and_fts_query_are_bounded": "passed",
+        "test_mission_schedule.ScheduleTests.test_memory_shared_across_schedule_runs_but_not_other_missions": "passed",
+        "test_mission_schedule.ScheduleTests.test_missing_materialized_run_reuses_checkpointed_id": "passed",
+        "test_mission_schedule.ScheduleTests.test_no_progress_action_stops_before_fourth_effect": "passed",
+        "test_mission_schedule.ScheduleTests.test_pending_effect_blocks_later_occurrences": "passed",
+        "test_mission_schedule.ScheduleTests.test_searchable_memory_survives_process_reconstruction": "passed",
+        "test_mission_schedule.ScheduleTests.test_stop_fence_survives_restart_and_enabling_another_schedule": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_download_rechecks_live_account_at_http_publication": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_launcher_does_not_register_duplicate_persistence_navigation": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_no_arbitrary_action_arguments_or_file_path_request": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_public_model_cannot_be_published_after_authority_rotation": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_registration_requires_all_pages_and_safety_actions": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_tk_variable_handles_resolve_before_native_form_publication": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_missions_and_schedules_grow_and_shrink": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_origin_filters_combine_with_removed_state": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_toggle_and_saved_state_refresh": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_compact_empty_sheets_fit_all_access_modes_without_page_scroll": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_completed_runs_are_navigable_and_live_progress_does_not_replace_results": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_mission_fields_and_titles_remain_when_no_data": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_schedule_empty_fields_populate_and_clear_without_stale_details": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_sheet_theme_round_trip_preserves_readable_surfaces_and_drafts": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_abandoned_pending_effect_is_quarantined": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_arm_cannot_bypass_review_or_change_execution_mode": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_child_created_during_parent_stop_cannot_execute": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_context_failure_does_not_retry_forever": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_disarm_checkpoints_waiting_children": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_effect_failure_is_never_auto_retried": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_execution_lock_prevents_competing_mission_actions": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_history_is_bounded_objective_preserved": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_objective_is_not_silently_truncated": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_only_armed_root_and_its_children_are_selected": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_parent_surfaces_child_failure": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_pause_all_prevents_automatic_next_launch_resume": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_planning_failure_retries_without_executing": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_repeated_planning_failure_eventually_needs_review": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_stop_after_completion_checkpoint_preserves_completion": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_stop_cancels_a_future_wait_immediately": "passed",
+        "test_record_dates.RecordDateTests.test_corrupt_metadata_and_unreadable_records_preserved": "passed",
+        "test_record_dates.RecordDateTests.test_missing_creation_fills_once_and_keeps_deleted_checkpoint_hidden": "passed",
+        "test_record_dates.RecordDateTests.test_schedule_missing_updated_preserves_known_creation_and_all_run_fields": "passed",
+        "test_record_dates.RecordDateTests.test_stale_profile_refuses_metadata_write": "passed",
+        "test_record_dates.RecordDateTests.test_valid_dates_do_not_write_and_invalid_dates_are_not_sort_keys": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_index_opens_do_not_request_hydration_but_still_reject_stale_login": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_monitor_does_not_restore_unarmed_history": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_monitor_reads_only_armed_root_and_stop_clears_count": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_mission_catalogue_is_read_once_off_tk_and_hidden_page_stops": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_new_selection_disables_previous_schedule_controls_while_loading": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_schedule_list_and_selected_detail_never_load_on_tk": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_ended_login_discards_private_result": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_hidden_page_stops_reads_and_discards_inflight_result": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_newest_selection_wins_without_concurrent_reads": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_slow_read_keeps_tk_responsive_and_coalesces_repeated_requests": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_unmapped_projection_override_can_refresh": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_writer_shutdown_rejects_late_reads_and_destroy_discards": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_generic_heading_sort_has_stable_id_ties_and_missing_values_last": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_mission_headings_sort_full_text_counts_dates_and_preserve_review_draft": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_schedule_sorting_dates_numeric_runs_category_and_selection": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_default_reading_area_is_large_and_creation_drafts_survive_folding": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_missing_linked_mission_still_has_plain_review_explanation": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_new_blocker_resets_overview_scroll_and_leaves_history_selection_independent": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_review_issue_opens_on_selection_and_does_not_override_manual_view": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_schedule_issue_context_and_recovery_control_remain_readable": "passed",
+        "test_shutdown_lazy_fences.FailureDisplay.test_failed_timer_stops_and_phase_is_retained": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_corrupt_policy_is_preserved_behind_stop": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_ended_login_cannot_change_stop_controls": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_exit_fences_dormant_records_without_restoring_checkpoint_bodies": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_real_stop_child_can_finish_while_broker_is_paused": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_uncertain_action_is_preserved_and_cannot_auto_resume": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_active_logout_worker_prevents_second_seal": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_cleanup_failure_still_cancels_inference_and_all_other_resources": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_context_menus_and_previously_queued_actions_are_blocked_after_lock": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_delayed_shutdown_stays_visible_and_locked_tray_actions_do_not_run_tools": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_failed_background_verification_never_exits_and_queue_survives_bad_events": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_locked_cover_takes_focus_and_queued_chat_commands_cannot_write": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_progress_construction_error_happens_after_account_admission_is_locked": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_status_timer_does_not_submit_after_writer_gate_closes": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_stop_all_cancels_delayed_preview_before_process_cleanup": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_synchronous_lock_failure_is_visible_and_retry_closes_only_after_verified_success": "passed",
+        "test_writer_jobs.WriterJobsTests.test_current_writer_cannot_count_itself_as_quiescent": "passed",
+        "test_writer_jobs.WriterJobsTests.test_positive_receipt_requires_gate_closed": "passed",
+        "test_writer_jobs.WriterJobsTests.test_thread_created_before_close_cannot_start_after_close": "passed",
+        "test_writer_jobs.WriterJobsTests.test_timeout_cannot_claim_stopped_then_completion_can": "passed",
+        "test_donation_panel.DonationTests.test_crypto_viewports_preserve_every_module_pixel_and_white_margin": "passed",
+        "test_donation_panel.DonationTests.test_each_qr_and_button_copy_exact_destination": "passed",
+        "test_donation_panel.DonationTests.test_grid_reflows_and_never_extends_beyond_page_width": "passed",
+        "test_donation_panel.DonationTests.test_navigation_uses_title_link_without_a_donation_tab_button": "passed",
+        "test_donation_panel.DonationTests.test_sponsor_opens_only_the_public_profile_on_click": "passed",
+        "test_donation_panel.DonationTests.test_theme_changes_preserve_exact_case_and_network_labels": "passed",
+        "test_donation_panel.DonationTests.test_title_link_is_plain_and_explicitly_activated": "passed",
+        "test_profile_hydration.HydrationTests.test_actual_child_restores_using_capability_without_account_key": "passed",
+        "test_profile_hydration.HydrationTests.test_login_keeps_operational_data_ready_and_exact_reference_hydrates_old_path": "passed",
+        "test_profile_hydration.HydrationTests.test_materialized_deletion_is_not_resurrected_but_untouched_media_survives": "passed",
+        "test_profile_hydration.HydrationTests.test_missing_controller_never_misreports_deferred_file_as_absent": "passed",
+        "test_profile_hydration.HydrationTests.test_path_construction_does_not_restore_entire_output_folder": "passed",
+        "test_profile_hydration.HydrationTests.test_pause_cancels_and_joins_an_admitted_request_before_sealing": "passed",
+        "test_profile_hydration.HydrationTests.test_paused_broker_cannot_restore_and_close_still_preserves_deferred_data": "passed",
+        "test_profile_hydration.HydrationTests.test_wrong_capability_origin_epoch_other_user_and_path_escape_are_rejected": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_direct_owned_script_and_descendant_are_attributed": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_fence_precedes_stop_and_final_empty_proof_is_required": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_foreign_listener_or_root_mention_is_not_owned": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_interpreter_command_text_is_not_direct_script_ownership": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_inventory_failure_and_reappearing_worker_fail_closed": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_foreign_scope_has_no_pid_fallback": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_host_descendant_outside_cgroup_is_refused_before_fence": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_job_plan_covers_nested_descendant_without_group_signal": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_marker_change_after_inventory_prevents_stop": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_model_fence_changes_no_mission_policy_or_marker": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_no_owned_path_and_readonly_verify_preserve_every_file": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_other_gui_blocks_without_termination": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_pid_reuse_does_not_keep_old_descendant_owned": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_readonly_verify_never_stops_existing_worker": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_real_session_authentication_closing_marker_and_revocation": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_windows_reused_pid_handle_is_never_terminated": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_parent_close_cancels": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_remote_confirmation_keeps_native_workflow_adapter": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_revoked_account_cannot_confirm": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_tcl_only_dropdown_focus_does_not_block_confirmation": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_yes_and_no_are_explicit_internal_choices": "passed",
+        "test_confirmation_context_tk.ContextTests.test_actions_bind_clicked_record_and_blank_area_does_nothing": "passed",
+        "test_confirmation_context_tk.ContextTests.test_mission_actions_obey_pending_review_and_deletion_guards": "passed",
+        "test_confirmation_context_tk.ContextTests.test_schedule_review_is_bound_to_stable_active_run": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_at_end_of_bounded_wait_is_accepted_only_when_signaled": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_between_initial_wait_and_times_query": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_between_times_and_image_query": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_during_failed_termination_uses_same_handle": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_failed_termination_of_still_live_process_is_rejected": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_failed_termination_with_failed_wait_is_rejected": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_identity_mismatch_is_never_terminated_or_excused": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_unreadable_live_identity_remains_fail_closed": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_wait_failure_never_proves_exit_after_identity_failure": "passed"
+      },
+      "initial_completed_modules": [
+        "test_account_gate",
+        "test_gui_maintenance",
+        "test_gui_stop_contract",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_catalog",
+        "test_mission_catalog_tk",
+        "test_mission_observability",
+        "test_mission_organization",
+        "test_mission_organization_tk",
+        "test_mission_review_tk",
+        "test_mission_schedule",
+        "test_native_workflow_guards",
+        "test_persistence_priority_tk",
+        "test_persistence_readability_tk",
+        "test_persistence_supervisor",
+        "test_record_dates",
+        "test_record_refresh_integration",
+        "test_record_refresh_tk",
+        "test_record_sorting_tk"
+      ],
+      "isolated_modules": [
+        "test_review_issue_layout_tk",
+        "test_shutdown_lazy_fences",
+        "test_shutdown_lifecycle_tk",
+        "test_writer_jobs",
+        "test_donation_panel",
+        "test_profile_hydration",
+        "test_profile_shutdown",
+        "test_confirmation_context_tk",
+        "test_profile_shutdown_exit_races"
+      ],
+      "initial_run_note": "Initial combined runner was interrupted while investigating resize duration. Completed test results are retained; the resize case passed in isolation, and all remaining modules were run in fresh processes."
+    },
+    {
+      "edition": "Academic",
+      "run": 233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "cases": {
+        "test_account_gate.AccountGateTests.test_background_timeout_cannot_be_sealed_or_reported_stopped": "passed",
+        "test_account_gate.AccountGateTests.test_explicit_exit_requires_json_success_before_sealing": "passed",
+        "test_account_gate.AccountGateTests.test_login_gate_precedes_every_private_gui_consumer": "passed",
+        "test_account_gate.AccountGateTests.test_presentation_failure_still_closes_all_writer_gates_and_cancels_chat": "passed",
+        "test_account_gate.AccountGateTests.test_rechecks_owned_processes_after_all_writers_join": "passed",
+        "test_account_gate.AccountGateTests.test_shutdown_presentation_status_failure_cannot_abort_verification": "passed",
+        "test_account_gate.AccountGateTests.test_startup_does_not_disarm_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cache_named_link_cannot_delete_models": "skipped: Host does not allow creating test symlinks",
+        "test_gui_maintenance.MaintenanceTests.test_changed_cleanup_candidate_is_preserved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cleanup_only_allowlisted_bytecode": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_data_cleanup_scope_leaves_settings_and_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_failed_report_remains_failed_when_reopened": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_forged_cleanup_candidate_refused": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_hardlinks_not_counted_as_separate_duplicate_storage": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_missing_model_is_not_saved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_model_save_preserves_new_fields_and_reserves": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_old_report_never_assumed_success": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_report_key_cannot_escape": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_leaves_user_assets_and_current_instructions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_requires_verified_baseline": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_samples_do_not_prove_equality": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_stop_cancels_a_late_startup_helper": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_timeout_replaces_stale_success": "passed",
+        "test_gui_stop_contract.StopContractTests.test_argument_mention_not_ownership": "passed",
+        "test_gui_stop_contract.StopContractTests.test_explicit_owned_powershell_file": "passed",
+        "test_gui_stop_contract.StopContractTests.test_failed_inventory_cannot_report_clean_shutdown": "passed",
+        "test_gui_stop_contract.StopContractTests.test_owned_child_path": "passed",
+        "test_gui_stop_contract.StopContractTests.test_prefix_sibling_not_owned": "passed",
+        "test_gui_stop_contract.StopContractTests.test_unknown_identity_not_owned": "passed",
+        "test_lazy_missions.LazyMissionTests.test_armed_mission_loads_its_children_only": "passed",
+        "test_lazy_missions.LazyMissionTests.test_deletion_classification_stays_visible_without_history": "passed",
+        "test_lazy_missions.LazyMissionTests.test_dormant_id_collision_refused_and_full_list_is_explicit": "passed",
+        "test_lazy_missions.LazyMissionTests.test_explicit_selection_restores_only_requested_checkpoint": "passed",
+        "test_lazy_missions.LazyMissionTests.test_index_write_failure_does_not_lose_completed_checkpoint": "passed",
+        "test_lazy_missions.LazyMissionTests.test_login_lists_and_search_do_not_decrypt_histories": "passed",
+        "test_lazy_missions.LazyMissionTests.test_pending_schedule_occurrence_is_not_duplicated": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stale_index_repairs_only_its_record": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stale_profile_cannot_read_index": "passed",
+        "test_lazy_missions.LazyMissionTests.test_stop_fences_armed_work_and_schedules": "passed",
+        "test_lazy_missions.LazyMissionTests.test_summaries_cannot_replace_checkpoints_or_schedule": "passed",
+        "test_mission_accounts.AccountTests.test_addresses_and_amounts_do_not_accept_injection_or_rounding": "passed",
+        "test_mission_accounts.AccountTests.test_disabled_or_missing_permission_fails_before_journaling": "passed",
+        "test_mission_accounts.AccountTests.test_email_simulation_cannot_be_mistaken_for_live_delivery": "passed",
+        "test_mission_accounts.AccountTests.test_lost_response_never_replays_a_completed_effect": "passed",
+        "test_mission_accounts.AccountTests.test_mined_wallet_receipt_does_not_imply_success_or_finality": "passed",
+        "test_mission_accounts.AccountTests.test_mission_dispatch_checkpoints_an_account_result": "passed",
+        "test_mission_accounts.AccountTests.test_observe_and_vm_cannot_access_dedicated_accounts": "passed",
+        "test_mission_accounts.AccountTests.test_profile_discovery_and_execution_share_bounded_schema": "passed",
+        "test_mission_accounts.AccountTests.test_profile_listing_has_no_credentials": "passed",
+        "test_mission_accounts.AccountTests.test_real_signing_uses_configured_chain_and_key_without_broadcasting": "passed",
+        "test_mission_accounts.AccountTests.test_success_receipt_is_idempotent_across_controller_restart": "passed",
+        "test_mission_accounts.AccountTests.test_vault_round_trip_wrong_key_and_ciphertext_tamper": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_active_and_still_armed_missions_are_refused": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_catalogue_and_paths_fail_closed_after_login_changes": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_changed_checkpoint_or_arming_makes_deleted_record_visible_again": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_default_user_view_excludes_unknown_and_groups_legacy_diagnostics": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_delete_and_restore_keep_every_original_byte_and_never_arm": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_explicit_validation_origin_is_inherited_by_children": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_invalid_catalogue_is_visible_and_never_repaired_implicitly": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_known_legacy_self_tests_are_diagnostics_but_explicit_user_origin_wins": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_live_worker_lock_refuses_deletion": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_pending_action_evidence_is_retained_without_review_or_replay": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_revocation_after_catalogue_publication_removes_only_own_new_record": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_schedule_link_and_external_reference_are_refused": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_stopped_family_is_deleted_together_and_child_path_stays_valid": "passed",
+        "test_mission_catalog.MissionCatalogTests.test_user_origin_is_inherited_by_child_work_without_including_unknown_roots": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_default_view_shows_only_user_work_and_other_views_preserve_old_records": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_delete_requires_confirmation_and_refuses_active_work_before_prompt": "passed",
+        "test_mission_catalog_tk.MissionCatalogTkTests.test_deleted_filter_restore_and_revised_record_refresh": "passed",
+        "test_mission_observability.MissionProgressTests.test_activity_is_bounded_and_does_not_change_execution_checkpoint": "passed",
+        "test_mission_observability.MissionProgressTests.test_child_status_uses_parent_arming_and_schedule_stop_epoch": "passed",
+        "test_mission_observability.MissionProgressTests.test_cold_model_prepares_saved_policy_then_records_real_progress": "passed",
+        "test_mission_observability.MissionProgressTests.test_damaged_optional_timeline_does_not_block_a_mission": "passed",
+        "test_mission_observability.MissionProgressTests.test_due_schedule_dispatches_even_when_engine_is_off": "passed",
+        "test_mission_observability.MissionProgressTests.test_ended_login_during_stream_cannot_execute_or_write_new_activity": "passed",
+        "test_mission_observability.MissionProgressTests.test_new_worker_identity_is_visible_without_waiting_for_heartbeat_interval": "passed",
+        "test_mission_observability.MissionProgressTests.test_results_show_note_content_and_action_history_has_readable_output": "passed",
+        "test_mission_observability.MissionProgressTests.test_saved_running_state_is_not_live_execution_proof": "passed",
+        "test_mission_observability.MissionProgressTests.test_stop_during_cold_start_prevents_planning_and_effects": "passed",
+        "test_mission_observability.MissionProgressTests.test_telemetry_io_failure_does_not_replay_a_completed_action": "passed",
+        "test_mission_observability.StreamingTests.test_real_stream_exposes_output_before_completion": "passed",
+        "test_mission_observability.StreamingTests.test_reasoning_stream_is_visible_but_not_part_of_executable_json": "passed",
+        "test_mission_observability.StreamingTests.test_stop_interrupts_a_stream_without_waiting_for_model": "passed",
+        "test_mission_observability.StreamingTests.test_truncated_response_cannot_become_an_action": "passed",
+        "test_mission_organization.OrganizationTests.test_invalid_labels_and_scheduler_lock_do_not_write": "passed",
+        "test_mission_organization.OrganizationTests.test_manual_classification_preserves_checkpoint_origin_and_arming": "passed",
+        "test_mission_organization.OrganizationTests.test_schedule_override_survives_execution_and_is_inherited_unless_run_overridden": "passed",
+        "test_mission_organization.OrganizationTests.test_search_finds_hidden_deleted_full_and_partial_ids_keywords_and_links": "passed",
+        "test_mission_organization_tk.OrganizationTkTests.test_mission_search_classify_filter_and_refresh_preserve_draft": "passed",
+        "test_mission_organization_tk.OrganizationTkTests.test_schedule_search_by_active_id_policy_and_blocked_enable": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_compact_schedule_keeps_all_actions_visible_in_each_mode": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_entry_submit_uncertainty_and_drafts_survive_refresh_theme_selection": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_reviewed_scheduled_run_can_be_enabled_again": "passed",
+        "test_mission_review_tk.ReviewTkTests.test_stale_decision_is_not_applied_to_new_problem": "passed",
+        "test_mission_schedule.ScheduleTests.test_bad_checkpoint_does_not_hide_other_missions_or_replay_old_copy": "passed",
+        "test_mission_schedule.ScheduleTests.test_bad_run_policy_does_not_block_start_or_stop_of_healthy_work": "passed",
+        "test_mission_schedule.ScheduleTests.test_completion_coalesces_missed_runs_and_honors_run_limit": "passed",
+        "test_mission_schedule.ScheduleTests.test_corrupt_typed_fields_do_not_break_other_scheduled_work": "passed",
+        "test_mission_schedule.ScheduleTests.test_create_is_paused": "passed",
+        "test_mission_schedule.ScheduleTests.test_due_only_and_no_overlapping_or_duplicate_runs": "passed",
+        "test_mission_schedule.ScheduleTests.test_epoch_change_during_creation_cannot_arm_late_run": "passed",
+        "test_mission_schedule.ScheduleTests.test_future_schedule_keeps_supervisor_alive_without_model_calls": "passed",
+        "test_mission_schedule.ScheduleTests.test_invalid_mission_sort_values_are_quarantined": "passed",
+        "test_mission_schedule.ScheduleTests.test_memory_budget_and_fts_query_are_bounded": "passed",
+        "test_mission_schedule.ScheduleTests.test_memory_shared_across_schedule_runs_but_not_other_missions": "passed",
+        "test_mission_schedule.ScheduleTests.test_missing_materialized_run_reuses_checkpointed_id": "passed",
+        "test_mission_schedule.ScheduleTests.test_no_progress_action_stops_before_fourth_effect": "passed",
+        "test_mission_schedule.ScheduleTests.test_pending_effect_blocks_later_occurrences": "passed",
+        "test_mission_schedule.ScheduleTests.test_searchable_memory_survives_process_reconstruction": "passed",
+        "test_mission_schedule.ScheduleTests.test_stop_fence_survives_restart_and_enabling_another_schedule": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_download_rechecks_live_account_at_http_publication": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_launcher_does_not_register_duplicate_persistence_navigation": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_no_arbitrary_action_arguments_or_file_path_request": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_public_model_cannot_be_published_after_authority_rotation": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_registration_requires_all_pages_and_safety_actions": "passed",
+        "test_native_workflow_guards.WorkflowGuards.test_tk_variable_handles_resolve_before_native_form_publication": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_missions_and_schedules_grow_and_shrink": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_origin_filters_combine_with_removed_state": "passed",
+        "test_persistence_priority_tk.PriorityLayoutTests.test_toggle_and_saved_state_refresh": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_compact_empty_sheets_fit_all_access_modes_without_page_scroll": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_completed_runs_are_navigable_and_live_progress_does_not_replace_results": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_mission_fields_and_titles_remain_when_no_data": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_schedule_empty_fields_populate_and_clear_without_stale_details": "passed",
+        "test_persistence_readability_tk.PersistenceReadabilityTests.test_sheet_theme_round_trip_preserves_readable_surfaces_and_drafts": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_abandoned_pending_effect_is_quarantined": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_arm_cannot_bypass_review_or_change_execution_mode": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_child_created_during_parent_stop_cannot_execute": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_context_failure_does_not_retry_forever": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_disarm_checkpoints_waiting_children": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_effect_failure_is_never_auto_retried": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_execution_lock_prevents_competing_mission_actions": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_history_is_bounded_objective_preserved": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_objective_is_not_silently_truncated": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_only_armed_root_and_its_children_are_selected": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_parent_surfaces_child_failure": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_pause_all_prevents_automatic_next_launch_resume": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_planning_failure_retries_without_executing": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_repeated_planning_failure_eventually_needs_review": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_stop_after_completion_checkpoint_preserves_completion": "passed",
+        "test_persistence_supervisor.PersistenceTests.test_stop_cancels_a_future_wait_immediately": "passed",
+        "test_record_dates.RecordDateTests.test_corrupt_metadata_and_unreadable_records_preserved": "passed",
+        "test_record_dates.RecordDateTests.test_missing_creation_fills_once_and_keeps_deleted_checkpoint_hidden": "passed",
+        "test_record_dates.RecordDateTests.test_schedule_missing_updated_preserves_known_creation_and_all_run_fields": "passed",
+        "test_record_dates.RecordDateTests.test_stale_profile_refuses_metadata_write": "passed",
+        "test_record_dates.RecordDateTests.test_valid_dates_do_not_write_and_invalid_dates_are_not_sort_keys": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_index_opens_do_not_request_hydration_but_still_reject_stale_login": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_monitor_does_not_restore_unarmed_history": "passed",
+        "test_record_refresh_integration.EncryptedMonitorTests.test_monitor_reads_only_armed_root_and_stop_clears_count": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_mission_catalogue_is_read_once_off_tk_and_hidden_page_stops": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_new_selection_disables_previous_schedule_controls_while_loading": "passed",
+        "test_record_refresh_integration.PageRefreshTests.test_schedule_list_and_selected_detail_never_load_on_tk": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_ended_login_discards_private_result": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_hidden_page_stops_reads_and_discards_inflight_result": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_newest_selection_wins_without_concurrent_reads": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_slow_read_keeps_tk_responsive_and_coalesces_repeated_requests": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_unmapped_projection_override_can_refresh": "passed",
+        "test_record_refresh_tk.RecordRefreshTests.test_writer_shutdown_rejects_late_reads_and_destroy_discards": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_generic_heading_sort_has_stable_id_ties_and_missing_values_last": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_mission_headings_sort_full_text_counts_dates_and_preserve_review_draft": "passed",
+        "test_record_sorting_tk.SortingTkTests.test_schedule_sorting_dates_numeric_runs_category_and_selection": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_default_reading_area_is_large_and_creation_drafts_survive_folding": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_missing_linked_mission_still_has_plain_review_explanation": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_new_blocker_resets_overview_scroll_and_leaves_history_selection_independent": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_review_issue_opens_on_selection_and_does_not_override_manual_view": "passed",
+        "test_review_issue_layout_tk.ReviewLayoutTests.test_schedule_issue_context_and_recovery_control_remain_readable": "passed",
+        "test_shutdown_lazy_fences.FailureDisplay.test_failed_timer_stops_and_phase_is_retained": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_corrupt_policy_is_preserved_behind_stop": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_ended_login_cannot_change_stop_controls": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_exit_fences_dormant_records_without_restoring_checkpoint_bodies": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_real_stop_child_can_finish_while_broker_is_paused": "passed",
+        "test_shutdown_lazy_fences.ShutdownFences.test_uncertain_action_is_preserved_and_cannot_auto_resume": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_active_logout_worker_prevents_second_seal": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_cleanup_failure_still_cancels_inference_and_all_other_resources": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_context_menus_and_previously_queued_actions_are_blocked_after_lock": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_delayed_shutdown_stays_visible_and_locked_tray_actions_do_not_run_tools": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_failed_background_verification_never_exits_and_queue_survives_bad_events": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_locked_cover_takes_focus_and_queued_chat_commands_cannot_write": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_progress_construction_error_happens_after_account_admission_is_locked": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_status_timer_does_not_submit_after_writer_gate_closes": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_stop_all_cancels_delayed_preview_before_process_cleanup": "passed",
+        "test_shutdown_lifecycle_tk.ShutdownLifecycleTests.test_synchronous_lock_failure_is_visible_and_retry_closes_only_after_verified_success": "passed",
+        "test_writer_jobs.WriterJobsTests.test_current_writer_cannot_count_itself_as_quiescent": "passed",
+        "test_writer_jobs.WriterJobsTests.test_positive_receipt_requires_gate_closed": "passed",
+        "test_writer_jobs.WriterJobsTests.test_thread_created_before_close_cannot_start_after_close": "passed",
+        "test_writer_jobs.WriterJobsTests.test_timeout_cannot_claim_stopped_then_completion_can": "passed",
+        "test_donation_panel.DonationTests.test_crypto_viewports_preserve_every_module_pixel_and_white_margin": "passed",
+        "test_donation_panel.DonationTests.test_each_qr_and_button_copy_exact_destination": "passed",
+        "test_donation_panel.DonationTests.test_grid_reflows_and_never_extends_beyond_page_width": "passed",
+        "test_donation_panel.DonationTests.test_navigation_uses_title_link_without_a_donation_tab_button": "passed",
+        "test_donation_panel.DonationTests.test_sponsor_opens_only_the_public_profile_on_click": "passed",
+        "test_donation_panel.DonationTests.test_theme_changes_preserve_exact_case_and_network_labels": "passed",
+        "test_donation_panel.DonationTests.test_title_link_is_plain_and_explicitly_activated": "passed",
+        "test_profile_hydration.HydrationTests.test_actual_child_restores_using_capability_without_account_key": "passed",
+        "test_profile_hydration.HydrationTests.test_login_keeps_operational_data_ready_and_exact_reference_hydrates_old_path": "passed",
+        "test_profile_hydration.HydrationTests.test_materialized_deletion_is_not_resurrected_but_untouched_media_survives": "passed",
+        "test_profile_hydration.HydrationTests.test_missing_controller_never_misreports_deferred_file_as_absent": "passed",
+        "test_profile_hydration.HydrationTests.test_path_construction_does_not_restore_entire_output_folder": "passed",
+        "test_profile_hydration.HydrationTests.test_pause_cancels_and_joins_an_admitted_request_before_sealing": "passed",
+        "test_profile_hydration.HydrationTests.test_paused_broker_cannot_restore_and_close_still_preserves_deferred_data": "passed",
+        "test_profile_hydration.HydrationTests.test_wrong_capability_origin_epoch_other_user_and_path_escape_are_rejected": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_direct_owned_script_and_descendant_are_attributed": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_fence_precedes_stop_and_final_empty_proof_is_required": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_foreign_listener_or_root_mention_is_not_owned": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_interpreter_command_text_is_not_direct_script_ownership": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_inventory_failure_and_reappearing_worker_fail_closed": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_foreign_scope_has_no_pid_fallback": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_host_descendant_outside_cgroup_is_refused_before_fence": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_linux_job_plan_covers_nested_descendant_without_group_signal": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_marker_change_after_inventory_prevents_stop": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_model_fence_changes_no_mission_policy_or_marker": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_no_owned_path_and_readonly_verify_preserve_every_file": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_other_gui_blocks_without_termination": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_pid_reuse_does_not_keep_old_descendant_owned": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_readonly_verify_never_stops_existing_worker": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_real_session_authentication_closing_marker_and_revocation": "passed",
+        "test_profile_shutdown.ProfileShutdownTests.test_windows_reused_pid_handle_is_never_terminated": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_parent_close_cancels": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_remote_confirmation_keeps_native_workflow_adapter": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_revoked_account_cannot_confirm": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_tcl_only_dropdown_focus_does_not_block_confirmation": "passed",
+        "test_confirmation_context_tk.ConfirmationTests.test_yes_and_no_are_explicit_internal_choices": "passed",
+        "test_confirmation_context_tk.ContextTests.test_actions_bind_clicked_record_and_blank_area_does_nothing": "passed",
+        "test_confirmation_context_tk.ContextTests.test_mission_actions_obey_pending_review_and_deletion_guards": "passed",
+        "test_confirmation_context_tk.ContextTests.test_schedule_review_is_bound_to_stable_active_run": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_at_end_of_bounded_wait_is_accepted_only_when_signaled": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_between_initial_wait_and_times_query": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_between_times_and_image_query": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_exit_during_failed_termination_uses_same_handle": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_failed_termination_of_still_live_process_is_rejected": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_failed_termination_with_failed_wait_is_rejected": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_identity_mismatch_is_never_terminated_or_excused": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_unreadable_live_identity_remains_fail_closed": "passed",
+        "test_profile_shutdown_exit_races.WindowsExitRaces.test_wait_failure_never_proves_exit_after_identity_failure": "passed"
+      },
+      "initial_completed_modules": [],
+      "isolated_modules": [
+        "test_account_gate",
+        "test_gui_maintenance",
+        "test_gui_stop_contract",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_catalog",
+        "test_mission_catalog_tk",
+        "test_mission_observability",
+        "test_mission_organization",
+        "test_mission_organization_tk",
+        "test_mission_review_tk",
+        "test_mission_schedule",
+        "test_native_workflow_guards",
+        "test_persistence_priority_tk",
+        "test_persistence_readability_tk",
+        "test_persistence_supervisor",
+        "test_record_dates",
+        "test_record_refresh_integration",
+        "test_record_refresh_tk",
+        "test_record_sorting_tk",
+        "test_review_issue_layout_tk",
+        "test_shutdown_lazy_fences",
+        "test_shutdown_lifecycle_tk",
+        "test_writer_jobs",
+        "test_donation_panel",
+        "test_profile_hydration",
+        "test_profile_shutdown",
+        "test_confirmation_context_tk",
+        "test_profile_shutdown_exit_races"
+      ]
+    }
+  ],
+  "native_gui": {
+    "Full": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 11209358,
+        "hwnd": 4983338,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 11209358,
+        "hwnd": 4983338,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Verifying the restored working files...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": true,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "refresh_checks": {
+        "ornate_emblem_and_wordmark_loaded": true,
+        "synthetic_missions": 12,
+        "refresh_request_ms": 0.0,
+        "max_heartbeat_gap_ms": 172.0,
+        "injected_read_delay_ms": 600,
+        "hidden_page_no_new_reads": true,
+        "mission_and_schedule_detail": true,
+        "theme_and_resize": true
+      }
+    },
+    "Academic": {
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 3017540,
+        "hwnd": 13893904,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 3017540,
+        "hwnd": 13893904,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Verifying the restored working files...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": true,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "refresh_checks": {
+        "ornate_emblem_and_wordmark_loaded": true,
+        "synthetic_missions": 12,
+        "refresh_request_ms": 0.0,
+        "max_heartbeat_gap_ms": 203.0,
+        "injected_read_delay_ms": 600,
+        "hidden_page_no_new_reads": true,
+        "mission_and_schedule_detail": true,
+        "theme_and_resize": true
+      }
+    }
+  },
+  "owned_process_checks": [
+    {
+      "name": "second supervisor cannot dispatch",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "name": "scheduled wait survives supervisor exit",
+      "passed": true
+    },
+    {
+      "name": "fresh supervisor resumes when due",
+      "passed": true,
+      "mission": "c826dccbc4b34a44ae3deddc3c15a52f",
+      "completed_at": 1792890462.1765685,
+      "scheduled_at": 1792890461.4697635
+    },
+    {
+      "name": "crashed action effect is not replayed",
+      "passed": true,
+      "effects": 1
+    },
+    {
+      "name": "controller crash kills its worker tree",
+      "passed": true
+    },
+    {
+      "name": "stop prevents late planning effects",
+      "passed": true
+    }
+  ],
+  "sources": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "dbf6a8b3c01a6c5cd80ac6b3e991250f0a26b7d1e04695374c5a5454dc0bec7c",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "dbf6a8b3c01a6c5cd80ac6b3e991250f0a26b7d1e04695374c5a5454dc0bec7c",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "dbf6a8b3c01a6c5cd80ac6b3e991250f0a26b7d1e04695374c5a5454dc0bec7c",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "6867fef40da72bab848a3ba9e01a2c513db0c21420f1da4e514a639a329c7642",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "6867fef40da72bab848a3ba9e01a2c513db0c21420f1da4e514a639a329c7642",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "files": {
+        "Agent/mission_index.py": "57c4b2f2f250ef782dc1939aed80e7fa3bc87daf6932d95f04d6e8de27b81ab4",
+        "ControlCenter/PortableAI_GUI.py": "dbf6a8b3c01a6c5cd80ac6b3e991250f0a26b7d1e04695374c5a5454dc0bec7c",
+        "ControlCenter/mission_monitor.py": "f8c4772dc06d59c01abb5d6e13d3e698078e99fa4400da56d97b1aaa0969be2c",
+        "ControlCenter/mission_settings.py": "ed1d004a81a33d79026050f78a86c9ee8d2c8bac4de750b721ee14a102ea5f95",
+        "ControlCenter/persistence_page.py": "c3003093ee16747146e9a8dfeb21bd8ac63e39e80dd9dee1a3de93e044378ac0",
+        "ControlCenter/schedule_settings.py": "9c5ccad56865894383ee8586268dd81ce75e94f9d2c10bb682ad6b894ecee023",
+        "Maintenance/Tests/test_mission_catalog_tk.py": "c2a5012e91b2c88e7881d40daee8e23c371d91677b2be0ed15f2d8d657963367",
+        "Maintenance/Tests/test_mission_organization_tk.py": "8f9433cd3fe047e75794b335ada4daba4fc85965248cf9be78b89872c9c73a56",
+        "Maintenance/Tests/test_mission_review_tk.py": "0a232b8a708512376a731b9d66bcd6cc91cc71256f16f8ed425e1211fb4a87b7",
+        "Maintenance/Tests/test_persistence_priority_tk.py": "dd93ae0273af58e95720eb44f3d7a4006de1b65c7c8828ff4cd58ab86cc9e657",
+        "Maintenance/Tests/test_persistence_readability_tk.py": "20fd61975ca69c53fa7605439f37b57a8d3cafd42cc4f521e5c0746538eb20b7",
+        "Maintenance/Tests/test_record_sorting_tk.py": "c08937776742397552b8cffc65668ec5805a6decb4d9cd4c26f39feff3634090",
+        "Maintenance/Tests/test_review_issue_layout_tk.py": "456ffdbb2e010e725f98b4ad7d3968ddf697966f0d32ab6b281d420e8aa7859b",
+        "ControlCenter/record_refresh.py": "21e3bc4752769eed5a5dc13c7f3892e15b59dd19e6a6ba0ad5ecc28b8208e605",
+        "Maintenance/Tests/record_refresh_fixture.py": "1b2bcac69910ce586e296dbbffaf434dec2ba1d62bd418403c336831b8fab337",
+        "Maintenance/Tests/test_record_refresh_tk.py": "6ed9fc89d5dc5b6df30f911fb286cc08a6807188e4afa40c9cc8a8c4b66bde59",
+        "Maintenance/Tests/test_record_refresh_integration.py": "49710665e844ea14e6b4fd551cb02eb2ffe442e8035ee71dc3cd8079569525da",
+        "Documentation/Refresh_Repair_20261024.txt": "5d216896eff240876b58180af5160b3166d5bb811bb1029b4b2b838d1dd6aeb3"
+      }
+    }
+  ],
+  "branding_verification": {
+    "passed": true,
+    "issue": "Disposable fixture omitted its Branding directory",
+    "installed_artwork_matches_verified_release_payloads": true,
+    "files": [
+      {
+        "edition": "Full",
+        "name": "PortableAI_ChatWatermark_Dark_144.png",
+        "sha256": "844f59cecc4667e1faac994b75febcdfaf451fac49c56d220edcdf995f2ed011"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_ChatWatermark_Dark_196.png",
+        "sha256": "39fd83c27e800ce902db7123b998aeeec57fc72878449f4144fed8791a7e4db4"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_ChatWatermark_Light_144.png",
+        "sha256": "10932b1314d44d93e52ec41766382fbaaf1c5a86be1e9bd7aa27deb604928fa2"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_ChatWatermark_Light_196.png",
+        "sha256": "1bea4a53d304ccb09b0e51226ec4edd4060d87f2c89bf8053f630514a7500176"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Emblem_Source.png",
+        "sha256": "2b3a177fb140d641c8fbf84098170f63421fc0ef4200d192f12041a14c0f971f"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Header_72.png",
+        "sha256": "da131d6f37869876edc6b0c49922b0243f718f1ec4de166c793b635930759c8e"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Icon_64.png",
+        "sha256": "bb96e2b883bcde61d23cf3689ccaace14ddc194412f8341742bbdc4b11b2729f"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_TabCorner_128.png",
+        "sha256": "dc3b6a4ce2b166a737a0246b9f76f6597f059b300ebe9221ca8f64a651ddc33c"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_TabCorner_176.png",
+        "sha256": "f96a44659f0fc703010d729d2336ac64f93317155de421431788b00a209987fc"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Titlebar_28.png",
+        "sha256": "3310b68b9cf7f8f8ce4e323646ebdc5d40c907fa16c1b850f28a0adbef174b38"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Welcome_160.png",
+        "sha256": "e766854c8fabb281e1ef691604e234e8e5a826752ec9b33f57f806e5760b36f9"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Welcome_240.png",
+        "sha256": "b61c07645232ce63e9ac8b6d57858d698bebd81812d5331ee41c362c57b233a8"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Welcome_320.png",
+        "sha256": "ed360cd7bc5b556a71bf6ca21ace7f6ad83a1077d087dd1833ad865a75b2735a"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Welcome_420.png",
+        "sha256": "a79513afc744960227e8d2d688bba6fb19e247203d3be3e77ae934db6347e1e8"
+      },
+      {
+        "edition": "Full",
+        "name": "PortableAI_Welcome_512.png",
+        "sha256": "c197aca4ee1706ee3ed16c3c3a2723acbb0b102c8cb447820abefe09abd2e078"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Compact_Icon.png",
+        "sha256": "48c8d01a1f0a11123c0eba9b5dc6006e8ab96748bd40165ccbb5a9d76488828e"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Compact_Wordmark_72.png",
+        "sha256": "f13dac63e2d870f53403a3558f7cdbbdaaf52ae33420611df9aa3a892c62ccdf"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_128.png",
+        "sha256": "22daa6577ec53b9f224149a4ae0f71f8ef98cbc52f7f53145b86b4a530339f0a"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_160.png",
+        "sha256": "be0bd40096bf300e7ce5a2138e3c441a0dd90d44fb601778b97c7f36227a5097"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_180.png",
+        "sha256": "9945f0d1c825cf30425bc416bd0bb8fbb0694895ac77b80c975c444fd494be94"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_240.png",
+        "sha256": "4a620ebb042bbd0f8199a2b8c20561c01a83201e14e61e647061789f445d5e99"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_320.png",
+        "sha256": "83cae77b239bb638c5cae8f09200654065af8946e866f95f4a8da3786fe56159"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_96.png",
+        "sha256": "a9daf13f592f688560e0166017474b48058e1864993d0a6a6c3e2ed2a3e090e6"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_128.png",
+        "sha256": "5091ab640ee687890126864e58f86f9fc0b37b1704d6ee2a0775b311d729f851"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_160.png",
+        "sha256": "a98c2fd62d70e595b258caf00d81e5761619b1315a8f019304d1c337098db1e2"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_180.png",
+        "sha256": "2d841d9397d2f085263cfbc1b7eab4964dac2f28eb722ca54d6c5fa24ae8a0ce"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_240.png",
+        "sha256": "cb8f8e3e2c093d5c0e4fb17872454ca5ce657aa7fe4d89994bc0249447842acb"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_320.png",
+        "sha256": "09a5af3ff315ad3ff0298054f9d19d887235f2dd561675fa3e9c76b53235e87a"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_Bright_96.png",
+        "sha256": "e375b856f1d7fbd8a9ee949e155ec19a7beca65bfba6da5a47943127bee174e9"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_128.png",
+        "sha256": "782467e7686e7ada47cda90c8aad2e760f3a8d328a3d7dc6e44dbef96c70da08"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_160.png",
+        "sha256": "57901718e5ec274c6d25c94c056cb7128131d5e1c8ac0107bfcc9db49f0d1755"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_180.png",
+        "sha256": "0c8bf6ef738d86efd1ddd7f004a743995e331d41a75c6748802663cbbdd4aa80"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_240.png",
+        "sha256": "a7c87e1f606b1c2984cd024ea1a1dbc784c7dfd98c938d8fad117011408fa43a"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_320.png",
+        "sha256": "f575ff18be22302ba7634fa20f92d26e78cdfc3f3daaf025554cebf73d55b433"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroBright_96.png",
+        "sha256": "bea566b10f633da9801c63a2738dfdb16b2b16e5ce821b5387b1bc9a06a8a439"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_128.png",
+        "sha256": "50d2ff7ce08b0c98b31e62aca66008346f441ce448cecacc9c4bc50478bd8d45"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_160.png",
+        "sha256": "257406529e3ec26c0f81ba33bbaecb3f1d28d3be74f1afaa75235b48a1e18b8e"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_180.png",
+        "sha256": "f7e1a5c54083eec29e5780491f4212f25ae5337cbece3ed0a2c952790c84c073"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_240.png",
+        "sha256": "7955ee37a376bc5f8e6db7ebe6de828cbd2706eb2f543ee8f3dc7a9423b09ddf"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_320.png",
+        "sha256": "8cc61bcbf28fe633bb3fd2177c0140bc01b0632d623ae55d0420a1b7aca44ec0"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Emblem_HeroClean_96.png",
+        "sha256": "ea61ebb6cb517f5ee8625f5f255759dfdb101ea1093b7b24213c7f6950ba60fd"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Banner.png",
+        "sha256": "7377f88e614248e694e82ba8c0cf2d6854e6c47f7c65900f8fb012e4038edf98"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Banner_72.png",
+        "sha256": "f13dac63e2d870f53403a3558f7cdbbdaaf52ae33420611df9aa3a892c62ccdf"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Banner_96.png",
+        "sha256": "179572c73d1d1223cece7fa18a3cbe25cb824d338372ef9dbb32104904af6cb4"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Welcome.png",
+        "sha256": "b2d246d3d5317570f7049083643b3899f6e39d73c623e4c7eb7bdd77ac7c2235"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Welcome_180.png",
+        "sha256": "5bcf48f523609279b85292fd3785f0972e048a2243cf96aa598064100f13c3aa"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Welcome_240.png",
+        "sha256": "0629cbb72e98d24fd409666ce10ac682c93cfae93005498d2a8579204caac188"
+      },
+      {
+        "edition": "Full",
+        "name": "PortalAI_Wordmark_Welcome_320.png",
+        "sha256": "c030c651d9569ea00cc61893f9249e9a64725078c53c35b4f37145b86528d101"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_ChatWatermark_Dark_144.png",
+        "sha256": "844f59cecc4667e1faac994b75febcdfaf451fac49c56d220edcdf995f2ed011"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_ChatWatermark_Dark_196.png",
+        "sha256": "39fd83c27e800ce902db7123b998aeeec57fc72878449f4144fed8791a7e4db4"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_ChatWatermark_Light_144.png",
+        "sha256": "10932b1314d44d93e52ec41766382fbaaf1c5a86be1e9bd7aa27deb604928fa2"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_ChatWatermark_Light_196.png",
+        "sha256": "1bea4a53d304ccb09b0e51226ec4edd4060d87f2c89bf8053f630514a7500176"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Emblem_Source.png",
+        "sha256": "2b3a177fb140d641c8fbf84098170f63421fc0ef4200d192f12041a14c0f971f"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Header_72.png",
+        "sha256": "da131d6f37869876edc6b0c49922b0243f718f1ec4de166c793b635930759c8e"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Icon_64.png",
+        "sha256": "bb96e2b883bcde61d23cf3689ccaace14ddc194412f8341742bbdc4b11b2729f"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_TabCorner_128.png",
+        "sha256": "dc3b6a4ce2b166a737a0246b9f76f6597f059b300ebe9221ca8f64a651ddc33c"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_TabCorner_176.png",
+        "sha256": "f96a44659f0fc703010d729d2336ac64f93317155de421431788b00a209987fc"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Titlebar_28.png",
+        "sha256": "3310b68b9cf7f8f8ce4e323646ebdc5d40c907fa16c1b850f28a0adbef174b38"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Welcome_160.png",
+        "sha256": "e766854c8fabb281e1ef691604e234e8e5a826752ec9b33f57f806e5760b36f9"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Welcome_240.png",
+        "sha256": "b61c07645232ce63e9ac8b6d57858d698bebd81812d5331ee41c362c57b233a8"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Welcome_320.png",
+        "sha256": "ed360cd7bc5b556a71bf6ca21ace7f6ad83a1077d087dd1833ad865a75b2735a"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Welcome_420.png",
+        "sha256": "a79513afc744960227e8d2d688bba6fb19e247203d3be3e77ae934db6347e1e8"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortableAI_Welcome_512.png",
+        "sha256": "c197aca4ee1706ee3ed16c3c3a2723acbb0b102c8cb447820abefe09abd2e078"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Compact_Icon.png",
+        "sha256": "48c8d01a1f0a11123c0eba9b5dc6006e8ab96748bd40165ccbb5a9d76488828e"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Compact_Wordmark_72.png",
+        "sha256": "f13dac63e2d870f53403a3558f7cdbbdaaf52ae33420611df9aa3a892c62ccdf"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_128.png",
+        "sha256": "22daa6577ec53b9f224149a4ae0f71f8ef98cbc52f7f53145b86b4a530339f0a"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_160.png",
+        "sha256": "be0bd40096bf300e7ce5a2138e3c441a0dd90d44fb601778b97c7f36227a5097"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_180.png",
+        "sha256": "9945f0d1c825cf30425bc416bd0bb8fbb0694895ac77b80c975c444fd494be94"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_240.png",
+        "sha256": "4a620ebb042bbd0f8199a2b8c20561c01a83201e14e61e647061789f445d5e99"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_320.png",
+        "sha256": "83cae77b239bb638c5cae8f09200654065af8946e866f95f4a8da3786fe56159"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_96.png",
+        "sha256": "a9daf13f592f688560e0166017474b48058e1864993d0a6a6c3e2ed2a3e090e6"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_128.png",
+        "sha256": "5091ab640ee687890126864e58f86f9fc0b37b1704d6ee2a0775b311d729f851"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_160.png",
+        "sha256": "a98c2fd62d70e595b258caf00d81e5761619b1315a8f019304d1c337098db1e2"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_180.png",
+        "sha256": "2d841d9397d2f085263cfbc1b7eab4964dac2f28eb722ca54d6c5fa24ae8a0ce"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_240.png",
+        "sha256": "cb8f8e3e2c093d5c0e4fb17872454ca5ce657aa7fe4d89994bc0249447842acb"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_320.png",
+        "sha256": "09a5af3ff315ad3ff0298054f9d19d887235f2dd561675fa3e9c76b53235e87a"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_Bright_96.png",
+        "sha256": "e375b856f1d7fbd8a9ee949e155ec19a7beca65bfba6da5a47943127bee174e9"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_128.png",
+        "sha256": "782467e7686e7ada47cda90c8aad2e760f3a8d328a3d7dc6e44dbef96c70da08"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_160.png",
+        "sha256": "57901718e5ec274c6d25c94c056cb7128131d5e1c8ac0107bfcc9db49f0d1755"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_180.png",
+        "sha256": "0c8bf6ef738d86efd1ddd7f004a743995e331d41a75c6748802663cbbdd4aa80"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_240.png",
+        "sha256": "a7c87e1f606b1c2984cd024ea1a1dbc784c7dfd98c938d8fad117011408fa43a"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_320.png",
+        "sha256": "f575ff18be22302ba7634fa20f92d26e78cdfc3f3daaf025554cebf73d55b433"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroBright_96.png",
+        "sha256": "bea566b10f633da9801c63a2738dfdb16b2b16e5ce821b5387b1bc9a06a8a439"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_128.png",
+        "sha256": "50d2ff7ce08b0c98b31e62aca66008346f441ce448cecacc9c4bc50478bd8d45"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_160.png",
+        "sha256": "257406529e3ec26c0f81ba33bbaecb3f1d28d3be74f1afaa75235b48a1e18b8e"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_180.png",
+        "sha256": "f7e1a5c54083eec29e5780491f4212f25ae5337cbece3ed0a2c952790c84c073"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_240.png",
+        "sha256": "7955ee37a376bc5f8e6db7ebe6de828cbd2706eb2f543ee8f3dc7a9423b09ddf"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_320.png",
+        "sha256": "8cc61bcbf28fe633bb3fd2177c0140bc01b0632d623ae55d0420a1b7aca44ec0"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Emblem_HeroClean_96.png",
+        "sha256": "ea61ebb6cb517f5ee8625f5f255759dfdb101ea1093b7b24213c7f6950ba60fd"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Banner.png",
+        "sha256": "7377f88e614248e694e82ba8c0cf2d6854e6c47f7c65900f8fb012e4038edf98"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Banner_72.png",
+        "sha256": "f13dac63e2d870f53403a3558f7cdbbdaaf52ae33420611df9aa3a892c62ccdf"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Banner_96.png",
+        "sha256": "179572c73d1d1223cece7fa18a3cbe25cb824d338372ef9dbb32104904af6cb4"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Welcome.png",
+        "sha256": "b2d246d3d5317570f7049083643b3899f6e39d73c623e4c7eb7bdd77ac7c2235"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Welcome_180.png",
+        "sha256": "5bcf48f523609279b85292fd3785f0972e048a2243cf96aa598064100f13c3aa"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Welcome_240.png",
+        "sha256": "0629cbb72e98d24fd409666ce10ac682c93cfae93005498d2a8579204caac188"
+      },
+      {
+        "edition": "Academic",
+        "name": "PortalAI_Wordmark_Welcome_320.png",
+        "sha256": "c030c651d9569ea00cc61893f9249e9a64725078c53c35b4f37145b86528d101"
+      }
+    ]
+  },
+  "test_fixture_adaptations": [
+    "The disposable native launcher hook was anchored at the current account_gate import; the handed-off script referenced an older bootstrap conditional. Production startup code was not changed.",
+    "The synthetic app omitted Branding PNGs and displayed fallback artwork. Both fixtures now copy the verified release artwork and assert that the ornate emblem and wordmark load. D/E artwork matches the unchanged release payloads."
+  ],
+  "production_accounts_used": false,
+  "physical_linux_macos_tested": false,
+  "physical_aoostar_tested": false,
+  "storage_disconnect_repair_claimed": false,
+  "latest_donation_styling_preserved": true,
+  "temporary_mission_importer_excluded": true,
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "9d6214367f273e06a60ac8b4ea343f1afac463073c72ed8d35121d3e24880cf3",
+      "payload_files": 5046,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "6686e0f7b4c1ce471eb1e7b56d36df00aa63e7c28b5549d7a696a2424a15d581",
+      "payload_files": 4524,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "bf728337d0b5a0a7ce698bb7200db21d0cfd8c9225ba46c2759763d60192104c",
+      "payload_files": 2183,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "2c5e35456aca9a069bc6186673cb4d4be356eb1e91118f96f4ca634b42fb2428",
+      "payload_files": 4690,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "28d0764f38cb6f78b17b9e57a97ec1fd64c092abdb37b976a88cd9e0f0d5d326",
+      "payload_files": 4514,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "230e4e91a69cc0d58449d650acb22f0440268fc4b8508111249851a80f76623e",
+      "payload_files": 2173,
+      "source_files_verified": 18,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "windows_installer_forms_and_academic_pins_verified": true
+}

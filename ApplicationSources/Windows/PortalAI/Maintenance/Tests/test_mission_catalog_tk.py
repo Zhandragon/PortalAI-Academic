@@ -16,6 +16,7 @@ from mission_supervisor import disarm
 from mission_catalog import MissionCatalog, VIEWS
 from profile_paths import UID_ENV, EPOCH_ENV
 import mission_settings
+from record_refresh_fixture import settle_records
 
 
 def children(widget):
@@ -28,7 +29,7 @@ class MissionCatalogTkTests(unittest.TestCase):
     def setUp(self):
         try: self.app = tk.Tk()
         except tk.TclError as exc: self.skipTest(str(exc))
-        self.app.withdraw(); self.addCleanup(self.app.destroy)
+        self.app.geometry('1000x720+20+20'); self.addCleanup(self.app.destroy)
         temporary = tempfile.TemporaryDirectory(prefix='Portal mission Tk ')
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
@@ -48,6 +49,7 @@ class MissionCatalogTkTests(unittest.TestCase):
                             {'panel':'#efe8dc','bg':'#efe8dc','text':'#202020','accent':'#886620'})
         self.assertIs(self.window.winfo_toplevel(), self.app)
         self.addCleanup(self.close_window)
+        settle_records(self.app)
         controls = list(children(self.window))
         self.tree = next(item for item in controls if isinstance(item, ttk.Treeview))
         self.picker = next(item for item in controls if isinstance(item, ttk.Combobox) and tuple(item.cget('values')) == VIEWS)
@@ -62,7 +64,7 @@ class MissionCatalogTkTests(unittest.TestCase):
     def select_view(self, value):
         self.picker.set(value)
         self.picker.event_generate('<<ComboboxSelected>>')
-        self.app.update()
+        settle_records(self.app)
 
     def test_default_view_shows_only_user_work_and_other_views_preserve_old_records(self):
         self.assertEqual(self.picker.get(), 'User missions only')
@@ -77,21 +79,21 @@ class MissionCatalogTkTests(unittest.TestCase):
         self.assertEqual(len(self.tree.get_children()), 4)
         self.select_view(VIEWS[0])
         created = self.store.create('New unclassified user mission')
-        self.refresh.invoke()
+        self.refresh.invoke();settle_records(self.app)
         self.assertNotIn(created['id'], self.tree.get_children())
         self.catalog.mark_origin(created['id'])
-        self.refresh.invoke()
+        self.refresh.invoke();settle_records(self.app)
         self.assertIn(created['id'], self.tree.get_children())
 
     def test_deleted_filter_restore_and_revised_record_refresh(self):
         disarm(self.root, self.user['id'])
         self.catalog.delete(self.user['id'])
-        self.refresh.invoke()
+        self.refresh.invoke();settle_records(self.app)
         self.assertNotIn(self.user['id'], self.tree.get_children())
         self.select_view('Deleted (recoverable)')
         self.assertEqual(self.tree.get_children(), (self.user['id'],))
         changed = self.store.load(self.user['id']); changed['objective'] = 'Changed while hidden'; self.store.save(changed)
-        self.refresh.invoke()
+        self.refresh.invoke();settle_records(self.app)
         self.assertEqual(self.tree.get_children(), ())
         self.select_view(VIEWS[0])
         self.assertIn(self.user['id'], self.tree.get_children())
@@ -102,7 +104,7 @@ class MissionCatalogTkTests(unittest.TestCase):
             self.delete.invoke()
             confirm.assert_not_called()
             disarm(self.root, self.user['id'])
-            self.refresh.invoke()
+            self.refresh.invoke();settle_records(self.app)
             self.delete.invoke()
             confirm.assert_called_once()
         self.assertEqual(self.catalog.rows('Deleted (recoverable)'), [])

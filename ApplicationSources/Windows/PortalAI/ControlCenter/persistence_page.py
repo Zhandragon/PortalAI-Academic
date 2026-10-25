@@ -34,7 +34,7 @@ class PersistencePage(tk.Frame):
                 page=show_mission_settings(self.host,self.root_dir,self.skin.colors,session=self.session,jobs=self.jobs,embedded=True,framed=False)
             elif key=='schedules':
                 from schedule_settings import show_schedule_settings
-                page=show_schedule_settings(self.host,self.root_dir,self.skin.colors,session=self.session,embedded=True,framed=False)
+                page=show_schedule_settings(self.host,self.root_dir,self.skin.colors,session=self.session,jobs=self.jobs,embedded=True,framed=False)
             else:raise ValueError('Unknown Persistence page')
             self.pages[key]=page
             if remote:page.pack_forget()

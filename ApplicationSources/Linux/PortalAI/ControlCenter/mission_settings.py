@@ -60,7 +60,9 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     from mission_modes import MODES, profile, check_and_save
     from runtime_policy import require_space
     from mission_supervisor import arm, disarm, ensure_running, read_policy
-    from mission_catalog import MissionCatalog, VIEWS
+    from mission_catalog import MissionCatalog, VIEWS, visible as row_visible
+    from mission_search import matches
+    from record_refresh import RecordRefresh, visible
     store = Missions(root)
     catalog = MissionCatalog(root, store=store)
     date_catalog = RecordDates(root, "missions", store=store)
@@ -143,7 +145,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
     classification = RecordClassification(options.body, win.skin, lambda: classify(), mission=True)
     classification.pack(fill='x', pady=(0, 3))
     from mission_monitor import RunViewer,controller_status,live_state,mission_enabled
-    viewer=RunViewer(detail_host,win.skin,store,height=7 if embedded else 10)
+    viewer=RunViewer(detail_host,win.skin,store,height=7 if embedded else 10,jobs=jobs)
     viewer.pack(fill='both',expand=True);detail=viewer.text;win.run_viewer=viewer
     review_host=FoldPanel(detail_host,win.skin,'Add review instructions')
     win.review_panel=review_host
@@ -191,65 +193,102 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
             raise ValueError("Select a mission first")
         return values[0]
 
-    def show_detail(*_):
-        try:
-            m = store.load(selected())
-        except (ValueError, OSError) as exc:
-            viewer.update_view(details=mission_details(unavailable=exc if tree.selection() else None))
-            classification.show()
-            sync_review()
-            return
+    def load_detail(request):
+        mid, catalogue = request
+        m=store.load(mid)
         from mission_memory import Memory
         try:memory=Memory(store,m).recall(limit=3)
         except Exception as exc:memory={'error':str(exc)}
-        policy=read_policy(store,m['id'])
-        classification.show(m['id'], listed.get(m['id'], {}).get('classification'))
-        viewer.update_view(m,details=mission_details(m,mode=profile(m['mode']),catalogue=listed.get(m['id']),
-                                                   memory=memory,supervision=policy),enabled=mission_enabled(store,m))
+        policy=read_policy(store,mid)
+        return dict(m=m,catalogue=catalogue,enabled=mission_enabled(store,m),
+                    details=mission_details(m,mode=profile(m['mode']),catalogue=catalogue,
+                                            memory=memory,supervision=policy))
+
+    def apply_detail(value):
+        m=value['m']
+        classification.show(m['id'],value['catalogue'].get('classification'))
+        viewer.update_view(m,details=value['details'],enabled=value['enabled'])
         sync_review(m)
 
-    def refresh():
-        require_admin(root, session)
-        existing = set(tree.get_children())
-        rows = catalog.rows(view.get(), search.query.get())
-        listed.clear()
-        listed.update((row['mission']['id'], row) for row in rows)
-        count.set(f'{len(rows)} '+('search matches (all records)' if search.query.get().strip() else 'records shown'))
-        list_note.set(count.get()+'. Search IDs/keywords; click headings to sort.' if rows else 'No matches. Search an ID/keyword or change Filters.')
+    def detail_failed(exc):
+        classification.show();sync_review()
+        viewer.reader.discard();viewer.context={};viewer.run_ids={}
+        viewer._display((mission_details(unavailable=exc),True))
+
+    detail_reader=RecordRefresh(win,load_detail,apply_detail,check=lambda:require_admin(root,session),
+                                error=detail_failed,jobs=jobs)
+    def show_detail(*_):
+        values=tree.selection()
+        if not values:
+            detail_reader.discard()
+            detail_failed(None)
+            return
+        mid=values[0]
+        if viewer.identity!=mid:
+            classification.show();sync_review()
+            viewer.reader.discard()
+            viewer._display(('Loading selected mission…',True))
+        detail_reader.request((mid,dict(listed.get(mid,{}))))
+
+    def load_rows(request):
+        view_name,query=request
+        all_rows=catalog.rows('All records')
+        errors=list(catalog.errors)
+        summaries={row['mission']['id']:row['mission'] for row in all_rows}
+        if query.strip():
+            rows=[row for row in all_rows if matches(query,row['mission']['id'],row['mission'].get('objective'),
+                row['mission'].get('schedule_id'),row['mission'].get('parent'),row['mission'].get('status'),row['origin']['label'])]
+        else:rows=[row for row in all_rows if row_visible(row,view_name)]
         from chat_priority import active as direct_chat_active
         chat_is_active=direct_chat_active(root)
         controller=controller_status(store)
-        order = {}
-        summaries = {row['mission']['id']: row['mission'] for row in catalog.rows('All records')}
+        order={};items=[]
         for row in reversed(rows):
-            m = row['mission']
-            label = 'Deleted · ' + m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
+            m=row['mission']
+            label='Deleted · '+m['status'] if row['deleted'] else 'paused for chat' if m.get('chat_paused') and m['status'] in ACTIVE and chat_is_active else m['status']
             if not row['deleted'] and m['status'] in ACTIVE:
                 try:
                     from mission_activity import read as read_activity
-                    enabled=mission_enabled(store,m,summaries)
-                    label=live_state(m,read_activity(store,m['id']) if enabled else {},controller,enabled=enabled)
+                    armed=mission_enabled(store,m,summaries)
+                    label=live_state(m,read_activity(store,m['id']) if armed else {},controller,enabled=armed)
                 except (OSError,ValueError,KeyError,TypeError):label='Status unavailable; review details'
-            dates = row['dates'] = date_catalog.info(m)
-            name = record_name(m)
-            values = (row['origin']['label'], profile(m["mode"])["label"], label, f"{m['steps']}/{m['max_steps']}", m["objective"][:150], name[:150],
-                      date_text(dates['created_at'], dates['created_fallback']), date_text(dates['updated_at'], dates['updated_fallback']), m['id'])
-            order[m['id']] = dict(zip(tree['columns'], values))
-            order[m['id']].update(name=name, objective=m['objective'], steps=(m['steps'], m['max_steps']),
-                                  created=dates['created_at'], updated=dates['updated_at'])
-            if m["id"] in existing:
-                tree.item(m["id"], values=values)
-                existing.remove(m["id"])
-            else:
-                tree.insert("", "end", iid=m["id"], values=values)
-        for key in existing:
-            tree.delete(key)
-        sorter.apply(order)
-        if search.query.get().strip() and len(rows) == 1 and not tree.selection():
+            dates=row['dates']=date_catalog.info(m)
+            name=record_name(m)
+            values=(row['origin']['label'],profile(m['mode'])['label'],label,f"{m['steps']}/{m['max_steps']}",m['objective'][:150],name[:150],
+                    date_text(dates['created_at'],dates['created_fallback']),date_text(dates['updated_at'],dates['updated_fallback']),m['id'])
+            order[m['id']]=dict(zip(('origin','mode','status','steps','objective','name','created','updated','id'),values))
+            order[m['id']].update(name=name,objective=m['objective'],steps=(m['steps'],m['max_steps']),
+                                  created=dates['created_at'],updated=dates['updated_at'])
+            items.append((m['id'],values))
+        return dict(rows=rows,items=items,order=order,errors=errors,query=query)
+
+    def apply_rows(value):
+        rows=value['rows'];query=value['query'];existing=set(tree.get_children())
+        listed.clear();listed.update((row['mission']['id'],row) for row in rows)
+        count.set(f'{len(rows)} '+('search matches (all records)' if query.strip() else 'records shown'))
+        list_note.set(count.get()+'. Search IDs/keywords; click headings to sort.' if rows else 'No matches. Search an ID/keyword or change Filters.')
+        for mid,values in value['items']:
+            if mid in existing:
+                if tuple(tree.item(mid,'values'))!=tuple(str(v) for v in values):tree.item(mid,values=values)
+                existing.remove(mid)
+            else:tree.insert('', 'end',iid=mid,values=values)
+        for mid in existing:tree.delete(mid)
+        sorter.apply(value['order'])
+        if query.strip() and len(rows)==1 and not tree.selection():
             tree.selection_set(rows[0]['mission']['id']);tree.see(rows[0]['mission']['id'])
-        if catalog.errors:
-            status.set('Some records need review; original files preserved: '+', '.join(x['mission'] for x in catalog.errors))
+        if value['errors']:status.set('Some records need review; original files preserved: '+', '.join(x['mission'] for x in value['errors']))
         show_detail()
+
+    def rows_failed(exc):
+        listed.clear()
+        for mid in tree.get_children():tree.delete(mid)
+        detail_reader.discard();detail_failed(exc)
+        status.set(str(exc))
+
+    rows_reader=RecordRefresh(win,load_rows,apply_rows,check=lambda:require_admin(root,session),error=rows_failed,jobs=jobs)
+    def refresh():
+        rows_reader.request((view.get(),search.query.get()),invalidate=True)
+    win.bind('<Map>',lambda event:refresh() if event.widget is win else None,add='+')
 
     def classify():
         try:
@@ -412,7 +451,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
 
     settings.add(win.skin.button(settings,'Create mission',create))
     from schedule_settings import show_schedule_settings
-    if not embedded:settings.add(win.skin.button(settings,'Schedules…',lambda:show_schedule_settings(win,root,colors,session=session)))
+    if not embedded:settings.add(win.skin.button(settings,'Schedules…',lambda:show_schedule_settings(win,root,colors,session=session,jobs=jobs)))
     settings.add(win.skin.button(settings,'Check VM',check_vm))
     for label, command in [("Run until finished", start), ("Stop", stop), ("Resume", resume),
                            ("Reviewed: skip action", lambda: resume("skip")), ("Reviewed: retry", lambda: resume("retry"))]:
@@ -461,7 +500,7 @@ def show_mission_settings(parent, root: Path, colors: dict, *, session=None, job
         except queue.Empty:
             pass
         try:
-            refresh()
+            if visible(win):rows_reader.request((view.get(),search.query.get()))
         except Exception as exc:
             status.set(str(exc))
         timer[0] = win.after(1500, tick)
