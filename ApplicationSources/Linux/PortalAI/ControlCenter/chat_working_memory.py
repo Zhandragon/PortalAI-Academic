@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from chat_evidence import excerpt, project, reported_fields
+from chat_evidence import excerpt, project, reported_fields, web_evidence
 
 
 def tool_call_limit(settings):
@@ -123,6 +123,16 @@ def evidence_lines(messages, start=0, end=None, *, max_chars=3500, max_results=1
     lines = []; remaining = max_chars
     # Select newest evidence first, then display it in chronological order.
     for index, row in reversed(selected):
+        limit = min(remaining, max(500, max_chars // max(1, min(len(selected), 5))))
+        if limit < 220:
+            break
+        execution = row.get('execution')
+        record = '\nHost execution record: ' + json.dumps(execution, ensure_ascii=False) if execution else ''
+        web_view = web_evidence(row, index, limit-len(record))
+        if web_view is not None:
+            line = web_view + record
+            lines.append(line); remaining -= len(line) + 2
+            continue
         function = calls.get(row.get('tool_call_id'), (None, {}))[1]
         line = f'message_id={index}; tool={row.get("name")}; call={excerpt(function.get("arguments", ""), 180)}\n'
         fields = reported_fields(row)
@@ -130,12 +140,8 @@ def evidence_lines(messages, start=0, end=None, *, max_chars=3500, max_results=1
             line += '\n'.join(f'{key}: {value}' for key, value in fields[:12])
         else:
             line += excerpt(str(row.get('content') or ''), 400)
-        execution = row.get('execution')
         if execution:
-            line += '\nHost execution record: ' + json.dumps(execution, ensure_ascii=False)
-        limit = min(remaining, max(500, max_chars // max(1, min(len(selected), 5))))
-        if limit < 220:
-            break
+            line += record
         line = excerpt(line, limit)
         lines.append(line); remaining -= len(line) + 2
     return 'Saved tool evidence (reported facts, not file-existence checks):\n' + '\n\n'.join(reversed(lines))

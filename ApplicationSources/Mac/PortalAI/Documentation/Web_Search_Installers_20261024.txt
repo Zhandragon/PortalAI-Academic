@@ -1,0 +1,13 @@
+Web-search release integration - publisher r16, October 24, 2026
+
+All six Full/Academic Windows/Linux/macOS packages are rebuilt from their own
+verified publisher r15 baselines. The r15 refresh repair and r14 Donation/QR
+styling remain. No temporary Aoostar importer/menu or owner data is included.
+Only the focused web runtime/guidance, new tests and repair notes change.
+Dependency selections, third-party pins, verified TLS, account boundaries,
+installer storage checks and platform-specific modes are preserved.
+
+The public thin Academic setup launchers are repinned to the final r16 assets.
+Release receipts contain outer/member hashes and package verification results.
+Native Linux/macOS execution, physical Aoostar application and full fresh
+recipient installation are not implied by Windows-builder validation.

@@ -166,7 +166,20 @@ class WebSession:
         self.context.on('page',new_page)
     def run(self,args):
         self.check(); action=str(args.get('action','help'))
-        if action=='help': return {'actions':{
+        if action=='search':
+            from web_tools import web_search
+            query=args.get('query'); limit=args.get('limit',6); fresh=args.get('fresh',False)
+            if not isinstance(query,str) or not query.strip() or len(query)>4096:
+                raise ValueError('search requires a query of 1..4096 characters')
+            if type(limit) is not int or not 1 <= limit <= 12 or type(fresh) is not bool:
+                raise ValueError('search limit must be an integer 1..12 and fresh must be boolean')
+            result=web_search(query,limit,fresh=fresh)
+            self.check()
+            return {**result,'kind':'search_results','source':'Search snippets; linked pages have not been fetched.'}
+        if action=='help': return {'kind':'tool_help',
+            'note':'Tool instructions only; no search was performed. Use search with query to find pages, then read returned URLs for details.',
+            'actions':{
+            'search':'query (required), limit 1..12 (default 6), fresh boolean (default false); returns titles, URLs and snippets',
             'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs',
             'open':'url (new browser tab); optional page to navigate existing tab',
             'tabs':'list browser tab IDs and URLs', 'inspect':'page, optional selector or role+name; optional frame selector; offset/max_chars',

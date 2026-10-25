@@ -1,5 +1,5 @@
 PORTABLEAI MASTER INSTRUCTIONS — v45
-Operational guidance revision: 2026-10-18-compact2 (current native harness).
+Operational guidance revision: 2026-10-24-web-search (current native harness).
 Designed for the Zhandragon PortableAI distribution.
 Goal: direct routing, minimal deliberation, atomic execution, fast return.
 Keep this file compact enough for the Native Chat context budget. Built-in Help is a summary; Documentation\Capabilities.md is the human capability catalog.
@@ -176,6 +176,11 @@ Destructive maintenance is user-authorized only. Never delete web cache, Outputs
 ============================================================
 
 WEB
+Native chat: web(action="search", arguments={"query":"<query>"}) returns titles, URLs and snippets.
+Use web(action="read", arguments={"url":"<returned URL>"}) to verify page details.
+Answer with findings and source links. Help is syntax only; ok=true for help does not mean a search ran.
+Read omitted saved evidence with chat_history and finish the requested answer.
+
 Current/public search:
 python Agent\web_tools.py search "<query>"
 

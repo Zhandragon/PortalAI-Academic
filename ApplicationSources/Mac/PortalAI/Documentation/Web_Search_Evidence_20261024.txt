@@ -1,0 +1,28 @@
+Web search and saved evidence repair - publisher r16, October 24, 2026
+
+Reviewed Aoostar handoff SHA256:
+4c0dd5bed9244e75208124f93846ab92a84a133d554042fb122be6ce62ed3fc4
+
+The r15 native web tool lacked search, although the shell search route existed.
+Rolling evidence could reduce help/search replies to ok: True, losing the
+distinction between tool instructions and actual findings, and losing links.
+
+The fix exposes the existing bounded search provider through native web search,
+labels help as discovery, and keeps paired titles, exact URLs and snippet
+prefixes in bounded evidence. Omitted results link to exact saved chat_history.
+Search snippets are untrusted and do not establish fetched page contents or
+verified prices/specifications. Raw transcripts and receipts remain unchanged.
+
+Receiving review additionally rejects malformed action types in read-only
+classification and preserves failed results inside native response envelopes.
+Only help/search gain format-recovery classification; browser writes and HTTP
+requests retain conservative no-replay handling. TLS, captured-account checks,
+provider cooldown/cache, Stop and ownership remain unchanged. Search does not
+launch Chromium. Academic's existing policy text is retained.
+
+The incoming 13 cases failed on the receiving r15 baseline and pass with the
+reviewed fix. Two additional receiving regressions reproduce and protect the
+edge cases above. Detailed receiving test/live-network evidence is published
+in Documentation/WEB-SEARCH-VALIDATION-20261024-r16.json in each repository.
+No owner account or chat is used for testing. Model quality and external
+provider access remain separate from correct dispatch/evidence handling.

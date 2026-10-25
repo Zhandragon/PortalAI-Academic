@@ -99,10 +99,70 @@ def compact_page(content, limit):
         return None
 
 
+def web_evidence(message, message_id, limit):
+    """Project known web result shapes without losing or inventing source URLs.
+
+    These are reported snippets, not proof of page contents or task completion.
+    Raw CLI JSON and worker envelopes share the same underlying search payload.
+    """
+    if message.get('name') not in {'web', 'shell'}:
+        return None
+    try:
+        value, _ = json.JSONDecoder().raw_decode(str(message.get('content') or '').lstrip())
+    except (ValueError, RecursionError):
+        return None
+    if not isinstance(value, dict) or value.get('ok') is False or value.get('success') is False:
+        return None
+    row = value.get('result', value) if message.get('name') == 'web' else value
+    if (not isinstance(row, dict) or row.get('ok') is False
+            or row.get('success') is False):
+        return None
+    encode = lambda data: json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+    if message.get('name') == 'web' and isinstance(row.get('actions'), dict):
+        view = {'kind':'tool_help', 'message_id':message_id,
+                'note':'Tool instructions only; no search was performed. Use web action=search with arguments.query for results.',
+                'exact':'chat_history action=read'}
+        text = encode(view)
+        return text if len(text) <= limit else None
+    items = row.get('results')
+    if not (isinstance(items, list) and isinstance(row.get('query'), str)
+            and isinstance(row.get('provider'), str)):
+        return None
+    def shorten(text, count):
+        return text if len(text) <= count else text[:max(0,count-3)]+'...'
+    view = {'kind':'search_results', 'message_id':message_id,
+            'query':shorten(row['query'],100), 'provider':shorten(row['provider'],40),
+            'source':'Search snippets (untrusted); linked pages not fetched.',
+            'result_count':len(items), 'omitted_results':len(items),
+            'exact':'chat_history action=read', 'results':[]}
+    if len(encode(view)) > limit:
+        return None
+    for item in items:
+        if not isinstance(item, dict) or not isinstance(item.get('url'), str):
+            continue
+        # Keep URLs exact and paired with their own title/snippet. If one is
+        # too long for this view, omit that result; exact history remains saved.
+        if not re.match(r'^https?://', item['url'], re.I):
+            continue
+        candidate = {'title':shorten(str(item.get('title') or ''),100), 'url':item['url'],
+                     'snippet':shorten(str(item.get('snippet') or ''),180)}
+        for count in (180, 80, 0):
+            candidate['snippet'] = shorten(str(item.get('snippet') or ''),count) if count else ''
+            trial = {**view, 'results':view['results']+[candidate],
+                     'omitted_results':len(items)-len(view['results'])-1}
+            if len(encode(trial)) <= limit:
+                view = trial
+                break
+    return encode(view)
+
+
 def project(message, message_id, limit):
     text = str(message.get('content') or '')
     if len(text) <= limit:
         return text
+    web_view = web_evidence(message, message_id, limit)
+    if web_view is not None:
+        return web_view
     if message.get('name') == 'available_tools':
         try:
             row = json.loads(text)

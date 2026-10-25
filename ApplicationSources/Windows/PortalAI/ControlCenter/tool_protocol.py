@@ -30,6 +30,9 @@ def read_only_tool_attempt(name, args, root) -> bool:
         return True
     if name == 'available_tools':
         return True
+    if name == 'web':
+        action = args.get('action')
+        return isinstance(action, str) and action in {'help', 'search'}
     if name == 'media_tool':
         return args.get('command') == 'model-variants' or args.get('arguments') == ['--help']
     if name != "shell":

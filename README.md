@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r15):** Mission and schedule views refresh in the background, hidden pages stop polling, and Runtime avoids loading dormant histories. Account/Stop protections and the latest Donate styling are preserved. [Changes and validation](Documentation/REFRESH-REPAIR-20261024-r15.md).
+**Latest update (2026-10-24 r16):** Native web search and saved source evidence are repaired. Search results retain links and snippets; help is clearly distinguished from findings. Existing account guards, Academic policy and UI styling are preserved. [Changes and validation](Documentation/WEB-SEARCH-20261024-r16.md).
+
+**Refresh update (2026-10-24 r15):** Mission and schedule views refresh in the background, hidden pages stop polling, and Runtime avoids loading dormant histories. Account/Stop protections and the latest Donate styling are preserved. [Changes and validation](Documentation/REFRESH-REPAIR-20261024-r15.md).
 
 **Donation update (2026-10-24 r14):** The turquoise **Donate** title-bar link now uses PortalAI's display lettering without an underline. Rounded gold donation cards and tighter spacing keep the entire page visible at the default window size; smaller windows still scroll. QR data and destinations are unchanged. [Changes and validation](Documentation/DONATION-POLISH-20261024-r14.md).
 
