@@ -1,0 +1,477 @@
+{
+  "passed": true,
+  "release": "v2026.10.24-r17",
+  "tests": [
+    {
+      "edition": "Full",
+      "module": "test_donation_panel",
+      "run": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_donation_panel.DonationTests.test_crypto_viewports_preserve_every_module_pixel_and_white_margin": "passed",
+        "test_donation_panel.DonationTests.test_each_qr_and_button_copy_exact_destination": "passed",
+        "test_donation_panel.DonationTests.test_grid_reflows_and_never_extends_beyond_page_width": "passed",
+        "test_donation_panel.DonationTests.test_navigation_uses_title_link_without_a_donation_tab_button": "passed",
+        "test_donation_panel.DonationTests.test_sponsor_opens_only_the_public_profile_on_click": "passed",
+        "test_donation_panel.DonationTests.test_theme_changes_preserve_exact_case_and_network_labels": "passed",
+        "test_donation_panel.DonationTests.test_title_link_is_plain_and_explicitly_activated": "passed"
+      },
+      "source_sha256": "4dbf09e17b4087c36d38440672d79bd1c2f366adbffbdc5e770dd05d3f247bbb"
+    },
+    {
+      "edition": "Full",
+      "module": "test_gui_polish",
+      "run": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_gui_polish.PolishTests.test_help_heading_follows_theme_without_reloading_topic": "passed",
+        "test_gui_polish.PolishTests.test_help_uses_welcome_asset_and_real_partial_alpha": "passed",
+        "test_gui_polish.PolishTests.test_hover_does_not_restore_previous_theme": "passed",
+        "test_gui_polish.PolishTests.test_numeric_field_and_slider_share_valid_values_without_clobbering_invalid_text": "passed",
+        "test_gui_polish.PolishTests.test_slider_arrows_follow_step_and_respect_disabled_state": "passed",
+        "test_gui_polish.PolishTests.test_watermark_updates_theme_hides_for_sheets_and_uses_one_timer": "passed",
+        "test_gui_polish.WindowRegionTests.test_child_scroll_events_do_not_schedule_window_region_rebuild": "passed",
+        "test_gui_polish.WindowRegionTests.test_same_shape_is_reused_and_resize_maximize_still_updates": "passed"
+      },
+      "source_sha256": "846dca9e57535e8774dacc91901ed3cbb2da9644b635f5f61b3ff097b581eb53"
+    },
+    {
+      "edition": "Full",
+      "module": "test_gui_stop_contract",
+      "run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_gui_stop_contract.StopContractTests.test_argument_mention_not_ownership": "passed",
+        "test_gui_stop_contract.StopContractTests.test_explicit_owned_powershell_file": "passed",
+        "test_gui_stop_contract.StopContractTests.test_failed_inventory_cannot_report_clean_shutdown": "passed",
+        "test_gui_stop_contract.StopContractTests.test_owned_child_path": "passed",
+        "test_gui_stop_contract.StopContractTests.test_prefix_sibling_not_owned": "passed",
+        "test_gui_stop_contract.StopContractTests.test_unknown_identity_not_owned": "passed"
+      },
+      "source_sha256": "a38e0e50c02d88255e88902a6c858eaee412715fda80af7dcda3bbdcef24b799"
+    },
+    {
+      "edition": "Full",
+      "module": "test_gui_maintenance",
+      "run": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "cases": {
+        "test_gui_maintenance.MaintenanceTests.test_cache_named_link_cannot_delete_models": "skipped: Host does not allow creating test symlinks",
+        "test_gui_maintenance.MaintenanceTests.test_changed_cleanup_candidate_is_preserved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cleanup_only_allowlisted_bytecode": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_data_cleanup_scope_leaves_settings_and_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_failed_report_remains_failed_when_reopened": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_forged_cleanup_candidate_refused": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_hardlinks_not_counted_as_separate_duplicate_storage": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_missing_model_is_not_saved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_model_save_preserves_new_fields_and_reserves": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_old_report_never_assumed_success": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_report_key_cannot_escape": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_leaves_user_assets_and_current_instructions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_requires_verified_baseline": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_samples_do_not_prove_equality": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_stop_cancels_a_late_startup_helper": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_timeout_replaces_stale_success": "passed"
+      },
+      "source_sha256": "959719cde7845254433fbb046ae2c4db5f8a2160c66560421f75cca14ea1dd85"
+    },
+    {
+      "edition": "Full",
+      "module": "test_account_presentation_tk",
+      "run": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_account_presentation_tk.AccountPresentationTests.test_account_buttons_do_not_inherit_move_cursor": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_drag_and_resize_keep_panel_inside_launcher": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_light_dark_theme_reaches_panel_inputs_and_border": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_lock_covers_private_root_and_preserves_internal_progress": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_login_wrong_then_correct_waits_for_ready_workspace": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_nested_member_panel_stays_inside_root_and_includes_pending": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_progress_coalesces_and_cannot_delay_terminal_result": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_retained_login_keeps_shell_and_releases_only_after_main_ready": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_startup_close_and_escape_refuse_busy_nested_worker": "passed"
+      },
+      "source_sha256": "836dc550fcc4ef1168e8c30c09b85cc7c7c8f566e5211dc33897b4f53640e13c"
+    },
+    {
+      "edition": "Academic",
+      "module": "test_donation_panel",
+      "run": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_donation_panel.DonationTests.test_crypto_viewports_preserve_every_module_pixel_and_white_margin": "passed",
+        "test_donation_panel.DonationTests.test_each_qr_and_button_copy_exact_destination": "passed",
+        "test_donation_panel.DonationTests.test_grid_reflows_and_never_extends_beyond_page_width": "passed",
+        "test_donation_panel.DonationTests.test_navigation_uses_title_link_without_a_donation_tab_button": "passed",
+        "test_donation_panel.DonationTests.test_sponsor_opens_only_the_public_profile_on_click": "passed",
+        "test_donation_panel.DonationTests.test_theme_changes_preserve_exact_case_and_network_labels": "passed",
+        "test_donation_panel.DonationTests.test_title_link_is_plain_and_explicitly_activated": "passed"
+      },
+      "source_sha256": "4dbf09e17b4087c36d38440672d79bd1c2f366adbffbdc5e770dd05d3f247bbb"
+    },
+    {
+      "edition": "Academic",
+      "module": "test_gui_polish",
+      "run": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_gui_polish.PolishTests.test_help_heading_follows_theme_without_reloading_topic": "passed",
+        "test_gui_polish.PolishTests.test_help_uses_welcome_asset_and_real_partial_alpha": "passed",
+        "test_gui_polish.PolishTests.test_hover_does_not_restore_previous_theme": "passed",
+        "test_gui_polish.PolishTests.test_numeric_field_and_slider_share_valid_values_without_clobbering_invalid_text": "passed",
+        "test_gui_polish.PolishTests.test_slider_arrows_follow_step_and_respect_disabled_state": "passed",
+        "test_gui_polish.PolishTests.test_watermark_updates_theme_hides_for_sheets_and_uses_one_timer": "passed",
+        "test_gui_polish.WindowRegionTests.test_child_scroll_events_do_not_schedule_window_region_rebuild": "passed",
+        "test_gui_polish.WindowRegionTests.test_same_shape_is_reused_and_resize_maximize_still_updates": "passed"
+      },
+      "source_sha256": "846dca9e57535e8774dacc91901ed3cbb2da9644b635f5f61b3ff097b581eb53"
+    },
+    {
+      "edition": "Academic",
+      "module": "test_gui_stop_contract",
+      "run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_gui_stop_contract.StopContractTests.test_argument_mention_not_ownership": "passed",
+        "test_gui_stop_contract.StopContractTests.test_explicit_owned_powershell_file": "passed",
+        "test_gui_stop_contract.StopContractTests.test_failed_inventory_cannot_report_clean_shutdown": "passed",
+        "test_gui_stop_contract.StopContractTests.test_owned_child_path": "passed",
+        "test_gui_stop_contract.StopContractTests.test_prefix_sibling_not_owned": "passed",
+        "test_gui_stop_contract.StopContractTests.test_unknown_identity_not_owned": "passed"
+      },
+      "source_sha256": "a38e0e50c02d88255e88902a6c858eaee412715fda80af7dcda3bbdcef24b799"
+    },
+    {
+      "edition": "Academic",
+      "module": "test_gui_maintenance",
+      "run": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "cases": {
+        "test_gui_maintenance.MaintenanceTests.test_cache_named_link_cannot_delete_models": "skipped: Host does not allow creating test symlinks",
+        "test_gui_maintenance.MaintenanceTests.test_changed_cleanup_candidate_is_preserved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_cleanup_only_allowlisted_bytecode": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_data_cleanup_scope_leaves_settings_and_missions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_failed_report_remains_failed_when_reopened": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_forged_cleanup_candidate_refused": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_hardlinks_not_counted_as_separate_duplicate_storage": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_missing_model_is_not_saved": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_model_save_preserves_new_fields_and_reserves": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_old_report_never_assumed_success": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_report_key_cannot_escape": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_leaves_user_assets_and_current_instructions": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_root_archive_requires_verified_baseline": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_samples_do_not_prove_equality": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_stop_cancels_a_late_startup_helper": "passed",
+        "test_gui_maintenance.MaintenanceTests.test_timeout_replaces_stale_success": "passed"
+      },
+      "source_sha256": "959719cde7845254433fbb046ae2c4db5f8a2160c66560421f75cca14ea1dd85"
+    },
+    {
+      "edition": "Academic",
+      "module": "test_account_presentation_tk",
+      "run": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": {
+        "test_account_presentation_tk.AccountPresentationTests.test_account_buttons_do_not_inherit_move_cursor": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_drag_and_resize_keep_panel_inside_launcher": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_light_dark_theme_reaches_panel_inputs_and_border": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_lock_covers_private_root_and_preserves_internal_progress": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_login_wrong_then_correct_waits_for_ready_workspace": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_nested_member_panel_stays_inside_root_and_includes_pending": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_progress_coalesces_and_cannot_delay_terminal_result": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_retained_login_keeps_shell_and_releases_only_after_main_ready": "passed",
+        "test_account_presentation_tk.AccountPresentationTests.test_startup_close_and_escape_refuse_busy_nested_worker": "passed"
+      },
+      "source_sha256": "836dc550fcc4ef1168e8c30c09b85cc7c7c8f566e5211dc33897b4f53640e13c"
+    }
+  ],
+  "gui": [
+    {
+      "edition": "Full",
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 6491630,
+        "hwnd": 397914,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 6491630,
+        "hwnd": 397914,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Workspace verified; opening PortalAI...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": true,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "panel_text_width": 1126,
+          "text_measured_pixels": 1029,
+          "wraplength": 1126,
+          "description_height": 22,
+          "one_line_at_default": true,
+          "ornate_branding_loaded": true,
+          "release": "Portal\u2009AI Control Center 2026.10.24-r17",
+          "welcome_sponsor_removed": true,
+          "donation_sponsor_retained": true
+        },
+        "dark": {
+          "panel_text_width": 1126,
+          "text_measured_pixels": 1029,
+          "wraplength": 1126,
+          "description_height": 22,
+          "one_line_at_default": true,
+          "ornate_branding_loaded": true,
+          "release": "Portal\u2009AI Control Center 2026.10.24-r17",
+          "welcome_sponsor_removed": true,
+          "donation_sponsor_retained": true
+        },
+        "narrow": {
+          "panel_text_width": 826,
+          "description_height": 38,
+          "responsive_wrap": true
+        }
+      }
+    },
+    {
+      "edition": "Academic",
+      "passed": true,
+      "production_accounts_opened": false,
+      "model_services_started": false,
+      "one_native_window": true,
+      "initial": {
+        "tk_id": 5704520,
+        "hwnd": 332704,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "final": {
+        "tk_id": 5704520,
+        "hwnd": 332704,
+        "caption": false,
+        "override": true,
+        "geometry": "1260x820+1290+670"
+      },
+      "root_remap_events": [],
+      "wrong_password_rejected": true,
+      "busy_chrome_close_refused": true,
+      "progress": "Verifying the restored working files...",
+      "private_ui_after_ready": [
+        "settings",
+        "chat"
+      ],
+      "login_retained_until_main_ready": 1,
+      "six_controls": true,
+      "final_close_verified_sealed": true,
+      "stored_theme": "light",
+      "corner_theme_roundtrip": true,
+      "login_chrome_drag": true,
+      "shutdown_backdrop": true,
+      "shutdown_last_page": "controls",
+      "chat_settings_rendered": false,
+      "presentation": {
+        "light": {
+          "panel_text_width": 1126,
+          "text_measured_pixels": 1029,
+          "wraplength": 1126,
+          "description_height": 22,
+          "one_line_at_default": true,
+          "ornate_branding_loaded": true,
+          "release": "Portal\u2009AI Control Center 2026.10.24-r17",
+          "welcome_sponsor_removed": true,
+          "donation_sponsor_retained": true
+        },
+        "dark": {
+          "panel_text_width": 1126,
+          "text_measured_pixels": 1029,
+          "wraplength": 1126,
+          "description_height": 22,
+          "one_line_at_default": true,
+          "ornate_branding_loaded": true,
+          "release": "Portal\u2009AI Control Center 2026.10.24-r17",
+          "welcome_sponsor_removed": true,
+          "donation_sponsor_retained": true
+        },
+        "narrow": {
+          "panel_text_width": 826,
+          "description_height": 38,
+          "responsive_wrap": true
+        }
+      }
+    }
+  ],
+  "sources": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "78dee32b3a79c1a8a59c5a2bbf86d9651e0657a085cdc6dac4f0ea9538257734",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "78dee32b3a79c1a8a59c5a2bbf86d9651e0657a085cdc6dac4f0ea9538257734",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "78dee32b3a79c1a8a59c5a2bbf86d9651e0657a085cdc6dac4f0ea9538257734",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "e7e854effb0ddc50a05fb38aad9ef1d20cf015399309827cfa5be0d2c1a19be9",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "e7e854effb0ddc50a05fb38aad9ef1d20cf015399309827cfa5be0d2c1a19be9",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "files": {
+        "ControlCenter/PortableAI_GUI.py": "78dee32b3a79c1a8a59c5a2bbf86d9651e0657a085cdc6dac4f0ea9538257734",
+        "ControlCenter/release_version.py": "9dd92a689f48c72f99775949ad391fc188a8478f0301db9a4faefe0c81d5387b",
+        "Documentation/Donations_20261022.txt": "a3f72fa21392774893cc2e1f017c5791034f9b3591f7dd08097241b1be4dd146"
+      }
+    }
+  ],
+  "checks_run": 92,
+  "production_accounts_used": false,
+  "original_branding_and_donation_page_unchanged": true,
+  "physical_linux_macos_tested": false,
+  "physical_aoostar_tested": false,
+  "fixture_notes": [
+    "The disposable login helper hook was aligned with the existing r11 unconditional account gate; no shipped lifecycle code was changed."
+  ],
+  "changes": [
+    "Welcome description explains program capabilities.",
+    "Introduction follows panel width and wraps in smaller windows.",
+    "Redundant Welcome sponsor removed; banner Donate and Donation Sponsors retained.",
+    "Displayed distribution version is stamped by the builder and verified against package manifests."
+  ],
+  "packages": [
+    {
+      "edition": "Full",
+      "platform": "Windows",
+      "archive_sha256": "cc498be7ceaf5901c70b9876bd90bbfe484aa8f84272de85c59f851c5cc41c92",
+      "payload_files": 5050,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Linux",
+      "archive_sha256": "ff4a99a2bca452de5bd4a8146688cf0582d6aed04905a050ed5668ffd67069a2",
+      "payload_files": 4528,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Full",
+      "platform": "Mac",
+      "archive_sha256": "88e179fa144aa3f87160d0c79ad230ee70433b0a8692a1a4be988415c9510fcf",
+      "payload_files": 2187,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "archive_sha256": "b2dfc612220e04562ac9aba3d1057109b798504e832e7b980eb5beec1b275526",
+      "payload_files": 4694,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "archive_sha256": "9ee8fd247ea5668875d03a3024f5425f8cbdca9a8b23eb86cec729d88de4b953",
+      "payload_files": 4518,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "archive_sha256": "e93b811f7428f587b5c0e6f02801dc6b1fd24c1d4df08a04a6b21007b5216a22",
+      "payload_files": 2177,
+      "source_files_verified": 3,
+      "displayed_release_matches_manifest": true,
+      "upstream_pins_unchanged": true,
+      "outer_package_verified": true
+    }
+  ],
+  "windows_installer_forms_and_academic_pins_verified": true
+}

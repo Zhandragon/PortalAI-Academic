@@ -57,6 +57,7 @@ from elegant_ui import (
 )
 from pathlib import Path
 from portable_runtime import bootstrap_python
+from release_version import RELEASE_VERSION
 from runtime_health import qwen_health
 from tkinter.scrolledtext import ScrolledText
 from urllib.parse import urlparse
@@ -1191,7 +1192,7 @@ def main(authenticated=None):
     maintenance_tab = _make_tab_page("maintenance", scrollable=True)
     help_tab = _make_tab_page("help", scrollable=False)
     donation_tab = _make_tab_page("donation", scrollable=True)
-    from donation_panel import DonationPanel, sponsor_button
+    from donation_panel import DonationPanel
 
     # PORTABLEAI_TAB_BRANDING_v15_134D
     # place() overlays never participate in pack/grid geometry, so these badges do
@@ -1273,7 +1274,7 @@ def main(authenticated=None):
             "ray_v": gem.create_line(81, 3, 81, 46, fill=COLORS["gold_shine"], width=2),
             "ray_h": gem.create_line(57, 25, 105, 25, fill=COLORS["border"], width=2),
         }
-    version_lbl = label(deco, "Portal\u2009AI Control Center v15.138o", 9, fg=COLORS["muted"])
+    version_lbl = label(deco, f"Portal\u2009AI Control Center {RELEASE_VERSION}", 9, fg=COLORS["muted"])
     version_lbl.pack(anchor="e", pady=(0, 3))
 
     welcome_note = tk.Frame(welcome_shell, bg=COLORS["panel"], highlightthickness=0)
@@ -1283,14 +1284,13 @@ def main(authenticated=None):
     # PORTALAI_WELCOME_NOTE_FILIGREE_v15_136
     label(welcome_note, display_caps("Welcome to Portal AI"), 13, bold=True).pack(fill="x", padx=16, pady=(14, 3))
     welcome_note_sep = install_separator(welcome_note, COLORS, height=8)
-    label(
+    welcome_description = label(
         welcome_note,
-        "PortalAI Native Chat is the primary frontend. Use the tabs above for lifecycle controls, chat, live activity/GPU telemetry, runtime state, installed capabilities, and generalized maintenance.",
-        9, fg=COLORS["muted"], wraplength=900, justify="left",
-    ).pack(fill="x", padx=14, pady=(0, 12))
-
-    welcome_sponsor_button = sponsor_button(welcome_note, COLORS)
-    welcome_sponsor_button.pack(anchor="w", padx=14, pady=(0,12))
+        "PortalAI is a portable AI platform that runs on your own computer. Chat with local models, create images, video and audio, use scientific tools, and automate ongoing tasks with persistent missions.",
+        9, fg=COLORS["muted"], justify="left",
+    )
+    welcome_description.pack(fill="x", padx=14, pady=(0, 12))
+    bind_responsive_wrap(welcome_description, padding=28, minimum=120)
 
     # PORTABLEAI_BRAND_IDENTITY_v15_131_HERO
     # The Welcome tab deliberately gives the emblem the remaining vertical space.
