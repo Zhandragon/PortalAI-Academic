@@ -1,0 +1,174 @@
+{
+  "release": "v2026.10.25-Aoostar-r45",
+  "edition": "Academic",
+  "review_date": "2026-10-26",
+  "host": "Windows x64",
+  "handoff_manifest_members_verified": 1379,
+  "original_handoff_sha256": "41968812cc98d98c1fa2c0fdf6133e9bd489e7d15b4d6a525e99665e14dd2a6e",
+  "application_suites": [
+    {
+      "variant": "Academic-Windows",
+      "passed": true,
+      "summary": [
+        "RESULT 85 0 0 0"
+      ],
+      "modules": [
+        "test_native_controls_registration",
+        "test_native_workflow_guards",
+        "test_web_search_evidence",
+        "test_portable_update",
+        "test_account_setup_bootstrap",
+        "test_reviewed_account_setup",
+        "test_fresh_install_accounts",
+        "test_public_bootstrap",
+        "test_account_gate",
+        "test_record_refresh_integration",
+        "test_installer_upgrade"
+      ]
+    },
+    {
+      "variant": "Academic-Linux",
+      "passed": true,
+      "summary": [
+        "RESULT 81 0 0 0"
+      ],
+      "modules": [
+        "test_native_controls_registration",
+        "test_native_workflow_guards",
+        "test_web_search_evidence",
+        "test_portable_update",
+        "test_account_setup_bootstrap",
+        "test_reviewed_account_setup",
+        "test_fresh_install_accounts",
+        "test_public_bootstrap",
+        "test_account_gate",
+        "test_record_refresh_integration"
+      ]
+    },
+    {
+      "variant": "Academic-Mac",
+      "passed": true,
+      "summary": [
+        "RESULT 81 0 0 0"
+      ],
+      "modules": [
+        "test_native_controls_registration",
+        "test_native_workflow_guards",
+        "test_web_search_evidence",
+        "test_portable_update",
+        "test_account_setup_bootstrap",
+        "test_reviewed_account_setup",
+        "test_fresh_install_accounts",
+        "test_public_bootstrap",
+        "test_account_gate",
+        "test_record_refresh_integration"
+      ]
+    }
+  ],
+  "all_six_variants_tests_passed": 566,
+  "universal_tests": {
+    "run": 17,
+    "passed": 16,
+    "skipped_inapplicable_workflow": 1
+  },
+  "mac_prerequisite_fixture_tests": 9,
+  "windows_installer": {
+    "edition": "Academic",
+    "storage_plan_loaded": true,
+    "resources": [
+      "python-bootstrap.zip",
+      "installer_core.py",
+      "engine_cli.py",
+      "installer_storage.py",
+      "portable_update.py",
+      "storage-plan.json"
+    ],
+    "resources_verified": true
+  },
+  "academic_bootstrap_prepare_only_checks": [
+    {
+      "platform": "Windows",
+      "prepare_only": true,
+      "cached_archive": true,
+      "verified_files": 9,
+      "passed": true
+    },
+    {
+      "platform": "Linux",
+      "prepare_only": true,
+      "cached_archive": true,
+      "verified_files": 1399,
+      "passed": true
+    },
+    {
+      "platform": "Mac",
+      "prepare_only": true,
+      "cached_archive": true,
+      "verified_files": 2022,
+      "passed": true
+    }
+  ],
+  "source_audit": {
+    "edition": "Academic",
+    "changed_and_added_files": 702,
+    "parsed_python_files": 387,
+    "largest_changed_file_bytes": 1756632,
+    "packaged_application_bytes_match": true,
+    "secret_pattern_scan_passed": true,
+    "historical_packages_preserved": true
+  },
+  "assets": [
+    {
+      "name": "PortalAI-Academic-Windows-Installer-20261025-Aoostar-r45-unified.zip",
+      "bytes": 545249134,
+      "sha256": "706e14ce1bf23dcf50ee32ac5f066e81ab2125165bb592a0cf65f68a4568709f"
+    },
+    {
+      "name": "PortalAI-Academic-Linux-Installer-20261025-Aoostar-r45-unified.tar.gz",
+      "bytes": 593099935,
+      "sha256": "83883a9a1485c64171d7b3a2d8f083ca4c23db08fbd94ab6fcdd5c86bc9abdb6"
+    },
+    {
+      "name": "PortalAI-Academic-Mac-Installer-20261025-Aoostar-r45-unified.tar.gz",
+      "bytes": 670762654,
+      "sha256": "de056776ab71fe755765e4915555e347221e2abb2a65cdbed38591a49a31a26f"
+    },
+    {
+      "name": "PortalAI-Academic-Universal-Setup-20261025-Aoostar-r45.zip",
+      "bytes": 7129,
+      "sha256": "ae61a18a62d5d64e7017974c4150cad0fc00bd53acfe0362dc8e1cb3457bd1de"
+    },
+    {
+      "name": "PortalAI-Academic-Windows-Setup.exe",
+      "bytes": 35328,
+      "sha256": "5c42521fea7f1c965edff091f775fe27821cb8471d8a56832fcde96f366c438f"
+    },
+    {
+      "name": "PortalAI-Academic-Linux-Setup.sh",
+      "bytes": 223016,
+      "sha256": "9c18273a274b952a239084cba009d608c12d65ce6e350fac64f94850672f5b49"
+    },
+    {
+      "name": "PortalAI-Academic-Mac-Setup.zip",
+      "bytes": 105577,
+      "sha256": "3e7b386dc16f92f9a0bc038da1ec3600ce658b29b011140a2168ed4bf76846fb"
+    }
+  ],
+  "corrections": [
+    "Rebuilt Windows executables with current engine, update helper and storage plan",
+    "Academic universal Windows launcher uses its edition-specific filename",
+    "Private Full universal setup directs approved users to browser downloads",
+    "Refreshed all complete-archive and bootstrap/universal pins"
+  ],
+  "test_environment": "Disposable source fixtures with Windows embedded bootstrap Python and existing Codex runtime account cryptography. Linux/Mac source tests ran on Windows, not native hosts. Academic native downloaders were exercised under Git Bash in prepare-only mode with verified cached archives.",
+  "reported_by_handoff_not_repeated_here": {
+    "application_tests": 1016,
+    "companion_tests": 165
+  },
+  "physical_Linux_tested": false,
+  "native_Mac_tested": false,
+  "clean_recipient_installation_tested": false,
+  "live_GPU_inference_tested": false,
+  "installed_accounts_or_models_modified": false,
+  "cleanup_performed": false
+}

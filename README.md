@@ -48,7 +48,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-24 r17):** Welcome now describes PortalAI, uses the available panel width, and displays the current distribution version. The redundant Welcome sponsor button is removed; Donate and its page remain. [Changes and validation](Documentation/WELCOME-20261024-r17.md).
+**Latest update (2026-10-25 r45):** Unified application fixes, version-aware upgrades, account recovery, and a fourth universal setup option. [Changes, upgrade instructions and validation](Documentation/UNIFIED-20261025-r45.md).
 
 **Web-search update (2026-10-24 r16):** Native web search and saved source evidence are repaired. Search results retain links and snippets; help is clearly distinguished from findings. Existing account guards, Academic policy and UI styling are preserved. [Changes and validation](Documentation/WEB-SEARCH-20261024-r16.md).
 
@@ -76,7 +76,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 | --- | --- |
 | Windows x64 | .NET Framework 4.5 or later (included in Windows 10/11); a compatible graphics driver for GPU acceleration. For NVIDIA image/video generation, meet the CUDA 13 requirement above. |
 | Linux x86-64 | glibc 2.28+, Bash, curl, tar and a SHA-256 utility. The optional NVIDIA PyTorch media layer uses **CUDA 12.8** and needs a compatible NVIDIA GPU and driver. |
-| macOS, Apple silicon / Intel | Bash, curl, tar, a SHA-256 utility, **CMake and Xcode Metal build tools**. The installer builds the Metal chat backend locally; CUDA is not required. |
+| macOS, Apple silicon / Intel | Bash, curl, tar, a SHA-256 utility, **Apple developer/Metal build tools**; setup supplies pinned portable CMake and offers Apple-managed prerequisites with consent. The installer builds the Metal chat backend locally; CUDA is not required. |
 | CPU or Vulkan chat | CUDA is not required. Vulkan acceleration needs a compatible GPU and Vulkan-capable graphics driver; CPU chat remains available. |
 
 **Setup supplies Python and the selected runtime libraries and models**, using bundled files or verified downloads. A separate system Python or CUDA Toolkit installation is normally unnecessary for the supplied runtimes; custom source builds or extensions may need additional development tools. Install GPU drivers through the operating system or GPU vendor. Internet is needed during setup, and available RAM/VRAM must fit the selected models and workflows. The installer checks destination disk space separately.
@@ -111,13 +111,19 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 <a id="setup"></a>
 
-Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
+Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. For an existing installation, use the explicit update workflow described below.
 
 The first stage downloads approximately 545 MB (Windows), 593 MB (Linux), or 671 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
 
-Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
+Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer supplies pinned portable CMake and offers Apple-managed Xcode/Metal prerequisites with consent; Apple dialogs may require a later rerun. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 
 The original Academic restrictions and platform requirements are described in [the build documentation](Documentation/README.txt). These launchers reconstruct their pinned release archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
+
+### Universal setup and updates
+
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45/PortalAI-Academic-Universal-Setup-20261025-Aoostar-r45.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+
+**Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 
 ## A look inside
 

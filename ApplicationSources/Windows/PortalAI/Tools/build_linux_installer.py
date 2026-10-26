@@ -22,7 +22,7 @@ LLAMA = ROOT / "LLM/backends/linux-cpu"
 QEMU = ROOT / "Runtime/QEMU/linux-x64"
 QEMU_RECEIPT = ROOT / "Maintenance/Imports/linux-x64-payload.json"
 PYTHON_RECEIPT = ROOT / "Maintenance/Imports/linux-python.json"
-INSTALLER_RECEIPT = "PortalAI/Maintenance/Imports/linux-clean-installer-r13.json"
+INSTALLER_RECEIPT = "PortalAI/Maintenance/Imports/linux-clean-installer-r14.json"
 LAUNCHER = ROOT / "Runtime/LinuxPython/run-python"
 BLOCKED_SUFFIXES = {
     ".exe", ".dll", ".pyd", ".cmd", ".bat", ".ps1", ".msi", ".lnk",
@@ -212,7 +212,11 @@ def code_payload_entries(source: Path, source_sha: str, release: str,
                 skipped += 1
                 continue
             name = rel.as_posix()
-            if name in {"PortalAI/README.md", "PortalAI/Documentation/Linux_Clean_Installer_20261017.txt", "PortalAI/Documentation/Mac_Compatibility_Review_20261017.txt"}:
+            # These explicit local overlays may also be present in a newer
+            # Windows source release. Include their current bytes exactly once.
+            if name in {"PortalAI/README.md",
+                        "PortalAI/Documentation/Linux_Clean_Installer_20261017.txt",
+                        "PortalAI/Documentation/Mac_Compatibility_Review_20261017.txt"}:
                 skipped += 1
                 continue
             if name.startswith(BLOCKED_PREFIXES):
@@ -266,7 +270,7 @@ def code_payload_entries(source: Path, source_sha: str, release: str,
         entries.append((name,path,path.stat().st_size,0o755 if path.name in ('node','patchelf') else 0o644))
         seen.add(name)
     receipt = {
-        "installer_release": "PortalAI-2026.10.19-Linux-x86_64-r13",
+        "installer_release": "PortalAI-2026.10.19-Linux-x86_64-r14",
         "source_release": release,
         "source_payload_sha256": source_sha,
         "platform": "Linux x86-64; glibc >= 2.28",
@@ -288,7 +292,7 @@ def verify_bundle(bundle_path: Path) -> dict:
     with tarfile.open(bundle_path, "r:gz") as outer:
         members = outer.getmembers()
         files = {}
-        prefix = "PortalAI-Linux-Clean-Installer-r13/"
+        prefix = "PortalAI-Linux-Clean-Installer-r14/"
         for member in members:
             rel = safe_relative(member.name)
             if not member.isfile() or member.issym() or member.islnk():
@@ -303,9 +307,9 @@ def verify_bundle(bundle_path: Path) -> dict:
         def read(name: str) -> bytes:
             return outer.extractfile(files[name]).read()
         install_text = read("install.sh").decode("utf-8")
-        if 'INSTALL_PARENT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd -P)' not in install_text or \
-                'DEST="${1:-$SCRIPT_DIR/PortalAI Linux}"' not in install_text:
-            raise RuntimeError("Linux installer no longer defaults beside its package")
+        if 'SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)' not in install_text or \
+                'DEST="${1:-${PORTALAI_INSTALL_DIR:-$SCRIPT_DIR/PortalAI Linux}}"' not in install_text:
+            raise RuntimeError("Linux installer no longer defaults inside its script folder")
         if ".portalai-exec-check." not in install_text:
             raise RuntimeError("Linux installer is missing the executable-filesystem preflight")
         manifest = json.loads(read("manifest.json"))
@@ -353,7 +357,7 @@ def verify_bundle(bundle_path: Path) -> dict:
                 "PortalAI/LLM/backends/linux-cpu/llama-server",
                 "PortalAI/Maintenance/Imports/linux-python.json",
                 "PortalAI/Maintenance/Imports/linux-x64-payload.json",
-                "PortalAI/Maintenance/Imports/linux-clean-installer-r13.json",
+                "PortalAI/Maintenance/Imports/linux-clean-installer-r14.json",
                 "PortalAI/Documentation/Linux_Clean_Installer_20261017.txt",
                 "PortalAI/Documentation/Mac_Compatibility_Review_20261017.txt",
             )
@@ -361,12 +365,12 @@ def verify_bundle(bundle_path: Path) -> dict:
             if missing:
                 raise RuntimeError("Required Linux payload files are missing: " + ", ".join(missing))
             readme = payload.extractfile(payload_files["PortalAI/README.md"]).read().decode("utf-8")
-            if "beside" not in readme or "NTFS" not in readme:
+            if "installer's own folder" not in readme or "NTFS" not in readme:
                 raise RuntimeError("Linux app README does not describe portable install placement")
             py_receipt = json.loads(payload.extractfile(
                 payload_files["PortalAI/Maintenance/Imports/linux-python.json"]).read())
             package_receipt = json.loads(payload.extractfile(
-                payload_files["PortalAI/Maintenance/Imports/linux-clean-installer-r13.json"]).read())
+                payload_files["PortalAI/Maintenance/Imports/linux-clean-installer-r14.json"]).read())
             qemu_receipt = json.loads(payload.extractfile(
                 payload_files["PortalAI/Maintenance/Imports/linux-x64-payload.json"]).read())
             backend_rows = package_receipt["cpu_backend_files"]
@@ -448,7 +452,7 @@ def build(options) -> dict:
         backend_files, qemu_files, ROOT / "Tools/install_linux_clean.py")
     base = Path(options.output_dir).resolve()
     base.mkdir(parents=True, exist_ok=True)
-    package_name = "PortalAI-Linux-Clean-Installer-20261019-r13-x86_64.tar.gz"
+    package_name = "PortalAI-Linux-Clean-Installer-20261019-r14-x86_64.tar.gz"
     output_file = base / package_name
     checksum = base / (package_name + ".sha256")
     sidecars = [base / "manifest.json", base / "README.txt", base / "SHA256SUMS"]
@@ -476,7 +480,7 @@ def build(options) -> dict:
         payload_hash, python_hash = sha_file(payload), sha_file(python_tar)
         manifest = {
             "schema": 1,
-            "release": "PortalAI-2026.10.19-Linux-x86_64-r13",
+            "release": "PortalAI-2026.10.19-Linux-x86_64-r14",
             "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
             "platform": "Linux x86-64, glibc >= 2.28",
             "built_utc": datetime.now(timezone.utc).isoformat(),
@@ -514,7 +518,7 @@ def build(options) -> dict:
         installer_script = (installer_source / "install.sh").read_bytes()
 
 
-        bundle_dir = "PortalAI-Linux-Clean-Installer-r13"
+        bundle_dir = "PortalAI-Linux-Clean-Installer-r14"
         bundle_entries = [
             (bundle_dir + "/install.sh", installer_script, len(installer_script), 0o755),
             (bundle_dir + "/README.txt", readme, len(readme), 0o644),

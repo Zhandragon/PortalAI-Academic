@@ -195,11 +195,53 @@ def _linux_snapshot():
     return out
 
 
+def _mac_snapshot(root):
+    """Inventory this user's Mac processes for account sealing.
+
+    Shutdown is allowed only when each selected worker belongs to a dedicated,
+    PortalAI-rooted process group. This deliberately refuses a PID-only fallback.
+    """
+    packages = Path(root) / 'Runtime/MacPackages/gui'
+    if packages.is_dir() and str(packages) not in sys.path:
+        sys.path.insert(0, str(packages))
+    try:
+        import psutil
+    except ImportError as exc:
+        raise QuiescenceError('macOS process inspection package is missing') from exc
+    out = {}
+    for proc in psutil.process_iter():
+        try:
+            pid = int(proc.pid)
+            if pid <= 1:
+                continue
+            uid = int(proc.uids().real)
+            if uid != os.getuid():
+                continue
+            created = float(proc.create_time())
+            executable = str(Path(proc.exe()).resolve())
+            argv = proc.cmdline()
+            ppid = int(proc.ppid())
+            group = int(os.getpgid(pid))
+        except (psutil.NoSuchProcess, ProcessLookupError):
+            continue
+        except (psutil.AccessDenied, OSError, ValueError, TypeError) as exc:
+            raise QuiescenceError('Cannot establish complete macOS process ownership') from exc
+        identity = {'pid': pid, 'create_time': created, 'uid': uid,
+                    'executable': executable, 'argv': argv, 'process_group': group}
+        out[pid] = {**identity, 'identity': identity, 'ppid': ppid,
+                    'start': int(created * 1_000_000), 'group': group}
+    if os.getpid() not in out:
+        raise QuiescenceError('The controller is missing from the macOS process inventory')
+    return out
+
+
 def _snapshot():
     if os.name == 'nt':
         return _windows_snapshot()
     if sys.platform.startswith('linux'):
         return _linux_snapshot()
+    if sys.platform == 'darwin':
+        return _mac_snapshot(Path(__file__).resolve().parents[1])
     raise QuiescenceError('Profile process quiescence is not supported on this platform')
 
 
@@ -371,12 +413,35 @@ def _linux_plan(root, rows, selected):
     return sorted(jobs,key=str),outside
 
 
+def _mac_plan(root, rows, selected):
+    groups = {}
+    for row in selected.values():
+        group = int(row['group'])
+        leader = rows.get(group)
+        if (leader is None or int(leader['group']) != group or
+                not _contained(root, leader.get('executable'))):
+            raise QuiescenceError('A selected macOS worker escaped its owned process group')
+        groups[group] = leader
+    return groups
+
+
 def _stop_batch(root, rows, selected):
     if os.name == 'nt':
         # Stop controllers before descendants so they cannot launch new workers.
         ordered=sorted(selected.values(),key=lambda row:row['start'])
         for row in ordered:
             _windows_stop(row,root)
+        return
+    if sys.platform == 'darwin':
+        from macos_process import stop
+        for group, leader in sorted(_mac_plan(root, rows, selected).items(),
+                                    key=lambda item: item[1]['start']):
+            if int(leader['pid']) != group:
+                raise QuiescenceError('macOS worker group leader identity is inconsistent')
+            try:
+                stop(leader['identity'], root)
+            except (FileNotFoundError, ProcessLookupError):
+                pass
         return
     from linux_job import destroy
     from linux_process import stop
@@ -428,8 +493,10 @@ def stop_owned(root, session, marker):
             time.sleep(.1)
             continue
         empty=0
-        if os.name != 'nt':
+        if sys.platform.startswith('linux'):
             _linux_plan(root,rows,selected)  # Preflight before changing lifecycle state.
+        elif sys.platform == 'darwin':
+            _mac_plan(root,rows,selected)
         if not fenced:
             _fence(root);fenced=True
         _validate(root,session,marker)

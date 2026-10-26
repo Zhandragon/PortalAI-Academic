@@ -19,7 +19,7 @@ import wave
 from runtime_policy import ROOT, GIB, atomic_json, portable_env, require_space
 from mission_runner import process_lock
 from mission_supervisor import WorkerJob
-from platform_runtime import python_path
+from platform_runtime import python_path, worker_process_options
 from tts_policy import tts_plan, validate_text
 
 
@@ -68,7 +68,8 @@ def synthesize(text, language="English", output=None, root=ROOT, stop=None):
             with logpath.open("wb") as log:
                 proc = subprocess.Popen([str(python_path(root)), "-B", str(root/"Agent/piper_worker.py"),
                     "--request", str(request), "--output", str(part)], cwd=root, env=env,
-                    stdin=subprocess.DEVNULL, stdout=log, stderr=log, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                    stdin=subprocess.DEVNULL, stdout=log, stderr=log, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                    **worker_process_options())
                 job = WorkerJob(proc)
                 job.limit_memory(2*GIB)
                 atomic_json(request, {"text": text, "language": language, "staging_output": part.relative_to(root).as_posix(), "worker_pid": proc.pid})

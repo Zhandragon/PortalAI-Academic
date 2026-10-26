@@ -31,33 +31,21 @@ if [[ "$(id -u)" == "0" ]]; then
   echo "Run this installer as your regular Mac user, not with sudo." >&2
   exit 2
 fi
-if ! xcode-select -p >/dev/null 2>&1; then
-  echo "Apple Command Line Tools are required. Run: xcode-select --install" >&2
-  exit 2
-fi
-if ! command -v xcrun >/dev/null 2>&1 || ! xcrun -f metal >/dev/null 2>&1; then
-  echo "The Apple Metal shader compiler is unavailable. Install Xcode with its Metal toolchain and rerun." >&2
-  exit 2
-fi
-if ! command -v cmake >/dev/null 2>&1; then
-  echo "CMake is required to compile the Metal inference backend." >&2
-  if command -v brew >/dev/null 2>&1; then
-    echo "Install it with: brew install cmake" >&2
-  else
-    echo "Install CMake from https://cmake.org/download/ and rerun this installer." >&2
-  fi
-  exit 2
-fi
 
 INSTALL_PARENT="$(dirname -- "$SELF_DIR")"
 DEST="${1:-$SELF_DIR/PortalAI Academic Mac}"
 case "$DEST" in
   /|"$HOME"|"$HOME/") echo "Choose a dedicated PortalAI install directory." >&2; exit 2 ;;
 esac
-if [[ -e "$DEST" || -L "$DEST" ]]; then
-  echo "Install destination already exists; no files were replaced: $DEST" >&2
-  exit 2
+UPGRADE=0
+case "${2:-}" in ""|--upgrade) ;; *) echo "Use an optional --upgrade after the destination." >&2; exit 2;; esac
+if [ -L "$DEST" ]; then echo "Linked destinations are not supported." >&2; exit 2; fi
+if [ -e "$DEST" ]; then
+  if [ ! -f "$DEST/ControlCenter/control_center_bootstrap.py" ]; then echo "Destination is not a PortalAI installation." >&2; exit 2; fi
+  UPGRADE=1
+elif [ "${2:-}" = --upgrade ]; then echo "No existing PortalAI installation was found." >&2; exit 2
 fi
+KEEP_STAGE=0
 PARENT="$(dirname -- "$DEST")"
 mkdir -p "$PARENT"
 case "$ARCH" in
@@ -81,6 +69,7 @@ portal_stage 1 'Verifying package checksums'
 (cd "$SELF_DIR" && shasum -a 256 -c SHA256SUMS)
 STAGE="$(mktemp -d "$PARENT/.portalai-macos-install.XXXXXX")"
 cleanup() {
+  if [ "$KEEP_STAGE" = 1 ]; then echo "Update/recovery staging retained: $STAGE"; return; fi
   if [[ -n "${STAGE:-}" && -d "$STAGE" ]]; then rm -rf -- "$STAGE"; fi
 }
 trap cleanup EXIT INT TERM
@@ -103,19 +92,38 @@ if ! "$PYTHON" -I -c 'import platform,sys,tkinter; assert sys.version_info[:2] =
 fi
 "$PYTHON" -B -I -c 'import sys; from pathlib import Path; root=Path(sys.argv[1]); sys.path.insert(0,str(root/"Agent")); from runtime_policy import require_space; require_space(root,8*1024**3)' "$ROOT"
 
+if [ "$UPGRADE" = 1 ]; then
+  "$PYTHON" -B -I "$ROOT/Tools/installer_update.py" --source "$ROOT" --target "$DEST" --contract "$SELF_DIR/upgrade.json"
+  if [ "${2:-}" != --upgrade ]; then
+    echo "Version check complete. Run this installer with the same destination followed by --upgrade to apply the update."
+    exit 0
+  fi
+fi
+
+# Downloads run only after package verification and the version check.
+source "$SELF_DIR/mac-prerequisites.sh"
+if portalai_mac_prerequisites "$PYTHON" "$ROOT" "$SELF_DIR"; then
+  :
+else
+  status=$?
+  KEEP_STAGE=1
+  echo "Prerequisite work is retained at: $ROOT"
+  exit "$status"
+fi
+
 portal_stage 4 'Preparing model engine build'
 mkdir -p "$STAGE/llama-source" "$STAGE/llama-build"
 tar -xzf "$SELF_DIR/llama.cpp-source.tar.gz" --strip-components=1 -C "$STAGE/llama-source"
 JOBS="${PORTALAI_BUILD_JOBS:-2}"
 if [[ ! "$JOBS" =~ ^[1-8]$ ]]; then echo "PORTALAI_BUILD_JOBS must be an integer from 1 to 8." >&2; exit 2; fi
 PREFIX="$ROOT/LLM/backends/macos-metal"
-cmake -S "$STAGE/llama-source" -B "$STAGE/llama-build" \
+"$CMAKE_EXECUTABLE" -S "$STAGE/llama-source" -B "$STAGE/llama-build" \
   -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" \
   -DGGML_METAL=ON -DGGML_NATIVE=ON -DLLAMA_BUILD_SERVER=ON \
   -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF
 portal_stage 5 'Building model engine'
-cmake --build "$STAGE/llama-build" --target llama-server --parallel "$JOBS"
-cmake --install "$STAGE/llama-build"
+"$CMAKE_EXECUTABLE" --build "$STAGE/llama-build" --target llama-server --parallel "$JOBS"
+"$CMAKE_EXECUTABLE" --install "$STAGE/llama-build"
 if [[ ! -x "$PREFIX/bin/llama-server" ]]; then
   echo "llama.cpp did not install the expected llama-server executable." >&2
   exit 1
@@ -171,6 +179,13 @@ PY
 
 portal_stage 8 'Creating verified recovery backups'
 "$PYTHON" -B -I "$ROOT/Tools/repair_executables.py" --seed-fresh-native-install
+
+if [ "$UPGRADE" = 1 ]; then
+  KEEP_STAGE=1
+  "$PYTHON" -B -I "$ROOT/Tools/installer_update.py" --source "$ROOT" --target "$DEST" --contract "$SELF_DIR/upgrade.json" --apply
+  portal_stage 10 'Update verified; existing accounts and settings preserved'
+  exit 0
+fi
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2

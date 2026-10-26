@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "version": "2026.10.25-Aoostar-r45",
+  "edition": "Academic",
+  "platform": "Mac",
+  "compatible_versions": [
+    "2026.10.25-Aoostar-r43",
+    "2026.10.25-Aoostar-r44",
+    "2026.10.24-r17",
+    "2026.10.25-Standardized-r1"
+  ],
+  "legacy_fingerprints": [
+    {
+      "version": "PortalAI-2026.10.24-r14-Academic-Mac",
+      "files": {
+        "Agent/profile_workspace.py": "71e3ffdbd60daa71a41b8464aa3acf8ea12b43baa70ee2f4c58f6b2566856ff6",
+        "Agent/runtime_policy.py": "b74c76b7809bf527c0b12b56857ce8046415e6c5b62c3de9245a680875897017",
+        "ControlCenter/PortableAI_GUI.py": "7a88e400ec74f8bc99cea04f7c8ed8c1180ec4b20500b7b44a496d82d5a3daae"
+      },
+      "payload_sha256": "1887672fbf05c78c035e40b2587b9061960f682e136313d16892d3a777ab13f2"
+    }
+  ],
+  "preserve_existing_settings": true,
+  "account_schema_migration": false
+}

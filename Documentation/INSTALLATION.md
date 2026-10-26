@@ -52,11 +52,11 @@ Use the download links above, or the file page's **Download raw file** button. Y
 
 ## Destination, space and prerequisites
 
-Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Existing application folders are not overwritten.
+Choose a new setup folder on the drive where PortalAI should live. Windows installs under that folder's `installer/PortalAI Windows`; Linux and Mac install in `PortalAI Academic Linux` or `PortalAI Academic Mac` beneath the chosen setup folder. Use the explicit update workflow below for an existing application.
 
-The first stage downloads approximately 339 MB (Windows), 593 MB (Linux), or 671 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
+The first stage downloads approximately 545 MB (Windows), 593 MB (Linux), or 671 MB (Mac). The full installers then fetch their pinned runtime/model dependencies; actual storage and download requirements are larger. Keep the setup folder on a drive with sufficient space. Verified downloads are reused if setup is run again.
 
-Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer retains its existing Xcode/Metal toolchain and CMake requirements. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
+Windows needs .NET Framework 4.5 or later, included in Windows 10/11. Linux and Mac need Bash, curl, tar, and a SHA-256 utility, usually supplied by the operating system. No host Python installation is needed. The Mac installer supplies pinned portable CMake and offers Apple-managed developer/Metal prerequisites with consent; a rerun may be necessary. These installers are unsigned; macOS or Windows may require the normal user approval to open a downloaded application. Do not disable OS security protections.
 
 The original Academic restrictions and platform requirements are described in [the build documentation](README.txt). These launchers reconstruct their pinned release archives byte-for-byte. They only automate download, verification, reconstruction, extraction and installer startup.
 
@@ -78,3 +78,23 @@ The current installers include web tools, collaborating agents and configurable 
 
 
 Windows r4 installers include the original checksum-pinned QEMU and SoX archives. Setup reads and verifies these bundled files without contacting their expired-certificate download endpoints. The package is self-contained for these two dependencies; it does not depend on the maintainer's computer. Other components still require downloads. Linux already includes verified native QEMU files. macOS does not include PortalAI VM transport and does not download this Windows QEMU artifact. HTTPS verification remains enabled.
+
+## Updating an existing installation
+
+Download the complete installer for the same edition and operating system from [this release](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.10.25-Aoostar-r45). Keep its files together in a new setup folder. Exit PortalAI normally and wait until accounts are sealed and owned processes have stopped.
+
+- Windows: open the extracted installer, choose **Update existing**, and select the existing application folder. Review its detected old and new versions.
+- Linux: run `sh install.sh "/absolute/path/to/existing/PortalAI" --upgrade`.
+- Mac: run `bash install-macos.sh "/absolute/path/to/existing/PortalAI" --upgrade`.
+
+The Unix installers inspect an existing destination without changing application files when `--upgrade` is omitted. The small Academic Linux/Mac downloaders prepare new installations; use the complete native installers above for upgrades.
+
+Updates preserve accounts, encrypted work, settings and unselected model/runtime assets. Changed public files receive verified recovery copies; interrupted updates block normal startup until recovery. Keep those recovery copies. Downgrades, edition/platform changes, unidentified legacy installs, open or unsealed accounts, and conflicting recovery state are refused. Version stamps and reviewed legacy file fingerprints establish compatibility; they do not imply support for every historical installation or an account-format migration.
+
+## Universal preparation
+
+The [universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45/PortalAI-Academic-Universal-Setup-20261025-Aoostar-r45.zip) prepares all three OS installer archives together. Run **Prepare Universal.cmd** on Windows, **Prepare Universal.command** on Mac, or `bash prepare-universal.sh` on Linux. Each OS then completes its own native installation. This preparation bundle is not a preinstalled offline application shared across operating systems.
+
+Academic downloads the pinned archives automatically. Already downloaded matching archives can be placed in **Packages** and verified offline; native setup may still fetch dependencies.
+
+Stock macOS normally cannot write NTFS. Choose a writable destination suitable for each native runtime; universal preparation does not format drives or provide filesystem drivers.

@@ -82,6 +82,8 @@ from portal_frontend_v15136 import (
 def main(authenticated=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", required=True)
+    ap.add_argument("--account-setup", help="Import a user setup JSON after normal authenticated sign-in")
+    ap.add_argument("--account-setup-receipt", help="Optional new file for the sanitized setup receipt")
     ns = ap.parse_args()
     root = Path(ns.root).resolve()
 
@@ -2740,9 +2742,11 @@ def main(authenticated=None):
         from effort_policy import load_preferences as load_effort_preferences
         saved_effort = load_effort_preferences(root)
         cfg=current_policy["policy"];budget=current_policy["storage"]
-        from mission_runner import Missions
-        from mission_monitor import armed_status
-        armed = armed_status(Missions(root))
+        from mission_runner import Missions, ACTIVE
+        from mission_supervisor import read_policy
+        mission_store=Missions(root)
+        armed=[m["id"] for m in mission_store.list() if not m.get("parent") and m["status"] in ACTIVE and read_policy(mission_store,m["id"]).get("enabled")]
+        if private_path(root, "Data/Missions/supervisor.stop").exists(): armed=[]
         runtime_models={
             "policy":[f"Selection: {cfg.get('selection')} / {cfg.get('backend')} / context ≤ {cfg.get('context_tokens')}",
                       f"Free {budget['free_bytes']/1024**3:.1f} GiB; output reserve {budget['output_reserve_bytes']/1024**3:.0f} GiB; floor {budget['minimum_free_bytes']/1024**3:.1f} GiB"],
@@ -4299,6 +4303,9 @@ def main(authenticated=None):
     app.update_idletasks()
     app._portalai_main_ready = True
     if account_gate is not None: account_gate.application_ready()
+    if ns.account_setup and authenticated is None:
+        from account_setup_ui import show_setup
+        app.after(300,lambda:show_setup(account_gate,ns.account_setup,apply_requested=True,receipt_path=ns.account_setup_receipt))
     try:
         from native_ui_state import install as install_native_ui_state
         install_native_ui_state(app, root, account_gate, native_chat_panel, settings_page)

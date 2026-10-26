@@ -1,0 +1,21 @@
+{
+  "window": "121801d613a151bd2726f53f40ba1352",
+  "capture": [
+    800,
+    600
+  ],
+  "done": true,
+  "entry": "Outbound encrypted projection 42",
+  "button": true,
+  "return_key": true,
+  "resize": [
+    650,
+    480
+  ],
+  "passed": true,
+  "synthetic_only": true,
+  "real_outbound_https": true,
+  "no_ha_credentials": true,
+  "real_tk_input": true,
+  "ha_green_deployment": false
+}

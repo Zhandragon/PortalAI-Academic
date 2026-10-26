@@ -1,0 +1,428 @@
+{
+  "Springs, rope and pulley": {
+    "title": "Mechanisms: springs, rope and ideal pulley",
+    "air_density": 0,
+    "objects": [
+      {
+        "id": "spring_anchor",
+        "name": "spring anchor",
+        "position": [
+          -5,
+          8,
+          0
+        ],
+        "mass": 0,
+        "size": [
+          0.4,
+          0.4,
+          0.4
+        ]
+      },
+      {
+        "id": "spring_mass",
+        "name": "spring mass",
+        "position": [
+          -5,
+          5,
+          0
+        ],
+        "mass": 2,
+        "color": "#e9b75f"
+      },
+      {
+        "id": "rope_anchor",
+        "name": "rope anchor",
+        "position": [
+          0,
+          8,
+          0
+        ],
+        "mass": 0,
+        "size": [
+          0.4,
+          0.4,
+          0.4
+        ]
+      },
+      {
+        "id": "pendulum",
+        "name": "pendulum",
+        "position": [
+          2,
+          5,
+          0
+        ],
+        "mass": 2,
+        "shape": "sphere",
+        "size": [
+          0.7,
+          0.7,
+          0.7
+        ],
+        "color": "#77d8a6"
+      },
+      {
+        "id": "pulley_light",
+        "name": "pulley light",
+        "position": [
+          4,
+          5,
+          0
+        ],
+        "mass": 1,
+        "color": "#64b9ed"
+      },
+      {
+        "id": "pulley_heavy",
+        "name": "pulley heavy",
+        "position": [
+          7,
+          5,
+          0
+        ],
+        "mass": 3,
+        "color": "#c588d8"
+      }
+    ],
+    "connections": [
+      {
+        "id": "spring",
+        "kind": "spring",
+        "a": "spring_anchor",
+        "b": "spring_mass",
+        "length": 2,
+        "stiffness": 20,
+        "damping": 0.5
+      },
+      {
+        "id": "string",
+        "kind": "rope",
+        "a": "rope_anchor",
+        "b": "pendulum",
+        "length": 4,
+        "segments": 10,
+        "mass": 0.2
+      },
+      {
+        "id": "pulley",
+        "kind": "pulley",
+        "a": "pulley_light",
+        "b": "pulley_heavy",
+        "anchor_a": [
+          4,
+          8,
+          0
+        ],
+        "anchor_b": [
+          7,
+          8,
+          0
+        ],
+        "length": 6
+      }
+    ]
+  },
+  "Heat and buoyancy": {
+    "title": "Buoyancy and lumped heat exchange",
+    "objects": [
+      {
+        "id": "floating_wood",
+        "name": "floating wood",
+        "position": [
+          -2,
+          4,
+          0
+        ],
+        "mass": 400,
+        "size": [
+          1,
+          1,
+          1
+        ],
+        "temperature": 80,
+        "heat_capacity": 20000,
+        "color": "#ce9f65"
+      },
+      {
+        "id": "sinking_metal",
+        "name": "sinking metal",
+        "position": [
+          2,
+          4,
+          0
+        ],
+        "mass": 1500,
+        "size": [
+          1,
+          1,
+          1
+        ],
+        "temperature": 150,
+        "heat_capacity": 20000,
+        "color": "#97b6ca"
+      },
+      {
+        "id": "hot",
+        "name": "hot",
+        "position": [
+          -5,
+          1,
+          0
+        ],
+        "mass": 0,
+        "temperature": 200,
+        "heat_capacity": 100,
+        "convection": 0,
+        "color": "#e68152"
+      },
+      {
+        "id": "cold",
+        "name": "cold",
+        "position": [
+          -7,
+          1,
+          0
+        ],
+        "mass": 0,
+        "temperature": 20,
+        "heat_capacity": 300,
+        "color": "#6db6eb"
+      },
+      {
+        "id": "thermal_anchor",
+        "name": "thermal anchor",
+        "position": [
+          -5,
+          1,
+          3
+        ],
+        "mass": 1,
+        "temperature": 20,
+        "heat_capacity": 200,
+        "color": "#7adba4"
+      }
+    ],
+    "connections": [
+      {
+        "id": "thermal_link",
+        "a": "hot",
+        "b": "thermal_anchor",
+        "kind": "spring",
+        "length": 3,
+        "stiffness": 1,
+        "damping": 0,
+        "conductance": 30
+      }
+    ],
+    "liquids": [
+      {
+        "position": [
+          0,
+          1.5,
+          0
+        ],
+        "size": [
+          7,
+          3,
+          5
+        ],
+        "density": 1000,
+        "drag": 4,
+        "temperature": 20,
+        "heat_transfer": 1000
+      }
+    ]
+  },
+  "Liquid particles": {
+    "title": "Bounded SPH liquid particles (demonstration)",
+    "restitution": 0,
+    "objects": [
+      {
+        "id": "tank_left",
+        "name": "tank left",
+        "position": [
+          -1.8,
+          1.3,
+          0
+        ],
+        "mass": 0,
+        "size": [
+          0.2,
+          2.6,
+          3.8
+        ],
+        "color": "#677d89"
+      },
+      {
+        "id": "tank_right",
+        "name": "tank right",
+        "position": [
+          1.8,
+          1.3,
+          0
+        ],
+        "mass": 0,
+        "size": [
+          0.2,
+          2.6,
+          3.8
+        ],
+        "color": "#677d89"
+      },
+      {
+        "id": "tank_back",
+        "name": "tank back",
+        "position": [
+          0,
+          1.3,
+          -1.8
+        ],
+        "mass": 0,
+        "size": [
+          3.8,
+          2.6,
+          0.2
+        ],
+        "color": "#677d89"
+      },
+      {
+        "id": "tank_front",
+        "name": "tank front",
+        "position": [
+          0,
+          0.25,
+          1.8
+        ],
+        "mass": 0,
+        "size": [
+          3.8,
+          0.5,
+          0.2
+        ],
+        "color": "#677d89"
+      },
+      {
+        "id": "obstacle",
+        "name": "obstacle",
+        "position": [
+          0,
+          0.3,
+          0
+        ],
+        "mass": 0,
+        "size": [
+          0.8,
+          0.6,
+          0.8
+        ],
+        "color": "#deb66e"
+      }
+    ],
+    "fluids": [
+      {
+        "position": [
+          0,
+          1.9,
+          0
+        ],
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "spacing": 0.35,
+        "sound_speed": 2,
+        "viscosity": 0.03
+      }
+    ]
+  },
+  "Wind, fire and breakage": {
+    "title": "Wind, finite-fuel fire, pre-cut breakage and visual particles",
+    "wind": [
+      3,
+      0,
+      0
+    ],
+    "objects": [
+      {
+        "id": "falling_breakable",
+        "name": "falling breakable",
+        "position": [
+          -3,
+          6,
+          0
+        ],
+        "mass": 4,
+        "size": [
+          1.5,
+          1.5,
+          1.5
+        ],
+        "break_speed": 3,
+        "color": "#dfa56e"
+      },
+      {
+        "id": "fuel_block",
+        "name": "fuel block",
+        "position": [
+          0,
+          0.5,
+          0
+        ],
+        "mass": 5,
+        "fuel_j": 30000,
+        "burn_w": 2000,
+        "temperature": 260,
+        "heat_capacity": 500,
+        "ignition_c": 250,
+        "color": "#c88759"
+      },
+      {
+        "id": "heated_neighbor",
+        "name": "heated neighbor",
+        "position": [
+          1.8,
+          0.5,
+          0
+        ],
+        "mass": 5,
+        "heat_capacity": 500,
+        "color": "#cc8c6a"
+      },
+      {
+        "id": "wind_ball",
+        "name": "wind ball",
+        "position": [
+          4,
+          2,
+          0
+        ],
+        "mass": 0.2,
+        "shape": "sphere",
+        "size": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "color": "#8dd7d4"
+      }
+    ],
+    "emitters": [
+      {
+        "position": [
+          -4,
+          1,
+          2
+        ],
+        "velocity": [
+          0,
+          3,
+          0
+        ],
+        "rate": 15,
+        "kind": "sparks",
+        "lifetime": 2
+      }
+    ]
+  }
+}

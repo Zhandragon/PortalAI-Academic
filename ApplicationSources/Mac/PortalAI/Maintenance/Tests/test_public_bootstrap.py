@@ -17,11 +17,10 @@ class PublicBootstrapTests(unittest.TestCase):
     def test_default_launch_unchanged(self):
         self.assertEqual(bootstrap.gui_arguments(ROOT,[]),[str(ROOT/'ControlCenter/PortableAI_GUI.py'),'--root',str(ROOT)])
 
-    def test_one_off_mission_import_is_not_a_public_startup_option(self):
-        for flag in ('--account-setup','--account-setup-receipt'):
-            with self.subTest(flag=flag),contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit) as exc:
-                bootstrap.gui_arguments(ROOT,[flag,'synthetic-request.json'])
-            self.assertEqual(exc.exception.code,2)
+    def test_explicit_import_is_forwarded_through_normal_bootstrap(self):
+        result=bootstrap.gui_arguments(ROOT,['--account-setup','synthetic-request.json'])
+        self.assertEqual(result[:3],[str(ROOT/'ControlCenter/PortableAI_GUI.py'),'--root',str(ROOT)])
+        self.assertEqual(result[3:],['--account-setup','synthetic-request.json'])
 
     def test_receipt_requires_setup_and_unknown_arguments_fail(self):
         for arguments in (['--account-setup-receipt','receipt.json'],['--root','elsewhere'],['--account-setup']):

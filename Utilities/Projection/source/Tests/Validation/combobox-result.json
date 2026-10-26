@@ -1,0 +1,23 @@
+{
+  "classes": [
+    [
+      "TkTopLevel",
+      143,
+      52
+    ],
+    [
+      "TkTopLevel",
+      700,
+      450
+    ]
+  ],
+  "popup_size": [
+    143,
+    52
+  ],
+  "auto_selected_popup": true,
+  "done": true,
+  "value": "Fixture second",
+  "passed": true,
+  "synthetic_only": true
+}

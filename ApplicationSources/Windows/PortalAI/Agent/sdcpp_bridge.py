@@ -21,7 +21,7 @@ from runtime_policy import ROOT, GIB, atomic_json, portable_env, portable_path, 
 from runtime_policy import memory_info
 from mission_runner import process_lock
 from mission_supervisor import WorkerJob
-from platform_runtime import python_path
+from platform_runtime import python_path, worker_process_options
 
 REVISION = "f89d9b13d730eabeede7314ce49dacd18d3c90c2"
 
@@ -196,7 +196,8 @@ def run_generation(plan, build_command, validate, *, root=ROOT, timeout=900, kin
             with logpath.open("wb") as log:
                 proc = subprocess.Popen([str(python_path(root)), "-B", "-I",
                     str(root/"Agent/sdcpp_worker.py"), str(request)], cwd=root, env=worker_env,
-                    stdin=subprocess.DEVNULL, stdout=log, stderr=log, creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+                    stdin=subprocess.DEVNULL, stdout=log, stderr=log, creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0),
+                    **worker_process_options())
                 job = WorkerJob(proc)
                 if plan.get('max_memory_bytes'): job.limit_memory(plan['max_memory_bytes'])
                 atomic_json(request, {**request_body, "worker_pid": proc.pid})

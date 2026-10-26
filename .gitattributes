@@ -4,5 +4,6 @@
 
 # Preserve exact packaged source bytes for archive/source verification.
 ApplicationSources/** -text
+InstallerSources/** -text
 Utilities/Projection/source/** -text
 Utilities/Projection/Mac-HA-Setup/** -text

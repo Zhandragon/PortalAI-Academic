@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "synthetic_only": true,
+  "network_requests": 0,
+  "production_accounts_opened": false,
+  "encrypted_create_unlock_edit_password_change": true,
+  "wrong_password_rejected": true
+}

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "version": "2026.10.25-Aoostar-r45",
+  "edition": "Academic",
+  "goal": "Prepare all three OS installers on one drive; perform native setup on each OS",
+  "download_base_configured": true,
+  "assets": [
+    {
+      "platform": "Windows",
+      "file": "PortalAI-Academic-Windows-Installer-20261025-Aoostar-r45-unified.zip",
+      "bytes": 545249134,
+      "sha256": "706e14ce1bf23dcf50ee32ac5f066e81ab2125165bb592a0cf65f68a4568709f",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45/PortalAI-Academic-Windows-Installer-20261025-Aoostar-r45-unified.zip"
+    },
+    {
+      "platform": "Linux",
+      "file": "PortalAI-Academic-Linux-Installer-20261025-Aoostar-r45-unified.tar.gz",
+      "bytes": 593099935,
+      "sha256": "83883a9a1485c64171d7b3a2d8f083ca4c23db08fbd94ab6fcdd5c86bc9abdb6",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45/PortalAI-Academic-Linux-Installer-20261025-Aoostar-r45-unified.tar.gz"
+    },
+    {
+      "platform": "Mac",
+      "file": "PortalAI-Academic-Mac-Installer-20261025-Aoostar-r45-unified.tar.gz",
+      "bytes": 670762654,
+      "sha256": "de056776ab71fe755765e4915555e347221e2abb2a65cdbed38591a49a31a26f",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45/PortalAI-Academic-Mac-Installer-20261025-Aoostar-r45-unified.tar.gz"
+    }
+  ],
+  "private_release": false
+}

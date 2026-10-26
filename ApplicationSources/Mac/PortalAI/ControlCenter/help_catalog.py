@@ -239,7 +239,16 @@ TOPICS = {'quick_start': {'title': 'Quick start',
            'aliases': ['comfyui', 'flux', 'wan', 'vace'],
            'body': 'ComfyUI is the on-demand graph runtime used for local image and several '
                    'video-generation/editing workflows. PortalAI manages its lifecycle and GPU handoff rather '
-                   'than requiring it to remain loaded continuously.',
+                   'than requiring it to remain loaded continuously. Failed jobs retain bounded node, '
+                   'exception and traceback details in the saved tool result. Known host-buffer errors '
+                   'identify model-weight transfer failures; they do not establish image corruption or '
+                   'the underlying driver, memory or model-file cause. These diagnostics do not retry '
+                   'jobs. On Windows/NVIDIA, startup also checks available Windows memory backing '
+                   '(commit), which can run low even when physical RAM is free. Under pressure, '
+                   'ComfyUI leaves more GPU memory free and avoids the pinned host cache; generation '
+                   'may be slower. If the remaining budget is too small it reports why. Radeon, CPU '
+                   'and Linux settings are unchanged. Requested frames, size and steps are preserved. '
+                   'See Comfy_Commit_Aoostar_Integration_20261018.txt.',
            'category': 'Images, video and audio'},
  'ace': {'title': 'ACE-Step',
          'aliases': ['ace step', 'ace-step', 'music generation'],
@@ -260,7 +269,10 @@ TOPICS = {'quick_start': {'title': 'Quick start',
               'aliases': ['musetalk', 'dialogue', 'lip sync', 'lip-sync'],
               'body': 'MuseTalk drives local visible-speech lip synchronization. PortalAI routes '
                       'dialogue-video jobs through it when a visible speaker needs mouth motion aligned to '
-                      'audio.',
+                      'audio. dialogue-video supports 0.2..120-second timelines: --duration sets the final length, '
+                      '--dialogue-start places natural speech, and --motion-plan defines timed action beats. '
+                      'Speech must fit without cutting or stretching. Motion and lip sync run in bounded '
+                      'segments; generated quality still depends on the models. See Dialogue_Timing_20261018.txt.',
               'category': 'Images, video and audio'},
  'mmaudio': {'title': 'MMAudio / SFX',
              'aliases': ['mmaudio', 'sfx', 'foley'],
@@ -308,7 +320,10 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                   'contains shortcuts to Accounts, Chat, Runtime, Models, Packages, Settings, Persistence, '
                   'Maintenance, Help, Startup, System Test, reports, theme switching, Stop, and Exit. Click '
                   'outside, Escape or changing foreground apps dismisses the menu. Tray commands are queued '
-                  'back to the Tk thread rather than executed from the Win32 callback thread.',
+                  'back to the Tk thread rather than executed from the Win32 callback thread. The titlebar '
+                  'minus button minimizes to the taskbar; Minimize to tray hides the window behind its '
+                  'notification icon. Neither action stops chat or the Projection connection. Windows '
+                  'minimizing is queued through the native event loop to preserve Explorer file drops.',
           'category': 'Getting started'},
  'settings': {'title': 'Settings · chat and media',
               'aliases': ['settings', 'model selection', 'hardware'],
@@ -344,10 +359,22 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                               'Display & auto memory. Save settings and Cancel remain visible on every tab. '
                               'Effort changes are staged until Save and affect the next request; Cancel '
                               'discards them. The composer slider and its details button use the same effort '
-                              'policy. Continuation remains bounded and Stop cancels it. The gold-bordered '
+                              'policy. Tools & limits sets individual tool calls per request: zero is unlimited; '
+                              'a positive limit gets a final answer after the budget is reached. Effort does '
+                              'not override that choice. Completed exchanges roll into working checkpoints '
+                              'while exact saved history stays available; continuation reuses saved action '
+                              'evidence. Nice can request a task checkpoint and continue the same active request with '
+                              'a fresh cycle. Tools & limits controls checkpoints without new tool results (default '
+                              'four, zero unlimited); repeated identical idle notes still stop. Checkpoints never '
+                              'reset the tool-call budget. Incomplete emergency summaries use bounded excerpts of '
+                              'saved notes with history references. Model context stays bounded and Stop cancels work. The gold-bordered '
                               'Save settings and Cancel controls stay fixed while you switch tabs. Gold '
                               'sliders support arrow keys; reserve fields also accept typed values and '
-                              'increment arrows.',
+                              'increment arrows. Chat instructions uses a compact PortalAI guide by default at every '
+                              'context size. Custom instructions and saved media preferences still apply. '
+                              'Include full reference manual is an optional setting that consumes more context; '
+                              'small models retain the compact guide. Known tools need no preliminary help '
+                              'lookup; repeated discovery gets a syntax reminder without executing anything.',
                       'category': 'Chat, history and vision'},
  'maintenance': {'title': 'Maintenance',
                  'category': 'Diagnostics and maintenance',

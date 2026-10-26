@@ -1,0 +1,51 @@
+{
+  "receiver": "D:\\PortalAI-Projection\\HomeAssistant\\portalai-projection-receiver-0.3.0.zip",
+  "receiver_sha256": "4ead76c0969deb575a0049b4fdac8b932e3ecd597570a1b43c508ed5ee28d7be",
+  "receiver_files": 9,
+  "owned_python_parsed": 24,
+  "runtime_files_verified": 3345,
+  "runtime_bytes": 231764216,
+  "root_source_snapshot": {
+    "path": "D:\\PortalAI\\Maintenance\\Patches\\Projection_final_20261012_162828\\source.zip",
+    "files": 34,
+    "sha256": "e8ad39371bf4529fd69e89056e942168850d265513b0fb624dfd795c06f58e11"
+  },
+  "module_source_snapshot": {
+    "path": "D:\\PortalAI-Projection\\Recovery\\Source_20261012_162950\\source.zip",
+    "files": 41,
+    "sha256": "bfa50c4660210c1b0e133cc9d58a8832e9848dc1ccd9cd52b07ab1765992b9d5"
+  },
+  "historical_receiver_notice": "receiver fields above describe the October 12 source snapshot; use current_ha_setup for installation",
+  "current_ha_setup": {
+    "version": "0.5.11",
+    "recovery": "0.1.0",
+    "distribution_revision": "portable-1",
+    "installer": "../PortalAI HA Setup/Install PortalAI HA.cmd",
+    "payload": "../PortalAI HA Setup/Setup Files/HomeAssistant",
+    "compatibility_notes": "Handoffs/HA-0.5.11/README.txt"
+  },
+  "host_upload_update": {
+    "date": "2026-10-15",
+    "native_file_upload_protocol": 2,
+    "native_ui_protocol": 1,
+    "maximum_raw_chunk_bytes": 1048576,
+    "maximum_file_bytes": 20971520,
+    "restart_required_after_install": true,
+    "evidence": "Handoffs/HA-0.5.7/INSTALLED.txt"
+  },
+  "host_attachment_update": {
+    "date": "2026-10-16",
+    "native_chat_attachment_protocol": 1,
+    "explicit_pending_attachment_opt_in": true,
+    "account_dialog_guard_preserved": true,
+    "normal_restart_required_after_install": true,
+    "evidence": "Handoffs/HA-0.5.9/INSTALLED.txt"
+  },
+  "host_history_preview_update": {
+    "version": "0.5.11",
+    "rich_preview_protocol": 1,
+    "native_ui_protocol": 1,
+    "included_in_clean_install": true,
+    "normal_restart_required_for_existing_host": true
+  }
+}

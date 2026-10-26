@@ -1,0 +1,47 @@
+[
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\bridge.json",
+    "bytes": 82,
+    "sha256": "7ecb8d016cc3de1edb45a9f95d81c82b5742df467a7a712030d44b6c936f3495"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\bridge.lock",
+    "bytes": 1,
+    "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\ca.crt",
+    "bytes": 570,
+    "sha256": "55b0d841a9e38a5c2b7d19388c582e3ab2946e7aaf679acccf505ff0d6028b56"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\client.crt",
+    "bytes": 554,
+    "sha256": "776f5af2dadfce690472de14c6adbcaf76b13c4e05f6f161860c457136a31957"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\client.key",
+    "bytes": 241,
+    "sha256": "219a66c3ce0ab3bdff221621d03e0f2bc3fa8f1c6a74da159f2a41fa15e280a9"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\server.crt",
+    "bytes": 579,
+    "sha256": "e5cbaadc8660dd234c5a356290ddadcd0c6b0731fcfe9ac370df6105a8f5ca1d"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\server.key",
+    "bytes": 241,
+    "sha256": "5b123ffaead4bb0ba8d84fcd175ff5b8ce156a2756a6a366f1d773b12971455f"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\transfer-to-ha\\portalai-ha-code.zip",
+    "bytes": 9879,
+    "sha256": "9ce928e0cff57a980462a5ccd4bbdbaeb2c9e42ba273a9974c3940cfaba16502"
+  },
+  {
+    "path": "D:\\PortalAI\\HomeAssistant\\pairing\\transfer-to-ha\\portalai-ha-PRIVATE-pairing.zip",
+    "bytes": 1462,
+    "sha256": "c6ca851315b8b4dd8ed840ab6c21bf14619383f4d94651388ab2a3d40a42d932"
+  }
+]

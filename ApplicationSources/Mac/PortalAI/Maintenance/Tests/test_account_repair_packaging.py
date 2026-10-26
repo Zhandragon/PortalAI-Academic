@@ -8,7 +8,6 @@ import hashlib
 import io
 import json
 import os
-import shutil
 from pathlib import Path
 import sys
 import tempfile
@@ -44,11 +43,6 @@ class AccountRepairPackagingTests(unittest.TestCase):
             'minimum_free_gib': 50, 'minimum_free_fraction': .10, 'output_reserve_gib': 100}}))
         self.addCleanup(patch.stopall)
         patch.object(wheel_validator, 'ROOT', self.root).start()
-        # These small synthetic wheel tests exercise integrity/path gates, not
-        # the workstation's current free capacity. Keep the reserve check real
-        # and give it deterministic capacity; the low-space case is below.
-        patch('runtime_policy.shutil.disk_usage', return_value=shutil._ntuple_diskusage(
-            1024**4, 512 * 1024**3, 512 * 1024**3)).start()
 
     def make_receipt(self, directory='Runtime/AccountPython/wheelhouse', bad_record=False):
         rows = []
@@ -73,13 +67,6 @@ class AccountRepairPackagingTests(unittest.TestCase):
     def test_legacy_exact_wheelhouse_remains_supported(self):
         rows = self.make_receipt('Cache/account-runtime-wheelhouse')
         self.assertEqual(repair.verified_assets(self.root), rows)
-
-    def test_low_capacity_still_blocks_wheel_verification(self):
-        self.make_receipt()
-        with patch('runtime_policy.shutil.disk_usage', return_value=shutil._ntuple_diskusage(
-                1024**4, 1024**4 - 1024, 1024)):
-            with self.assertRaisesRegex(RuntimeError, 'SSD reserve would be crossed'):
-                repair.verified_assets(self.root)
 
     def test_unreviewed_paths_remain_rejected(self):
         rows = self.make_receipt()

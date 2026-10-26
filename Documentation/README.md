@@ -4,6 +4,8 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
+Current release: [Unified r45, updates and universal preparation](UNIFIED-20261025-r45.md).
+
 | Topic | Guide |
 | --- | --- |
 | Install and launch | [Installation and platform requirements](INSTALLATION.md) |
@@ -26,7 +28,7 @@ Only Windows has been thoroughly tested; Linux has partial validation. macOS ins
 
 [Chat timeline update and current installers](CHAT-TIMELINE-20261022.md).
 
-**Latest update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
+**Earlier update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
 
 
 Current distribution correction: [one-off migration removal](DISTRIBUTION-SCOPE-20261024-r9.md) and [validation](DISTRIBUTION-SCOPE-VALIDATION-20261024-r9.json).

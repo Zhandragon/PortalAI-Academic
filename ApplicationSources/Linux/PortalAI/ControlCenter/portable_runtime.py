@@ -13,10 +13,14 @@ def root_from(start):
 
 def bootstrap_python(root, windowed=False):
     root=Path(root)
-    n='pythonw.exe' if windowed else 'python.exe'
-    p=root/'Runtime'/'BootstrapPython'/n if os.name=='nt' else root/'Runtime/LinuxPython/run-python'
+    if os.name=='nt':
+        n='pythonw.exe' if windowed else 'python.exe'
+        p=root/'Runtime'/'BootstrapPython'/n
+    else:
+        from platform_runtime import python_path
+        p=python_path(root)
     if not p.exists():
-        raise FileNotFoundError('PortableAI BootstrapPython is missing. Restore the verified Runtime/BootstrapPython folder; see Documentation/Portable_Foundation.txt. Historical installers are archived and must not overwrite the current bundle.')
+        raise FileNotFoundError(f'PortableAI bundled Python runtime is missing: {p}. See the platform installer guide in Documentation/.')
     return str(p)
 
 def assert_bootstrap_compatible():

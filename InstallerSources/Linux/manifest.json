@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.24-r17-Academic-Linux",
+  "release": "PortalAI-2026.10.25-Aoostar-r45-unified-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467375182,
-      "sha256": "d540c2fa6ba52f58e7b6b8141c365b5030be66d8be94fa66c8e1bcb69325ed49"
+      "bytes": 467604923,
+      "sha256": "f3a1d9b942e07603c7c32ff4537f711872b4c8bb621963cd10989f032ab3a7ff"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -55,7 +55,7 @@
   "edition": "Academic",
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
-  "supersedes_release": "PortalAI-2026.10.24-r16-Academic-Linux",
+  "supersedes_release": "PortalAI-2026.10.25-Aoostar-r44-versioned-updates-Academic-Linux",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -225,7 +225,7 @@
     "architectures": {
       "x86_64": {
         "base_kib": 15192979,
-        "payload_bytes": 942350889,
+        "payload_bytes": 943021016,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,
@@ -236,11 +236,336 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 180967870,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 4518,
+        "payload_files": 4608,
         "handoff_update_allowance_bytes": 8388608
       }
-    }
+    },
+    "release": "PortalAI-2026.10.25-Aoostar-r45-unified-Academic-Linux"
   },
   "donation_panel": true,
-  "executable_recovery": true
+  "executable_recovery": true,
+  "web_search_repair": {
+    "revision": "Aoostar-r40",
+    "baseline_archive_sha256": "c62fff127428bcb34f667ab9a9406f7c88422a5e06592c5e6269733f4db11df6",
+    "files": [
+      {
+        "path": "Agent/assistant_guidance.py",
+        "baseline_differs": true,
+        "before_sha256": "061cfe773fb7ee917b06ab104c07379d9efbcb330ff1246a26dee0d874d9618d",
+        "after_sha256": "7095b9c1ae1de4c4802ac3e107f0cbef26a2a7b08a3d0539c99dea70f5856fa3"
+      },
+      {
+        "path": "Agent/web_capabilities.py",
+        "baseline_differs": false,
+        "before_sha256": "47a5aeb29df9a28ae0f43f90678a20a15f1e5877c7d7070a8ba2bd5ab4bf4a7f",
+        "after_sha256": "b68dbfdd177181379ce7f6a870bd195ea3065481c67836f558e3aa15232e6aef"
+      },
+      {
+        "path": "ControlCenter/web_tool_api.py",
+        "baseline_differs": false,
+        "before_sha256": "0ef89f5913d6b2b3196e4f521e7200af133b44e38f988352b6497d4f65406d19",
+        "after_sha256": "dbf27f92dd20f195e7e8a3c961819446924a5870b50ddc0a23d967b2578bbfe2"
+      },
+      {
+        "path": "ControlCenter/chat_evidence.py",
+        "baseline_differs": false,
+        "before_sha256": "a2638aa732baebf00a5bff3bb09eacfcddb4469c0b6cf1a0950507576f7d42a5",
+        "after_sha256": "469be250a3e0124143c31df30ba2d805f646ad67fe725d9864dc84bd19148117"
+      },
+      {
+        "path": "ControlCenter/chat_working_memory.py",
+        "baseline_differs": false,
+        "before_sha256": "939c9e1d58642d529447a9f6a17ea7f6ae2f078bf63c0f3275890c4e254c6d0e",
+        "after_sha256": "84d54ca74b79d4285bee7b4bed3019be8a5eb69b1f5d1f4854ecaec06436d40e"
+      },
+      {
+        "path": "ControlCenter/tool_protocol.py",
+        "baseline_differs": false,
+        "before_sha256": "f499ddc43af634cf0a14e09642c4c8336a54f70714f4f5273c523ed4688d5cbc",
+        "after_sha256": "e8aa7268aaec4c1603f1f3c363d72fe8f9b58072b00efc13edd2339bb084e207"
+      },
+      {
+        "path": "PortableAI_Master_Instructions_v45.txt",
+        "baseline_differs": true,
+        "before_sha256": "722b1486b3470e6d5e1f7b96d70c2993f80e62fdd78b23a84e58a9fb489d716c",
+        "after_sha256": "2baf792667b5a97aeed1799c1929ac95b3c2b0e7fa9e549e1e62e4695798d773"
+      }
+    ],
+    "added_files": [
+      "Maintenance/Tests/test_web_search_evidence.py",
+      "Documentation/Web_Search_Evidence_20261024.txt",
+      "Documentation/Web_Search_Installers_20261024.txt"
+    ],
+    "unrelated_payload_members_verified_unchanged": 4502,
+    "raw_history_preserved": true,
+    "account_and_platform_policy_preserved": true,
+    "installed_code_focused_tests": 174,
+    "full_recipient_install_tested": false,
+    "physical_linux_macos_tested": false,
+    "live_nice_answer_tested": false
+  },
+  "web_search_receiving": {
+    "revision": "Aoostar-r41",
+    "baseline_archive_sha256": "ed647e76b903d8c3453638b9b7ecc29f36697e88b19d9d1ad52ca0299156dfb2",
+    "files": [
+      {
+        "path": "Agent/assistant_guidance.py",
+        "baseline_differs": true,
+        "before_sha256": "7095b9c1ae1de4c4802ac3e107f0cbef26a2a7b08a3d0539c99dea70f5856fa3",
+        "after_sha256": "4f849484140634dbe44f661033db2a4a7574d2887781f9ff632b1f4aed5769f5"
+      },
+      {
+        "path": "ControlCenter/chat_evidence.py",
+        "baseline_differs": false,
+        "before_sha256": "469be250a3e0124143c31df30ba2d805f646ad67fe725d9864dc84bd19148117",
+        "after_sha256": "8f264ef952be35bfe463552e718fe17c46129cc8ca62ae216e7b65fdefe049af"
+      },
+      {
+        "path": "ControlCenter/tool_protocol.py",
+        "baseline_differs": false,
+        "before_sha256": "e8aa7268aaec4c1603f1f3c363d72fe8f9b58072b00efc13edd2339bb084e207",
+        "after_sha256": "b3c40fb8d9a25ccc0178e008e6f875558ef996b52d86611bb6863069448dcb14"
+      },
+      {
+        "path": "Maintenance/Tests/test_web_search_evidence.py",
+        "baseline_differs": false,
+        "before_sha256": "a7bff494bf67f5054aee583268c33c5fab81f337a2a96f35296d8b8c93f7cc84",
+        "after_sha256": "8cdb1152149a07205f4f237e6e23cb796b5e8e39074880d693aa6c0cc7686328"
+      }
+    ],
+    "added_files": [
+      "Documentation/Web_Search_Receiving_20261024.txt"
+    ],
+    "unrelated_payload_members_verified_unchanged": 4508,
+    "raw_history_preserved": true,
+    "account_and_platform_policy_preserved": true,
+    "installed_code_focused_tests": 176,
+    "full_recipient_install_tested": false,
+    "physical_linux_macos_tested": false,
+    "live_nice_answer_tested": false
+  },
+  "distribution_version": "2026.10.25-Aoostar-r45",
+  "welcome_cleanup": {
+    "incoming_release": "v2026.10.24-r17",
+    "local_revision": "Aoostar-r42",
+    "baseline_archive_sha256": "ef90feae45e7b00732f1f9a2eac626220f1656b64c48f85fa3e6fe67c4cc6c81",
+    "files": [
+      {
+        "path": "ControlCenter/PortableAI_GUI.py",
+        "baseline_differs": true,
+        "before_sha256": "d748263bd9e41f6193f8fb7eaaa60eb27ac91b4fadf77e72912011a6696f22cf",
+        "after_sha256": "dab8e9a8752cd79cb9f118089566a896dd77eb5811d02f0f94624f941a7baced"
+      }
+    ],
+    "added_files": [
+      "ControlCenter/release_version.py",
+      "Documentation/Donations_20261022.txt",
+      "Documentation/Welcome_Cleanup_20261024.txt"
+    ],
+    "unrelated_payload_members_verified_unchanged": 4511,
+    "account_and_platform_policy_preserved": true,
+    "installed_code_tests": 65,
+    "full_recipient_install_tested": false,
+    "physical_linux_macos_tested": false
+  },
+  "native_controls_registration": {
+    "cause": "local_only_donation_tab_failed_strict_page_audit",
+    "local_revision": "Aoostar-r43",
+    "baseline_archive_sha256": "9a6689e2614c279e965589a919fe838c978572584f2dafa8d3e54bd860385cc7",
+    "files": [
+      {
+        "path": "ControlCenter/native_workflow_launcher.py",
+        "baseline_differs": false,
+        "before_sha256": "cc5b18897851aba4e617ba491e28dc512d82ae974794fd5c4fc5e8660fba6b61",
+        "after_sha256": "b78e9afb4bf175cc0d46aff1aef4a131befd6348965e4ecb6806308ff6357684"
+      }
+    ],
+    "added_files": [
+      "ControlCenter/release_version.py",
+      "Maintenance/Tests/test_native_controls_registration.py",
+      "Documentation/Native_Controls_Registration_20261025.txt"
+    ],
+    "unrelated_payload_members_verified_unchanged": 4513,
+    "account_and_platform_policy_preserved": true,
+    "candidate_code_tests": 136,
+    "media_timing_retry_documented": true,
+    "full_recipient_install_tested": false,
+    "physical_linux_macos_tested": false
+  },
+  "upgrade": {
+    "schema": 1,
+    "version": "2026.10.25-Aoostar-r45",
+    "edition": "Academic",
+    "platform": "Linux",
+    "compatible_versions": [
+      "2026.10.25-Aoostar-r43",
+      "2026.10.25-Aoostar-r44",
+      "2026.10.24-r17",
+      "2026.10.25-Standardized-r1"
+    ],
+    "legacy_fingerprints": [
+      {
+        "version": "PortalAI-2026.10.24-r14-Academic-Linux",
+        "files": {
+          "Agent/profile_workspace.py": "71e3ffdbd60daa71a41b8464aa3acf8ea12b43baa70ee2f4c58f6b2566856ff6",
+          "Agent/runtime_policy.py": "daa8939b35a8f9ba530c9bfb221ffc3b4858b4afcc4a17a602a90aabf6ad2d4e",
+          "ControlCenter/PortableAI_GUI.py": "d748263bd9e41f6193f8fb7eaaa60eb27ac91b4fadf77e72912011a6696f22cf"
+        },
+        "payload_sha256": "8d87f77a1acb4fb812b2342647ad44d53f400294e540e2fd0026cb7de44ab498"
+      }
+    ],
+    "preserve_existing_settings": true,
+    "account_schema_migration": false
+  },
+  "upgrade_validation": {
+    "fixture_tests": 25,
+    "physical_linux_macos": false,
+    "production_upgrade_executed": false
+  },
+  "unification": {
+    "baselines": [
+      "2026.10.25-Aoostar-r43",
+      "2026.10.24-r17"
+    ],
+    "parent_archive_sha256": "b8f57ddc924a02deb0f1fe6a00147407de6ff4705bd86171de295bb8f2d71427",
+    "changed_payload_members": [
+      "PortalAI/Agent/account_runtime.py",
+      "PortalAI/Agent/chat_model_switch.py",
+      "PortalAI/Agent/dialogue_portable.py",
+      "PortalAI/Agent/local_accounts.py",
+      "PortalAI/Agent/mission_accounts.py",
+      "PortalAI/Agent/piper_bridge.py",
+      "PortalAI/Agent/platform_runtime.py",
+      "PortalAI/Agent/profile_shutdown.py",
+      "PortalAI/Agent/runtime_policy.py",
+      "PortalAI/Agent/sdcpp_bridge.py",
+      "PortalAI/Agent/vm_runner.py",
+      "PortalAI/ControlCenter/account_gate.py",
+      "PortalAI/ControlCenter/control_center_bootstrap.py",
+      "PortalAI/ControlCenter/help_catalog.py",
+      "PortalAI/ControlCenter/media_devices.py",
+      "PortalAI/ControlCenter/mission_settings.py",
+      "PortalAI/ControlCenter/native_chat.py",
+      "PortalAI/ControlCenter/native_ui_state.py",
+      "PortalAI/ControlCenter/persistence_page.py",
+      "PortalAI/ControlCenter/portable_runtime.py",
+      "PortalAI/ControlCenter/PortableAI_GUI.py",
+      "PortalAI/ControlCenter/public_welcome.py",
+      "PortalAI/ControlCenter/remote_desktop_input.py",
+      "PortalAI/ControlCenter/schedule_settings.py",
+      "PortalAI/Maintenance/Tests/test_account_repair_packaging.py",
+      "PortalAI/Maintenance/Tests/test_chat_model_switch.py",
+      "PortalAI/Maintenance/Tests/test_chat_selection.py",
+      "PortalAI/Maintenance/Tests/test_chat_task_checkpoint.py",
+      "PortalAI/Maintenance/Tests/test_chat_vision_policy.py",
+      "PortalAI/Maintenance/Tests/test_comfy_commit_policy.py",
+      "PortalAI/Maintenance/Tests/test_image_lookup_limits.py",
+      "PortalAI/Maintenance/Tests/test_persistence_readability_tk.py",
+      "PortalAI/Maintenance/Tests/test_remaining_media_routes.py",
+      "PortalAI/Maintenance/Tests/test_runtime_policy.py",
+      "PortalAI/Tools/build_linux_installer.py",
+      "PortalAI/Tools/build_macos_installer.py",
+      "PortalAI/Tools/diagnostic_catalog.py",
+      "PortalAI/Tools/install_linux_clean.py",
+      "PortalAI/Tools/smoke_login_continuity.py",
+      "PortalAI/Maintenance/Tests/test_mission_review_tk.py",
+      "PortalAI/Installer/Mac/install-macos.sh",
+      "PortalAI/ControlCenter/mission_monitor.py",
+      "PortalAI/Agent/mission_index.py",
+      "PortalAI/Maintenance/Tests/test_account_connections.py",
+      "PortalAI/Maintenance/Tests/test_public_bootstrap.py",
+      "PortalAI/ControlCenter/release_version.py",
+      "PortalAI/Maintenance/Imports/distribution-version.json",
+      "PortalAI/Agent/account_import.py",
+      "PortalAI/Agent/account_setup.py",
+      "PortalAI/Agent/macos_job.py",
+      "PortalAI/Agent/macos_lifecycle.py",
+      "PortalAI/Agent/macos_process.py",
+      "PortalAI/Agent/portable_process.py",
+      "PortalAI/ControlCenter/account_setup_ui.py",
+      "PortalAI/ControlCenter/record_refresh.py",
+      "PortalAI/Tools/import_macos_layers.py",
+      "PortalAI/Tools/macos_installer_smoke.py",
+      "PortalAI/Tools/smoke_account_gate_startup.py",
+      "PortalAI/Tools/smoke_window_minimize.py",
+      "PortalAI/Maintenance/Tests/test_account_setup_bootstrap.py",
+      "PortalAI/Maintenance/Tests/test_account_setup_tk.py",
+      "PortalAI/Maintenance/Tests/test_macos_runtime.py",
+      "PortalAI/Maintenance/Tests/test_portable_installer_placement.py",
+      "PortalAI/Maintenance/Tests/test_windows_installer_layout.py",
+      "PortalAI/Maintenance/Tests/test_window_minimize.py",
+      "PortalAI/Installer/Mac/mac-prerequisites.sh",
+      "PortalAI/Installer/Mac/mac-cmake.py",
+      "PortalAI/Maintenance/Tests/record_refresh_fixture.py",
+      "PortalAI/Maintenance/Tests/test_record_refresh_integration.py",
+      "PortalAI/Maintenance/Tests/test_record_refresh_tk.py",
+      "Utilities/PortalAI-Projection/app/connection_files.py",
+      "Utilities/PortalAI-Projection/app/connection_vault.py",
+      "Utilities/PortalAI-Projection/app/elegant_native_ui.py",
+      "Utilities/PortalAI-Projection/app/host_runtime.py",
+      "Utilities/PortalAI-Projection/app/linux_desktop.py",
+      "Utilities/PortalAI-Projection/app/linux_target.py",
+      "Utilities/PortalAI-Projection/app/macos_check.py",
+      "Utilities/PortalAI-Projection/app/macos_desktop.py",
+      "Utilities/PortalAI-Projection/app/macos_target.py",
+      "Utilities/PortalAI-Projection/app/native_receiver_schema.py",
+      "Utilities/PortalAI-Projection/app/native_state_client.py",
+      "Utilities/PortalAI-Projection/app/native_transport.py",
+      "Utilities/PortalAI-Projection/app/ornate_ui.py",
+      "Utilities/PortalAI-Projection/app/portalai_target.py",
+      "Utilities/PortalAI-Projection/app/projection_boot.py",
+      "Utilities/PortalAI-Projection/app/projection_chrome.py",
+      "Utilities/PortalAI-Projection/app/projection_client.py",
+      "Utilities/PortalAI-Projection/app/projection_local.py",
+      "Utilities/PortalAI-Projection/app/projection_palette.py",
+      "Utilities/PortalAI-Projection/app/projection_theme.py",
+      "Utilities/PortalAI-Projection/app/projection_tray.py",
+      "Utilities/PortalAI-Projection/app/projection_ui.py",
+      "Utilities/PortalAI-Projection/app/projection_worker.py",
+      "Utilities/PortalAI-Projection/app/recovery_runtime.py",
+      "Utilities/PortalAI-Projection/app/recovery_transport.py",
+      "Utilities/PortalAI-Projection/app/recovery_ui.py",
+      "Utilities/PortalAI-Projection/app/rounded_controls.py",
+      "Utilities/PortalAI-Projection/app/rounded_text.py",
+      "Utilities/PortalAI-Projection/app/ui_style_cache.py",
+      "Utilities/PortalAI-Projection/app/viewer_demand.py",
+      "Utilities/PortalAI-Projection/app/windows_desktop.py",
+      "Utilities/PortalAI-Projection/Tests/linux_guest.py",
+      "Utilities/PortalAI-Projection/Tests/preview_card.py",
+      "Utilities/PortalAI-Projection/Tests/smoke_combobox.py",
+      "Utilities/PortalAI-Projection/Tests/smoke_manager.py",
+      "Utilities/PortalAI-Projection/Tests/smoke_native_menu.py",
+      "Utilities/PortalAI-Projection/Tests/smoke_outbound_desktop.py",
+      "Utilities/PortalAI-Projection/Tests/test_connection_confirmation.py",
+      "Utilities/PortalAI-Projection/Tests/test_connection_files.py",
+      "Utilities/PortalAI-Projection/Tests/test_input_delivery.py",
+      "Utilities/PortalAI-Projection/Tests/test_macos_projection.py",
+      "Utilities/PortalAI-Projection/Tests/test_macos_setup.py",
+      "Utilities/PortalAI-Projection/Tests/test_native_chat_host.py",
+      "Utilities/PortalAI-Projection/Tests/test_native_state_client.py",
+      "Utilities/PortalAI-Projection/Tests/test_native_status.py",
+      "Utilities/PortalAI-Projection/Tests/test_native_transport.py",
+      "Utilities/PortalAI-Projection/Tests/test_native_workflow_transport.py",
+      "Utilities/PortalAI-Projection/Tests/test_portable_host.py",
+      "Utilities/PortalAI-Projection/Tests/test_projection.py",
+      "Utilities/PortalAI-Projection/Tests/test_projection_aoostar_merge.py",
+      "Utilities/PortalAI-Projection/Tests/test_projection_ui.py",
+      "Utilities/PortalAI-Projection/Tests/test_recovery_ha.py",
+      "Utilities/PortalAI-Projection/Tests/test_recovery_helper.py",
+      "Utilities/PortalAI-Projection/Tests/test_target_lifecycle.py",
+      "Utilities/PortalAI-Projection/Tests/test_viewer_demand.py",
+      "Utilities/PortalAI-Projection/Tests/native_receiver_reference/core.py",
+      "Utilities/PortalAI-Projection/Tests/native_receiver_reference/schema.py",
+      "Utilities/PortalAI-Projection/Tests/native_receiver_reference/__init__.py",
+      "Utilities/PortalAI-Projection/Tests/Validation/connection-manager.png",
+      "Utilities/PortalAI-Projection/Tests/Validation/outbound-window.png",
+      "Utilities/PortalAI-Projection/Tests/Validation/phone-preview.png",
+      "Utilities/PortalAI-Projection/app/assets/projection-dark.ico",
+      "Utilities/PortalAI-Projection/app/assets/projection-dark.png",
+      "PortalAI/Documentation/Unified_Release_20261025.txt"
+    ],
+    "models_and_component_pins_preserved": true,
+    "physical_linux_macos_tested": false,
+    "self_contained_setup_complete": false
+  }
 }

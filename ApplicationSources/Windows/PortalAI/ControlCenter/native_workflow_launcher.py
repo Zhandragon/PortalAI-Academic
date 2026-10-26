@@ -55,7 +55,12 @@ def configure(app,scope):
     # PersistencePage owns these real navigation buttons; the widget adapter already exposes them.
     # Registering aliases here duplicated both buttons in the HA native workflow.
     persistence=scope['persistence_page']
-    controller.configure(pages=scope['tab_pages'],callbacks=callbacks,chat=chat,settings=scope['settings_page'])
+    # Local tabs can exceed the versioned HA page inventory. Export only
+    # protocol pages; Controller.configure still rejects missing required pages
+    # and safety actions before advertising support.
+    from native_workflow_protocol import PAGES
+    pages={key:page for key,page in scope['tab_pages'].items() if key in PAGES}
+    controller.configure(pages=pages,callbacks=callbacks,chat=chat,settings=scope['settings_page'])
     bylabel={label:key for key,(label,_,_) in callbacks.items()}
     controller.fixed_widgets={w:bylabel[str(w.cget('text'))] for w in scope['buttons'] if str(w.cget('text')) in bylabel}
     if chat is not None:controller.fixed_widgets[chat.stop_btn]='chat_stop'

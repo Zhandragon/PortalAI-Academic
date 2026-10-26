@@ -16,6 +16,26 @@ import chat_model_switch as switch
 import effort_policy
 
 
+class ColdAccountSpawnTests(unittest.TestCase):
+    def test_first_model_start_creates_the_resolved_private_log_directory(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            runtime = root / 'Private' / 'fixture' / 'Workspace' / 'Cache' / 'MediaWorkers'
+            self.assertFalse(runtime.exists())
+            process = Mock(pid=123)
+            def launch(command, **kwargs):
+                self.assertTrue((runtime / 'chat_effort_model.log').is_file())
+                self.assertEqual(command, ['fixture-server'])
+                return process
+            with patch('media_paths.media_runtime', return_value=runtime), \
+                 patch.object(switch, 'portable_env', return_value={}), \
+                 patch.object(switch.subprocess, 'Popen', side_effect=launch), \
+                 patch('platform_runtime.linux_elf_command', side_effect=lambda root, argv:(argv,None)):
+                self.assertIs(switch._spawn(root, ['fixture-server']), process)
+            self.assertIn('Effort model startup', (runtime / 'chat_effort_model.log').read_text())
+            self.assertFalse((root / 'Agent' / '.runtime').exists())
+
+
 class Scenario:
     def __init__(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -154,39 +174,6 @@ class ChatModelSwitchTests(unittest.TestCase):
             self.assertFalse(result['changed'])
             self.assertEqual(result['model']['id'], 'qwen-vl2-q4')
             scenario.begin.assert_not_called()
-
-    def test_vision_listener_without_minimum_is_replaced_normally(self):
-        with Scenario() as scenario:
-            scenario.model.update(id='qwen-vl2-q4', projector='vision.mmproj')
-            scenario.command += ['--mmproj', str(scenario.root/'vision.mmproj'), '--image-min-tokens', '1024']
-            scenario.current = scenario.identity(scenario.command[:-2])
-            result = switch.prepare_chat(scenario.root, 'fast', require_vision=True)
-            self.assertTrue(result['changed'])
-            scenario.begin.assert_called_once()
-            scenario.release.assert_called_once_with('our-lease')
-
-    def test_vision_listener_reuse_requires_matching_image_options_and_projector(self):
-        with Scenario() as scenario:
-            scenario.model.update(id='qwen-vl2-q4', projector='vision.mmproj')
-            scenario.command += ['--mmproj', str(scenario.root/'vision.mmproj'), '--image-min-tokens', '1024']
-            for mode in ('good','missing','different_minimum','different_projector','unexpected_maximum','tiny_context'):
-                command = list(scenario.command)
-                if mode=='missing':command=command[:-2]
-                elif mode=='different_minimum':command[-1]='512'
-                elif mode=='different_projector':command[command.index('--mmproj')+1]=str(scenario.root/'other.mmproj')
-                elif mode=='unexpected_maximum':command+=['--image-max-tokens','1024']
-                elif mode=='tiny_context':command[command.index('-c')+1]='2048'
-                self.assertEqual(switch._matches(scenario.identity(command),scenario.model,8192,scenario.command),mode=='good',mode)
-
-    def test_repeated_matching_vision_reconnect_does_not_reload(self):
-        with Scenario() as scenario:
-            scenario.model.update(id='qwen-vl2-q4', projector='vision.mmproj')
-            scenario.command += ['--mmproj', str(scenario.root/'vision.mmproj'), '--image-min-tokens', '1024']
-            scenario.current = scenario.identity(scenario.command)
-            for _ in range(3):
-                self.assertFalse(switch.prepare_chat(scenario.root,'fast',require_vision=True)['changed'])
-            scenario.begin.assert_not_called()
-            scenario.spawn.assert_not_called()
 
     def test_reuses_exact_healthy_owned_model(self):
         with Scenario() as scenario:

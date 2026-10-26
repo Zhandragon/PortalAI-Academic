@@ -1,0 +1,25 @@
+Welcome cleanup integration - October 24, 2026
+
+Incoming HA handoff: PortalAI-Aoostar-Welcome-Cleanup-Sync-Handoff-20261024-r17.zip
+SHA256 83976b1c1c40dd67ebede39c0374ff39a93e38cde3163c0baae1207785356261
+All 18 embedded checksums verified. Only the reviewed Welcome changes were merged.
+
+The introduction describes local chat, creative media, scientific tools and
+persistent missions. It wraps to the available panel width. The redundant
+Welcome Sponsor button is removed; banner Donate, Donation-page Sponsors,
+approved QR images and ornate branding remain. The Welcome version is imported
+from release_version.py and stamped as 2026.10.24-Aoostar-r42 in this local build.
+All six package manifests and payload version modules must agree on that revision.
+
+The local account-setup/startup behavior and earlier web-search corrections are
+preserved. Each installer is rebuilt from its matching verified local r41 baseline;
+no publisher full-tree overwrite or component/edition-policy replacement occurs.
+Small downloaders retain their existing upstream pins; use the complete local
+r42 archives listed in D:/Utilities/Handoffs/Welcome-r42-Installer-Index.txt.
+
+Installation requires normal Exit, verified closed profile state and stopped
+owned processes under existing profile and instance locks. Recovery includes
+AGENTS, configuration, hardware profiles and every numbered root master.
+Local validation evidence is in Maintenance/Validation/WelcomeCleanup-20261024.
+Native Linux/macOS and full clean recipient installations remain separate checks.
+Owner accounts, models, settings, missions and outputs are outside the update.

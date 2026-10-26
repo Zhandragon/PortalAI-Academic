@@ -1,0 +1,651 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "default": "PortalAI Physics Lab",
+      "maxLength": 120
+    },
+    "objects": {
+      "type": "array",
+      "default": [],
+      "maxItems": 96,
+      "items": {
+        "$ref": "#/$defs/body"
+      }
+    },
+    "gravity": {
+      "type": "array",
+      "default": [
+        0,
+        -9.81,
+        0
+      ],
+      "items": {
+        "type": "number",
+        "default": 0,
+        "minimum": -50,
+        "maximum": 50
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "friction": {
+      "type": "number",
+      "default": 0.4,
+      "minimum": 0,
+      "maximum": 2
+    },
+    "restitution": {
+      "type": "number",
+      "default": 0.2,
+      "minimum": 0,
+      "maximum": 1
+    },
+    "wind": {
+      "type": "array",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "items": {
+        "type": "number",
+        "default": 0,
+        "minimum": -50,
+        "maximum": 50
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "air_density": {
+      "type": "number",
+      "default": 1.225,
+      "minimum": 0,
+      "maximum": 20
+    },
+    "ambient_c": {
+      "type": "number",
+      "default": 20,
+      "minimum": -100,
+      "maximum": 2000
+    },
+    "connections": {
+      "type": "array",
+      "default": [],
+      "maxItems": 48,
+      "items": {
+        "$ref": "#/$defs/connection"
+      }
+    },
+    "liquids": {
+      "type": "array",
+      "default": [],
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/liquid"
+      }
+    },
+    "fluids": {
+      "type": "array",
+      "default": [],
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/fluid"
+      }
+    },
+    "heaters": {
+      "type": "array",
+      "default": [],
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/heater"
+      }
+    },
+    "emitters": {
+      "type": "array",
+      "default": [],
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/emitter"
+      }
+    }
+  },
+  "default": {},
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PortalAI Physics Lab input",
+  "$defs": {
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "default": "",
+          "maxLength": 48,
+          "pattern": "^[A-Za-z0-9_-]{1,48}$"
+        },
+        "name": {
+          "type": "string",
+          "default": "Object",
+          "maxLength": 80
+        },
+        "shape": {
+          "type": "string",
+          "enum": [
+            "box",
+            "sphere"
+          ],
+          "default": "box"
+        },
+        "size": {
+          "type": "array",
+          "default": [
+            1,
+            1,
+            1
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0.1,
+            "maximum": 10
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "position": {
+          "type": "array",
+          "default": [
+            0,
+            5,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "rotation": {
+          "type": "array",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -6.3,
+            "maximum": 6.3
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "velocity": {
+          "type": "array",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "angular_velocity": {
+          "type": "array",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "mass": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "color": {
+          "type": "string",
+          "default": "#d6a958",
+          "maxLength": 7,
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "temperature": {
+          "type": "number",
+          "default": 20,
+          "minimum": -100,
+          "maximum": 2000
+        },
+        "heat_capacity": {
+          "type": "number",
+          "default": 500,
+          "minimum": 0.001,
+          "maximum": 100000000.0
+        },
+        "convection": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "drag_coefficient": {
+          "type": "number",
+          "default": 0.47,
+          "minimum": 0,
+          "maximum": 3
+        },
+        "break_speed": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100
+        },
+        "fuel_j": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100000000.0
+        },
+        "burn_w": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "ignition_c": {
+          "type": "number",
+          "default": 250,
+          "minimum": 0,
+          "maximum": 2000
+        }
+      },
+      "default": {}
+    },
+    "connection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "default": "",
+          "maxLength": 48,
+          "pattern": "^[A-Za-z0-9_-]{1,48}$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "spring",
+            "rope",
+            "pulley",
+            "weld"
+          ],
+          "default": "spring"
+        },
+        "a": {
+          "type": "string",
+          "default": "",
+          "maxLength": 48,
+          "pattern": "^[A-Za-z0-9_-]{1,48}$"
+        },
+        "b": {
+          "type": "string",
+          "default": "",
+          "maxLength": 48,
+          "pattern": "^[A-Za-z0-9_-]{1,48}$"
+        },
+        "length": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0.1,
+          "maximum": 100
+        },
+        "stiffness": {
+          "type": "number",
+          "default": 20,
+          "minimum": 0.01,
+          "maximum": 100000.0
+        },
+        "damping": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "maximum": 10000.0
+        },
+        "segments": {
+          "type": "integer",
+          "default": 8,
+          "minimum": 2,
+          "maximum": 24
+        },
+        "mass": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0.01,
+          "maximum": 100
+        },
+        "anchor_a": {
+          "type": "array",
+          "default": [
+            -2,
+            8,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "anchor_b": {
+          "type": "array",
+          "default": [
+            2,
+            8,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "ratio": {
+          "type": "number",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 4
+        },
+        "break_force": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "break_torque": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "conductance": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "default": {}
+    },
+    "liquid": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "array",
+          "default": [
+            0,
+            1,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "size": {
+          "type": "array",
+          "default": [
+            6,
+            2,
+            6
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0.1,
+            "maximum": 20
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "density": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "drag": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 100
+        },
+        "temperature": {
+          "type": "number",
+          "default": 20,
+          "minimum": -100,
+          "maximum": 2000
+        },
+        "heat_transfer": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "flow": {
+          "type": "array",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -20,
+            "maximum": 20
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "default": {}
+    },
+    "fluid": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "array",
+          "default": [
+            0,
+            4,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "counts": {
+          "type": "array",
+          "default": [
+            4,
+            4,
+            4
+          ],
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "integer",
+            "default": 4,
+            "minimum": 1,
+            "maximum": 6
+          }
+        },
+        "spacing": {
+          "type": "number",
+          "default": 0.35,
+          "minimum": 0.15,
+          "maximum": 1
+        },
+        "density": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "viscosity": {
+          "type": "number",
+          "default": 0.03,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "sound_speed": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0.1,
+          "maximum": 8
+        },
+        "color": {
+          "type": "string",
+          "default": "#57bded",
+          "maxLength": 7,
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      },
+      "default": {}
+    },
+    "heater": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "array",
+          "default": [
+            0,
+            1,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "radius": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0.1,
+          "maximum": 20
+        },
+        "power_w": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 0,
+          "maximum": 1000000.0
+        }
+      },
+      "default": {}
+    },
+    "emitter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "array",
+          "default": [
+            0,
+            2,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 100
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "velocity": {
+          "type": "array",
+          "default": [
+            0,
+            2,
+            0
+          ],
+          "items": {
+            "type": "number",
+            "default": 0,
+            "minimum": -20,
+            "maximum": 20
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "rate": {
+          "type": "number",
+          "default": 20,
+          "minimum": 0,
+          "maximum": 200
+        },
+        "lifetime": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0.1,
+          "maximum": 10
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "smoke",
+            "sparks",
+            "fire"
+          ],
+          "default": "smoke"
+        }
+      },
+      "default": {}
+    }
+  },
+  "description": "Metres, kilograms, seconds, Celsius; Y up. JSON data only. Additional cross-field stability and capacity checks apply. Call physics.world_schema for examples and limits."
+}

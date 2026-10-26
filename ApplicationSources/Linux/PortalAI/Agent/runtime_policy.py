@@ -63,8 +63,24 @@ def portable_path(root: Path, relative: str) -> Path:
 
 
 def load_policy(root: Path = ROOT) -> dict:
+    policy = json.loads((root / "Agent/hardware_profiles.json").read_text(encoding="utf-8"))
+    if sys.platform == "darwin":
+        path = root / "Maintenance/Imports/macos-storage-policy.json"
+        try:
+            mac_policy = json.loads(path.read_text(encoding="utf-8"))
+            storage = mac_policy["storage"]
+            minimum = int(storage["minimum_free_gib"])
+            fraction = float(storage["minimum_free_fraction"])
+            output = int(storage["output_reserve_gib"])
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            raise RuntimeError("The macOS storage reserve policy is missing or invalid") from exc
+        if minimum < 1 or output < 0 or not 0 < fraction < 1:
+            raise RuntimeError("The macOS storage reserve policy is outside supported limits")
+        policy["storage"] = {"minimum_free_gib": minimum,
+                             "minimum_free_fraction": fraction,
+                             "output_reserve_gib": output}
     from academic_policy import enforce_policy
-    return enforce_policy(json.loads((root / "Agent/hardware_profiles.json").read_text(encoding="utf-8")))
+    return enforce_policy(policy)
 
 
 def load_effective_policy(root: Path = ROOT) -> dict:
@@ -152,6 +168,16 @@ def memory_info() -> tuple[int, int]:
     if os.name == "nt":
         m = _windows_memory_status()
         return m.total, m.available
+    if sys.platform == "darwin":
+        packages = ROOT / "Runtime/MacPackages/gui"
+        if packages.is_dir() and str(packages) not in sys.path:
+            sys.path.insert(0, str(packages))
+        try:
+            import psutil
+            info = psutil.virtual_memory()
+            return int(info.total), int(info.available)
+        except Exception as exc:
+            raise RuntimeError("macOS memory checks need the bundled psutil runtime") from exc
     data = {}
     for line in Path("/proc/meminfo").read_text().splitlines():
         k, v = line.split(":", 1)
@@ -208,14 +234,44 @@ def runtime_candidates(root: Path, system: str) -> dict[str, Path]:
                 "cpu": root / "LLM/backends/windows-cpu/llama-server.exe"}
     if system == "Linux":
         return {b: root / f"LLM/backends/linux-{b}/llama-server" for b in ("cuda", "vulkan", "cpu")}
-    raise RuntimeError(f"Unsupported OS: {system}. Bundled backends currently target Windows/Linux x86-64")
+    if system == "Darwin":
+        server = root / "LLM/backends/macos-metal/bin/llama-server"
+        return {"metal": server, "cpu": server}
+    raise RuntimeError(f"Unsupported OS: {system}. Bundled backends target Windows/Linux x86-64 and macOS x64/arm64")
+
+
+def runtime_installation_issues(exe: Path) -> list[str]:
+    """Check the Windows split-server runtime before invoking its entry point.
+
+    Older monolithic servers and Unix shared-library layouts are left to the
+    bounded runtime probe. This check reads only bundled executable metadata.
+    """
+    try:
+        if not exe.is_file():
+            return [f"Missing runtime entry point: {exe}"]
+        if exe.suffix.lower() != '.exe':
+            return []
+        folder = exe.parent
+        split = (0 < exe.stat().st_size < 65536 or
+                 (folder / 'llama-server-impl.dll').is_file())
+        if not split:
+            return []
+        required = ('llama-server-impl.dll', 'llama.dll', 'llama-common.dll',
+                    'ggml.dll', 'ggml-base.dll', 'mtmd.dll')
+        return [f"Missing or empty runtime library: {folder / name}" for name in required
+                if not (folder / name).is_file() or (folder / name).stat().st_size == 0]
+    except OSError as exc:
+        return [f"Cannot inspect runtime {exe}: {exc}"]
 
 
 def choose_backend(root: Path, hardware: dict, requested: str = "auto", probe: bool = True) -> dict:
-    if hardware["machine"].lower() not in ("amd64", "x86_64"):
-        raise RuntimeError("This bundle currently contains x86-64 runtimes only")
+    machine = hardware["machine"].lower()
+    is_mac = hardware.get("system") == "Darwin"
+    if machine not in (("amd64", "x86_64", "arm64", "aarch64") if is_mac else ("amd64", "x86_64")):
+        raise RuntimeError("This bundle currently contains x86-64 runtimes, plus macOS arm64 support")
     candidates = runtime_candidates(root, hardware["system"])
-    order = [requested] if requested != "auto" else ["cuda", "vulkan", "cpu"]
+    order = [requested] if requested != "auto" else (["metal", "cpu"] if is_mac else ["cuda", "vulkan", "cpu"])
+    diagnostics = []
     for backend in order:
         exe = candidates.get(backend)
         try:
@@ -223,13 +279,19 @@ def choose_backend(root: Path, hardware: dict, requested: str = "auto", probe: b
         except OSError:
             present = False
         if not present:
+            diagnostics.append(f"{backend}: runtime entry point missing or inaccessible: {exe}")
+            continue
+        issues = runtime_installation_issues(exe)
+        if issues:
+            diagnostics.extend(issues)
             continue
         devices = run_probe([str(exe), "--list-devices"]) if probe else ""
         if backend == "cuda":
             for gpu in sorted(hardware["gpus"], key=lambda g: g["free_bytes"], reverse=True):
                 device = f"CUDA{gpu['index']}"
                 if not probe or re.search(r"\b" + device + r":", devices):
-                    return {"backend": backend, "executable": str(exe), "device": device, "gpu": gpu}
+                    return {"backend": backend, "executable": str(exe), "device": device, "gpu": gpu,
+                            "diagnostics": diagnostics}
         elif backend == "vulkan":
             # llama.cpp reports usable heap capacity; do not trust Win32's truncated AdapterRAM.
             matches = re.findall(r"(Vulkan\d+):\s*(.*?)\s*\((\d+) MiB,\s*(\d+) MiB free\)", devices)
@@ -238,12 +300,21 @@ def choose_backend(root: Path, hardware: dict, requested: str = "auto", probe: b
                 # Vulkan heap size can include shared system RAM, especially on laptops.
                 # Only a matching dedicated NVIDIA probe establishes separate VRAM here.
                 dedicated = any(g["name"].strip() == name.strip() for g in hardware["gpus"])
-                return {"backend": backend, "executable": str(exe), "device": dev,
+                return {"backend": backend, "executable": str(exe), "device": dev, "diagnostics": diagnostics,
                         "gpu": {"name": name, "total_bytes": int(total)*1024**2, "free_bytes": int(free)*1024**2,
                                 "shared_memory": not dedicated}}
+        elif backend == "metal":
+            devices_found = re.findall(r"^(Metal\d+):", devices, flags=re.M)
+            if devices_found or not probe:
+                return {"backend": backend, "executable": str(exe), "diagnostics": diagnostics,
+                        "device": devices_found[0] if devices_found else "Metal0",
+                        "gpu": {"name": "Apple Metal", "total_bytes": hardware["ram_total_bytes"],
+                                "free_bytes": hardware["ram_available_bytes"], "shared_memory": True}}
         elif backend == "cpu" and (not probe or run_probe([str(exe), "--version"])):
-            return {"backend": backend, "executable": str(exe), "device": "none", "gpu": None}
-    raise RuntimeError(f"No working bundled {requested} backend for {hardware['system']}; check driver/runtime installation")
+            return {"backend": backend, "executable": str(exe), "device": "none", "gpu": None,
+                    "diagnostics": diagnostics}
+        diagnostics.append(f"{backend}: installed, but no usable device/runtime probe succeeded")
+    raise RuntimeError(f"No working bundled {requested} backend for {hardware['system']}; " + '; '.join(diagnostics))
 
 
 def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dict:
@@ -305,7 +376,10 @@ def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dic
         else:
             rejected.append({"id": model["id"], "reason": reason})
     if not accepted:
-        raise RuntimeError("No installed model fits the current memory budget: " + json.dumps(rejected))
+        details = '; '.join(backend.get('diagnostics', []))
+        raise RuntimeError("No installed model fits the current memory budget: " + json.dumps(rejected) +
+                           f". Selected backend: {backend.get('backend', 'unspecified')}." +
+                           (" Runtime diagnostics: " + details if details else ""))
     preferred = policy.get('variant_preference', 'standard')
     result = max(accepted, key=lambda m: (model_variant(m) == preferred, m.get("priority", 0)))
     if selection == 'auto':

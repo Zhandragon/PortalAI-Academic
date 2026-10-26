@@ -34,7 +34,8 @@ def activate(root=ROOT):
     if sys.version_info[:2] != (3,12):raise RuntimeError('Portable account libraries require bundled Python 3.12')
     if os.name=='nt':relative='Runtime/AccountPython/packages'
     elif sys.platform.startswith('linux'):relative='Runtime/AccountPython/linux-packages'
-    else:raise RuntimeError('Portable account libraries are available for Windows/Linux x64 only')
+    elif sys.platform=='darwin':relative='Runtime/AccountPython/macos-packages'
+    else:raise RuntimeError('Portable account libraries are available for Windows, Linux x64, and macOS x64/arm64')
     packages=Path(root)/relative
     if not (packages/'eth_account/__init__.py').is_file():raise RuntimeError('Portable account libraries are not installed')
     if str(packages) not in sys.path:sys.path.insert(0,str(packages))

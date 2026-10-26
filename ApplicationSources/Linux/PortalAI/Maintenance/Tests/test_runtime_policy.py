@@ -50,6 +50,34 @@ class RuntimePolicyTests(unittest.TestCase):
     def test_3090_and_4090_choose_existing_27b(self):
         self.assertEqual(self.select(23*rp.GIB)["id"], "qwen27-standard-q4")
 
+    def test_split_server_reports_missing_library_before_execution(self):
+        exe=self.root/'llama-server.exe';exe.write_bytes(b'synthetic entry point')
+        issues=rp.runtime_installation_issues(exe)
+        self.assertTrue(any('llama-server-impl.dll' in item for item in issues))
+        for name in ('llama-server-impl.dll','llama.dll','llama-common.dll','ggml.dll','ggml-base.dll','mtmd.dll'):
+            (self.root/name).write_bytes(b'synthetic library')
+        self.assertEqual(rp.runtime_installation_issues(exe),[])
+        (self.root/'ggml.dll').write_bytes(b'')
+        self.assertTrue(any('ggml.dll' in item for item in rp.runtime_installation_issues(exe)))
+
+    def test_missing_gpu_runtime_explains_cpu_fallback_and_memory_rejection(self):
+        cpu=self.root/'cpu.exe';cpu.touch()
+        absent=self.root/'missing-cuda.exe'
+        with patch.object(rp,'runtime_candidates',return_value={'cuda':absent,'vulkan':absent,'cpu':cpu}):
+            backend=rp.choose_backend(self.root,self.hw,probe=False)
+        self.assertEqual(backend['backend'],'cpu')
+        self.assertTrue(any(str(absent) in item for item in backend['diagnostics']))
+        self.policy['selection']='qwen27-standard-q4'
+        with self.assertRaisesRegex(RuntimeError,'Selected backend: cpu.*missing-cuda.exe'):
+            rp.select_model(self.root,self.hw,backend,self.policy)
+
+    def test_incomplete_backend_is_never_probed(self):
+        exe=self.root/'llama-server.exe';exe.write_bytes(b'synthetic entry point')
+        with patch.object(rp,'runtime_candidates',return_value={'vulkan':exe}), patch.object(rp,'run_probe') as probe:
+            with self.assertRaisesRegex(RuntimeError,'llama-server-impl.dll'):
+                rp.choose_backend(self.root,self.hw,requested='vulkan')
+        probe.assert_not_called()
+
     def test_cpu_uses_small_model_not_27b(self):
         self.assertEqual(self.select()["id"], "qwen4-q4")
         self.assertEqual(self.select()["gpu_layers"], 0)

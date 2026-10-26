@@ -21,7 +21,7 @@ import uuid
 
 from media_paths import media_output, media_reference
 from profile_paths import ProfileLocked, _contained, capture, private_path
-from platform_runtime import ffmpeg_path, python_path
+from platform_runtime import ffmpeg_path, python_path, worker_process_options
 from runtime_policy import atomic_json, memory_info, portable_env, require_space
 
 from dialogue_timing import MAX_SECONDS, options as timing_options, target as timing_target, motion_chunks, lip_chunks
@@ -125,7 +125,7 @@ def _run(root, argv, work, check, timeout=120):
         with stdout.open('xb') as out, stderr.open('xb') as err:
             process = subprocess.Popen([str(python_path(root)), '-B', '-I', str(root / 'Agent/sdcpp_worker.py'), str(request)],
                 cwd=root, env=portable_env(root), stdin=subprocess.DEVNULL, stdout=out, stderr=err,
-                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0), **worker_process_options())
             job = WorkerJob(process)
             job.limit_memory(2 * 1024**3)
             check()

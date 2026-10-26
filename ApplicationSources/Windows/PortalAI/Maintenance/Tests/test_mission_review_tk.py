@@ -31,6 +31,7 @@ class ReviewTkTests(unittest.TestCase):
             m.update(status='needs_review',pending_action={'action':'note','text':'Uncertain'},error='Inspect output');store.save(m)
             MissionCatalog(self.root).mark_origin(m['id'])
         self.sheet=show_mission_settings(self.app,self.root,LIGHT,embedded=True);settle_records(self.app);self.select(missions[0]['id'])
+        self.assertTrue(self.sheet.review_submit.winfo_ismapped())
         self.sheet.review_instructions.insert('1.0','Inspect the CSV header.')
         self.sheet.refresh_records();settle_records(self.app);self.sheet.apply_palette(DARK);settle_records(self.app)
         self.select(missions[1]['id']);self.assertEqual(self.sheet.review_instructions.get('1.0','end-1c'),'')

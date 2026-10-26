@@ -97,6 +97,7 @@ def source_rows(root, component):
                     'ControlCenter/chat_task_checkpoint.py', 'ControlCenter/chat_summary_recovery.py',
                     'ControlCenter/PortableAI_GUI.py', 'ControlCenter/diagnostic_selector.py',
                     'ControlCenter/ui_style_cache.py', 'ControlCenter/rounded_controls.py',
+                    'ControlCenter/settings_style.py',
                     'ControlCenter/elegant_native_ui.py', 'ControlCenter/packages_page.py'),
     }
     selected = paths if key == 'all' else {key: paths[key]}

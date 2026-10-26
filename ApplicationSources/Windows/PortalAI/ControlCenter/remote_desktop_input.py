@@ -17,6 +17,7 @@ import secrets
 import threading
 import time
 import uuid
+import sys
 
 ACK_TIMEOUT=5
 
@@ -152,8 +153,9 @@ class InputAdapter:
             if not kernel.GetProcessTimes(kernel.GetCurrentProcess(),*[ctypes.byref(t) for t in times]):raise RuntimeError('Cannot establish UI process identity')
             start=(times[0].dwHighDateTime<<32)|times[0].dwLowDateTime
         else:
-            from linux_process import identity
-            start=identity(os.getpid())['start_ticks']
+            from portable_process import identity
+            row=identity(os.getpid())
+            start=row['start_ticks'] if 'start_ticks' in row else int(float(row['create_time'])*1_000_000)
         hwnd=self.window_id(str(self.app))
         self.hwnd=hwnd;self.ui_thread=threading.get_native_id()
         metadata={'pid':os.getpid(),'start':start,'hwnd':hwnd,'port':self.server.server_port,'token':self.token}
@@ -255,6 +257,10 @@ class InputAdapter:
                 'height':int(tk.call('winfo','height',path)),'title':title,'class':'TkTopLevel' if path==str(self.app) else cls,
                 'visible':True,'focused':bool(focus and (focus==path or focus.startswith(path+'.'))),
                 'popup':bool(cls in ('Menu','ComboboxPopdown') or grab==path)})
+            if sys.platform=='darwin':
+                # Logical client coordinates bind this Tk input target to one
+                # owned ScreenCaptureKit window. Winfo IDs are NOT CGWindowIDs.
+                output[-1].update(rootx=int(tk.call('winfo','rootx',path)),rooty=int(tk.call('winfo','rooty',path)))
         return {'windows':output}
 
     def hit(self, top, rx, ry):

@@ -13,6 +13,7 @@ from unittest.mock import patch,MagicMock
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'Agent')]
 import account_connections as connections
+import account_setup as setup
 import account_services as services
 import mission_accounts
 import local_accounts
@@ -39,6 +40,8 @@ class ConnectionTests(unittest.TestCase):
         self.runtime=ProfileRuntime(self.root,self.store,quiesce=lambda *_:{'stopped':True})
         self.runtime.prepare(self.session);self.addCleanup(self.cleanup_runtime)
         atomic_json(self.root/'Agent/hardware_profiles.json',{'storage':{'minimum_free_gib':0,'minimum_free_fraction':0,'output_reserve_gib':0}})
+        self.spec={'version':1,'id':'a'*32,'target_username':'Owner','objective':'Synthetic ordinary user objective',
+                   'max_steps':12,'interval_seconds':3600,'max_runs':0,'autonomous_recovery':True,'sources':[{'kind':'synthetic'}]}
 
     def cleanup_runtime(self):
         if self.runtime.session is not None and self.runtime.session.active:self.runtime.close(self.runtime.session,writers_stopped=True)
@@ -46,28 +49,39 @@ class ConnectionTests(unittest.TestCase):
         self.store.logout()
 
     def create(self):
-        data={'version':1,'profiles':copy.deepcopy(PROFILES),'secrets':copy.deepcopy(SECRETS),'setups':{}}
-        connections.write(self.root,self.session,data)
-        connections.unlock_session(self.root,self.session)
+        with patch('account_import.collect',return_value=(copy.deepcopy(PROFILES),copy.deepcopy(SECRETS))):
+            return setup.apply(self.root,self.session,self.spec)
 
-    def test_encrypted_connections_do_not_create_missions_or_schedules(self):
-        self.create()
-        raw=private_path(self.root,connections.RELATIVE).read_bytes()
-        self.assertNotIn(TOKEN.encode(),raw)
+    def test_encrypted_import_normal_records_and_repeat_without_duplicates(self):
+        result=self.create();again=self.create();self.assertEqual(result,again)
+        raw=private_path(self.root,connections.RELATIVE).read_bytes();self.assertNotIn(TOKEN.encode(),raw)
         self.assertEqual(connections.read(self.root)['secrets'],SECRETS)
-        from mission_runner import Missions
-        from mission_schedule import Schedules
-        self.assertEqual(Missions(self.root).list(),[])
-        self.assertEqual(Schedules(self.root).list(),[])
+        mission=setup.Missions(self.root).load(result['mission_id']);schedule=setup.Schedules(self.root).load(result['schedule_id'])
+        self.assertEqual(mission['objective'],self.spec['objective']);self.assertEqual(mission['steps'],0)
+        self.assertEqual(schedule['source_mission'],mission['id']);self.assertFalse(schedule['enabled']);self.assertTrue(schedule['autonomous_recovery'])
+        self.assertEqual(len(setup.Schedules(self.root).list()),1)
+        self.assertNotIn(TOKEN,json.dumps(result));self.assertFalse(private_path(self.root,'Data/Missions/supervisor.json').exists())
 
+    def test_lost_schedule_receipt_recovers_created_schedule(self):
+        original=setup.Schedules.create
+        def lost(instance,*args,**kwargs):original(instance,*args,**kwargs);raise OSError('synthetic lost receipt')
+        with patch.object(setup.Schedules,'create',lost),self.assertRaises(OSError):self.create()
+        result=self.create();self.assertEqual(len(setup.Schedules(self.root).list()),1)
+        self.assertEqual(setup.Schedules(self.root).list()[0]['id'],result['schedule_id'])
 
+    def test_changed_request_refuses_and_connections_not_overwritten(self):
+        self.create();before=private_path(self.root,connections.RELATIVE).read_bytes()
+        self.spec['objective']='different'
+        with self.assertRaises(ValueError):self.create()
+        self.assertEqual(before,private_path(self.root,connections.RELATIVE).read_bytes())
 
-
-
-    def test_forged_session_cannot_write_connections(self):
+    def test_wrong_target_and_guest_or_forged_session_rejected(self):
+        self.spec['target_username']='Other'
+        with self.assertRaises(PermissionError):self.create()
         from types import SimpleNamespace
         fake=SimpleNamespace(active=True,role='admin',user_id=self.session.user_id,profile_key=self.session.profile_key,username='Owner')
         with self.assertRaises(PermissionError):connections.write(self.root,fake,connections.read(self.root))
+        with self.assertRaises(PermissionError):setup.apply(self.root,fake,self.spec)
 
     def test_no_secret_in_profile_discovery_and_scope_denied(self):
         self.create();api=mission_accounts.Accounts(self.root)
@@ -132,8 +146,29 @@ class ConnectionTests(unittest.TestCase):
             with self.assertRaises(PermissionError):services.request(api,'github-test','github','POST','/user/repos',{'description':TOKEN})
             network.assert_not_called()
 
+    def test_import_errors_do_not_expose_source_secrets(self):
+        with patch('account_import.collect',side_effect=ValueError(TOKEN)),self.assertRaises(RuntimeError) as error:self.create_unmocked()
+        self.assertNotIn(TOKEN,str(error.exception))
+        self.assertFalse(private_path(self.root,connections.RELATIVE).exists())
 
+    def create_unmocked(self):return setup.apply(self.root,self.session,self.spec)
 
+    @unittest.skipUnless(os.name=='nt','Windows source migration')
+    def test_dpapi_roundtrip_and_source_preservation(self):
+        from account_import import dpapi_text
+        path=self.root/'synthetic.dpapi'
+        import ctypes
+        from ctypes import wintypes
+        class Blob(ctypes.Structure):_fields_=[('size',wintypes.DWORD),('data',ctypes.POINTER(ctypes.c_ubyte))]
+        raw='synthetic-credential-only'.encode('utf-16-le');buf=(ctypes.c_ubyte*len(raw)).from_buffer_copy(raw)
+        incoming=Blob(len(raw),buf);out=Blob();crypt=ctypes.WinDLL('crypt32');kernel=ctypes.WinDLL('kernel32')
+        crypt.CryptProtectData.argtypes=[ctypes.POINTER(Blob),ctypes.c_void_p,ctypes.c_void_p,ctypes.c_void_p,ctypes.c_void_p,wintypes.DWORD,ctypes.POINTER(Blob)]
+        kernel.LocalFree.argtypes=[ctypes.c_void_p];kernel.LocalFree.restype=ctypes.c_void_p
+        self.assertTrue(crypt.CryptProtectData(ctypes.byref(incoming),None,None,None,None,1,ctypes.byref(out)))
+        try:path.write_text(ctypes.string_at(out.data,out.size).hex())
+        finally:kernel.LocalFree(out.data)
+        before=path.read_bytes()
+        self.assertEqual(dpapi_text(path),'synthetic-credential-only');self.assertEqual(before,path.read_bytes())
 
     def test_password_change_preserves_connection_key_and_other_account_cannot_read(self):
         self.create();data=private_path(self.root,connections.RELATIVE).read_bytes()
@@ -147,12 +182,20 @@ class ConnectionTests(unittest.TestCase):
         private_path(self.root,connections.RELATIVE).write_bytes(data)
         with self.assertRaises(PermissionError):connections.read(self.root)
 
-    def test_real_guest_cannot_write_connections(self):
+    def test_real_guest_cannot_import_connections(self):
         self.runtime.close(self.session,writers_stopped=True)
         self.session=self.store.login_guest();self.runtime.prepare(self.session)
         with self.assertRaises(PermissionError):self.create()
         self.assertNotIn(connections.ENV,os.environ)
 
+    def test_standard_account_cannot_bypass_missions_administrator_boundary(self):
+        self.store.create_user(self.session,'Member','synthetic member passphrase',admin_password=PASSWORD)
+        self.runtime.close(self.session,writers_stopped=True)
+        self.session=self.store.login('Member','synthetic member passphrase');self.runtime.prepare(self.session)
+        self.spec['target_username']='Member'
+        with self.assertRaisesRegex(PermissionError,'administrator'):self.create()
+        self.assertEqual(setup.Schedules(self.root).list(),[])
+        self.assertFalse(private_path(self.root,connections.RELATIVE).exists())
 
     def test_known_verification_failure_is_not_a_success_receipt(self):
         self.create();api=mission_accounts.Accounts(self.root)

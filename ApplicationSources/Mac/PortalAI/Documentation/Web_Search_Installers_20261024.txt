@@ -1,13 +1,36 @@
-Web-search release integration - publisher r16, October 24, 2026
+Nice web-search installer repair - local Aoostar r40 - October 24, 2026
 
-All six Full/Academic Windows/Linux/macOS packages are rebuilt from their own
-verified publisher r15 baselines. The r15 refresh repair and r14 Donation/QR
-styling remain. No temporary Aoostar importer/menu or owner data is included.
-Only the focused web runtime/guidance, new tests and repair notes change.
-Dependency selections, third-party pins, verified TLS, account boundaries,
-installer storage checks and platform-specific modes are preserved.
+This local installer revision carries the focused Nice web-search and saved
+evidence fix described in Web_Search_Evidence_20261024.txt. It is a separate
+Aoostar revision, not a publisher GitHub release or a new HA protocol version.
 
-The public thin Academic setup launchers are repinned to the final r16 assets.
-Release receipts contain outer/member hashes and package verification results.
-Native Linux/macOS execution, physical Aoostar application and full fresh
-recipient installation are not implied by Windows-builder validation.
+Package baselines
+- Full Windows: Aoostar r39 refresh repair, retaining publisher r14 features.
+- Full Linux and Mac: publisher r14 for the matching platform.
+- Academic Windows, Linux and Mac: the matching Academic publisher r14.
+
+Only the seven affected source files, the new regression suite, and repair
+documentation are changed in each payload. Platform-specific worker startup,
+Academic policy, installer engines, components and download selections retain
+their own baseline. The Windows r39 refresh repair is not transplanted onto
+other variants as part of this web fix.
+
+The new archive names explicitly contain Aoostar-r40-web-search. Use the full
+archive for the required edition and operating system; extract it and follow
+its README/START_HERE. Existing small Setup downloaders remain pinned to their
+original upstream r14 URLs and checksums. These local archives are independent
+of those downloaders and do not imply a remote release or HA deployment.
+
+Payload member bytes/hashes, unchanged members, outer package checksums and
+Unix executable modes are checked during packaging. Focused source regressions
+are run from each packaged variant on the Windows builder. This does not prove
+native Linux/macOS execution, a full clean recipient install, or an end-to-end
+Nice model answer. Public search succeeded during the source repair; the live
+DuckDuckGo Lite fallback encountered a provider challenge without bypass.
+
+The HA Codex handoff contains before/after sources, a focused patch, hashes,
+tests, validation evidence and package receipts. Merge against the recipient's
+current files; preserve newer platform and edition changes. No credentials,
+owner configuration, account data, model weights or runtime archives belong
+in this source-only handoff. Verify it before use and retain normal account
+recovery, Exit and verified sealing before replacing installed runtime files.

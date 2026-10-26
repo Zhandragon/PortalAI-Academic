@@ -200,7 +200,7 @@ def build(options) -> dict:
     llama = verify_nested(LLAMA_SOURCE, LLAMA_SHA)
     output = Path(options.output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)
-    name = "PortalAI-Mac-Clean-Installer-20261019-r13-universal.tar.gz"
+    name = "PortalAI-Mac-Clean-Installer-20261019-r14-universal.tar.gz"
     archive_path = output / name
     if archive_path.exists() or archive_path.is_symlink():
         raise FileExistsError("Refusing to overwrite existing Mac installer: " + str(archive_path))
@@ -221,7 +221,7 @@ def build(options) -> dict:
             "x86_64": {"asset": "python-runtime-x86_64.tar.gz", **x64},
         }
         manifest = {
-            "release": "PortalAI-2026.10.19-Mac-r13",
+            "release": "PortalAI-2026.10.19-Mac-r14",
             "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
             "platforms": ["macOS arm64 (Apple silicon)", "macOS x86_64 (Intel)"],
             "macOS_physical_tested": False,
@@ -241,7 +241,7 @@ def build(options) -> dict:
         }
         sums = "".join(f"{hashes[key]}  {key}\n" for key in sorted(hashes))
         outer = temp / name
-        prefix = "PortalAI-Mac-Clean-Installer-r13/"
+        prefix = "PortalAI-Mac-Clean-Installer-r14/"
         with outer.open("wb") as raw:
             with gzip.GzipFile(filename="", fileobj=raw, mode="wb", compresslevel=6, mtime=0) as compressed:
                 with tarfile.open(fileobj=compressed, mode="w|", format=tarfile.PAX_FORMAT) as tar:
@@ -267,7 +267,7 @@ def verify_bundle(path: Path) -> dict:
         expected = {"install-macos.sh", "README.txt", "manifest.json", "SHA256SUMS",
                     "payload.tar.gz", "python-runtime-arm64.tar.gz",
                     "python-runtime-x86_64.tar.gz", "llama.cpp-source.tar.gz"}
-        members = {item.name.removeprefix("PortalAI-Mac-Clean-Installer-r13/"): item
+        members = {item.name.removeprefix("PortalAI-Mac-Clean-Installer-r14/"): item
                    for item in archive.getmembers()}
         if set(members) != expected or any(not item.isfile() for item in members.values()):
             raise RuntimeError("Mac installer archive has unexpected members")
@@ -275,9 +275,9 @@ def verify_bundle(path: Path) -> dict:
             raise RuntimeError("Mac install script is not executable")
         contents = {name: archive.extractfile(member).read() for name, member in members.items()}
         install_text = contents["install-macos.sh"].decode("utf-8")
-        if 'INSTALL_PARENT="$(dirname -- "$SELF_DIR")"' not in install_text or \
-                'DEST="${1:-$SELF_DIR/PortalAI Mac}"' not in install_text:
-            raise RuntimeError("Mac installer no longer defaults beside its package")
+        if 'SELF_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"' not in install_text or \
+                'DEST="${1:-${PORTALAI_INSTALL_DIR:-$SELF_DIR/PortalAI Mac}}"' not in install_text:
+            raise RuntimeError("Mac installer no longer defaults inside its script folder")
         if ".portalai-macos-write-check." not in install_text:
             raise RuntimeError("Mac installer is missing its writable executable-filesystem preflight")
         sums = {}
@@ -312,7 +312,7 @@ def verify_bundle(path: Path) -> dict:
                 raise RuntimeError("Mac payload is missing required app/install files")
             app_readme = next(item for item in files if item.name == "PortalAI/README.md")
             readme = payload.extractfile(app_readme).read().decode("utf-8")
-            if "beside" not in readme or "NTFS" not in readme:
+            if "installer's own folder" not in readme or "NTFS" not in readme:
                 raise RuntimeError("Mac app README does not describe portable install placement")
         python_files = {}
         for arch, filename in (("arm64", "python-runtime-arm64.tar.gz"),

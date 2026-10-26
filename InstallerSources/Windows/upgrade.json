@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "version": "2026.10.25-Aoostar-r45",
+  "edition": "Academic",
+  "platform": "Windows",
+  "compatible_versions": [
+    "2026.10.25-Aoostar-r43",
+    "2026.10.25-Aoostar-r44",
+    "2026.10.24-r17",
+    "2026.10.25-Standardized-r1"
+  ],
+  "legacy_fingerprints": [
+    {
+      "version": "PortalAI-2026.10.24-r14-Academic-Windows",
+      "files": {
+        "Agent/profile_workspace.py": "71e3ffdbd60daa71a41b8464aa3acf8ea12b43baa70ee2f4c58f6b2566856ff6",
+        "ControlCenter/PortableAI_GUI.py": "d748263bd9e41f6193f8fb7eaaa60eb27ac91b4fadf77e72912011a6696f22cf",
+        "Agent/runtime_policy.py": "daa8939b35a8f9ba530c9bfb221ffc3b4858b4afcc4a17a602a90aabf6ad2d4e"
+      },
+      "payload_sha256": "bb82e29c33e182e5d37ab344cb21ef6b66cd08dc1d6197dc12f120096849466b"
+    }
+  ],
+  "preserve_existing_settings": true,
+  "account_schema_migration": false
+}

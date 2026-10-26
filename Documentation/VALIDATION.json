@@ -1,7 +1,7 @@
 {
-  "release": "v2026.10.24-r10",
-  "current_checks": "SHUTDOWN-VALIDATION-20261024-r10.json",
-  "previous_release_checks": "VALIDATION-before-r10.json",
+  "release": "v2026.10.25-Aoostar-r45",
+  "current_checks": "UNIFIED-r45-VALIDATION.json",
+  "previous_release_checks": "VALIDATION-before-r45.json",
   "native_Mac_tested": false,
   "physical_Linux_tested": false,
   "complete_recipient_installation_tested": false

@@ -41,10 +41,10 @@ class RoutingTests(unittest.TestCase):
         with ExitStack() as stack:
             for target, replacement in (
                 ('sys.argv',['ai_tools.py','dialogue-video','image.png','hello','--duration','20','--dialogue-start','5']),
+                ('media_paths.image_source',lambda root, value: events.append('resolve') or root/'resolved-fixture.png'),
                 ('effort_policy.apply_tool_environment',lambda args,*a,**k:args),
                 ('workload_compatibility.require_workload',Mock()),
                 ('profile_tool_hydration.prepare_tool_files',Mock()),
-                ('media_paths.image_source',lambda root,path:root/path),
                 ('runtime_policy.require_space',Mock()),
                 ('model_variants.first_pass',Mock(return_value=('official','fixture standard preference'))),
                 ('radeon_edit.uses_radeon',Mock(return_value=True)),
@@ -58,10 +58,11 @@ class RoutingTests(unittest.TestCase):
             generate = stack.enter_context(patch.object(dialogue,'generate',side_effect=lambda *a,**k:events.append('generate') or {'files':[]}))
             with self.assertRaises(SystemExit) as stopped: cli.main()
             self.assertEqual(stopped.exception.code,0)
-        self.assertEqual(events,['prepare','lease','guard','generate','restore','emit'])
-        generate.assert_called_once_with(request,root=ROOT)
+        self.assertEqual(events,['resolve','prepare','lease','guard','generate','restore','emit'])
+        self.assertEqual(prepare.call_args.args[1].input, str(ROOT/'resolved-fixture.png'))
         self.assertEqual(prepare.call_args.args[1].duration,20.)
         self.assertEqual(prepare.call_args.args[1].dialogue_start,5.)
+        generate.assert_called_once_with(request,root=ROOT)
 
     def test_scaled_commands_require_real_compute_before_handoff(self):
         for command in ('audio-inpaint','sfx-inpaint','dialogue-video'):

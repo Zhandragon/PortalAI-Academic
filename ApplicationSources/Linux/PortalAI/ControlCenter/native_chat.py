@@ -4859,13 +4859,13 @@ class NativeChat:
         limit = 0
         usage = {'limit': 0, 'calls': 0, 'history_reads': 0, 'checkpoints': 0}
         from chat_task_checkpoint import Cycle, validate as checkpoint_validate, commit as checkpoint_commit
-        cycle = Cycle(self.settings.get('checkpoint_no_tool_limit',4))
         from chat_priority import Foreground
         foreground = None
         repair_state['attempted_actions'] = attempted_actions
         self._continuation_remaining = 2
         try:
             self._check_login()
+            cycle = Cycle(getattr(self, 'settings', {}).get('checkpoint_no_tool_limit',4))
             limit = tool_call_limit(getattr(self, 'settings', {}))
             usage['limit'] = limit
             current_request = next((row.get('content', '') for row in reversed(self.session['messages'])

@@ -1,0 +1,22 @@
+Native controls registration repair - October 25, 2026
+
+The local Donation tab expanded the GUI page set beyond the eleven pages in
+native-controls protocol 1. Passing the whole set into the strict registration
+audit caused native_action_registration_incomplete and withdrew native_ui_protocol.
+This reproduced in both r42 and the pre-Welcome GUI; it was missed by earlier
+Welcome-only GUI checks. The running owner GUI's endpoint also lacked that flag.
+
+The launcher now registers only the existing protocol page allowlist. The
+controller still requires every supported page and safety action, and rejects
+unsupported remote pages. Donation remains local. Account, form, Stop, upload,
+ownership and no-replay checks are unchanged; no protocol flag is forced on.
+
+Local version: 2026.10.25-Aoostar-r43. Both themes passed the full native workflow
+fixture, eleven page descriptions, real loopback delivery, file transfer, account
+forms, and verified sealing in disposable accounts. Native Linux/macOS and a
+physical HA browser session are separate acceptance checks.
+
+Recovery: Maintenance/Patches/NativeControlsRegistration_before_20261025
+Evidence: Maintenance/Validation/NativeControlsRegistration-20261025
+Installer index: D:/Utilities/Handoffs/NativeControls-r43-Installer-Index.txt
+Use complete local archives; the old small downloaders retain upstream pins.

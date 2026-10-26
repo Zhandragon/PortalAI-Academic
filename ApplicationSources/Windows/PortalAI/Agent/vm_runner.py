@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -31,6 +32,8 @@ def digest(path):
 
 def preflight(root=ROOT, verify=True):
     root = Path(root).resolve()
+    if sys.platform == "darwin":
+        raise RuntimeError("PortalAI VM transport is not included in the macOS package; install and use a separate local VM manager")
     _, available = memory_info()
     if available < 1536*1024**2:
         raise RuntimeError("VM mode requires at least 1.5 GiB of available host RAM")
@@ -81,6 +84,8 @@ class ProcessBudget:
     def __init__(self, process, memory_bytes=2*1024**3):
         self.handle = None
         self.linux=None
+        if sys.platform == "darwin":
+            raise RuntimeError("PortalAI VM process limits are not available on macOS")
         if os.name != "nt":
             from mission_supervisor import WorkerJob
             self.linux=WorkerJob(process)

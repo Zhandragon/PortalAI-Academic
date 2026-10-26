@@ -75,8 +75,16 @@ def relative(value):
     return PurePosixPath(value)
 
 
+def native_path(value):
+    """Use Windows extended paths without changing machine-wide settings."""
+    absolute = os.path.abspath(value)
+    if os.name == 'nt' and not absolute.startswith('\\\\?\\'):
+        absolute = ('\\\\?\\UNC\\' + absolute[2:]) if absolute.startswith('\\\\') else ('\\\\?\\' + absolute)
+    return Path(absolute)
+
+
 def checked_path(root, value):
-    root = Path(root).absolute()
+    root = native_path(root)
     parts = relative(value).parts
     target = root.joinpath(*parts)
     for current in [*reversed(root.parents), root, *[root.joinpath(*parts[:i]) for i in range(1, len(parts)+1)]]:
@@ -145,8 +153,6 @@ def download_artifact(item, package, cache, stop, progress):
 
 
 def _fetch_one(item, cache, stop, progress, opener=None):
-    from academic_policy import require_asset
-    require_asset(item)
     validate_pin(item)
     url = urllib.parse.urlsplit(item['url'])
     if url.scheme != 'https' or not url.hostname or url.username or url.password or url.fragment:
@@ -469,8 +475,6 @@ def planned_receipts(manifest, chosen, ordinary_files):
 
 
 def plan(manifest, selected):
-    from academic_policy import validate_installer_manifest
-    validate_installer_manifest(manifest)
     if manifest.get('schema') != 1 or manifest.get('status') != 'RELEASED':
         raise InstallError('This package has not passed release acceptance')
     components = manifest['components']
@@ -565,18 +569,18 @@ class InstallationProgress:
                     overall_done=min(self.total,self.completed+self.done),overall_total=self.total)
 
 
-def install(package, destination, selected, stop=None, progress=None, events=None):
+def _install_new(package, destination, selected, stop=None, progress=None, events=None):
     """Build a new directory beside the requested final path, then publish it."""
     stop = stop or threading.Event()
     progress = progress or (lambda *_: None)
-    package = Path(package).absolute()
+    package = native_path(package)
     checked_path(package.parent, package.name)
     manifest_path = package / 'release.json'
     manifest = read_manifest(package)
     chosen, artifacts, expected_files, need = plan(manifest, selected)
     meter=InstallationProgress(events,artifacts,expected_files)
     meter.start("preparing","Checking selected files and disk space")
-    destination = Path(destination).absolute()
+    destination = native_path(destination)
     if not destination.name or destination == destination.parent:
         raise InstallError('Choose a new installation folder, not a drive root')
     checked_path(destination.parent, destination.name)
@@ -700,3 +704,63 @@ def install(package, destination, selected, stop=None, progress=None, events=Non
         raise InstallError('Destination appeared during installation; completed staging was retained')
     stage.rename(destination)
     return report
+
+
+# This module is appended to the reviewed installer core by prepare_installer.py.
+
+def _update_metadata(manifest, source, rows, target=None):
+    import portable_update as update
+    contract=manifest.get('upgrade')
+    if not isinstance(contract,dict) or contract.get('schema')!=1:raise InstallError('This package has no upgrade compatibility contract')
+    files=[]
+    for row in rows:
+        dest=canonical_destination(row['dest'])
+        if not dest.startswith('portalai/'):continue
+        name=row['dest'].split('/',1)[1]
+        try:update.public(name)
+        except update.UpdateError:continue
+        p=update.path(source,name)
+        files.append({'path':name,'bytes':row['bytes'],'sha256':row['sha256'],'mode':0o644})
+    if target is not None:
+        update.merge_executable_recovery(source,target)
+        recovery=source/'Maintenance/ExecutableRecovery'
+        for p in recovery.rglob('*') if recovery.exists() else []:
+            if p.is_file():
+                name=p.relative_to(source).as_posix();update.path(source,name)
+                files.append({'path':name,'bytes':p.stat().st_size,'sha256':update.sha(p),'mode':0o644})
+    return {**contract,'kind':'portalai-public-update','files':files}
+
+def inspect_update(package,target):
+    import tempfile
+    import portable_update as update
+    package=native_path(package);manifest=read_manifest(package)
+    plan(manifest,[])
+    payload=checked_path(package,manifest['payload']['file'])
+    if payload.stat().st_size!=manifest['payload']['bytes'] or sha256(payload)!=manifest['payload']['sha256']:raise InstallError('Payload checksum failed')
+    with tempfile.TemporaryDirectory(prefix='PortalAI-version-check-') as tmp:
+        stage=native_path(tmp)
+        extract_allowlist(payload,manifest['payload']['members'],stage,threading.Event())
+        source=stage/'PortalAI Windows'
+        contract=_update_metadata(manifest,source,manifest['payload']['members'])
+        return update.plan(source,target,contract)
+
+def install(package,destination,selected,stop=None,progress=None,events=None,mode='install'):
+    if mode=='install':
+        # Existing users are offered an explicit version-reviewed Upgrade action.
+        return _install_new(package,destination,selected,stop,progress,events)
+    if mode!='upgrade':raise InstallError('Unknown installer mode')
+    import portable_update as update
+    stop=stop or threading.Event();progress=progress or (lambda *_:None)
+    preview=inspect_update(package,destination)
+    if stop.is_set():raise Cancelled('Paused before update preparation')
+    target=Path(str(destination).removeprefix('\\\\?\\')).resolve()
+    stage=target.parent/('.PortalAI-upgrade-'+uuid.uuid4().hex)
+    progress('Preparing verified update from '+str(preview['from_version'])+' to '+preview['to_version'],0,0)
+    # Reuse the clean engine's verified runtime downloads and extraction. Optional
+    # installed assets absent from this selection remain in the existing root.
+    _install_new(package,stage,selected,stop,progress,events)
+    manifest=read_manifest(package);_,_,rows,_=plan(manifest,selected)
+    source=stage/'PortalAI Windows';contract=_update_metadata(manifest,source,rows,target)
+    result=update.apply(source,target,contract,stop,progress)
+    result['staging_retained']=str(stage)
+    return result

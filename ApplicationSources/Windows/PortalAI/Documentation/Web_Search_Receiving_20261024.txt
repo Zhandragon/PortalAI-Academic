@@ -1,0 +1,36 @@
+Nice web-search receiving corrections - October 24, 2026
+
+Incoming HA handoff: PortalAI-Aoostar-WebSearch-Fix-Sync-Handoff-20261024-r16.zip
+SHA256 e3308273fe34ac36f3e32b8ecc30375d5f2e485443ecf46165ae57c3db237f75
+All 37 embedded checksum entries matched. The original search action and saved
+evidence fix were already installed; three receiving changes were still missing.
+
+Installed corrections
+- Classify malformed non-string web actions conservatively without raising a
+  TypeError for list/dictionary values. No new read-only action is admitted.
+- Preserve failure evidence when a native search envelope contains a failed
+  nested result. Do not project those results as successful search findings.
+- Shorten the compact web guide while retaining its meaning, revision and
+  Academic policy. The master instructions already match and remain unchanged.
+- Add the two receiving regression cases to the existing 13-case suite.
+
+Both defects were reproduced against the installed r40 code before applying
+the changes. The source replacement used checksum-verified recovery, normal
+closed-account state and an owned-process shutdown check under instance/profile
+locks. No owner account or mission was opened and no model service was started.
+Local results are in Maintenance/Validation/WebSearchReceiving-20261024.
+
+Local Aoostar-r41-web-search installers are rebuilt from each matching verified
+r40 package. This integrates the missing web corrections while retaining existing
+platform, Academic, installer-engine, component and refresh-repair differences.
+Archive/payload hashes and executable modes are revalidated. Previous archives
+and their checksums remain available; small upstream Setup downloaders keep their
+existing pins. This local rebuild does not publish or deploy a remote release.
+
+Packaged tests run on the Windows builder. Native Linux/macOS execution, full
+clean recipient installations and an actual Nice model-generated answer remain
+separate acceptance checks. Provider restrictions remain possible.
+
+Pre-edit recovery: Maintenance/Patches/WebSearchReceiving_before_20261024.
+Use normal PortalAI startup to load the updated source. Future source replacement
+still requires normal Exit and verified sealing; never force-stop owner work.

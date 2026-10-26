@@ -22,6 +22,14 @@ def note_call(n=1,summary='Step checked; output ready.',next_step='Inspect the s
 
 
 class TaskCheckpointTests(unittest.TestCase):
+    def test_invalid_checkpoint_setting_reports_error_and_releases_busy_state(self):
+        p=fixture();p.settings['checkpoint_no_tool_limit']='invalid'
+        p.agent_worker('test')
+        events=list(p.ev.queue)
+        self.assertTrue(any(event[0]=='error' for event in events))
+        self.assertEqual(events[-1][0],'done')
+        p.tool_runtime.execute.assert_not_called()
+
     def test_cycles_resume_automatically_preserve_evidence_and_never_execute_checkpoint_as_external_tool(self):
         p=fixture();seen=[]
         p.tool_runtime.execute.return_value='{"success":true,"output":"Outputs/ALREADY_DONE.mp4"}'

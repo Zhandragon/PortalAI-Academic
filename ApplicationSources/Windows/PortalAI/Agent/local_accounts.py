@@ -55,7 +55,10 @@ class AuthorizationError(PermissionError):
 def _crypto():
     if sys.version_info[:2] != (3, 12):
         raise RuntimeError("Local accounts require bundled Python 3.12")
-    relative = "Runtime/AccountPython/packages" if os.name == "nt" else "Runtime/AccountPython/linux-packages"
+    if os.name == "nt":relative = "Runtime/AccountPython/packages"
+    elif sys.platform.startswith('linux'):relative = "Runtime/AccountPython/linux-packages"
+    elif sys.platform=='darwin':relative = "Runtime/AccountPython/macos-packages"
+    else:raise RuntimeError("Local accounts are supported on Windows, Linux, and macOS")
     packages = ROOT / relative
     if not (packages / "cryptography/__init__.py").is_file():
         raise RuntimeError("Bundled account cryptography is missing")

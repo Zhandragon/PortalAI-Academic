@@ -102,9 +102,10 @@ def verify_python_runtime() -> None:
 
 
 def clean_installer_receipt(root: Path) -> Path:
-    receipts = sorted((root / 'Maintenance/Imports').glob('linux-clean-installer-r[0-9]*.json'))
+    """Use this installation's unique receipt, without assuming a release number."""
+    receipts = sorted((root / "Maintenance/Imports").glob("linux-clean-installer-r*.json"))
     if len(receipts) != 1:
-        raise RuntimeError('Expected one Linux clean-installer receipt; found ' + str(len(receipts)))
+        raise RuntimeError(f"Expected one Linux clean installer receipt; found {len(receipts)}")
     return receipts[0]
 
 

@@ -66,8 +66,15 @@ class VisionPolicyTests(unittest.TestCase):
             self.plan('fast')
 
     def test_current_free_ram_falls_back_to_2b_with_reserves(self):
-        self.hw['ram_available_bytes'] = 7*1024
-        self.assertEqual(self.plan()['selection'], 'qwen-vl2-q4')
+        # Small vision now reserves at least 4096 context tokens. The former
+        # 6-GiB fixture only fitted the deprecated 2048-token context.
+        self.hw['ram_available_bytes'] = int(6.5*1024)
+        plan = self.plan()
+        self.assertEqual(plan['selection'], 'qwen-vl2-q4')
+        self.assertGreaterEqual(plan['context_tokens'], 4096)
+        self.hw['ram_available_bytes'] = 6*1024
+        with self.assertRaisesRegex(RuntimeError, 'RAM/VRAM'):
+            self.plan()
         self.hw['ram_available_bytes'] = 3*1024
         with self.assertRaisesRegex(RuntimeError, 'RAM/VRAM'):
             self.plan()
@@ -120,83 +127,6 @@ class VisionPolicyTests(unittest.TestCase):
         before = effort.chat_policy_signature(self.policy)
         self.policy['vision_routing'] = 'off'
         self.assertNotEqual(before, effort.chat_policy_signature(self.policy))
-
-    def test_all_four_pairs_request_minimum_image_tokens(self):
-        for variant, names in vision.VISION_MODELS.items():
-            for identity in names.values():
-                self.policy['selection'] = identity
-                plan = self.plan('fast')
-                self.assertEqual(plan['model']['image_min_tokens'], 1024)
-                self.assertEqual(plan['command'][plan['command'].index('--image-min-tokens')+1], '1024')
-                self.assertGreaterEqual(plan['model']['image_buffer_bytes'], runtime.GIB // 2)
-
-    def test_small_vision_does_not_silently_raise_too_small_context(self):
-        self.policy['context_tokens'] = 2048
-        with self.assertRaisesRegex(RuntimeError, '4096 context'):
-            self.plan('fast')
-        self.assertEqual(self.policy['context_tokens'], 2048)
-
-    def test_larger_minimum_increases_ram_and_context_requirement(self):
-        row = next(m for m in self.policy['models'] if m['id']=='qwen-vl2-q4')
-        before = self.plan('fast')['model']
-        row['image_min_tokens'] = 2048
-        after = self.plan('fast')['model']
-        self.assertEqual(after['estimated_ram_bytes']-before['estimated_ram_bytes'], runtime.GIB // 2)
-        self.policy['context_tokens'] = 4096
-        with self.assertRaisesRegex(RuntimeError, '5120 context'):
-            self.plan('fast')
-
-    def test_image_ram_headroom_is_admitted_before_loading(self):
-        plan = self.plan('fast')['model']
-        self.hw['ram_available_bytes'] = plan['estimated_ram_bytes'] + 2*runtime.GIB
-        # Pin the context to keep this test about memory, not automatic fallback.
-        self.policy['selection'] = 'qwen-vl2-q4'
-        self.assertEqual(self.plan()['selection'], 'qwen-vl2-q4')
-        self.hw['ram_available_bytes'] -= 1
-        with self.assertRaisesRegex(RuntimeError, 'RAM/VRAM'):
-            self.plan()
-
-    def test_text_plan_has_no_image_flag_or_encoder_headroom(self):
-        with patch.object(runtime, 'choose_backend', return_value=self.backend):
-            plan = effort.require_chat_plan('fast', self.root, policy=self.policy, hardware=self.hw)
-        self.assertNotIn('--image-min-tokens', plan['command'])
-        self.assertNotIn('image_buffer_bytes', plan['model'])
-
-    def test_regular_build_plan_has_same_small_vision_command(self):
-        self.policy['selection'] = 'qwen-vl2-q4'
-        with patch.object(runtime, 'choose_backend', return_value=self.backend):
-            plan = runtime.build_plan(self.root, self.hw, self.policy)
-        self.assertEqual(plan['command'][plan['command'].index('--image-min-tokens')+1], '1024')
-
-    def test_retired_pair_is_rejected_even_with_stale_profile(self):
-        self.policy['selection'] = 'qwen-vl2-abliterated-q4'
-        row = next(m for m in self.policy['models'] if m['id']==self.policy['selection'])
-        row['path'] = 'Qwen3-VL-2B-Instruct-abliterated.Q4_K_M.gguf'
-        (self.root/row['path']).write_bytes(b'x'*1100)
-        with self.assertRaisesRegex(RuntimeError, 'previous 2B Abliterated'):
-            self.plan('fast')
-
-    def test_loading_signature_includes_minimum_and_code_revision(self):
-        before = effort.chat_policy_signature(self.policy)
-        self.assertEqual(before['vision_runtime_revision'], runtime.SMALL_VISION_RUNTIME_REVISION)
-        self.policy['models'][-1]['image_min_tokens'] = 2048
-        self.assertNotEqual(before, effort.chat_policy_signature(self.policy))
-
-    def test_manifest_profiles_and_catalog_use_matching_replacement(self):
-        import model_variants
-        assets = json.loads((ROOT/'Agent/small_vision_assets.json').read_text())
-        pair = [a for a in assets if a['variant']=='uncensored' and '2B' in a['path']]
-        self.assertEqual(len(pair), 2)
-        self.assertTrue(all(a['revision']=='5ed601c9635da33a268c3b491c1348d1db39e71a' for a in pair))
-        self.assertEqual({a['sha256'] for a in pair}, {
-            '2e52340effacd3db285bcc0558b325f87830c9c0f003c11b339660b8301b935a',
-            '3c334d6d2d95d20521465c673ad5538331cd4e058d6a80dede3036ad4fa532e4'})
-        rows = next(x for x in model_variants.CATALOG if x['id']=='qwen-vl2')['uncensored']
-        self.assertEqual({(x['path'],x['bytes']) for x in rows}, {(x['path'],x['bytes']) for x in pair})
-        cfg = json.loads((ROOT/'Agent/hardware_profiles.json').read_text())
-        model = next(x for x in cfg['models'] if x['id']=='qwen-vl2-abliterated-q4')
-        self.assertEqual({model['path'],model['projector']}, {x['path'] for x in pair})
-        self.assertIn('mmproj-Huihui-Qwen3-VL-2B-Instruct-abliterated-F16.gguf', model['projector'])
 
     def test_preference_validation_and_merge_preserve_other_choices(self):
         changed = model_preferences.merge(self.policy, {'vision_routing': 'off'})

@@ -29,6 +29,11 @@ def main():
         return 1
     try:
         request = json.loads(Path(sys.argv[1]).read_text('utf-8-sig'))
+        if request.get('mode')=='plan':
+            report=core.inspect_update(request['package'],request['destination'])
+            emit(kind='plan',message='Update '+str(report['from_version'])+' to '+report['to_version'],
+                 report={k:v for k,v in report.items() if k!='files'})
+            return 0
         last=[0.0];state=[None]
         def progress(label,done,total):
             # Detailed byte updates use structured events, never repeated log rows.
@@ -40,8 +45,8 @@ def main():
             if changed or now-last[0]>.15 or (message.get('total',0)>0 and message.get('done')==message.get('total')):
                 events.key=key;last[0]=now;emit(**message)
         report = core.install(request['package'], request['destination'], request['selected'],
-                              FileCancellation(request['cancel_file']), progress, events)
-        emit(kind='complete', message='Installation verified. Open PortalAI in the new folder to create your own account.', report=report)
+                              FileCancellation(request['cancel_file']), progress, events, mode=request.get('mode','install'))
+        emit(kind='complete', message='Installation verified. Open PortalAI normally. Existing accounts and settings are preserved during upgrades.', report=report)
         return 0
     except core.Cancelled as exc:
         emit(kind='paused', message=str(exc))

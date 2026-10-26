@@ -39,8 +39,11 @@ def bounded_int(value, low, high):
 
 def process_identity():
     if os.name != 'nt':
-        from linux_process import identity
-        return identity(os.getpid())['start_ticks']
+        from portable_process import identity
+        row = identity(os.getpid())
+        if 'start_ticks' in row:
+            return row['start_ticks']
+        return int(float(row['create_time']) * 1_000_000)
     kernel = ctypes.WinDLL('kernel32', use_last_error=True)
     kernel.GetCurrentProcess.restype = wintypes.HANDLE
     kernel.GetProcessTimes.argtypes = [wintypes.HANDLE, *([ctypes.POINTER(wintypes.FILETIME)]*4)]

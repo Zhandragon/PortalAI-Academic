@@ -10,8 +10,10 @@ The Welcome page uses the banner Donate link and has no separate sponsor button.
 
 The layout follows the current light/dark palette and reflows from four columns to two or one on narrower windows; the page remains scrollable. QR destinations are unchanged; the approved rounded cards and QR presentation remain.
 
-Validation: five real Tk donation tests cover exact clipboard strings, explicit sponsor navigation, palette changes and responsive layout. The actual Windows launcher was checked with a disposable account, including Donation/Welcome/Help navigation, six Controls buttons and verified account sealing. All four QR destinations decoded correctly from both light and dark launcher screenshots. No donation was sent. Physical Linux/macOS UI acceptance remains pending.
+Publisher validation: real Tk donation tests cover exact clipboard strings, explicit sponsor navigation, palette changes and responsive layout. The actual Windows launcher was checked with a disposable account, including Donation/Welcome/Help navigation, six Controls buttons and verified account sealing. All four QR destinations decoded correctly from both light and dark launcher screenshots. No donation was sent. Physical Linux/macOS UI acceptance remains pending.
 
 Normal PortalAI exit and relaunch loads the UI update. Existing owner accounts, models, credentials and connections are outside this update.
 
 The Welcome version identifies the public distribution release. `ControlCenter/release_version.py` is stamped by the installer build and verified against each package release; the obsolete v15.138o Control Center label is retired. Full and Academic share the same release revision.
+
+Aoostar integration: local distribution 2026.10.24-Aoostar-r42 carries the focused r17 Welcome changes. Local evidence and package details are in Documentation/Welcome_Cleanup_20261024.txt.

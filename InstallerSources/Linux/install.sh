@@ -48,10 +48,15 @@ DEST_PARENT="$(dirname -- "$DEST")"
 DEST_NAME="$(basename -- "$DEST")"
 DEST="$DEST_PARENT/$DEST_NAME"
 
-if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-  echo "Refusing to overwrite existing path: $DEST" >&2
-  exit 2
+UPGRADE=0
+case "${2:-}" in ""|--upgrade) ;; *) echo "Use an optional --upgrade after the destination." >&2; exit 2;; esac
+if [ -L "$DEST" ]; then echo "Linked destinations are not supported." >&2; exit 2; fi
+if [ -e "$DEST" ]; then
+  if [ ! -f "$DEST/ControlCenter/control_center_bootstrap.py" ]; then echo "Destination is not a PortalAI installation." >&2; exit 2; fi
+  UPGRADE=1
+elif [ "${2:-}" = --upgrade ]; then echo "No existing PortalAI installation was found." >&2; exit 2
 fi
+KEEP_STAGE=0
 
 sh "$SCRIPT_DIR/storage-preflight.sh" "$DEST_PARENT" 15192979 52428800 104857600 10
 
@@ -73,6 +78,7 @@ portal_stage 1 'Verifying package checksums'
 
 STAGE=$(mktemp -d "$DEST_PARENT/.portalai-linux-install.XXXXXX")
 cleanup() {
+  if [ "$KEEP_STAGE" = 1 ]; then echo "Update/recovery staging retained: $STAGE"; return; fi
   if [ -n "${STAGE:-}" ] && [ -d "$STAGE" ]; then
     case "$STAGE" in
       "$DEST_PARENT"/.portalai-linux-install.*) rm -rf -- "$STAGE" ;;
@@ -98,6 +104,14 @@ fi
 unset PYTHONHOME PYTHONPATH VIRTUAL_ENV __PYVENV_LAUNCHER__ LD_LIBRARY_PATH
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 
+if [ "$UPGRADE" = 1 ]; then
+  "$PYTHON" -B -I "$STAGE/PortalAI/Tools/installer_update.py" --source "$STAGE/PortalAI" --target "$DEST" --contract "$SCRIPT_DIR/upgrade.json"
+  if [ "${2:-}" != --upgrade ]; then
+    echo "Version check complete. Run this installer with the same destination followed by --upgrade to apply the update."
+    exit 0
+  fi
+fi
+
 portal_stage 4 'Checking runtime'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --preflight
 portal_stage 5 'Installing runtime components'
@@ -109,6 +123,13 @@ portal_stage 6 'Downloading and verifying models'
 
 portal_stage 8 'Creating verified recovery backups'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/repair_executables.py" --seed-fresh-native-install
+
+if [ "$UPGRADE" = 1 ]; then
+  KEEP_STAGE=1
+  "$PYTHON" -B -I "$STAGE/PortalAI/Tools/installer_update.py" --source "$STAGE/PortalAI" --target "$DEST" --contract "$SCRIPT_DIR/upgrade.json" --apply
+  portal_stage 10 'Update verified; existing accounts and settings preserved'
+  exit 0
+fi
 
 if [ -e "$DEST" ] || [ -L "$DEST" ]; then
   echo "Refusing to overwrite a path created during installation: $DEST" >&2

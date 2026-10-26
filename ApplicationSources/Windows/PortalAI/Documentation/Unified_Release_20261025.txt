@@ -1,0 +1,41 @@
+PortalAI 2026.10.25-Aoostar-r45 — Academic Windows
+
+Unified public application and companion source from the reviewed D/E versions.
+Includes native-controls registration, web-search evidence, tracked refresh,
+authenticated account import/setup, executable recovery, Mac lifecycle/input,
+and version-aware upgrades. Platform runtimes and Academic policies are retained.
+
+Keep this complete extracted package together. Run the installer for your OS.
+Windows: open PortalAI-Install.exe; choose a new folder or Update existing.
+Linux: run ./install.sh [application-folder] [--upgrade].
+Mac: run ./install-macos.sh [application-folder] [--upgrade].
+For an existing folder the Unix default is a read-only version check.
+Exit PortalAI normally and wait for account sealing before updating.
+Known older stamped/verified legacy releases are supported. Unknown versions,
+downgrades, other editions and uncertain account states stop for review.
+Updates preserve existing accounts, preferences and optional assets, retain
+verified recovery copies and block startup after an interrupted transaction.
+Existing companion installations require the separate companion update;
+application upgrades do not overwrite saved companion connections.
+
+Hardware selection remains automatic within the runtimes/models installed:
+CUDA/Vulkan/CPU on Windows/Linux; Metal/CPU on macOS. Available RAM/VRAM,
+explicit model choices and storage reserves still limit admission. Detection
+does not make every media capability work on every backend or architecture.
+No host Python or Node installation is required. Initial setup needs internet
+for additional runtimes and model downloads; this is not an offline installer.
+The installed selected components remain under the portable application root.
+Web search and remote integrations need their respective network/services.
+
+Windows requirements: supported x86-64 Windows, enough RAM/storage and the
+appropriate GPU driver for accelerated features. CPU fallback is available
+for supported tasks. VM features additionally need hardware virtualization
+and the appropriate Windows hypervisor support. Selected optional components
+determine media/science capabilities; CUDA alone is not a universal requirement.
+
+Verification: see manifest/release.json and package checksums. Packaged source
+and disposable Windows tests are recorded separately; physical Linux/Mac and
+clean online recipient installs are not established by this Windows build.
+No owner account, keys, saved connection, output or private configuration is
+included. Deprecated means superseded for PortalAI's self-contained goals,
+not old according to a third-party package distributor. Nothing is removed.

@@ -29,7 +29,7 @@ internal static class Program {
                 using (Stream input = entry.Open()) using (FileStream output = new FileStream(path, FileMode.CreateNew)) input.CopyTo(output);
             }
         }
-        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "installer_storage.py", "academic_policy.py" }) {
+        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "installer_storage.py", "portable_update.py" }) {
             using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
             using (FileStream output = new FileStream(Path.Combine(root, name), FileMode.CreateNew)) input.CopyTo(output);
         }
@@ -114,10 +114,11 @@ internal sealed class InstallerForm : Form {
     readonly PortalProgress currentProgress=new PortalProgress(),overallProgress=new PortalProgress();
     readonly Label currentLabel=new Label(),currentBytes=new Label(),overallLabel=new Label(),title=new Label();
     readonly BackgroundWorker worker=new BackgroundWorker();
+    readonly PortalButton upgrade=new PortalButton(); string upgradeTarget;
     string cancellation,lastStep; bool loading=true,dark=true; volatile bool pauseRequested;
     Color gold=Color.FromArgb(176,134,58); Point? drag;
     internal InstallerForm(bool smoke) {
-        Text="PortalAI Academic installer — 2026.10.24 r9"; Name="PortalAIInstaller";
+        Text="PortalAI installer — version-aware r44"; Name="PortalAIInstaller";
         Size=new Size(900,830);MinimumSize=new Size(780,690);StartPosition=FormStartPosition.CenterScreen;
         FormBorderStyle=FormBorderStyle.None;Padding=new Padding(8);DoubleBuffered=true;
         Font=new Font("Segoe UI",9F);Icon=Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
@@ -126,7 +127,7 @@ internal sealed class InstallerForm : Form {
         layout.RowStyles.Add(new RowStyle(SizeType.Percent,55));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,140));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));layout.RowStyles.Add(new RowStyle(SizeType.Percent,45));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,48));
         var header=new Panel { Dock=DockStyle.Fill };
-        title.Text="PortalAI Academic";title.Font=new Font("Georgia",20F,FontStyle.Bold);title.Dock=DockStyle.Fill;title.TextAlign=ContentAlignment.MiddleLeft;
+        title.Text="PortalAI";title.Font=new Font("Georgia",20F,FontStyle.Bold);title.Dock=DockStyle.Fill;title.TextAlign=ContentAlignment.MiddleLeft;
         var chrome=new FlowLayoutPanel { Dock=DockStyle.Right,Width=278,FlowDirection=FlowDirection.RightToLeft,Padding=new Padding(0,7,0,0) };
         var exit=new PortalButton { Text="✕",Width=40,AccessibleName="Close installer" };
         var maximize=new PortalButton { Text="▢",Width=40,AccessibleName="Maximize or restore installer" };
@@ -138,7 +139,7 @@ internal sealed class InstallerForm : Form {
         title.MouseDown+=delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left && WindowState==FormWindowState.Normal)drag=new Point(Cursor.Position.X-Left,Cursor.Position.Y-Top); };
         title.MouseMove+=delegate { if(drag.HasValue && Control.MouseButtons==MouseButtons.Left)Location=new Point(Cursor.Position.X-drag.Value.X,Cursor.Position.Y-drag.Value.Y); };
         title.MouseUp+=delegate { drag=null; };
-        Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI Academic (standard/censored only) will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nChoose optional components below. Existing installation files will not be overwritten." };
+        Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nChoose optional components below. Existing installation files will not be overwritten." };
         choices.Name="Components";choices.Dock=DockStyle.Fill;choices.CheckOnClick=true;choices.BorderStyle=BorderStyle.None;choices.IntegralHeight=false;
         choices.ItemCheck+=delegate(object sender,ItemCheckEventArgs e) { if(!loading && ((ComponentChoice)choices.Items[e.Index]).Required)e.NewValue=CheckState.Checked; };
         var progress=new TableLayoutPanel { Dock=DockStyle.Fill,RowCount=5,ColumnCount=1,Padding=new Padding(0,10,0,4) };
@@ -151,7 +152,14 @@ internal sealed class InstallerForm : Form {
         status.Name="InstallationLog";status.Dock=DockStyle.Fill;status.Multiline=true;status.ReadOnly=true;status.ScrollBars=ScrollBars.Vertical;status.BorderStyle=BorderStyle.None;
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill,FlowDirection=FlowDirection.RightToLeft,Padding=new Padding(0,9,0,0) };
         close.Text="Close";pause.Text="Pause";install.Text="Install here";pause.Enabled=false;
-        buttons.Controls.AddRange(new Control[]{close,pause,install});
+        upgrade.Text="Update existing";upgrade.Width=135;
+        upgrade.Click+=delegate {
+            using(var picker=new FolderBrowserDialog { Description="Choose the existing PortalAI application folder" }) {
+                if(picker.ShowDialog(this)!=DialogResult.OK)return;
+                upgradeTarget=picker.SelectedPath;install.Enabled=true;install.PerformClick();
+            }
+        };
+        buttons.Controls.AddRange(new Control[]{close,pause,upgrade,install});
         foreach(Control c in new Control[]{header,intro,choices,progress,new Label { Text="Installation details",Dock=DockStyle.Fill },status,buttons})layout.Controls.Add(c);
         Controls.Add(layout);ApplyTheme();
         var release=Program.Json().Deserialize<Dictionary<string,object>>(File.ReadAllText(Path.Combine(Program.Package,"release.json")));
@@ -165,15 +173,15 @@ internal sealed class InstallerForm : Form {
         worker.ProgressChanged+=delegate(object sender,ProgressChangedEventArgs e) { var message=e.UserState as Dictionary<string,object>;if(message!=null)Progress(message);else Append(Convert.ToString(e.UserState)); };
         worker.DoWork+=RunInstall;
         worker.RunWorkerCompleted+=delegate(object sender,RunWorkerCompletedEventArgs e) {
-            pause.Enabled=false;choices.Enabled=true;install.Enabled=true;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
+            pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
             if(e.Error!=null) { currentLabel.Text="Installation stopped";Append("Installation stopped: "+e.Error.Message); }
             else if(Convert.ToInt32(e.Result)!=0) { currentLabel.Text=Convert.ToInt32(e.Result)==2 ? "Paused — downloads retained" : "Installation did not complete";Append("See the details above. Downloaded files remain available for resume."); }
-            else { currentLabel.Text="Installation verified";currentBytes.Text="All selected files are ready.";overallLabel.Text="Overall installation · 100%";currentProgress.Fraction=overallProgress.Fraction=1;Append("Installation verified. Open PortalAI.exe beside this installer to create your account.");install.Enabled=false; }
+            else { currentLabel.Text="Installation verified";currentBytes.Text="All selected files are ready.";overallLabel.Text="Overall installation · 100%";currentProgress.Fraction=overallProgress.Fraction=1;Append("Installation verified. Open PortalAI normally. Updates preserve your existing accounts and settings.");install.Enabled=false; }
             currentProgress.Invalidate();overallProgress.Invalidate();
         };
         install.Click+=delegate {
             var selected=new List<string>();foreach(ComponentChoice item in choices.CheckedItems)selected.Add(item.Id);
-            install.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
+            install.Enabled=false;upgrade.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
             currentLabel.Text="Checking disk space and selected components…";currentBytes.Text="Preparing installation";overallLabel.Text="Overall installation · preparing";
             currentProgress.Fraction=overallProgress.Fraction=0;currentProgress.Indeterminate=overallProgress.Indeterminate=true;
             worker.RunWorkerAsync(selected.ToArray());
@@ -227,12 +235,27 @@ internal sealed class InstallerForm : Form {
     void Append(string text) { if(status.TextLength>60000)status.Text=status.Text.Substring(status.TextLength-40000);status.AppendText(text+Environment.NewLine); }
     void RequestPause() { pauseRequested=true;if(cancellation!=null)File.WriteAllText(cancellation,"pause");pause.Enabled=false;Append("Pause requested; waiting for the current safe checkpoint."); }
     void RunInstall(object sender,DoWorkEventArgs e) {
-        worker.ReportProgress(0,"Checking disk space for the selected components...");worker.ReportProgress(0,StoragePreflight.CheckSelection(Program.Package,(string[])e.Argument));
+        if(upgradeTarget==null) { worker.ReportProgress(0,"Checking disk space for the selected components...");worker.ReportProgress(0,StoragePreflight.CheckSelection(Program.Package,(string[])e.Argument)); }
         if(pauseRequested) { e.Result=2;return; }
         worker.ReportProgress(0,"Preparing the bundled installer runtime...");string runtime=Program.PrepareRuntime();cancellation=Path.Combine(runtime,"cancel");
         if(pauseRequested)File.WriteAllText(cancellation,"pause");BeginInvoke((Action)delegate { pause.Enabled=true; });
         string request=Path.Combine(runtime,"request.json");
-        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=Program.Package,selected=(string[])e.Argument,cancel_file=cancellation }),new UTF8Encoding(false));
+        if(upgradeTarget!=null) {
+            File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget,mode="plan" }),new UTF8Encoding(false));
+            using(Process check=Process.Start(Program.Engine(runtime,Program.Quote(request)))) {
+                Task<string> errors=check.StandardError.ReadToEndAsync();string line;string versionMessage=null;
+                while((line=check.StandardOutput.ReadLine())!=null) {
+                    var message=Program.Json().Deserialize<Dictionary<string,object>>(line);
+                    worker.ReportProgress(0,message);
+                    if(Convert.ToString(message["kind"])=="plan")versionMessage=Convert.ToString(message["message"]);
+                }
+                check.WaitForExit();if(check.ExitCode!=0 || versionMessage==null)throw new IOException("Version check failed. "+errors.Result);
+                bool accepted=false;
+                Invoke((Action)delegate { accepted=MessageBox.Show(this,versionMessage+"?\n\nClose PortalAI normally first. Your accounts, settings and unselected assets will be preserved. Verified recovery copies will be retained.","Review PortalAI update",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)==DialogResult.OK; });
+                if(!accepted) { e.Result=2;return; }
+            }
+        }
+        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? Program.Package,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade" }),new UTF8Encoding(false));
         using(Process process=Process.Start(Program.Engine(runtime,Program.Quote(request)))) {
             Task<string> errors=process.StandardError.ReadToEndAsync();string line;
             using(var log=new StreamWriter(Path.Combine(runtime,"installer-log.jsonl"),false,new UTF8Encoding(false))) {

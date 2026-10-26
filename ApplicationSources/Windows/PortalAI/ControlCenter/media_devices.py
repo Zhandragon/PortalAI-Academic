@@ -12,6 +12,7 @@ from pathlib import Path
 import queue
 import shutil
 import subprocess
+import sys
 import threading
 import time
 import wave
@@ -19,8 +20,11 @@ import wave
 
 def ffmpeg_path(root):
     root = Path(root)
-    return (root / 'Tools/ffmpeg/bin/ffmpeg.exe' if os.name == 'nt'
-            else root / 'Runtime/FFmpeg/linux-x64/bin/ffmpeg')
+    if os.name == 'nt':
+        return root / 'Tools/ffmpeg/bin/ffmpeg.exe'
+    if sys.platform == 'darwin':
+        return root / 'Runtime/FFmpeg/macos/ffmpeg'
+    return root / 'Runtime/FFmpeg/linux-x64/bin/ffmpeg'
 
 
 def desktop_env(root):
@@ -58,9 +62,10 @@ def open_external(root, path):
     if os.name == 'nt':
         os.startfile(str(path))
         return
-    opener = shutil.which('xdg-open')
+    opener = shutil.which('open' if sys.platform == 'darwin' else 'xdg-open')
     if not opener:
-        raise RuntimeError('This Linux desktop has no xdg-open file handler. Open the displayed path in your file manager.')
+        label = 'macOS `open`' if sys.platform == 'darwin' else 'Linux `xdg-open`'
+        raise RuntimeError(f'This desktop has no {label} file handler. Open the displayed path in your file manager.')
     # xdg-open is part of the recipient desktop, not an inference dependency.
     # An absolute path prevents filenames beginning with '-' becoming options.
     proc = subprocess.Popen([opener, str(path)], cwd=str(root), env=desktop_env(root),

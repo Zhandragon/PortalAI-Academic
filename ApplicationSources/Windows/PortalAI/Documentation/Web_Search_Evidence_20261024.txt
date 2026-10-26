@@ -1,28 +1,76 @@
-Web search and saved evidence repair - publisher r16, October 24, 2026
+Nice web search and saved evidence repair - October 24, 2026
 
-Reviewed Aoostar handoff SHA256:
-4c0dd5bed9244e75208124f93846ab92a84a133d554042fb122be6ce62ed3fc4
+Reported failure
+The pasted web return was the help action's successful response: an actions
+dictionary and rules, without any search results. Nice nevertheless described
+a successful product search and offered to retrieve missing details later.
+That return does not establish whether a separate earlier search ran.
 
-The r15 native web tool lacked search, although the shell search route existed.
-Rolling evidence could reduce help/search replies to ok: True, losing the
-distinction between tool instructions and actual findings, and losing links.
+Confirmed causes
+1. Native web exposed page/browser/API operations but no search action. Search
+   existed only as the separate registered Agent/web_tools.py command.
+2. chat_working_memory.evidence_lines preferred generic reported fields. For
+   the help envelope it reduced the evidence to ok: True. For native search
+   envelopes it also discarded titles, URLs and snippets. Large CLI results
+   could similarly lose useful middle content during projection.
+3. Guidance did not clearly distinguish help discovery from search findings;
+   the generic instruction to answer on success could encourage early closure.
 
-The fix exposes the existing bounded search provider through native web search,
-labels help as discovery, and keeps paired titles, exact URLs and snippet
-prefixes in bounded evidence. Omitted results link to exact saved chat_history.
-Search snippets are untrusted and do not establish fetched page contents or
-verified prices/specifications. Raw transcripts and receipts remain unchanged.
+Installed changes
+- web(action=search, arguments={query: ...}) calls the existing bounded search
+  provider/cache implementation. limit is 1..12; fresh is a boolean. No browser
+  is started for this action. Existing TLS, provider cooldown, captured-profile,
+  Stop, and worker ownership behavior is retained.
+- Help is explicitly tool_help and says no search was performed. Search results
+  carry search_results and identify their content as snippets, not fetched pages.
+- Native tool schema and compact/full guidance describe search, page reads,
+  answering with source links, and retrieving specific omitted evidence.
+- Bounded evidence projections preserve paired titles, exact URLs and snippet
+  prefixes for native and CLI searches. Too-long URLs/results are omitted whole
+  with counts and a source message_id for exact chat_history retrieval. Original
+  transcripts and execution receipts remain unchanged. Legacy help is labeled
+  as discovery in rolling evidence; failed results retain their failure status.
+- Only native help/search are added to the read-only format-recovery classifier.
+  Browser actions and HTTP requests remain conservatively effectful. No automatic
+  tool invocation or replay was added.
 
-Receiving review additionally rejects malformed action types in read-only
-classification and preserves failed results inside native response envelopes.
-Only help/search gain format-recovery classification; browser writes and HTTP
-requests retain conservative no-replay handling. TLS, captured-account checks,
-provider cooldown/cache, Stop and ownership remain unchanged. Search does not
-launch Chromium. Academic's existing policy text is retained.
+Validation
+- The new regression suite reproduced the missing search action and the exact
+  help/search -> ok: True evidence loss before the implementation changed.
+- Final focused run: 174 tests passed, zero failures/errors/skips, including
+  13 new search/evidence cases, native chat continuation, context budgets,
+  checkpoints, protocol classification, account web/media and TLS/cache guards.
+  See Maintenance/Validation/WebSearchEvidence-20261024/regression-summary.json
+  and regression-results.txt.
+- Earlier full test_web*.py run: 92 tests passed, including real hidden Windows
+  worker/browser ownership checks. Two more focused regression cases were added
+  afterward; they are included in the 174-test final run.
+- Public source scan: 842 files selected; no syntax/config errors or warnings.
+  Existing layered frontend definitions were reported, not changed.
+- Real public network test through WebSession.search: three product results from
+  DuckDuckGo; titles/links/snippets survived the compact model view. Fixture query
+  was Logitech MX Master 3S official specifications, not the unidentified product
+  from the user's report. No owner account, model, or chat was used.
+- Tools/smoke_web.run_checks ran in an isolated unprofiled validation workspace:
+  public search, two public page reads, and image search/download passed. The
+  injected primary-provider 403 fallback check met a real DuckDuckGo Lite bot
+  challenge; its dependent cache check could not run. No challenge was bypassed.
+  Full details: Maintenance/Validation/WebSearchEvidence-20261024/live-web-report.json.
+- Broader legacy tests have pre-existing failures: 16 protocol-recovery tests
+  bind fixtures to the installed root and stop on ProfileLocked before inference;
+  three effort subcases exceed an old 5000-character prompt assertion. Loading
+  checksum-verified pre-edit modules reproduced all 19 failures. These unrelated
+  fixtures and prompt-size limits were not changed or counted as passing.
 
-The incoming 13 cases failed on the receiving r15 baseline and pass with the
-reviewed fix. Two additional receiving regressions reproduce and protect the
-edge cases above. Detailed receiving test/live-network evidence is published
-in Documentation/WEB-SEARCH-VALIDATION-20261024-r16.json in each repository.
-No owner account or chat is used for testing. Model quality and external
-provider access remain separate from correct dispatch/evidence handling.
+Activation and limits
+Exit PortalAI normally and reopen it to load the Python changes, including any
+existing web worker. Do not force-stop live work or bypass verified sealing.
+The actual Nice model's end-to-end product answer remains unvalidated. External
+providers may still restrict access; a successful help call is never search proof.
+Installer packaging is tracked separately in Web_Search_Installers_20261024.txt
+and the package validation/publication receipts.
+
+Recovery
+Checksum-verified pre-edit copies, required root master, config and hardware
+policy are in Maintenance/Patches/WebSearchEvidence_before_20261024_212506.
+This is focused public-source recovery, not an account or full-drive backup.

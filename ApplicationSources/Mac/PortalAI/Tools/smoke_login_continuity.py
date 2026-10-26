@@ -203,7 +203,8 @@ def run(destination, theme='light', chat_settings=False, inspector=None):
         state['built']=loc.copy();loc['tray'].show=lambda:False;state['step']=4
     source=(ROOT/'ControlCenter/PortableAI_GUI.py').read_text(encoding='utf-8')
     source=source.replace('Local\\\\Zhandragon.PortableAI.ControlCenter','Local\\\\PortalAI.StartupFixture.'+uuid.uuid4().hex)
-    needle="    if accounts_enabled(root) or LocalAccounts(root).status().get('state') == 'fresh':"
+    needle="    account_gate = GUIAccountGate(app, root, COLORS, authenticated=authenticated)"
+    if source.count(needle) != 1: raise RuntimeError('Startup fixture could not locate the account gate')
     source=source.replace(needle,'    _fixture_shell(locals())\n'+needle,1)
     needle='    if account_gate is not None: account_gate.application_ready()'
     source=source.replace(needle,'    _fixture_before_ready(locals())\n'+needle+'\n    _fixture_built(locals())',1)

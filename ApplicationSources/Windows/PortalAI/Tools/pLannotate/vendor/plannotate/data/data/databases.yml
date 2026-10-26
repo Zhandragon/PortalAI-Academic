@@ -1,0 +1,74 @@
+---
+Rfam:
+  method: infernal
+  location: Default
+  priority: 3
+  # approximate single-thread runtime in seconds (dev machine, feature-rich
+  # plasmid); only ratios matter -- they tell the scheduler how to split cores.
+  # Rfam scales well with threads, so it earns the most when cores are scarce.
+  cost: 6.2
+  details:
+    default_type: ncRNA
+    location: None
+  parameters: []
+
+fpbase:
+  method: diamond
+  location: Default
+  priority: 1
+  # tiny database; effectively free, so it never needs more than one thread
+  cost: 0.03
+  parameters:
+    - -k 0
+    - --min-orf 1
+    - --matrix BLOSUM90
+    - --gapopen 10
+    - --gapextend 1
+    - --algo ctg
+    - --id 75
+    - --max-hsps 10
+    - --culling-overlap 200
+    - --seed-cut .001
+    - --comp-based-stats 0
+  details:
+    default_type: CDS
+    location: Default
+
+swissprot:
+  method: diamond
+  location: Default
+  priority: 2
+  # second-heaviest source, but it barely scales with threads (DB/alignment
+  # bound), so the scheduler should not pour spare cores into it past one or two.
+  cost: 3.0
+  parameters:
+    - -k 0
+    - --min-orf 1
+    - --matrix BLOSUM90
+    - --gapopen 10
+    - --gapextend 1
+    - --algo ctg
+    - --id 50
+    - --max-hsps 10
+    - --culling-overlap 200
+    - --seed-cut .001
+    - --comp-based-stats 0
+  details:
+    default_type: CDS
+    location: Default
+    priority_from_protein_existence: True
+
+snapgene:
+  method: blastn
+  location: Default
+  priority: 1
+  # cheap relative to the protein/RNA searches; tucks in behind a busy lane
+  cost: 0.45
+  parameters:
+    - -perc_identity 95
+    - -max_target_seqs 20000
+    - -culling_limit 25
+    - -word_size 12
+  details: 
+    default_type: None
+    location: Default

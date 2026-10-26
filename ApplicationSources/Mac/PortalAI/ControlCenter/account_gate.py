@@ -205,4 +205,6 @@ class GUIAccountGate:
             export_both=export_factory(self.root,'both'),change_user=change_user,
             start_fresh_adapter=lambda:show_start_fresh(self.app,self,self.colors,
                 lock_application=lock_application,exit_application=exit_application))
+        from account_setup_ui import show_setup
+        panel.button('Import connections and mission…',lambda:show_setup(self),enabled=self.session.role=='admin')
         return panel

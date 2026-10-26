@@ -8,13 +8,21 @@ def python_path(root):
     root=Path(root)
     if os.name=='nt':return root/'Runtime/BootstrapPython/python.exe'
     if sys.platform.startswith('linux'):return root/'Runtime/LinuxPython/run-python'
-    raise RuntimeError('Portable runtime currently targets Windows x64 and Linux x64')
+    if sys.platform=='darwin':return root/'Runtime/MacPython/bin/python3.12'
+    raise RuntimeError('Portable runtime currently targets Windows, Linux x64, and macOS x64/arm64')
 
 
 def ffmpeg_path(root,probe=False):
     name='ffprobe' if probe else 'ffmpeg'
     if os.name=='nt':return Path(root)/'Tools/ffmpeg/bin'/(name+'.exe')
-    return Path(root)/'Runtime/FFmpeg/linux-x64/bin'/name
+    if sys.platform.startswith('linux'):return Path(root)/'Runtime/FFmpeg/linux-x64/bin'/name
+    if sys.platform=='darwin':return Path(root)/'Runtime/FFmpeg/macos'/name
+    raise RuntimeError('No bundled FFmpeg runtime is available for this platform')
+
+
+def worker_process_options():
+    """Start owned POSIX jobs in their own process group for whole-tree Stop."""
+    return {'start_new_session': True} if sys.platform=='darwin' else {}
 
 def linux_elf_command(root,argv):
     """Use the bundled loader for native Linux binaries; shell wrappers stay intact."""
@@ -26,8 +34,3 @@ def linux_elf_command(root,argv):
     if not loader.is_file():raise RuntimeError('Bundled Linux dynamic loader is missing')
     libs=os.pathsep.join(map(str,(file.parent,lib/'x86_64-linux-gnu',lib)))
     return [str(loader),'--library-path',libs,str(file),*argv[1:]],file.parent
-
-
-def worker_process_options():
-    """Keep the shared worker launch contract; Darwin needs a process group."""
-    return {'start_new_session': True} if sys.platform=='darwin' else {}
