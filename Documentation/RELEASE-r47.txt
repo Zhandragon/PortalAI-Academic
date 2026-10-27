@@ -1,0 +1,46 @@
+PortalAI release validation — 2026.10.27-Desktop-r47
+
+Controls > Utilities exposes independent OS-matched Projection and Full-only Abliterator launchers, plus installer-folder buttons. Full exposes Full and Academic; Academic exposes Academic only. Login recovery and account wiping wait until the main app exits; wiping requires exact CONFIRM plus Confirm, with Cancel and X exits. The existing account/Stop/update protections remain in place.
+
+All six installer archives were rebuilt from independently pinned edition/platform inputs. Nested payload manifests, outer checksums and executable modes were verified. The r46 Academic Windows executable had not been replaced by its suite builder; r47 corrects that omission and verifies every embedded helper against the package source. Real Windows form construction confirms six installer copies, both utilities and the extra Academic app in Full; Academic shows three Academic copies and Projection only. Both embedded Python engines pass their selfchecks. The three Academic download entry points pass prepare-only extraction/verification. Both universal bundles pass PowerShell and Bash package verification. Linux/Mac entry-point preparation was checked with Git Bash on Windows; physical installations, OS integrations and complete model/runtime downloads on Linux/macOS were not exercised.
+
+Regression checks: 193/193 passed for each Full platform's source. Each Academic platform passed 192/193; its remaining pre-existing fixed 5,000-character prompt assertion also fails against r45. The same fixture produces identical 5,407-character Academic prompts before and after, with unchanged Academic policy and guidance. The main release candidate also passed 193 checks, including real Tk utility/login dialogs on disposable fixtures. Eleven independent edit-file checks pass for the production guard. This guard was authored by Codex and is not counted as a Qwen repair.
+
+Coding support now observes the actual root/workspace/OS/account access, exposes bounded public source lookup, and offers a focused maintenance tool menu in Chat Preferences. Administrator shell/file access continues to support ordinary coding projects. The independent evaluations intentionally constrain writes to one cloned source file and shell commands to declared search/check helpers. Those evaluation restrictions are not ordinary administrator restrictions.
+
+A model-written, independently tested repair using the native loop was demonstrated in: 27-native-repeatable.
+
+Method: native trials use real NativeChat.agent_worker, authenticated synthetic administrator profiles, real local inference, actual tool calls, unchanged independent acceptance checks, saved outgoing requests and tool receipts. The separately labeled minimal control replaces only the model/tool loop. A passing repair requires a changed source hash, all behavioral/scope checks passing, the model running the passing checker against that same hash, normal profile sealing, and no timeout. Tests cover unique/missing/empty/ambiguous/overlapping/Unicode/deletion cases, account restrictions and tool-description accuracy. Guided trials disclose the current method and exact source navigation, but never supply the solution; feedback is bounded independent test output. These are isolated copies, not live-owner-account edits or proof of autonomous restart/deployment.
+
+Evaluation defects matter: native replay protection initially cached the first failed shell checker result, so subsequent identical check commands could show stale results after edits. Those negative trials are confounded and cannot establish a model intelligence limit. The final native v6 control classifies only the exact evaluation search/check commands as repeatable while their helper and grader hashes remain pinned. Arbitrary shell commands and uncertain writes remain protected. Six focused tests verify fresh checks and rejection of altered helpers/other commands. Earlier prompts also omitted the safe AST grader's ban on loops/imports/new helpers; the minimal model's final overlapping-match loop was rejected by that restriction. The v6 prompt explicitly discloses the allowed constructs and overlap requirement, without providing a solution or altering the grader. Original reports are retained.
+
+Runtime findings: Windows mmap loading caused resident-memory pressure; a fully offloaded text-only loader with load-mode none, no host buffers/repacking, bounded batches and independent RAM/commit monitoring ran stably on the RTX 3090/32 GiB host after League ended. A 3 GiB reserve remained enforced. Earlier antivirus, process-commit, cache and shared-PC interruptions are infrastructure failures and are excluded from coding results. These pre-admitted evaluation launches do not establish normal-GUI 27B startup across all hardware.
+
+The 8K trials exposed small source/history fragments and repeated retrieval. A separate 16K context control keeps the model and task while increasing available working space. Environment/shell/source receipts are distinguished from completing the requested task. In the 16K environment trial, both public search routes returned a bot challenge; the existing optional Brave API route requires a user-supplied key. A direct official Python documentation fetch succeeded, but its returned excerpt did not contain the requested method text and the model did not finish that task. This is not a demonstrated successful web-research loop. The 4B and 27B models are different local model generations/quantizations; this small set does not isolate parameter count or establish a general intelligence limit. The tested 27B is the local Full-edition abliterated Q4 model, not the Academic standard-model variant.
+
+Trial results (pass means the complete independent acceptance rule):
+4-matched-current: pass=False; changed=False; seconds=25.64; timeout=False; sealed=True
+4-matched-observed: pass=False; changed=False; seconds=50.47; timeout=False; sealed=True
+4-matched-maintenance: pass=False; changed=False; seconds=6.53; timeout=False; sealed=True
+4-matched-environment: pass=False; changed=False; seconds=9.27; timeout=False; sealed=True
+4-v3-strict: pass=False; changed=False; seconds=9.95; timeout=False; sealed=True
+4-v3-feedback: pass=False; changed=True; seconds=31.44; timeout=False; sealed=True
+4-v3-environment-feedback: pass=False; changed=False; seconds=30.03; timeout=False; sealed=True
+27-idle-current: pass=False; changed=False; seconds=602.06; timeout=True; sealed=True
+27-idle-observed: pass=False; changed=False; seconds=227.8; timeout=False; sealed=True
+27-idle-maintenance: pass=False; changed=False; seconds=267.0; timeout=False; sealed=True
+27-idle-environment: pass=False; changed=False; seconds=601.17; timeout=True; sealed=True
+27-guided-deep: pass=False; changed=False; seconds=902.0; timeout=True; sealed=True
+27-wide-guided: pass=False; changed=True; seconds=602.23; timeout=True; sealed=True
+27-wide-environment: pass=False; changed=False; seconds=301.11; timeout=True; sealed=True
+27-wide-balanced: pass=False; changed=True; seconds=482.05; timeout=True; sealed=True
+27-native-repeatable: pass=True; changed=True; seconds=222.66; timeout=False; sealed=True
+27-minimal-control: pass=False; changed=True; seconds=373.28; timeout=True; sealed=True
+
+The final native control uses Balanced effort at 16K with pinned repeatable evaluation helpers. If present, minimal-bounded-control is a separate diagnostic loop: the same authenticated ToolRuntime and independent checker, complete bounded messages, a 2,048-token reply allowance, no rolling summaries and no NativeChat worker. Its result must not be represented as a normal main-GUI completion. Eight checks cover its Stop/logout, transcript, budget and effect-replay protections.
+
+The Full release includes PortalAI-Coding-Harness-r47.zip with source, hashes and a portable launcher. Independent copies are installed under each SSD application's Maintenance/Evaluations/r47 directory. Use that SSD's bundled Python. The default native mode uses v6; the historical v5/minimal control remains available for comparison. It creates a synthetic disposable copy and never seeds the old bug into the live app. General shell-test repetition in the main GUI remains subject to the existing effect-replay guard; the pinned-helper exception belongs to this diagnostic only.
+
+Installer archives and utilities have SHA-256 inventories. Full remains private; Academic remains public. Account data, model selections and connection settings are not merged between SSDs. Existing users should exit normally before a guarded source upgrade. See Coding_Maintenance_r47.txt for usage and limitations.
+
+After both live upgrades, each SSD independently passed the portable diagnostic clone smoke check using its own bundled Python. The seeded clone changed only the disposable source; the live source remained unchanged. Both local installer inventories and utility paths were verified on their own drives.

@@ -64,7 +64,8 @@ Write-Host 'All three OS packages are verified. Each OS completes its own native
 if ($VerifyOnly -or $PrepareOnly) { return }
 $answer = Read-Host 'Open the Windows installer now? [y/N]'
 if ($answer -notmatch '^(?i:y|yes)$') { return }
-$installerName = if ($manifest.edition -eq 'Academic') { 'PortalAI-Academic-Install.exe' } else { 'PortalAI-Install.exe' }
+$installerName = $manifest.windows_installer
+if ($installerName -notin @('PortalAI-Install.exe','PortalAI-Academic-Install.exe')) { throw 'Unexpected Windows installer entry point.' }
 $windowsAsset = @($manifest.assets | Where-Object platform -eq 'Windows')[0]
 $destination = Assert-PlainPath (Join-Path $bundleRoot ('Platforms\Windows-' + $manifest.version))
 if (Test-Path -LiteralPath $destination) { throw 'An extracted installer already exists. Use its Windows installer, or choose a fresh universal folder.' }

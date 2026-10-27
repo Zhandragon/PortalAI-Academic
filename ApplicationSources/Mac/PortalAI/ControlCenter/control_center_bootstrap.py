@@ -101,6 +101,7 @@ def main() -> int:
         pass
 
     old_argv = sys.argv[:]
+    normal_exit = False
     try:
         sys.argv = arguments
         try:
@@ -108,9 +109,11 @@ def main() -> int:
         except SystemExit as exc:
             code = exc.code
             if code in (None, 0):
+                normal_exit = True
                 return 0
             diagnostics.record(f"[SystemExit] code={code}")
             return int(code) if isinstance(code, int) else 1
+        normal_exit = True
         return 0
     except BaseException:
         tb = traceback.format_exc()
@@ -121,6 +124,9 @@ def main() -> int:
         sys.argv = old_argv
         diagnostics.suspend()
         instance.close()
+        if normal_exit:
+            from suite_utilities import launch_after_exit
+            launch_after_exit()
 
 
 if __name__ == "__main__":

@@ -12,15 +12,13 @@ def inspect(root=ROOT):
     from account_runtime import preflight
     from local_accounts import LocalAccounts
     from profile_runtime import ProfileRuntime
-    from profile_shutdown import _windows_snapshot
-    if os.name != 'nt':
-        raise RuntimeError('This recovery launcher supports Windows only.')
+    from profile_shutdown import _snapshot
     preflight()
     store = LocalAccounts(root)
     data = store._read()  # Structural read only; no login, registry rewrite or reset.
     runtime = ProfileRuntime(root, store)
     marker = runtime._read_marker()
-    rows = _windows_snapshot()
+    rows = _snapshot()
     controllers = [row for row in rows.values()
                    if Path(row['executable']).resolve().is_relative_to(root)
                    and any(Path(arg).name.lower() in ('portableai_gui.py', 'control_center_bootstrap.py')
@@ -28,7 +26,7 @@ def inspect(root=ROOT):
     projection = None
     # Continue the user's already-running optional companion. These are public
     # module/input paths only; the launcher never opens its encrypted connection.
-    for module in (root.parent/'Utilities/PortalAI-Projection', root.parent/'PortalAI-Projection'):
+    for module in ((root.parent/'Utilities/PortalAI-Projection', root.parent/'PortalAI-Projection') if os.name=='nt' else ()):
         module = module.resolve()
         worker = module/'app/projection_worker.py'
         interpreter = module/'Runtime/Python/pythonw.exe'
@@ -62,6 +60,67 @@ def launch_environment(projection):
     return env
 
 
+def launch_normal(result, root=ROOT):
+    if result['controllers']:
+        raise RuntimeError('PortalAI is already open. Use its current sign-in window.')
+    env = launch_environment(result.get('projection'))
+    if os.name == 'nt':
+        command = [str(root/'PortalAI.exe')]
+        options = {'creationflags': subprocess.CREATE_NO_WINDOW}
+    elif sys.platform == 'darwin':
+        command = [str(root/'Runtime/MacPython/bin/python3.12'), '-B', str(root/'Launchers/portalai_gui_macos.py')]
+        options = {'start_new_session': True}
+    else:
+        command = ['/bin/sh', str(root/'PortalAI.sh')]
+        options = {'start_new_session': True}
+    return subprocess.Popen(command, cwd=root, env=env, stdin=subprocess.DEVNULL,
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, **options)
+
+
+def recovery_window():
+    import tkinter as tk
+    from tkinter import ttk
+    import queue
+    import threading
+    window=tk.Tk();window.title('PortalAI Crash Recovery');window.geometry('640x370')
+    body=ttk.Frame(window,padding=22);body.pack(fill='both',expand=True)
+    ttk.Label(body,text='PortalAI crash recovery',font=('Segoe UI',16,'bold')).pack(anchor='w')
+    ttk.Label(body,text='Accounts, passwords, saved Projection connections and recovery files are preserved. '
+              'This checks the installation and opens ordinary authenticated sign-in. '
+              'It never resets accounts or forcibly closes processes. Enter your password only in PortalAI.',
+              wraplength=580,justify='left').pack(fill='x',pady=18)
+    status=tk.StringVar(master=window,value='PortalAI must be closed before continuing.')
+    ttk.Label(body,textvariable=status,wraplength=580).pack(fill='x')
+    messages=queue.Queue();busy=False
+    def close():
+        if not busy:window.destroy()
+    def begin():
+        nonlocal busy
+        if busy:return
+        busy=True;go.configure(state='disabled');status.set('Checking account runtime and closed application…')
+        def worker():
+            try:
+                result=inspect()
+                if result['controllers']:raise RuntimeError('PortalAI is still open. Close it normally and retry.')
+                launch_normal(inspect())
+                messages.put((True,'Opened normal PortalAI sign-in. Authenticate there to recover an interrupted workspace.'))
+            except Exception as exc:
+                messages.put((False,'Recovery could not start ('+type(exc).__name__+'). Keep the drive connected and retain recovery files. No reset was performed.'))
+        threading.Thread(target=worker,name='PortalAIRecovery',daemon=False).start()
+    go=ttk.Button(body,text='Check and open normal sign-in',command=begin);go.pack(side='left',anchor='s',pady=15)
+    ttk.Button(body,text='Cancel',command=close).pack(side='right',anchor='s',pady=15)
+    window.protocol('WM_DELETE_WINDOW',close)
+    def poll():
+        nonlocal busy
+        try:
+            ok,text=messages.get_nowait();busy=False;status.set(text)
+            if not ok:go.configure(state='normal')
+        except queue.Empty:pass
+        window.after(100,poll)
+    window.after(100,poll);window.mainloop()
+    return 0
+
+
 def main():
     print('PortalAI login recovery\n')
     print('This preserves your password, accounts, pairing and recovery files.')
@@ -91,10 +150,7 @@ def main():
     if fresh['controllers']:
         print('PortalAI opened while you were reviewing this screen. Use that window.')
         return 2
-    env = launch_environment(fresh['projection'])
-    subprocess.Popen([str(ROOT/'PortalAI.exe')], cwd=ROOT, env=env,
-                     stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                     creationflags=subprocess.CREATE_NO_WINDOW)
+    launch_normal(fresh)
     print('Opened the normal PortalAI sign-in. Enter your current account password there.')
     print('Verified recovery can stop leftover owned workers and resume/seal interrupted workspace data.')
     print('The HA recovery helper is separate; it restarts exited apps and does not unlock profiles.')
@@ -103,7 +159,9 @@ def main():
 
 if __name__ == '__main__':
     try:
-        raise SystemExit(main())
+        if sys.argv[1:] not in ([], ['--window']):
+            raise SystemExit('Use --window for the standalone recovery panel.')
+        raise SystemExit(recovery_window() if sys.argv[1:] else main())
     except Exception as exc:
         print('Recovery launch stopped: '+type(exc).__name__+'. Keep the drive connected and retry after review.')
         print('No password reset or manual recovery-file removal was attempted.')

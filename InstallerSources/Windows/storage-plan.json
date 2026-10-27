@@ -1,7 +1,7 @@
 {
-  "release": "PortalAI-2026.10.25-Aoostar-r45-unified-Academic-Windows",
-  "payload_bytes": 503014208,
-  "payload_files": 4723,
+  "release": "PortalAI-2026.10.27-Desktop-r47-suite-Academic-Windows",
+  "payload_bytes": 499151752,
+  "payload_files": 4461,
   "bootstrap_bytes": 22640669,
   "components": [
     {
@@ -123,32 +123,6 @@
         {
           "sha256": "f7a866fbc1e97b5c617ee4116daaa09b722101d4a3c170c787450ba409f9736f",
           "bytes": 169743
-        }
-      ]
-    },
-    {
-      "id": "projection-runtime",
-      "label": "Projection and HA Recovery runtime",
-      "required": true,
-      "depends_on": [],
-      "installed_bytes": 160523719,
-      "files": 3542,
-      "downloads": [
-        {
-          "sha256": "e90c1b6419da3bd812dd73bb3de40287a21abf153438147639ec5e20375ea93f",
-          "bytes": 46184075
-        },
-        {
-          "sha256": "7afa5a6602a9f29af1f3a2965f831bae7c9d5d597b7cbb716d41ab3b7d89879c",
-          "bytes": 3824692
-        },
-        {
-          "sha256": "f53e442b08449d42821fa4a4fba000095af9f62742a500f978a9f557ec44339a",
-          "bytes": 185919
-        },
-        {
-          "sha256": "51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80",
-          "bytes": 51178
         }
       ]
     },

@@ -112,6 +112,12 @@ if [ "$UPGRADE" = 1 ]; then
   fi
 fi
 
+# Suite selection stays outside the application and never starts a utility.
+if [ "${PORTALAI_SUITE_CHILD:-}" != 1 ] && [ "$UPGRADE" = 0 ]; then
+  "$PYTHON" -B "${STAGE}/PortalAI/Tools/suite_installer.py" --package "$SCRIPT_DIR" --destination "$DEST_PARENT" --platform Linux --native-driver "$0" --native-target "$DEST"
+  exit $?
+fi
+
 portal_stage 4 'Checking runtime'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --preflight
 portal_stage 5 'Installing runtime components'

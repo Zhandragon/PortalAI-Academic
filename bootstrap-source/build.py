@@ -36,6 +36,9 @@ def build(root, source_base=None, compiler=None):
         budget = package['storage_preflight']
         values.update({k.upper(): v for k, v in budget.items() if isinstance(v, int)})
         if platform == 'Windows':
+            launchers=[row['name'] for row in package['files'] if row['name'] in ('PortalAI-Install.exe','PortalAI-Academic-Install.exe')]
+            if len(launchers)!=1:raise ValueError('Expected exactly one verified Windows installer entry point')
+            values['INSTALLER_EXE']=launchers[0]
             def items(rows):
                 return ',\n'.join('new Item(%s, %dL, %s)' % (json.dumps(p['name']), p['bytes'], json.dumps(p['sha256'])) for p in rows)
             values.update(PARTS=items(package['parts']), FILES=items(package['files']))
@@ -80,7 +83,7 @@ on run argv
 end run
 APPLESCRIPT
 '''
-                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261025.45', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
+                plist = plistlib.dumps({'CFBundleIdentifier': 'ai.portalai.academic.installer', 'CFBundleName': 'PortalAI Academic Installer', 'CFBundleDisplayName': 'PortalAI Academic Installer', 'CFBundleExecutable': 'installer', 'CFBundlePackageType': 'APPL', 'CFBundleVersion': '20261027.47', 'CFBundleShortVersionString': '1.0', 'LSMinimumSystemVersion': '11.0', 'LSUIElement': True})
                 path = root / 'PortalAI-Academic-Mac-Setup.zip'
                 with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
                     for name, data, mode in [('Contents/Info.plist', plist, 0o644), ('Contents/MacOS/installer', launcher, 0o755), ('Contents/MacOS/bootstrap.sh', script, 0o755)]:

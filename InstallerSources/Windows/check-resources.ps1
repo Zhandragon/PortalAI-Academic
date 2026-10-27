@@ -13,7 +13,8 @@ $files=@{
     'engine_cli.py'=(Join-Path $Sources 'engine_cli.py')
     'installer_storage.py'=(Join-Path $Sources 'installer_storage.py')
     'portable_update.py'=(Join-Path $Sources 'portable_update.py')
-    'storage-plan.json'=(Join-Path $Sources 'storage-plan.json')
+    'suite_installer.py'=(Join-Path $Sources 'suite_installer.py')
+    'abliterator_installer_core.py'=(Join-Path $Sources 'abliterator_installer_core.py')
 }
 foreach ($name in $files.Keys) {
     if ($name -notin $names) { throw "Required embedded resource missing: $name" }
@@ -25,7 +26,4 @@ foreach ($name in $files.Keys) {
         throw "Embedded resource differs from the current source: $name"
     }
 }
-$method=$assembly.GetType('StoragePreflight').GetMethod('EmbeddedPlan',[Reflection.BindingFlags]'Static,NonPublic')
-$plan=$method.Invoke($null,$null)
-if (-not $plan['components']) { throw 'The embedded storage plan contains no components.' }
-Write-Output 'All embedded resources match; the compiled storage-plan loader passed.'
+Write-Output 'All embedded suite resources match the source inventory.'

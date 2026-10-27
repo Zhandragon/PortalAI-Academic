@@ -16,6 +16,15 @@ TOPIC_ALIASES = {'edit_last': 'edit',
  'qwen3_tts': 'tts'}
 
 ACTION_TOPICS = {'Startup': 'startup',
+ 'Utilities': 'suite_utilities',
+ 'Recover account registry': 'account_registry_recovery',
+ 'PortalAI Abliterator': 'suite_abliterator',
+ 'PortalAI Home Assistant Projection': 'suite_projection',
+ 'Locate Windows Installer': 'suite_installers',
+ 'Locate Mac Installer': 'suite_installers',
+ 'Locate Linux Installer': 'suite_installers',
+ 'Crash recovery': 'login_crash_recovery',
+ 'Wipe all accounts…': 'wipe_all_accounts',
  'System Test': 'system_test',
  'Full Component Diagnosis': 'diagnostics',
  'Full diagnosis': 'diagnostics',
@@ -36,7 +45,152 @@ ACTION_TOPICS = {'Startup': 'startup',
  'Delete All Conversations + Memory': 'delete_conversations',
  'Vision Asset Checksums': 'vision_integrity'}
 
-TOPICS = {'quick_start': {'title': 'Quick start',
+TOPICS = {
+ 'account_registry_recovery': {
+     'title': 'Recover account registry', 'category': 'Diagnostics and maintenance',
+     'aliases': ['recover account registry', 'missing accounts', 'damaged registry', 'administrator recovery'],
+     'body': 'Use Recover account registry on the login screen when the account list is missing or '
+             'damaged and PortalAI requests registry recovery. It restores account records from the '
+             'existing verified encrypted recovery copy. It does not create new accounts, reset '
+             'passwords or restore arbitrary deleted files.\n\n'
+             '1. Click Recover account registry. Enter an existing administrator username and its '
+             'current password in the recovery dialog.\n'
+             '2. Click Recover verified account registry. Wait for the verified-success message. '
+             'Unverifiable or stale recovery copies are rejected.\n'
+             '3. Close PortalAI normally, reopen it, and sign in to your account. X exits '
+             'the dialog without requesting recovery.\n\n'
+             'For an interrupted session with an intact account list, use Crash recovery instead. '
+             'That opens ordinary authenticated sign-in for workspace recovery; it does not replace '
+             'the account registry. If registry recovery fails, retain the error and recovery files.'},
+ 'suite_utilities': {
+     'title': 'Utilities: launchers and optional downloads', 'category': 'Diagnostics and maintenance',
+     'aliases': ['utilities', 'suite', 'optional utilities', 'standalone programs'],
+     'body': 'Open Controls → Utilities to launch PortalAI Abliterator or PortalAI Home Assistant '
+             'Projection as separate programs for the detected operating system. Starting PortalAI '
+             'does not start these utilities. Close each utility through its own Exit control.\n\n'
+             'Use the Locate Installer buttons to open a downloaded installer folder. Full PortalAI '
+             'shows Full and Academic installers; Academic shows Academic installers only. A missing '
+             'utility or installer can be added through the matching suite installer: select only '
+             'the app editions, utilities and installer copies you want, then review download and '
+             'storage estimates before installing.\n\n'
+             'Crash recovery and Wipe all accounts are on the login screen. Recover account registry '
+             'repairs account records and is a different operation. Right-click these buttons or '
+             'a Utilities button and choose What this does… for the same guidance as this Help page. '
+             'Keyboard users can focus a button and press Shift+F10; macOS also supports Control-click.'},
+ 'suite_abliterator': {
+     'title': 'PortalAI Abliterator', 'category': 'Diagnostics and maintenance',
+     'aliases': ['abliterator', 'abliteration', 'heretic', 'modified model'],
+     'body': 'Abliterator is an independent model-editing program that searches for a change reducing '
+             'refusals and exports a separate modified model. It does not automatically modify or '
+             'activate PortalAI’s chat model. The available package supports Windows x64; the button '
+             'is disabled on Mac and Linux until a matching native package exists.\n\n'
+             '1. Install the optional Abliterator component, then choose Controls → Utilities → '
+             'PortalAI Abliterator. Its standalone launcher is Utilities/Portable Abliterator/Abliterator.exe.\n'
+             '2. Select a complete original floating-point Hugging Face instruction-model folder '
+             'with its configuration, weights and tokenizer. GGUF, pre-quantized models and '
+             'adapter-only inputs are not supported.\n'
+             '3. Choose a device. Automatic selects NVIDIA CUDA when available, otherwise CPU. '
+             'Vulkan is a separate experimental choice. Click Check model, review memory and disk '
+             'requirements, then Create abliterated copy.\n'
+             '4. Finished copies appear in the utility’s output folder. Read result.json and test '
+             'the model on your own tasks before using it. Original weights remain unchanged; '
+             'fewer refusals do not establish preserved capabilities.\n\n'
+             'Stop cancels the utility’s worker. Do not use partial output marked INCOMPLETE. '
+             'The utility’s Read Me.txt describes output formats, device checks, memory estimates '
+             'and run logs. Download/storage space and available RAM are separate requirements.'},
+ 'suite_projection': {
+     'title': 'PortalAI Home Assistant Projection', 'category': 'Home Assistant and recovery',
+     'aliases': ['projection utility', 'start projection', 'pair projection', 'projection password'],
+     'body': 'Projection is an independent companion that lets an approved Home Assistant interface '
+             'view and control the real PortalAI window. It keeps its own encrypted connections '
+             'and uses outbound verified HTTPS. It requires a supported interactive desktop.\n\n'
+             '1. Select Projection in the suite installer for the current operating system. This '
+             'also supplies the separate HA Setup package. Install the receiver on Home Assistant '
+             'from a trusted device; see the Home Assistant receiver setup topic.\n'
+             '2. Open Controls → Utilities → PortalAI Home Assistant Projection. Choose the PortalAI '
+             'folder and your HTTPS HA Cloud origin, name the connection, and create a projection '
+             'unlock password of at least 12 characters. This password is separate from PortalAI '
+             'and HA passwords. Use Create / Unlock.\n'
+             '3. Copy its public pairing JSON. On HA, an administrator approves it using '
+             'portalai_projection.pair_device with pairing_request. Configure the supplied dashboard '
+             'card using that device ID.\n'
+             '4. Unlock the saved connection and click Start projection. Open PortalAI through the '
+             'companion when required by the platform, then sign in normally. On Linux, close '
+             'a PortalAI window launched outside Projection before opening it through the companion.\n'
+             '5. Stop projection disconnects it; Exit closes the companion. Minimizing leaves it '
+             'running. Stop projection before changing a saved destination; a different HA instance '
+             'needs its own administrator approval.\n\n'
+             'Never enter an HA password or administrator token into Projection. Keep Connections '
+             'and state when updating. Its Documentation page and included README cover platform '
+             'requirements, pairing and troubleshooting. The companion cannot bypass PortalAI login.'},
+ 'suite_ha_setup': {
+     'title': 'Home Assistant receiver setup', 'category': 'Home Assistant and recovery',
+     'aliases': ['ha setup', 'receiver installation', 'projection installer', 'install portalai ha'],
+     'body': 'Selecting Projection in a suite installer supplies Utilities/PortalAI HA Setup as a '
+             'separate program. Installing the desktop companion alone does not install anything '
+             'on Home Assistant.\n\n'
+             '1. On a trusted device, back up the HA configuration and open the platform launcher '
+             'in PortalAI HA Setup (Install PortalAI HA.cmd on Windows).\n'
+             '2. Choose Install for a writable HA configuration/share, or Prepare to create a ZIP '
+             'for transfer to the HA device. Follow the included README for native platform steps.\n'
+             '3. Validate and restart HA, then reload its browser or app. Advanced YAML layouts '
+             'need the documented manual merge. Existing pairings are preserved by the installer.\n'
+             '4. Approve the companion’s public pairing JSON as an HA administrator, then configure '
+             'the supplied dashboard card. Only public pairing data belongs in this transfer.\n\n'
+             'The current receiver payload is in Setup Files/HomeAssistant. Historical receiver '
+             'fixtures inside the Projection folder are not the installation source. HA Recovery '
+             'is a separate, explicitly armed helper; see HA Recovery and login recovery.'},
+ 'suite_installers': {
+     'title': 'Locate installers and choose suite downloads', 'category': 'Diagnostics and maintenance',
+     'aliases': ['locate windows installer', 'locate mac installer', 'locate linux installer',
+                 'suite installer', 'optional downloads', 'github token', 'academic installer'],
+     'body': 'Open Controls → Utilities, choose the Full or Academic section, then Locate Windows, '
+             'Mac or Linux Installer. This opens the containing folder; it does not download or '
+             'run the installer. Academic exposes only Academic installers. Full exposes both editions.\n\n'
+             '1. If a folder is missing, run the suite installer for your current operating system '
+             'and select the desired installer copies. They are stored under '
+             'Utilities/Installers/<edition>/<operating system>.\n'
+             '2. Select the current app, optional utilities, other edition where available, and '
+             'other operating-system installer copies independently. Clear unwanted choices to '
+             'reduce downloads and disk use. Downloading another OS installer does not install '
+             'that OS application on this host.\n'
+             '3. Review estimated downloads and required free storage, then install. Free RAM is '
+             'a separate runtime requirement. Retain complete package contents together. Verified '
+             'local archives can be reused; incomplete or mismatched downloads are not installed.\n'
+             '4. Optional Full downloads come from the private Full repository and may require '
+             'a GitHub token with access to it. Enter it only in the installer’s optional masked '
+             'token field; it is kept in memory, not saved in the request file. Academic/public '
+             'downloads do not need Full access.\n\n'
+             'Run each native installer on its matching supported OS. Close existing apps normally '
+             'before updating, and keep their account data and standalone utility settings.'},
+ 'login_crash_recovery': {
+     'title': 'Login crash recovery', 'category': 'Diagnostics and maintenance',
+     'aliases': ['crash recovery', 'login recovery', 'interrupted workspace'],
+     'body': 'Use Crash recovery after an interrupted session when the account registry is intact. '
+             'Click Crash recovery below Recover account registry on the login screen. PortalAI '
+             'closes normally, then opens the separate recovery program. '
+             'It checks the installation and opens ordinary authenticated sign-in so an interrupted '
+             'workspace can be recovered. Enter your password only at normal sign-in. Accounts, '
+             'files and saved Projection connections are preserved. It does not reset passwords '
+             'or forcibly terminate processes.\n\n'
+             'In that program click Check and open normal sign-in. Authenticate in PortalAI and '
+             'wait for workspace verification/recovery to finish. Then use normal Exit if you are '
+             'finished. Cancel or X closes the helper without starting recovery. If it reports an '
+             'error, retain the recovery files and error details; it cannot repair a disconnected '
+             'drive or replace a missing account registry. Registry recovery uses a different button.'},
+ 'wipe_all_accounts': {
+     'title': 'Wipe all accounts', 'category': 'Diagnostics and maintenance',
+     'aliases': ['wipe all accounts', 'full reset', 'account wipe'],
+     'body': 'Use Wipe all accounts only when you intend to erase every managed account in this '
+             'installation. Export anything you want to keep first. On the login screen click '
+             'Wipe all accounts below Sign in. It closes PortalAI normally and opens a separate reset warning. '
+             'Nothing is deleted until you type CONFIRM exactly and click Confirm there. '
+             'Cancel and X close the warning without deleting anything.\n\n'
+             'A confirmed reset removes all managed accounts, passwords, chats, memory, uploaded '
+             'files, generated media, copied recovery/test data and saved Projection connections '
+             'for this installation. Application code, installed models and runtimes stay. '
+             'Close Projection normally before confirming. No backup is created by the reset.'},
+ 'quick_start': {'title': 'Quick start',
                  'category': 'Getting started',
                  'aliases': ['welcome', 'help', 'documentation', 'portableai', 'portalai'],
                  'body': '1. Open PortalAI.exe and sign in normally. A fresh copy first needs account setup.\n'
@@ -58,8 +212,9 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                          'start pinned first. Right-click a control for its matching actions and help.'},
  'controls': {'title': 'Controls',
               'aliases': ['controls', 'startup', 'stop all', 'system test'],
-              'body': 'The six primary controls remain Startup, System Test, Full Component Diagnosis, Stop '
-                      'all components, Minimize to tray and Exit. Startup saves pending chat settings and '
+              'body': 'Controls provides Startup, Utilities, System Test, Full Component Diagnosis, Stop '
+                      'all components, Minimize to tray and Exit. Utilities opens independent tools and '
+                      'installer folders; right-click its buttons for usage instructions. Startup saves pending chat settings and '
                       'applies the selected model/backend, safely switching an idle owned model. Controls '
                       'shows pending/saved choice and loaded chat separately. Stop cancels active chat, pauses '
                       'armed missions, invalidates model restoration and stops only this root’s workers. It '
@@ -586,7 +741,7 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                             'normally. The companion owns the encrypted destination and device key; HA '
                             'passwords and administrator tokens do not belong in PortalAI or on the SSD.\n'
                             '\n'
-                            'HA Native 0.5.11 supports account-scoped History, attachment upload, '
+                            'HA Native supports account-scoped History, attachment upload, '
                             'pending-attachment Send, rich media previews and reconnect recovery. Desktop '
                             'attachments support the chooser and drop field; iPhone uses its source menu. Wait '
                             'until the attachment is admitted, then Send once. A timeout or uncertain '
@@ -595,7 +750,9 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                             'Native controls require a ready signed-in account; blocking GUI dialogs and busy '
                             'work can temporarily prevent rich reads. Close or finish the actual dialog rather '
                             'than bypassing its guard. The separate HA installer is Utilities/PortalAI HA '
-                            'Setup/Install PortalAI HA.cmd, with its files retained in Setup Files.'},
+                            'Setup/Install PortalAI HA.cmd, with its files retained in Setup Files. '
+                            'See PortalAI Home Assistant Projection and Home Assistant receiver setup '
+                            'for the step-by-step suite setup instructions.'},
  'recovery': {'title': 'HA Recovery and login recovery',
               'category': 'Home Assistant and recovery',
               'aliases': ['start ha recovery', 'recover portalai login', 'login recovery', 'portable recovery'],
@@ -604,6 +761,15 @@ TOPICS = {'quick_start': {'title': 'Quick start',
                       'Projection connection. It can help recover app crashes while Windows and the portable '
                       'drive remain available. It cannot survive disappearance of the SSD containing it, '
                       'repair USB hardware or bypass account sign-in.\n'
+                      '\n'
+                      'To use remote HA Recovery, install the supplied HA receiver, launch the helper '
+                      'on the desktop, choose the saved Projection connection and PortalAI folder, '
+                      'then Unlock and arm with the projection unlock password. Approve its separate '
+                      'PUBLIC recovery pairing JSON on trusted HA using portalai_recovery.pair_device. '
+                      'Projection pairing alone does not approve Recovery. Use the supplied Recovery '
+                      'dashboard controls only while the helper reports Armed. Each helper restart '
+                      'requires local unlocking and arming again. Click Disarm or close the helper '
+                      'and wait for completion when finished; follow RecoveryHelper/README.txt.\n'
                       '\n'
                       'For a login failure, close PortalAI normally when possible, preserve the error and '
                       'recovery evidence, then use Launchers/Recover_PortalAI_Login.cmd. It is not a password '
@@ -627,7 +793,9 @@ TOPICS = {'quick_start': {'title': 'Quick start',
  'portable_installer': {'title': 'Portable installer and moving the SSD',
                         'category': 'Home Assistant and recovery',
                         'aliases': ['clean installer', 'portable installation', 'moving ssd', 'upgrade'],
-                        'body': 'Utilities/PortalAI Clean Installer contains the shareable complete installer. '
+                        'body': 'Controls → Utilities → Locate Installer opens the selected suite installer folder. '
+                                'See Locate installers and choose suite downloads for edition selection, '
+                                'optional utilities, other-OS copies and private-download authentication. '
                                 'Recipients use its public source/utilities and pinned upstream downloads for '
                                 'large assets; no private SSD, LAN, owner account or HA pairing state is '
                                 'required. Keep the package files together and follow its Windows support '

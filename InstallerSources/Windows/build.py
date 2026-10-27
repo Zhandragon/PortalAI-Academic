@@ -1,32 +1,43 @@
-"""Build the Windows installer with its complete embedded helper/resource set.
+"""Build the Windows installer UI with its current portable install engine.
 
-Requires Windows .NET Framework 4.x and the verified python-bootstrap.zip from
-the matching installer release. The runtime ZIP is intentionally not Git-tracked.
+The input bootstrap is a pinned public Python archive. Application payloads and
+release inventories remain external. No live application data is copied.
 """
+import argparse
+import hashlib
 from pathlib import Path
-import argparse, os, subprocess
+import subprocess
+import tempfile
+import shutil
 
-RESOURCES = ('installer_core.py', 'engine_cli.py', 'installer_storage.py', 'portable_update.py', 'storage-plan.json')
+HERE = Path(__file__).resolve().parent
 
-def build(source, runtime_zip, output, icon=None):
-    compiler=Path(os.environ['SystemRoot'])/'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
-    resources=[(runtime_zip, 'python-bootstrap.zip')]+[(source/name,name) for name in RESOURCES]
-    for path,name in resources:
-        if not path.is_file():raise FileNotFoundError('Required embedded resource missing: '+name)
-    command=[str(compiler), '/nologo','/target:winexe','/optimize+','/platform:anycpu','/out:'+str(output)]
-    command+=['/r:'+name+'.dll' for name in ('System.Windows.Forms','System.Drawing','System.Web.Extensions','System.IO.Compression','System.IO.Compression.FileSystem')]
-    command+=['/resource:'+str(path)+','+name for path,name in resources]
-    if icon:command+=['/win32icon:'+str(icon)]
-    command+=[str(source/'Installer.cs')]
-    subprocess.run(command,check=True)
-    subprocess.run(['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass',
-                    '-File',str(source/'check-resources.ps1'),'-Installer',str(output),
-                    '-Sources',str(source),'-RuntimeZip',str(runtime_zip)],check=True)
+def build(bootstrap, output):
+    bootstrap = Path(bootstrap).resolve()
+    output = Path(output).resolve()
+    if output.exists():
+        raise FileExistsError(output)
+    if bootstrap.stat().st_size != 11439094 or hashlib.sha256(bootstrap.read_bytes()).hexdigest() != '97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297':
+        raise RuntimeError('Installer bootstrap checksum mismatch')
+    output.parent.mkdir(parents=True, exist_ok=True)
+    compiler = Path('C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe')
+    subprocess.run([str(compiler), '/nologo', '/target:winexe', '/platform:x64', f'/out:{output}',
+                    '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
+                    '/reference:System.Web.Extensions.dll', '/reference:System.IO.Compression.dll',
+                    '/reference:System.IO.Compression.FileSystem.dll',
+                    f'/resource:{bootstrap},python-bootstrap.zip',
+                    f'/resource:{HERE / "installer_core.py"},installer_core.py',
+                    f'/resource:{HERE / "engine_cli.py"},engine_cli.py',
+                    f'/resource:{HERE / "installer_storage.py"},installer_storage.py',
+                    f'/resource:{HERE / "portable_update.py"},portable_update.py',
+                    f'/resource:{HERE / "suite_installer.py"},suite_installer.py',
+                    f'/resource:{HERE / "abliterator_installer_core.py"},abliterator_installer_core.py', str(HERE / 'Installer.cs')],
+                   cwd=HERE, check=True)
+    return hashlib.sha256(output.read_bytes()).hexdigest()
 
-if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--runtime-zip',type=Path,required=True)
+if __name__ == '__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--bootstrap',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
-    parser.add_argument('--icon',type=Path)
     args=parser.parse_args()
-    build(Path(__file__).resolve().parent,args.runtime_zip.resolve(),args.output.resolve(),args.icon)
+    print(build(args.bootstrap,args.output))

@@ -100,6 +100,12 @@ if [ "$UPGRADE" = 1 ]; then
   fi
 fi
 
+# Suite selection stays outside the application and never starts a utility.
+if [ "${PORTALAI_SUITE_CHILD:-}" != 1 ] && [ "$UPGRADE" = 0 ]; then
+  "$PYTHON" -B "${ROOT}/Tools/suite_installer.py" --package "$SELF_DIR" --destination "$PARENT" --platform Mac --native-driver "$0" --native-target "$DEST"
+  exit $?
+fi
+
 # Downloads run only after package verification and the version check.
 source "$SELF_DIR/mac-prerequisites.sh"
 if portalai_mac_prerequisites "$PYTHON" "$ROOT" "$SELF_DIR"; then

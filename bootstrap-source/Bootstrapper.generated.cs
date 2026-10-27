@@ -15,20 +15,21 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.25-Aoostar-r45";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-20261025-Aoostar-r45-unified.zip";
-    internal const string ArchiveHash = "706e14ce1bf23dcf50ee32ac5f066e81ab2125165bb592a0cf65f68a4568709f";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261025-Aoostar-r45-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-20261025-Aoostar-r45-unified.zip", 545249134L, "706e14ce1bf23dcf50ee32ac5f066e81ab2125165bb592a0cf65f68a4568709f") };
-    internal static readonly Item[] Files = new Item[] { new Item("PortalAI-Academic-Install.exe", 11884544L, "42ea63977430fc07c2f6b9a4d848d78e2167b07653a6143026add36c4d0b2c6b"),
-new Item("release.json", 142462787L, "4de8077f38106a874401a5140373b1eea08c2da4b8354901b17c12b5f2b136e7"),
-new Item("payload.zip", 302522229L, "2341054000cfa6e08ec7e827baf4f122a881316e7e77d310accbef38b9531ee3"),
-new Item("START_HERE.txt", 2726L, "ff222b2ee8d0a3c83d328c0554cb5368a4b8c7597ce57a60b4eb54ebeb33aeb1"),
-new Item("storage-plan.json", 196619L, "a6963940556f7b120380646a31a6a1cae0809e0030a91caa6fc025947317ffa3"),
+    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.27-Desktop-r47";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r47-suite.zip";
+    internal const string ArchiveHash = "8efd351e9f9501f12d3145fb7d41a4e70d625d5aaa11f4f72fb5be818daf4be2";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261027-Desktop-r47-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r47-suite.zip", 542488901L, "8efd351e9f9501f12d3145fb7d41a4e70d625d5aaa11f4f72fb5be818daf4be2") };
+    internal static readonly Item[] Files = new Item[] { new Item("PortalAI-Academic-Install.exe", 11603456L, "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"),
+new Item("release.json", 138778866L, "9c0a1f82227dbb3b3dfd8127922629f3e46b27e40ce9ad1a48d1f0dadd39fe3c"),
+new Item("payload.zip", 300114974L, "30b068bb624b797c5ce056b675fd112140e3d664521b5465066f568c9a1f1e0f"),
+new Item("START_HERE.txt", 3618L, "5b13db0753eab08a9ca41d69ea5cc566ad714f599da7188ab6a14bffd4342549"),
+new Item("storage-plan.json", 190024L, "4261cd6e2ecf8d6e85fbc634b16bac66d15f4e149e168d275943986eef4730d2"),
 new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
 new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
-new Item("PACKAGE_SHA256.json", 1208L, "bf68d02d207577f73c95a427b238a952bd0fdcab10214c7bcdf1ef085d7cb03f"),
-new Item("upgrade.json", 893L, "cc21dccbde1b36b6c462772606a505f0d8c3975793ad88aa01df05b2486ce391") };
+new Item("PACKAGE_SHA256.json", 1311L, "59f5b9bdd6ea9aeaef386a1935e69c92059821998a39566e11824dea8c6aece0"),
+new Item("upgrade.json", 930L, "ed6626a33cbc15b4967c787e3dc7f1a88e85fbd6d6d96f5a608e3428e4adc088"),
+new Item("suite-catalog.json", 4338L, "0df33217af5e67eb9bc1a3ab4cadb212ebb9a9d06533ff13556c126b4e15e10a") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -54,7 +55,7 @@ new Item("upgrade.json", 893L, "cc21dccbde1b36b6c462772606a505f0d8c3975793ad88aa
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 171947246508L : 1748458123L, includeInstall ? 303966L : 9L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 171947246508L : 1744942390L, includeInstall ? 303966L : 14L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -70,7 +71,7 @@ new Item("upgrade.json", 893L, "cc21dccbde1b36b6c462772606a505f0d8c3975793ad88aa
                         try {
                             report((int)(completed*85/total), "Downloading part " + (index+1) + " of " + Parts.Length + " (attempt " + attempt + ")");
                             var request=(HttpWebRequest)WebRequest.Create(Source + "/" + Uri.EscapeDataString(item.Name));
-                            request.UserAgent="PortalAI-Academic-Installer/20261025-Aoostar-r45";
+                            request.UserAgent="PortalAI-Academic-Installer/20261027-Desktop-r47";
                             request.Timeout=30000; request.ReadWriteTimeout=30000;
                             using (var response=(HttpWebResponse)request.GetResponse()) {
                                 if (response.ResponseUri.Scheme != new Uri(Source).Scheme) throw new IOException("Unexpected download redirect protocol.");
@@ -223,7 +224,7 @@ internal sealed class SetupForm : Form {
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 546 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 543 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
         start.Text="Download and install"; start.Width=180; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);ApplyTheme();

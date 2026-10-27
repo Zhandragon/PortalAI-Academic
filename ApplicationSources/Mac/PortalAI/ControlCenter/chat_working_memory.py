@@ -147,16 +147,17 @@ def evidence_lines(messages, start=0, end=None, *, max_chars=3500, max_results=1
     return 'Saved tool evidence (reported facts, not file-existence checks):\n' + '\n\n'.join(reversed(lines))
 
 
-def resume_context(session, *, max_chars=3500):
+def resume_context(session, *, max_chars=3500, prior_only=False):
     messages = session.get('messages') or []
-    if not any(row.get('role') == 'tool' and row.get('name') != 'chat_history' for row in messages):
-        return ''
     users = [(i, row) for i, row in enumerate(messages) if row.get('role') == 'user']
     current = users[-1][0] if users else 0
+    end = current if prior_only else len(messages)
+    if not any(row.get('role') == 'tool' and row.get('name') != 'chat_history' for row in messages[:end]):
+        return ''
     # Earlier objectives are supplied with the follow-up; no session-file search.
     parts = []
-    for start, _row in reversed(users):
-        saved = checkpoint_for(session, start, len(messages))
+    for start, _row in reversed(users[:-1] if prior_only else users):
+        saved = checkpoint_for(session, start, end)
         if saved:
             parts.append('Latest working checkpoint (fallible; retain unresolved work):\n' +
                          excerpt(saved['summary'], max(600, max_chars // 3)))
@@ -171,10 +172,27 @@ def resume_context(session, *, max_chars=3500):
     if prior:
         parts.append(f'Previous assistant response {prior[0]} (fallible; may be incomplete): ' + excerpt(prior[1]['content'], 700))
     header = excerpt('\n'.join(parts), max_chars // 2)
-    evidence = evidence_lines(messages, max_chars=max(600, max_chars-len(header)-200))
+    evidence = evidence_lines(messages, end=end, max_chars=max(600, max_chars-len(header)-200))
     return ('Current-chat continuation evidence. Use it to resume the unresolved work; do not rediscover '
             'these paths or repeat completed actions. Consult exact history only for a specific missing detail. '
             'The current user request governs changes of direction.\n' + header + '\n\n' + evidence)
+
+
+def pressure_checkpoint(session, start, end, previous, max_chars):
+    """Source-linked fallback for a complete prefix; no inference or execution.
+
+    The caller validates safe_boundaries and admits this projection only when
+    it is smaller. Raw calls, returns and dispatch receipts remain unchanged.
+    """
+    summary = (f'Saved exchanges through message {end-1} are omitted from this working view. '
+               'Outcomes may be failed or uncertain; do not repeat recorded actions. '
+               'Use chat_history for exact arguments, results or missing details.')
+    if previous:
+        summary += '\nPrevious working note (fallible):\n' + excerpt(previous['summary'], max(160, max_chars//3))
+    return {'cursor': end, 'summary': summary,
+            'evidence': evidence_lines(session['messages'], start+1, end, max_chars=max_chars),
+            'fingerprint': fingerprint(session['messages'], start, end),
+            'fallback': True, 'reason': 'context_pressure'}
 
 
 def summary_input(session, start, cursor, end, previous, max_chars):

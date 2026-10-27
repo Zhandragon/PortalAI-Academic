@@ -5,7 +5,9 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.append(str(Path(__file__).resolve().parents[2] / 'Tools'))
 import installer_core as core
+import suite_installer as suite
 
 
 class FileCancellation:
@@ -44,8 +46,36 @@ def main():
             changed=key!=getattr(events,'key',None)
             if changed or now-last[0]>.15 or (message.get('total',0)>0 and message.get('done')==message.get('total')):
                 events.key=key;last[0]=now;emit(**message)
-        report = core.install(request['package'], request['destination'], request['selected'],
-                              FileCancellation(request['cancel_file']), progress, events, mode=request.get('mode','install'))
+        stop = FileCancellation(request['cancel_file'])
+        mode = request.get('mode','install')
+        selected = request['selected']
+        report = {}
+        if request.get('suite'):
+            token = sys.stdin.readline(4097).strip()
+            if len(token) > 4096: raise ValueError('Invalid credential length')
+            manifest = core.read_manifest(request['package'])
+            edition = manifest['upgrade']['edition']
+            install_primary = 'primary:'+edition in selected
+            ordinary = [x for x in selected if ':' not in x]
+            optional = [x for x in selected if x.startswith(('app:','copy:','utility:'))]
+            if any(x.startswith('primary:') and x != 'primary:'+edition for x in selected):
+                raise ValueError('Invalid primary edition')
+            if not install_primary and not optional: raise ValueError('Select an application, installer copy, or utility')
+            if mode == 'upgrade' and not install_primary: raise ValueError('Select the primary application to update it')
+            destination = Path(request['destination']).parent if mode == 'upgrade' else Path(request['destination'])
+            catalog = suite.resolve_catalog(suite.read_catalog(request['package']), optional, edition, 'Windows', request['package'], edition, token)
+            planned = suite.plan(catalog, optional, edition, 'Windows', edition)
+            suite.space_check(destination, planned['working_bytes'] + (core.plan(manifest, ordinary)[3] if install_primary else 0))
+            if install_primary:
+                report['application'] = core.install(request['package'], request['destination'], ordinary, stop, progress, events, mode=mode)
+            def suite_progress(label, done, total):
+                events(kind='progress', phase='suite', message=label, done=done, total=total)
+            report['suite'] = suite.execute(catalog, optional, edition, 'Windows', request['package'], destination,
+                                           primary=edition, stop=stop, progress=suite_progress, token=token,
+                                           core=core, primary_components=ordinary)
+            token = None
+        else:
+            report = core.install(request['package'], request['destination'], selected, stop, progress, events, mode=mode)
         emit(kind='complete', message='Installation verified. Open PortalAI normally. Existing accounts and settings are preserved during upgrades.', report=report)
         return 0
     except core.Cancelled as exc:

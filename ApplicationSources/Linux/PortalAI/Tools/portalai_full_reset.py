@@ -18,7 +18,9 @@ import sys
 import threading
 import time
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
+ROOT = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(ROOT/'Agent'), str(ROOT/'ControlCenter')]
 CONFIRMATION = 'CONFIRM'
 JOURNAL_KIND = 'portalai-offline-factory-reset-v1'
 # Data-only scopes. Never widen these to the portable root, models or runtimes.
@@ -93,7 +95,10 @@ def safe_path(base, path):
 
 def processes():
     """Read process ownership using Windows APIs, without a shell or elevation."""
-    if os.name != 'nt': raise ResetError('This reset launcher supports Windows only.')
+    if os.name != 'nt':
+        from profile_shutdown import _snapshot
+        return [(row['pid'], row.get('executable'), Path(row.get('executable', '')).name)
+                for row in _snapshot().values()]
     kernel = ctypes.WinDLL('kernel32', use_last_error=True)
     class Entry(ctypes.Structure):
         _fields_ = [('dwSize', wintypes.DWORD), ('cntUsage', wintypes.DWORD),
@@ -145,15 +150,14 @@ def windows_mutex(name):
 
 @contextlib.contextmanager
 def byte_lock(path):
-    import msvcrt
     path.parent.mkdir(parents=True,exist_ok=True)
+    from instance_runtime import _try_lock, _unlock
     with open(native(path),'a+b') as f:
         if not f.tell():f.write(b'0');f.flush()
         f.seek(0)
-        try:msvcrt.locking(f.fileno(),msvcrt.LK_NBLCK,1)
-        except OSError as e:raise ResetError('PortalAI/projection still owns this folder. Close it normally.') from e
+        if not _try_lock(f):raise ResetError('PortalAI/projection still owns this folder. Close it normally.')
         try:yield
-        finally:f.seek(0);msvcrt.locking(f.fileno(),msvcrt.LK_UNLCK,1)
+        finally:_unlock(f)
 
 class FactoryReset:
     def __init__(self, root):
@@ -164,29 +168,33 @@ class FactoryReset:
         self.skips={self.root/'Private/profile-runtime.lock',self.peer/'state/projection.lock',self.guard}
 
     def validate_roots(self):
-        if self.root.name!='PortalAI' or self.root.parent==self.root:
-            raise ResetError('The main portable application folder must be named PortalAI.')
+        if self.root.parent==self.root:
+            raise ResetError('Choose a dedicated PortalAI installation folder.')
+        safe_path(self.root,self.root)
+        required = ['ControlCenter/control_center_bootstrap.py', 'Agent/local_accounts.py']
+        required += (['PortalAI.exe','Runtime/BootstrapPython/pythonw.exe'] if os.name=='nt' else
+                     ['Runtime/MacPython/bin/python3.12'] if sys.platform=='darwin' else ['Runtime/LinuxPython/bin/python3'])
+        for relative in required:
+            if not safe_path(self.root,self.root/relative).is_file():
+                raise ResetError('The expected portable application files are missing.')
         candidates=[]
         for relative in ('PortalAI-Projection','Utilities/PortalAI-Projection'):
             candidate=safe_path(self.root.parent,self.root.parent/relative)
             if candidate.exists():candidates.append(candidate)
-        if len(candidates)!=1:
-            raise ResetError('Keep exactly one PortalAI-Projection folder: at the portable root or inside Utilities.')
-        peer=candidates[0]
+        if len(candidates)>1:
+            raise ResetError('Keep at most one adjacent PortalAI-Projection folder; duplicate targets need review.')
+        peer=candidates[0] if candidates else None
         if self.volume_ids is not None and peer!=self.peer:
-            raise ResetError('The projection folder moved during reset. Reset stopped.')
+            raise ResetError('The projection folder changed during reset. Reset stopped.')
         self.peer=peer
-        self.skips={self.root/'Private/profile-runtime.lock',self.peer/'state/projection.lock',self.guard}
-        for root in (self.root,self.peer):
-            safe_path(root,root)
-            if not root.is_dir():raise ResetError('The PortalAI and projection folders must be complete portable folders.')
-        for relative in ('PortalAI.exe','Runtime/BootstrapPython/pythonw.exe','ControlCenter/control_center_bootstrap.py'):
-            p=safe_path(self.root,self.root/relative)
-            if not p.is_file():raise ResetError('The expected portable application files are missing.')
-        for relative in ('app/projection_ui.py','Runtime/Python/pythonw.exe'):
-            p=safe_path(self.peer,self.peer/relative)
-            if not p.is_file():raise ResetError('The expected projection companion files are missing.')
-        ids=tuple(file_id(os.stat(native(p))) for p in (self.root,self.peer))
+        self.skips={self.root/'Private/profile-runtime.lock',self.guard}
+        roots=[self.root]
+        if peer is not None:
+            safe_path(peer,peer)
+            if not peer.is_dir() or not safe_path(peer,peer/'app/projection_ui.py').is_file():
+                raise ResetError('The adjacent projection companion is incomplete.')
+            roots.append(peer);self.skips.add(peer/'state/projection.lock')
+        ids=tuple(file_id(os.stat(native(p))) for p in roots)
         if self.volume_ids is not None and ids!=self.volume_ids:
             raise ResetError('The drive or folder identity changed. Reset stopped.')
         self.volume_ids=ids
@@ -200,7 +208,7 @@ class FactoryReset:
             if pid==os.getppid() and image and Path(image) in launchers:continue
             if image:
                 p=Path(image)
-                if p.is_relative_to(self.root) or p.is_relative_to(self.peer) or p==self.root.parent/'PortalAI.exe':
+                if p.is_relative_to(self.root) or (self.peer is not None and p.is_relative_to(self.peer)) or p==self.root.parent/'PortalAI.exe':
                     raise ResetError('Close PortalAI and its projection companion normally, then retry. No process was stopped.')
             elif name.lower() in ('python.exe','pythonw.exe','portalai.exe'):
                 raise ResetError('A possible PortalAI process could not be identified. Close it normally before resetting.')
@@ -208,16 +216,21 @@ class FactoryReset:
     @contextlib.contextmanager
     def guards(self):
         self.validate_roots();self.require_closed()
+        from instance_runtime import host_directory, instance_key, locked
         h=14695981039346656037
         for c in str(self.root).lower():h=((h^ord(c))*1099511628211)&((1<<64)-1)
-        with windows_mutex(f'Local\\PortalAI.GUI.{h>>32:08x}{h&0xffffffff:08x}'):
-            with byte_lock(safe_path(self.root,self.root/'Private/profile-runtime.lock')):
-                with byte_lock(safe_path(self.peer,self.peer/'state/projection.lock')):
-                    self.require_closed();yield
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(locked(host_directory()/(instance_key(self.root)+'.lease'),timeout=0))
+            if os.name=='nt':stack.enter_context(windows_mutex(f'Local\\PortalAI.GUI.{h>>32:08x}{h&0xffffffff:08x}'))
+            stack.enter_context(byte_lock(safe_path(self.root,self.root/'Private/profile-runtime.lock')))
+            if self.peer is not None:
+                stack.enter_context(byte_lock(safe_path(self.peer,self.peer/'state/projection.lock')))
+            self.require_closed();yield
 
     def scopes(self):
         values=[(self.root,self.root/s) for s in PRIVATE_SCOPES]
-        values += [(self.peer,self.peer/s) for s in COMPANION_SCOPES]
+        if self.peer is not None:
+            values += [(self.peer,self.peer/s) for s in COMPANION_SCOPES]
         runtime=safe_path(self.root,self.root/'Agent/.runtime')
         if runtime.exists():
             values += [(self.root,p) for p in runtime.iterdir()
@@ -297,9 +310,9 @@ class FactoryReset:
 def main():
     import tkinter as tk
     from tkinter import ttk
-    root=Path(__file__).absolute().parents[1]
+    root=ROOT
     engine=FactoryReset(root)
-    app=tk.Tk();app.title('PortalAI Full Reset');app.geometry('660x550');app.resizable(False,False)
+    app=tk.Tk();app.title('PortalAI Full Reset');app.geometry('700x650');app.minsize(640,600)
     body=ttk.Frame(app,padding=22);body.pack(fill='both',expand=True)
     ttk.Label(body,text='Reset this PortalAI installation',font=('Segoe UI',16,'bold')).pack(anchor='w')
     ttk.Label(body,text=str(root.parent),font=('Segoe UI',11,'bold')).pack(anchor='w',pady=(8,12))
@@ -311,13 +324,15 @@ def main():
         'Files manually saved outside managed PortalAI data folders are not included.\n\n'
         'Close PortalAI and projection normally first. Type CONFIRM, then click Confirm.')
     ttk.Label(body,text=message,wraplength=590,justify='left').pack(anchor='w')
-    value=tk.StringVar();entry=ttk.Entry(body,textvariable=value,width=32);entry.pack(anchor='w',pady=(15,10));entry.focus_set()
-    status=tk.StringVar(value='Cancel closes this window without changing files.')
+    value=tk.StringVar(master=app);entry=ttk.Entry(body,textvariable=value,width=32);entry.pack(anchor='w',pady=(15,10));entry.focus_set()
+    status=tk.StringVar(master=app,value='Cancel closes this window without changing files.')
     ttk.Label(body,textvariable=status,wraplength=590).pack(anchor='w',pady=(0,8))
     buttons=ttk.Frame(body);buttons.pack(side='bottom',fill='x')
-    busy=False;finished=False;messages=queue.Queue()
+    busy=False;finished=False;messages=queue.Queue();poll_id=None
     def close():
-        if not busy:app.destroy()
+        if not busy:
+            if poll_id is not None:app.after_cancel(poll_id)
+            app.destroy()
     def update(*args):
         confirm.configure(state='normal' if value.get()==CONFIRMATION and not busy and not finished else 'disabled')
     def perform():
@@ -334,9 +349,10 @@ def main():
         threading.Thread(target=worker,name='PortalAIFullReset',daemon=False).start()
     confirm=ttk.Button(buttons,text='Confirm',command=perform,state='disabled');confirm.pack(side='right')
     cancel=ttk.Button(buttons,text='Cancel',command=close);cancel.pack(side='right',padx=10)
+    exit_button=ttk.Button(buttons,text='X',width=3,command=close);exit_button.pack(side='left')
     value.trace_add('write',update);app.protocol('WM_DELETE_WINDOW',close)
     def poll():
-        nonlocal busy,finished
+        nonlocal busy,finished,poll_id
         try:
             while True:
                 kind,text=messages.get_nowait();status.set(text)
@@ -344,8 +360,8 @@ def main():
                     busy=False;finished=kind=='done';cancel.configure(state='normal',text='Close' if finished else 'Cancel')
                     if not finished:entry.configure(state='normal');value.set('');update()
         except queue.Empty:pass
-        app.after(100,poll)
-    app.after(100,poll);app.mainloop()
+        poll_id=app.after(100,poll)
+    poll_id=app.after(100,poll);app.mainloop()
 
 if __name__=='__main__':
     if len(sys.argv)!=1:raise SystemExit('This tool has no unattended reset mode.')

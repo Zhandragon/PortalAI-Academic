@@ -3548,6 +3548,12 @@ def main(authenticated=None):
     startup_button = button("Startup", start_components, kind="accent")
     if (root / "OpenGUI").exists():
         button("Legacy OpenGUI", launch_legacy_opengui)
+    def open_utilities():
+        if exit_in_progress or (account_gate is not None and account_gate.locked):
+            return
+        from utilities_ui import show_utilities
+        show_utilities(app, root, COLORS)
+    button("Utilities", open_utilities)
     button("System Test", run_system_test)
     button("Full Component Diagnosis", diagnose)
     button("Minimize to tray", minimize_to_tray)

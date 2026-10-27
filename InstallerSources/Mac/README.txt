@@ -1,4 +1,20 @@
-PortalAI 2026.10.25-Aoostar-r45 — Academic Mac
+PortalAI 2026.10.27-Desktop-r47 — Academic-Mac
+Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
+See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
+
+PortalAI suite 2026.10.27-Desktop-r47 — Academic-Mac
+
+Choose applications, optional installer copies and native utilities in setup.
+Utilities remain independent programs. Academic exposes Academic installers only.
+Installer copies for other operating systems are stored, never executed here.
+The outer suite-release-catalog.json enables offline archive verification.
+Private GitHub downloads require an optional memory-only token or matching local archives.
+Abliterator is currently Windows-only. Projection supports all three platforms.
+No accounts or connections are created by suite setup.
+
+Baseline platform requirements follow:
+
+PortalAI 2026.10.27-Desktop-r47 — Academic Mac
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,

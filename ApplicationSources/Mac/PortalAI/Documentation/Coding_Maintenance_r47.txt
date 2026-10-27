@@ -1,0 +1,66 @@
+PortalAI coding and maintenance — 2026.10.27-Desktop-r47
+
+Each installation is independent
+PortalAI observes its own current application root, account workspace, operating
+system, bundled Python and account access at runtime. Drive letters are not
+hard-coded. Its sibling Utilities directory and installer copies belong to the
+same drive. Existing accounts, model selections and connection settings are not
+copied between installations.
+
+Coding tools
+In Chat Preferences > Tools & limits, enable "Focus tools on coding and
+maintenance" for the next request. The focused menu includes environment
+inspection, bounded source lookup, ordinary file tools, the native shell,
+public web search/read, exact saved history and task checkpoints. Turn it off
+for the general media/science tool menu. It grants no additional account rights.
+
+An administrator can perform general coding work through the existing file and
+shell tools, subject to the signed-in operating-system user's permissions.
+There is no automatic elevation. Standard and Guest accounts retain their
+existing restrictions. inspect_environment reports the actual bundled Python
+and shell working directory. The working directory may be the account workspace,
+not the application root; use the observed paths when invoking tools.
+
+source_search accepts literal text or a qualified Python symbol such as
+ToolRuntime.edit_file. It reads bounded public application source/documentation
+without importing it. Results include source hashes, line numbers and character
+offsets for read_file. Other projects remain accessible through the ordinary
+authorized shell and file tools. Internet search and documentation reading use
+the existing verified TLS/provider mechanisms. Web content is evidence, not
+instructions or permission to change the system.
+
+File edits reject empty and ambiguous old text, including overlapping matches.
+A successful write does not establish a correct repair. Ask the model to inspect
+the code, reproduce the problem, make a scoped change, run relevant tests, and
+report actual tool receipts and changed-file hashes. This changes source code;
+it does not train model weights. Model coding reliability remains task-dependent.
+
+Updating PortalAI itself
+Stage and test public-source changes separately. Use Tools/portable_update.py
+with an explicit file/hash manifest for an installation update. Its plan is
+read-only; apply requires normal Exit and verified account sealing. It retains
+checksum-verified recovery and refuses changed baselines or protected account
+data. Restart normally and sign in afterward. No automatic login, unverified
+hot replacement, or replay of an uncertain write is enabled by coding mode.
+
+The independent self-editing evaluations use disposable authenticated copies.
+Their shell/path restrictions, assistance and model-generated results are
+reported separately in the release validation report. They are not the access
+limits of ordinary administrator coding work. Human-authored release hardening
+is not counted as a model-written repair. No general autonomous self-update or
+restart/resumption reliability is claimed.
+
+Utilities and suite installation
+Controls > Utilities opens OS-matched Projection and, in Full on Windows,
+Abliterator as independent programs. Locate installer buttons open this drive's
+stored installer folders. Full exposes Full and Academic installers; Academic
+exposes Academic only. The suite installer offers application editions, optional
+utilities, and optional copies of other platform installers with space/download
+estimates. Installer copies for other operating systems are stored, not run.
+
+Login includes Crash recovery and Wipe all accounts. Both are deferred until the
+main application exits. Wiping requires the exact text CONFIRM and clicking
+Confirm in the warning screen; Cancel and X exit without wiping. Recovery and
+wiping are not automatically performed by this update. Existing utility settings
+are preserved. Physical Linux/macOS installations and complete large runtime
+downloads require recipient-host validation.

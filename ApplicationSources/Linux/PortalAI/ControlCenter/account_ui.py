@@ -497,6 +497,7 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
     """
     prepare_login_shell(parent, controller.root, colors)
     dialog = _Dialog(parent, 'Choose your account', colors, startup=True, jobs=controller.jobs)
+    recovery_actions = reset_actions = None
     if progress is not None: dialog.progress = progress
     dialog.operation_label = 'Checking account password…'
     dialog.elapsed = tk.StringVar(master=dialog.win, value='')
@@ -583,19 +584,28 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
         password = dialog.entry('Password', secret=True, submit=lambda: sign_in.invoke())
         login_actions=tk.Frame(dialog.body,bg=dialog.bg)
         login_actions.pack(fill='x',pady=(0,10))
+        recovery_actions=tk.Frame(login_actions,bg=dialog.bg)
+        reset_actions=tk.Frame(login_actions,bg=dialog.bg)
+        recovery_actions.pack(side='left',anchor='n')
+        reset_actions.pack(side='right',anchor='n')
         dialog.label('Guest is passwordless and shared: anyone selecting Guest can see its saved history. Pending accounts need an administrator to set their password.',muted=True)
         dialog.label('Accounts do not isolate full host tools or protect against someone who controls this computer or its filesystem.',muted=True)
         def login():
             username, secret = selected.get(), password.get()
             dialog.run(lambda: controller.activate(controller.login(username, secret, guest=username == 'Guest'), prepare_session), complete)
         sign_in = dialog.button('Sign in', login, enabled=bool(names),tone='accent')
-        sign_in.pack_forget();sign_in.pack(in_=login_actions,side='right',pady=3)
+        sign_in.pack_forget();sign_in.pack(in_=reset_actions,anchor='e',pady=3)
     if authenticated_session is None and reviewed_setup is None and status['state'] in ('recovery_required', 'locked'):
         if status.get('recovery_warning'):
             dialog.label('The account recovery copy needs repair. A successful administrator sign-in can repair it after verifying the active registry.',muted=True)
         recover_button=dialog.button('Recover account registry…', recover_registry)
+        from utilities_ui import utility_button_help
+        utility_button_help(dialog, recover_button, 'account_registry_recovery')
         if status['state']=='locked':
-            recover_button.pack_forget();recover_button.pack(in_=login_actions,side='left',pady=3)
+            recover_button.pack_forget();recover_button.pack(in_=recovery_actions,anchor='w',pady=3)
+    if authenticated_session is None:
+        from utilities_ui import add_login_utilities
+        add_login_utilities(dialog, controller, recovery_parent=recovery_actions, reset_parent=reset_actions)
     def complete(session):
         result[0] = session
         if retain_until_ready:
