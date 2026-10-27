@@ -162,7 +162,8 @@ def _web_error(exc):
 def _check_challenge(text):
     prefix=text[:30000].lower()
     if any(token in prefix for token in ('id="challenge-form"','id="anomaly-form"','class="anomaly-modal',
-                                         '<title>just a moment...</title>','<title>attention required! | cloudflare</title>')):
+                                         '<title>just a moment...</title>','<title>attention required! | cloudflare</title>',
+                                         '<title>captcha</title>', 'id="b_captcha"', 'id="b_captcha_container"')):
         raise WebAccessError('The site returned a browser/bot challenge; no page content was fetched.',
                              category='browser_challenge',http_status=403,retry_after_seconds=900)
 
@@ -491,6 +492,21 @@ def search_duckduckgo(query: str, limit: int, *, lite: bool = False) -> list[dic
     return clean
 
 
+def search_bing(query: str, limit: int) -> list[dict[str, str]]:
+    from web_search_fallback import BingSearchParser
+    url = 'https://www.bing.com/search?' + urllib.parse.urlencode({'q': query})
+    data, _, content_type = _request_bytes(url)
+    text = _decode(data, content_type)
+    _check_challenge(text)
+    parser = BingSearchParser(_candidate_url, limit)
+    parser.feed(text)
+    parser.finish()
+    if not parser.results:
+        raise WebAccessError('The search page returned no parseable organic results.',
+                             category='no_parseable_results', retry_after_seconds=60)
+    return parser.results
+
+
 def search_brave(query: str, limit: int, api_key: str) -> list[dict[str, str]]:
     params = urllib.parse.urlencode({"q": query, "count": max(1, min(limit, 20))})
     url = f"https://api.search.brave.com/res/v1/web/search?{params}"
@@ -539,6 +555,7 @@ def web_search(query: str, limit: int = DEFAULT_SEARCH_RESULTS, *, fresh: bool =
     except Exception:warnings.append('Portable search cache unavailable; continuing without cached results.')
     providers=([('brave',lambda:search_brave(query,limit,brave_key))] if brave_key else [])+[
         ('duckduckgo',lambda:search_duckduckgo(query,limit)),
+        ('bing',lambda:search_bing(query,limit)),
         ('duckduckgo-lite',lambda:search_duckduckgo(query,limit,lite=True))]
     for name,search in providers:
         state.check()

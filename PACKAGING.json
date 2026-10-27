@@ -2,15 +2,15 @@
   "format": 3,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r47-suite.zip",
-      "bytes": 542488901,
-      "sha256": "8efd351e9f9501f12d3145fb7d41a4e70d625d5aaa11f4f72fb5be818daf4be2",
+      "archive": "PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r48-suite.zip",
+      "bytes": 542518942,
+      "sha256": "6fe95ee402e6faee71cf2f79bc95e1c43d1393f498afc5acde3c44d3f0fc8b7d",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r47-suite.zip",
-          "bytes": 542488901,
-          "sha256": "8efd351e9f9501f12d3145fb7d41a4e70d625d5aaa11f4f72fb5be818daf4be2"
+          "name": "PortalAI-Academic-Windows-Installer-2026.10.27-Desktop-r48-suite.zip",
+          "bytes": 542518942,
+          "sha256": "6fe95ee402e6faee71cf2f79bc95e1c43d1393f498afc5acde3c44d3f0fc8b7d"
         }
       ],
       "files": [
@@ -21,23 +21,23 @@
         },
         {
           "name": "release.json",
-          "bytes": 138778866,
-          "sha256": "9c0a1f82227dbb3b3dfd8127922629f3e46b27e40ce9ad1a48d1f0dadd39fe3c"
+          "bytes": 138781825,
+          "sha256": "28b8d32fe0cf5ce875c3ff8c0deb189bb2d45592331f1648558a08e675ad76cc"
         },
         {
           "name": "payload.zip",
-          "bytes": 300114974,
-          "sha256": "30b068bb624b797c5ce056b675fd112140e3d664521b5465066f568c9a1f1e0f"
+          "bytes": 300145572,
+          "sha256": "b694d281a373ab5778497af456bd99e6e9643aa47e64c925ae2ee0e5cbaacad7"
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 3618,
-          "sha256": "5b13db0753eab08a9ca41d69ea5cc566ad714f599da7188ab6a14bffd4342549"
+          "bytes": 3850,
+          "sha256": "95c76468a853252c90c43c041949df8d6b688ae695a47e2cf4f4fc639d686137"
         },
         {
           "name": "storage-plan.json",
           "bytes": 190024,
-          "sha256": "4261cd6e2ecf8d6e85fbc634b16bac66d15f4e149e168d275943986eef4730d2"
+          "sha256": "5fb6c1d103661a440200b09c4fa2ac58c9ed33c2bc69842b09fb986d29d05327"
         },
         {
           "name": "sox-14.4.2-win32.zip",
@@ -52,36 +52,36 @@
         {
           "name": "PACKAGE_SHA256.json",
           "bytes": 1311,
-          "sha256": "59f5b9bdd6ea9aeaef386a1935e69c92059821998a39566e11824dea8c6aece0"
+          "sha256": "11cea9bdbab4bbe89627b9c8571eee2d80e0db028384f9457baf1e7a43fe8e5e"
         },
         {
           "name": "upgrade.json",
-          "bytes": 930,
-          "sha256": "ed6626a33cbc15b4967c787e3dc7f1a88e85fbd6d6d96f5a608e3428e4adc088"
+          "bytes": 960,
+          "sha256": "64c0aac46c6d20923919f0cf245ced591604d51d3e7f462468f51d98c564a6fd"
         },
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
-          "sha256": "0df33217af5e67eb9bc1a3ab4cadb212ebb9a9d06533ff13556c126b4e15e10a"
+          "sha256": "ce86bfa32c47d002462093a6c24c63ceda4726463708667fe6de8cfa9067906e"
         }
       ],
       "storage_preflight": {
-        "bootstrap_bytes": 1744942390,
+        "bootstrap_bytes": 1745036291,
         "bootstrap_files": 14,
         "install_bytes": 171947246508,
         "install_files": 303966
       }
     },
     "Linux": {
-      "archive": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r47-suite.tar.gz",
-      "bytes": 532027356,
-      "sha256": "ccc7253d41b0c914198ab0d5b96901789a4b7323aa5cb335ddc2c7ccd55e836a",
+      "archive": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r48-suite.tar.gz",
+      "bytes": 532074626,
+      "sha256": "0c3fb67275f3f6157e0a204ed0fbec1ac5421886051135ecbed2e353ad3103c5",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r47-suite.tar.gz",
-          "bytes": 532027356,
-          "sha256": "ccc7253d41b0c914198ab0d5b96901789a4b7323aa5cb335ddc2c7ccd55e836a"
+          "name": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r48-suite.tar.gz",
+          "bytes": 532074626,
+          "sha256": "0c3fb67275f3f6157e0a204ed0fbec1ac5421886051135ecbed2e353ad3103c5"
         }
       ],
       "files": [
@@ -97,13 +97,13 @@
         },
         {
           "name": "manifest.json",
-          "bytes": 29353,
-          "sha256": "ae15cd07db6695689ded361373a8477999aadf5aa25c0005f729bff14ac45e1f"
+          "bytes": 29385,
+          "sha256": "4f04617f164083c9a865b772d34c62155adcf55e4d387fb4f57313b2f5433f32"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 467443533,
-          "sha256": "c2012658f4c06a90afaf8059ae3ba56d5112b69e5e69bfe68114325e244f7fe8"
+          "bytes": 467472603,
+          "sha256": "f38afecc24f404fe236c615d1778ef9851d4f4b272e8a06144a965c95952c3dc"
         },
         {
           "name": "python-runtime.tar.gz",
@@ -112,18 +112,18 @@
         },
         {
           "name": "README.txt",
-          "bytes": 3538,
-          "sha256": "466f65427ed41ad3cfcecb8bbf3553faad965238d4dde884deef6806a6245871"
+          "bytes": 3768,
+          "sha256": "94729c8c2a805106124cf824b8c3a33fa63682f9b370bf95b42b342ad456c5f3"
         },
         {
           "name": "SHA256SUMS",
           "bytes": 961,
-          "sha256": "e779b8fd47d248f2445721685a5ac8ccb4dffbcf987d1cd94cef6e4a19edc2a8"
+          "sha256": "48d523cecad2b5fff95e03c159c3f642414493d2d16e3aff776040188a059dc1"
         },
         {
           "name": "storage-plan.json",
           "bytes": 837,
-          "sha256": "5f0eca0c374c8ad59a695f2bdf8e7a6d8c1c9815a2723dec92329f0c01618a94"
+          "sha256": "02afae18cb54a60d756e9280cf38c5fd4b5c1c1f8283f1d02e657ae9cfccff06"
         },
         {
           "name": "storage-preflight.sh",
@@ -137,18 +137,18 @@
         },
         {
           "name": "upgrade.json",
-          "bytes": 926,
-          "sha256": "5ed7b89218de0fc05e12852ea7cf6085ecb70ba8073c7575ad02856a618dd3b6"
+          "bytes": 956,
+          "sha256": "9ecc5c29df36fd93295b61b50714901e53440ee76ec21ab69792a82de746c0d5"
         },
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
-          "sha256": "0df33217af5e67eb9bc1a3ab4cadb212ebb9a9d06533ff13556c126b4e15e10a"
+          "sha256": "ce86bfa32c47d002462093a6c24c63ceda4726463708667fe6de8cfa9067906e"
         }
       ],
-      "top_folder": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r47-suite",
+      "top_folder": "PortalAI-Academic-Linux-Installer-2026.10.27-Desktop-r48-suite",
       "storage_preflight": {
-        "bootstrap_kib": 1561783,
+        "bootstrap_kib": 1561904,
         "install_kib": 17603954,
         "min_free_kib": 52428800,
         "output_kib": 104857600,
@@ -156,15 +156,15 @@
       }
     },
     "Mac": {
-      "archive": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r47-suite.tar.gz",
-      "bytes": 588802629,
-      "sha256": "835a97b92db176e66dae612a21f42e79832ed3f4cf32acf8489f722f85b2cbbc",
+      "archive": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r48-suite.tar.gz",
+      "bytes": 588838201,
+      "sha256": "20f1e9fbefae04162395ba7e596dee7e9e8dc2416b540661b21ccd40ff8d653a",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r47-suite.tar.gz",
-          "bytes": 588802629,
-          "sha256": "835a97b92db176e66dae612a21f42e79832ed3f4cf32acf8489f722f85b2cbbc"
+          "name": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r48-suite.tar.gz",
+          "bytes": 588838201,
+          "sha256": "20f1e9fbefae04162395ba7e596dee7e9e8dc2416b540661b21ccd40ff8d653a"
         }
       ],
       "files": [
@@ -185,13 +185,13 @@
         },
         {
           "name": "manifest.json",
-          "bytes": 30851,
-          "sha256": "b173d3ee222778a6c8247e77ccb74b152b92743aeaeb97642798d3000858551a"
+          "bytes": 30883,
+          "sha256": "b410dc74cf8481232f04042a4e38744b7f743a6f85875abd2a65f22cc0262179"
         },
         {
           "name": "payload.tar.gz",
-          "bytes": 502391973,
-          "sha256": "2d139ab3ff025b2e238c29d772701e5e4f6f1d4c849d2584a73824ce7b64bae3"
+          "bytes": 502419839,
+          "sha256": "e60ec80c486123d1b7fbdca5f9aeed569af0d397c4407e9a01ccecff8661d8c4"
         },
         {
           "name": "python-runtime-arm64.tar.gz",
@@ -205,18 +205,18 @@
         },
         {
           "name": "README.txt",
-          "bytes": 3842,
-          "sha256": "2ba8263b8a4e2f567457086226d6ba36216eef33e945b836e3932385c0bd7a89"
+          "bytes": 4070,
+          "sha256": "83efe0ca060acef6e98fbdefbbba09f51b8c39e5c6e1208034c38245d07e4649"
         },
         {
           "name": "SHA256SUMS",
           "bytes": 1202,
-          "sha256": "624bbecbc2a8217a8f5dfc5e2d51fba016a1b96386808c55612f47f96d85485b"
+          "sha256": "edd0c311381e27663858f92e47ec0dcbdd22e440223ceeba85e02cbc517a0122"
         },
         {
           "name": "storage-plan.json",
           "bytes": 1435,
-          "sha256": "068161cc981b5e5f3d07574c2972f6dc90258f848ddae0497368b3bbc2cbb934"
+          "sha256": "fed89cf866345c934a496594662db44acc87c74269bac4d2ff49f9d3adb6cdb8"
         },
         {
           "name": "storage-preflight.sh",
@@ -225,8 +225,8 @@
         },
         {
           "name": "upgrade.json",
-          "bytes": 922,
-          "sha256": "61f0d4b2d0f7fde13051083bad5f255093f92e0cf55fae97d64a7b0cb7bfc3d1"
+          "bytes": 952,
+          "sha256": "b5c75ed50e30092bf8567e4e5725e3d959dc61d282f95f1b347b43ebfd7ce95e"
         },
         {
           "name": "mac-prerequisites.sh",
@@ -241,12 +241,12 @@
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
-          "sha256": "0df33217af5e67eb9bc1a3ab4cadb212ebb9a9d06533ff13556c126b4e15e10a"
+          "sha256": "ce86bfa32c47d002462093a6c24c63ceda4726463708667fe6de8cfa9067906e"
         }
       ],
-      "top_folder": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r47-suite",
+      "top_folder": "PortalAI-Academic-Mac-Installer-2026.10.27-Desktop-r48-suite",
       "storage_preflight": {
-        "bootstrap_kib": 1726586,
+        "bootstrap_kib": 1726683,
         "install_kib": 21399059,
         "min_free_kib": 52428800,
         "output_kib": 104857600,
@@ -254,7 +254,7 @@
       }
     }
   },
-  "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.27-Desktop-r47",
-  "release": "v2026.10.27-Desktop-r47",
+  "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.27-Desktop-r48",
+  "release": "v2026.10.27-Desktop-r48",
   "distribution": "GitHub release assets; old Git-tracked parts retained for existing launchers"
 }

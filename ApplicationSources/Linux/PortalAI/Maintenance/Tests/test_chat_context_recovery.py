@@ -31,6 +31,31 @@ def exchange(p, text='Directory of D:\\Example\\Workspace\n' + 'folder entry\n'*
 
 
 class ContextRecoveryTests(unittest.TestCase):
+    def test_failed_periodic_summary_keeps_exact_exchanges_while_they_fit(self):
+        p=small_panel();p._runtime_context_limit=lambda:32768
+        for number in range(14):exchange(p,'Source code body '+str(number),'inspect '+str(number))
+        original=copy.deepcopy(p.session)
+        self.assertFalse(p._compact_working_turn(p._context_plan()))
+        self.assertEqual(p.session,original)
+        p._single_completion.assert_called_once()
+        self.assertFalse(p._compact_working_turn(p._context_plan()))
+        p._single_completion.assert_called_once()
+
+    def test_hard_pressure_retains_recent_complete_pairs_when_they_fit(self):
+        p=small_panel()
+        for number in range(12):
+            exchange(p,'Prior result '+str(number),'inspect '+str(number)+'x'*2000)
+            p.session['messages'][-2]['tool_calls'][0]['id']='call-'+str(number)
+            p.session['messages'][-1]['tool_call_id']='call-'+str(number)
+        exchange(p,'LATEST_EXACT_RESULT','latest-command')
+        p.session['messages'][-2]['tool_calls'][0]['id']='latest-call'
+        p.session['messages'][-1]['tool_call_id']='latest-call'
+        original=copy.deepcopy(p.session['messages'])
+        p.compact_context_if_needed();api,estimated=p.api_messages()
+        self.assertLessEqual(estimated,7372)
+        self.assertTrue(any(row.get('role')=='tool' and row.get('tool_call_id')=='latest-call' and row.get('content')=='LATEST_EXACT_RESULT' for row in api))
+        self.assertEqual(p.session['messages'],original);p._single_completion.assert_not_called()
+
     def test_reported_overflow_recovers_without_inference_or_replaying_a_tool(self):
         p = small_panel()
         p.session['messages'] = [
@@ -43,7 +68,15 @@ class ContextRecoveryTests(unittest.TestCase):
                                       'cursor': 2, 'summarized_turns': 1}
         # Calibrated against the pre-repair planner: exactly 5,927 input tokens.
         # Synthetic fixed host overhead, not copied owner instructions/memory.
-        p.system_prompt = lambda: 'Small system instructions' + 'x'*9508
+        # Keep the reproduced overflow fixed as the public tool menu evolves.
+        # The separate real-host test below exercises the full current schema.
+        padding = [9508]
+        p.system_prompt = lambda: 'Small system instructions' + 'x'*padding[0]
+        for _ in range(30):
+            delta = p._context_plan()['estimated_input'] - 5800
+            if not delta: break
+            padding[0] = max(0, padding[0] - delta * 4)
+        self.assertEqual(p._context_plan()['estimated_input'], 5800)
         before = copy.deepcopy(p.session['messages'])
         p.compact_context_if_needed()
         api, estimated = p.api_messages()

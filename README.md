@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-27 r47):** Unified Utilities and Login recovery/reset controls; optional suite downloads; observed environment, source search and focused coding tools. [Changes and validation](Documentation/RELEASE-r47.txt).
+**Latest update (2026-10-27 r48):** Expanded website, in-site and database search; structured data and media discovery; source maps and optional guidance for 1.7B/4B. [Changes and validation](Documentation/RELEASE-r48.txt).
+
+**Previous update (2026-10-27 r47):** Unified Utilities and Login recovery/reset controls; optional suite downloads; observed environment, source search and focused coding tools. [Changes and validation](Documentation/RELEASE-r47.txt).
 
 **Previous update (2026-10-25 r45):** Unified application fixes, version-aware upgrades, account recovery, and a fourth universal setup option. [Changes, upgrade instructions and validation](Documentation/UNIFIED-20261025-r45.md).
 
@@ -123,7 +125,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.27-Desktop-r47/PortalAI-Academic-Universal-Setup-2026.10.27-Desktop-r47.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.27-Desktop-r48/PortalAI-Academic-Universal-Setup-2026.10.27-Desktop-r48.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

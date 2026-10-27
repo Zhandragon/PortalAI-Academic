@@ -9,6 +9,7 @@ from pathlib import Path
 PUBLIC = ('Agent', 'ControlCenter', 'Tools', 'Documentation')
 GUIDANCE = (
     'For authorized PortalAI maintenance, inspect_environment reports the current host and account. '
+    'Use source_map to discover public filenames and Python symbol outlines before guessing a method name. '
     'Use source_search for exact symbols in public source; results give absolute paths, character offsets and hashes. '
     'Read surrounding code, reproduce the failure, edit only the requested scope, then run tests with the bundled Python. '
     'shell uses the signed-in workspace, not application_root. Registered python Tools/example.py commands resolve at the application root. '
@@ -23,6 +24,11 @@ def schema(name,description,properties,required=()):
         'parameters':{'type':'object','properties':properties,'required':list(required),'additionalProperties':False}}}
 
 TOOLS = [
+    schema('source_map', 'Map public source files across roots, or outline a Python file with qualified symbols and exact read_file offsets. Administrator only; no execution.',
+        {'path':{'type':'string','description':'Default . lists public source; a .py path returns its outline'},
+         'query':{'type':'string','description':'Optional filename or symbol substring'},
+         'offset':{'type':'integer','minimum':0,'maximum':5000},
+         'limit':{'type':'integer','minimum':1,'maximum':60}}),
     schema('inspect_environment','Observe PortalAI root, account workspace, OS, bundled Python and actual account access. Read-only; refresh after account changes.',{}),
     schema('source_search','Search literal text or a qualified Python symbol such as Class.method in first-party source or documentation. Administrator only. Returns bounded excerpts, exact character offsets and source hashes; does not execute code.',
         {'query':{'type':'string'},'path':{'type':'string','description':'Public source directory or file relative to application_root; default ControlCenter'},
@@ -110,6 +116,20 @@ def source_search(runtime,query,path='ControlCenter',offset=0,limit=4):
 
 def execute(runtime,name,args):
     if name=='inspect_environment':return inspect_environment(runtime)
-    if name=='source_search':return source_search(runtime,**args)
+    if name in ('source_map','source_search'):
+        try:
+            if name=='source_search':return source_search(runtime,**args)
+            from source_map import source_map
+            return source_map(runtime,**args)
+        except FileNotFoundError:
+            if getattr(runtime,'settings',{}).get('low_power_support',False):
+                import http.client
+                from native_chat import model_id
+                from low_power_support import missing_source_hint
+                try:identifier=model_id()
+                except (OSError,ValueError,http.client.HTTPException):identifier=''
+                hint=missing_source_hint(runtime,identifier,args.get('path',''))
+                if hint is not None:return hint
+            raise
     raise KeyError(name)
 

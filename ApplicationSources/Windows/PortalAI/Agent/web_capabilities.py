@@ -5,6 +5,7 @@ once. A timeout never means the remote operation failed or is safe to replay.
 """
 from __future__ import annotations
 import io
+from array import array
 import json
 from html.parser import HTMLParser
 from pathlib import Path
@@ -30,6 +31,7 @@ class Document(HTMLParser):
     def __init__(self, url):
         super().__init__(convert_charrefs=True)
         self.url=url; self.parts=[]; self.headings=[]; self.links=[]; self.hidden=0; self.heading=None; self.anchor=None; self.size=0
+        self.anchors={}; self.anchor_lookup_limited=False
     def add(self, text):
         self.parts.append(text); self.size += len(text)
     def handle_starttag(self, tag, attrs):
@@ -37,9 +39,13 @@ class Document(HTMLParser):
         if tag in ('script','style','noscript','svg'): self.hidden += 1
         if self.hidden: return
         if tag in ('p','div','section','article','li','tr','br','h1','h2','h3','h4','h5','h6'): self.add('\n')
+        if tag in ('td','th'): self.add('\t')
+        for name in (attrs.get('id'),attrs.get('name') if tag=='a' else None):
+            if name and name not in self.anchors:
+                if len(self.anchors)<50000:self.anchors[name]=self.size
+                else:self.anchor_lookup_limited=True
         if re.fullmatch('h[1-6]',tag): self.heading={'level':int(tag[1]), 'offset':self.size, 'text':''}
         if tag=='a' and attrs.get('href'): self.anchor={'url':urllib.parse.urljoin(self.url,attrs['href']), 'text':''}
-        if tag in ('td','th'): self.add('\t')
     def handle_endtag(self, tag):
         if tag in ('script','style','noscript','svg') and self.hidden: self.hidden -= 1; return
         if self.hidden: return
@@ -50,6 +56,26 @@ class Document(HTMLParser):
         self.add(text)
         if self.heading: self.heading['text'] += text
         if self.anchor: self.anchor['text'] += text
+
+
+def find_text(text, query, start=0):
+    """Casefold matches with offsets into the original, unmodified text."""
+    start=int(start)
+    if not 0<=start<=len(text):raise ValueError('Offset is outside this document')
+    needle=str(query).casefold()
+    if not needle:raise ValueError('find requires nonempty text')
+    chunks=[];positions=array('I')
+    for index,char in enumerate(text[start:],start):
+        folded=char.casefold();chunks.append(folded);positions.extend([index]*len(folded))
+    folded=''.join(chunks);hits=[];cursor=0;end=start
+    while len(hits)<30:
+        at=folded.find(needle,cursor)
+        if at<0:break
+        original=positions[at];end=positions[at+len(needle)-1]+1
+        hits.append({'offset':original,'excerpt':text[max(0,original-80):original+240]})
+        cursor=at+len(needle)
+        while cursor<len(positions) and positions[cursor]<end:cursor+=1
+    return hits,end if len(hits)==30 else None
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs): return None
@@ -74,7 +100,7 @@ def api_request(args, check=lambda:None):
     try: response=opener.open(request, timeout=timeout)
     except urllib.error.HTTPError as exc: response=exc
     with response:
-        if int(response.headers.get('Content-Length','0'))>LIMIT:raise ValueError('Response exceeds 16 MiB; outcome may already have occurred')
+        if method!='HEAD' and int(response.headers.get('Content-Length','0'))>LIMIT:raise ValueError('Response exceeds 16 MiB; outcome may already have occurred')
         chunks=[];size=0;deadline=time.monotonic()+timeout
         while size<=LIMIT:
             check()
@@ -87,7 +113,7 @@ def api_request(args, check=lambda:None):
         if len(raw)>LIMIT: raise ValueError('Response exceeds 16 MiB; outcome may already have occurred')
         content_type=response.headers.get('Content-Type','')
         text=_decode(raw,content_type)
-        safe={k:v for k,v in response.headers.items() if k.lower() in ('content-type','location','retry-after','etag','last-modified','link')}
+        safe={k:v for k,v in response.headers.items() if k.lower() in ('content-type','content-length','content-disposition','accept-ranges','location','retry-after','etag','last-modified','link')}
         return {'url':url,'method':method,'status':response.status,'headers':safe,'body':text,
                 'redirect_followed':False,'retries':0,'source':'HTTP response'}
 
@@ -110,7 +136,17 @@ class WebSession:
             doc=self.documents[str(args['document'])]
         else:
             url=str(args['url']); raw,final_url,content_type=_request_bytes(url,max_bytes=LIMIT)
-            if 'pdf' in content_type.lower() or raw.startswith(b'%PDF-'):
+            fragment=urllib.parse.unquote(urllib.parse.urlsplit(final_url if '#' in final_url else url).fragment)
+            anchors={};anchor_lookup_limited=False
+            from web_research import kind_of, is_binary
+            resource_kind=kind_of(final_url,content_type)
+            is_pdf='pdf' in content_type.lower() or raw.startswith(b'%PDF-')
+            if not is_pdf and (resource_kind in ('image','audio','video','archive') or is_binary(raw,final_url,content_type)):
+                self.check()
+                return {'url':final_url,'kind':resource_kind,'content_type':content_type,'received_bytes':len(raw),
+                        'content_analyzed':False,'source':'Binary resource identified; no text or media analysis performed.',
+                        'next_step':'Use media_info for headers/metadata or download followed by an appropriate local file/media tool.'}
+            if is_pdf:
                 prepare(self.root)
                 from pypdf import PdfReader
                 pdf=PdfReader(io.BytesIO(raw)); requested=int(args.get('pdf_page',1))
@@ -122,18 +158,16 @@ class WebSession:
                 source=_decode(raw,content_type); _check_challenge(source)
                 parsed=Document(final_url); parsed.feed(source)
                 doc={'url':final_url,'text':''.join(parsed.parts),'headings':parsed.headings,'links':parsed.links,'source':'Fetched HTML/text'}
-                if 'html' not in content_type: doc['text']=source
+                if 'html' not in content_type.lower(): doc['text']=source
+                else:anchors=parsed.anchors;anchor_lookup_limited=parsed.anchor_lookup_limited
+            doc.update(fragment=fragment,fragment_found=(fragment in anchors) if fragment else None,
+                       anchor_lookup_limited=anchor_lookup_limited,_section_offset=anchors.get(fragment,0))
             if len(doc['text'])>2_000_000: raise ValueError('Document text exceeds 2 million characters')
             doc['document']=self._save_document(doc)
         if args.get('find'):
-            needle=str(args['find']).casefold(); start=int(args.get('offset',0))
-            hits=[]; text=doc['text'].casefold()
-            while len(hits)<30:
-                pos=text.find(needle,start)
-                if pos<0:break
-                hits.append({'offset':pos,'excerpt':doc['text'][max(0,pos-80):pos+240]});start=pos+max(1,len(needle))
-            return {'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':start if len(hits)==30 else None}
-        return {k:v for k,v in doc.items() if k not in ('text','links','headings')} | page_slice(doc['text'],args.get('offset',0),args.get('max_chars',12000)) | {
+            hits,next_offset=find_text(doc['text'],args['find'],args.get('offset',0))
+            return {'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':next_offset}
+        return {k:v for k,v in doc.items() if k not in ('text','links','headings','_section_offset')} | page_slice(doc['text'],args.get('offset',doc.get('_section_offset',0)),args.get('max_chars',12000)) | {
             'headings':doc['headings'][:100], 'links':doc['links'][int(args.get('link_offset',0)):int(args.get('link_offset',0))+100],
             'link_count':len(doc['links']), 'heading_count':len(doc['headings'])}
     def _start(self):
@@ -166,6 +200,9 @@ class WebSession:
         self.context.on('page',new_page)
     def run(self,args):
         self.check(); action=str(args.get('action','help'))
+        if action in ('site_search','site_query','catalog_search','discover','data','media_info','download'):
+            from web_research import execute
+            result=execute(self,action,args);self.check();return result
         if action=='search':
             from web_tools import web_search
             query=args.get('query'); limit=args.get('limit',6); fresh=args.get('fresh',False)
@@ -180,7 +217,14 @@ class WebSession:
             'note':'Tool instructions only; no search was performed. Use search with query to find pages, then read returned URLs for details.',
             'actions':{
             'search':'query (required), limit 1..12 (default 6), fresh boolean (default false); returns titles, URLs and snippets',
-            'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs',
+            'site_search':'site host/URL, query, limit 1..12; returns results filtered to that site/path',
+            'site_query':'url and parameter from an observed public GET search form, query, optional max_chars; fetches the encoded in-site search response',
+            'catalog_search':'provider crossref/datacite/europepmc, query, limit 1..20; public scholarly/data metadata',
+            'discover':'url OR document, optional query/kind, offset/limit; page links, media, transcript links, search forms and tables',
+            'data':'url OR document; format auto/json/jsonl/csv/tsv/html/xml; pointer for JSON, table for HTML, tag for XML; offset/limit. Binary spreadsheets/archives require download and a suitable local reader.',
+            'media_info':'url; video oEmbed metadata for supported hosts or HTTP file headers; does not analyze media content',
+            'download':'url, max_bytes (default 8 MiB, maximum 32 MiB); saves inert file in private Outputs/WebResearch for local reading/analysis; no execution/extraction',
+            'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs. HTML #fragment links start at the first visible ID/named anchor; percent-encoded fragments are decoded. fragment_found=false means no matching anchor was found. Explicit offset overrides section navigation; cached full text remains available.',
             'open':'url (new browser tab); optional page to navigate existing tab',
             'tabs':'list browser tab IDs and URLs', 'inspect':'page, optional selector or role+name; optional frame selector; offset/max_chars',
             'click':'page and selector or role+name, optional index', 'fill':'page, selector or role+name, value',

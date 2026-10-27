@@ -57,7 +57,8 @@ class WebSmokeProfileTests(unittest.TestCase):
             folder=Path(output_root);folder.mkdir(parents=True)
             path=folder/(query+'.png');path.write_bytes(b'\x89PNG\r\n\x1a\n'+b'synthetic fixture')
             return {'path':str(path),'source_url':url,'content_type':'image/png'}
-        with patch.object(smoke_web.web,'search_duckduckgo',side_effect=search),\
+        with patch.object(smoke_web.web,'search_bing',side_effect=smoke_web.web.WebAccessError('fixture')),\
+             patch.object(smoke_web.web,'search_duckduckgo',side_effect=search),\
              patch.object(smoke_web.web,'fetch_url',side_effect=page),\
              patch.object(smoke_web.web,'image_search',return_value={'provider':'fixture','images':[{'image_url':'https://example.com/image.png'}]}),\
              patch.object(smoke_web.web,'download_public_image',side_effect=download),\

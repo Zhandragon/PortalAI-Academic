@@ -23,6 +23,7 @@ class WebTests(unittest.TestCase):
         self.state=WebState(self.root,environ={})
         p=patch.object(web,'WebState',return_value=self.state);p.start();self.addCleanup(p.stop)
         p=patch.dict(web.os.environ,{'BRAVE_SEARCH_API_KEY':''});p.start();self.addCleanup(p.stop)
+        p=patch.object(web,'search_bing',side_effect=web.WebAccessError('Independent provider unavailable in this fixture',category='fixture'));p.start();self.addCleanup(p.stop)
         self.result=[{'title':'Documentation','url':'https://www.python.org/doc/','snippet':'Documentation for Python'}]
 
     def error(self,code=403,headers=None):

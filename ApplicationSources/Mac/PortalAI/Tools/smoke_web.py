@@ -72,7 +72,7 @@ def run_checks(profile):
         with patch.object(web,'WebState',return_value=fallback_state),patch.object(web,'search_duckduckgo',side_effect=blocked_html):
             result=web.web_search('Python pathlib documentation',3,fresh=True)
         fallback_result.update(result)
-        return {'passed':bool(injected) and result['provider']=='duckduckgo-lite' and bool(result['results']),
+        return {'passed':bool(injected) and result['provider'] in ('bing','duckduckgo-lite') and bool(result['results']),
                 'html_403_injected':bool(injected),'result':result}
 
     def cache_hit():
@@ -115,7 +115,7 @@ def run_checks(profile):
     # Profile environment remains intact; only the synthetic WebState has {}.
     with patch.dict(web.os.environ,{'BRAVE_SEARCH_API_KEY':''}):
         check('Live public search',public_search)
-        check('Injected HTML 403; real Lite fallback',fallback_search)
+        check('Injected HTML 403; real independent/Lite fallback',fallback_search)
         check('Repeated query served from portable cache without network',cache_hit)
         check('Live public page fetch',lambda:public_page('https://www.python.org/doc/','Python'))
         check('Live Wikimedia page fetch',lambda:public_page('https://commons.wikimedia.org/wiki/Main_Page','Wikimedia'))
