@@ -5,7 +5,7 @@
   "architectures": {
     "x86_64": {
       "base_kib": 15192979,
-      "payload_bytes": 942750853,
+      "payload_bytes": 942826845,
       "runtime_bytes": 194356930,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 8589934592,
@@ -16,9 +16,9 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 180967870,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 4569,
+      "payload_files": 4579,
       "handoff_update_allowance_bytes": 8388608
     }
   },
-  "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Linux"
+  "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Linux"
 }

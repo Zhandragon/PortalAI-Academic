@@ -3733,6 +3733,8 @@ class NativeChat:
         if _request_scope(self) == 'maintenance':
             from maintenance_tools import GUIDANCE
             pieces.append('\n\n' + GUIDANCE)
+            from source_navigation import progress_guidance
+            pieces.append(progress_guidance((getattr(self, 'session', None) or {}).get('messages', ())))
             return ''.join(pieces).strip()
         pieces.append(host_guidance(self.root))
         pieces.append(media_preference_guidance(self.root))
@@ -3841,6 +3843,10 @@ class NativeChat:
         from chat_evidence import project
         index = next((i for i, row in enumerate(self.session.get('messages', [])) if row is message), -1)
         limit = getattr(self, '_context_tool_char_limit', None) or max(2000, int(self.settings.get('tool_context_max_chars', 12000)))
+        if index == getattr(self, '_context_recent_tool_index', None):
+            limit = max(limit, getattr(self, '_context_recent_tool_char_limit', limit))
+        elif index == getattr(self, '_context_previous_tool_index', None):
+            limit = max(limit, min(3000, getattr(self, '_context_recent_tool_char_limit', limit)))
         return project(message, index, limit)
 
     def _chat_history(self, args):
@@ -3932,8 +3938,21 @@ class NativeChat:
             return {"role": "tool", "tool_call_id": m["tool_call_id"], "content": self._tool_context(m)}
         return None
 
-    def _context_plan(self, *, _tool_limit=None, _aux_limit=None) -> dict:
+    def _context_plan(self, *, _tool_limit=None, _aux_limit=None, _recent_tool_limit=None) -> dict:
         self._context_tool_char_limit = _tool_limit or max(2000, int(self.settings.get('tool_context_max_chars', 12000)))
+        # Keep a pair of useful recent views so reading a caller does not
+        # immediately erase its callee. Charge both actual projected sizes and
+        # shrink them too if minimum reply room fails; saved receipts stay exact.
+        configured_tool_limit = max(2000, int(self.settings.get('tool_context_max_chars', 12000)))
+        self._context_recent_tool_char_limit = _recent_tool_limit or min(4000, configured_tool_limit)
+        records = (self.session or {}).get('messages', [])
+        current_user = max((i for i, row in enumerate(records) if row.get('role') == 'user'), default=-1)
+        self._context_recent_tool_index = next((i for i in range(len(records)-1, current_user, -1)
+                                               if records[i].get('role') == 'tool'), None)
+        previous_end = self._context_recent_tool_index
+        self._context_previous_tool_index = next((i for i in range(
+            (previous_end if previous_end is not None else current_user)-1, current_user, -1)
+            if records[i].get('role') == 'tool'), None)
         system = {"role": "system", "content": self.system_prompt()}
         memory_text = self.memory.context_for(
             str(self.session.get("id") or "") if self.session else "",
@@ -3986,7 +4005,7 @@ class NativeChat:
         # Admitted input/output numbers cannot exceed the budget/preferred cap;
         # two tokens cover rounding when those numeric fields become shorter.
         measured_cycle = estimate_tokens({'role': 'system', 'content': cycle_guidance(
-            output, budget, budget, self.settings, st.get('last_run') or {})}) + 2
+            output, budget, budget, self.settings, st.get('last_run') or {}, records)}) + 2
         fixed += measured_cycle - cycle_reserve
         cycle_reserve = measured_cycle
         from chat_working_memory import resume_context
@@ -4008,7 +4027,8 @@ class NativeChat:
         # second 10% discount that discards useful tool evidence while it fits.
         if (groups and fixed + groups[-1]['cost'] > budget
                 and self._context_tool_char_limit > 600):
-            return self._context_plan(_tool_limit=max(600, self._context_tool_char_limit // 2), _aux_limit=_aux_limit)
+            return self._context_plan(_tool_limit=max(600, self._context_tool_char_limit // 2), _aux_limit=_aux_limit,
+                                      _recent_tool_limit=self._context_recent_tool_char_limit)
         total_unsummarized = sum(int(g["cost"]) for g in groups)
         soft = int(budget * float(self.settings.get("context_soft_fraction", 0.82)))
         allow = max(256, budget - fixed)
@@ -4029,8 +4049,14 @@ class NativeChat:
             next_limit = 2400 if _aux_limit is None else _aux_limit // 2
             while next_limit >= 300:
                 if any(len(text) > next_limit for text in (memory_text, summary, resume_text)):
-                    return self._context_plan(_tool_limit=self._context_tool_char_limit, _aux_limit=next_limit)
+                    return self._context_plan(_tool_limit=self._context_tool_char_limit, _aux_limit=next_limit,
+                                              _recent_tool_limit=self._context_recent_tool_char_limit)
                 next_limit //= 2
+        if (fixed + used - output + min(output, 256) > budget
+                and self._context_recent_tool_char_limit > self._context_tool_char_limit):
+            return self._context_plan(_tool_limit=self._context_tool_char_limit, _aux_limit=_aux_limit,
+                                      _recent_tool_limit=max(self._context_tool_char_limit,
+                                                             self._context_recent_tool_char_limit // 2))
         # Keep the current turn (including completed tool evidence) intact.
         # The preferred reply length is a ceiling, not a reason to reject an
         # otherwise usable context. Preserve the existing input/safety limits
@@ -4042,7 +4068,7 @@ class NativeChat:
             output = available_output
         from chat_task_checkpoint import guidance as cycle_guidance
         cycle_row = {'role':'system', 'content':cycle_guidance(output,budget,
-            fixed+used-output-500-checkpoint_reserve,self.settings,st.get('last_run') or {})}
+            fixed+used-output-500-checkpoint_reserve,self.settings,st.get('last_run') or {},records)}
         if estimate_tokens(cycle_row)>cycle_reserve:
             raise RuntimeError('Cycle guidance exceeded its reserved context allowance')
         return {
@@ -4054,6 +4080,8 @@ class NativeChat:
             "estimated_input": fixed + used - output - 500 - checkpoint_reserve,
             "output_reserve": output, "requested_output": requested_output, "safety_tokens": 500,
             "checkpoint_reserve": checkpoint_reserve, "tool_view_chars": self._context_tool_char_limit,
+            "recent_tool_view_chars": max(self._context_tool_char_limit, self._context_recent_tool_char_limit),
+            "previous_tool_view_chars": max(self._context_tool_char_limit, min(3000, self._context_recent_tool_char_limit)),
             "auxiliary_view_chars": _aux_limit,
             "session_id": self.session.get('id') if self.session else None,
         }
@@ -4338,7 +4366,6 @@ class NativeChat:
         transcript = '\n\n'.join(chunks)
         if not transcript.strip():
             return False
-        self.ev.put(("context_compacting", {"turns": len(candidates)}))
         prompt = (
             "Compress earlier chat history into durable working memory for a local assistant. Preserve concrete user goals, "
             "decisions, preferences stated in the chat, exact file paths/names, commands, errors, successful tool results, "
@@ -4350,6 +4377,17 @@ class NativeChat:
         if previous:
             user += "EXISTING SUMMARY TO UPDATE:\n" + previous + "\n\n"
         user += "NEW OLDER TURNS TO MERGE:\n" + transcript
+        # A rejected summary does not change the saved cursor. Retrying the
+        # identical prefix after every new tool result wastes a model request.
+        # Cache only a digest in this panel, never a summary or authorization.
+        # Changed source/previous memory/budget or explicit force permits retry.
+        import hashlib
+        retry_key = hashlib.sha256(json.dumps(
+            [str(self.session.get('id', '')), prompt, user, summary_cap, plan['budget']],
+            ensure_ascii=True).encode('utf-8')).hexdigest()
+        if not force and getattr(self, '_failed_history_summary_input', None) == retry_key:
+            return working_changed
+        self.ev.put(("context_compacting", {"turns": len(candidates)}))
         try:
             summary = self._single_completion(
                 [{"role": "system", "content": prompt}, {"role": "user", "content": user}],
@@ -4357,17 +4395,21 @@ class NativeChat:
                 temperature=0.1,
             )
         except Exception as exc:
+            self._failed_history_summary_input = retry_key
             self.ev.put(("context_warning", f"Context compaction skipped: {exc}"))
-            return False
+            return working_changed
         if not summary:
-            return False
+            self._failed_history_summary_input = retry_key
+            return working_changed
         if estimate_tokens(summary) >= estimate_tokens(previous) + sum(g['cost'] for g in candidates):
             # Summarization can expand a short exchange. Do not advance the
             # saved cursor or replace memory with a larger representation.
+            self._failed_history_summary_input = retry_key
             return working_changed
         self._check_login()
         if self.cancel_event.is_set():
             return False
+        self._failed_history_summary_input = None
         old_state["summary"] = summary
         old_state["cursor"] = int(candidates[-1]["end"])
         old_state["summarized_turns"] = int(old_state.get("summarized_turns") or 0) + len(candidates)

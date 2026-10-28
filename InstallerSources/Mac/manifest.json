@@ -1,5 +1,5 @@
 {
-  "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Mac",
+  "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Mac",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platforms": [
     "macOS arm64 (Apple silicon)",
@@ -11,11 +11,11 @@
     "release": "PortalAI-2026.10.19-complete-r23-ui-responsiveness-ha0.5.11"
   },
   "application": {
-    "files": 2222,
+    "files": 2232,
     "skipped_source_entries": 3228,
     "source_payload_sha256": "b86caa2b16349169cc51994bca1f5ed42ba88e0b6150b4af58910ce9552e9ecf",
-    "payload_sha256": "e60ec80c486123d1b7fbdca5f9aeed569af0d397c4407e9a01ccecff8661d8c4",
-    "payload_bytes": 502419839,
+    "payload_sha256": "53bed8cd16fed6c114b4863018083951c8c69c0eb2c44cf7b7aaa814e343ae54",
+    "payload_bytes": 502440071,
     "owner_data_included": false,
     "model_weights_included": false,
     "windows_native_files_included": false,
@@ -60,8 +60,8 @@
   ],
   "artifacts": {
     "payload.tar.gz": {
-      "bytes": 502419839,
-      "sha256": "e60ec80c486123d1b7fbdca5f9aeed569af0d397c4407e9a01ccecff8661d8c4"
+      "bytes": 502440071,
+      "sha256": "53bed8cd16fed6c114b4863018083951c8c69c0eb2c44cf7b7aaa814e343ae54"
     },
     "python-runtime-arm64.tar.gz": {
       "bytes": 25030095,
@@ -81,7 +81,7 @@
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
   "verification_scope": "Academic Python/source and archive checks on Windows; physical Linux/macOS installation untested.",
-  "supersedes_release": "PortalAI-2026.10.27-Desktop-r47-suite-Academic-Mac",
+  "supersedes_release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Mac",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -259,7 +259,7 @@
     "architectures": {
       "arm64": {
         "base_kib": 18829698,
-        "payload_bytes": 714109545,
+        "payload_bytes": 714185537,
         "runtime_bytes": 65186210,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
@@ -270,12 +270,12 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 35045340,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 2222,
+        "payload_files": 2232,
         "handoff_update_allowance_bytes": 8388608
       },
       "x86_64": {
         "base_kib": 18830564,
-        "payload_bytes": 714109545,
+        "payload_bytes": 714185537,
         "runtime_bytes": 65847372,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 4294967296,
@@ -286,11 +286,11 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 35466611,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 2222,
+        "payload_files": 2232,
         "handoff_update_allowance_bytes": 8388608
       }
     },
-    "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Mac"
+    "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Mac"
   },
   "donation_panel": true,
   "executable_recovery": true,
@@ -394,7 +394,7 @@
     "physical_linux_macos_tested": false,
     "live_nice_answer_tested": false
   },
-  "distribution_version": "2026.10.27-Desktop-r48",
+  "distribution_version": "2026.10.27-Desktop-r49",
   "welcome_cleanup": {
     "incoming_release": "v2026.10.24-r17",
     "local_revision": "Aoostar-r42",
@@ -444,7 +444,7 @@
   },
   "upgrade": {
     "schema": 1,
-    "version": "2026.10.27-Desktop-r48",
+    "version": "2026.10.27-Desktop-r49",
     "edition": "Academic",
     "platform": "Mac",
     "compatible_versions": [
@@ -454,7 +454,8 @@
       "2026.10.25-Standardized-r1",
       "2026.10.25-Aoostar-r45",
       "2026.10.26-Aoostar-r46",
-      "2026.10.27-Desktop-r47"
+      "2026.10.27-Desktop-r47",
+      "2026.10.27-Desktop-r48"
     ],
     "legacy_fingerprints": [
       {
@@ -613,7 +614,7 @@
     "schema": 1,
     "catalog": "suite-catalog.json",
     "utilities_optional": true,
-    "parent_archive_sha256": "835a97b92db176e66dae612a21f42e79832ed3f4cf32acf8489f722f85b2cbbc",
+    "parent_archive_sha256": "20f1e9fbefae04162395ba7e596dee7e9e8dc2416b540661b21ccd40ff8d653a",
     "physical_recipient_tested": false
   }
 }

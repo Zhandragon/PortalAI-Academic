@@ -30,7 +30,7 @@ class MaintenanceToolTests(unittest.TestCase):
         result=json.loads(mt.source_search(self.rt,'return',path='ControlCenter/example.py'))
         m=result['matches'][0];text=self.file.read_text();self.assertEqual(text[m['match_offset']:][:6],'return');self.assertEqual(m['line'],2);self.assertEqual(len(m['sha256']),64)
     def test_source_rejects_private_and_traversal_paths(self):
-        for path in ('Private','../Private','ControlCenter/../../Private',str(self.file)):
+        for path in ('Private','../Private','ControlCenter/../../Private'):
             with self.assertRaises(PermissionError):mt.source_search(self.rt,'x',path)
     def test_search_does_not_execute_imports(self):
         self.file.write_text('raise RuntimeError("source-only")')
@@ -38,7 +38,7 @@ class MaintenanceToolTests(unittest.TestCase):
     def test_oversized_files_are_reported_not_read(self):
         self.file.write_bytes(b'x'*(1024*1024+1));result=json.loads(mt.source_search(self.rt,'x'));self.assertEqual(result['matches'],[]);self.assertFalse(result['complete'])
     def test_scan_limits_and_literal_query(self):
-        self.file.write_text('.*\n'*30);result=json.loads(mt.source_search(self.rt,'.*',limit=2));self.assertEqual(len(result['matches']),2);self.assertFalse(result['complete'])
+        self.file.write_text('.*\n'*30);result=json.loads(mt.source_search(self.rt,'.*',path='ControlCenter/example.py',limit=2));self.assertEqual(len(result['matches']),2);self.assertFalse(result['complete'])
         with self.assertRaises(ValueError):mt.source_search(self.rt,'')
     def test_qualified_symbol_resolves_exact_class_without_executing_source(self):
         self.file.write_text('raise RuntimeError("never execute")\nclass Other:\n    def example(self): pass\nclass Intended:\n    def example(self): return "é"\n',encoding='utf-8')

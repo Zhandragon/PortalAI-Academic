@@ -15,7 +15,7 @@ def missing_source_hint(runtime, identifier, requested):
     from source_map import PUBLIC, source_map
     relative=PurePosixPath(requested.replace('\\','/'))
     if (relative.is_absolute() or '..' in relative.parts or ':' in requested
-            or not relative.parts or relative.parts[0] not in PUBLIC
+            or not relative.parts or not any(relative.parts[:len(PurePosixPath(p).parts)]==PurePosixPath(p).parts for p in PUBLIC)
             or relative.suffix not in ('.py','.txt','.md') or len(relative.name)>200):return None
     if runtime._account_role()!='admin':raise PermissionError('Source suggestions require administrator access')
     epoch=getattr(runtime,'_cancel_epoch',None)
@@ -27,7 +27,7 @@ def missing_source_hint(runtime, identifier, requested):
         'support_kind':'public_source_path_suggestions','candidates':exact[:8],
         'scan_truncated':bool(found['scan_truncated'] or found['next_offset'] is not None or len(exact)>8),
         'public_root_roles':{'Agent':'Tool implementations and runtime/backend adapters','ControlCenter':'GUI, chat and tool interfaces',
-                             'Tools':'Installation, recovery and maintenance commands','Documentation':'Public manuals'},
+                             'Tools':'Installation, recovery and maintenance commands','Documentation':'Public manuals','Maintenance/Tests':'Public regression tests'},
         'automatic_retry':False,'note':'Observed filename matches only; no suggested file was opened or executed. Choose a candidate and retry the lookup, then inspect its contents before editing.'},ensure_ascii=True)
 
 
@@ -45,7 +45,9 @@ def guidance(identifier, messages=()):
         'Separate observed facts from assumptions; test an assumption before relying on it. '
         'For coding, inspect_environment gives the real installation and workspace. '
         'application_root is a returned field, not a literal folder name; source tools take paths relative to its value. '
-        'Use source_map with a filename query across public roots, then source_map(path=the Python file) for symbols and offsets. '
+        'For a named tool use source_map(tool=its registered name), then follow observed local imports and worker references. '
+        'Otherwise use source_map with short feature words, then source_map(path=the Python file) for symbols and offsets. '
+        'Use this OS and shell from inspect_environment; public regression tests are under Maintenance/Tests. '
         'Missing public-source paths may return filename suggestions; inspect a candidate before using it. '
         'source_search matches literal code text or exact symbols; a prose description of desired behavior is not a semantic search. '
         'Do not repeatedly guess function names in one file after empty searches; widen the search or follow imports/callers. '

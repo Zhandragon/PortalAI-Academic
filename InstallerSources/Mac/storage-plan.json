@@ -5,7 +5,7 @@
   "architectures": {
     "arm64": {
       "base_kib": 18829698,
-      "payload_bytes": 714109545,
+      "payload_bytes": 714185537,
       "runtime_bytes": 65186210,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -16,12 +16,12 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 35045340,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 2222,
+      "payload_files": 2232,
       "handoff_update_allowance_bytes": 8388608
     },
     "x86_64": {
       "base_kib": 18830564,
-      "payload_bytes": 714109545,
+      "payload_bytes": 714185537,
       "runtime_bytes": 65847372,
       "initial_model_bytes": 1834437560,
       "dependency_and_download_allowance_bytes": 4294967296,
@@ -32,9 +32,9 @@
       "minimum_free_percent": 10,
       "recovery_backup_allowance_bytes": 35466611,
       "planner_update_allowance_bytes": 1048576,
-      "payload_files": 2222,
+      "payload_files": 2232,
       "handoff_update_allowance_bytes": 8388608
     }
   },
-  "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Mac"
+  "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Mac"
 }

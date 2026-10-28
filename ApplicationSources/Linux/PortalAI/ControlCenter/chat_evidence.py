@@ -163,6 +163,10 @@ def project(message, message_id, limit):
     text = str(message.get('content') or '')
     if len(text) <= limit:
         return text
+    from source_evidence import project_source
+    source_view = project_source(message, message_id, limit)
+    if source_view is not None:
+        return source_view
     web_view = web_evidence(message, message_id, limit)
     if web_view is not None:
         return web_view

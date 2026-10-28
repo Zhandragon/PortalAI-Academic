@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Linux",
+  "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Linux",
   "status": "BUILT_NOT_FULL_RECIPIENT_INSTALL_TESTED",
   "platform": "Linux x86-64, glibc >= 2.28",
   "built_utc": "2026-10-19T07:02:17.628578+00:00",
@@ -14,8 +14,8 @@
   },
   "components": {
     "payload.tar.gz": {
-      "bytes": 467472603,
-      "sha256": "f38afecc24f404fe236c615d1778ef9851d4f4b272e8a06144a965c95952c3dc"
+      "bytes": 467494968,
+      "sha256": "9c91a946f6d687a8a19b23b87a8e527b783a7ec7717939773c8ecff9983b82d7"
     },
     "python-runtime.tar.gz": {
       "bytes": 67038113,
@@ -55,7 +55,7 @@
   "edition": "Academic",
   "notice": "This is an academic version of PortalAI for controlled usage intended as a teaching tool. The abliterated/uncensored version is not available to students.",
   "standard_chat_download": "Pinned Qwen3 1.7B Q8; installed by the Academic installer",
-  "supersedes_release": "PortalAI-2026.10.27-Desktop-r47-suite-Academic-Linux",
+  "supersedes_release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Linux",
   "web_agents": {
     "revision": "20261021",
     "platforms": [
@@ -225,7 +225,7 @@
     "architectures": {
       "x86_64": {
         "base_kib": 15192979,
-        "payload_bytes": 942750853,
+        "payload_bytes": 942826845,
         "runtime_bytes": 194356930,
         "initial_model_bytes": 1834437560,
         "dependency_and_download_allowance_bytes": 8589934592,
@@ -236,11 +236,11 @@
         "minimum_free_percent": 10,
         "recovery_backup_allowance_bytes": 180967870,
         "planner_update_allowance_bytes": 1048576,
-        "payload_files": 4569,
+        "payload_files": 4579,
         "handoff_update_allowance_bytes": 8388608
       }
     },
-    "release": "PortalAI-2026.10.27-Desktop-r48-suite-Academic-Linux"
+    "release": "PortalAI-2026.10.27-Desktop-r49-suite-Academic-Linux"
   },
   "donation_panel": true,
   "executable_recovery": true,
@@ -344,7 +344,7 @@
     "physical_linux_macos_tested": false,
     "live_nice_answer_tested": false
   },
-  "distribution_version": "2026.10.27-Desktop-r48",
+  "distribution_version": "2026.10.27-Desktop-r49",
   "welcome_cleanup": {
     "incoming_release": "v2026.10.24-r17",
     "local_revision": "Aoostar-r42",
@@ -394,7 +394,7 @@
   },
   "upgrade": {
     "schema": 1,
-    "version": "2026.10.27-Desktop-r48",
+    "version": "2026.10.27-Desktop-r49",
     "edition": "Academic",
     "platform": "Linux",
     "compatible_versions": [
@@ -404,7 +404,8 @@
       "2026.10.25-Standardized-r1",
       "2026.10.25-Aoostar-r45",
       "2026.10.26-Aoostar-r46",
-      "2026.10.27-Desktop-r47"
+      "2026.10.27-Desktop-r47",
+      "2026.10.27-Desktop-r48"
     ],
     "legacy_fingerprints": [
       {
@@ -575,7 +576,7 @@
     "schema": 1,
     "catalog": "suite-catalog.json",
     "utilities_optional": true,
-    "parent_archive_sha256": "ccc7253d41b0c914198ab0d5b96901789a4b7323aa5cb335ddc2c7ccd55e836a",
+    "parent_archive_sha256": "0c3fb67275f3f6157e0a204ed0fbec1ac5421886051135ecbed2e353ad3103c5",
     "physical_recipient_tested": false
   }
 }

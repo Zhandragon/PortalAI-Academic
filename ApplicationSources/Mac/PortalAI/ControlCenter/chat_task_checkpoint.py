@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import re
 
 NAME = 'chat_checkpoint'
 TOOL = {'type': 'function', 'function': {
@@ -11,7 +12,8 @@ TOOL = {'type': 'function', 'function': {
         'summary': {'type': 'string', 'maxLength': 1800},
         'next_step': {'type': 'string', 'maxLength': 500},
         'uncertainty': {'type': 'string', 'maxLength': 500},
-        'evidence_ids': {'type': 'array', 'maxItems': 12, 'items': {'type': 'integer'}}},
+        'evidence_ids': {'type': 'array', 'maxItems': 12, 'items': {'type': 'integer'},
+                         'description': 'Optional saved message IDs listed by the host. Omit if none apply; these are not tool-call IDs.'}},
         'required': ['summary', 'next_step']}}}
 
 
@@ -30,7 +32,19 @@ def validate(args, messages):
             'uncertainty':args.get('uncertainty','').strip(), 'evidence_ids':list(dict.fromkeys(ids))}
 
 
-def guidance(output, budget, estimated_input, settings, usage):
+def evidence_catalog(messages):
+    """Recent usable IDs and tool names only; never quote retrieved source prose."""
+    rows=[]
+    for index,row in enumerate(messages or ()):
+        if not isinstance(row,dict) or row.get('role')!='tool' or row.get('name') in (NAME,'chat_history'):
+            continue
+        name=row.get('name')
+        label=name if isinstance(name,str) and re.fullmatch(r'[A-Za-z][A-Za-z_0-9]{0,63}',name) else 'tool'
+        rows.append(f'{index} ({label})')
+    return ', '.join(rows[-12:]) or 'none yet'
+
+
+def guidance(output, budget, estimated_input, settings, usage, messages=()):
     limit=max(0,int(settings.get('tool_call_limit',0)))
     remaining=str(max(0,limit-int(usage.get('calls',0)))) if limit else 'unlimited'
     checkpoints=max(0,int(settings.get('checkpoint_no_tool_limit',4)))
@@ -40,7 +54,10 @@ def guidance(output, budget, estimated_input, settings, usage):
             f'checkpoints before a new tool result {checkpoint_left}. '
             'No live remaining-token counter is available while thinking. Choose a useful step that fits; '
             'reserve room for an answer or chat_checkpoint. At a completed step or before a long reasoning phase, '
-            'call chat_checkpoint alone with concise progress, next step, uncertainties and saved result IDs, '
+            'call chat_checkpoint alone with concise progress, next step and uncertainties. '
+            'evidence_ids is optional; cite only applicable saved message IDs, or omit it. '
+            'Recent valid saved result IDs: '+evidence_catalog(messages)+'. '
+            'Record outcomes, '
             'not private reasoning. The host saves/compacts it and automatically starts the next cycle of this '
             'same task. Answer when done; report a real blocker. Stop/logout end continuation. '
             'Checkpoints never reset tool limits or authorize/replay actions; repeated idle checkpoints stop.')

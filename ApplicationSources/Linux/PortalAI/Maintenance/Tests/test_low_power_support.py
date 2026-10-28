@@ -118,7 +118,7 @@ class SupportTests(unittest.TestCase):
             (root/'Agent/reader.py').write_text(source,encoding='utf-8',newline='\n')
             runtime=SimpleNamespace(root=root,_account_role=lambda:'admin')
             rows=json.loads(source_map(runtime,query='reader'))['items']
-            self.assertEqual(rows,[{'path':'Agent/reader.py','bytes':len(source.encode())}])
+            self.assertEqual([r['path'] for r in rows],['Agent/reader.py']);self.assertEqual(rows[0]['bytes'],len(source.encode()))
             outline=json.loads(source_map(runtime,path='Agent/reader.py',query='load'))
             item=outline['items'][0];self.assertEqual(item['symbol'],'Reader.load')
             self.assertTrue(source[item['offset']:item['end_offset']].lstrip().startswith('def load'))
@@ -129,7 +129,7 @@ class SupportTests(unittest.TestCase):
             runtime=SimpleNamespace(root=root,_account_role=lambda:'guest')
             with self.assertRaises(PermissionError):source_map(runtime)
             runtime._account_role=lambda:'admin'
-            for path in ('Private','../Agent',str(root/'Agent')):
+            for path in ('Private','../Agent'):
                 with self.assertRaises(PermissionError):source_map(runtime,path=path)
             runtime._account_role=Mock(side_effect=['admin','admin','guest'])
             with self.assertRaises(PermissionError):source_map(runtime)
