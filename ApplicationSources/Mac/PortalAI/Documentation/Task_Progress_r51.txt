@@ -1,0 +1,56 @@
+PortalAI r51: automatic progress assistance
+
+Chat Preferences > Tools & limits now defaults both progress aids on:
+  Automatically aid detected coding requests
+  Aid progress on other tool tasks
+Each can be disabled independently. Existing explicit off choices persist.
+The shared delay defaults to 300 seconds and accepts 60 to 3600 seconds.
+
+Coding intent is detected conservatively from the current human request, using
+English action and software terms. Read-only instructions, questions about how
+to program, quoted examples and unrelated scientific requests are excluded.
+Detection is not a permission grant and can miss ambiguous requests. The existing
+Recover stalled coding on my next request checkbox remains a one-request override.
+It still selects the coding/maintenance menu and clears on Send. Automatic
+detection retains the user's chosen tool scope, including mixed-task tools.
+
+Coding aid retains r50's bounded cycle: five minutes and eight completed source
+inspections without observed changed code, with an actual source-file view, then
+up to two focused reads and two edit attempts. A changed code receipt returns
+normal review/testing tools. Failed/no-op writes are not successful progress.
+
+For other tool tasks, the aid observes completed tool boundaries, including
+errors. After the interval and eight calls, it periodically directs the model
+to organize saved evidence and choose
+one justified next step. Useful reads still count toward this periodic review;
+returning more data alone does not prove that it has been synthesized.
+Repeated help/inspection calls are blocked in this short
+phase; at most two reference attempts and one concise checkpoint are allowed.
+Research should produce supported partial findings and investigate one gap.
+Media should use known syntax and existing inputs for one requested operation.
+Science should state inputs/units/assumptions, run one justified operation and
+verify its result. A partial answer or honest blocker remains valid.
+
+Media/science parameters, model choices, duration, quality and tolerances are not
+changed by the aid. It does not construct tool calls, run jobs itself, repeat
+uncertain operations, or widen permissions. Returning a result is not proof of
+correctness or completion. An attempted operation returns to normal review,
+including when its outcome needs inspection. No automatic retry is introduced.
+
+Both aids recur only within the current active request after a new waiting
+interval. Their focused phase ends after bounded calls or 120 seconds checked
+between completed calls. They do not interrupt an active generation/calculation
+or partially execute a model response. A single long reasoning response can
+still take time before the next intervention boundary. Existing response watches,
+Stop, logout, request limits, account/resource checks and no-replay rules remain.
+
+During either intervention, required working-context compaction uses the existing
+deterministic evidence projection, avoiding another model-generated summary.
+Recent tool message IDs remain available through chat_history. Raw transcripts
+and receipts are preserved. Checkpoints are model-written notes, not proof of
+actions. Snapshots record intervention phases and observed receipts.
+
+This applies to NativeChat's active tool workflow, including research, media and
+science. It does not change background mission/schedule execution policies or
+start new tasks. Host/unit/UI verification does not establish improved real-model
+accuracy or guarantee successful long tasks. Refer to the release validation.

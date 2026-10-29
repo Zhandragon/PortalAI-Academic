@@ -1,0 +1,79 @@
+PortalAI 2026.10.29-Desktop-r51
+
+PortalAI r51: automatic progress assistance
+
+Chat Preferences > Tools & limits now defaults both progress aids on:
+  Automatically aid detected coding requests
+  Aid progress on other tool tasks
+Each can be disabled independently. Existing explicit off choices persist.
+The shared delay defaults to 300 seconds and accepts 60 to 3600 seconds.
+
+Coding intent is detected conservatively from the current human request, using
+English action and software terms. Read-only instructions, questions about how
+to program, quoted examples and unrelated scientific requests are excluded.
+Detection is not a permission grant and can miss ambiguous requests. The existing
+Recover stalled coding on my next request checkbox remains a one-request override.
+It still selects the coding/maintenance menu and clears on Send. Automatic
+detection retains the user's chosen tool scope, including mixed-task tools.
+
+Coding aid retains r50's bounded cycle: five minutes and eight completed source
+inspections without observed changed code, with an actual source-file view, then
+up to two focused reads and two edit attempts. A changed code receipt returns
+normal review/testing tools. Failed/no-op writes are not successful progress.
+
+For other tool tasks, the aid observes completed tool boundaries, including
+errors. After the interval and eight calls, it periodically directs the model
+to organize saved evidence and choose
+one justified next step. Useful reads still count toward this periodic review;
+returning more data alone does not prove that it has been synthesized.
+Repeated help/inspection calls are blocked in this short
+phase; at most two reference attempts and one concise checkpoint are allowed.
+Research should produce supported partial findings and investigate one gap.
+Media should use known syntax and existing inputs for one requested operation.
+Science should state inputs/units/assumptions, run one justified operation and
+verify its result. A partial answer or honest blocker remains valid.
+
+Media/science parameters, model choices, duration, quality and tolerances are not
+changed by the aid. It does not construct tool calls, run jobs itself, repeat
+uncertain operations, or widen permissions. Returning a result is not proof of
+correctness or completion. An attempted operation returns to normal review,
+including when its outcome needs inspection. No automatic retry is introduced.
+
+Both aids recur only within the current active request after a new waiting
+interval. Their focused phase ends after bounded calls or 120 seconds checked
+between completed calls. They do not interrupt an active generation/calculation
+or partially execute a model response. A single long reasoning response can
+still take time before the next intervention boundary. Existing response watches,
+Stop, logout, request limits, account/resource checks and no-replay rules remain.
+
+During either intervention, required working-context compaction uses the existing
+deterministic evidence projection, avoiding another model-generated summary.
+Recent tool message IDs remain available through chat_history. Raw transcripts
+and receipts are preserved. Checkpoints are model-written notes, not proof of
+actions. Snapshots record intervention phases and observed receipts.
+
+This applies to NativeChat's active tool workflow, including research, media and
+science. It does not change background mission/schedule execution policies or
+start new tasks. Host/unit/UI verification does not establish improved real-model
+accuracy or guarantee successful long tasks. Refer to the release validation.
+
+Validation performed on Windows:
+Candidate: 372 tests, 1 expected skip.
+Preferences/Send/context checks: 3 passed.
+Additional GUI maintenance/Stop contracts: 22 tests, 1 expected skip.
+Exact Academic-Linux packaged source: 409 tests, 1 expected skips; remaining passed.
+Exact Academic-Mac packaged source: 409 tests, 1 expected skips; remaining passed.
+Exact Academic-Windows packaged source: 409 tests, 1 expected skips; remaining passed.
+Exact Full-Linux packaged source: 409 tests, 2 expected skips; remaining passed.
+Exact Full-Mac packaged source: 409 tests, 2 expected skips; remaining passed.
+Exact Full-Windows packaged source: 409 tests, 2 expected skips; remaining passed.
+Installed D:\PortalAI Windows: 171 tests, 2 expected skips; remaining passed using its own bundled Python/modules; 9 public update hashes verified.
+Installed E:\PortalAI Windows: 171 tests, 2 expected skips; remaining passed using its own bundled Python/modules; 9 public update hashes verified.
+
+Two actual Windows installer forms and their embedded engine selfchecks passed. Three Academic bootstrap prepare-only checks and four Full/Academic universal PowerShell/Bash verification checks passed. All six archives were verified member-by-member, including payload manifests, byte sizes, SHA-256 and native file modes. Academic policy was preserved and both repositories match the tested package sources.
+
+Behavior checks include coding-intent exclusions, defaults and independent opt-outs, periodic activation despite useful reads, rearming after a fresh interval, bounded repeated inspection/checkpoints, malformed arguments, unchanged media/science/shell arguments, uncertain outcomes without replay, actual NativeChat worker routing, Stop, and deterministic working-context compaction. Worker replies and jobs were simulated. No new model inference, real research quality, media output quality or scientific correctness is established by these checks. The previous r50 27B task remains incomplete; this release makes no successful self-improvement claim.
+
+Both SSDs retain independent application code, runtime, account state and installer copies. Immutable E installer archives share disk allocation only with staging files on that same SSD; D files are independent physical copies. Completed build scratch was preserved with SHA-256 on C to retain SSD reserves; recipient installs do not depend on that scratch or host Python. Existing Utilities, separate Projection, Full-only Abliterator, installer locators, recovery/reset controls and optional suite selections remain available. No owner accounts or antivirus settings were changed. Normal next launch loads r51.
+
+Native Linux/macOS execution and whole fresh-recipient installations remain untested. Platform runtimes and edition policy are retained from each matching pinned r50 package. Full remains private and Academic remains public. Historical installers and source recovery remain.

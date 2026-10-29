@@ -7,3 +7,7 @@ ApplicationSources/** -text
 InstallerSources/** -text
 Utilities/Projection/source/** -text
 Utilities/Projection/Mac-HA-Setup/** -text
+
+Documentation/RELEASE-r51.txt -text
+
+Documentation/Task_Progress_r51.txt -text

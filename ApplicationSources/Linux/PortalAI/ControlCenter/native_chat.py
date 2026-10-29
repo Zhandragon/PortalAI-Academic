@@ -77,6 +77,8 @@ DEFAULT_SETTINGS = {
     "context_checkpoint_interval": 8,
     "checkpoint_no_tool_limit": 4,
     "coding_stall_seconds": 300,
+    "coding_stall_auto": True,
+    "task_progress_enabled": True,
     "tool_timeout_seconds": 1800,
     "model_reload_timeout_seconds": 300,
     "model_idle_timeout_seconds": 180,
@@ -1410,7 +1412,9 @@ def _request_tools(panel):
     else:
         rows = TOOLS
     stall = getattr(panel, '_coding_stall', None)
-    return stall.menu(rows) if stall is not None else rows
+    rows = stall.menu(rows) if stall is not None else rows
+    progress = getattr(panel, '_task_progress', None)
+    return progress.menu(rows) if progress is not None else rows
 
 
 class WindowsFileDrop:
@@ -3737,6 +3741,9 @@ class NativeChat:
         stall = getattr(self, '_coding_stall', None)
         if stall is not None:
             pieces.append(stall.guidance())
+        progress = getattr(self, '_task_progress', None)
+        if progress is not None:
+            pieces.append(progress.guidance())
         from academic_policy import instruction_suffix
         pieces.append(instruction_suffix(self.root))
         if _request_scope(self) == 'maintenance':
@@ -4241,7 +4248,8 @@ class NativeChat:
             return sum(self._message_cost(row) for row in rows) + 24 < group['cost']
 
         stall = getattr(self, '_coding_stall', None)
-        if hard_pressure or (stall is not None and stall.implementing):
+        progress = getattr(self, '_task_progress', None)
+        if hard_pressure or (stall is not None and stall.implementing) or (progress is not None and progress.active):
             # During a short implementation burst, retain source-linked evidence
             # without spending another inference on a working-memory summary.
             # This recovery path never needs another model request. Try bounded
@@ -5133,10 +5141,16 @@ class NativeChat:
             if remote_admission is not None and not remote_admission.worker_prepared(self.cancel_event):
                 return
             from coding_stall import CodingStall
-            armed = (request_index >= 0 and
+            from task_progress import TaskProgress, coding_request
+            coding_intent = coding_request(current_request)
+            manual_coding = (request_index >= 0 and
                      self.session['messages'][request_index].get('coding_stall_recovery') is True and
                      _request_scope(self) in ('coding', 'maintenance'))
+            armed = manual_coding or (self.settings.get('coding_stall_auto', True) is True and coding_intent)
             stall = self._coding_stall = CodingStall(armed, self.settings.get('coding_stall_seconds', 300))
+            progress = self._task_progress = TaskProgress(
+                self.settings.get('task_progress_enabled', True) is True and not (armed or coding_intent),
+                current_request, self.settings.get('coding_stall_seconds', 300))
             while True:
                 if self.cancel_event.is_set():
                     break
@@ -5144,6 +5158,11 @@ class NativeChat:
                 if transition: self.ev.put(('progress', transition))
                 if stall.armed:
                     usage['coding_stall'] = stall.snapshot()
+                    self._context_state()['last_run'] = dict(usage)
+                transition = progress.tick()
+                if transition: self.ev.put(('progress', transition))
+                if progress.armed:
+                    usage['task_progress'] = progress.snapshot()
                     self._context_state()['last_run'] = dict(usage)
                 # Real tool progress starts a new reasoning allowance. The
                 # request still obeys its explicit call budget and Stop.
@@ -5251,6 +5270,7 @@ class NativeChat:
                                 usage['calls'] += 1
                             blocked = lookup.before(name, args)
                             if blocked is None: blocked = stall.before(name, args)
+                            if blocked is None: blocked = progress.before(name, args)
                         self._image_lookup_active = lookup.active
                         if blocked is not None:
                             result = blocked
@@ -5301,6 +5321,8 @@ class NativeChat:
                         result = f"ERROR: {type(exc).__name__}: {exc}"
                     stall.observe(name, args, result, execution)
                     if stall.armed: usage['coding_stall'] = stall.snapshot()
+                    progress.observe(name, args, result, execution, len(self.session['messages']))
+                    if progress.armed: usage['task_progress'] = progress.snapshot()
                     lookup.record(name, args, result)
                     self._check_login()
                     if name=='chat_checkpoint' and self.cancel_event.is_set():break
@@ -5357,6 +5379,7 @@ class NativeChat:
             self._checkpoint_final_only = ''
             self._image_lookup_active = False
             self._coding_stall = None
+            self._task_progress = None
             try:
                 if foreground is not None:foreground.close()
             finally:self.ev.put(("done", None))
@@ -6137,10 +6160,15 @@ class NativeChat:
         maintenance_var = tk.BooleanVar(body, value=bool(self.settings.get('maintenance_mode', False)))
         skin.check(sections['tools'], 'Focus tools on coding and maintenance', maintenance_var)
         skin.label(sections['tools'], 'Use environment, source, file, shell and web tools for coding tasks. Applies to the next request; existing account permissions still apply.', muted=True).pack(fill='x', pady=4)
+        auto_stall_var = tk.BooleanVar(body, value=self.settings.get('coding_stall_auto', True) is True)
+        skin.check(sections['tools'], 'Automatically aid detected coding requests', auto_stall_var)
+        task_progress_var = tk.BooleanVar(body, value=self.settings.get('task_progress_enabled', True) is True)
+        skin.check(sections['tools'], 'Aid progress on other tool tasks', task_progress_var)
+        skin.label(sections['tools'], 'Both aids default on. During a stalled task, alternate one small grounded step with review. Research uses saved evidence; media/science keep your requested settings. Disable either aid here.', muted=True).pack(fill='x', pady=4)
         stall_var = tk.BooleanVar(body, value=getattr(self, '_coding_stall_next_request', False) is True)
         skin.check(sections['tools'], 'Recover stalled coding on my next request', stall_var)
-        skin.label(sections['tools'], 'Enable for a task that authorizes code changes. After the delay and at least eight inspections, try one small edit, then return to review/testing. Uses coding tools; clears after Send and never runs in the background. Read-only instructions still apply.', muted=True).pack(fill='x', pady=4)
-        entries['coding_stall_seconds'] = skin.row(sections['tools'], 'Coding stall delay (seconds, 60–3600; default 300)', lambda row: skin.entry(row, self.settings.get('coding_stall_seconds', 300)))
+        skin.label(sections['tools'], 'Optional override for a coding request the detector might miss. It selects coding tools for the next request and clears after Send. Read-only instructions still apply.', muted=True).pack(fill='x', pady=4)
+        entries['coding_stall_seconds'] = skin.row(sections['tools'], 'Progress aid delay (seconds, 60–3600; default 300)', lambda row: skin.entry(row, self.settings.get('coding_stall_seconds', 300)))
         explanation_section = skin.section(tabs.add('effort', 'Effort & continuation'), 'Effort and continuation')
         effort = getattr(self, 'effort', None)
         effort_draft = effort.preferences_controls(explanation_section, skin) if effort is not None else None
@@ -6211,6 +6239,8 @@ class NativeChat:
                 updated["conversation_max_utterance_seconds"] = max(5, min(300, int(float(entries["conversation_max_utterance_seconds"].get()))))
                 updated["low_power_support"] = bool(support_var.get())
                 updated["maintenance_mode"] = bool(maintenance_var.get())
+                updated['coding_stall_auto'] = bool(auto_stall_var.get())
+                updated['task_progress_enabled'] = bool(task_progress_var.get())
                 updated['coding_stall_seconds'] = max(60, min(3600, int(entries['coding_stall_seconds'].get())))
                 updated["show_thinking"] = bool(show_var.get())
                 updated["collapse_thinking_blocks"] = bool(collapse_think_var.get())

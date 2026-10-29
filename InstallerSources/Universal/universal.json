@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "version": "2026.10.28-Desktop-r50",
+  "version": "2026.10.29-Desktop-r51",
   "edition": "Academic",
   "goal": "Prepare all three OS installers on one drive; perform native setup on each OS",
   "download_base_configured": true,
   "assets": [
     {
       "platform": "Windows",
-      "file": "PortalAI-Academic-Windows-Installer-2026.10.28-Desktop-r50-suite.zip",
-      "bytes": 542552794,
-      "sha256": "1a4501fbdfe2e0e7938508624752f5ff37046d5134effb10e042631132eed65a",
-      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.28-Desktop-r50/PortalAI-Academic-Windows-Installer-2026.10.28-Desktop-r50-suite.zip"
+      "file": "PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip",
+      "bytes": 542562829,
+      "sha256": "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip"
     },
     {
       "platform": "Linux",
-      "file": "PortalAI-Academic-Linux-Installer-2026.10.28-Desktop-r50-suite.tar.gz",
-      "bytes": 532100253,
-      "sha256": "29e141a0cd3436c7b5f3308231f107a93b8d1c820cfef4228aee59959336b953",
-      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.28-Desktop-r50/PortalAI-Academic-Linux-Installer-2026.10.28-Desktop-r50-suite.tar.gz"
+      "file": "PortalAI-Academic-Linux-Installer-2026.10.29-Desktop-r51-suite.tar.gz",
+      "bytes": 532116603,
+      "sha256": "f497375cc920634d0c348cf6057c7bad5c4aed427bf335a2fc8f511c83bd2d13",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Academic-Linux-Installer-2026.10.29-Desktop-r51-suite.tar.gz"
     },
     {
       "platform": "Mac",
-      "file": "PortalAI-Academic-Mac-Installer-2026.10.28-Desktop-r50-suite.tar.gz",
-      "bytes": 588864585,
-      "sha256": "0c6152fe5c590349774bcbca37dcd052332b4cd46df52555b63e00ec6cbd47a1",
-      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.28-Desktop-r50/PortalAI-Academic-Mac-Installer-2026.10.28-Desktop-r50-suite.tar.gz"
+      "file": "PortalAI-Academic-Mac-Installer-2026.10.29-Desktop-r51-suite.tar.gz",
+      "bytes": 588878625,
+      "sha256": "52c15e7db0a19864299662095e3571682028c1156caaeeae117a153855713b22",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Academic-Mac-Installer-2026.10.29-Desktop-r51-suite.tar.gz"
     }
   ],
   "private_release": false,

@@ -48,7 +48,9 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-28 r50):** Optional coding stall recovery alternates a bounded implementation burst with review and testing. File receipts distinguish changed bytes from no-op writes. [Changes and validation](Documentation/RELEASE-r50.txt).
+**Latest update (2026-10-29 r51):** Detected coding requests now receive automatic bounded implementation assistance. Other long tool workflows periodically consolidate evidence and take one justified next step. Both aids have independent opt-outs; existing execution checks and job parameters remain in force. [Changes and validation](Documentation/RELEASE-r51.txt).
+
+**Previous update (2026-10-28 r50):** Optional coding stall recovery alternates a bounded implementation burst with review and testing. File receipts distinguish changed bytes from no-op writes. [Changes and validation](Documentation/RELEASE-r50.txt).
 
 **Previous update (2026-10-27 r49):** Improved code navigation: ranked source discovery, own-install paths, exact symbol locations and compact context that preserves search evidence. [Changes and validation](Documentation/RELEASE-r49.txt).
 
@@ -129,7 +131,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.28-Desktop-r50/PortalAI-Academic-Universal-Setup-2026.10.28-Desktop-r50.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Academic-Universal-Setup-2026.10.29-Desktop-r51.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

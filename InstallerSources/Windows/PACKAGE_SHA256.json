@@ -6,23 +6,23 @@
   },
   {
     "path": "release.json",
-    "bytes": 138785428,
-    "sha256": "0150021795a19238b4f86ad4384cb2bb2c65efbfbc3908be0070e4c5054f0a95"
+    "bytes": 138786249,
+    "sha256": "2d6c94e75ee233415d323afa6c6fe8a697cde11b67a1858ec87b4b05161091e3"
   },
   {
     "path": "payload.zip",
-    "bytes": 300180509,
-    "sha256": "ef689adb24ad663887be237caed21ea8372dfcfbe7f8e0289ad356c414b818ab"
+    "bytes": 300190697,
+    "sha256": "1d7c2ae0094d1de9febc49b3926d07dad57b1c924eade36c25afaa66092df4b3"
   },
   {
     "path": "START_HERE.txt",
-    "bytes": 4328,
-    "sha256": "9b5ae50fca1254fe6240d804fceb1b1d1bfbb4cc92913d3b8a34d3eaf57e0f55"
+    "bytes": 4570,
+    "sha256": "758758f3b9c91b1d6060df0419d72d33fc83db25a1d5d0f5677a6eedbdbdcd76"
   },
   {
     "path": "storage-plan.json",
     "bytes": 190024,
-    "sha256": "d8dfeee4985b0793f62daef0da34af0c69fcc6d1c5c5ddf369fb593cbbd65483"
+    "sha256": "bd041cd2251e1d7b5de6b57674ee27997488720d81f313f8b45ad7312a19cc93"
   },
   {
     "path": "sox-14.4.2-win32.zip",
@@ -36,12 +36,12 @@
   },
   {
     "path": "upgrade.json",
-    "bytes": 1020,
-    "sha256": "dd168df7207c255d28ed2522e70a35845c9583b13ab41217113fbea25ff24854"
+    "bytes": 1050,
+    "sha256": "32c43b40b4ea371da919593987138a2485314eea103b4e0a599acfbb9127436a"
   },
   {
     "path": "suite-catalog.json",
     "bytes": 4338,
-    "sha256": "3e21128348271b2c29e8d5280bf237309e41990ff12d497f8d11bfddc3fc08ac"
+    "sha256": "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc31b1fe100183bf9aa51e3eea"
   }
 ]

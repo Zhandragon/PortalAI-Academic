@@ -1,20 +1,24 @@
-PortalAI 2026.10.28-Desktop-r50 - Academic-Mac
+PortalAI 2026.10.29-Desktop-r51 - Academic-Mac
+Progress assistance defaults on: Chat Preferences > Tools & limits provides independent opt-outs.
+See Documentation/Task_Progress_r51.txt in the installed application for tested limits.
+
+PortalAI 2026.10.29-Desktop-r51 - Academic-Mac
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
 
-PortalAI 2026.10.28-Desktop-r50 - Academic-Mac
+PortalAI 2026.10.29-Desktop-r51 - Academic-Mac
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.10.28-Desktop-r50 - Academic-Mac
+PortalAI 2026.10.29-Desktop-r51 - Academic-Mac
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.10.28-Desktop-r50 — Academic-Mac
+PortalAI 2026.10.29-Desktop-r51 — Academic-Mac
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.10.28-Desktop-r50 — Academic-Mac
+PortalAI suite 2026.10.29-Desktop-r51 — Academic-Mac
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -26,7 +30,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.10.28-Desktop-r50 — Academic Mac
+PortalAI 2026.10.29-Desktop-r51 — Academic Mac
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,

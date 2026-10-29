@@ -1,7 +1,8 @@
 """Request-scoped, bounded recovery from inspection-only coding loops.
 
 This is a workflow gate, never a writer, permission grant or success grader.
-Only the host's explicit next-request opt-in arms it. No background timer runs.
+The host arms it for detected coding requests or a one-request override.
+No background timer runs, and intent detection never grants permission.
 """
 from __future__ import annotations
 import hashlib
