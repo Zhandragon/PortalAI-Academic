@@ -671,6 +671,22 @@ class Missions:
                     self.activity.update('paused',str(exc),force=True)
                     break
                 except Exception as exc:
+                    if phase == 'saving_result':
+                        # execute() may already have changed the outside world.
+                        # The in-memory history/pending flag is not evidence that
+                        # its result committed. Reload only the authoritative
+                        # checkpoint; never fall back to mission.previous.json.
+                        # If storage is missing/corrupt, propagate without writing.
+                        mission = self.load(mission_id)
+                        if mission.get('pending_action'):
+                            mission.update(status='needs_review', error=
+                                'Action result could not be confirmed on disk; review the pending action before retrying or skipping: '+str(exc))
+                            self.save(mission)
+                        # A later index-write failure can follow a successful
+                        # checkpoint commit. Keep that saved result/status intact.
+                        self.activity.update('needs_review' if mission.get('pending_action') else 'checkpointed',
+                                             'Result checkpoint reloaded after storage error: '+str(exc), force=True)
+                        break
                     from mission_recovery import recover
                     if phase in {'planning','executing'} and recover(self,mission,f'{type(exc).__name__}: {exc}'):
                         self.activity.update('retrying','Autonomous recovery: changing strategy after '+str(exc),force=True)

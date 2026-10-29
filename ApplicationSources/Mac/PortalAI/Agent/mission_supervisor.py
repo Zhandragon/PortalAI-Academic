@@ -19,6 +19,12 @@ from runtime_policy import ROOT, atomic_json, portable_env, require_space
 from profile_paths import private_path
 from platform_runtime import python_path
 
+# Worker lifetime is elapsed monotonic time, not heartbeat or output age.
+WORKER_TIMEOUT_SECONDS = 480
+WORKER_LOG_LIMIT_BYTES = 2*1024**2
+MAX_WORKER_FAILURES = 4
+WORKER_RETRY_BASE_SECONDS = 10
+
 
 class WorkerJob:
     """Own worker lifetime on supported OS backends; this is not an OS sandbox."""
@@ -282,14 +288,14 @@ class Supervisor:
                 elif self.store.stopped(m) and m["status"] in ACTIVE: m["status"] = "paused"
                 elif failure and m["status"] in ACTIVE:
                     failures = m.get("worker_failures", 0)+1
-                    m.update(worker_failures=failures, status="waiting" if failures < 4 else "needs_review",
-                             error=failure, next_run_at=time.time()+min(300, 10*2**failures))
+                    m.update(worker_failures=failures, status="waiting" if failures < MAX_WORKER_FAILURES else "needs_review",
+                             error=failure, next_run_at=time.time()+min(300, WORKER_RETRY_BASE_SECONDS*2**min(failures, 5)))
                 else: return m
                 self.store.save(m); return m
         except OSError:
             return None  # An existing worker owns this mission; do not interfere.
 
-    def finish_worker(self, cancelled=False):
+    def finish_worker(self, cancelled=False, failure=None):
         proc = self.worker
         if not proc: return
         try:
@@ -302,7 +308,7 @@ class Supervisor:
                 return  # Preserve the damaged checkpoint; never replay its previous copy.
             completed = proc.poll() == 0 and not m.get("pending_action") and not cancelled
             if self.job: self.job.close(completed=completed)
-            self.reconcile(self.mid, None if completed else "Worker exited before a confirmed action result")
+            self.reconcile(self.mid, None if completed else failure or "Worker exited before a confirmed action result")
         finally:
             if self.job and self.job.handle: self.job.close()
             if proc.poll() is None: proc.kill(); proc.wait(timeout=10)
@@ -373,9 +379,16 @@ class Supervisor:
                     stopped=stopped or policy.get('schedule_epoch')!=epoch(self.root) or not schedules.enabled(schedules.load(policy['schedule_id']))
             except (OSError,ValueError,KeyError,TypeError):
                 stopped=True
-            overdue = time.monotonic()-self.started > 480
-            too_large = self.log and Path(self.log.name).stat().st_size > 2*1024**2
-            if stopped or overdue or too_large: self.finish_worker(cancelled=True)
+            overdue = time.monotonic()-self.started > WORKER_TIMEOUT_SECONDS
+            try:too_large = self.log and Path(self.log.name).stat().st_size > WORKER_LOG_LIMIT_BYTES
+            except OSError:
+                # Removed/unreadable storage must not leave an owned worker running.
+                stopped = True; too_large = False
+            if stopped or overdue or too_large:
+                failure = ('Worker stopped: policy revoked or checkpoint storage unavailable' if stopped else
+                           'Worker exceeded elapsed execution limit of '+str(WORKER_TIMEOUT_SECONDS)+' seconds' if overdue else
+                           'Worker exceeded error-log limit of '+str(WORKER_LOG_LIMIT_BYTES)+' bytes')
+                self.finish_worker(cancelled=True, failure=failure)
             elif self.worker.poll() is not None: self.finish_worker()
             else:
                 from chat_priority import active as direct_chat_active

@@ -1,0 +1,311 @@
+{
+  "date": "2026-10-29",
+  "patch": "mission-recovery-20261029",
+  "source_checks": [
+    {
+      "edition": "Full",
+      "source_platform": "Windows",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.18,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 32.813s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    },
+    {
+      "edition": "Full",
+      "source_platform": "Linux",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.02,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 32.656s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    },
+    {
+      "edition": "Full",
+      "source_platform": "Mac",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.26,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 32.913s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "source_platform": "Windows",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.38,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 33.034s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "source_platform": "Linux",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.0,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 32.640s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "source_platform": "Mac",
+      "execution_host": "Windows",
+      "python": "3.12.7",
+      "exit_code": 0,
+      "seconds": 33.17,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 32.815s",
+        "",
+        "OK"
+      ],
+      "modules": [
+        "test_mission_crash_recovery",
+        "test_persistence_supervisor",
+        "test_mission_runner",
+        "test_mission_autonomous_recovery",
+        "test_mission_schedule",
+        "test_mission_review",
+        "test_mission_observability",
+        "test_chat_priority",
+        "test_mission_modes",
+        "test_lazy_missions",
+        "test_mission_accounts",
+        "test_mission_context"
+      ]
+    }
+  ],
+  "installed_checks": [
+    {
+      "drive": "D",
+      "python": "bundled Python 3.12.14",
+      "exit_code": 0,
+      "seconds": 32.17,
+      "verified_file_hashes": {
+        "Agent/mission_runner.py": "4125d46bc7b3403a6177f49014176fd0b0691e19b5b28b4424ba2078ae3288d5",
+        "Agent/mission_supervisor.py": "cb2f0645e343c637712a6ed99b229fe982800dbd748640752a46cc4a8b07f5b3",
+        "Maintenance/Tests/test_mission_crash_recovery.py": "d5bc37f36df83eb0742b61882bb01fee575b56dad31763a420de6db50d6efc74",
+        "Maintenance/Tests/mission_fault_worker.py": "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a",
+        "Documentation/Mission_Recovery_20261029.md": "4a80b617ffe2ca37df53a578f0e97e8ab3fbc04bc7fc718f38ba98f7a09c2dbd",
+        "ControlCenter/control_center_bootstrap.py": "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91",
+        "ControlCenter/release_version.py": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      },
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 31.806s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "drive": "E",
+      "python": "bundled Python 3.12.14",
+      "exit_code": 0,
+      "seconds": 43.43,
+      "verified_file_hashes": {
+        "Agent/mission_runner.py": "4125d46bc7b3403a6177f49014176fd0b0691e19b5b28b4424ba2078ae3288d5",
+        "Agent/mission_supervisor.py": "cb2f0645e343c637712a6ed99b229fe982800dbd748640752a46cc4a8b07f5b3",
+        "Maintenance/Tests/test_mission_crash_recovery.py": "d5bc37f36df83eb0742b61882bb01fee575b56dad31763a420de6db50d6efc74",
+        "Maintenance/Tests/mission_fault_worker.py": "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a",
+        "Documentation/Mission_Recovery_20261029.md": "4a80b617ffe2ca37df53a578f0e97e8ab3fbc04bc7fc718f38ba98f7a09c2dbd",
+        "ControlCenter/control_center_bootstrap.py": "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91",
+        "ControlCenter/release_version.py": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      },
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 134 tests in 42.099s",
+        "",
+        "OK"
+      ],
+      "initial_run": {
+        "exit_code": 1,
+        "tail": [
+          "",
+          "----------------------------------------------------------------------",
+          "Ran 134 tests in 43.051s",
+          "",
+          "FAILED (failures=1)"
+        ],
+        "note": "One process-recovery timeout during parallel D/E execution; cause not established. Isolated rerun and complete serial suite passed."
+      }
+    }
+  ],
+  "real_process_smokes": [
+    {
+      "drive": "D",
+      "checks": [
+        {
+          "name": "second supervisor cannot dispatch",
+          "passed": true
+        },
+        {
+          "name": "scheduled wait survives supervisor exit",
+          "passed": true
+        },
+        {
+          "name": "fresh supervisor resumes when due",
+          "passed": true
+        },
+        {
+          "name": "crashed action effect is not replayed",
+          "passed": true
+        },
+        {
+          "name": "controller crash kills its worker tree",
+          "passed": true
+        },
+        {
+          "name": "stop prevents late planning effects",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "drive": "E",
+      "checks": [
+        {
+          "name": "second supervisor cannot dispatch",
+          "passed": true
+        },
+        {
+          "name": "scheduled wait survives supervisor exit",
+          "passed": true
+        },
+        {
+          "name": "fresh supervisor resumes when due",
+          "passed": true
+        },
+        {
+          "name": "crashed action effect is not replayed",
+          "passed": true
+        },
+        {
+          "name": "controller crash kills its worker tree",
+          "passed": true
+        },
+        {
+          "name": "stop prevents late planning effects",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "portable_kit": {
+    "independent_copies": 2,
+    "files_hash_verified_per_kit": 1050,
+    "local_update_plan_changes": 0,
+    "bundled_python_only": true,
+    "rollback_verified_on_disposable_fixture": true
+  },
+  "limits": [
+    "Native Linux/macOS process ownership was not run on those OSes.",
+    "No real USB removal or filesystem corruption/power-loss durability guarantee.",
+    "No live model quality or owner mission execution.",
+    "Original r51 installer archives were not rebuilt.",
+    "An initial E process test timed out during parallel execution; cause not established. Isolated and full serial reruns passed."
+  ]
+}

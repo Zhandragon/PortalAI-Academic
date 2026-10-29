@@ -226,6 +226,9 @@ Check the blocked file's path and detection name, verify its source and expected
 
 ## Source, licensing and verification
 
+**Browse the application source:** [source map](Documentation/SOURCE-MAP.md), [module index](Documentation/MODULE-INDEX.md), [mission runner](ApplicationSources/Windows/PortalAI/Agent/mission_runner.py), [mission supervisor](ApplicationSources/Windows/PortalAI/Agent/mission_supervisor.py), and [recovery guarantees/tests](Documentation/MISSION-RECOVERY.md). [2026-10-29 source audit and patch](Documentation/SOURCE-AUDIT-20261029.md). These are individual source files; current installer archives retain their own release versions.
+
+
 - The three setup downloads and their checksums are at the repository root.
 - `PACKAGING.json` pins the current GitHub release assets and extracted files. `packages/` retains prior parts for previously downloaded launchers.
 - `Documentation/` contains the Academic build details, source changes, validation records and interface artwork.
