@@ -43,6 +43,7 @@ def reported_fields(message):
             for child in value:
                 visit(child, key, depth+1)
         elif key.casefold() in {'success', 'ok', 'status', 'error', 'path', 'file', 'files',
+                               'changed', 'bytes', 'before_sha256', 'sha256',
                                'output', 'output_path', 'output_file', 'video', 'image', 'audio',
                                'source', 'mask', 'transcript', 'report'} or (
                 isinstance(value, str) and re.search(r'(?:^|[\\/])(?:Outputs|Attachments)[\\/]', value, re.I)):

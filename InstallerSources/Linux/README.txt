@@ -1,16 +1,20 @@
-PortalAI 2026.10.27-Desktop-r49 - Academic-Linux
+PortalAI 2026.10.28-Desktop-r50 - Academic-Linux
+Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
+See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
+
+PortalAI 2026.10.28-Desktop-r50 - Academic-Linux
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.10.27-Desktop-r49 - Academic-Linux
+PortalAI 2026.10.28-Desktop-r50 - Academic-Linux
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.10.27-Desktop-r49 — Academic-Linux
+PortalAI 2026.10.28-Desktop-r50 — Academic-Linux
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.10.27-Desktop-r49 — Academic-Linux
+PortalAI suite 2026.10.28-Desktop-r50 — Academic-Linux
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -22,7 +26,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.10.27-Desktop-r49 — Academic Linux
+PortalAI 2026.10.28-Desktop-r50 — Academic Linux
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,

@@ -76,6 +76,7 @@ DEFAULT_SETTINGS = {
     "context_keep_recent_tool_rounds": 4,
     "context_checkpoint_interval": 8,
     "checkpoint_no_tool_limit": 4,
+    "coding_stall_seconds": 300,
     "tool_timeout_seconds": 1800,
     "model_reload_timeout_seconds": 300,
     "model_idle_timeout_seconds": 180,
@@ -1133,14 +1134,20 @@ class ToolRuntime:
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator; registered tools save results in your workspace.')
         p = self.safe_path(path)
+        before = p.read_bytes() if p.exists() else None
         p.parent.mkdir(parents=True, exist_ok=True)
+        if self._account_role() != 'admin':
+            raise PermissionError('Direct file editing requires an administrator.')
         p.write_text(str(content), encoding="utf-8")
-        return f"wrote {p}"
+        from coding_stall import write_receipt
+        return write_receipt(p, before)
 
     def edit_file(self, path: str, old: str, new: str) -> str:
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator.')
         p = self.safe_path(path)
+        before = p.read_bytes()
+        # Match the universal-newline text exposed by read_file.
         s = p.read_text(encoding="utf-8", errors="replace")
         if not old:
             raise ValueError("old text must not be empty")
@@ -1152,7 +1159,8 @@ class ToolRuntime:
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator.')
         p.write_text(s.replace(old, new, 1), encoding="utf-8")
-        return f"edited {p}"
+        from coding_stall import write_receipt
+        return write_receipt(p, before)
 
     def list_dir(self, path: str = ".", max_entries: int = 200) -> str:
         p = self.safe_path(path)
@@ -1394,12 +1402,15 @@ def _request_tools(panel):
     if _request_scope(panel) == 'maintenance':
         names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'write_file',
                  'edit_file', 'list_dir', 'web', 'inspect_environment', 'source_search', 'source_map'}
-        return [row for row in TOOLS if row['function']['name'] in names]
-    if _request_scope(panel) == 'coding':
+        rows = [row for row in TOOLS if row['function']['name'] in names]
+    elif _request_scope(panel) == 'coding':
         names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file',
                  'write_file', 'edit_file', 'list_dir'}
-        return [row for row in TOOLS if row['function']['name'] in names]
-    return TOOLS
+        rows = [row for row in TOOLS if row['function']['name'] in names]
+    else:
+        rows = TOOLS
+    stall = getattr(panel, '_coding_stall', None)
+    return stall.menu(rows) if stall is not None else rows
 
 
 class WindowsFileDrop:
@@ -3723,6 +3734,9 @@ class NativeChat:
         # PORTABLEAI_NATIVE_SCIENCE_ROUTING_v15_134c
         # Current host contracts reach compact/full models even if the optional
         # long manual is disabled. They never replace runtime authorization.
+        stall = getattr(self, '_coding_stall', None)
+        if stall is not None:
+            pieces.append(stall.guidance())
         from academic_policy import instruction_suffix
         pieces.append(instruction_suffix(self.root))
         if _request_scope(self) == 'maintenance':
@@ -4226,7 +4240,10 @@ class NativeChat:
             rows = project_turn(candidate, start, end)
             return sum(self._message_cost(row) for row in rows) + 24 < group['cost']
 
-        if hard_pressure:
+        stall = getattr(self, '_coding_stall', None)
+        if hard_pressure or (stall is not None and stall.implementing):
+            # During a short implementation burst, retain source-linked evidence
+            # without spending another inference on a working-memory summary.
             # This recovery path never needs another model request. Try bounded
             # evidence views, retaining the richest one that admits a reply.
             record = None
@@ -5115,9 +5132,19 @@ class NativeChat:
                 return
             if remote_admission is not None and not remote_admission.worker_prepared(self.cancel_event):
                 return
+            from coding_stall import CodingStall
+            armed = (request_index >= 0 and
+                     self.session['messages'][request_index].get('coding_stall_recovery') is True and
+                     _request_scope(self) in ('coding', 'maintenance'))
+            stall = self._coding_stall = CodingStall(armed, self.settings.get('coding_stall_seconds', 300))
             while True:
                 if self.cancel_event.is_set():
                     break
+                transition = stall.tick()
+                if transition: self.ev.put(('progress', transition))
+                if stall.armed:
+                    usage['coding_stall'] = stall.snapshot()
+                    self._context_state()['last_run'] = dict(usage)
                 # Real tool progress starts a new reasoning allowance. The
                 # request still obeys its explicit call budget and Stop.
                 self._continuation_remaining = 2
@@ -5223,6 +5250,7 @@ class NativeChat:
                             else:
                                 usage['calls'] += 1
                             blocked = lookup.before(name, args)
+                            if blocked is None: blocked = stall.before(name, args)
                         self._image_lookup_active = lookup.active
                         if blocked is not None:
                             result = blocked
@@ -5271,6 +5299,8 @@ class NativeChat:
                                 cycle.progress(name,args,result)
                     except Exception as exc:
                         result = f"ERROR: {type(exc).__name__}: {exc}"
+                    stall.observe(name, args, result, execution)
+                    if stall.armed: usage['coding_stall'] = stall.snapshot()
                     lookup.record(name, args, result)
                     self._check_login()
                     if name=='chat_checkpoint' and self.cancel_event.is_set():break
@@ -5326,6 +5356,7 @@ class NativeChat:
             self._reply_without_tools = False
             self._checkpoint_final_only = ''
             self._image_lookup_active = False
+            self._coding_stall = None
             try:
                 if foreground is not None:foreground.close()
             finally:self.ev.put(("done", None))
@@ -5405,7 +5436,8 @@ class NativeChat:
         text = self.prompt.get("1.0", "end").strip() if remote_text is None else remote_text.strip()
         if not text and not self.pending_attachments:
             return "break"
-        self._request_tool_scope = 'maintenance' if self.settings.get('maintenance_mode', False) else 'all'
+        recover_coding = getattr(self, '_coding_stall_next_request', False) is True
+        self._request_tool_scope = 'maintenance' if recover_coding or self.settings.get('maintenance_mode', False) else 'all'
         attachments = list(self.pending_attachments)
         self.pending_attachments = []
         self.update_attachment_label()
@@ -5415,6 +5447,9 @@ class NativeChat:
             self.prompt.delete("1.0", "end")
             self._resize_prompt(reset=True)
         msg = {"role": "user", "content": text, "attachments": attachments}
+        if recover_coding:
+            msg['coding_stall_recovery'] = True
+        self._coding_stall_next_request = False
         self.session["messages"].append(msg)
         if self.session.get("title") == "New chat":
             title = (text.strip().splitlines()[0] if text.strip() else (attachments[0]["name"] if attachments else "New chat"))
@@ -6102,6 +6137,10 @@ class NativeChat:
         maintenance_var = tk.BooleanVar(body, value=bool(self.settings.get('maintenance_mode', False)))
         skin.check(sections['tools'], 'Focus tools on coding and maintenance', maintenance_var)
         skin.label(sections['tools'], 'Use environment, source, file, shell and web tools for coding tasks. Applies to the next request; existing account permissions still apply.', muted=True).pack(fill='x', pady=4)
+        stall_var = tk.BooleanVar(body, value=getattr(self, '_coding_stall_next_request', False) is True)
+        skin.check(sections['tools'], 'Recover stalled coding on my next request', stall_var)
+        skin.label(sections['tools'], 'Enable for a task that authorizes code changes. After the delay and at least eight inspections, try one small edit, then return to review/testing. Uses coding tools; clears after Send and never runs in the background. Read-only instructions still apply.', muted=True).pack(fill='x', pady=4)
+        entries['coding_stall_seconds'] = skin.row(sections['tools'], 'Coding stall delay (seconds, 60–3600; default 300)', lambda row: skin.entry(row, self.settings.get('coding_stall_seconds', 300)))
         explanation_section = skin.section(tabs.add('effort', 'Effort & continuation'), 'Effort and continuation')
         effort = getattr(self, 'effort', None)
         effort_draft = effort.preferences_controls(explanation_section, skin) if effort is not None else None
@@ -6172,6 +6211,7 @@ class NativeChat:
                 updated["conversation_max_utterance_seconds"] = max(5, min(300, int(float(entries["conversation_max_utterance_seconds"].get()))))
                 updated["low_power_support"] = bool(support_var.get())
                 updated["maintenance_mode"] = bool(maintenance_var.get())
+                updated['coding_stall_seconds'] = max(60, min(3600, int(entries['coding_stall_seconds'].get())))
                 updated["show_thinking"] = bool(show_var.get())
                 updated["collapse_thinking_blocks"] = bool(collapse_think_var.get())
                 updated["collapse_tool_blocks"] = bool(collapse_tool_var.get())
@@ -6179,6 +6219,7 @@ class NativeChat:
                 updated["auto_context_management"] = bool(auto_ctx_var.get())
                 if effort_draft is not None: effort.save_preferences_draft(effort_draft)
                 self.settings.update(updated)
+                self._coding_stall_next_request = bool(stall_var.get())
                 self.store.save_settings(); self.render_history(); self.update_token_label(); self._close_sheet()
             except Exception as exc:
                 error_text.set('Not saved: ' + str(exc))

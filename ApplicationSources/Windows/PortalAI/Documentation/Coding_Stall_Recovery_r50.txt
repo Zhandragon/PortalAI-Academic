@@ -1,0 +1,42 @@
+PortalAI r50: optional recovery from stalled coding
+
+Enable Chat Preferences > Tools & limits > Recover stalled coding on my next request,
+then Save settings and send a task that authorizes code changes. This selects the
+coding/maintenance tools for that request. The opt-in clears on Send and is not
+saved as a global preference. To use it on another request, enable it again.
+The delay is a saved preference: default 300 seconds, adjustable from 60 to 3600.
+The mode works with 27B, 4B and 1.7B; small-model support remains a separate option.
+
+At a completed model/tool boundary, after the delay and at least eight inspection
+results without an observed code change, recovery offers a short implementation
+burst. At least one nonempty source-file view must already exist. The model gets
+up to two file/history reads and two edit attempts. Broad exploration, web, shell
+and checkpoints temporarily yield to edit_file/write_file and a final blocker.
+The harness never constructs or executes its own replacement code.
+
+A changed nonempty code file returns the model to normal tools for review/testing.
+Two attempted edits, six tool requests or 120 seconds also end the burst. Time is
+checked between completed calls; an in-flight model response is not interrupted
+or partially executed. After returning to review, another full delay and eight
+inspections are needed before recovery can activate again. Stop, logout, request
+limits, account privileges and existing no-replay rules remain authoritative.
+
+File tools return observed byte counts, before/after SHA-256 and changed=true/false.
+Failed edits, replayed actions, unchanged writes, empty-file creation, documentation
+changes, arbitrary shell output and checkpoints are not counted as code progress.
+This detector observes structured file-tool receipts; it does not grade correctness
+or track arbitrary external/shell edits. The raw session retains exact receipts and
+the last-run context records recovery transitions and changed-write counts.
+
+Recovery tells the model to choose one grounded test, helper or partial implementation
+from inspected code. It must not overwrite working behavior with placeholders or
+call a draft complete. A read-only request or lack of a justified edit may end with
+an honest blocker. This feature restricts workflow, not the user's instructions or
+permissions. A file change is only progress: review and meaningful tests are still
+needed. During an implementation burst, needed working-memory compaction uses the
+existing deterministic evidence projection instead of another summary inference.
+
+The production website reader retains the previously verified fixes. Model trials
+use frozen disposable copies containing the original defect and an independently
+pinned acceptance checker. They never patch the live owner installation.
+See the release validation receipt for measured outcomes and remaining limitations.
