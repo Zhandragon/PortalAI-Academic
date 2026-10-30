@@ -1,9 +1,9 @@
 {
   "scope": "Tracked and new non-vendored code under ApplicationSources only; not a live-drive or binary-release audit.",
   "files_per_platform": {
-    "Linux": 783,
-    "Mac": 758,
-    "Windows": 825
+    "Linux": 804,
+    "Mac": 779,
+    "Windows": 846
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -1652,6 +1652,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/desktop_control.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "318122566075b14bb3b81b91ca0e75db7e6094804f1a43e6ab2901c703ead683",
+      "lines": 226,
+      "overview": "Session-only Windows desktop grants and observed, bounded native input.",
+      "symbols": [
+        {
+          "name": "desktop",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "revoke",
+          "line": 30,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Desktop",
+          "line": 35,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Agent/dialogue_portable.py",
       "platform": "Linux",
       "component": "Agent",
@@ -2052,6 +2077,66 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/knowledge_base.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "2feb7d09d4560bcfbff2dc20a863882eb949612bda3dcfc0f7ea747868eafc94",
+      "lines": 185,
+      "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
+      "symbols": [
+        {
+          "name": "Knowledge",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/knowledge_embeddings.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "ec2098f16a223867d89c4bd13601130fb4e9067b8f5989120f5e6cf0f8808e3c",
+      "lines": 84,
+      "overview": "Pinned local MiniLM CPU embeddings; no network, Torch, or shared model service.",
+      "symbols": [
+        {
+          "name": "packages",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Embeddings",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/knowledge_extract.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "6e7cea5361af2fdaf761e6b98738bd72d57b828b764958a62505173787519511",
+      "lines": 121,
+      "overview": "Bounded local extraction with page/slide/sheet locations and optional scan OCR.",
+      "symbols": [
+        {
+          "name": "_office",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract",
+          "line": 49,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "chunks",
+          "line": 114,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Agent/linux_job.py",
       "platform": "Linux",
       "component": "Agent",
@@ -2435,6 +2520,35 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/mcp_client.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "a24f308333926d895b84d17bf56232f4f7360f1e139e3b001d1e037402f21659",
+      "lines": 314,
+      "overview": "Bounded MCP tools client: stdio and Streamable HTTP, with explicit tool grants.",
+      "symbols": [
+        {
+          "name": "Transport",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Connections",
+          "line": 220,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/mcp_launch.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "6dc9b70c0a88d4f11012625139e9ac696033eefbf616a353e04036cd8f97c571",
+      "lines": 29,
+      "overview": "Start a configured stdio server only after its parent establishes job ownership.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Linux/PortalAI/Agent/media_defaults.py",
@@ -4309,7 +4423,7 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "b4057309819a165085f8c177ba965966192fcddae461b95077d8b42786c1792e",
+      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
       "lines": 197,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
@@ -6885,6 +6999,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/workflows.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "1198d7fd310092d8b661576902246837bc42d0c993ab53da87276209838f5f23",
+      "lines": 151,
+      "overview": "Versioned, bounded workflows with durable step receipts and explicit approvals.",
+      "symbols": [
+        {
+          "name": "validate",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "resolve",
+          "line": 40,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workflows",
+          "line": 56,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Agent/workload_compatibility.py",
       "platform": "Linux",
       "component": "Agent",
@@ -6920,11 +7059,56 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/workspace_store.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "6591ad059f05a53e5c4c3b223a86a5266749e7e0aba3da4cff19add8235b279e",
+      "lines": 84,
+      "overview": "Small shared storage boundary for account-scoped knowledge, connections and flows.",
+      "symbols": [
+        {
+          "name": "identifier",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "encoded",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_json",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workspace",
+          "line": 34,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "portable_source",
+          "line": 71,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "source_path",
+          "line": 79,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "e57836e66ab746010f3765da540f253baed466a164c8c1a47314e13264cf7536",
-      "lines": 4356,
+      "sha256": "5cde2437940851a7755d3a1db34e90811c17718ec98ecc66d8a4a6ee78c34210",
+      "lines": 4361,
       "overview": "",
       "symbols": [
         {
@@ -6934,7 +7118,7 @@
         },
         {
           "name": "run_application",
-          "line": 4348,
+          "line": 4353,
           "kind": "FunctionDef"
         }
       ]
@@ -7325,6 +7509,46 @@
         {
           "name": "media_model_files",
           "line": 183,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/capability_tools.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
+      "lines": 146,
+      "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
+      "symbols": [
+        {
+          "name": "guard",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "prompt",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "workflow_store",
+          "line": 59,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "dispatch",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "tool",
+          "line": 112,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "computer_context",
+          "line": 128,
           "kind": "FunctionDef"
         }
       ]
@@ -8607,8 +8831,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/native_chat.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "2ec5accaabe769d871c378d94cf3b46b1e1222abde013f56a8492c0724808ea2",
-      "lines": 6691,
+      "sha256": "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b",
+      "lines": 6712,
       "overview": "",
       "symbols": [
         {
@@ -8738,27 +8962,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1395,
+          "line": 1401,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1402,
+          "line": 1408,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1420,
+          "line": 1426,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1565,
+          "line": 1571,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6679,
+          "line": 6700,
           "kind": "FunctionDef"
         }
       ]
@@ -10831,8 +11055,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "b3c40fb8d9a25ccc0178e008e6f875558ef996b52d86611bb6863069448dcb14",
-      "lines": 180,
+      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
+      "lines": 185,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -10842,32 +11066,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 60,
+          "line": 65,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 75,
+          "line": 80,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 89,
+          "line": 94,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 96,
+          "line": 101,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 111,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 168,
+          "line": 173,
           "kind": "FunctionDef"
         }
       ]
@@ -11043,6 +11267,26 @@
         {
           "name": "WindowsGPUCounters",
           "line": 31,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/workspace_panel.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
+      "lines": 213,
+      "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
+      "symbols": [
+        {
+          "name": "show_workspace",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "WorkspacePanel",
+          "line": 24,
           "kind": "ClassDef"
         }
       ]
@@ -12733,13 +12977,13 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_chat_selection.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "5ce615c2f47ac71fcf16f967188beb7f85e87b0a0a7b99071961f31c3e76693b",
-      "lines": 55,
-      "overview": "Last successfully selected chat survives sealing, independently of edit time.",
+      "sha256": "110cbc19185ad76f708928288f3708aaae1ea11a7b82236c704a431ba2385f59",
+      "lines": 35,
+      "overview": "Chat model selection coverage; saved-conversation selection has its own suite.",
       "symbols": [
         {
-          "name": "ChatSelectionTests",
-          "line": 10,
+          "name": "ModelSelectionTests",
+          "line": 9,
           "kind": "ClassDef"
         }
       ]
@@ -15788,8 +16032,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_small_model_chat.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "6da715769db8b77c33b8eb70464ed51714eabd47305a167259ff1cd3bd1f6895",
-      "lines": 36,
+      "sha256": "1ccad345789cf3ee663c9c939c2d8cc9dac4b80dbe15cf343ffd661756eaff9e",
+      "lines": 37,
       "overview": "",
       "symbols": [
         {
@@ -15825,6 +16069,21 @@
         {
           "name": "MasterSnapshotTests",
           "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_source_bloat.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "9cacf35ef59a07f6f4f51ae9d661a2a79c9a4687df9f95962352ba4cc35f1e05",
+      "lines": 21,
+      "overview": "An installed distribution's bundled applications are not original source.",
+      "symbols": [
+        {
+          "name": "SourceScope",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -16048,8 +16307,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_tool_protocol_recovery.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "ec67c9ff03aa5376edcb68d291657e0a1ef86e5efe87e2649e7812b3a8134239",
-      "lines": 193,
+      "sha256": "f764741ab34f6721f416b4957c44be64716d22946efe3c19e1050ed13bd997ff",
+      "lines": 198,
       "overview": "Format-only inference repair; printed commands are never executed or replayed.",
       "symbols": [
         {
@@ -16605,6 +16864,76 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_workspace.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "012f326e64b44c4488618b4d702ced260fd8545ee0aa75db8c8d6a4b2210ef47",
+      "lines": 191,
+      "overview": "Meaningful recovery, protocol, document and workflow boundary regressions.",
+      "symbols": [
+        {
+          "name": "Embedder",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Fixture",
+          "line": 25,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "KnowledgeTests",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "WorkflowTests",
+          "line": 79,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FakeTransport",
+          "line": 118,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MCPTests",
+          "line": 131,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_workspace_computer.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "4012e40e4a9c2af7673943e5d6865672ef0cb040fd41162544f4ce7c9d1a968c",
+      "lines": 66,
+      "overview": "Computer image lifetime and chat authorization; no real desktop inputs.",
+      "symbols": [
+        {
+          "name": "ComputerBoundaries",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_workspace_profiles.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "51f5c9106e402a17495eb6ff0ede9160bbe749b8c89d1a90dbf45d8f4ca24fd5",
+      "lines": 49,
+      "overview": "Workspace data follows real encrypted lazy-profile and login boundaries.",
+      "symbols": [
+        {
+          "name": "ProfileTests",
+          "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_world_scene.py",
       "platform": "Linux",
       "component": "Maintenance",
@@ -16648,6 +16977,30 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/workspace_desktop_fixture.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "2461db8e077e9a46597278ae02cc6a559a75a2236ba2968b926c2f2d793b1ff3",
+      "lines": 18,
+      "overview": "A disposable owned window for actual mouse/key/window acceptance.",
+      "symbols": [
+        {
+          "name": "save",
+          "line": 7,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/workspace_mcp_fixture.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "f70d9f88c51498a471fbd1b290b53af814acfee583c6c3fa13f73a058fede59b",
+      "lines": 15,
+      "overview": "Synthetic stdio MCP server used by smoke_workspace; no production services.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Linux/PortalAI/PortalAI.sh",
@@ -17709,6 +18062,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/audit_source_bloat.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "0868afbac3d04531d3bb4a32b395dd8103bdc70d111ea0662ad12972390991af",
+      "lines": 61,
+      "overview": "Read-only first-party source audit; never scans accounts or deletes assets.",
+      "symbols": [
+        {
+          "name": "source_files",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 29,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Tools/audit_specialist_filters.py",
       "platform": "Linux",
       "component": "Tools",
@@ -17912,8 +18285,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Tools/capability_registry.py",
       "platform": "Linux",
       "component": "Tools",
-      "sha256": "bb20d3b62f0f7c3e4dc6f9e847588473d7c7d67a717dceef97b26cc938f022e0",
-      "lines": 134,
+      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
+      "lines": 138,
       "overview": "",
       "symbols": [
         {
@@ -17943,7 +18316,7 @@
         },
         {
           "name": "main",
-          "line": 132,
+          "line": 136,
           "kind": "FunctionDef"
         }
       ]
@@ -19111,6 +19484,31 @@
         {
           "name": "main",
           "line": 179,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/install_workspace_runtime.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "bba1cdbc6ec5207a5abb2c771b18398fcc12056c6264683e0619c7d53e60b345",
+      "lines": 86,
+      "overview": "Install pinned Workspace assets with this SSD's Python, never host packages.",
+      "symbols": [
+        {
+          "name": "sha",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "remove_generated_launchers",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 42,
           "kind": "FunctionDef"
         }
       ]
@@ -20786,6 +21184,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_computer.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "33e19898bfa0286529943975368f34dde32d3bfd0cb91bddbe23955d80d294f5",
+      "lines": 67,
+      "overview": "Native Windows computer controller on its own disposable window only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 11,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_context_controls.py",
       "platform": "Linux",
       "component": "Tools",
@@ -21524,6 +21937,36 @@
         {
           "name": "main",
           "line": 17,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_workspace.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "7ffcf07e93b65ae9af7ac711d33b62c2bb7aec1f012835e550bd8646860e509a",
+      "lines": 120,
+      "overview": "Real portable embedding/OCR/MCP/UI acceptance using synthetic data only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 19,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_workspace_vision.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "8dc02919f457efd61f7fd14908da872ef304ec9954b2f5e7179e4ebe6a833075",
+      "lines": 56,
+      "overview": "Actual local CPU vision on a synthetic Workspace screenshot; no desktop input.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 10,
           "kind": "FunctionDef"
         }
       ]
@@ -23412,6 +23855,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/desktop_control.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "318122566075b14bb3b81b91ca0e75db7e6094804f1a43e6ab2901c703ead683",
+      "lines": 226,
+      "overview": "Session-only Windows desktop grants and observed, bounded native input.",
+      "symbols": [
+        {
+          "name": "desktop",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "revoke",
+          "line": 30,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Desktop",
+          "line": 35,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Agent/dialogue_portable.py",
       "platform": "Mac",
       "component": "Agent",
@@ -23812,6 +24280,66 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/knowledge_base.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "2feb7d09d4560bcfbff2dc20a863882eb949612bda3dcfc0f7ea747868eafc94",
+      "lines": 185,
+      "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
+      "symbols": [
+        {
+          "name": "Knowledge",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/knowledge_embeddings.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "ec2098f16a223867d89c4bd13601130fb4e9067b8f5989120f5e6cf0f8808e3c",
+      "lines": 84,
+      "overview": "Pinned local MiniLM CPU embeddings; no network, Torch, or shared model service.",
+      "symbols": [
+        {
+          "name": "packages",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Embeddings",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/knowledge_extract.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "6e7cea5361af2fdaf761e6b98738bd72d57b828b764958a62505173787519511",
+      "lines": 121,
+      "overview": "Bounded local extraction with page/slide/sheet locations and optional scan OCR.",
+      "symbols": [
+        {
+          "name": "_office",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract",
+          "line": 49,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "chunks",
+          "line": 114,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Agent/linux_job.py",
       "platform": "Mac",
       "component": "Agent",
@@ -24195,6 +24723,35 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/mcp_client.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "a24f308333926d895b84d17bf56232f4f7360f1e139e3b001d1e037402f21659",
+      "lines": 314,
+      "overview": "Bounded MCP tools client: stdio and Streamable HTTP, with explicit tool grants.",
+      "symbols": [
+        {
+          "name": "Transport",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Connections",
+          "line": 220,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/mcp_launch.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "6dc9b70c0a88d4f11012625139e9ac696033eefbf616a353e04036cd8f97c571",
+      "lines": 29,
+      "overview": "Start a configured stdio server only after its parent establishes job ownership.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Mac/PortalAI/Agent/media_defaults.py",
@@ -26069,7 +26626,7 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "b4057309819a165085f8c177ba965966192fcddae461b95077d8b42786c1792e",
+      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
       "lines": 197,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
@@ -28645,6 +29202,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/workflows.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "1198d7fd310092d8b661576902246837bc42d0c993ab53da87276209838f5f23",
+      "lines": 151,
+      "overview": "Versioned, bounded workflows with durable step receipts and explicit approvals.",
+      "symbols": [
+        {
+          "name": "validate",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "resolve",
+          "line": 40,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workflows",
+          "line": 56,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Agent/workload_compatibility.py",
       "platform": "Mac",
       "component": "Agent",
@@ -28680,11 +29262,56 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/workspace_store.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "6591ad059f05a53e5c4c3b223a86a5266749e7e0aba3da4cff19add8235b279e",
+      "lines": 84,
+      "overview": "Small shared storage boundary for account-scoped knowledge, connections and flows.",
+      "symbols": [
+        {
+          "name": "identifier",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "encoded",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_json",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workspace",
+          "line": 34,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "portable_source",
+          "line": 71,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "source_path",
+          "line": 79,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "4d8ef1f83243853923832079b0edab03df4efd269c590a45b44273044125886b",
-      "lines": 4362,
+      "sha256": "1634d5ec7f2cdb80dcf2b688d8ef21b18bcf72f3922f29ec2849e423e2f69e81",
+      "lines": 4367,
       "overview": "",
       "symbols": [
         {
@@ -28694,7 +29321,7 @@
         },
         {
           "name": "run_application",
-          "line": 4354,
+          "line": 4359,
           "kind": "FunctionDef"
         }
       ]
@@ -29085,6 +29712,46 @@
         {
           "name": "media_model_files",
           "line": 183,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/capability_tools.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
+      "lines": 146,
+      "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
+      "symbols": [
+        {
+          "name": "guard",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "prompt",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "workflow_store",
+          "line": 59,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "dispatch",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "tool",
+          "line": 112,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "computer_context",
+          "line": 128,
           "kind": "FunctionDef"
         }
       ]
@@ -30367,8 +31034,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/native_chat.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "5d47770092bd7718dbae422df31eed23d896c4078f52ab13d8a0e55d77652dd4",
-      "lines": 6696,
+      "sha256": "1ff630d9c4d0057bf2a9d98eda8e988d31d09a967c5a838f356ec2b5af01d5ad",
+      "lines": 6717,
       "overview": "",
       "symbols": [
         {
@@ -30498,27 +31165,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1400,
+          "line": 1406,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1407,
+          "line": 1413,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1425,
+          "line": 1431,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1570,
+          "line": 1576,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6684,
+          "line": 6705,
           "kind": "FunctionDef"
         }
       ]
@@ -32591,8 +33258,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "b3c40fb8d9a25ccc0178e008e6f875558ef996b52d86611bb6863069448dcb14",
-      "lines": 180,
+      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
+      "lines": 185,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -32602,32 +33269,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 60,
+          "line": 65,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 75,
+          "line": 80,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 89,
+          "line": 94,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 96,
+          "line": 101,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 111,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 168,
+          "line": 173,
           "kind": "FunctionDef"
         }
       ]
@@ -32803,6 +33470,26 @@
         {
           "name": "WindowsGPUCounters",
           "line": 31,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/workspace_panel.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
+      "lines": 213,
+      "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
+      "symbols": [
+        {
+          "name": "show_workspace",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "WorkspacePanel",
+          "line": 24,
           "kind": "ClassDef"
         }
       ]
@@ -34493,13 +35180,13 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_chat_selection.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "5ce615c2f47ac71fcf16f967188beb7f85e87b0a0a7b99071961f31c3e76693b",
-      "lines": 55,
-      "overview": "Last successfully selected chat survives sealing, independently of edit time.",
+      "sha256": "110cbc19185ad76f708928288f3708aaae1ea11a7b82236c704a431ba2385f59",
+      "lines": 35,
+      "overview": "Chat model selection coverage; saved-conversation selection has its own suite.",
       "symbols": [
         {
-          "name": "ChatSelectionTests",
-          "line": 10,
+          "name": "ModelSelectionTests",
+          "line": 9,
           "kind": "ClassDef"
         }
       ]
@@ -37548,8 +38235,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_small_model_chat.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "6da715769db8b77c33b8eb70464ed51714eabd47305a167259ff1cd3bd1f6895",
-      "lines": 36,
+      "sha256": "1ccad345789cf3ee663c9c939c2d8cc9dac4b80dbe15cf343ffd661756eaff9e",
+      "lines": 37,
       "overview": "",
       "symbols": [
         {
@@ -37585,6 +38272,21 @@
         {
           "name": "MasterSnapshotTests",
           "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_source_bloat.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "9cacf35ef59a07f6f4f51ae9d661a2a79c9a4687df9f95962352ba4cc35f1e05",
+      "lines": 21,
+      "overview": "An installed distribution's bundled applications are not original source.",
+      "symbols": [
+        {
+          "name": "SourceScope",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -37808,8 +38510,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_tool_protocol_recovery.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "ec67c9ff03aa5376edcb68d291657e0a1ef86e5efe87e2649e7812b3a8134239",
-      "lines": 193,
+      "sha256": "f764741ab34f6721f416b4957c44be64716d22946efe3c19e1050ed13bd997ff",
+      "lines": 198,
       "overview": "Format-only inference repair; printed commands are never executed or replayed.",
       "symbols": [
         {
@@ -38365,6 +39067,76 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_workspace.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "012f326e64b44c4488618b4d702ced260fd8545ee0aa75db8c8d6a4b2210ef47",
+      "lines": 191,
+      "overview": "Meaningful recovery, protocol, document and workflow boundary regressions.",
+      "symbols": [
+        {
+          "name": "Embedder",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Fixture",
+          "line": 25,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "KnowledgeTests",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "WorkflowTests",
+          "line": 79,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FakeTransport",
+          "line": 118,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MCPTests",
+          "line": 131,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_workspace_computer.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "4012e40e4a9c2af7673943e5d6865672ef0cb040fd41162544f4ce7c9d1a968c",
+      "lines": 66,
+      "overview": "Computer image lifetime and chat authorization; no real desktop inputs.",
+      "symbols": [
+        {
+          "name": "ComputerBoundaries",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_workspace_profiles.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "51f5c9106e402a17495eb6ff0ede9160bbe749b8c89d1a90dbf45d8f4ca24fd5",
+      "lines": 49,
+      "overview": "Workspace data follows real encrypted lazy-profile and login boundaries.",
+      "symbols": [
+        {
+          "name": "ProfileTests",
+          "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_world_scene.py",
       "platform": "Mac",
       "component": "Maintenance",
@@ -38408,6 +39180,30 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/workspace_desktop_fixture.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "2461db8e077e9a46597278ae02cc6a559a75a2236ba2968b926c2f2d793b1ff3",
+      "lines": 18,
+      "overview": "A disposable owned window for actual mouse/key/window acceptance.",
+      "symbols": [
+        {
+          "name": "save",
+          "line": 7,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/workspace_mcp_fixture.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "f70d9f88c51498a471fbd1b290b53af814acfee583c6c3fa13f73a058fede59b",
+      "lines": 15,
+      "overview": "Synthetic stdio MCP server used by smoke_workspace; no production services.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Mac/PortalAI/Tools/ExecutableRecovery.cs",
@@ -38647,6 +39443,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/audit_source_bloat.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "0868afbac3d04531d3bb4a32b395dd8103bdc70d111ea0662ad12972390991af",
+      "lines": 61,
+      "overview": "Read-only first-party source audit; never scans accounts or deletes assets.",
+      "symbols": [
+        {
+          "name": "source_files",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 29,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/audit_specialist_filters.py",
       "platform": "Mac",
       "component": "Tools",
@@ -38850,8 +39666,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Tools/capability_registry.py",
       "platform": "Mac",
       "component": "Tools",
-      "sha256": "bb20d3b62f0f7c3e4dc6f9e847588473d7c7d67a717dceef97b26cc938f022e0",
-      "lines": 134,
+      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
+      "lines": 138,
       "overview": "",
       "symbols": [
         {
@@ -38881,7 +39697,7 @@
         },
         {
           "name": "main",
-          "line": 132,
+          "line": 136,
           "kind": "FunctionDef"
         }
       ]
@@ -40049,6 +40865,31 @@
         {
           "name": "main",
           "line": 179,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/install_workspace_runtime.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "bba1cdbc6ec5207a5abb2c771b18398fcc12056c6264683e0619c7d53e60b345",
+      "lines": 86,
+      "overview": "Install pinned Workspace assets with this SSD's Python, never host packages.",
+      "symbols": [
+        {
+          "name": "sha",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "remove_generated_launchers",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 42,
           "kind": "FunctionDef"
         }
       ]
@@ -41724,6 +42565,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_computer.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "33e19898bfa0286529943975368f34dde32d3bfd0cb91bddbe23955d80d294f5",
+      "lines": 67,
+      "overview": "Native Windows computer controller on its own disposable window only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 11,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_context_controls.py",
       "platform": "Mac",
       "component": "Tools",
@@ -42462,6 +43318,36 @@
         {
           "name": "main",
           "line": 17,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_workspace.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "7ffcf07e93b65ae9af7ac711d33b62c2bb7aec1f012835e550bd8646860e509a",
+      "lines": 120,
+      "overview": "Real portable embedding/OCR/MCP/UI acceptance using synthetic data only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 19,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_workspace_vision.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "8dc02919f457efd61f7fd14908da872ef304ec9954b2f5e7179e4ebe6a833075",
+      "lines": 56,
+      "overview": "Actual local CPU vision on a synthetic Workspace screenshot; no desktop input.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 10,
           "kind": "FunctionDef"
         }
       ]
@@ -44350,6 +45236,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/desktop_control.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "318122566075b14bb3b81b91ca0e75db7e6094804f1a43e6ab2901c703ead683",
+      "lines": 226,
+      "overview": "Session-only Windows desktop grants and observed, bounded native input.",
+      "symbols": [
+        {
+          "name": "desktop",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "revoke",
+          "line": 30,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Desktop",
+          "line": 35,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/dialogue_portable.py",
       "platform": "Windows",
       "component": "Agent",
@@ -44750,6 +45661,66 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_base.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "2feb7d09d4560bcfbff2dc20a863882eb949612bda3dcfc0f7ea747868eafc94",
+      "lines": 185,
+      "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
+      "symbols": [
+        {
+          "name": "Knowledge",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_embeddings.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "ec2098f16a223867d89c4bd13601130fb4e9067b8f5989120f5e6cf0f8808e3c",
+      "lines": 84,
+      "overview": "Pinned local MiniLM CPU embeddings; no network, Torch, or shared model service.",
+      "symbols": [
+        {
+          "name": "packages",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Embeddings",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_extract.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "6e7cea5361af2fdaf761e6b98738bd72d57b828b764958a62505173787519511",
+      "lines": 121,
+      "overview": "Bounded local extraction with page/slide/sheet locations and optional scan OCR.",
+      "symbols": [
+        {
+          "name": "_office",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract",
+          "line": 49,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "chunks",
+          "line": 114,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/linux_job.py",
       "platform": "Windows",
       "component": "Agent",
@@ -45133,6 +46104,35 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/mcp_client.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "a24f308333926d895b84d17bf56232f4f7360f1e139e3b001d1e037402f21659",
+      "lines": 314,
+      "overview": "Bounded MCP tools client: stdio and Streamable HTTP, with explicit tool grants.",
+      "symbols": [
+        {
+          "name": "Transport",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Connections",
+          "line": 220,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/mcp_launch.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "6dc9b70c0a88d4f11012625139e9ac696033eefbf616a353e04036cd8f97c571",
+      "lines": 29,
+      "overview": "Start a configured stdio server only after its parent establishes job ownership.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Agent/media_defaults.py",
@@ -47007,7 +48007,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "b4057309819a165085f8c177ba965966192fcddae461b95077d8b42786c1792e",
+      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
       "lines": 197,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
@@ -49583,6 +50583,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/workflows.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "1198d7fd310092d8b661576902246837bc42d0c993ab53da87276209838f5f23",
+      "lines": 151,
+      "overview": "Versioned, bounded workflows with durable step receipts and explicit approvals.",
+      "symbols": [
+        {
+          "name": "validate",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "resolve",
+          "line": 40,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workflows",
+          "line": 56,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/workload_compatibility.py",
       "platform": "Windows",
       "component": "Agent",
@@ -49618,11 +50643,56 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/workspace_store.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "6591ad059f05a53e5c4c3b223a86a5266749e7e0aba3da4cff19add8235b279e",
+      "lines": 84,
+      "overview": "Small shared storage boundary for account-scoped knowledge, connections and flows.",
+      "symbols": [
+        {
+          "name": "identifier",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "encoded",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_json",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workspace",
+          "line": 34,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "portable_source",
+          "line": 71,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "source_path",
+          "line": 79,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "e57836e66ab746010f3765da540f253baed466a164c8c1a47314e13264cf7536",
-      "lines": 4356,
+      "sha256": "5cde2437940851a7755d3a1db34e90811c17718ec98ecc66d8a4a6ee78c34210",
+      "lines": 4361,
       "overview": "",
       "symbols": [
         {
@@ -49632,7 +50702,7 @@
         },
         {
           "name": "run_application",
-          "line": 4348,
+          "line": 4353,
           "kind": "FunctionDef"
         }
       ]
@@ -50023,6 +51093,46 @@
         {
           "name": "media_model_files",
           "line": 183,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
+      "lines": 146,
+      "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
+      "symbols": [
+        {
+          "name": "guard",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "prompt",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "workflow_store",
+          "line": 59,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "dispatch",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "tool",
+          "line": 112,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "computer_context",
+          "line": 128,
           "kind": "FunctionDef"
         }
       ]
@@ -51305,8 +52415,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "2ec5accaabe769d871c378d94cf3b46b1e1222abde013f56a8492c0724808ea2",
-      "lines": 6691,
+      "sha256": "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b",
+      "lines": 6712,
       "overview": "",
       "symbols": [
         {
@@ -51436,27 +52546,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1395,
+          "line": 1401,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1402,
+          "line": 1408,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1420,
+          "line": 1426,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1565,
+          "line": 1571,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6679,
+          "line": 6700,
           "kind": "FunctionDef"
         }
       ]
@@ -53529,8 +54639,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "b3c40fb8d9a25ccc0178e008e6f875558ef996b52d86611bb6863069448dcb14",
-      "lines": 180,
+      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
+      "lines": 185,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -53540,32 +54650,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 60,
+          "line": 65,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 75,
+          "line": 80,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 89,
+          "line": 94,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 96,
+          "line": 101,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 111,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 168,
+          "line": 173,
           "kind": "FunctionDef"
         }
       ]
@@ -53741,6 +54851,26 @@
         {
           "name": "WindowsGPUCounters",
           "line": 31,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
+      "lines": 213,
+      "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
+      "symbols": [
+        {
+          "name": "show_workspace",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "WorkspacePanel",
+          "line": 24,
           "kind": "ClassDef"
         }
       ]
@@ -55878,13 +57008,13 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_selection.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "5ce615c2f47ac71fcf16f967188beb7f85e87b0a0a7b99071961f31c3e76693b",
-      "lines": 55,
-      "overview": "Last successfully selected chat survives sealing, independently of edit time.",
+      "sha256": "110cbc19185ad76f708928288f3708aaae1ea11a7b82236c704a431ba2385f59",
+      "lines": 35,
+      "overview": "Chat model selection coverage; saved-conversation selection has its own suite.",
       "symbols": [
         {
-          "name": "ChatSelectionTests",
-          "line": 10,
+          "name": "ModelSelectionTests",
+          "line": 9,
           "kind": "ClassDef"
         }
       ]
@@ -58948,8 +60078,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_small_model_chat.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "6da715769db8b77c33b8eb70464ed51714eabd47305a167259ff1cd3bd1f6895",
-      "lines": 36,
+      "sha256": "1ccad345789cf3ee663c9c939c2d8cc9dac4b80dbe15cf343ffd661756eaff9e",
+      "lines": 37,
       "overview": "",
       "symbols": [
         {
@@ -58985,6 +60115,21 @@
         {
           "name": "MasterSnapshotTests",
           "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_source_bloat.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "9cacf35ef59a07f6f4f51ae9d661a2a79c9a4687df9f95962352ba4cc35f1e05",
+      "lines": 21,
+      "overview": "An installed distribution's bundled applications are not original source.",
+      "symbols": [
+        {
+          "name": "SourceScope",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -59208,8 +60353,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tool_protocol_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "ec67c9ff03aa5376edcb68d291657e0a1ef86e5efe87e2649e7812b3a8134239",
-      "lines": 193,
+      "sha256": "f764741ab34f6721f416b4957c44be64716d22946efe3c19e1050ed13bd997ff",
+      "lines": 198,
       "overview": "Format-only inference repair; printed commands are never executed or replayed.",
       "symbols": [
         {
@@ -59765,6 +60910,76 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "012f326e64b44c4488618b4d702ced260fd8545ee0aa75db8c8d6a4b2210ef47",
+      "lines": 191,
+      "overview": "Meaningful recovery, protocol, document and workflow boundary regressions.",
+      "symbols": [
+        {
+          "name": "Embedder",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Fixture",
+          "line": 25,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "KnowledgeTests",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "WorkflowTests",
+          "line": 79,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FakeTransport",
+          "line": 118,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MCPTests",
+          "line": 131,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace_computer.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "4012e40e4a9c2af7673943e5d6865672ef0cb040fd41162544f4ce7c9d1a968c",
+      "lines": 66,
+      "overview": "Computer image lifetime and chat authorization; no real desktop inputs.",
+      "symbols": [
+        {
+          "name": "ComputerBoundaries",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace_profiles.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "51f5c9106e402a17495eb6ff0ede9160bbe749b8c89d1a90dbf45d8f4ca24fd5",
+      "lines": 49,
+      "overview": "Workspace data follows real encrypted lazy-profile and login boundaries.",
+      "symbols": [
+        {
+          "name": "ProfileTests",
+          "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_world_scene.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -59808,6 +61023,30 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_desktop_fixture.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "2461db8e077e9a46597278ae02cc6a559a75a2236ba2968b926c2f2d793b1ff3",
+      "lines": 18,
+      "overview": "A disposable owned window for actual mouse/key/window acceptance.",
+      "symbols": [
+        {
+          "name": "save",
+          "line": 7,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_mcp_fixture.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "f70d9f88c51498a471fbd1b290b53af814acfee583c6c3fa13f73a058fede59b",
+      "lines": 15,
+      "overview": "Synthetic stdio MCP server used by smoke_workspace; no production services.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/PortalAI.sh",
@@ -60869,6 +62108,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/audit_source_bloat.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "0868afbac3d04531d3bb4a32b395dd8103bdc70d111ea0662ad12972390991af",
+      "lines": 61,
+      "overview": "Read-only first-party source audit; never scans accounts or deletes assets.",
+      "symbols": [
+        {
+          "name": "source_files",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 29,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/audit_specialist_filters.py",
       "platform": "Windows",
       "component": "Tools",
@@ -61072,8 +62331,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/capability_registry.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "bb20d3b62f0f7c3e4dc6f9e847588473d7c7d67a717dceef97b26cc938f022e0",
-      "lines": 134,
+      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
+      "lines": 138,
       "overview": "",
       "symbols": [
         {
@@ -61103,7 +62362,7 @@
         },
         {
           "name": "main",
-          "line": 132,
+          "line": 136,
           "kind": "FunctionDef"
         }
       ]
@@ -62271,6 +63530,31 @@
         {
           "name": "main",
           "line": 179,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/install_workspace_runtime.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "bba1cdbc6ec5207a5abb2c771b18398fcc12056c6264683e0619c7d53e60b345",
+      "lines": 86,
+      "overview": "Install pinned Workspace assets with this SSD's Python, never host packages.",
+      "symbols": [
+        {
+          "name": "sha",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "remove_generated_launchers",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 42,
           "kind": "FunctionDef"
         }
       ]
@@ -63960,6 +65244,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_computer.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "33e19898bfa0286529943975368f34dde32d3bfd0cb91bddbe23955d80d294f5",
+      "lines": 67,
+      "overview": "Native Windows computer controller on its own disposable window only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 11,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_context_controls.py",
       "platform": "Windows",
       "component": "Tools",
@@ -64698,6 +65997,36 @@
         {
           "name": "main",
           "line": 17,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_workspace.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "7ffcf07e93b65ae9af7ac711d33b62c2bb7aec1f012835e550bd8646860e509a",
+      "lines": 120,
+      "overview": "Real portable embedding/OCR/MCP/UI acceptance using synthetic data only.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 19,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_workspace_vision.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "8dc02919f457efd61f7fd14908da872ef304ec9954b2f5e7179e4ebe6a833075",
+      "lines": 56,
+      "overview": "Actual local CPU vision on a synthetic Workspace screenshot; no desktop input.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 10,
           "kind": "FunctionDef"
         }
       ]

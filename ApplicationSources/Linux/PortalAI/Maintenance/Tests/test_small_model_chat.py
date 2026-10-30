@@ -20,7 +20,8 @@ class SmallModelChatTests(unittest.TestCase):
                                 _runtime_context_limit=lambda: 8192)
         prompt = native_chat.NativeChat.system_prompt(panel)
         self.assertIn("User's specific requirement", prompt)
-        self.assertIn("compact tool guide", prompt)
+        self.assertIn("Optional manual:", prompt)
+        self.assertIn("Use known tool syntax directly.", prompt)
         self.assertLess(len(prompt), 5000)
 
     def test_large_model_uses_compact_guide_unless_full_manual_requested(self):

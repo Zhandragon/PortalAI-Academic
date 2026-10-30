@@ -26,7 +26,7 @@ def call(identifier, command):
 
 def fixture():
     result = panel()
-    result.root = ROOT
+    # Keep panel()'s disposable root: a real installation may contain accounts.
     result.settings['tool_step_limit'] = 6
     result._last_context_meta = {'budget':8192}
     result.session['messages'][0]['content'] = 'Change the shirt color in the supplied photo.'
@@ -34,6 +34,11 @@ def fixture():
 
 
 class ToolTextRecoveryTests(unittest.TestCase):
+    def setUp(self):
+        # Commands are mocked; only prefix classification needs an interpreter.
+        runtime = patch('portable_runtime.bootstrap_python', return_value=sys.executable)
+        runtime.start(); self.addCleanup(runtime.stop)
+
     def test_exact_reported_xml_requires_fresh_api_call_not_extracted_command(self):
         p=fixture(); actual=call('fresh', 'fresh authorized fixture command')
         with patch.object(p,'stream_completion',side_effect=[(PRINTED,'',[]), ('','',[actual]), ('Done from result.','',[])]) as stream:

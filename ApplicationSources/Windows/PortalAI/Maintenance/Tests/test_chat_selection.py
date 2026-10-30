@@ -1,55 +1,35 @@
-"""Last successfully selected chat survives sealing, independently of edit time."""
-import json
-import unittest
-from unittest.mock import Mock, patch
-import test_lazy_chat_catalog as fixtures
-from native_chat import ChatStore, NativeChat
-from profile_paths import ProfileLocked
+"""Chat model selection coverage; saved-conversation selection has its own suite."""
+from pathlib import Path
+import sys,tempfile,unittest
+ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'Agent'))
+from chat_selection import choice_changes,tier_for_model
 
 
-class ChatSelectionTests(fixtures.LazyChatCatalogTests):
-    # Reuse fixture helpers, not the inherited suite.
-    def test_selected_older_chat_survives_reopen_without_loading_others(self):
-        chat,sessions=self.archive()
-        chat.remember_selection(sessions[0]['id'])
-        self.runtime.close(self.session,writers_stopped=True)
-        self.session=self.backend.login(fixtures.fixtures.OWNER);self.runtime.prepare(self.session)
-        chat=ChatStore(self.root)
-        self.assertEqual(chat.selected_session(),sessions[0]['id'])
-        self.assertEqual(list(chat.sessions.glob('*.json')),[])
-        panel=object.__new__(NativeChat);panel.store=chat;panel.session=None
-        panel.session_list=Mock();panel._memory_session_label=lambda row:row['title']
-        panel.load_session=lambda sid,**kw:chat.load_session(sid)
-        panel.refresh_sessions(select_latest=True)
-        self.assertEqual([p.stem for p in chat.sessions.glob('*.json')],[sessions[0]['id']])
-        self.assertEqual(list(chat.attachments.rglob('*.*')),[])
+class ModelSelectionTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
+        self.models=[{'id':'qwen1.7-q8','path':'fast.gguf','variant':'standard'},
+                     {'id':'qwen4-q4','path':'balanced.gguf','variant':'standard'},
+                     {'id':'qwen27-standard-q4','path':'deep.gguf','projector':'vision.gguf','variant':'standard'}]
+        for name in ('fast.gguf','balanced.gguf','deep.gguf','vision.gguf'):(self.root/name).write_bytes(b'synthetic model marker')
+        self.policy={'selection':'qwen4-q4','variant_preference':'standard','models':self.models}
+    def test_explicit_size_selects_matching_installed_model(self):
+        self.assertEqual(choice_changes(self.root,self.policy,level='fast')['selection'],'qwen1.7-q8')
+        self.assertEqual(choice_changes(self.root,self.policy,level='balanced')['selection'],'qwen4-q4')
+    def test_missing_projector_refuses_vision_selection(self):
+        (self.root/'vision.gguf').unlink()
+        with self.assertRaises(ValueError):choice_changes(self.root,self.policy,level='deep')
+    def test_missing_weight_does_not_silently_change_size(self):
+        (self.root/'fast.gguf').unlink()
+        with self.assertRaises(ValueError):choice_changes(self.root,self.policy,level='fast')
+    def test_unknown_selection_and_tier_refused(self):
+        with self.assertRaises(ValueError):choice_changes(self.root,self.policy,selection='unconfigured')
+        with self.assertRaises(ValueError):choice_changes(self.root,self.policy,level='unknown')
+    def test_auto_selection_preserves_explicit_standard_preference(self):
+        self.assertEqual(choice_changes(self.root,self.policy,selection='auto'),{'selection':'auto','variant_preference':'standard'})
+    def test_known_tiers_are_stable(self):
+        self.assertEqual(tier_for_model('qwen4-q4'),'balanced');self.assertEqual(tier_for_model('qwen27-standard-q4'),'deep');self.assertIsNone(tier_for_model('missing'))
 
-    def test_deleted_selection_falls_back_to_latest(self):
-        chat,sessions=self.archive();chat.remember_selection(sessions[0]['id']);chat.delete_session(sessions[0]['id'])
-        panel=object.__new__(NativeChat);panel.store=chat;panel.session=None
-        panel.session_list=Mock();panel._memory_session_label=lambda row:row['title'];panel.load_session=Mock()
-        panel.refresh_sessions(select_latest=True)
-        panel.load_session.assert_called_once_with(sessions[-1]['id'],synchronous=True)
-
-    def test_identical_selection_does_not_rewrite(self):
-        chat,sessions=self.archive();chat.remember_selection(sessions[0]['id'])
-        with patch('native_chat.write_json',side_effect=AssertionError('Unnecessary write')):
-            chat.remember_selection(sessions[0]['id'])
-
-    def test_invalid_selection_is_ignored_without_hydration(self):
-        chat,sessions=self.archive()
-        for content in ['not json',json.dumps({'version':1,'session_id':'../escape'}),'x'*1025]:
-            (chat.base/'selection.json').write_text(content)
-            self.assertIsNone(chat.selected_session())
-        self.assertEqual(list(chat.sessions.glob('*.json')),[])
-
-    def test_ended_login_cannot_change_selected_chat(self):
-        chat,sessions=self.archive();self.runtime.close(self.session,writers_stopped=True)
-        with self.assertRaises(ProfileLocked):chat.remember_selection(sessions[0]['id'])
-
-# Do not rerun every fixture test under a second class name.
-for _name in tuple(dir(fixtures.LazyChatCatalogTests)):
-    if _name.startswith('test_') and _name not in ChatSelectionTests.__dict__:
-        setattr(ChatSelectionTests,_name,None)
 
 if __name__=='__main__':unittest.main()

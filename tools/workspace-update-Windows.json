@@ -1,0 +1,5779 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.10.29-Desktop-r51",
+  "edition": "Academic",
+  "platform": "Windows",
+  "patch": "workspace-20261029",
+  "files": [
+    {
+      "path": "Agent/desktop_control.py",
+      "bytes": 13643,
+      "sha256": "318122566075b14bb3b81b91ca0e75db7e6094804f1a43e6ab2901c703ead683",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/knowledge_base.py",
+      "bytes": 12074,
+      "sha256": "2feb7d09d4560bcfbff2dc20a863882eb949612bda3dcfc0f7ea747868eafc94",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/knowledge_embeddings.py",
+      "bytes": 4314,
+      "sha256": "ec2098f16a223867d89c4bd13601130fb4e9067b8f5989120f5e6cf0f8808e3c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/knowledge_extract.py",
+      "bytes": 6572,
+      "sha256": "6e7cea5361af2fdaf761e6b98738bd72d57b828b764958a62505173787519511",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/mcp_client.py",
+      "bytes": 18500,
+      "sha256": "a24f308333926d895b84d17bf56232f4f7360f1e139e3b001d1e037402f21659",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/mcp_launch.py",
+      "bytes": 1303,
+      "sha256": "6dc9b70c0a88d4f11012625139e9ac696033eefbf616a353e04036cd8f97c571",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/profile_lazy_state.py",
+      "bytes": 10268,
+      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
+      "expected_before": [
+        "b4057309819a165085f8c177ba965966192fcddae461b95077d8b42786c1792e"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/workflows.py",
+      "bytes": 9715,
+      "sha256": "1198d7fd310092d8b661576902246837bc42d0c993ab53da87276209838f5f23",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/workspace_assets.json",
+      "bytes": 46884,
+      "sha256": "4fce702b569952374e45c24156cb411a5aa972df7dc228d88882a38b06273a01",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/workspace_store.py",
+      "bytes": 3013,
+      "sha256": "6591ad059f05a53e5c4c3b223a86a5266749e7e0aba3da4cff19add8235b279e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/PortableAI_GUI.py",
+      "bytes": 234555,
+      "sha256": "5cde2437940851a7755d3a1db34e90811c17718ec98ecc66d8a4a6ee78c34210",
+      "expected_before": [
+        "e57836e66ab746010f3765da540f253baed466a164c8c1a47314e13264cf7536"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/capability_tools.py",
+      "bytes": 9693,
+      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "expected_before": [
+        "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 367335,
+      "sha256": "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b",
+      "expected_before": [
+        "2ec5accaabe769d871c378d94cf3b46b1e1222abde013f56a8492c0724808ea2"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 99,
+      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "expected_before": [
+        "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/tool_protocol.py",
+      "bytes": 8540,
+      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
+      "expected_before": [
+        "b3c40fb8d9a25ccc0178e008e6f875558ef996b52d86611bb6863069448dcb14"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/workspace_panel.py",
+      "bytes": 13879,
+      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/Bloat_Audit_20261029.txt",
+      "bytes": 6974,
+      "sha256": "a676b4ee5c60c8ebfead0b1f3c7a3be30ab117ab73489390d617f38796be7c22",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/Workspace.txt",
+      "bytes": 16696,
+      "sha256": "e9dc7fcdd6cf10301ec7bcf19f2e5a65871b7819e349cb8ad4f8f01f43474423",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_selection.py",
+      "bytes": 2366,
+      "sha256": "110cbc19185ad76f708928288f3708aaae1ea11a7b82236c704a431ba2385f59",
+      "expected_before": [
+        "5ce615c2f47ac71fcf16f967188beb7f85e87b0a0a7b99071961f31c3e76693b"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_small_model_chat.py",
+      "bytes": 1702,
+      "sha256": "1ccad345789cf3ee663c9c939c2d8cc9dac4b80dbe15cf343ffd661756eaff9e",
+      "expected_before": [
+        "6da715769db8b77c33b8eb70464ed51714eabd47305a167259ff1cd3bd1f6895"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_source_bloat.py",
+      "bytes": 1008,
+      "sha256": "9cacf35ef59a07f6f4f51ae9d661a2a79c9a4687df9f95962352ba4cc35f1e05",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_tool_protocol_recovery.py",
+      "bytes": 11999,
+      "sha256": "f764741ab34f6721f416b4957c44be64716d22946efe3c19e1050ed13bd997ff",
+      "expected_before": [
+        "ec67c9ff03aa5376edcb68d291657e0a1ef86e5efe87e2649e7812b3a8134239"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_workspace.py",
+      "bytes": 13996,
+      "sha256": "012f326e64b44c4488618b4d702ced260fd8545ee0aa75db8c8d6a4b2210ef47",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_workspace_computer.py",
+      "bytes": 3929,
+      "sha256": "4012e40e4a9c2af7673943e5d6865672ef0cb040fd41162544f4ce7c9d1a968c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_workspace_profiles.py",
+      "bytes": 3084,
+      "sha256": "51f5c9106e402a17495eb6ff0ede9160bbe749b8c89d1a90dbf45d8f4ca24fd5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/workspace_desktop_fixture.py",
+      "bytes": 1244,
+      "sha256": "2461db8e077e9a46597278ae02cc6a559a75a2236ba2968b926c2f2d793b1ff3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/workspace_mcp_fixture.py",
+      "bytes": 881,
+      "sha256": "f70d9f88c51498a471fbd1b290b53af814acfee583c6c3fa13f73a058fede59b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/audit_source_bloat.py",
+      "bytes": 3785,
+      "sha256": "0868afbac3d04531d3bb4a32b395dd8103bdc70d111ea0662ad12972390991af",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/capability_registry.py",
+      "bytes": 15590,
+      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
+      "expected_before": [
+        "bb20d3b62f0f7c3e4dc6f9e847588473d7c7d67a717dceef97b26cc938f022e0"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/install_workspace_runtime.py",
+      "bytes": 5083,
+      "sha256": "bba1cdbc6ec5207a5abb2c771b18398fcc12056c6264683e0619c7d53e60b345",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/smoke_computer.py",
+      "bytes": 4527,
+      "sha256": "33e19898bfa0286529943975368f34dde32d3bfd0cb91bddbe23955d80d294f5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/smoke_workspace.py",
+      "bytes": 8401,
+      "sha256": "7ffcf07e93b65ae9af7ac711d33b62c2bb7aec1f012835e550bd8646860e509a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/smoke_workspace_vision.py",
+      "bytes": 4382,
+      "sha256": "8dc02919f457efd61f7fd14908da872ef304ec9954b2f5e7179e4ebe6a833075",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/model/manifest.json",
+      "bytes": 341,
+      "sha256": "26bb2b2d211e0f589e4be37529bcbaf3ee6cef4cbb55bc4efe0917477f2e60d2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/model/MODEL-CARD.md",
+      "bytes": 10502,
+      "sha256": "dcd602d2fd35c203a247304a06fec6654a12f7941b739f9221a064fe8dc3b7f0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/model/model.onnx",
+      "bytes": 23046789,
+      "sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/model/vocab.txt",
+      "bytes": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/_yaml/__init__.py",
+      "bytes": 1402,
+      "sha256": "d3801eff9a2cc5a8692476b75c165401fe308ba5d7df6811f03e97ea9eb81840",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/__init__.py",
+      "bytes": 2057,
+      "sha256": "7ce608bedd5e192a90adee2e092dec256299d26c00b82f140faa9b6b9392f7f5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/__init__.pyi",
+      "bytes": 11325,
+      "sha256": "a55188980515a2fab6fd3625febfc72189c697239aa02b84871a3e12fb279d27",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_cmp.py",
+      "bytes": 4117,
+      "sha256": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_cmp.pyi",
+      "bytes": 368,
+      "sha256": "53efd153f5193b23d4110cd713a44c61041c8e4651636e704c7f7db0dd2cecc3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_compat.py",
+      "bytes": 2829,
+      "sha256": "c7483b88450e9c15490bbdb3c850a06f578aab2c52fbb7f62c69cdc99febf79b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_config.py",
+      "bytes": 843,
+      "sha256": "746ab7c51e9f819105e9406dfcbd13f9e507201e22e37911987d0fdbcb09570f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_funcs.py",
+      "bytes": 16479,
+      "sha256": "231e481134dfcf9174d45fb5d8c17f0921689889f687c6faec4555cf6802b411",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_make.py",
+      "bytes": 106129,
+      "sha256": "1fb387d9e592e429c1ccb5233451355b299f3eb985d6bf1fbf644f76df4cb980",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_next_gen.py",
+      "bytes": 26274,
+      "sha256": "050b42525cf08368161d3617050beb118067cc152b0ef3b9eeed0fcba5023e17",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_typing_compat.pyi",
+      "bytes": 469,
+      "sha256": "5c33f9e13527f992a10fad9339079b9b3af0172a268540a8191a5c95be9a9510",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_version_info.py",
+      "bytes": 2222,
+      "sha256": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/_version_info.pyi",
+      "bytes": 209,
+      "sha256": "c7f3372f75ae07baff50b5c05a3c7de7db9d290e072c1f25fa1b1cd450c636f9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/converters.py",
+      "bytes": 3861,
+      "sha256": "1a50de3b33de4c581e0412db8fd1b9ec4cf994093af2e85200b45827f7b17bce",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/converters.pyi",
+      "bytes": 643,
+      "sha256": "a2b5366df7fe56341ada4303caf9cc415ef7a094f6591c90bb0e19475ca6d5b1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/exceptions.py",
+      "bytes": 1990,
+      "sha256": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/exceptions.pyi",
+      "bytes": 539,
+      "sha256": "cd9abc6c2527280cbd983b41130e366613e1014207a1329e7434089c90fcf373",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/filters.py",
+      "bytes": 1795,
+      "sha256": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/filters.pyi",
+      "bytes": 208,
+      "sha256": "dc9e411be753c65b41935ffe46e351507aefdaabb5bfcbf868334043bfe689f0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/setters.py",
+      "bytes": 1617,
+      "sha256": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/setters.pyi",
+      "bytes": 584,
+      "sha256": "367564685535041e0907c13826e5f2af34d482fb4ca63f29df005d258eee8b1e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/validators.py",
+      "bytes": 21553,
+      "sha256": "9b7411cd94c036be1fd82e1e55d528160d753605d66a4f166ade2a4131a1bdcb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attr/validators.pyi",
+      "bytes": 4087,
+      "sha256": "80cd59987681724c98588d848aba51373aa6dc1d7d730e48aba0782a7a3d6023",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/__init__.py",
+      "bytes": 1183,
+      "sha256": "47168064dc1888487e7dcbc72d936943f0d62a78bbdccfe3c443c47ed8aad597",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/__init__.pyi",
+      "bytes": 9416,
+      "sha256": "da057bf60f54c49a69192338f2101927a87f3076fbd1d66824bdf564d25e6582",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/converters.py",
+      "bytes": 76,
+      "sha256": "f244258eb5707d24d1bbc20dc0493c488d1e1abce659fb6c4fbaccd04ab2a213",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/exceptions.py",
+      "bytes": 76,
+      "sha256": "0020829a0d7dfaf0c56833d8f6f165d7df523d709030dfdb10db380c02e3ce6b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/filters.py",
+      "bytes": 73,
+      "sha256": "54e50c66e83db8453a754b80d1d1758c89d42b43cbddf2e03f45414b977e0831",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/setters.py",
+      "bytes": 73,
+      "sha256": "78bd5889d6105774f687dfd2608652651d4501c1c66f54ee093cb41342efd925",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs/validators.py",
+      "bytes": 76,
+      "sha256": "c5ccbac03e53b5391d086d5fe1759ba1c3d23b47da06393921f5497cfe92523d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/direct_url.json",
+      "bytes": 302,
+      "sha256": "c27cf01067cd568d2df26723e01db34cdcf7ee19a1e93819c44606b09d7eb991",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/licenses/LICENSE",
+      "bytes": 1109,
+      "sha256": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/METADATA",
+      "bytes": 8754,
+      "sha256": "4cd40e690f23bf37cbcad34efd6758e062df1df07c86833f7e3ce95bf1fa38cc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/RECORD",
+      "bytes": 2874,
+      "sha256": "46e9a419184fe206cec95144aea624d8b07b1e85f0024c429129cb05e4a28792",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/attrs-26.1.0.dist-info/WHEEL",
+      "bytes": 87,
+      "sha256": "41c708c5adba6e097513ab8ccb9f1d7865a2fb469e22491a9e01dcc64da459fc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/__init__.py",
+      "bytes": 6793,
+      "sha256": "957a91bfd98ffb07a10cd789b7c5c46806568476b61e34c7ad56a00092b981a5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/__init__.pyi",
+      "bytes": 321536,
+      "sha256": "25862e49571f9157ef3176106b45d89b125c7d28bb4e58e8bc34973d56495ce8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/aruco/__init__.pyi",
+      "bytes": 16286,
+      "sha256": "c9e9cc0c26756f1319e8c1bbd6dc7d6bd2f24c90f92c091f8501f439e62947b4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/barcode/__init__.pyi",
+      "bytes": 1529,
+      "sha256": "d0933cbda35e515e795316ab279ea347cec798f883f70b9a5d1ca70a6d1a4e5d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/config-3.py",
+      "bytes": 748,
+      "sha256": "de28c7b5213cca148f09469916584611b3d66c1c8c432880259d6a3a92380213",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/config.py",
+      "bytes": 123,
+      "sha256": "6c6367abce55995ae4a8d3c199420ec53afab287cb17dfc2f430378af75dd301",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/cuda/__init__.pyi",
+      "bytes": 16718,
+      "sha256": "99e446beb5449b1f759efed52fe5fdc519dca3bc0c28adfdcc466981b65ce467",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/cv2.pyd",
+      "bytes": 74492416,
+      "sha256": "90034927004e4a4ebf29360480d609c8a8d2ca07c93f8b89dff86399e8534b2a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/__init__.py",
+      "bytes": 73,
+      "sha256": "f4ce16721ed7f623a4dcc443ba600d1856db610cb2c3d53c13a8ca028cc68f6d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_eye.xml",
+      "bytes": 341406,
+      "sha256": "71cc64fc305a355dc60067880f6fbbd43dd155bd63ee3844661a1bda34b2fd8c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml",
+      "bytes": 601661,
+      "sha256": "e32f9c67935c33e9d1331eb14fa58554ff17835c03742663bcb97a892e936a57",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalcatface.xml",
+      "bytes": 411388,
+      "sha256": "ac2bac934ef24284ef8a2b2e9d8e57eef84ac1d6943b4d11e5c9e8584dc069c8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalcatface_extended.xml",
+      "bytes": 382918,
+      "sha256": "ffd0d1d28f07d0376c89db4c9845009c2855cc76c8cff763d5331dc9361da854",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalface_alt.xml",
+      "bytes": 676709,
+      "sha256": "6281df13459cc218ff047d02b2ae3859b12ff14a93ffe8952f7b33fad7b9697b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalface_alt2.xml",
+      "bytes": 540616,
+      "sha256": "7b0c967d9abbdfbde025eb9c786947d151b6426040d07a8f9562ed8fd90724b4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalface_alt_tree.xml",
+      "bytes": 2689040,
+      "sha256": "0e5ee47ecc13269d54dd7a55f8b53752167c52587720877732388fb078a0480a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_frontalface_default.xml",
+      "bytes": 930127,
+      "sha256": "0f7d4527844eb514d4a4948e822da90fbb16a34a0bbbbc6adc6498747a5aafb0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_fullbody.xml",
+      "bytes": 476827,
+      "sha256": "041745c71eef1b5c86aef224f17ce75b042d33314cc8f6757424f8bd8cd30aa1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_lefteye_2splits.xml",
+      "bytes": 195369,
+      "sha256": "74c323c78c81475fc9158facbfb866bb0cca06be41f571df47d4ac8d01f9ce4c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_license_plate_rus_16stages.xml",
+      "bytes": 47775,
+      "sha256": "4d1c44bf7a1bc4e204fa25b046ed0acffd7f713cc13fe2958b6977125c60ddea",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_lowerbody.xml",
+      "bytes": 395322,
+      "sha256": "1e696e1c7c66c439ae229cfff8871f42037c357e9e1e090a2b59ebc1f8ff5cbb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_profileface.xml",
+      "bytes": 828514,
+      "sha256": "b39a4a3be45539db146a7fc1d3e761a292c196eb88421185e6a615b3055e612d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_righteye_2splits.xml",
+      "bytes": 196170,
+      "sha256": "4cf0d72bea7307e9af7eb99d4acbe15d7101a67c22fcdcfbeefd692ad37cf776",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_russian_plate_number.xml",
+      "bytes": 75482,
+      "sha256": "814cb5954682af570e58361f9e5f8b5b513a4112776bb9ecacef9f0e4ca6c2d7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_smile.xml",
+      "bytes": 188506,
+      "sha256": "4ca1f304eabd0b5ae30180c81acb53e166a5867e5be17b316bd3f32cfdf87d8a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/data/haarcascade_upperbody.xml",
+      "bytes": 785819,
+      "sha256": "7328ab4fdb1592f53d98d7ea5b1b9d90e01af5d95f212af378c7eb579048bb5f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/detail/__init__.pyi",
+      "bytes": 22974,
+      "sha256": "e5800df1153cf1b162d0035abe89d09c4786a506a84785d6cab028f02dc016e0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/dnn/__init__.pyi",
+      "bytes": 24694,
+      "sha256": "6596eb7f9768469b348ce7913048ee5a160b57ede9af1ce15ab1396ed17fb435",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/Error/__init__.pyi",
+      "bytes": 4194,
+      "sha256": "bd035f0064888b41ecfe43bd285577cd9bfddb4284043719a5d3859e69199038",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/fisheye/__init__.pyi",
+      "bytes": 10033,
+      "sha256": "11a48fa4ceda8db56dc036c62db0756498bca3ff7f01db19ea3b045427798b22",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/flann/__init__.pyi",
+      "bytes": 2809,
+      "sha256": "274dc05cfac2e1c5eb15cf3383663c16380a41e074ed31d0dd679f3f478f68ce",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/__init__.py",
+      "bytes": 10621,
+      "sha256": "74f5fd2a142a31b0a4707b70c0be3637f0fbf8a940eec4372e7ba87e5a5cedb8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/__init__.pyi",
+      "bytes": 14985,
+      "sha256": "c58985a00ad687daffcb11826e7ec737307b09debcd05084e5d8ed60aa1e9d43",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/core/__init__.pyi",
+      "bytes": 149,
+      "sha256": "c29b714618bc41309556dbdb1b111f11f5b6f9bcf126705fac03240649285a24",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/core/cpu/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/core/fluid/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/core/ocl/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/ie/__init__.pyi",
+      "bytes": 1168,
+      "sha256": "7cd8f5af4c119c3fff217f64c4e9a89c83cad2bae3a12b155e5f63546f1868a0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/ie/detail/__init__.pyi",
+      "bytes": 281,
+      "sha256": "7882ba823b9e30df19c106b1e4ac75e9be3a123719199def153909be5b70d84f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/imgproc/__init__.pyi",
+      "bytes": 76,
+      "sha256": "cc4045c040ff3dbe22f80ef4580eda7cb8c35024f6e6195d70bab221feda2257",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/imgproc/fluid/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/oak/__init__.pyi",
+      "bytes": 1771,
+      "sha256": "29439333e01aa4ed0bd6d0b85c5de021847cb668e6ac57e1d51a348cfcce07b8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/onnx/__init__.pyi",
+      "bytes": 1552,
+      "sha256": "1bbd598afdbb5b8d1735e8b405f43f7b72eeb442837cd05851956f06738f2444",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/onnx/ep/__init__.pyi",
+      "bytes": 1420,
+      "sha256": "907dcb7868e371d0d760e9810094f2b8317c5293cb9f94507e6b64e830eddd01",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/ot/__init__.pyi",
+      "bytes": 752,
+      "sha256": "76ceabd5111ef97a649615b60a9e03df075451e877d921bb9671410ff57bfde7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/ot/cpu/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/ov/__init__.pyi",
+      "bytes": 2721,
+      "sha256": "6063652e290dcd736fa534a6c829a84fad61755f87300cf3d2187242da02f381",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/own/__init__.pyi",
+      "bytes": 74,
+      "sha256": "521862090cd3d08f544899cf62e9e26704be8e9673f51fd9a15736a385cb01cf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/own/detail/__init__.pyi",
+      "bytes": 150,
+      "sha256": "0c57f853b227c52a5a637cecad0b01c5bc62ad4fca451056c6a6589e10547aa0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/render/__init__.pyi",
+      "bytes": 71,
+      "sha256": "b46cf8ce048afc91cb7d15f27457ceeff43e85a943193633658136554f6d4ac7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/render/ocv/__init__.pyi",
+      "bytes": 102,
+      "sha256": "4e3427bacd8785129b664b26456c7c0a3119a8ba17b8a5c82c1177be2c69fd72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/streaming/__init__.pyi",
+      "bytes": 855,
+      "sha256": "b5363d50ef3f388a6878cc0a33ed8826eeac870639250d10b03fac32f584f1eb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/video/__init__.pyi",
+      "bytes": 160,
+      "sha256": "6f20461a7969704a60f54be48aea20b36f739fb12db6eedae780d0e6c4db5f18",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/wip/__init__.pyi",
+      "bytes": 1188,
+      "sha256": "6ab81960894334c48d9c657a087c62ab80a1e5f3a723fd5c8df1d2c9d0e11c3e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/wip/draw/__init__.pyi",
+      "bytes": 3281,
+      "sha256": "c2bf9a384e1c3e0dfe0e10125b555277d5bc273f6073273bc13535f254f369d0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/wip/gst/__init__.pyi",
+      "bytes": 484,
+      "sha256": "c67106b8335c7885fa4d5de0c2da1affc32e7e137c2b723fc25f0d962eb41ef4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/gapi/wip/onevpl/__init__.pyi",
+      "bytes": 413,
+      "sha256": "ea916b9ab1a38eacb5e9459f3f98ec0acfe97055cce0892b992fc81c9fcbc84d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/instr/__init__.pyi",
+      "bytes": 461,
+      "sha256": "0f3bd641c3aa6a69eb96ef5af3797f9b8e8c6f630005169e888020a02014813b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/ipp/__init__.pyi",
+      "bytes": 237,
+      "sha256": "9ee338e8b811340573c33fcdd7b7a42b333e516622325e9fd16bcc4fa63044ea",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/LICENSE-3RD-PARTY.txt",
+      "bytes": 181410,
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/LICENSE.txt",
+      "bytes": 1090,
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/load_config_py2.py",
+      "bytes": 157,
+      "sha256": "7b4cdd4d8c2054c883d7a45a7c15abecf468bf9afc20391f1ece69e9d18b4897",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/load_config_py3.py",
+      "bytes": 253,
+      "sha256": "074dfaf20ac94f2ca3815393de3a394944470334c51a85b9521f452e0e17bb85",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/mat_wrapper/__init__.py",
+      "bytes": 1164,
+      "sha256": "c44707ea1c76f35518ae572b6c1989d76c2ada7e850432e41805dfe112d4e306",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/misc/__init__.py",
+      "bytes": 38,
+      "sha256": "495bd79594cce174673e372c85c4dd8f4ffdf2b3a73fd4623955b0d55de0d462",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/misc/version.py",
+      "bytes": 95,
+      "sha256": "c93a418793fcb15b9b4316c0741b8336740e490e94f3b7d1ebe8cd5f6f23815c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/ml/__init__.pyi",
+      "bytes": 23699,
+      "sha256": "63e0d3154cf1e03013fed2f6feac6218a80573ef8d0fdb0e290f7bfaa939f647",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/ocl/__init__.pyi",
+      "bytes": 5779,
+      "sha256": "db5c5b6acbb9e81acb3eeaa47de20055ed60096072ce0e278012f929ce044e70",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/ogl/__init__.pyi",
+      "bytes": 1523,
+      "sha256": "04cd2096945fb3533a6c31624c774749a50501a453a33909371357bc192f729b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/opencv_videoio_ffmpeg4130_64.dll",
+      "bytes": 28578304,
+      "sha256": "fcc614672159094a35815b7ea2819a648cbf86c30d90c57e8c6ba1432f594548",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/parallel/__init__.pyi",
+      "bytes": 135,
+      "sha256": "3f20a1904cd896b1ebe54b2041e87d161f04e375e3511734b98f08b772072777",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/samples/__init__.pyi",
+      "bytes": 336,
+      "sha256": "1e7ad25bafdd80bf6c624c82676ab1d92a0b36b034e68688e2d0924b88b64ce4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/segmentation/__init__.pyi",
+      "bytes": 1778,
+      "sha256": "96f6651e4a7be4a0a28ed90d66edc790e987f7fa4de9e9b3159d1ee36d5b2762",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/typing/__init__.py",
+      "bytes": 5545,
+      "sha256": "93e85c151a97226003ff9df8bb92801b0d07cda86e3c048a5df4e6b09b77ba94",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/utils/__init__.py",
+      "bytes": 344,
+      "sha256": "2b16990b35b569af1ca7239dc10f7b24ec62f27a46626b1e2f1271d2e1aa3554",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/utils/__init__.pyi",
+      "bytes": 3743,
+      "sha256": "9fdad43d4e3026b6b890227fabbddcec03d087ca2f98465c0aeabb4a8c3f550d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/utils/fs/__init__.pyi",
+      "bytes": 93,
+      "sha256": "04fc0beb9e3adfa90fe24f7953840fa7ba0c65c809d900c862b6fd17c87873b2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/utils/logging/__init__.pyi",
+      "bytes": 527,
+      "sha256": "051135c7ebc8ea9dd01fc5fe0244eeae47273b8ef2a4a86af15b211b423be3a2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/utils/nested/__init__.pyi",
+      "bytes": 604,
+      "sha256": "bb7a2ca9079e927758f7ffb1c4ad4f003e3875765a18b621c9f78561b5789e90",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/version.py",
+      "bytes": 96,
+      "sha256": "29dba880ba5dd0586f885cfa8d74da71dc8b808d95282c37367a2b1380b63dac",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/cv2/videoio_registry/__init__.pyi",
+      "bytes": 993,
+      "sha256": "fd9647d8549824db8e5a00d22d34df50c932727618cd766e7e3ca0f479a540dc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/__init__.py",
+      "bytes": 3941,
+      "sha256": "a7e470e134bfd0e3c76482722260d6b1d5a099de823d61cc5cbabb06e4314c67",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/__main__.py",
+      "bytes": 115,
+      "sha256": "88bb197f6ba9501de294129394c9f22be1c7b760a79df930c318bf73a80bbd20",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_format.py",
+      "bytes": 15568,
+      "sha256": "96bb3553b892076657f59d846a5b113987909b577d91e7f0d822e8d3c1bc3f8b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_keywords.py",
+      "bytes": 14949,
+      "sha256": "afcfc3aea01f9fa40bc109e65c4820bde89253e51a20bda9da7b8f20d7a57c57",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_legacy_keywords.py",
+      "bytes": 15191,
+      "sha256": "dad5aec113d66d84bb10097cc01202feb69b1aebf527875f60ba8d10fa528610",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_types.py",
+      "bytes": 5456,
+      "sha256": "7ff9e44c36eb8dadc4ddfb083530bbdf2fe03174d4db5d08fc7eea2b434ddf47",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_typing.py",
+      "bytes": 617,
+      "sha256": "a572e71b2de336d2144ead37ee451fab4c1ed7bd3ce5e1ed2700c9dadfbe9901",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/_utils.py",
+      "bytes": 10659,
+      "sha256": "5efebfc0a2ac941265c328fdfa3d9cf090c5c3ee33e1a5859d57b6a57f21ed4e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/__init__.py",
+      "bytes": 70,
+      "sha256": "034b10af10c15474b243ef2bbb72f5d613177f7abd815b81f71fd88076f847d3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/const_vs_enum.py",
+      "bytes": 830,
+      "sha256": "0d5162dd60ea05a95914e89b9e3a57d6e4d2af74716b670f805728c1ded492bb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/contains.py",
+      "bytes": 786,
+      "sha256": "81ec50a14ac23b0102a1f6edd7d05ea2c419ed614be8f0dd917e3d0d6c0194e8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/import_benchmark.py",
+      "bytes": 779,
+      "sha256": "d834483954baa7e6ea2e7ffcdb607f5f9164211bec2765750989d5d9daeecc3b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/issue232/issue.json",
+      "bytes": 117105,
+      "sha256": "79a3ce663311bb9bbc4692abb00f6e93bb9c3d94b9b64286e03fe190e4d0dc79",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/issue232.py",
+      "bytes": 521,
+      "sha256": "dcb2d82c89411909d5bb2ca8da202ffb1932e4fe8f4451c0371e3ecc82103a81",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/json_schema_test_suite.py",
+      "bytes": 320,
+      "sha256": "3ef7da6e9518705e3fedcb180d37136ae103f2b9c510661b758e51a935c3d3cb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/nested_schemas.py",
+      "bytes": 1892,
+      "sha256": "9a8d3b771f82220992388eb608db38839c6ed45cc79252c1a644280f159870ab",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/subcomponents.py",
+      "bytes": 1113,
+      "sha256": "7c4ca2333b1678ada977b0c4182bae63ebf31ae9f08477334415849c144b288a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/unused_registry.py",
+      "bytes": 940,
+      "sha256": "87047038d73d71e7cfb58ce4a17fd36113b71b25288eb8afd3e61068adef9e3d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/useless_applicator_schemas.py",
+      "bytes": 3342,
+      "sha256": "1159b9f84b4e105a0b3ff56dda3e12ac2c25c74e4d84fa8db9943a2c830fd437",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/useless_keywords.py",
+      "bytes": 867,
+      "sha256": "6e3ff32abd6855cb4596ac9968e6c2b184e01638a23603f30b486bd58f3af261",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/benchmarks/validator_creation.py",
+      "bytes": 285,
+      "sha256": "52451094b027bacb27aff29d08875a77ac71da95f140b998b6c5e88a2aca7964",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/cli.py",
+      "bytes": 8445,
+      "sha256": "6aff743ada52c6e8a4a37140c841edc6923e352b97dd632da10a48c74f686c96",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/exceptions.py",
+      "bytes": 15256,
+      "sha256": "6f8da150339f3c5729ac8e1994da630de2cabfc93dbce86059cb768f20e5c739",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/protocols.py",
+      "bytes": 7198,
+      "sha256": "960cabc951ea1628d2151033f79721dd5376173fa84c5ca18fd39b732e4ffc22",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/_suite.py",
+      "bytes": 8374,
+      "sha256": "da4d17f7537b74e1e141ce66ad8bf8d0e29fd707a2a23e91301a9680b4faf8f2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/fuzz_validate.py",
+      "bytes": 1114,
+      "sha256": "7d403bc932488a1682c09a659147a165ec81f381dc5c472ab58e683c95c83bb2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_cli.py",
+      "bytes": 28544,
+      "sha256": "03cf6be4b387cbea5e2cf640e580e439a3135aacd03bfc364eef16173fefa613",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_deprecations.py",
+      "bytes": 15754,
+      "sha256": "c86ea6911247a531db5a8c692c2e72e47edf93c7ab18eb3c7fff55e2d081121f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_exceptions.py",
+      "bytes": 24301,
+      "sha256": "aec12a763927533ddd13225bebf0e232874f1d7b094c45b30ebc54b1c83c1b9a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_format.py",
+      "bytes": 3188,
+      "sha256": "7959b948c69617694e3cedbc6cf03036f92242f1c240acbe327b808047217c47",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_jsonschema_test_suite.py",
+      "bytes": 8461,
+      "sha256": "b407f192733ae4e47d2f20cf1eed699046a899b2e08d12e727a14f8963ddc638",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_types.py",
+      "bytes": 6977,
+      "sha256": "705e752930e676cc74e8cac87387d72add17f5f22c560c39ba14fc09a9956bc5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_utils.py",
+      "bytes": 4163,
+      "sha256": "b1aa3be28d4fc9833105fab07a8910378f021524baca1264e459027cc2793ec2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/test_validators.py",
+      "bytes": 87949,
+      "sha256": "bb397e6a0c8ba193d3b9fa2e2074b114f7cf62b7487633708c7703ff93725381",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/typing/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/tests/typing/test_all_concrete_validators_match_protocol.py",
+      "bytes": 1238,
+      "sha256": "2395d4979658512668dc03e4175d25f0c9df934f685caaaf5d6b6d186777b039",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema/validators.py",
+      "bytes": 47159,
+      "sha256": "97f171b995b4b0ca05530a9366a1252fb1753f99f3cb7b1068b6d9aab1096fa5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/direct_url.json",
+      "bytes": 307,
+      "sha256": "5c74dbbed11d7e584b7464392b14be54a855842099542ad58d516fe7f7805953",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/entry_points.txt",
+      "bytes": 51,
+      "sha256": "bceeeb5f816cff1215272da99c0b4a8134b17e99e8cc0550d038c29a93319d61",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/licenses/COPYING",
+      "bytes": 1057,
+      "sha256": "4f92a015a13c4d1a040bef018aa13430b4f1bc73b41b16bb846c346766de7439",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/METADATA",
+      "bytes": 7592,
+      "sha256": "05b189866ca98a96da3934bf6b83687ced3ff85325273b77e16b705f6d8b26d2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/RECORD",
+      "bytes": 4238,
+      "sha256": "25e186aced43db0ebde36fc4ee5a8412ec2b73155680f46e4d86358975a856e1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema-4.26.0.dist-info/WHEEL",
+      "bytes": 87,
+      "sha256": "58b82a17209f9bf2804afe161f2632d0fde933f9bb2792fd936b2474a2e2ac2f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/__init__.py",
+      "bytes": 386,
+      "sha256": "aa84c1d83298eeabcdac684c3c7ea0b6600944b8a599543e7c56704faaf2ab0d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/_core.py",
+      "bytes": 1140,
+      "sha256": "b4585cd42325789dc024e2bf6e3c4ea4541376bb140a51467c5c4f054fc279b3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/metaschema.json",
+      "bytes": 1785,
+      "sha256": "7b761b3e121f0a0ca1ea2a0b8e2cc856bcf801604b8268d71bacaa202bc0c13b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/applicator",
+      "bytes": 1860,
+      "sha256": "6895100e99726fbb107058512bbec3ecfd4b24e8fd2facee3e505ee72b0d4c31",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/content",
+      "bytes": 517,
+      "sha256": "9b7d4f55a4e2fdb02c430068fdffabc732addce238da3f1df2690249c3353274",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/core",
+      "bytes": 1531,
+      "sha256": "b5a2c4957f6495d0a5081f0409ebe8a14e4139acb203fc748471f8ede2af5b2c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/format",
+      "bytes": 403,
+      "sha256": "50ebbfe790611a849b8cc400a09c1d0e0fb6ab5c0d43a0f22201fd3625056bf4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/meta-data",
+      "bytes": 892,
+      "sha256": "d47e2445dd6a82271a298d83cc6c6cb8d4ae1e15e0dc56becd37a163ecf01286",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft201909/vocabularies/validation",
+      "bytes": 2834,
+      "sha256": "1e526c1d335a734805fc82cf5798c12b960ad7da2517c66cda5a1b09359c3c1c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/metaschema.json",
+      "bytes": 2452,
+      "sha256": "41da76f5afb7ce062d248f762463a92f7ca47e4e0f905b224ba6afeef91ded0f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/applicator",
+      "bytes": 1659,
+      "sha256": "c4a6e4147b91fef7fea6dc058cb1bf93402f7414b76578a8b16aaf1dad6aacef",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/content",
+      "bytes": 519,
+      "sha256": "08343747764e4a5814262793cf4d652057a7913863c5950d43297e8e1fdac5b6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/core",
+      "bytes": 1564,
+      "sha256": "c2d12a8e4dd11d336dfc83a3f663aa4c69f0b49b3beb094ffeb25b5316f4803d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/format-annotation",
+      "bytes": 448,
+      "sha256": "abc775adfefd89d22358170d9bf93f4ebd2349563bbbedd60f02bef7c812bcc0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/format-assertion",
+      "bytes": 445,
+      "sha256": "c52242b9a1bb786b26c3e82c7add428c31f9c96e575dce99e56ea5feaa6da20c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/meta-data",
+      "bytes": 892,
+      "sha256": "8f76d6e14f41b9b92ef933b708cdc5144c8b5268651ad11918485fb1754f1c76",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/unevaluated",
+      "bytes": 506,
+      "sha256": "2dbfbcb73994b670b0976492adee1fffb46c21682784d2f5a4ca561f9e2d0cb4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft202012/vocabularies/validation",
+      "bytes": 2834,
+      "sha256": "7010a31e541f32d2be721e2de348df75c9b36876a3ed304877fc0abda1d37a58",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft3/metaschema.json",
+      "bytes": 2600,
+      "sha256": "2cf75f64436fb5be374a2eaa27ab8b7e1fd651c9b46daea6c67b02fd64e2458b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft4/metaschema.json",
+      "bytes": 4357,
+      "sha256": "e1489d0b4755f02793302591d3fcb8f07b6893a82a94f24895f8e4edf11b82e2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft6/metaschema.json",
+      "bytes": 4437,
+      "sha256": "c29dfce9f54835c3a06c03b3c5d5ec0eda77706568f9c4df7cfbc7566a51006d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/schemas/draft7/metaschema.json",
+      "bytes": 4819,
+      "sha256": "3d5392088261606c559b603f385329c9f1ab45b5d667eb990687453b055d405e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications/tests/test_jsonschema_specifications.py",
+      "bytes": 1106,
+      "sha256": "5a46d8456e80e85a19d2b8af4a17ea54b482b00887276c7c4f1a840894d73d36",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/direct_url.json",
+      "bytes": 324,
+      "sha256": "30fd6a8145b060a288901514dee652ccd487f4e3524db923ad06f308ad86b4bf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/licenses/COPYING",
+      "bytes": 1057,
+      "sha256": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/METADATA",
+      "bytes": 2907,
+      "sha256": "35abd41757f32b4ea24756920ded47b70173d77cbc052a5a6d3ab583b2e8d89d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/RECORD",
+      "bytes": 3587,
+      "sha256": "b2690aee37329690438047381f1825e9322aeadf9c70441b5b51e10caf5ad8fc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/jsonschema_specifications-2025.9.1.dist-info/WHEEL",
+      "bytes": 87,
+      "sha256": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/direct_url.json",
+      "bytes": 329,
+      "sha256": "9ba93baa643e1e6defd9123f7adc7bd672dad2c9380c2319bab1eba40f440cc7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/LICENSE-3RD-PARTY.txt",
+      "bytes": 181410,
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/LICENSE.txt",
+      "bytes": 1090,
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/METADATA",
+      "bytes": 20052,
+      "sha256": "ad07d92dfd3d0f428cb7d055c0cee1d9942b0ec5a013bd861f8dfa424958817e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/RECORD",
+      "bytes": 7946,
+      "sha256": "71d5b1c419a717f5c7f57955eb7b90e2731c58c1e82ee0aaa975c8d37d880b03",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/top_level.txt",
+      "bytes": 4,
+      "sha256": "498f2fadffec60e83df4e3fd7ae873eeadfaa4fcbfd952b9bdb784597c304a87",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/opencv_python_headless-4.13.0.92.dist-info/WHEEL",
+      "bytes": 94,
+      "sha256": "f5f1b5d2f4b338a5f09a35f70a458deb63fd86a8fe186976c33c1d47139547e6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper/__init__.py",
+      "bytes": 141,
+      "sha256": "edc2af230d207318597f6c34e6010cd1a68da416a8dff11e6d2e0b0e350c6f0f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper/_pyclipper.cp312-win_amd64.pyd",
+      "bytes": 222720,
+      "sha256": "19123cdf15a7cfc6611f69bd13214c817a15d995cedc4f3d4bc777eb39348baa",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper/_version.py",
+      "bytes": 746,
+      "sha256": "2a40f55c44a22f14e0963f89b8134ee48b3bb2de5fb33ad0647b3c9d73865e11",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/direct_url.json",
+      "bytes": 314,
+      "sha256": "e9341097926a37964e4eaf5dd45c16b0985b256be98002f013682ff571538150",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/licenses/LICENSE",
+      "bytes": 1131,
+      "sha256": "73c25539e7fb486b834c33747d579e0bc56c0f984294c88f3cb2329420ba300f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/METADATA",
+      "bytes": 8824,
+      "sha256": "98fe70a18b29110448b184deeaa5bcd9d018ce9e9db6ef232dd03146b68f1f78",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/RECORD",
+      "bytes": 945,
+      "sha256": "db512a0c0e6f875dfccdd01827066d814ec2ddfd7159a0c0b817c099792487a7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/top_level.txt",
+      "bytes": 10,
+      "sha256": "51514dd4ea2b2bc4de9bf2e8fa3b7f5733775ebdb682f347428268ccc2c6f7d6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyclipper-1.4.0.dist-info/WHEEL",
+      "bytes": 101,
+      "sha256": "f143fdc7da6e588d0fd55fddecada831306a7de2cd9b6d424f367f3edaf43575",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/__init__.py",
+      "bytes": 653,
+      "sha256": "e4dea381d513bf1c657cc94d83701ff7a216721d64822d078522af1b38fd6491",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/__main__.py",
+      "bytes": 914,
+      "sha256": "cc9bc7ec16b8fb3724faf4b2f13f2886c193bdb107432246e0150a1278cd5f0d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/attachment.py",
+      "bytes": 7701,
+      "sha256": "594d548ad08a77ea0c93b22387845dc23ad84d64e787dcabf1d8886d838d45c3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/bitmap.py",
+      "bytes": 20807,
+      "sha256": "fc28faf6a56112b69f2570e3522d3c9d548046ac2de7c22812b11640353043a8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/document.py",
+      "bytes": 30441,
+      "sha256": "b4d112176efcd8bacef8be71b652cc02fd873d3c597e57ca06d9afbb4cd252a1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/matrix.py",
+      "bytes": 6615,
+      "sha256": "4eab322995c9bb6ae9bfe8ead5bd723a5b946d23e4abd66d9a4bc1bc8ac07107",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/misc.py",
+      "bytes": 1578,
+      "sha256": "0de38c4d38e8ffd24349d3e7b753e269d07efe3ee1390c057f88f5099e90b81f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/page.py",
+      "bytes": 24174,
+      "sha256": "0c756c5542c58bdffa3a09e527508e651f3083a5d0d0e44910f2421bc820bc51",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/pageobjects.py",
+      "bytes": 27441,
+      "sha256": "3ccbca76c25ec3d39ee177b0b162f85bdb9982fdc9b7f9b244a97ce3a30426c5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/sysfontinfo.py",
+      "bytes": 12468,
+      "sha256": "c97d9502e5004ff9b3de1071823dca410eec8182a9fb7368efc3864b2f9c45b4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/textpage.py",
+      "bytes": 14058,
+      "sha256": "d8899cda5e394d26da5eeadf998644a417b8ce7ac10c20c33da512eed369446d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_helpers/unsupported.py",
+      "bytes": 2651,
+      "sha256": "a46a7101a8865e094cad1923d5356d2377fbebc683ad673357418f07b74fbb8f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_lazy.py",
+      "bytes": 871,
+      "sha256": "0b946874c8df7a542568f6a873843e8a63aeca1340520738777ea87bd8475b19",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/_library_scope.py",
+      "bytes": 2342,
+      "sha256": "d2507c29c5364f0939a8cd7571381ad0fcbdeb75b4bb12162395ed212db5dd5b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/internal/__init__.py",
+      "bytes": 242,
+      "sha256": "ca51eac7bb2637e09bbb3e9b17f5c9ce69cb0f472b6176b0fbe32433d552da17",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/internal/bases.py",
+      "bytes": 6863,
+      "sha256": "ffa1d4664a0f7f0526e55e6356603022cba81cbacdbf3e1dcea2f3a785523e10",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/internal/consts.py",
+      "bytes": 8057,
+      "sha256": "4444cc73ed21386abf41959b16c33c6ff692f703851c6e0c0352ec6330e574a6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/internal/utils.py",
+      "bytes": 3073,
+      "sha256": "69117299be5ee6cd062a7ee946d1ce9b044546f3610cafa3aabcf1e550c03802",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/raw.py",
+      "bytes": 273,
+      "sha256": "78f7cd3ff66290d97cf63771f3868729481b6edc4d808b93b2841304462951bb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/version.json",
+      "bytes": 171,
+      "sha256": "4fea9865d76e0996f34fd409258c82e683393c273a58f4def53de27837965547",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2/version.py",
+      "bytes": 2779,
+      "sha256": "722db25612df52d609dc30c0a4aa74dda5210befd723fdf2ac3994effaf66ce8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/direct_url.json",
+      "bytes": 312,
+      "sha256": "51db504bc5a3fdf3479b4dacaa798c378e044ecfc14dedcbee868979649d36fe",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/entry_points.txt",
+      "bytes": 62,
+      "sha256": "39f3e2f656f1c386b806c26ecf2b9f92dd0e1927b6db2d496c8ddd014d779a27",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/abseil.txt",
+      "bytes": 11564,
+      "sha256": "f54fff0b905df5b3464527c652a30e903b172d6dcab4d89b5e6f105d5e4a4603",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/agg23.txt",
+      "bytes": 725,
+      "sha256": "c110d3ea2ad77467ce0dcff7d3337e6c8be8049a5103f4b9bd5fd911a77972e5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/fast_float.txt",
+      "bytes": 1106,
+      "sha256": "bf1b57355feca8fce77ee95f48002f8d4789fb71b30ec7599c06cda4901fbb2b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/freetype.txt",
+      "bytes": 6741,
+      "sha256": "f4b133e25df1f86ad3ffea453aa0e613f0474f34778dbbb3e437e7b2724937d8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/icu.txt",
+      "bytes": 28286,
+      "sha256": "93679f4389d53b6835d89843f251844fb9bc455b35bab036d3c8e7abe497a47a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/lcms.txt",
+      "bytes": 1353,
+      "sha256": "7312b68c5b25e9bf2b828706fb4e29588f22705112f411fd42e1f7d84c3d139a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/libjpeg_turbo.ijg",
+      "bytes": 13059,
+      "sha256": "db16a04128171879c60708d171b88d97345a2dd20f9bfc173680a4497c73f704",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/libjpeg_turbo.md",
+      "bytes": 5755,
+      "sha256": "be2b2b5ab168bce87bc3e31f2a5c5adba4b7f6e9e51d618e958d1d46972ebd95",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/libopenjpeg.txt",
+      "bytes": 1794,
+      "sha256": "c5ab0890a737c2dfa7ba675036554f6d17741d98629b0c2a145354d00617e6b2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/libpng.txt",
+      "bytes": 5479,
+      "sha256": "452390433ba0f88aa3e2b122c647741b72a0c117cd6ed7a329b49785aecb5511",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/llvm-libc.txt",
+      "bytes": 15418,
+      "sha256": "3b6226c32e168c83b891d8d6f0d3c29c2116dc3ef93dc93c307b54f279ecf383",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/pdfium-binaries.txt",
+      "bytes": 1184,
+      "sha256": "8854f4388f1ca13b3ad9baa42e95f5546b4c0b17109c159256d3eca7be39b09b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/pdfium.txt",
+      "bytes": 12818,
+      "sha256": "961eacd9633fff6d051db7208b755e9210e30efac7adec3e6a6d52798f0ccf0e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/simdutf.txt",
+      "bytes": 1077,
+      "sha256": "c172a0ba936ff31230febb5dad869e25cb7c1a07480c7a381be8cf011bb52719",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/data/windows_x64/BUILD_LICENSES/zlib.txt",
+      "bytes": 1332,
+      "sha256": "33fd641c9f3b0e0be64bc78fea9e94807674cdd70c48477599226cb8956565fe",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/LICENSES/Apache-2.0.txt",
+      "bytes": 11560,
+      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/LICENSES/BSD-3-Clause.txt",
+      "bytes": 1485,
+      "sha256": "ad9a9e823df025f42389c1812eae28019f657d1ed7b3a4ebfd5010b0736a0da4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/licenses/LICENSES/CC-BY-4.0.txt",
+      "bytes": 14844,
+      "sha256": "f1b1748301cd4274f46733c218d510929661b4990855de5fc645dacd69c4371c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/METADATA",
+      "bytes": 63509,
+      "sha256": "8733a714c056453b87b48c819495cc05f9038d38221b89505043d28c2501237e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/RECORD",
+      "bytes": 7231,
+      "sha256": "fa98c3f45612a6f737c239def5eb411544a3d1fb30e7e3f0acf28f8a47a5af60",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/top_level.txt",
+      "bytes": 52,
+      "sha256": "07e2cb6d8ff0e395a284a74697fa4ceab81bfb3dbe45886aca406b5d7fc90fc5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2-5.14.0.dist-info/WHEEL",
+      "bytes": 98,
+      "sha256": "671f7c8306ff75029c9092b71c43952a7c710f9d847d4fcf5c31bfbac309da78",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cfg/__init__.py",
+      "bytes": 550,
+      "sha256": "bea7f49aa76d7fe04b562ddd918bcd7ff3a09069e9a7b75dfc40c2cbdf4d8489",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cfg/_shared/__init__.py",
+      "bytes": 160,
+      "sha256": "0172429091cdb5c12636b432b475b8f1b79407e35d483a5bd9d15f9bf0bdbe05",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cfg/_shared/stl.py",
+      "bytes": 4809,
+      "sha256": "e59eedee77fea74609437a57b3e398dc423a96f5d08f501e754b86eac94615e7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cfg/stl.py",
+      "bytes": 170,
+      "sha256": "e1d5069541783ff83910fe440f19581484014d836c3bd61402f2d4c99e61fb03",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/__init__.py",
+      "bytes": 119,
+      "sha256": "eb2b49690efe149596377bf9e2156556b67dc0c843b5939e5b872e2e791f6641",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/__main__.py",
+      "bytes": 3954,
+      "sha256": "fd5f3e196b8511d8417f0365700dced5e7bafe77a22bb5170fdc347564a1f45b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/_parsers.py",
+      "bytes": 3070,
+      "sha256": "789d22cfef6030c33b16e2f4d68e2c54b2d400d390d85eee1918a878cb6e7c7f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/_setup.py",
+      "bytes": 2326,
+      "sha256": "4e887dada62d361b3d3b6820ea7d5fedaa07b9cae51482a2e6c1de0469a68f60",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/_sysfonts.py",
+      "bytes": 3251,
+      "sha256": "d706fac6677a8583ea20939d0cb2fde39e4f246804c7398af98079a65b834337",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/arrange.py",
+      "bytes": 1521,
+      "sha256": "19a4caaf2f4824467a9535bd7960fad6fb5e688d3c8512e304258650941da16c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/attachments.py",
+      "bytes": 3184,
+      "sha256": "0ebb6e3edd530e980b4f06a148b61f4877b509c13ee92102ca6a1fef69c7c565",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/default_fonts.py",
+      "bytes": 1918,
+      "sha256": "cc9661d671e794a9cad12756a81f8311d346123ad2708cd4fb1ed02c7295a7cd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/extract_images.py",
+      "bytes": 3092,
+      "sha256": "4dfc5a83b30d6473c2a086b054e23416a2ed3827c3a6647c986d6ac363cbcabf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/extract_text.py",
+      "bytes": 1386,
+      "sha256": "184bd80f4bc679448f9db82ce58e5bc16b8f6ea00fe079a49467ff0c5f0811de",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/fonts.py",
+      "bytes": 2829,
+      "sha256": "89567f0973ff3e4cb01b07bc61641f616d7d04dd858016713b5cd3db0bdcee37",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/imgtopdf.py",
+      "bytes": 2024,
+      "sha256": "5a9f60f9245dc205e05dcdba08704740e1c53af59eb69be1f50076616418e126",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/pageobjects.py",
+      "bytes": 4029,
+      "sha256": "be77329253a71a4b6d14f40e30f46b2f64874713b231b1ef46cbbbf78c0f699c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/pdfinfo.py",
+      "bytes": 1949,
+      "sha256": "d2b8bdf2124e24120f912de2ba0c316dfd969235447cfcce374a1dedd5b0b7c0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/render.py",
+      "bytes": 21007,
+      "sha256": "cac319754629796a1ac3f8e28284fbb4cd24df51ab4f2a04753e9fd6c2387411",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/tile.py",
+      "bytes": 2325,
+      "sha256": "c276716f90abf0528f3936ff7c20af54880a3c6f9c87327a8b102c3967011ae1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_cli/toc.py",
+      "bytes": 2749,
+      "sha256": "49dbd40b0753161f6d824bcb8c5a51fc48259383e864858df2a4aa6a76fcc97c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_raw/__init__.py",
+      "bytes": 841,
+      "sha256": "c8279b9e5b5171d37a3bcdb6628b7da8fb009d2cb803ea0e877c0381f52722d8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_raw/bindings.py",
+      "bytes": 153023,
+      "sha256": "2f492d5232bfe3a52da5fd4f06ab0c5c6745715840d3128ddc8b7dd9c8ca6fc0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_raw/pdfium.dll",
+      "bytes": 7381504,
+      "sha256": "69f1e860f6742fbaafcc4db80e785eec9a4ee0da36ea6d1dc0867ea0f18baea6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_raw/version.json",
+      "bytes": 152,
+      "sha256": "363ee2f6a236c8b262326634ee79c661a6020c9df1fcef734dd928ee6924113a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pypdfium2_raw/version.py",
+      "bytes": 2664,
+      "sha256": "650422c7beaa6b233576531011a4a478eb3b73dc319febc5acd46c24b55ac241",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/direct_url.json",
+      "bytes": 311,
+      "sha256": "c9f6d5e0b96c828f5dd3d62c0a4bb58a6beaee38cc334b985d8c0985ccd91286",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/licenses/LICENSE",
+      "bytes": 1101,
+      "sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/METADATA",
+      "bytes": 2410,
+      "sha256": "847a701020334386852b6e07bad1053cb0ce3da9ee1846e7e9d02b24e8bb3f8d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/RECORD",
+      "bytes": 2079,
+      "sha256": "f52605b498506b551cb4cf15ac74a8fab75f4de97a136a29b7f7cf6281a2c5aa",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/top_level.txt",
+      "bytes": 11,
+      "sha256": "ae98f42153138ac02387fd6f1b709c7fdbf98e9090c00cfa703d48554e597614",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/pyyaml-6.0.3.dist-info/WHEEL",
+      "bytes": 101,
+      "sha256": "f143fdc7da6e588d0fd55fddecada831306a7de2cd9b6d424f367f3edaf43575",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/__init__.py",
+      "bytes": 143,
+      "sha256": "25e7859135d306af5eb626086e2211a9b4da01cff1327beb0fb2298dcba33a51",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/cal_rec_boxes/__init__.py",
+      "bytes": 104,
+      "sha256": "485d5bca0cd84c80ea4576ff4ed5e906828851b287c581c746a9a272a7ce945c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/cal_rec_boxes/main.py",
+      "bytes": 10493,
+      "sha256": "d7cf9cb01f189a873cef9897150e379085608f9908a7288857ea2599ff7eee76",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_cls/__init__.py",
+      "bytes": 111,
+      "sha256": "aeaf19b49fb6b5a361547544e7cb98972dd0b6756e9ad320d9fe7008891ae9b2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_cls/text_cls.py",
+      "bytes": 4229,
+      "sha256": "ead555ddeb7a8a0da067f4d2f9e2760e93db9e46d906888e0522277dda6620c8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_cls/utils.py",
+      "bytes": 1025,
+      "sha256": "a6d3debaaf21b092731b20a249b816512070b8e932db7b0f15d5536dcda2328a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_det/__init__.py",
+      "bytes": 112,
+      "sha256": "8f33f181e76809c609ead8f5d44afed1e83f74e752239c0f30ca961fdf152e63",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_det/text_detect.py",
+      "bytes": 4556,
+      "sha256": "fc9d63ba47940d3e5bfefe6738f310b583cd4de4708fefe114fce11236f2c199",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_det/utils.py",
+      "bytes": 7930,
+      "sha256": "0b3405390c37c7d6f0c9c7099eeec36b050b8e0dee7659fbd82a73bcbd265cd0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_rec/__init__.py",
+      "bytes": 117,
+      "sha256": "989f6e9e87508f91cdfc496c7c4ef7580bbb6cc1a0f87a90e139029d10970de0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_rec/text_recognize.py",
+      "bytes": 4700,
+      "sha256": "48d8656d11403d09b2ed32b65a686906b9502ca1a4e16a3934d91b35129d032a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/ch_ppocr_rec/utils.py",
+      "bytes": 6907,
+      "sha256": "4a1dc2e8602d12374b12124bbe99a1b42080d72a337799760beaf0d51a32ca90",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/config.yaml",
+      "bytes": 1221,
+      "sha256": "bf94a1da4cba828e67b1d61e27cee14d9e7da27c9f272e04048a17e41ae97332",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/main.py",
+      "bytes": 12799,
+      "sha256": "156c49e683fddd26f04280f391f882b857a74d2f020497870f7dd8d850ed5a2c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/models/ch_PP-OCRv4_det_infer.onnx",
+      "bytes": 4745517,
+      "sha256": "d2a7720d45a54257208b1e13e36a8479894cb74155a5efe29462512d42f49da9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/models/ch_PP-OCRv4_rec_infer.onnx",
+      "bytes": 10857958,
+      "sha256": "48fc40f24f6d2a207a2b1091d3437eb3cc3eb6b676dc3ef9c37384005483683b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/models/ch_ppocr_mobile_v2.0_cls_infer.onnx",
+      "bytes": 585532,
+      "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/__init__.py",
+      "bytes": 619,
+      "sha256": "2623808f8f540452cc02951858cb65ef5dacd615b5409ec6c970bc375b1f946d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/infer_engine.py",
+      "bytes": 8152,
+      "sha256": "3e402c95026ab793533b0de296b0b7e897ad50618d089b2b2214bd90833c3f29",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/load_image.py",
+      "bytes": 3755,
+      "sha256": "2335171bf0574b56fc4d6d7261bd9bf0dc955db6cec3b5aaf060d345256e65a4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/logger.py",
+      "bytes": 510,
+      "sha256": "2efcad9f0f7afb77c6734d9ec2fcce60f3045b3e6ce7e4752f69ed9e1e647f17",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/parse_parameters.py",
+      "bytes": 7476,
+      "sha256": "a59078f844649e9b08638345a32cd3981a27fd731f4f844a1155f850cb7a6c9e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/process_img.py",
+      "bytes": 2145,
+      "sha256": "c54bfd7cb592e40c7be9042fce4a40e5fa5359e8c11a26c3492534065f42f236",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime/utils/vis_res.py",
+      "bytes": 5077,
+      "sha256": "5225cfd945fd99968cfe2883960949e043d760a8d0dab92ec912e98b01e42205",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/direct_url.json",
+      "bytes": 316,
+      "sha256": "9fe4bd03fa43020dda0c840e6616ed534aaee77aa51604980c5ed853b6d4f8cb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/entry_points.txt",
+      "bytes": 72,
+      "sha256": "b67da401ac093d142470cb61c3f9fbc484c635c022a67ff3629a6ed8b24ab17b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/METADATA",
+      "bytes": 1264,
+      "sha256": "1ac15bed7c7fb77d3fac58c2aba0a4d3e2da48de5c65badd3503900acebcf1df",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/RECORD",
+      "bytes": 3300,
+      "sha256": "344f5887289539b23f9495a0a2b9d9b5334fc650f051cd263cdc9d54db4193f8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/top_level.txt",
+      "bytes": 21,
+      "sha256": "c2eabcaf5c3656287e8d066e4bd33fbbe66a24a7f3390125942ebc56697c2a88",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rapidocr_onnxruntime-1.4.4.dist-info/WHEEL",
+      "bytes": 92,
+      "sha256": "b59a1e1a3b56c5645f769944ec4ddde3954f94b3509ef6ca8989f1ee0c00cbc0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/__init__.py",
+      "bytes": 207,
+      "sha256": "e4864a5da007fc55b20894646939f55dca6d2df83d72f78b6fdbb99d853124ab",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/_attrs.py",
+      "bytes": 791,
+      "sha256": "6e04fe28c84354b786b56c4cfd218a61e2da6411734f691454574090e7178bc8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/_attrs.pyi",
+      "bytes": 573,
+      "sha256": "836c17f9a2c4a9002f594facd2a20dd8e30602a8ce03447bd91fee49f7cef3f3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/_core.py",
+      "bytes": 24732,
+      "sha256": "d923c67da4efcc0dec46a6e3ff8476c02fbe7e25e8942515a4b14b249eb3759f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/exceptions.py",
+      "bytes": 4176,
+      "sha256": "cc581a120e9688a793e7c310b8a36c8060e71ecce9dba738a11782eac17d8073",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/jsonschema.py",
+      "bytes": 18615,
+      "sha256": "8d767ab7ac7da13bd31cc202d2d4726858d6e6bdaa78739b62ebbb52149f2b74",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/retrieval.py",
+      "bytes": 2729,
+      "sha256": "727f4478075a6936e7303742e094488621295c38df95174708e2c5af0d5984b0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/test_core.py",
+      "bytes": 37854,
+      "sha256": "79aa74080688db7be33086d5c848fddaa2dd769de21c7dc0c42e7908a50de0b5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/test_exceptions.py",
+      "bytes": 934,
+      "sha256": "ede39d1f2a1b5ccb7bfa1e409e71fbbbc8b0dae1cf687ed4e01b3d2612e08d6a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/test_jsonschema.py",
+      "bytes": 11687,
+      "sha256": "e109e35163803009f9c9e03c66d95d264848e78bf02962560742c3ccd771e717",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/test_referencing_suite.py",
+      "bytes": 2335,
+      "sha256": "c03eaf78c7cbb14bb4b3830b8e6ee94bc720e1c21f2fb14c044367824ef7cc22",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/tests/test_retrieval.py",
+      "bytes": 3719,
+      "sha256": "bdc6e77c0e13a957aa5335b4ef7c0efa72dea9522fd2b41958d5afd33f649b8f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing/typing.py",
+      "bytes": 1445,
+      "sha256": "5a351b9d9ea33c0777d5c9c214069e588544373c87b47749c8e95e96fd4663bd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/direct_url.json",
+      "bytes": 308,
+      "sha256": "40572cfd31c8a026ecfbe4a8d0e6315a3b4a661104754ee302e91d8e9535e8b0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/licenses/COPYING",
+      "bytes": 1057,
+      "sha256": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/METADATA",
+      "bytes": 2845,
+      "sha256": "c93b00e6ab1524fd60848376604c189a114374776475c25a31d57be47b29de6a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/RECORD",
+      "bytes": 1888,
+      "sha256": "d11c9260a9714136b8992b767c52c8a99be74f763d1acb755aa117bc0217bbfd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/referencing-0.37.0.dist-info/WHEEL",
+      "bytes": 87,
+      "sha256": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds/__init__.py",
+      "bytes": 99,
+      "sha256": "c373205d6ee5a530880b0d0a5dbc36d105f9ef7fe46ec12758878cb0202e82f3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds/__init__.pyi",
+      "bytes": 2681,
+      "sha256": "002d522690504f7af41f28a432ad2324c9bd3c9829e8d2fc8818d7888e256d84",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds/rpds.cp312-win_amd64.pyd",
+      "bytes": 559104,
+      "sha256": "f2151350525864528ac0664f461ea49444b787834f05a0c96f34fb3ac2690046",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/direct_url.json",
+      "bytes": 315,
+      "sha256": "ab7cf0e9c02518883bbdd7af59aed6964d3e7ef9caad5c722b779a3d7a6e907f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/licenses/LICENSE",
+      "bytes": 1076,
+      "sha256": "8bcb72c82ea8ae74802293c41d93ad7d51434001b0ae45a603a5af0f507aee0a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/METADATA",
+      "bytes": 4215,
+      "sha256": "778fb36890d26c5657d256db3e61a05a637468aa4cf607f8d1059c5079fcefd8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/RECORD",
+      "bytes": 1018,
+      "sha256": "d3bb5dbf758594ce030c02c5ac4ab26b8880555aaecf31351448d0933cab9277",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/sboms/rpds-py.cyclonedx.json",
+      "bytes": 20558,
+      "sha256": "a8db785ad239b49fb141b65c1948186f35166f118fc19e39ca98cc965cbb8255",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/rpds_py-2026.9.1.dist-info/WHEEL",
+      "bytes": 97,
+      "sha256": "51fe37f21183f8d51fb47d3c77149a89847171f899a9e60af60dc3349faf3d8d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/__init__.py",
+      "bytes": 1912,
+      "sha256": "8bc6b38c1f1be4a67a10c62d86a965adc0ef6a1c53e3b41e12aa033fefa0fa13",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_coverage.py",
+      "bytes": 9657,
+      "sha256": "ea48465095eb0d8085de3c2f6a0d1209e001ebafb3c0a058a785966135b5f1e0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_enum.py",
+      "bytes": 970,
+      "sha256": "221169173ab39aadc6971bcc37f784814861f7c3f1aeeda6f1d026057abf3151",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geometry.py",
+      "bytes": 33710,
+      "sha256": "76c54b9e6c73c495418b473e8b19db3bbe835c35a0a3bf8e3b274bf196f4120f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geometry_helpers.cp312-win_amd64.lib",
+      "bytes": 2192,
+      "sha256": "92d8227362256e9fe95c535ae0be40755ca0ca0e7a546699d97842467f23f16a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geometry_helpers.cp312-win_amd64.pyd",
+      "bytes": 234496,
+      "sha256": "707cb47e19233d313681192f086b22268e72b98adcc21c41e131891c51569180",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geos.cp312-win_amd64.lib",
+      "bytes": 1976,
+      "sha256": "be9bc4246d7a24dcae243afa5ee6112df066bb56c8d98605d1a372ecfa800e32",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geos.cp312-win_amd64.pyd",
+      "bytes": 51200,
+      "sha256": "5de4fb9704e89549eab873cc7b0e92b49e602d407f61d8eb8d2575a67edd83cd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_geos.pxd",
+      "bytes": 3237,
+      "sha256": "9b95516699c9625de35f0c61ff6b42c9b0747c8d4634a53cab29fcafa8b0d5d8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_pygeos_api.pxd",
+      "bytes": 2238,
+      "sha256": "0bc2370156d3be19d5ab59f3045155452faa873540a5b7b21ae6c754a5522b0f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_ragged_array.py",
+      "bytes": 17919,
+      "sha256": "89410200398bb2dbcb1ea91475c8c64ff977b56572e0490d48b914bf2ad09baf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/_version.py",
+      "bytes": 156,
+      "sha256": "7714047df05dbe64bc3b6a524adb45550025b6b75a84717cc801641797074ebf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/affinity.py",
+      "bytes": 8521,
+      "sha256": "fa6039b475d0bbf24655135edf8bb93f3eba635402b5c03ae10e837f74aa2d71",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/algorithms/__init__.py",
+      "bytes": 42,
+      "sha256": "80a1e2e5b80c243158d754d121045cd6d9907e6eb54805623d02e1ea5376267d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/algorithms/_oriented_envelope.py",
+      "bytes": 2003,
+      "sha256": "9435b14637d88241b48f6ae9a1dcf4200d53e7746d7ef416549bbd7139d25121",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/algorithms/cga.py",
+      "bytes": 1807,
+      "sha256": "517b0980df5667d863d8a7b82171301b41939dab65d7dc0191df66c1d5eca26a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/algorithms/polylabel.py",
+      "bytes": 1395,
+      "sha256": "f2b2a2dba22bec209209f6542dc6693a12b4c4855e535f57796b0ba36ad195d1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/conftest.py",
+      "bytes": 2017,
+      "sha256": "3163bf43ae87f9f329beec687bbec02f82e9a0d02f84e47d6a0f2caa4c8318cd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/constructive.py",
+      "bytes": 60073,
+      "sha256": "44df96cd12cf564945b0d109df5316c6dede4e2371fbcdc73963efed8e84ac96",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/coordinates.py",
+      "bytes": 17975,
+      "sha256": "c84ab60023470fe260a53c087ae0f3e0dbc56802b735ec99128ab62740711684",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/coords.py",
+      "bytes": 3146,
+      "sha256": "f006120e1f0595d14b5f184bdf16d381cac0e859317b6914daf89704b15e560e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/creation.py",
+      "bytes": 32761,
+      "sha256": "960c6027ed7e3e94d5db3733e7f456212051065866a2eb6c7016497b847c9729",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/decorators.py",
+      "bytes": 6187,
+      "sha256": "dce6814b95dfd163b015c534dd137d778915c9e282a8c75e991d73e0595118fc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/errors.py",
+      "bytes": 2478,
+      "sha256": "277976794a26358c88c8915354aeeed3f2cad60d271dd71dd51c6179d831c6db",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/__init__.py",
+      "bytes": 790,
+      "sha256": "5ce6fb811fc28893b658c4e7c898d48a9a0d84e2683409fae8c9f7783e270cf7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/base.py",
+      "bytes": 46824,
+      "sha256": "e3b240679140d8df0b0dd4c215cf854dfbcfa00b46e4ee6adecf8290b270d4b6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/collection.py",
+      "bytes": 1973,
+      "sha256": "2cbe3c61b123305ad23910d8d82542da54912b3d0ec096e20752efa7b51dc94c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/geo.py",
+      "bytes": 4968,
+      "sha256": "b502c5784e6e61d0c7084ab53113df89bacef6fe91441015fd1a05c2a95947a0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/linestring.py",
+      "bytes": 7973,
+      "sha256": "f1d54547cf1f51ca2d302a1a355f5c8d57218d29c00c84a5a1b1c518cb645a4d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/multilinestring.py",
+      "bytes": 3210,
+      "sha256": "0201f0feab98c59bf2bfaff49ccc159450fe7cac001ef9152e686f3e0bb8f853",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/multipoint.py",
+      "bytes": 3489,
+      "sha256": "d9d8bb9bb9deb52e53aec470cfbb03eee319287aa1be4dbdfcc51e7456c4ac48",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/multipolygon.py",
+      "bytes": 4525,
+      "sha256": "54ecdcf019cea2c650f0c7e65ffbe7cfd4a15493adec5e3e9b489d0c440037e6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/point.py",
+      "bytes": 5066,
+      "sha256": "ea5158a1a04b7476524f0e0204ee3074b1844524c7f9938e01eb183151e712e7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geometry/polygon.py",
+      "bytes": 12122,
+      "sha256": "75cd5397557b3e40651822bc4e53d0cebe5163bb07b8c218b21236052b433932",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/geos.py",
+      "bytes": 537,
+      "sha256": "17342ddd744c7af6889ef34d1aa82178850291b69d0e39b4435e9d3affea1a91",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/io.py",
+      "bytes": 15748,
+      "sha256": "4044de93769d7f8213586389655dcd5ba2dc2f8030ea78be0da62ad260f4ccfd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/lib.cp312-win_amd64.lib",
+      "bytes": 1940,
+      "sha256": "94f3753d0b18b604327249a7a09d5c1683d6392b426f63e1eded2e562f4bff6b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/lib.cp312-win_amd64.pyd",
+      "bytes": 166912,
+      "sha256": "13aa4a38abab3e313cd42704e258bbc40cb2a68b6820224b9508708d7863ae85",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/linear.py",
+      "bytes": 8904,
+      "sha256": "5b0b6f4982e618e5df6f99193ca756419660b8a3beb146eeefd8ae45fcaf413b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/measurement.py",
+      "bytes": 10872,
+      "sha256": "d07c5f6f6cb03c13356efb1407fc80e02597e702fc0fd599ad76421926b9fe59",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/ops.py",
+      "bytes": 26157,
+      "sha256": "4f8a5d922b0166fd285e3c01fdd655da5b05d64ccf64c58adf9c89d167c4d4ab",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/plotting.py",
+      "bytes": 6544,
+      "sha256": "8b3ad59b6519b46da5e688a67b1d8095525a80594d33bb68fc966cf03002d65f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/predicates.py",
+      "bytes": 43912,
+      "sha256": "328bc2fa0e030a1e9cd3912bec86d11335aa946f54701451b102fffbe499db03",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/prepared.py",
+      "bytes": 2425,
+      "sha256": "95572af279db105af45cd142d504fbd4aa912c8434b9b4a1743fcc10f99eb5fd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/set_operations.py",
+      "bytes": 27920,
+      "sha256": "e0e3184600f849f84955f9a1e3c7558666ce433432aa2f60773642e66d2d244c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/speedups.py",
+      "bytes": 1077,
+      "sha256": "23ba04c587a56f4d82bf517ed53791940de8496c12c569690faba99f00011f47",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/strtree.py",
+      "bytes": 20867,
+      "sha256": "9535bbef96fbcec13a1b7b493ee167981d2c4a96293ddfa5e2bc85a5a873f09b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/testing.py",
+      "bytes": 6679,
+      "sha256": "d21f073fbe9511b4312132c63a5466444c897fe7734310b649b589322edd1990",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/common.py",
+      "bytes": 10372,
+      "sha256": "8410d543b8d6148a3143676baa4cd2b2ec3c750594df90e067d4b31394cbbd17",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_collection.py",
+      "bytes": 2571,
+      "sha256": "f313b093f5c2dac540ad5311103424a4322df93b8711eb889c26a1a462633cb6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_coords.py",
+      "bytes": 4117,
+      "sha256": "2d92bedfe0f38bb43a70fbf9289ef7bbecd05d9f8d07ccf56e38a505678e6b31",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_decimal.py",
+      "bytes": 2976,
+      "sha256": "e0c68d45c95a5610d4db270da7c9e1d547d6e942e1547dce4bf9f86ad3eab31c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_emptiness.py",
+      "bytes": 2460,
+      "sha256": "cbee6ab4ea2f2ca0a2314d3078cdee55cd7d6d78f0da8626d79ee3294e618228",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_equality.py",
+      "bytes": 9303,
+      "sha256": "7ca4c4e0f240fdcd354b0ada2e0ba556580ed24398a605fc681373f7c2f244cb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_format.py",
+      "bytes": 3892,
+      "sha256": "aa1bda8c71c290e43a1a242631e682bad20f920d281463d8c02e85a56174a4dd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_geometry_base.py",
+      "bytes": 12874,
+      "sha256": "a12a6b5c36cea0d72e833a44368ce64e3b2cfe3726be81b75987b493c4153e93",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_hash.py",
+      "bytes": 701,
+      "sha256": "a91f92aa572cddc0b31cab0bdd80b9535f9db85e97f340bbc0ab0c5b699d0665",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_linestring.py",
+      "bytes": 7275,
+      "sha256": "7aac15fdbcd67f5efe27db8cc5a89b925bb195e5df40483e403ab0049ad1aa6e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_multi.py",
+      "bytes": 308,
+      "sha256": "56ce0058b6e3e88c4266b36ae173f34d02ceb8c3064b41dccba72f707107db94",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_multilinestring.py",
+      "bytes": 2911,
+      "sha256": "1b65523ff6b6bd672fd5f017c8c4361319ce785874f9a171d246fe32d613bef5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_multipoint.py",
+      "bytes": 3279,
+      "sha256": "434b7b643b47de7438c7fa500185765e068f03cfc860745a3ea00431f4671fe2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_multipolygon.py",
+      "bytes": 6188,
+      "sha256": "9d566871e2e8e2dee008884cd00b68d433df3c9561f3710b8220d4c1304bb7f3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_point.py",
+      "bytes": 5533,
+      "sha256": "97b38689524836057e8b36c7dab0452000d670c18ebd99f83f3cbebbf4158bb1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/geometry/test_polygon.py",
+      "bytes": 16114,
+      "sha256": "ab14a98effed2d1627078921606e3ee35658e05606c0ac72e602936a07c06b2f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/conftest.py",
+      "bytes": 346,
+      "sha256": "a7a8c964aca50cd847974c9c29e882948b3292ea9d5f0bfa6e44636fcd059c2f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/emptypoint_1.8.5.post1.pickle",
+      "bytes": 75,
+      "sha256": "1158567b9147a88f81a5303f147de8b2693a795510f4e647225ed1fa913a665d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/emptypolygon_1.8.5.post1.pickle",
+      "bytes": 67,
+      "sha256": "a8daf2c3967f89e3a4bea1fd2db334ff9cd116cd6175a14008876c18042c0e56",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/geometrycollection_1.8.5.post1.pickle",
+      "bytes": 195,
+      "sha256": "efb9fa0daeab5e43b6f62f33fd285ae13c56b70fd6beb248106524472d8bbca6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/linearring_1.8.5.post1.pickle",
+      "bytes": 134,
+      "sha256": "2d7a26240001ef93f1e36cec52b610d6b3dcc035f34a551b6e38d6c7b02df1df",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/linestring_1.8.5.post1.pickle",
+      "bytes": 121,
+      "sha256": "7b4bc967477992b1ae33632de3cb713da02b42dfb64002e9dde51ec2ac3d0525",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/multilinestring_1.8.5.post1.pickle",
+      "bytes": 165,
+      "sha256": "af819640a4b978b37a7fb9f96f5ee7cd220220ca8a7c25a1cdcfa0ec44a1a3c0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/multipoint_1.8.5.post1.pickle",
+      "bytes": 136,
+      "sha256": "3c57737992aa80b53e83505985c4f82578f774f2e84690448efad1b696adbd47",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/multipolygon_1.8.5.post1.pickle",
+      "bytes": 263,
+      "sha256": "0d6b91077927aac38fba373bf4efff388e21e6d255d1859ebdaed5fea3ac875d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/point2d_1.8.5.post1.pickle",
+      "bytes": 75,
+      "sha256": "03fb64c2862ede001e8fc38aaf9099309f9fd0edb02c7f7ff3a5a0a807790a23",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/point3d_1.8.5.post1.pickle",
+      "bytes": 83,
+      "sha256": "267e530d5f8f3392e2a3aa4e277aa878a0f5ba0ac7ac37d6d60c1048ca0f8699",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/data/polygon_1.8.5.post1.pickle",
+      "bytes": 135,
+      "sha256": "bd403b25c7c09d5d5fefeb95c56a76801b61f6bedb2e3c623904cef5ae8bbd73",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_affinity.py",
+      "bytes": 12918,
+      "sha256": "c413a61dc94c106636d45fb88e52fb2c9d3c0c3f8b774720a15e9d4282238db4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_box.py",
+      "bytes": 619,
+      "sha256": "494961ae058e217904dfca4d3ced1eda769b0c55c3d662c15737bb2278973bc1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_buffer.py",
+      "bytes": 6769,
+      "sha256": "85138808d078ed1e2f2597da7f1ca94dcc0fee2e72a5d4eefdff5f7e07d6f759",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_cga.py",
+      "bytes": 1560,
+      "sha256": "c712d9520e6dd093b4f325d663cf90e07de777a2d63830151b73ffb6b59935cf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_clip_by_rect.py",
+      "bytes": 4156,
+      "sha256": "43d6e01e51711a7646fb2aadb69bf4aa75966c287c90d58bee24aa3c9653007d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_create_inconsistent_dimensionality.py",
+      "bytes": 10889,
+      "sha256": "b0fee86acc5401a4336a46c034b5477fb85a44f3863704b84c69600621a4b719",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_delaunay.py",
+      "bytes": 870,
+      "sha256": "5eca1aa01e4da4a1dffe78d61692cef1a3222535b05b03dfec5f9901e4117a66",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_empty_polygons.py",
+      "bytes": 705,
+      "sha256": "346c26bb8ed830422553284cbbafb43614f0a677696f5d1df0838f8d9cc48fc5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_equality.py",
+      "bytes": 771,
+      "sha256": "0eb93641c40f1980609436343cbde2709dac21c11f33116b060fcac12e318a74",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_geointerface.py",
+      "bytes": 3766,
+      "sha256": "9ce56eb78c5d06dce1714b59d676025087d32ed51bda97f4af304d8876da921b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_invalid_geometries.py",
+      "bytes": 917,
+      "sha256": "c32e785eb9fe1cd1fe34714cf799e5a2d22a8c9caf80ed390a95d346895ffa83",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_linear_referencing.py",
+      "bytes": 2986,
+      "sha256": "e03935c3e22abc3cfbaac71bdde8679fbcad3a8e5cebfe0f288ea3b93b3114ae",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_linemerge.py",
+      "bytes": 1372,
+      "sha256": "e74ca9292bbade918f92ea43351ec8b11abc952c38b34ba6f81ae7bcbee69779",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_locale.py",
+      "bytes": 1322,
+      "sha256": "94acab16dfb318c2bdbd7e9ea6ef7f720f74d054e89f245721f8a88bd69a0a61",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_make_valid.py",
+      "bytes": 494,
+      "sha256": "3d6cef03715f1f3013fa7eeca55faaf91d4c73fda3cc4ed258f64ffcdfd07204",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_mapping.py",
+      "bytes": 409,
+      "sha256": "2c32d5b771a989488372d9a244645c06f5a205aa673a32aba024ecebd6d722c3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_minimum_clearance.py",
+      "bytes": 724,
+      "sha256": "54ac0ff5ad68fd871e8fcd2fcc914aea8951df6e7fb97a82b40c216d30b5ec32",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_ndarrays.py",
+      "bytes": 1286,
+      "sha256": "089aad42cc0f5bfe7325b36fc96ac08bc0e0218b5bae01893785aa6948654bea",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_nearest.py",
+      "bytes": 494,
+      "sha256": "b7695a6833b3acba7437792877f740b15136561e7903bbf7884fde34a148ba3b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_operations.py",
+      "bytes": 4431,
+      "sha256": "30ccfa73e03340d78827cc89750f9c0ccf50a29cbef7e9d22f06c22f795bfdcf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_operators.py",
+      "bytes": 2008,
+      "sha256": "ead06be2382e5907ef08dd0f1ca4fb73be5c43c56ece145ab53c82953da16b54",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_orient.py",
+      "bytes": 3607,
+      "sha256": "6bc139130d3dd7b37a1f2ef8ad502c7ce843122e81d4cc45d410b3be5976bfa5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_parallel_offset.py",
+      "bytes": 2392,
+      "sha256": "3d38102346114e654e677849bc0f266c86abbfa5757b2fcfbd8403c044c50028",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_persist.py",
+      "bytes": 1758,
+      "sha256": "f1f65c6dbffd8ab731fb3ac72df7bf3128d921485da5dcedb0d93706ec641c87",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_pickle.py",
+      "bytes": 2468,
+      "sha256": "08e0b8a2419463dde867873c754a0d5f6942e592e7755a1793a03b941349b46d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_polygonize.py",
+      "bytes": 1431,
+      "sha256": "69f977de65df951895fa3a57c3d221d433b8322414845060c44f5544084ba984",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_polylabel.py",
+      "bytes": 3228,
+      "sha256": "19fc9ad433dffac516f05c18b71c40aa8e7e9b13d3057e724efa99849d3c746c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_predicates.py",
+      "bytes": 3053,
+      "sha256": "516a3ec2018f77e3819aa1b2d651f4b9e8f2dfca04880d4303534f6057beb206",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_prepared.py",
+      "bytes": 2541,
+      "sha256": "ca9bb057d5b3aa917d07866f149e678018a936b1efad529b2e58d2312ce976fa",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_products_z.py",
+      "bytes": 401,
+      "sha256": "654230bc18676f513bc274879903181339c30140c37ba66ba6a4f36f7cce47f4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_shape.py",
+      "bytes": 1872,
+      "sha256": "21b73ef28281c1f466ffba9d0e83782f177fad32e2c9048f43bb65e7bb959806",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_shared_paths.py",
+      "bytes": 1479,
+      "sha256": "0bce6c42b73a2d69065f550aef43271976a024e61d4ef7a175f09f3a2bc5fac7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_singularity.py",
+      "bytes": 396,
+      "sha256": "d510355703a999b63277c679d4bf1664fd9e0c41b5afd55b4a06b88d948884e8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_snap.py",
+      "bytes": 787,
+      "sha256": "64a6013539baae99fc4657d9e695fc235097635cfbdb66c75cc3d42efa3f0b2d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_split.py",
+      "bytes": 13337,
+      "sha256": "5e8609fbdd6a1fdf3f6e5e88df44292bde352c0fcacd07ae80081245b4b42545",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_substring.py",
+      "bytes": 21382,
+      "sha256": "12d044975d33b4b31b36fe020f3920a99e3a2c6ba1d56ee2b8c0d460ae0cf89a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_svg.py",
+      "bytes": 8484,
+      "sha256": "a84f2c15fb83a1080073ff622f95d3802f6074dc46347677aed4a97fd0260116",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_transform.py",
+      "bytes": 4166,
+      "sha256": "e7977f5f28b5c4c32e11b6dad6941d3fc8e2eab74f0013eb138689062a1a912d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_union.py",
+      "bytes": 2180,
+      "sha256": "b1c7ce5bce9d65068b5d657b5e85c1cd58f349be6f14b4ad15497fb37f19a8bf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_validation.py",
+      "bytes": 247,
+      "sha256": "a45d78de8ab9770ae2d30822af2708c130de5c672de58d207ea3111dec053df3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_vectorized.py",
+      "bytes": 3831,
+      "sha256": "418602733afd951e5406ccbe410726731443cc302052f14722d6c4efea449225",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_voronoi_diagram.py",
+      "bytes": 4209,
+      "sha256": "adf6ea8fcb64bd42d0301b1c3d2501be6a7b39efab896d494e781c65eb447e11",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_wkb.py",
+      "bytes": 5718,
+      "sha256": "5662d0cdf98c450af4ba0684620147f543028ab84604b7c808007c8719ffe39f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/test_wkt.py",
+      "bytes": 1733,
+      "sha256": "7cada3cec8d5784e2e35ef8e7f7c3cae86c2d1c320c645a6deb884d1a9224c37",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/legacy/threading_test.py",
+      "bytes": 1048,
+      "sha256": "f44689e5030f28f1c74ceb3e6f25f5555be66fb2112b7d57c3aece1d1335255b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_constructive.py",
+      "bytes": 65881,
+      "sha256": "483a39a076a45f6d6febad1cad6c0391612d42cb978e6197594e82e978d693e0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_coordinates.py",
+      "bytes": 17968,
+      "sha256": "3f36476e59e58ee05338b3085036a722ed2c487a392877cb3cd15a2119237772",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_coverage.py",
+      "bytes": 19634,
+      "sha256": "3489de14f53b8aee9459891065c0f91dbc6ca12e44641dbd75df6fd269edbfff",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_creation.py",
+      "bytes": 24114,
+      "sha256": "9dc094bfea4223687d01640c72c7e32b88192000b1af7219a0dbd53259fab3dc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_creation_indices.py",
+      "bytes": 19184,
+      "sha256": "6cd4d511085714661eaa03359b1389cdbab4e2086c180d9e1221da2a10e3592c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_decorators.py",
+      "bytes": 3837,
+      "sha256": "7e9b48be092c820b22955b1cc681e0beafdf9a90e55891687e3c19945a9be4b3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_geometry.py",
+      "bytes": 27101,
+      "sha256": "eed6945e5a07a597320d3f0290410bee563814a8b8aea28ee2a43e8dd2303c7b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_io.py",
+      "bytes": 51376,
+      "sha256": "e1b1bfadf473d25710bc4670a963d8e0c93fbd56d4640c2640bdbf7b27dd13b9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_linear.py",
+      "bytes": 8807,
+      "sha256": "78cd328174289cb35412064a4f2494b5a2001bd5c2cf0efe62f2dd1facecc1d3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_measurement.py",
+      "bytes": 10977,
+      "sha256": "7366b2ab8b06562230986d3063d104333405c820b401c3ccdf046661b4de4997",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_misc.py",
+      "bytes": 6790,
+      "sha256": "7fbe7faf9e220d2a2e92560f227386b724766dd32d9506446539897b6ee2009e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_plotting.py",
+      "bytes": 4164,
+      "sha256": "774985c3cf768cfede02fdca7f59bb3d57222dd3f838d5e95bbdda3884e274bb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_predicates.py",
+      "bytes": 16106,
+      "sha256": "dd5367da8c4d0ad91a108ed20f10ee648b515944ef87a7c5b17bd81f2a2faf88",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_ragged_array.py",
+      "bytes": 21777,
+      "sha256": "cc027dc6e0afc2bfc090f234d3b6d34bc497551a5e21580aea64fcea693395c8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_set_operations.py",
+      "bytes": 18839,
+      "sha256": "52cb47ca0749697ecb8afa8dc1792407576a5d1a0b0beea50425f62ac8e8b397",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_strtree.py",
+      "bytes": 74747,
+      "sha256": "dc268db3f8c780bcbadb5a2b9453f1b759d15b974cce4f15edc98cd181c0d45a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/tests/test_testing.py",
+      "bytes": 2943,
+      "sha256": "205211d3b721fce15229b3666d63b849c44a9aa998d98dfdfa6b95a703bbc0b3",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/validation.py",
+      "bytes": 1526,
+      "sha256": "e30b234363c3cd82f00f2bbb8d48923df0ae47373bfce7955756a574007be20b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/vectorized/__init__.py",
+      "bytes": 2903,
+      "sha256": "c730430fa128f332d5eed26c662e26e18c9031e2c9d8e849f572f9acdbe94871",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/wkb.py",
+      "bytes": 2023,
+      "sha256": "5fdbf585fbf780ad46d8b78fafba5b60b2d0702358d0334f0acc62c8fa5c8216",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely/wkt.py",
+      "bytes": 1815,
+      "sha256": "ead6970ab21cd2e4ca4421e38836fcd8f51b44632ced094ae97e7d01a153373a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/DELVEWHEEL",
+      "bytes": 454,
+      "sha256": "d05b2fb95e23d560ce8b227dcea73f95bd81231cc4c6254c5e580de9f97ae228",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/direct_url.json",
+      "bytes": 312,
+      "sha256": "9df0837c63e529786c6df4a03f74477c96a8b04df630afb0be384da1efa4eea6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/licenses/LICENSE.txt",
+      "bytes": 1612,
+      "sha256": "e8cd7d34604d2758ff589f0f34d6ed79c3f7fb14aaf5e12fb09221421391a3bf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/licenses/LICENSE_GEOS",
+      "bytes": 27296,
+      "sha256": "7233baa9a7d4a17257b357706b7dbdc4b675e5ca45425b3418673b16990cf239",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/licenses/LICENSE_win32",
+      "bytes": 1180,
+      "sha256": "fdbb2abb8c598c8888755b52340bddcee38668a2def23e51e7d9e3f187bb8d51",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/METADATA",
+      "bytes": 6774,
+      "sha256": "f4fef957712e3a9e731434b4213dc72fd80b116cbd49f50f0d956c2237efb203",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/RECORD",
+      "bytes": 14479,
+      "sha256": "d6b59b5e2e52c6eebc18d8cc249176f499f03ba91865b608e047a5c29d924a5f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely-2.2.0.dist-info/WHEEL",
+      "bytes": 85,
+      "sha256": "e743de01ba6503a3e4234858398a1e69c07d512d51e8482ec9f3a7b1c707d165",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely.libs/geos-bf067cd6ff74ee0ad5f3ff52c7ef08c9.dll",
+      "bytes": 2627584,
+      "sha256": "0948bdb5c70b82e5055b55e9419b78d68372b1d0ec877277fa6e79276f6299b9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely.libs/geos_c-6dd9fd915eef8a7928285416bef1e666.dll",
+      "bytes": 501760,
+      "sha256": "6e65985b30831761887de3217853a720147626b18cb41668cd2bdc43d1bcded1",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/shapely.libs/msvcp140-0fa7eb792d3fbcf2233e4ea47e9144b9.dll",
+      "bytes": 557416,
+      "sha256": "0fa7eb792d3fbcf2233e4ea47e9144b9b1309ba8ed5d4731a72fffa8f4f556d6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/direct_url.json",
+      "bytes": 304,
+      "sha256": "fee7638d9d402de59f9b03c7ca3958d741f7feec66005b82899036256cd66558",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/LICENSE",
+      "bytes": 1066,
+      "sha256": "4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/METADATA",
+      "bytes": 1658,
+      "sha256": "562042078c2752549f6d8a7c86dbc5dd708088a7be6d80672ec7b07100b72468",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/RECORD",
+      "bytes": 704,
+      "sha256": "12cacfb60e98e615f2331d8c464eb6fc1ed85a2e871557935b9bbb23f3da1999",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/top_level.txt",
+      "bytes": 4,
+      "sha256": "fe2547fe2604b445e70fc9d819062960552f9145bdb043b51986e478a4806a2b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six-1.17.0.dist-info/WHEEL",
+      "bytes": 109,
+      "sha256": "a7178d5f925db427b9f0f51260ff6ea6673b8dd44f82f4f41a6f646f5487955c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/six.py",
+      "bytes": 34703,
+      "sha256": "c51c91f703d3d4b3696c923cb5fec213e05e75d9215393befac7f2fa6a3904df",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/__init__.py",
+      "bytes": 1572,
+      "sha256": "f6640d6124aa3fdf496acb9b102d4f3892cc9a1924047e9c259c4f211e46da94",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/__main__.py",
+      "bytes": 30,
+      "sha256": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_dist_ver.py",
+      "bytes": 23,
+      "sha256": "9b901d608fa307ebfa3f4549ffbd22b07fe9db813348e192c15bee0199a498a6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_main.py",
+      "bytes": 283,
+      "sha256": "f724af8268bfd92c38080a395035b44367717d3af26e8116187a217c2273d2c0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_monitor.py",
+      "bytes": 3699,
+      "sha256": "524bbe0cf5a0cc9edd3b908ad3cc4a24af84fc5eaa43e241de4b2e5dccd2611d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_tqdm.py",
+      "bytes": 283,
+      "sha256": "2df2c2b89e9ba6c568f718a59ad057c849b5bc69d4085ae5896f398f727e9c3e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_tqdm_gui.py",
+      "bytes": 287,
+      "sha256": "d371dcf0a6b2c49bde89e239fb4fb6346883a4bbf0f6365e9287c9515ec20b09",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_tqdm_notebook.py",
+      "bytes": 307,
+      "sha256": "06e1e22eec6eeae11f64568f256dd13e93dac5a55cb44400de47522520cbd61c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_tqdm_pandas.py",
+      "bytes": 888,
+      "sha256": "73d8e9b5482280de9ac510e145de1189ff7c4e6c5ea297359c5345848a5b1541",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/_utils.py",
+      "bytes": 553,
+      "sha256": "ff813bddb7c38f87f5b37b0ce3634b1cdad90ce9228d9a16abe9fac562e4759f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/asyncio.py",
+      "bytes": 2757,
+      "sha256": "2a9dab4a43517fd291a9adddf58a6079943b2fb1197f62a2e1b49ced43c8ca8a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/auto.py",
+      "bytes": 871,
+      "sha256": "9c365f963ea9db32a48c108d068babae14bcd7361f672d7f750bdb724add5bca",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/autonotebook.py",
+      "bytes": 956,
+      "sha256": "61bf45e6e6a204f85f6c30c5a5bb681bc236614c37b9027cf6b5032db7d1eb0b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/cli.py",
+      "bytes": 11010,
+      "sha256": "49b2a537c432676a207a7aadfb04ffa7afecc7638e7428c2ca1a190459e59b22",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/completion.sh",
+      "bytes": 946,
+      "sha256": "8fbf4a6d29a9223fc4d758df4df057ac69d44f3297569435bc6550becc83465e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/__init__.py",
+      "bytes": 2494,
+      "sha256": "3a04b05579bebe50c9fb68a6b6843dcfca9da26e2c9cc491ced1fbd8a300f360",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/bells.py",
+      "bytes": 837,
+      "sha256": "631d47a860a61eb1120803bbd348f9c04fff24295e34e0c9c5e761d628cf2c3d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/concurrent.py",
+      "bytes": 3986,
+      "sha256": "2b5ca3968292e5644d1728cb46d8740e65393c09c36c5d00f860f6ecdf89e1af",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/discord.py",
+      "bytes": 5243,
+      "sha256": "32d5482f5b3f7711f6d46e2c2fc141810e167a2db7868f449394fe0289a6bcd7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/itertools.py",
+      "bytes": 774,
+      "sha256": "59d28a414e5e4b3b2a1eedbd48dfe81f5da1b98668d098a1aa88bdfa7561c33e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/logging.py",
+      "bytes": 3760,
+      "sha256": "36c62d9cab6d8f698cac69b9f2611da396bd0cfff6beff29672ae2992b96ba50",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/slack.py",
+      "bytes": 4007,
+      "sha256": "78ffccaf9b10a27627887c7140d1ae7b78e4d899083e63d6159a886319ceba2d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/telegram.py",
+      "bytes": 5008,
+      "sha256": "be7ffd4804cc6dbc27d8f01bcd20f2397e9abf7781074d5006e835d4fe07f8e8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/contrib/utils_worker.py",
+      "bytes": 1207,
+      "sha256": "1c93f9333d52d71cb31247b625aa89dac60b1d7003628a367a94f9033437f1e0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/dask.py",
+      "bytes": 1319,
+      "sha256": "f448b9f1e56a4e8b2c44b8407d6c9414276e5d82a398b9b091a5c8cbe08761fb",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/gui.py",
+      "bytes": 5479,
+      "sha256": "493201dcaf220f30e090d52a588a6f708feed0e1ad6c6372e4dc2900b5e17d6b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/keras.py",
+      "bytes": 4373,
+      "sha256": "a29f6c0646faaba73a770db0274483d99c293caef233555b838975422cb7308a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/notebook.py",
+      "bytes": 10895,
+      "sha256": "1ad67721aa4b2f5bfc58d0da4d2bcfc346c9193c9fa7bd557f3e470e7033c753",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/rich.py",
+      "bytes": 5021,
+      "sha256": "63230f9041d5c98515511dda74929b557dba89398d2a934c7f70c4aa69be9bad",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/std.py",
+      "bytes": 57461,
+      "sha256": "b568f3ebe4026bdd9aa988f3ecf21d90b50201f8b2fa525985e06d672208c8ed",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/tk.py",
+      "bytes": 6701,
+      "sha256": "1aed2ec17c0b0863d1187391762dd6bc12c68ac794a7fc715ff87f829f55a4ad",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/tqdm.1",
+      "bytes": 7889,
+      "sha256": "6882f250f9364b838f7bfb96cb63f800c8d47f4a10e8f516d272d85c1f815b02",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/utils.py",
+      "bytes": 11821,
+      "sha256": "e84d01430dd283bb8658a04cfdc0e7dcfe36b57b30461ce48206e10602c38e5f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm/version.py",
+      "bytes": 333,
+      "sha256": "fb5c968dfbb73f47a0855b32b071f4edf6f376200335177346d60fa8e6aa4760",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/direct_url.json",
+      "bytes": 301,
+      "sha256": "916247f4b6ddb9e10fbfdcb761e348c3ed639c98cf5fc68907ceabfcfc4e4cee",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/entry_points.txt",
+      "bytes": 39,
+      "sha256": "45e2421fb522dd9ca1e8cd7a1383a1b19d6853b5ad31709f6eda3206118edbd6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/LICENCE",
+      "bytes": 1985,
+      "sha256": "dc33252e829015e3b150086fb9b3a40f6ad6fb32c2f4610ce812fa677d35986a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/METADATA",
+      "bytes": 57675,
+      "sha256": "688a1632df525a198fec52dcfefb1246d31eacee9c035aacac2d7eaf8d8ff669",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/RECORD",
+      "bytes": 3358,
+      "sha256": "90d3adc04e8e638e630bcc029b90a97027089d227f35874f0e5e3693d691b24d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/top_level.txt",
+      "bytes": 5,
+      "sha256": "34b89424d7e673d02dd79b3b254462c2fa8c123522f46e4f30646b98c6333523",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/tqdm-4.67.1.dist-info/WHEEL",
+      "bytes": 91,
+      "sha256": "3d9504c5d7fbd548bfb28ebb417a724ae1ed0a2dfe277c2f1783912ba93f4bc5",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/direct_url.json",
+      "bytes": 314,
+      "sha256": "e93f3aa302430d3d6964e5aa446f70fd07a4d74c85484eb832777710d4a45823",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/licenses/LICENSE",
+      "bytes": 13936,
+      "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/METADATA",
+      "bytes": 3259,
+      "sha256": "c138378fe8f18934ac99de060535c53ec6c13aeed65e94c32641da7ee3192a72",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/RECORD",
+      "bytes": 737,
+      "sha256": "29d5c60fcb8022b353f6b03dce74515452b7f264ab8b7aa97fb237871467f004",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions-4.15.0.dist-info/WHEEL",
+      "bytes": 82,
+      "sha256": "1b68144734c4b66791f27add5d425f3620775585718a03d0f9b110ba3a4d88db",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/typing_extensions.py",
+      "bytes": 160429,
+      "sha256": "433d11d170d3a24d2eb065ebc1bfe848cea7e3d7ce68567ab52bea2d4c2f7ed8",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/__init__.py",
+      "bytes": 12311,
+      "sha256": "b19dfcc333d6a75dfd73073901164507252f271b41d3b5f7d85510033a0547a7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/_yaml.cp312-win_amd64.pyd",
+      "bytes": 253952,
+      "sha256": "4fd0e84f50261ed0886cffcdd8008b055af3352546e649c3d741b50eae1f9b5f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/composer.py",
+      "bytes": 4883,
+      "sha256": "fcaa37d16afa783594794a5ab94193dcb720f503c19ce3d59539c8311189f453",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/constructor.py",
+      "bytes": 28639,
+      "sha256": "90d8247da78b524c10618fd0e857f54f3d97570fe91b5c5513d024ef3faf88b0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/cyaml.py",
+      "bytes": 3851,
+      "sha256": "e99ac01bd7c062f7557b614aff0d21997a06ed962ca185306a91bc0a20bbd87d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/dumper.py",
+      "bytes": 2837,
+      "sha256": "3cb72d66563064ba7b5e679477046ebf89d8399d940670c8532f3e94a7cb17ea",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/emitter.py",
+      "bytes": 43006,
+      "sha256": "8e086d694ede170837d5b1b407b45979aff6f40762f422a65eafd08e04290a44",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/error.py",
+      "bytes": 2533,
+      "sha256": "021f73fada072546c4f63f8cf18a7181244ce4280b09cc15cc980b2d1176171a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/events.py",
+      "bytes": 2445,
+      "sha256": "e74fd392c810884e2ea7e94aa3f57e9c1cbeb402319083d0c58e6a0e1282787c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/loader.py",
+      "bytes": 2061,
+      "sha256": "5156becc8aa6905482218abf3e04869b835226db4763645fff3438fdbd5f1cdd",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/nodes.py",
+      "bytes": 1440,
+      "sha256": "80f28d8fca4a09d87677882bde021820d9cf39a3b11a12405226211919cf13ce",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/parser.py",
+      "bytes": 25495,
+      "sha256": "8a55a9e6fbe0a07146cef3990c8b45a068c3e83e369e1959ad9ca30306b4a09a",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/reader.py",
+      "bytes": 6794,
+      "sha256": "d1d9b38ab3a20c6e17a38d519ee412ecaf6b918df18c78956ac7c330d4ea08dc",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/representer.py",
+      "bytes": 14190,
+      "sha256": "22e58ff9c016f6c1ca1274b4802a926bcf78935060e1c813c5a0f021c6d143e6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/resolver.py",
+      "bytes": 9004,
+      "sha256": "f4bf9561f9b89961f1503d558385fbae30d12bfed565de9bf76c33abb63620a6",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/scanner.py",
+      "bytes": 51279,
+      "sha256": "60433788b652690c17710460da5d91e0c753d3318fd85f5e1e42862a71f25906",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/serializer.py",
+      "bytes": 4165,
+      "sha256": "0a1b85826854d35863e31808f0668abfabdf33606e8f06bd8bb7761401e3edc0",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/packages/yaml/tokens.py",
+      "bytes": 2573,
+      "sha256": "953408cd2570f0c83dc2fe39f7e4e388e41eeb05738aa69196a5f6ffcf6ba79e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Runtime/Knowledge/provenance.json",
+      "bytes": 836,
+      "sha256": "1f99d2a3b703aef068ff66f8ff34c82d1564a434b99bc2a3cd715d936554281b",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    }
+  ]
+}

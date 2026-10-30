@@ -117,6 +117,10 @@ def detect(root:Path)->dict:
     add("diagnostics","Diagnostics",ex("Tools/component_diagnostics.py") and ex("Tools/system_test.py") and ex("Tools/component_smoke.py"),"full + targeted + functional Science + per-component smoke checks")
     add("maintenance","Maintenance",ex("Tools/maintenance_storage.py") and ex("Tools/reference_integrity.py") and ex("Tools/dependency_probe_current.py"),"science-aware storage/duplicate audit + conservative cleanup + dependency/reference checks")
 
+    add('knowledge','Local document knowledge',ex('Agent/knowledge_base.py') and ex('Runtime/Knowledge/model/manifest.json') and ex('Runtime/Knowledge/packages/pypdfium2/__init__.py'),'Workspace: transactional folder sync, PDF/Office/OCR, local semantic + keyword retrieval with source citations')
+    add('mcp','MCP connections',ex('Agent/mcp_client.py') and ex('Runtime/Knowledge/packages/jsonschema/__init__.py'),'Workspace: stdio and Streamable HTTP tools, explicit per-account grants; pending effects require review')
+    add('workflows','Reusable workflows',ex('Agent/workflows.py') and ex('ControlCenter/workspace_panel.py'),'Saved typed inputs, forward conditions, approval points and durable bounded step execution')
+    add('computer','Native computer control',os.name=='nt' and ex('Agent/desktop_control.py'),'Windows visible-window grants per login; local vision screenshots and native mouse/keyboard/window actions. Other OS adapters unavailable.')
     services={"qwen":{"port":8080,"open":_port(8080)},"comfyui":{"port":8188,"open":_port(8188)},"acestep":{"port":8001,"open":_port(8001)}}
     pp=next((p for p in range(8765,8781) if _port(p)),None);services["preview"]={"port":pp,"open":pp is not None}
     # OpenWebUI is intentionally absent: it was removed from the current product surface.

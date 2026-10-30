@@ -43,3 +43,5 @@ Current update: [shutdown and Projection repair](SHUTDOWN-20261024-r10.md) and [
 - [2026-10-29 audit: publication gaps, installed variants and validation](SOURCE-AUDIT-20261029.md)
 
 **Follow-up bug fixes (2026-10-29):** schedule backoff, worker launch recovery, and durable failure records. [Findings, source, tests and SSD patch](BUG-REVIEW-20261029.md).
+
+**Workspace update (2026-10-29):** [knowledge, MCP, workflows and Windows computer use](WORKSPACE.md), [validation](WORKSPACE-VALIDATION-20261029.md), and [code/runtime bloat audit](BLOAT-AUDIT-20261029.md).

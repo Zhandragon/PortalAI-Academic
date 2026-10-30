@@ -1466,6 +1466,10 @@ def main(authenticated=None):
     def open_account_missions():
         show_tab('persistence')
 
+    def open_account_workspace():
+        from workspace_panel import show_workspace
+        show_workspace(app,root,COLORS,session=current_account_session,jobs=gui_jobs,runtime=native_chat_panel.tool_runtime)
+
     settings_page = SettingsPage(settings_tab, root, COLORS,
         missions=open_account_missions, on_save=lambda: force_scan.set(), session=current_account_session)
     settings_page.pack(fill="both", expand=True, pady=(0, 10))
@@ -4072,6 +4076,7 @@ def main(authenticated=None):
             _menu_item("Settings", lambda: show_tab("settings")),
             _menu_item("Maintenance", lambda: show_tab("maintenance")),
             _menu_item("Persistence", open_account_missions),
+            _menu_item("Workspace", open_account_workspace),
             _menu_item("Documentation / Help", _help_command("quick_start")),
             None,
             _menu_item("Startup", start_components),

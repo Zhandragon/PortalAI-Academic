@@ -990,6 +990,8 @@ class ToolRuntime:
             raise
 
     def cancel(self, *, cleanup_media=True):
+        from desktop_control import revoke
+        revoke(self.root)
         with self._lock:
             self._cancel_epoch=getattr(self,'_cancel_epoch',0)+1
             p = self._proc
@@ -1274,6 +1276,9 @@ class ToolRuntime:
 
     def execute(self, name: str, args: dict) -> str:
         self._account_role()
+        if name in ('knowledge','mcp','workflow','computer'):
+            from capability_tools import dispatch
+            return json.dumps(dispatch(self,name,args),ensure_ascii=True)
         if name in ('inspect_environment', 'source_search', 'source_map'):
             from maintenance_tools import execute
             return execute(self, name, args)
@@ -1395,7 +1400,8 @@ from chat_task_checkpoint import TOOL as CHECKPOINT_TOOL
 from web_tool_api import TOOL as WEB_TOOL
 from agent_collaboration import TOOL as AGENTS_TOOL
 from maintenance_tools import TOOLS as MAINTENANCE_TOOLS
-TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS
+from capability_tools import TOOLS as WORKSPACE_TOOLS
+TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
 
 def _request_scope(panel):
     scope = getattr(panel, '_request_tool_scope', None)
@@ -1802,6 +1808,8 @@ class NativeChat:
         self.clear_attachments_btn = attach_actions.add(ElegantButton(attach_actions, text="Clear", command=self.clear_attachments, bg=self.COL["panel2"], fg=self.COL["text"],
                   relief="flat", bd=0, padx=7, pady=3))
         attach_actions.add(ElegantButton(attach_actions, text="Attach", command=self.add_attachments, bg=self.COL["panel2"], fg=self.COL["text"],
+                  relief="flat", bd=0, padx=8, pady=3))
+        attach_actions.add(ElegantButton(attach_actions, text="Workspace", command=self.open_workspace, bg=self.COL["panel2"], fg=self.COL["text"],
                   relief="flat", bd=0, padx=8, pady=3))
 
         # Responsive composer: prompt always owns a full-width row. Controls
@@ -4016,6 +4024,11 @@ class NativeChat:
         cycle_reserve = 280
         fixed = estimate_tokens(system) + estimate_tokens(_request_tools(self)) + output + 500 + cycle_reserve
         fixed += estimate_tokens(runtime_row)
+        from capability_tools import computer_context
+        computer_row=computer_context(self)
+        # Capture is bounded to 1024x768. Reserve visual tokens separately from
+        # the encoded PNG bytes, which are not text tokens.
+        if computer_row:fixed+=2048
         if memory_row:
             fixed += estimate_tokens(memory_row)
         if summary_row:
@@ -4093,7 +4106,7 @@ class NativeChat:
         if estimate_tokens(cycle_row)>cycle_reserve:
             raise RuntimeError('Cycle guidance exceeded its reserved context allowance')
         return {
-            "system": system, "cycle_row": cycle_row, "runtime_row": runtime_row, "memory_row": memory_row, "summary_row": summary_row, "resume_row": resume_row, "summary": summary, "state": st,
+            "system": system, "cycle_row": cycle_row, "runtime_row": runtime_row, "memory_row": memory_row, "summary_row": summary_row, "resume_row": resume_row, "summary": summary, "state": st, "computer_row":computer_row,
             "fixed": fixed, "budget": budget, "model_limit": model_limit, "soft": soft,
             "groups": groups, "kept": kept, "used": used,
             "estimated_full": fixed + total_unsummarized,
@@ -4123,6 +4136,7 @@ class NativeChat:
             for m in g['messages']:
                 row=self._api_row(m)
                 if row is not None: api.append(row)
+        if plan.get('computer_row'):api.append(plan['computer_row'])
         api=_normalize_qwen_messages(api)
         return api,int(plan['estimated_sent'])
 
@@ -6121,6 +6135,13 @@ class NativeChat:
             self.ev.put(("conversation_stopped", None))
 
     # ---------- settings / instructions ----------
+    def open_workspace(self):
+        from workspace_panel import show_workspace
+        if self.busy:
+            self._notice('Workspace','Finish or stop the active chat turn before managing Workspace.')
+            return
+        show_workspace(self.app,self.root,self.COL,session=getattr(self.app,'_portalai_account_session',None),jobs=self._writer_jobs,runtime=self.tool_runtime)
+
     def open_settings(self):
         body = self._open_sheet("Chat Preferences", width=0.86, height=0.90)
         skin = self._sheet_skin

@@ -1,0 +1,55 @@
+# PortalAI bloat audit — 2026-10-29
+
+Scope: active D: and E: installations and their published first-party source. The deprecated C: installation was not inspected. Source checkout/build staging is separate from that installation. This audit did not delete models, runtimes, historical recovery copies, accounts or outputs.
+
+## Findings and action
+
+- **Duplicate test coverage repaired.** `test_chat_selection.py` and `test_saved_chat_selection.py` were byte-identical (3,026 bytes each), both testing saved conversations. The former now contains six distinct model-choice tests: size, missing weights, missing projector, unknown selections, auto preference and tier mapping. Saved-chat coverage remains in the latter. This removes repeated execution and restores coverage the filenames promised.
+- **An outdated test expectation repaired.** The compact-chat test still required the superseded phrase “compact tool guide”. It now verifies the current optional-manual contract and preserves its custom-instruction and prompt-size checks. Application guidance was not weakened to satisfy the test.
+- **Installed-runtime test isolation repaired.** The tool-format recovery fixture replaced its disposable root with the live application root, causing account-protection failures on installed systems. It now retains temporary state and mocks only interpreter lookup for mocked commands. The 16 format-recovery tests pass without touching owner profiles or weakening account checks.
+- **Most first-party size is maintenance complexity, not SSD capacity.** The final inspected platform tree contains 775 Python files, 134,236 lines and 6.91 MiB. Exact nonempty duplicate Python files remaining: 0. Parser errors: 0.
+- **Layered GUI overrides need a planned refactor.** The audit found 17 repeatedly defined top-level names, concentrated in `portal_frontend_v15136.py`. `CompactModeController` appears twelve times; several later definitions retain previous implementations through aliases/subclasses. Deleting earlier definitions from their names alone would break behavior. Consolidate them into named layers with existing layout/Stop/account tests rather than removing the chain.
+- **Imports need review, not bulk deletion.** 292 top-level import bindings have no ordinary AST load reference. This includes legitimate reexports and initialization imports. Unused imports introduced by this patch were removed. The report labels the rest as candidates, not proven dead code.
+- **About 39.8 MiB per SSD is proven duplicated NumPy content.** Across Science and Piper, 923 files (NumPy plus its native library directory) have matching SHA-256 and different filesystem identities. Both consumers use Bootstrap Python 3.12, but `Agent/piper_worker.py`, `Agent/science_tools.py` and `Tools/dependency_check.py` select separate package paths. Consolidation requires a versioned common portable layer plus coordinated loader, installer, repair and dependency-check updates; deleting one copy today would break consumers. Different Python/OS/GPU environments are not interchangeable. Hard links would couple upgrades and complicate the updater's anti-link checks; no existing copies were removed or linked. New Workspace features already reuse installed libraries.
+- **Optional operating-system layers dominate capacity.** Linux Torch, Linux packages and Linux system libraries together occupy about 59.5 GiB per SSD. They support the portable cross-platform/VM distribution. A Windows-only package selection could omit them on a future install, but they are not unused merely because this audit runs on Windows.
+- **D/E differences are preserved.** AMD and some other dependency layers differ in size. This patch does not normalize older runtimes or erase recovery material to make the drives appear identical. New Workspace source/runtime files are synchronized separately and verified.
+
+## Largest first-party Python files
+
+| File | Lines | Size |
+| --- | ---: | ---: |
+| `ControlCenter/native_chat.py` | 6,715 | 359.0 KiB |
+| `ControlCenter/portal_frontend_v15136.py` | 5,731 | 232.2 KiB |
+| `ControlCenter/PortableAI_GUI.py` | 4,365 | 229.3 KiB |
+| `Agent/ai_tools.py` | 3,034 | 151.3 KiB |
+| `Agent/video_understanding_bridge.py` | 2,296 | 102.4 KiB |
+| `ControlCenter/help_catalog.py` | 904 | 75.7 KiB |
+| `Agent/web_tools.py` | 1,465 | 55.6 KiB |
+
+Extracting cohesive chat transport, UI and workflow adapters from these modules would improve reviewability. Simply moving lines between files does not reduce runtime disk usage. The new Workspace engines are separate modules rather than another large inline GUI patch.
+
+## Runtime size evidence
+
+These are logical file sizes, not promised reclaimable space. Traversal excluded links; per-folder inode accounting and selected duplicate hashes were recorded. Shared models and user data were outside this runtime scan.
+
+| Runtime folder | D: | E: |
+| --- | ---: | ---: |
+| `Runtime/LinuxTorch` | 37.23 GiB | 37.23 GiB |
+| `Runtime/LinuxPackages` | 14.49 GiB | 14.49 GiB |
+| `Runtime/LinuxSystem` | 7.81 GiB | 7.81 GiB |
+| `Runtime/AMDPython` | 26.65 GiB | 21.24 GiB |
+| `Runtime/MMAudioPython` | 5.29 GiB | 5.27 GiB |
+| `Runtime/Web` | 2.10 GiB | 0.72 GiB |
+| `Runtime/Downloads` | 1.07 GiB | 1.07 GiB |
+
+Historical `inaccessible` and `permissions-recovery` folders also remain. Their names are recovery evidence, not sufficient deletion authorization. The machine-readable installed reports list their sizes for a later retention review.
+
+## Avoided new bloat
+
+The new Windows Workspace runtime is approximately 161.4 MiB, including OCR models/native extraction libraries and a roughly 22 MiB quantized embedding model. It reuses existing portable NumPy/ONNX Runtime/Pillow. Unused pip-generated CLI launchers with build-drive paths are omitted; library modules, metadata and licenses remain. It does not add Torch, the SentenceTransformers Python framework, a vector database daemon, Docker, a second browser bundle or host runtimes. Desktop screenshots retain only the latest frame in memory. MCP diagnostics retain an 8 KiB in-memory tail instead of growing log files. Knowledge source snapshots are deliberately retained; a future explicit pruning feature should account for citations and encrypted recovery generations.
+
+## Reproduce
+
+Run the installation's bundled Python with `Tools/audit_source_bloat.py --root <portable-root>`. It prints a read-only JSON report containing sizes, exact duplicates, repeated top-level definitions, possible unused imports and syntax errors. It never treats a finding as deletion permission.
+
+Installed evidence: `Maintenance/Validation/Capabilities-20261029/source-bloat.json` and `runtime-bloat.json` on both SSDs. [Workspace implementation and source links](WORKSPACE.md). First-party code is published independently of optional runtime downloads; original r51 archives are not repackaged by this source patch.
