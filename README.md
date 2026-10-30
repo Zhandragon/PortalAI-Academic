@@ -19,6 +19,8 @@
   <a href="Documentation/README.md">Documentation</a>
 </p>
 
+**Qwen voice runtime repair (2026-10-30):** One active SSD-local Qwen package layer, corrected repair/status references, and a Windows checkpoint-loading crash fix. [Changes and validation](Documentation/QWEN-RUNTIME-CONSOLIDATION-20261030.txt). Updated Windows source is individually browsable; historical release archives are unchanged.
+
 **Workspace integration patch (2026-10-29):** Schema-constrained mission/extraction JSON, an authenticated application API with Python/TypeScript SDKs, and interactive versioned HTML/SVG/chart artifacts. [Guide and source links](Documentation/INTEGRATION.md). [Read-only Python distribution audit](Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md); no runtime or NumPy merging. Source patch; historical r51 archives unchanged.
 
 **Welcome to PortalAI:** a portable workspace for local chat, tools, science, images, video, speech and music.

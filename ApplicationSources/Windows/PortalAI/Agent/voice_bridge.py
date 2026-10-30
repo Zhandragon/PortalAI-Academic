@@ -37,26 +37,12 @@ class VoiceBridge:
         packages = self.voice_root / ".venv/Lib/site-packages"
         if portable.is_file() and (packages / "qwen_tts").is_dir():
             return portable
-        rel_file = self.voice_root / "python_relative.txt"
-        if rel_file.exists():
-            rel = rel_file.read_text(encoding="utf-8").strip()
-            if rel:
-                p = (self.voice_root / rel).resolve()
-                if p.exists():
-                    return p
-
-        # v15+ installer uses a relocatable virtual environment.
-        venv_python = self.voice_root / ".venv" / "Scripts" / "python.exe"
-        if venv_python.exists():
-            return venv_python.resolve()
-
-        # Recovery for an older installer.
-        candidates = sorted((self.voice_root / "python").glob("**/python.exe"))
-        if candidates:
-            return candidates[0].resolve()
-
+        # Never fall through to copied venv launchers, external paths from an old
+        # pointer, or the retired installer tree. All workers use this SSD's
+        # BootstrapPython and the package layer selected by qwen_tts_runner.py.
         raise FileNotFoundError(
-            "Portable Qwen3-TTS Python runtime not found. "
+            "Qwen3-TTS requires Runtime/BootstrapPython/python.exe and "
+            "Voice/Qwen3-TTS/.venv/Lib/site-packages/qwen_tts on this drive. "
             "Run Setup\\Qwen3-TTS\\Install_or_Repair_Qwen3_TTS.bat."
         )
 

@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 864
+    "Windows": 875
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -373,7 +373,8 @@
     "ApplicationSources/Windows/PortalAI/Tools/storage_audit.py",
     "ApplicationSources/Windows/PortalAI/Tools/stt_runtime.py",
     "ApplicationSources/Windows/PortalAI/Tools/system_test.py",
-    "ApplicationSources/Windows/PortalAI/Tools/update_master_native.py"
+    "ApplicationSources/Windows/PortalAI/Tools/update_master_native.py",
+    "ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/download_models.py"
   ],
   "files": [
     {
@@ -50877,8 +50878,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/voice_bridge.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "4018d674e9ed9b8392c8ae98bce332bd840d6b4cb76a8f34ff7446b63e670693",
-      "lines": 200,
+      "sha256": "c76c972da03965b720a1e76bf0e4ab83123520c171bd845fed30d4d8ce4e8506",
+      "lines": 186,
       "overview": "",
       "symbols": [
         {
@@ -51587,6 +51588,13 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/StatusWorker.ps1",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "daae4c79f4e08d1947fd66f67c1b29fd63457a6da1dc722ffbb346f1f74e74a3",
+      "lines": 823
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_gate.py",
@@ -60641,6 +60649,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_qwen_runtime_consolidation.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "f59a86975cc37117365c6042c2f4717a4919f82b45f2f8914cb9be30e6020477",
+      "lines": 118,
+      "overview": "Regression coverage for retired runtime references and installer forwarding.",
+      "symbols": [
+        {
+          "name": "checkpoint_reader",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "QwenConsolidationTests",
+          "line": 32,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_radeon_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -62915,6 +62943,41 @@
       "lines": 87
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Setup/Legacy/Install_Qwen3_TTS_Portable.bat",
+      "platform": "Windows",
+      "component": "Setup",
+      "sha256": "fd59fdc2dc2f1dc597854822b1e836f0a0809a15c960fcbf8f3c715d7c4a8a0c",
+      "lines": 13
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Setup/Legacy/Install_Qwen3_TTS_Portable.ps1",
+      "platform": "Windows",
+      "component": "Setup",
+      "sha256": "04b42b34f4e0231f70fd64cef9dfa2a15eda63879ea7677d95ba70ed1df3a375",
+      "lines": 16
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Setup/Legacy/Test_Qwen3_TTS_Portable.bat",
+      "platform": "Windows",
+      "component": "Setup",
+      "sha256": "53e3ca4f727bc6994c8ab2321f4f3a56213d59bdd569742456f504f9d3e7b5ee",
+      "lines": 8
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.bat",
+      "platform": "Windows",
+      "component": "Setup",
+      "sha256": "e458f3b1b3d0e5c2f4220d221a322b61ee2ad6e7c942c452758ec9447c360ebd",
+      "lines": 16
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.ps1",
+      "platform": "Windows",
+      "component": "Setup",
+      "sha256": "853ed3b5df5951a6e7d88ad35b1dd3f96297407300921270bc18694453e8662f",
+      "lines": 176
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/ExecutableRecovery.cs",
       "platform": "Windows",
       "component": "Tools",
@@ -63200,8 +63263,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/audit_specialist_filters.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "9ef0496d16db85264f5f56a3396905ae1b5549961b0f338dfd3acc42c4824294",
-      "lines": 45,
+      "sha256": "35f1151809a89aba62928e776847625d9ef7d982a949adfc525904df41083ba3",
+      "lines": 50,
       "overview": "Read-only source evidence, not a universal model-behavior or license audit.",
       "symbols": [
         {
@@ -63635,7 +63698,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/dependency_probe.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "82219d4c55ab501939afdf53d8556aef82002aa7c97aa0e6d31bc25f072201e0",
+      "sha256": "b0c73e477bb377d5ae9de4547dbf72abfc1a210b469c5f369bd3f369d4794196",
       "lines": 768,
       "overview": "",
       "symbols": [
@@ -66812,6 +66875,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_qwen_runtime.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "c60eb67850203c54b15203757798ddd75c0fb4ceb7a79109886a9ef4522bba7d",
+      "lines": 163,
+      "overview": "Bounded, offline synthesis using the installed Qwen runner and local assets.",
+      "symbols": [
+        {
+          "name": "dll_paths",
+          "line": 25,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "worker",
+          "line": 41,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 86,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_remote_desktop.py",
       "platform": "Windows",
       "component": "Tools",
@@ -67704,6 +67792,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/verify_qwen_runtime.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "0320437739cf35eebdec82164bbe2e7c7e5f109192e9a9d676847ba5a48afe2a",
+      "lines": 74,
+      "overview": "Offline verification of the Windows Qwen package layer used by voice_bridge.",
+      "symbols": [
+        {
+          "name": "verify",
+          "line": 14,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 59,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/vision_diagnostics.py",
       "platform": "Windows",
       "component": "Tools",
@@ -67739,6 +67847,50 @@
         {
           "name": "files",
           "line": 30,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/download_models.py",
+      "platform": "Windows",
+      "component": "Voice",
+      "sha256": "d3ad652db4d03192eb6012a2e5b2c6e352ed7d7e424a11aab4a33cdc2bd66e2a",
+      "lines": 34,
+      "overview": "",
+      "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/qwen_tts_runner.py",
+      "platform": "Windows",
+      "component": "Voice",
+      "sha256": "192563bb1a3edebdd28e6f73d47c21085cf39e2ae150f13a48972c3e140bd9a8",
+      "lines": 211,
+      "overview": "Offline Qwen speech worker: BootstrapPython plus the SSD-local package layer.",
+      "symbols": [
+        {
+          "name": "_model_dir",
+          "line": 49,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_checkpoint_reads",
+          "line": 65,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_load",
+          "line": 86,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_save",
+          "line": 125,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 133,
           "kind": "FunctionDef"
         }
       ]

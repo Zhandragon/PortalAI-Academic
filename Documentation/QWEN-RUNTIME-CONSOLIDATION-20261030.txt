@@ -1,0 +1,115 @@
+PortalAI Qwen runtime consolidation - 2026-10-30
+
+Runtime changes and production legacy-tree removal applied independently on D:
+and E:. Deprecated C: PortalAI was not inspected.
+
+ACTIVE LAYOUT
+  Runtime/BootstrapPython/python.exe: execution interpreter.
+  Voice/Qwen3-TTS/.venv/Lib/site-packages: canonical Qwen package layer.
+  Voice/Qwen3-TTS/models: unchanged model weights.
+  Voice/Qwen3-TTS/python-base: retained for current installer/repair.
+  Voice/Qwen3-TTS/python: removed after verification on each SSD.
+
+CHANGES
+VoiceBridge no longer reads an arbitrary historical interpreter pointer or falls
+back to the old Python tree / copied venv launcher. Missing active assets fail
+with a repair instruction. Compatibility metadata now points to BootstrapPython.
+The legacy installer delegates to the current installer and propagates flags and
+exit status. Both support -VerifyOnly; actual repair verifies the same package
+layer that the app uses. The legacy voice test uses bundled Python. Status and
+dependency probes now inspect the real execution prerequisites.
+
+The specialist source auditor scans the active qwen_tts package and fails if a
+required source tree is missing/empty instead of silently omitting it.
+
+REAL SYNTHESIS FOUND AND FIXED A PRE-EXISTING LOADER CRASH
+Two pre-fix custom-voice runs crashed with Windows 0xC0000005 in torch_cpu.dll /
+torch.storage.__getitem__ while Transformers read a Safetensors checkpoint.
+The active local versions were Torch 2.14.0+cu126, Transformers 4.57.3,
+Safetensors 0.8.0 and qwen-tts 0.1.1. The worker now selects Safetensors' pread
+backend during Windows model loading when that API is supported. The original
+reader is restored even on error; older APIs/non-Windows retain their behavior.
+No vendor library, model weight, Torch build or NumPy installation was changed.
+Upstream API/background:
+  https://github.com/safetensors/safetensors/releases/tag/v0.8.0
+  https://github.com/Comfy-Org/ComfyUI/issues/15424
+These sources support the compatibility approach; local validation below is the
+evidence that it works on these two installations.
+
+VALIDATION
+Both SSDs passed 72 focused tests (zero failures/errors/skips), source scans,
+actual current/legacy -VerifyOnly calls, and the corrected source audit.
+On each SSD, real custom voice, voice design and synthetic-reference cloning
+passed BEFORE removal. All three modes passed again after the old tree was physically absent.
+Each worker recorded module/DLL origins; no retired-tree or other-SSD dependency
+was observed. Python-level access guards are diagnostics, not an OS sandbox.
+
+Disposable asset fixtures, containing no old Python tree or owner account data,
+passed the existing smoke_voice.py and smoke_voice_handoff.py: CPU speech,
+cancellation, parent-crash cleanup, real owned chat stop, automatic Qwen GPU
+speech and healthy restoration of the exact chat-server command. Fixture chat
+servers and media-preview processes were stopped using verified ownership.
+CPU MusicGen class imports and CPU tensor computation passed through the real
+CPU entry point. Isolated ROCm Torch plus shared Qwen dependencies imported and
+computed on CPU; this is not physical Radeon inference.
+
+RECOVERY AND CLEANUP
+Each old tree was compressed to its own SSD's Backups directory. Every archived
+member was read back and SHA-256 verified. Before deletion, the complete live
+legacy inventory and archive were rehashed, successful test receipts required,
+closed-profile/no-running-bundle conditions checked, and links rejected.
+Only the exact Voice/Qwen3-TTS/python directory was removed. Active packages,
+python-base, model weights, other Python runtimes, and user data were retained.
+
+D: removed 4,894,702,550 bytes; retained 2,961,592,527 bytes of compressed runtime recovery. Net payload reduction: 1,933,110,023 bytes.
+Recovery: D:\Backups\PortalAI-Qwen-Consolidation-20261030\legacy-python.zip
+SHA-256: 585967193e70175df3fc74a2f7f7dca4eab1548ff5038548597d44b7b58c4661
+
+E: removed 4,894,702,550 bytes; retained 2,961,592,527 bytes of compressed runtime recovery. Net payload reduction: 1,933,110,023 bytes.
+Recovery: E:\Backups\PortalAI-Qwen-Consolidation-20261030\legacy-python.zip
+SHA-256: 585967193e70175df3fc74a2f7f7dca4eab1548ff5038548597d44b7b58c4661
+
+These sizes count file contents, not filesystem allocation or unrelated activity.
+Recovery archives are retained deliberately; they are not active dependencies.
+They are not complete SSD backups. Source-before archives and the original voice
+runner are retained alongside them. Restore only to a closed installation after
+checking archive hashes and reviewing newer edits.
+
+LIMITS
+  - Windows RTX 3090 tested; physical Radeon/Linux/macOS inference not tested.
+  - Repair entry-point verification and forwarding tested; no complete package reinstall/download.
+  - Normal voice CLI/lease/handoff tested in disposable public-asset fixtures, not an owner account.
+  - Model quality was checked for valid, non-silent audio, not rated by human listeners.
+  - No Python/NumPy package merge. python-base remains a repair dependency.
+
+The copied .venv launcher still is not the execution entry point. Do not make
+other components invoke it or remove python-base without a separate repair audit.
+Historical release archives are unchanged; this is a later installed/source fix.
+
+REPRODUCING THE FOCUSED CHECKS
+From a PowerShell window in the intended PortalAI installation directory:
+  .\Runtime\BootstrapPython\python.exe -B -I .\Tools\verify_qwen_runtime.py --require-gpu
+  powershell.exe -NoProfile -File .\Setup\Qwen3-TTS\Install_or_Repair_Qwen3_TTS.ps1 -VerifyOnly
+  .\Runtime\BootstrapPython\python.exe -B -m unittest discover -s .\Maintenance\Tests -p test_qwen_runtime_consolidation.py
+For a new, marked diagnostic output directory on that same SSD:
+  .\Runtime\BootstrapPython\python.exe -B -I .\Tools\smoke_qwen_runtime.py --artifacts-dir .\Maintenance\Validation\Qwen-Fresh-Check --require-legacy-absent
+The live smoke refuses an active owned chat server or insufficient resources and
+uses the application's GPU lease. It runs custom speech, voice design and cloning
+from its own synthetic reference. Use a fresh output directory on each run.
+The legacy installer accepts the same -VerifyOnly switch. Omitting that switch
+starts the full package reinstall/download path; that path was not run here.
+
+Automatic approval review rejected deletion of the disposable test installations,
+reporting only "blocked by policy", including a retry with one explicit verified
+path. Their directories remain under this run's Maintenance/Validation directory
+as "portable voice fixture". The large runtime/model assets there are same-SSD
+hardlinks to active assets, not extra independent weight copies. Their processes
+were stopped. This does not affect removal of the production legacy Python trees.
+
+EVIDENCE
+Maintenance/Validation/Qwen-Consolidation-20261030 contains the source manifests,
+unit/source scans, pre/post inference reports and audio, package-origin reports,
+repair verification logs, recovery/removal receipts and reproducible diagnostics.
+Initial crash/admission/fixture-cleanup attempts are retained and distinguished
+from the final passing results. Source is published individually in GitHub under
+ApplicationSources/Windows/PortalAI, including the voice runner and setup scripts.

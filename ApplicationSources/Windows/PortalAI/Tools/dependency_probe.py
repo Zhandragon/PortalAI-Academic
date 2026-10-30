@@ -328,7 +328,7 @@ def build_test_specs(root: Path, suite: str, temp: Path) -> list[dict]:
     })
 
     if suite == "full":
-        voice_ok = has_command(ai_text, "voice-design") and (root / "Voice" / "Qwen3-TTS" / ".venv" / "Scripts" / "python.exe").exists() and (root / "Voice" / "Qwen3-TTS" / "models" / "Qwen3-TTS-12Hz-1.7B-VoiceDesign").exists()
+        voice_ok = has_command(ai_text, "voice-design") and bootstrap.is_file() and (root / "Voice/Qwen3-TTS/.venv/Lib/site-packages/qwen_tts").is_dir() and (root / "Voice/Qwen3-TTS/models/Qwen3-TTS-12Hz-1.7B-VoiceDesign/config.json").is_file()
         specs.append({
             "name": "qwen3-tts", "eligible": voice_ok, "timeout": 900,
             "cmd": [str(bootstrap), str(ai), "voice-design", "Dependency probe.", "neutral clear voice", "--language", "English",

@@ -172,6 +172,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | --- | --- |
 | [ControlCenter/PortableAI_GUI.py](../ApplicationSources/Windows/PortalAI/ControlCenter/PortableAI_GUI.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/PortableAI_LauncherBootstrap.py](../ApplicationSources/Windows/PortalAI/ControlCenter/PortableAI_LauncherBootstrap.py) | No module overview; see source and symbol inventory. |
+| [ControlCenter/StatusWorker.ps1](../ApplicationSources/Windows/PortalAI/ControlCenter/StatusWorker.ps1) | Source script; inspect its comments and entry points. |
 | [ControlCenter/account_gate.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_gate.py) | Guarded GUI integration; importing this module never initializes accounts. |
 | [ControlCenter/account_permissions.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_permissions.py) | Trusted-session authorization for shared settings and host mission controls. |
 | [ControlCenter/account_presentation.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_presentation.py) | Account sheets inside the existing launcher, with no secondary Tk windows. |
@@ -592,6 +593,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_public_bootstrap.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_public_bootstrap.py) | Public startup retains preflight and rejects one-off mission migration arguments. |
 | [Maintenance/Tests/test_public_repair_packaging.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_public_repair_packaging.py) | Public Windows runtime wheelhouse scope; no installation or account access. |
 | [Maintenance/Tests/test_public_scan_reports.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_public_scan_reports.py) | Public read-only checks must not reopen shared private report directories. |
+| [Maintenance/Tests/test_qwen_runtime_consolidation.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_qwen_runtime_consolidation.py) | Regression coverage for retired runtime references and installer forwarding. |
 | [Maintenance/Tests/test_radeon_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_radeon_recovery.py) | No-model regressions for Radeon cleanup, restoration and precision admission. |
 | [Maintenance/Tests/test_recent_tool_evidence.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_recent_tool_evidence.py) | Newest tool evidence stays useful without widening context admission. |
 | [Maintenance/Tests/test_record_dates.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_record_dates.py) | Missing dates must persist without rewriting execution or deletion evidence. |
@@ -712,6 +714,16 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Scientific/world_scene.html](../ApplicationSources/Windows/PortalAI/Scientific/world_scene.html) | Source script; inspect its comments and entry points. |
 | [Scientific/world_scene.py](../ApplicationSources/Windows/PortalAI/Scientific/world_scene.py) | Bounded, offline teaching physics; never an engineering safety certificate. |
 | [Scientific/world_ui.js](../ApplicationSources/Windows/PortalAI/Scientific/world_ui.js) | Source script; inspect its comments and entry points. |
+
+## Setup
+
+| Source | Overview |
+| --- | --- |
+| [Setup/Legacy/Install_Qwen3_TTS_Portable.bat](../ApplicationSources/Windows/PortalAI/Setup/Legacy/Install_Qwen3_TTS_Portable.bat) | Source script; inspect its comments and entry points. |
+| [Setup/Legacy/Install_Qwen3_TTS_Portable.ps1](../ApplicationSources/Windows/PortalAI/Setup/Legacy/Install_Qwen3_TTS_Portable.ps1) | Source script; inspect its comments and entry points. |
+| [Setup/Legacy/Test_Qwen3_TTS_Portable.bat](../ApplicationSources/Windows/PortalAI/Setup/Legacy/Test_Qwen3_TTS_Portable.bat) | Source script; inspect its comments and entry points. |
+| [Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.bat](../ApplicationSources/Windows/PortalAI/Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.bat) | Source script; inspect its comments and entry points. |
+| [Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.ps1](../ApplicationSources/Windows/PortalAI/Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.ps1) | Source script; inspect its comments and entry points. |
 
 ## Tools
 
@@ -880,6 +892,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/smoke_portable_backends.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_portable_backends.py) | Exercise downloaded small model on each installed Windows backend, one at a time. |
 | [Tools/smoke_profile.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_profile.py) | Private, epoch-bound paths for bounded live smoke tests. |
 | [Tools/smoke_profile_shutdown.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_profile_shutdown.py) | Real Windows process-handle shutdown, using disposable synthetic accounts. |
+| [Tools/smoke_qwen_runtime.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_qwen_runtime.py) | Bounded, offline synthesis using the installed Qwen runner and local assets. |
 | [Tools/smoke_remote_desktop.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_remote_desktop.py) | Bounded actual Windows window capture/input with an isolated synthetic UI. |
 | [Tools/smoke_remote_file_dialog.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_remote_file_dialog.py) | Real Windows file dialog; only a disposable validation text file is opened. |
 | [Tools/smoke_remote_login.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_remote_login.py) | Real disposable launcher login/seal with the optional remote adapter active. |
@@ -914,8 +927,16 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/validate_hardware_transitions.py](../ApplicationSources/Windows/PortalAI/Tools/validate_hardware_transitions.py) | Offline routing/GUI regressions with disposable accounts and synthetic hardware. |
 | [Tools/validate_media_previews.py](../ApplicationSources/Windows/PortalAI/Tools/validate_media_previews.py) | Focused offline regressions; no production account, VM or model inference. |
 | [Tools/validation_artifacts.py](../ApplicationSources/Windows/PortalAI/Tools/validation_artifacts.py) | Synthetic validation outputs, separate from signed-in user diagnostics. |
+| [Tools/verify_qwen_runtime.py](../ApplicationSources/Windows/PortalAI/Tools/verify_qwen_runtime.py) | Offline verification of the Windows Qwen package layer used by voice_bridge. |
 | [Tools/vision_diagnostics.py](../ApplicationSources/Windows/PortalAI/Tools/vision_diagnostics.py) | Public small-vision inventory, routing and optional checksum verification. |
 | [Tools/web_installer_assets.py](../ApplicationSources/Windows/PortalAI/Tools/web_installer_assets.py) | Native web layers shared by the Full and Academic package builders. |
+
+## Voice
+
+| Source | Overview |
+| --- | --- |
+| [Voice/Qwen3-TTS/download_models.py](../ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/download_models.py) | No module overview; see source and symbol inventory. |
+| [Voice/Qwen3-TTS/qwen_tts_runner.py](../ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/qwen_tts_runner.py) | Offline Qwen speech worker: BootstrapPython plus the SSD-local package layer. |
 
 ## root
 

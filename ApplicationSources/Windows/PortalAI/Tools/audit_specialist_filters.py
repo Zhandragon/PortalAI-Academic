@@ -10,7 +10,7 @@ sys.path.insert(0,str(ROOT/'Tools'))
 from validation_artifacts import ValidationArtifacts
 
 TREES={
- 'voice':'Voice/Qwen3-TTS/python/cpython-3.12.14-windows-x86_64-none/Lib/site-packages/qwen_tts',
+ 'voice':'Voice/Qwen3-TTS/.venv/Lib/site-packages/qwen_tts' if sys.platform=='win32' else 'Runtime/LinuxPackages/media/qwen_tts',
  'music':'Music/ACE-Step-1.5/acestep',
  'sfx':'Services/MMAudio/mmaudio'}
 ROUTES={
@@ -26,7 +26,12 @@ def audit():
     rows=[]
     for family,paths in ROUTES.items():
         sources=[ROOT/p for p in paths]
-        if family in TREES:sources+=list((ROOT/TREES[family]).rglob('*.py'))
+        if family in TREES:
+            package=ROOT/TREES[family]
+            vendor_sources=list(package.rglob('*.py')) if package.is_dir() else []
+            if not vendor_sources:
+                raise FileNotFoundError(f'Active {family} package source is missing: {package}')
+            sources+=vendor_sources
         entries=[];matches=[]
         for path in sorted(set(sources)):
             if not path.is_file():raise FileNotFoundError(path)

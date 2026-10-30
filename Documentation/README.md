@@ -37,6 +37,7 @@ Current update: [shutdown and Projection repair](SHUTDOWN-20261024-r10.md) and [
 
 ## Implementation and source
 
+- [Qwen runtime repair, consolidation and limits](QWEN-RUNTIME-CONSOLIDATION-20261030.txt), [validation receipts](QWEN-RUNTIME-VALIDATION-20261030.json) and [voice worker source](../ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/qwen_tts_runner.py)
 - [Architecture and source map](SOURCE-MAP.md)
 - [Mission recovery: exact behavior, limits and tests](MISSION-RECOVERY.md)
 - [Application module index](MODULE-INDEX.md) and [machine-readable source inventory](SOURCE-INVENTORY.json)

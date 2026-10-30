@@ -1,0 +1,201 @@
+{
+  "date": "2026-10-30",
+  "passed": true,
+  "installations": [
+    {
+      "drive": "D",
+      "passed": true,
+      "legacy_removed": "D:\\PortalAI Windows\\Voice\\Qwen3-TTS\\python",
+      "removed_bytes": 4894702550,
+      "compressed_recovery_bytes": 2961592527,
+      "net_payload_bytes_reclaimed": 1933110023,
+      "unit_tests": 72,
+      "pre_removal_voice": [
+        {
+          "kind": "custom",
+          "passed": true,
+          "duration": 3.44,
+          "peak": 24448,
+          "rms": 2752.538,
+          "seconds": 29.969,
+          "sha256": "dccf1ead8d324f57bf6904b679c50ddcfa780df654f19a7e7e1ae666c3756752"
+        },
+        {
+          "kind": "design",
+          "passed": true,
+          "duration": 5.12,
+          "peak": 15040,
+          "rms": 2855.467,
+          "seconds": 38.891,
+          "sha256": "4008b16ba891f58fca1219aa6ad514899c2b34b0ef319099217c0b96b8d83256"
+        },
+        {
+          "kind": "clone",
+          "passed": true,
+          "duration": 3.36,
+          "peak": 20224,
+          "rms": 2605.302,
+          "seconds": 35.625,
+          "sha256": "e6a864867ddf99176942f3c8e25fa560c77915a7d46d1c7b60386b6c911ce308"
+        }
+      ],
+      "post_removal_voice": [
+        {
+          "kind": "custom",
+          "passed": true,
+          "duration": 5.12,
+          "peak": 9664,
+          "rms": 1643.017,
+          "seconds": 155.265,
+          "sha256": "0a3257efaf1877734570ac7a398f5fc154b4b78caa8cba1d328b337252d2c09a"
+        },
+        {
+          "kind": "design",
+          "passed": true,
+          "duration": 4.0,
+          "peak": 28800,
+          "rms": 8054.549,
+          "seconds": 84.422,
+          "sha256": "1152671e974889c2aa7e738517f5ec9a491362c8cc3dcd5eba0479b0593c1cb0"
+        },
+        {
+          "kind": "clone",
+          "passed": true,
+          "duration": 4.64,
+          "peak": 11328,
+          "rms": 1784.387,
+          "seconds": 118.453,
+          "sha256": "5101416fca23f71fda055ae8a4b92430a0064f9a9ea95e6e752f1b46dc7ae9e4"
+        }
+      ],
+      "post_removal_voice_passed": true,
+      "post_removal_voice_error": null,
+      "cpu_voice_lifecycle_passed": true,
+      "exact_chat_command_restored": true,
+      "chat_was_stopped": true,
+      "repair_verify_only_passed": true,
+      "shared_cpu_and_rocm_imports_passed": true,
+      "source_sha256": {
+        "Agent/voice_bridge.py": "c76c972da03965b720a1e76bf0e4ab83123520c171bd845fed30d4d8ce4e8506",
+        "ControlCenter/StatusWorker.ps1": "daae4c79f4e08d1947fd66f67c1b29fd63457a6da1dc722ffbb346f1f74e74a3",
+        "Tools/audit_specialist_filters.py": "35f1151809a89aba62928e776847625d9ef7d982a949adfc525904df41083ba3",
+        "Tools/dependency_probe.py": "b0c73e477bb377d5ae9de4547dbf72abfc1a210b469c5f369bd3f369d4794196",
+        "Tools/verify_qwen_runtime.py": "0320437739cf35eebdec82164bbe2e7c7e5f109192e9a9d676847ba5a48afe2a",
+        "Tools/smoke_qwen_runtime.py": "c60eb67850203c54b15203757798ddd75c0fb4ceb7a79109886a9ef4522bba7d",
+        "Maintenance/Tests/test_qwen_runtime_consolidation.py": "f59a86975cc37117365c6042c2f4717a4919f82b45f2f8914cb9be30e6020477",
+        "Setup/Legacy/Install_Qwen3_TTS_Portable.ps1": "04b42b34f4e0231f70fd64cef9dfa2a15eda63879ea7677d95ba70ed1df3a375",
+        "Setup/Legacy/Install_Qwen3_TTS_Portable.bat": "fd59fdc2dc2f1dc597854822b1e836f0a0809a15c960fcbf8f3c715d7c4a8a0c",
+        "Setup/Legacy/Test_Qwen3_TTS_Portable.bat": "53e3ca4f727bc6994c8ab2321f4f3a56213d59bdd569742456f504f9d3e7b5ee",
+        "Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.ps1": "853ed3b5df5951a6e7d88ad35b1dd3f96297407300921270bc18694453e8662f",
+        "Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.bat": "e458f3b1b3d0e5c2f4220d221a322b61ee2ad6e7c942c452758ec9447c360ebd",
+        "Voice/Qwen3-TTS/qwen_tts_runner.py": "192563bb1a3edebdd28e6f73d47c21085cf39e2ae150f13a48972c3e140bd9a8",
+        "Voice/Qwen3-TTS/download_models.py": "d3ad652db4d03192eb6012a2e5b2c6e352ed7d7e424a11aab4a33cdc2bd66e2a",
+        "Voice/Qwen3-TTS/python_relative.txt": "df02700a351286a37d661a0f4e9dc724819b9850c13107b3b2ff04d5c2adcb31"
+      },
+      "runtime_recovery_archive": "D:\\Backups\\PortalAI-Qwen-Consolidation-20261030\\legacy-python.zip",
+      "runtime_recovery_sha256": "585967193e70175df3fc74a2f7f7dca4eab1548ff5038548597d44b7b58c4661"
+    },
+    {
+      "drive": "E",
+      "passed": true,
+      "legacy_removed": "E:\\PortalAI Windows\\Voice\\Qwen3-TTS\\python",
+      "removed_bytes": 4894702550,
+      "compressed_recovery_bytes": 2961592527,
+      "net_payload_bytes_reclaimed": 1933110023,
+      "unit_tests": 72,
+      "pre_removal_voice": [
+        {
+          "kind": "custom",
+          "passed": true,
+          "duration": 3.6,
+          "peak": 20864,
+          "rms": 2460.077,
+          "seconds": 59.375,
+          "sha256": "94117a74a7efc906c60164f4ad1d8242df2b2b87b513d0df6104817474237d30"
+        },
+        {
+          "kind": "design",
+          "passed": true,
+          "duration": 3.44,
+          "peak": 20992,
+          "rms": 3311.534,
+          "seconds": 53.5,
+          "sha256": "73675415e5e1eeeec08323ce33134ff0fd9afacaa03c0f7d7a694c6415b1ccc1"
+        },
+        {
+          "kind": "clone",
+          "passed": true,
+          "duration": 3.6,
+          "peak": 18560,
+          "rms": 2286.401,
+          "seconds": 51.281,
+          "sha256": "588bfff04e85a4abbbe6b05240e86d18ee89a7a842c578e135d4aaf0130a5446"
+        }
+      ],
+      "post_removal_voice": [
+        {
+          "kind": "custom",
+          "passed": true,
+          "duration": 3.6,
+          "peak": 19968,
+          "rms": 2650.98,
+          "seconds": 117.828,
+          "sha256": "d85d495b3dfc14eafa6024605a7a7f9724b8c87cfcfdfb826a81e83b5fc527a6"
+        },
+        {
+          "kind": "design",
+          "passed": true,
+          "duration": 5.28,
+          "peak": 10816,
+          "rms": 1537.619,
+          "seconds": 37.859,
+          "sha256": "a1485a3e5402bc4ca1d260f129310b63fe7e14104bdcda9505605271cdcf1832"
+        },
+        {
+          "kind": "clone",
+          "passed": true,
+          "duration": 3.44,
+          "peak": 16128,
+          "rms": 2325.143,
+          "seconds": 89.828,
+          "sha256": "ee4def29efa9bb2f236ccbd08aee58e3626552a8ad9d628215bda65b3f01c197"
+        }
+      ],
+      "post_removal_voice_passed": true,
+      "post_removal_voice_error": null,
+      "cpu_voice_lifecycle_passed": true,
+      "exact_chat_command_restored": true,
+      "chat_was_stopped": true,
+      "repair_verify_only_passed": true,
+      "shared_cpu_and_rocm_imports_passed": true,
+      "source_sha256": {
+        "Agent/voice_bridge.py": "c76c972da03965b720a1e76bf0e4ab83123520c171bd845fed30d4d8ce4e8506",
+        "ControlCenter/StatusWorker.ps1": "daae4c79f4e08d1947fd66f67c1b29fd63457a6da1dc722ffbb346f1f74e74a3",
+        "Tools/audit_specialist_filters.py": "35f1151809a89aba62928e776847625d9ef7d982a949adfc525904df41083ba3",
+        "Tools/dependency_probe.py": "b0c73e477bb377d5ae9de4547dbf72abfc1a210b469c5f369bd3f369d4794196",
+        "Tools/verify_qwen_runtime.py": "0320437739cf35eebdec82164bbe2e7c7e5f109192e9a9d676847ba5a48afe2a",
+        "Tools/smoke_qwen_runtime.py": "c60eb67850203c54b15203757798ddd75c0fb4ceb7a79109886a9ef4522bba7d",
+        "Maintenance/Tests/test_qwen_runtime_consolidation.py": "f59a86975cc37117365c6042c2f4717a4919f82b45f2f8914cb9be30e6020477",
+        "Setup/Legacy/Install_Qwen3_TTS_Portable.ps1": "04b42b34f4e0231f70fd64cef9dfa2a15eda63879ea7677d95ba70ed1df3a375",
+        "Setup/Legacy/Install_Qwen3_TTS_Portable.bat": "fd59fdc2dc2f1dc597854822b1e836f0a0809a15c960fcbf8f3c715d7c4a8a0c",
+        "Setup/Legacy/Test_Qwen3_TTS_Portable.bat": "53e3ca4f727bc6994c8ab2321f4f3a56213d59bdd569742456f504f9d3e7b5ee",
+        "Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.ps1": "853ed3b5df5951a6e7d88ad35b1dd3f96297407300921270bc18694453e8662f",
+        "Setup/Qwen3-TTS/Install_or_Repair_Qwen3_TTS.bat": "e458f3b1b3d0e5c2f4220d221a322b61ee2ad6e7c942c452758ec9447c360ebd",
+        "Voice/Qwen3-TTS/qwen_tts_runner.py": "192563bb1a3edebdd28e6f73d47c21085cf39e2ae150f13a48972c3e140bd9a8",
+        "Voice/Qwen3-TTS/download_models.py": "d3ad652db4d03192eb6012a2e5b2c6e352ed7d7e424a11aab4a33cdc2bd66e2a",
+        "Voice/Qwen3-TTS/python_relative.txt": "df02700a351286a37d661a0f4e9dc724819b9850c13107b3b2ff04d5c2adcb31"
+      },
+      "runtime_recovery_archive": "E:\\Backups\\PortalAI-Qwen-Consolidation-20261030\\legacy-python.zip",
+      "runtime_recovery_sha256": "585967193e70175df3fc74a2f7f7dca4eab1548ff5038548597d44b7b58c4661"
+    }
+  ],
+  "status": "post-removal-voice-passed",
+  "fixture_cleanup": "Automatic approval review rejected deletion with only \"blocked by policy\". Disposable same-SSD asset-hardlink fixtures remain; production legacy trees were removed.",
+  "limits": [
+    "Windows RTX 3090 tested; physical Radeon/Linux/macOS inference not tested.",
+    "Repair entry-point verification and forwarding tested; no complete package reinstall/download.",
+    "Normal voice CLI/lease/handoff tested in disposable public-asset fixtures, not an owner account.",
+    "Model quality was checked for valid, non-silent audio, not rated by human listeners.",
+    "No Python/NumPy package merge. python-base remains a repair dependency."
+  ]
+}
