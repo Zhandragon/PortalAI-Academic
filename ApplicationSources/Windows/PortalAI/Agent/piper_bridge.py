@@ -48,8 +48,9 @@ def cleanup_abandoned(root):
             path.unlink(missing_ok=True)
 
 
-def synthesize(text, language="English", output=None, root=ROOT, stop=None):
+def synthesize(text, language="English", output=None, root=ROOT, stop=None, check=None):
     root = Path(root).resolve(); validate_text(text)
+    if check: check()
     tts_plan(root, "piper", language)
     out = output_path(root, output)
     require_space(root, 34*1024**2, for_outputs=True)
@@ -76,11 +77,13 @@ def synthesize(text, language="English", output=None, root=ROOT, stop=None):
                 gate.touch(); deadline = time.monotonic()+180
                 while proc.poll() is None:
                     job.check()
+                    if check: check()
                     if stop and Path(stop).exists(): raise RuntimeError("CPU speech stopped")
                     if time.monotonic() >= deadline: raise TimeoutError("CPU speech exceeded 180 seconds")
                     if logpath.stat().st_size > 1024**2: raise RuntimeError("CPU voice log exceeded its limit")
                     require_space(root, for_outputs=True); time.sleep(.1)
             if stop and Path(stop).exists(): raise RuntimeError("CPU speech stopped")
+            if check: check()
             logtext = logpath.read_text(encoding="utf-8", errors="replace")
             if proc.returncode: raise RuntimeError("CPU speech worker failed: " + logtext[-2500:])
             result = json.loads(logtext.splitlines()[-1])

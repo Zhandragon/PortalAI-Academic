@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'Agent'))
+from runtime_policy import atomic_json
 
 SCHEMA = 2
 VERSION = "15.87"
@@ -213,7 +214,7 @@ def resolve(root: Path, *, repair: bool = False, write: bool = True) -> dict[str
                     "attempts": attempts,
                 }
                 if write:
-                    out_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+                    atomic_json(out_path, data)
                 return data
 
     if repair:
@@ -241,7 +242,7 @@ def resolve(root: Path, *, repair: bool = False, write: bool = True) -> dict[str
                 "attempts": attempts,
             }
             if write:
-                out_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+                atomic_json(out_path, data)
             return data
 
     data = {
@@ -254,7 +255,7 @@ def resolve(root: Path, *, repair: bool = False, write: bool = True) -> dict[str
         "attempts": attempts,
     }
     if write:
-        out_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        atomic_json(out_path, data)
     return data
 
 
@@ -303,7 +304,7 @@ def main() -> int:
         data = {"schema": SCHEMA, "version": VERSION, "status": "ERROR", "error": str(exc)}
         out = root / "Agent" / ".runtime" / "stt_runtime.json"
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        atomic_json(out, data)
     if ns.json:
         print(json.dumps(data, indent=2))
     else:

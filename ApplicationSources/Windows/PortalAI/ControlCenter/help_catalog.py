@@ -413,6 +413,18 @@ TOPICS = {
                  'language-model directory must not be faked to pass readiness. Audio duration/decoding has '
                  'the reviewed SoundFile/FFmpeg fallback. Dependencies remain pinned per runtime.',
          'category': 'Images, video and audio'},
+ 'microphone': {'title': 'Microphone and Hands-free',
+                'aliases': ['mic', 'hands-free', 'hands free', 'dictation', 'spoken replies'],
+                'body': 'Mic records manual dictation. Stop Mic transcribes it into the current draft; '
+                        'press Send when ready. Hands-free listens for a pause, transcribes and sends each '
+                        "utterance, shows Nice's answer normally, and speaks the final reply using the bundled "
+                        'English CPU voice. Listening pauses until playback ends, then resumes. '
+                        'End hands-free or Stop cancels capture, transcription and speech; switching chats '
+                        'or signing out also cancels stale voice work. Chat Preferences > Microphone & '
+                        'hands-free controls the microphone, silence threshold and spoken-reply checkbox. '
+                        'Existing local STT packages are rediscovered if their generated binding is missing; '
+                        'dictation never downloads or reinstalls packages automatically.',
+                'category': 'Images, video and audio'},
  'tts': {'title': 'Qwen3-TTS',
          'aliases': ['qwen3 tts', 'qwen3-tts', 'tts', 'voice'],
          'body': 'Speech output selects Qwen on capable CUDA hardware after reclaiming chat memory, or Piper '

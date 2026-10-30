@@ -31,20 +31,38 @@ def _portableai_stt_runtime():
     if os.name!='nt':
         from platform_runtime import python_path
         return python_path(_root),_root/'Runtime/LinuxPackages/extras'
+    def _pair(data):
+        if not isinstance(data, dict):
+            return None
+        rel, layer = data.get('interpreter'), data.get('package_layer')
+        if not isinstance(rel, str) or not isinstance(layer, str):
+            return None
+        exe, packages = portable_path(_root, rel), portable_path(_root, layer)
+        return (exe, packages) if exe.is_file() and packages.is_dir() else None
+
     _state = _root / "Agent" / ".runtime" / "stt_runtime.json"
     if _state.exists():
         try:
-            _data = _json.loads(_state.read_text(encoding="utf-8"))
-            _rel = _data.get("interpreter")
-            _layer = _data.get("package_layer")
-            if _rel and _layer:
-                _exe = portable_path(_root, _rel)
-                _layer_path = portable_path(_root, _layer)
-                if _exe.exists() and _layer_path.exists():
-                    return _exe, _layer_path
+            pair = _pair(_json.loads(_state.read_text(encoding="utf-8-sig")))
+            if pair:
+                return pair
         except Exception:
             pass
-    raise RuntimeError("PortableAI STT runtime is unresolved. Run Tools\\stt_runtime.py --repair.")
+    # The generated binding can be absent after setup, migration or relocation.
+    # Discover existing SSD-local packages; never install/download during dictation.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('_portalai_stt_resolver', _root/'Tools/stt_runtime.py')
+    if spec is None or spec.loader is None:
+        raise RuntimeError('PortalAI STT runtime resolver is missing')
+    resolver = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(resolver)
+    data = resolver.resolve(_root, repair=False, write=True)
+    pair = _pair(data)
+    if pair:
+        return pair
+    raise RuntimeError('PortalAI STT packages could not be loaded. Run the bundled Python with '
+                       'Tools/stt_runtime.py --root "' + str(_root) + '" --repair. '
+                       'See Agent/.runtime/stt_runtime.json for the import diagnostic.')
 
 def _portableai_stt_python():
     return _portableai_stt_runtime()[0]
@@ -107,24 +125,46 @@ class SttBridge:
             env["PATH"] = os.pathsep.join(str(p) for p in dll_dirs) + os.pathsep + env.get("PATH", "")
         return env
 
-    def _run(self, args: list[str], *, timeout: float | None = None) -> dict:
+    def _run(self, args: list[str], *, timeout: float | None = None, check=None) -> dict:
         if not self.worker.exists():
             raise FileNotFoundError(f"PortableAI STT worker not found: {self.worker}")
         if not self.python.exists():
             raise FileNotFoundError(f"PortableAI STT Python runtime not found: {self.python}")
 
         creationflags = getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
-        cp = subprocess.run(
-            [str(self.python), "-B", "-s", str(self.worker), *args],
-            cwd=str(self.root),
-            env=self._env(),
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=timeout,
-            creationflags=creationflags,
-        )
+        command = [str(self.python), "-B", "-s", str(self.worker), *args]
+        options = dict(cwd=str(self.root), env=self._env(), text=True,
+                       encoding='utf-8', errors='replace', creationflags=creationflags)
+        if check is None:
+            cp = subprocess.run(command, capture_output=True, timeout=timeout, **options)
+        else:
+            import time
+            from mission_supervisor import WorkerJob
+            from platform_runtime import worker_process_options
+            check()
+            proc = job = None
+            try:
+                proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                        stdin=subprocess.DEVNULL, **options, **worker_process_options())
+                job = WorkerJob(proc)
+                deadline = time.monotonic() + (timeout or 300)
+                while True:
+                    check()
+                    job.check()
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError('Microphone transcription exceeded its time limit')
+                    try:
+                        stdout, stderr = proc.communicate(timeout=.1)
+                        break
+                    except subprocess.TimeoutExpired:
+                        continue
+                check()
+                cp = subprocess.CompletedProcess(command, proc.returncode, stdout, stderr)
+            finally:
+                if job: job.close()
+                if proc:
+                    if proc.poll() is None: proc.kill()
+                    proc.wait(timeout=10)
         marker = "PORTABLEAI_STT_RESULT="
         payload = None
         for line in reversed((cp.stdout or "").splitlines()):
@@ -191,6 +231,7 @@ class SttBridge:
         vad: bool = True,
         beam_size: int = 5,
         output_dir: str | Path | None = None,
+        check=None,
     ) -> dict:
         media_path = media_reference(self.root, media)
         if not media_path.exists():
@@ -212,4 +253,4 @@ class SttBridge:
             args.append("--word-timestamps")
         if not vad:
             args.append("--no-vad")
-        return self._run(args, timeout=None)
+        return self._run(args, timeout=300 if check else None, check=check)

@@ -58,7 +58,7 @@ class LaunchAndPrivateTests(unittest.TestCase):
                 path=folder/'Packages'/('Windows.zip' if platform=='Windows' else platform+'.pkg')
                 if platform!='Windows':path.write_bytes(platform.encode())
                 rows.append(dict(platform=platform,file=path.name,bytes=path.stat().st_size,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),url=''))
-            (folder/'universal.json').write_text(json.dumps(dict(schema=1,edition=edition,version='fixture',assets=rows)))
+            (folder/'universal.json').write_text(json.dumps(dict(schema=1,edition=edition,version='fixture',windows_installer=launcher,assets=rows)))
             shutil.copyfile(ROOT/'prepare-universal.ps1',folder/'prepare-universal.ps1')
             harness="function Read-Host { 'y' }; function Start-Process { param($FilePath,$WorkingDirectory); if (-not (Test-Path -LiteralPath $FilePath) -or [IO.Path]::GetFileName($FilePath) -ne '"+launcher+"') { throw 'Wrong edition launcher' }; Write-Output 'LAUNCH_VALIDATED' }; & '"+str(folder/'prepare-universal.ps1')+"'"
             p=subprocess.run(['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-Command',harness],capture_output=True,text=True,timeout=30)

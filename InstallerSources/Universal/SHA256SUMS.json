@@ -1,9 +1,9 @@
 {
-  "assets.tsv": "5335a857268f2d069e4335e0a0fc9016badd05b09448a2106ba55717359348f8",
+  "assets.tsv": "5329becf3b26a9880264df9960335b9df35f6d625f20b13734dbf4df4b3de846",
   "Prepare Universal.cmd": "8cc6608245491a25c717aaa5994fda95c5e9ea9a522201c534f79427a32218d5",
   "Prepare Universal.command": "0e5889c0210dbd7cbfa66e42761e2545630458d36bdfadbe585d2fbe7bfc65ce",
   "prepare-universal.ps1": "bfe0d2d836e5dfe6e570ab843fb9fae41298b5da7ad77fd4447220ec65ebc728",
   "prepare-universal.sh": "714b7d2ede7e3dd79777a534bb2f8ff88740dd10b1a1de0f596df6c3aa6e3677",
-  "README.txt": "8e8be4a3728457345a9c60eabdff6a1779fd649c0c606d9adc3428315f8a2062",
-  "universal.json": "49ca383d1566716a519930c4a4de3954d4e3cf60021c7e93e1da7a4b9cbe6c83"
+  "README.txt": "c4067b42e350dd5f364b196a96ef940de04c855eaec047acd8ab27a0d2f1ce70",
+  "universal.json": "97c7ce47d69dd9c99fbc82f623b261cf7cfb08a31c7a4e41eaf400e2a46209c7"
 }

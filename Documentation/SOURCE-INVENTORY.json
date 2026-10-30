@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 875
+    "Windows": 877
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -48620,8 +48620,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/piper_bridge.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "1b31263e05c69d7cda65d6e687eec7da742a86d3d70f9ada4b6074c6916cf9fb",
-      "lines": 109,
+      "sha256": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0",
+      "lines": 112,
       "overview": "Bounded CPU speech lifecycle; Windows job owns only this worker tree.",
       "symbols": [
         {
@@ -50173,8 +50173,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/stt_bridge.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "396f8975c3a08611b2f21f82666ac2e14099428184bdc8872dc2e47cdccd8976",
-      "lines": 215,
+      "sha256": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a",
+      "lines": 256,
       "overview": "",
       "symbols": [
         {
@@ -50184,17 +50184,17 @@
         },
         {
           "name": "_portableai_stt_python",
-          "line": 49,
+          "line": 67,
           "kind": "FunctionDef"
         },
         {
           "name": "_portableai_stt_package_layer",
-          "line": 52,
+          "line": 70,
           "kind": "FunctionDef"
         },
         {
           "name": "SttBridge",
-          "line": 56,
+          "line": 74,
           "kind": "ClassDef"
         }
       ]
@@ -52312,6 +52312,36 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091",
+      "lines": 141,
+      "overview": "Turn-bound microphone transcription and cancellable, offline spoken replies.",
+      "symbols": [
+        {
+          "name": "VoiceStopped",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VoiceTurn",
+          "line": 22,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "spoken_chunks",
+          "line": 45,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "VoiceIO",
+          "line": 63,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_working_memory.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -52765,23 +52795,23 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "fe3fbbd9c0dff22707827a460f7f0a8dbf40bfdbd88e0bcefb7eb07a27ec2ae7",
-      "lines": 920,
+      "sha256": "4527b4a9095cd876c36979628b9bd244f06e7f7763fb0d51443f908ea25d5870",
+      "lines": 932,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 888,
+          "line": 900,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 891,
+          "line": 903,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 900,
+          "line": 912,
           "kind": "FunctionDef"
         }
       ]
@@ -53344,158 +53374,158 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "16611d40dc534be01f3cb6fae64cbf645ad7608b46f44e148aefa249596cabf4",
-      "lines": 6714,
+      "sha256": "c8ec43eb87683d33362c9c2a37e7bd831c520e8702031202dc3eaab7dfec824a",
+      "lines": 6829,
       "overview": "",
       "symbols": [
         {
           "name": "creationflags",
-          "line": 119,
+          "line": 121,
           "kind": "FunctionDef"
         },
         {
           "name": "clean_env",
-          "line": 123,
+          "line": 125,
           "kind": "FunctionDef"
         },
         {
           "name": "safe_rel",
-          "line": 139,
+          "line": 141,
           "kind": "FunctionDef"
         },
         {
           "name": "latest_master_instructions",
-          "line": 146,
+          "line": 148,
           "kind": "FunctionDef"
         },
         {
           "name": "load_json",
-          "line": 156,
+          "line": 158,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 163,
+          "line": 165,
           "kind": "FunctionDef"
         },
         {
           "name": "_normalize_qwen_messages",
-          "line": 171,
+          "line": 173,
           "kind": "FunctionDef"
         },
         {
           "name": "model_id",
-          "line": 193,
+          "line": 195,
           "kind": "FunctionDef"
         },
         {
           "name": "model_props",
-          "line": 205,
+          "line": 207,
           "kind": "FunctionDef"
         },
         {
           "name": "context_limit_from_props",
-          "line": 225,
+          "line": 227,
           "kind": "FunctionDef"
         },
         {
           "name": "estimate_tokens",
-          "line": 257,
+          "line": 259,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 265,
+          "line": 267,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 274,
+          "line": 276,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 291,
+          "line": 293,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 481,
+          "line": 483,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 509,
+          "line": 511,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 524,
+          "line": 526,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 528,
+          "line": 530,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 543,
+          "line": 545,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_tool_batch",
-          "line": 554,
+          "line": 556,
           "kind": "FunctionDef"
         },
         {
           "name": "historical_tool_calls",
-          "line": 578,
+          "line": 580,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 610,
+          "line": 612,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 657,
+          "line": 659,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 662,
+          "line": 664,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 817,
+          "line": 819,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1403,
+          "line": 1405,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1410,
+          "line": 1412,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1428,
+          "line": 1430,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1573,
+          "line": 1575,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6702,
+          "line": 6817,
           "kind": "FunctionDef"
         }
       ]
@@ -55079,9 +55109,9 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "sha256": "16691efb37eafdb00b7c0474855cc6a8a1a057fa27b9f9be6a16b63468fba0f9",
       "lines": 2,
-      "overview": "Verified unified PortalAI distribution version.",
+      "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
     },
     {
@@ -58074,6 +58104,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_voice.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "6f4b8dfbe69c1fd1d60b12813b19ecb7bfc9d4d3af932f60e8d3731a62636878",
+      "lines": 209,
+      "overview": "Missing STT bindings, voice turn ownership, and actual Tk event-loop routing.",
+      "symbols": [
+        {
+          "name": "RuntimeDiscoveryTests",
+          "line": 23,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "SpeechTests",
+          "line": 69,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VoiceUITests",
+          "line": 117,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_working_context.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -59052,8 +59107,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_linux_media_ui.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "5015453b7a57277e59f9522b094deeb0687ec9bb583119dcfc2d3cfa61dd3454",
-      "lines": 116,
+      "sha256": "e5e532128614cfd9ec1f4326973ce76f6703cb43904e825be0d7c92fe57c6e83",
+      "lines": 118,
       "overview": "",
       "symbols": [
         {
@@ -67472,63 +67527,63 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/stt_runtime.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "24126f2e99135a81f62bffda2c4b9abf5ad89288d18e50a232c82b2a15ef1f99",
-      "lines": 325,
+      "sha256": "886ca4d843418fa21a4d10d08c5eadfbb8b6840899abc3a86ed1f790c35092c8",
+      "lines": 326,
       "overview": "",
       "symbols": [
         {
           "name": "_creationflags",
-          "line": 20,
+          "line": 21,
           "kind": "FunctionDef"
         },
         {
           "name": "_rel",
-          "line": 24,
+          "line": 25,
           "kind": "FunctionDef"
         },
         {
           "name": "_candidate_pythons",
-          "line": 33,
+          "line": 34,
           "kind": "FunctionDef"
         },
         {
           "name": "_candidate_layers",
-          "line": 48,
+          "line": 49,
           "kind": "FunctionDef"
         },
         {
           "name": "_probe",
-          "line": 56,
+          "line": 57,
           "kind": "FunctionDef"
         },
         {
           "name": "_download_uv",
-          "line": 102,
+          "line": 103,
           "kind": "FunctionDef"
         },
         {
           "name": "_repair_layer",
-          "line": 135,
+          "line": 136,
           "kind": "FunctionDef"
         },
         {
           "name": "resolve",
-          "line": 184,
+          "line": 185,
           "kind": "FunctionDef"
         },
         {
           "name": "interpreter_path",
-          "line": 261,
+          "line": 262,
           "kind": "FunctionDef"
         },
         {
           "name": "package_layer_path",
-          "line": 281,
+          "line": 282,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 293,
+          "line": 294,
           "kind": "FunctionDef"
         }
       ]

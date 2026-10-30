@@ -25,13 +25,15 @@ def render(text, values):
     return text
 
 
-def build(root, source_base=None, compiler=None):
+def build(root, source_base=None, compiler=None, platforms=None):
     source = root / 'bootstrap-source'
     metadata = json.loads((root / 'PACKAGING.json').read_bytes())
     base = source_base or metadata['source_base_url']
     names = []
     for platform, package in metadata['packages'].items():
-        url = base.rstrip('/') + ('/' + package['path'] if package['path'] else '')
+        if platforms and platform not in platforms:
+            continue
+        url = (source_base or package.get('source_base_url') or base).rstrip('/') + ('/' + package['path'] if package['path'] else '')
         values = {'SOURCE': url, 'ARCHIVE': package['archive'], 'ARCHIVE_HASH': package['sha256'], 'ARCHIVE_MB': (package['bytes']+999999)//1000000}
         budget = package['storage_preflight']
         values.update({k.upper(): v for k, v in budget.items() if isinstance(v, int)})
@@ -111,5 +113,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument('--source-base-url', help='Override only for a different deployment or local testing; rebuilds all download URLs.')
+    parser.add_argument('--platform', action='append', choices=('Windows','Linux','Mac'), help='Build only this platform; repeat to select more than one.')
     args = parser.parse_args()
-    print(json.dumps(build(args.root, args.source_base_url), indent=2))
+    print(json.dumps(build(args.root, args.source_base_url, platforms=args.platform), indent=2))

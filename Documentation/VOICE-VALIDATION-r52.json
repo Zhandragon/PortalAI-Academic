@@ -1,0 +1,226 @@
+{
+  "version": "2026.10.30-Desktop-r52",
+  "platform": "Windows",
+  "drives": {
+    "D": {
+      "unit": {
+        "passed": true,
+        "tests": 188,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "suites": [
+          "test_chat_voice",
+          "test_media_policy",
+          "test_linux_media_ui",
+          "test_gui_stop_contract",
+          "test_chat_timeline",
+          "test_chat_loading_jobs",
+          "test_chat_completion_recovery",
+          "test_writer_jobs",
+          "test_native_chat_command",
+          "test_profile_shutdown",
+          "test_profile_shutdown_exit_races",
+          "test_tts_policy",
+          "test_tts_cli",
+          "test_gui_maintenance"
+        ]
+      },
+      "offline_pipeline": {
+        "passed": true,
+        "fixture": "D:\\PortalAI Windows\\Maintenance\\Validation\\STT-Runtime-20261030\\voice-control-fixture",
+        "checks": [
+          {
+            "name": "missing STT binding automatically resolves",
+            "passed": true,
+            "paths": [
+              "Runtime\\BootstrapPython\\python.exe",
+              "SpeechToText\\python_packages"
+            ]
+          },
+          {
+            "name": "real offline CPU synthesis",
+            "passed": true,
+            "duration": 5.537959183673469,
+            "sha256": "030b1fad78ca5415f97e4d66efcf9691864421f4babc19211770fa98e889b3e6"
+          },
+          {
+            "name": "real CPU microphone transcription path",
+            "passed": true,
+            "text": "Allow this is nice speaking. Your microphone transcription is working from the portable drive."
+          },
+          {
+            "name": "spoken reply playback and temporary WAV cleanup",
+            "passed": true,
+            "human_audibility_confirmed": false
+          }
+        ],
+        "actual_microphone_capture": false
+      },
+      "cancellation": {
+        "passed": true,
+        "checks": [
+          {
+            "kind": "transcribe",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.328,
+            "voice_outputs_unchanged": true
+          },
+          {
+            "kind": "speak",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.375,
+            "voice_outputs_unchanged": true
+          },
+          {
+            "kind": "play",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.219,
+            "voice_outputs_unchanged": true
+          }
+        ]
+      }
+    },
+    "E": {
+      "unit": {
+        "passed": true,
+        "tests": 188,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "suites": [
+          "test_chat_voice",
+          "test_media_policy",
+          "test_linux_media_ui",
+          "test_gui_stop_contract",
+          "test_chat_timeline",
+          "test_chat_loading_jobs",
+          "test_chat_completion_recovery",
+          "test_writer_jobs",
+          "test_native_chat_command",
+          "test_profile_shutdown",
+          "test_profile_shutdown_exit_races",
+          "test_tts_policy",
+          "test_tts_cli",
+          "test_gui_maintenance"
+        ]
+      },
+      "offline_pipeline": {
+        "passed": true,
+        "fixture": "E:\\PortalAI Windows\\Maintenance\\Validation\\STT-Runtime-20261030\\voice-control-fixture",
+        "checks": [
+          {
+            "name": "missing STT binding automatically resolves",
+            "passed": true,
+            "paths": [
+              "Runtime\\BootstrapPython\\python.exe",
+              "SpeechToText\\python_packages"
+            ]
+          },
+          {
+            "name": "real offline CPU synthesis",
+            "passed": true,
+            "duration": 5.305759637188209,
+            "sha256": "082e4aeb42453605a430c230857ef3528c249314669f903199fccd47a86b5641"
+          },
+          {
+            "name": "real CPU microphone transcription path",
+            "passed": true,
+            "text": "Allow, this is nice speaking. Your microphone transcription is working from the portable drive."
+          },
+          {
+            "name": "spoken reply playback and temporary WAV cleanup",
+            "passed": true,
+            "human_audibility_confirmed": false
+          }
+        ],
+        "actual_microphone_capture": false
+      },
+      "cancellation": {
+        "passed": true,
+        "checks": [
+          {
+            "kind": "transcribe",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.328,
+            "voice_outputs_unchanged": true
+          },
+          {
+            "kind": "speak",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.343,
+            "voice_outputs_unchanged": true
+          },
+          {
+            "kind": "play",
+            "passed": true,
+            "cancelled": true,
+            "owned_children_exited": true,
+            "seconds": 0.235,
+            "voice_outputs_unchanged": true
+          }
+        ]
+      }
+    }
+  },
+  "files": {
+    "Agent/stt_bridge.py": {
+      "bytes": 10969,
+      "sha256": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a"
+    },
+    "Agent/piper_bridge.py": {
+      "bytes": 6001,
+      "sha256": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0"
+    },
+    "Tools/stt_runtime.py": {
+      "bytes": 12609,
+      "sha256": "886ca4d843418fa21a4d10d08c5eadfbb8b6840899abc3a86ed1f790c35092c8"
+    },
+    "ControlCenter/chat_voice.py": {
+      "bytes": 5783,
+      "sha256": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091"
+    },
+    "ControlCenter/native_chat.py": {
+      "bytes": 374858,
+      "sha256": "904bf33afe65f4c4d5b7df19a2cbb22b0a7177ae32612eaddef3afc1e0127b0d"
+    },
+    "ControlCenter/help_catalog.py": {
+      "bytes": 78668,
+      "sha256": "3369ad4064e0b93681ec716026669702da3378847cbd60dbec8cb1d1012fb584"
+    },
+    "Maintenance/Tests/test_chat_voice.py": {
+      "bytes": 10822,
+      "sha256": "6f4b8dfbe69c1fd1d60b12813b19ecb7bfc9d4d3af932f60e8d3731a62636878"
+    },
+    "Maintenance/Tests/test_linux_media_ui.py": {
+      "bytes": 6134,
+      "sha256": "e5e532128614cfd9ec1f4326973ce76f6703cb43904e825be0d7c92fe57c6e83"
+    },
+    "ControlCenter/release_version.py": {
+      "bytes": 97,
+      "sha256": "16691efb37eafdb00b7c0474855cc6a8a1a057fa27b9f9be6a16b63468fba0f9"
+    }
+  },
+  "source_scope": "The files map describes D/E Full installations; receiving Academic source hashes are recorded separately.",
+  "published_source_sha256": {
+    "Agent/stt_bridge.py": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a",
+    "Agent/piper_bridge.py": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0",
+    "Tools/stt_runtime.py": "886ca4d843418fa21a4d10d08c5eadfbb8b6840899abc3a86ed1f790c35092c8",
+    "ControlCenter/chat_voice.py": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091",
+    "ControlCenter/native_chat.py": "c8ec43eb87683d33362c9c2a37e7bd831c520e8702031202dc3eaab7dfec824a",
+    "ControlCenter/help_catalog.py": "4527b4a9095cd876c36979628b9bd244f06e7f7763fb0d51443f908ea25d5870",
+    "Maintenance/Tests/test_chat_voice.py": "6f4b8dfbe69c1fd1d60b12813b19ecb7bfc9d4d3af932f60e8d3731a62636878",
+    "Maintenance/Tests/test_linux_media_ui.py": "e5e532128614cfd9ec1f4326973ce76f6703cb43904e825be0d7c92fe57c6e83",
+    "ControlCenter/release_version.py": "16691efb37eafdb00b7c0474855cc6a8a1a057fa27b9f9be6a16b63468fba0f9"
+  }
+}

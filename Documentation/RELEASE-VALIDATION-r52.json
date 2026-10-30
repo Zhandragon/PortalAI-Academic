@@ -1,0 +1,107 @@
+{
+  "passed": true,
+  "version": "2026.10.30-Desktop-r52",
+  "edition": "Academic",
+  "archive_sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 188,
+    "failures": 0,
+    "errors": 0,
+    "skips": 1,
+    "suites": [
+      "test_chat_voice",
+      "test_media_policy",
+      "test_linux_media_ui",
+      "test_gui_stop_contract",
+      "test_chat_timeline",
+      "test_chat_loading_jobs",
+      "test_chat_completion_recovery",
+      "test_writer_jobs",
+      "test_native_chat_command",
+      "test_profile_shutdown",
+      "test_profile_shutdown_exit_races",
+      "test_tts_policy",
+      "test_tts_cli",
+      "test_gui_maintenance"
+    ],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1569,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_checks": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip",
+      "bytes": 11439094,
+      "passed": true
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py",
+      "bytes": 39062,
+      "passed": true
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py",
+      "bytes": 4572,
+      "passed": true
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py",
+      "bytes": 4593,
+      "passed": true
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py",
+      "bytes": 17915,
+      "passed": true
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py",
+      "bytes": 27664,
+      "passed": true
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py",
+      "bytes": 29697,
+      "passed": true
+    }
+  ],
+  "every_published_windows_source_matches_payload": true,
+  "dependency_pins_unchanged": true,
+  "full_recipient_install": false,
+  "physical_microphone_and_live_llm_voice_conversation": false,
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "academic_policy_retained": true
+}

@@ -37,6 +37,7 @@ from portable_runtime import bootstrap_python
 from runtime_health import qwen_health
 from model_connection import ModelNotReady, wait_for_ready
 import media_devices
+from chat_voice import VoiceIO, VoiceTurn, VoiceStopped
 from chat_effort_ui import ChatEffortControls
 from image_lookup_policy import ImageLookupCycle
 from chat_summary_recovery import IncompleteSummary, reasoning_excerpt
@@ -98,6 +99,7 @@ DEFAULT_SETTINGS = {
     "conversation_preroll_seconds": 0.45,
     "conversation_min_speech_seconds": 0.25,
     "conversation_max_utterance_seconds": 90,
+    "conversation_speak_replies": True,
     "conversation_status_levels": True,
     "max_attachment_mb": 1024,
     "max_inline_text_chars": 50000,
@@ -1604,6 +1606,9 @@ class NativeChat:
         self.conversation_capture_stream: WindowsWaveInStream | None = None
         self.conversation_capture_lock = threading.Lock()
         self.conversation_turn = 0
+        self._conversation_io = None
+        self._conversation_request = None
+        self._mic_voice = None
         self.photo_refs = []
         self._trace_blocks: list[dict] = []
         self._live_thinking_block: dict | None = None
@@ -2726,6 +2731,11 @@ class NativeChat:
     def _apply_loaded_session(self, s):
         if not s:
             return
+        voice_active = getattr(self, 'conversation_active', None)
+        if (getattr(self, '_mic_voice', None) is not None or getattr(self, 'mic_stream', None) is not None
+                or getattr(self, 'mic_proc', None) is not None
+                or (voice_active is not None and voice_active.is_set())):
+            self.release_audio_capture()
         self.store.remember_selection(s["id"])
         self.session = s
         self.pending_attachments = []
@@ -5472,6 +5482,10 @@ class NativeChat:
         self._check_login()
         if self.busy or not self.session:
             return "break"
+        voice_turn = getattr(self, '_conversation_request', None)
+        voice_active = getattr(self, 'conversation_active', None)
+        if voice_active is not None and voice_active.is_set() and (voice_turn is None or voice_turn.done.is_set()):
+            self.stop_conversation_mode()
         text = self.prompt.get("1.0", "end").strip() if remote_text is None else remote_text.strip()
         if not text and not self.pending_attachments:
             return "break"
@@ -5528,6 +5542,13 @@ class NativeChat:
         return "break" if remote_text is None else True
 
     def stop_generation(self):
+        if getattr(self, 'mic_stream', None) is not None or getattr(self, 'mic_proc', None) is not None:
+            self.release_audio_capture()
+            self.mic_btn.configure(text='🎙 Mic', bg=self.COL['panel2'])
+        if getattr(self, '_mic_voice', None) is not None:
+            self._mic_voice.cancel()
+        if getattr(self, 'conversation_active', None) is not None and self.conversation_active.is_set():
+            self.stop_conversation_mode()
         self._memory_paused_by_stop = True
         rebuild_cancel = getattr(self, '_memory_rebuild_cancel', None)
         if rebuild_cancel is not None: rebuild_cancel.set()
@@ -5544,6 +5565,7 @@ class NativeChat:
             self._attachment_picker_pending = None
             if not getattr(self, '_closing', False): self.update_attachment_label()
         if not self.busy:
+            if getattr(self, 'stop_btn', None) is not None: self.stop_btn.configure(state='disabled')
             return
         self.cancel_event.set()
         self.cancel_http()
@@ -5713,7 +5735,14 @@ class NativeChat:
 
     def start_conversation_mode(self):
         """Start rolling VAD capture that auto-sends each completed utterance."""
+        self._check_login()
         if self.conversation_active.is_set():
+            return
+        if self.conversation_thread is not None and self.conversation_thread.is_alive():
+            self._notice('Hands-free mode', 'The previous voice interaction is still stopping. Try again shortly.')
+            return
+        if getattr(self, '_mic_voice', None) is not None:
+            self._notice('Hands-free mode', 'Wait for microphone transcription to finish, or press Stop.')
             return
         if self.mic_stream is not None or (self.mic_proc and self.mic_proc.poll() is None):
             self._notice("Hands-free mode", "Stop manual microphone dictation first.")
@@ -5726,9 +5755,18 @@ class NativeChat:
             )
             return
         self.conversation_active.set()
+        sid = self.session['id']
+        def check():
+            self._check_login()
+            if (getattr(self, '_closing', False) or not self.conversation_active.is_set()
+                    or not self.session or self.session.get('id') != sid):
+                raise VoiceStopped('Hands-free conversation ended')
+        self._conversation_io = VoiceIO(self.root, check)
+        self._conversation_request = None
         self.conversation_turn = 0
         self.conversation_btn.configure(text="■ End hands-free", bg="#5B3535")
         self.mic_btn.configure(state="disabled")
+        self.stop_btn.configure(state='normal')
         self.model_lbl.configure(text="Hands-free · opening microphone…", fg=self.COL["cyan"])
         t = self._thread(target=self._conversation_loop, name="PortableAIHandsFree", daemon=True)
         self.conversation_thread = t
@@ -5741,6 +5779,12 @@ class NativeChat:
         its current read finish and lets the thread close the handle in its finally
         block. Only if that graceful path stalls do we force-close the handle/process.
         """
+        voice = getattr(self, '_conversation_io', None)
+        if voice is not None: voice.cancel()
+        request = getattr(self, '_conversation_request', None)
+        if request is not None:
+            request.failed = True
+            request.done.set()
         if not self.conversation_active.is_set() and self.conversation_capture_stream is None and self.conversation_capture_proc is None:
             return
         self.conversation_active.clear()
@@ -5771,7 +5815,7 @@ class NativeChat:
         with self.conversation_capture_lock:
             self.conversation_capture_stream = None
             self.conversation_capture_proc = None
-        self.ev.put(("conversation_stopped", None))
+        self.ev.put(("conversation_stopped", voice))
 
     def _open_ffmpeg_pcm(self, device: str) -> subprocess.Popen:
         ff = self.root / "Tools" / "ffmpeg" / "bin" / "ffmpeg.exe"
@@ -5820,6 +5864,9 @@ class NativeChat:
 
         self.ev.put(("conversation_status", f"Hands-free · listening · {device_used}"))
         while self.conversation_active.is_set():
+            voice = getattr(self, '_conversation_io', None)
+            if voice is not None: voice.check()
+            if self.busy: return None
             if time.monotonic() - started >= max_seconds and speech_started:
                 break
             if isinstance(stream, (WindowsWaveInStream, media_devices.LinuxPCMStream)):
@@ -5853,7 +5900,7 @@ class NativeChat:
                     speech_started = True
                     captured.extend(list(ring)); ring.clear()
                     speech_chunks = hot_chunks; silence_chunks = 0
-                    self.ev.put(("conversation_status", "Hands-free · speaking…"))
+                    self.ev.put(("conversation_status", "Hands-free · hearing you…"))
                 continue
 
             captured.append(chunk)
@@ -5945,11 +5992,15 @@ class NativeChat:
             self.ev.put(("mic_error", f"Capture error: {type(exc).__name__}: {exc}"))
 
     def start_mic(self):
+        self._check_login()
+        if getattr(self, '_mic_voice', None) is not None:
+            self._notice('Microphone', 'Transcription is still running. Press Stop to cancel it.')
+            return
         if self.conversation_active.is_set():
             self._notice("Microphone", "Exit hands-free mode before using manual dictation."); return
         if self.busy:
             self._notice("Microphone", "Stop the current generation before recording."); return
-        out = self.store.recordings / f"mic_{time.strftime('%Y%m%d_%H%M%S')}.wav"
+        out = self.store.recordings / f"mic_{time.strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}.wav"
         errors = []
         try:
             candidates = self._mic_candidates()
@@ -5978,6 +6029,7 @@ class NativeChat:
                     self.mic_started_at = time.monotonic()
                     self.mic_device_label = label
                 self.mic_btn.configure(text="■ Stop Mic", bg="#5B3535")
+                self.stop_btn.configure(state='normal')
                 self.model_lbl.configure(text=f"Recording · {label}", fg=self.COL["bad"])
                 return
             except Exception as exc:
@@ -6029,38 +6081,36 @@ class NativeChat:
             self._notice("Microphone", "The microphone recording did not produce usable audio.", kind="error")
             self.refresh_status(); return
         self.model_lbl.configure(text="Transcribing microphone…", fg=self.COL["gold"])
-        self._thread(target=self._transcribe_mic, args=(wav,), daemon=True).start()
+        sid = self.session['id']
+        def check():
+            self._check_login()
+            if getattr(self, '_closing', False) or not self.session or self.session.get('id') != sid:
+                raise VoiceStopped('Microphone conversation ended')
+        voice = self._mic_voice = VoiceIO(self.root, check)
+        self.stop_btn.configure(state='normal')
+        self._thread(target=self._transcribe_mic, args=(wav, voice), daemon=True).start()
 
-    def _transcribe_mic(self, wav: Path):
+    def _transcribe_mic(self, wav: Path, voice=None):
         try:
-            self.ev.put(("mic_text", self._transcribe_wav_text(wav)))
+            text = voice.transcribe(wav) if voice else self._transcribe_wav_text(wav)
+            self.ev.put(("mic_text", {'voice':voice, 'text':text}))
+        except VoiceStopped:
+            pass
         except Exception as exc:
-            self.ev.put(("mic_error", f"{type(exc).__name__}: {exc}"))
+            self.ev.put(("mic_error", {'voice':voice, 'error':f"{type(exc).__name__}: {exc}"}))
+        finally:
+            self.ev.put(('mic_finished', voice))
 
     def _transcribe_wav_text(self, wav: Path) -> str:
-        boot = Path(bootstrap_python(self.root))
-        cmd = [str(boot), str(self.root / "Agent" / "ai_tools.py"), "transcribe", str(wav), "--device", "cpu"]
-        cp = subprocess.run(
-            cmd, cwd=str(self.root), capture_output=True, text=True, timeout=300,
-            env=clean_env(self.root, prepend_bootstrap=False), creationflags=creationflags(),
-        )
-        if cp.returncode != 0:
-            raise RuntimeError((cp.stderr or cp.stdout or f"exit {cp.returncode}")[-1800:])
-        raw = (cp.stdout or "").strip()
-        try:
-            data = json.loads(raw)
-        except Exception:
-            start = raw.find("{"); end = raw.rfind("}")
-            data = json.loads(raw[start:end+1]) if start >= 0 and end > start else {}
-        text = str(data.get("text") or data.get("transcript") or "").strip()
-        if not text and isinstance(data.get("result"), dict):
-            text = str(data["result"].get("text") or "").strip()
-        if not text:
-            raise RuntimeError("STT returned no transcript text")
-        return text
+        active = getattr(self, 'conversation_active', None)
+        voice = getattr(self, '_conversation_io', None) if active is not None and active.is_set() else None
+        if voice is None:
+            voice = VoiceIO(self.root, self._check_login)
+        return voice.transcribe(wav)
 
     def _conversation_loop(self):
         capture = None
+        voice = self._conversation_io
         device_label = ""
         try:
             errors = []
@@ -6086,10 +6136,12 @@ class NativeChat:
             self.ev.put(("conversation_status", f"Hands-free · ready · {device_label}"))
             first_turn = True
             while self.conversation_active.is_set():
+                voice.check()
                 # Turn-taking: keep the capture handle open, but do not submit speech
                 # while Qwen/tool execution is active. This avoids repeatedly opening
                 # and closing USB camera microphones between turns.
                 while self.conversation_active.is_set() and self.busy:
+                    voice.check()
                     time.sleep(0.08)
                 if not self.conversation_active.is_set():
                     break
@@ -6105,15 +6157,25 @@ class NativeChat:
                 text = self._transcribe_wav_text(wav)
                 if not self.conversation_active.is_set():
                     break
-                self.ev.put(("conversation_text", text))
-                deadline = time.monotonic() + 3.0
-                while self.conversation_active.is_set() and not self.busy and time.monotonic() < deadline:
-                    time.sleep(0.04)
-                while self.conversation_active.is_set() and self.busy:
-                    time.sleep(0.08)
+                request = VoiceTurn(self.session['id'], text)
+                self._conversation_request = request
+                self.ev.put(("conversation_text", request))
+                while not request.done.wait(.08):
+                    voice.check()
+                voice.check()
+                if request.reply and not request.failed and self.settings.get('conversation_speak_replies', True):
+                    self.ev.put(('conversation_status', 'Hands-free · Nice is speaking…'))
+                    voice.speak(request.reply)
+                    # Allow the final speaker buffer to drain before listening.
+                    for _ in range(4):
+                        voice.check()
+                        time.sleep(.05)
+                self._conversation_request = None
+        except VoiceStopped:
+            pass
         except Exception as exc:
             if self.conversation_active.is_set():
-                self.ev.put(("conversation_error", f"{type(exc).__name__}: {exc}"))
+                self.ev.put(("conversation_error", {'voice':voice, 'error':f"{type(exc).__name__}: {exc}"}))
         finally:
             self.conversation_active.clear()
             with self.conversation_capture_lock:
@@ -6129,7 +6191,7 @@ class NativeChat:
                 except Exception:
                     try: capture.kill()
                     except Exception: pass
-            self.ev.put(("conversation_stopped", None))
+            self.ev.put(("conversation_stopped", voice))
 
     # ---------- settings / instructions ----------
     def open_workspace(self):
@@ -6177,6 +6239,9 @@ class NativeChat:
             section = sections[section_id] = skin.section(tabs.add(section_id, {'context':'Reply & memory', 'tools':'Tools & limits', 'voice':'Microphone & hands-free'}[section_id]), title)
             for label, key in fields:
                 entries[key] = skin.row(section, label, lambda row, key=key: skin.entry(row, self.settings.get(key, '')))
+        speak_var = tk.BooleanVar(body, value=self.settings.get('conversation_speak_replies', True))
+        skin.check(sections['voice'], "Speak Nice's replies in Hands-free mode", speak_var)
+        skin.label(sections['voice'], 'Uses the bundled English CPU voice. Replies remain in chat. Listening pauses during playback; End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
         support_var = tk.BooleanVar(body, value=bool(self.settings.get('low_power_support', False)))
         skin.check(sections['tools'], 'Optional support for 1.7B and 4B models', support_var)
         skin.label(sections['tools'], 'Adds source-navigation, research and verification guidance when a supported small model is actually running. Uses the same tools and permissions. Off by default; does not apply to 27B.', muted=True).pack(fill='x', pady=4)
@@ -6256,6 +6321,7 @@ class NativeChat:
                 updated["max_attachment_mb"] = max(1, int(entries["max_attachment_mb"].get()))
                 updated["max_inline_text_chars"] = max(1000, int(entries["max_inline_text_chars"].get()))
                 updated["microphone_device"] = entries["microphone_device"].get().strip() or "auto"
+                updated['conversation_speak_replies'] = bool(speak_var.get())
                 updated["conversation_vad_threshold"] = max(80, int(entries["conversation_vad_threshold"].get()))
                 updated["conversation_silence_seconds"] = max(0.3, min(5.0, float(entries["conversation_silence_seconds"].get())))
                 updated["conversation_preroll_seconds"] = max(0.0, min(2.0, float(entries["conversation_preroll_seconds"].get())))
@@ -6486,16 +6552,22 @@ class NativeChat:
                     self.update_token_label()
                     self._schedule_model_probe(force=True)
                 elif kind == "error":
+                    voice_turn = getattr(self, '_conversation_request', None)
+                    if voice_turn is not None: voice_turn.failed = True
                     self.chat_insert("\n" + str(data) + "\n", "error")
                 elif kind == "done":
                     was_cancelled = self.cancel_event.is_set()
+                    voice_turn = getattr(self, '_conversation_request', None)
+                    if voice_turn is not None:
+                        voice_turn.finish(self.session, was_cancelled)
                     self._activity_event('cancelled' if was_cancelled else 'idle', 'Chat request')
                     self.busy=False; self.cancel_event.clear()
                     for block in list(getattr(self, '_trace_blocks', [])):
                         if block.get('state') in ('live', 'running'):
                             try: self.finish_trace_block(block, 'cancelled' if was_cancelled else 'done')
                             except Exception: pass
-                    self.stop_btn.configure(state="disabled"); self.send_btn.configure(state="normal"); self.session_list.configure(state="normal")
+                    voice_active = getattr(self, 'conversation_active', None)
+                    self.stop_btn.configure(state="normal" if voice_active is not None and voice_active.is_set() else "disabled"); self.send_btn.configure(state="normal"); self.session_list.configure(state="normal")
                     if getattr(self, 'effort', None) is not None:
                         self.effort.set_busy(False)
                     self.finish_trace_block(self._live_thinking_block,"cancelled" if was_cancelled else "done"); self.finish_trace_block(self._live_tool_block,"cancelled" if was_cancelled else "done")
@@ -6543,34 +6615,73 @@ class NativeChat:
                     if errors:
                         self._notice("Attachment", "\n".join(errors[:8]), kind="error")
                 elif kind == "mic_text":
+                    if isinstance(data, dict):
+                        voice = data.get('voice')
+                        if voice is not None:
+                            if voice is not getattr(self, '_mic_voice', None): continue
+                            try: voice.check()
+                            except Exception: continue
+                        data = str(data.get('text') or '')
                     cur = self.prompt.get("1.0", "end-1c").rstrip()
                     self.prompt.delete("1.0", "end"); self.prompt.insert("1.0", (cur + (" " if cur else "") + data).strip())
                     self._resize_prompt()
                     self.refresh_status(); self.prompt.focus_set()
                 elif kind == "mic_error":
+                    if isinstance(data, dict):
+                        voice = data.get('voice')
+                        if voice is not None:
+                            if voice is not getattr(self, '_mic_voice', None): continue
+                            try: voice.check()
+                            except Exception: continue
+                        data = str(data.get('error') or '')
                     self.refresh_status(); self._notice("Microphone transcription", str(data), kind="error")
+                elif kind == 'mic_finished':
+                    if data is not None and data is getattr(self, '_mic_voice', None):
+                        self._mic_voice = None
+                        if not self.busy and not self.conversation_active.is_set():
+                            self.stop_btn.configure(state='disabled')
+                            self.refresh_status()
                 elif kind == "conversation_status":
                     if self.conversation_active.is_set():
                         self._set_llm_dot("listening")
                         self.model_lbl.configure(text=str(data), fg=self.COL["cyan"])
                 elif kind == "conversation_text":
-                    if self.conversation_active.is_set() and not self.busy:
-                        text = str(data or "").strip()
-                        if text:
-                            self.prompt.delete("1.0", "end")
-                            self.prompt.insert("1.0", text)
-                            self._resize_prompt()
-                            self.submit()
+                    if isinstance(data, VoiceTurn):
+                        try:
+                            if (data is getattr(self, '_conversation_request', None)
+                                    and self.conversation_active.is_set() and not self.busy
+                                    and self.session and self.session.get('id') == data.session_id):
+                                self._check_login()
+                                text = data.text.strip()
+                                data.request_index = len(self.session['messages'])
+                                self.prompt.delete("1.0", "end")
+                                self.prompt.insert("1.0", text)
+                                self._resize_prompt()
+                                self.submit()
+                                if self.busy: continue
+                        except Exception:
+                            # Release the listening worker even when login or
+                            # submission fails before a model turn is admitted.
+                            data.failed = True
+                            data.done.set()
+                            raise
+                        data.failed = True
+                        data.done.set()
                 elif kind == "conversation_error":
+                    if isinstance(data, dict):
+                        if data.get('voice') is not getattr(self, '_conversation_io', None): continue
+                        data = data.get('error')
                     self.conversation_active.clear()
                     self.conversation_btn.configure(text="🎧 Hands-free", bg=self.COL["panel2"])
                     self.mic_btn.configure(state="normal")
                     self.refresh_status()
                     self._notice("Hands-free mode", str(data), kind="error")
                 elif kind == "conversation_stopped":
+                    if data is not None and data is not getattr(self, '_conversation_io', None): continue
                     self.conversation_btn.configure(text="🎧 Hands-free", bg=self.COL["panel2"])
                     self.mic_btn.configure(state="normal")
                     if not self.busy:
+                        self.stop_btn.configure(state='disabled')
                         self.refresh_status()
                 elif kind == "model_status":
                     self._cached_model_online = bool(data.get("online"))
@@ -6601,6 +6712,10 @@ class NativeChat:
         application/component shutdown so USB capture devices are released cleanly
         before any broad process cleanup runs.
         """
+        if getattr(self, '_mic_voice', None) is not None:
+            self._mic_voice.cancel()
+        if getattr(self, '_conversation_io', None) is not None:
+            self._conversation_io.cancel()
         if self.conversation_active.is_set() or self.conversation_capture_stream is not None or self.conversation_capture_proc is not None:
             self.stop_conversation_mode()
 

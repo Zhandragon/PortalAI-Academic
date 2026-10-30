@@ -15,21 +15,21 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip";
-    internal const string ArchiveHash = "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261029-Desktop-r51-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip", 542562829L, "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a") };
-    internal static readonly Item[] Files = new Item[] { new Item("PortalAI-Academic-Install.exe", 11603456L, "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"),
-new Item("release.json", 138786249L, "2d6c94e75ee233415d323afa6c6fe8a697cde11b67a1858ec87b4b05161091e3"),
-new Item("payload.zip", 300190697L, "1d7c2ae0094d1de9febc49b3926d07dad57b1c924eade36c25afaa66092df4b3"),
-new Item("START_HERE.txt", 4570L, "758758f3b9c91b1d6060df0419d72d33fc83db25a1d5d0f5677a6eedbdbdcd76"),
-new Item("storage-plan.json", 190024L, "bd041cd2251e1d7b5de6b57674ee27997488720d81f313f8b45ad7312a19cc93"),
-new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
+    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.30-Desktop-r52";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r52-suite.zip";
+    internal const string ArchiveHash = "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261030-Desktop-r52-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r52-suite.zip", 621547905L, "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1312L, "15a36a7b976501c244098965536d22fbc25ab0282f9758542a234b58189fb6b7"),
+new Item("payload.zip", 379466625L, "92859bab59d73cf00160292eb9991a8af4a72c61e733193512a13fc2efc36d09"),
+new Item("PortalAI-Academic-Install.exe", 11603456L, "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"),
 new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
-new Item("PACKAGE_SHA256.json", 1312L, "cf612ca7ab2d0075c0a07cffe285275f78dd19995f11a593713afe02d0b79a28"),
-new Item("upgrade.json", 1050L, "32c43b40b4ea371da919593987138a2485314eea103b4e0a599acfbb9127436a"),
-new Item("suite-catalog.json", 4338L, "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc31b1fe100183bf9aa51e3eea") };
+new Item("release.json", 138993546L, "0c7f77e2c69ac9c9e686e7a1fdb29220384a0f48ac45b1e1936013439d2382dc"),
+new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
+new Item("START_HERE.txt", 4674L, "682068c5e0a66b3292256484941b147c1e9793cb924b1503a58f5709fdd81e48"),
+new Item("storage-plan.json", 190024L, "7467d7fb418340e8b5b1cc3489f9c6656d1941e59a3a83cdf52486f68da73987"),
+new Item("suite-catalog.json", 4338L, "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc31b1fe100183bf9aa51e3eea"),
+new Item("upgrade.json", 1080L, "2d9e0134349a81caaedf3e54e7d9520a641c334c0df8b229cc2ae09b265f1d69") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -55,7 +55,7 @@ new Item("suite-catalog.json", 4338L, "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc3
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 171947246508L : 1745174425L, includeInstall ? 303966L : 14L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 513447037541L : 1982627936L, includeInstall ? 330150L : 14L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
@@ -224,7 +224,7 @@ internal sealed class SetupForm : Form {
         destination.Dock=DockStyle.Fill; destination.Text=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"PortalAI Academic Windows Setup");
         browse.Text="Browse..."; browse.Click+=delegate { using(var picker=new FolderBrowserDialog()) { picker.Description="Select a parent folder for PortalAI Academic setup"; if(picker.ShowDialog()==DialogResult.OK) destination.Text=Path.Combine(picker.SelectedPath,"PortalAI Academic Windows Setup"); } };
         pathRow.Controls.Add(destination); pathRow.Controls.Add(browse); layout.Controls.Add(pathRow);
-        status.Dock=DockStyle.Fill; status.Text="Downloads about 543 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
+        status.Dock=DockStyle.Fill; status.Text="Downloads about 622 MB from GitHub, verifies it, and opens the full installer. Further runtime/model downloads follow."; layout.Controls.Add(status);
         progress.Dock=DockStyle.Fill; layout.Controls.Add(progress);
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill, FlowDirection=FlowDirection.RightToLeft };
         start.Text="Download and install"; start.Width=180; cancel.Text="Cancel"; cancel.Enabled=false; buttons.Controls.Add(start); buttons.Controls.Add(cancel); layout.Controls.Add(buttons); Controls.Add(layout);ApplyTheme();

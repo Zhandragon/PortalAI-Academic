@@ -1,4 +1,5 @@
 <p align="center">
+
   <img src="Documentation/assets/portalai-logo.png" width="100" alt="PortalAI gold and blue portal emblem" />
   &nbsp;&nbsp;
   <img src="Documentation/assets/portalai-wordmark.png" width="340" alt="PortalAI wordmark" />
@@ -18,6 +19,8 @@
   <a href="#companion-utilities">Utilities</a> &nbsp;·&nbsp;
   <a href="Documentation/README.md">Documentation</a>
 </p>
+
+**Windows r52 voice repair (2026-10-30):** Mic runtime discovery is repaired; hands-free now speaks Nice's visible replies and resumes listening. [Voice guide and validation](Documentation/VOICE-CONTROLS-r52.md). Windows installers include the later mission, Workspace, integration and Qwen fixes. Linux/Mac remain r51.
 
 **Qwen voice runtime repair (2026-10-30):** One active SSD-local Qwen package layer, corrected repair/status references, and a Windows checkpoint-loading crash fix. [Changes and validation](Documentation/QWEN-RUNTIME-CONSOLIDATION-20261030.txt). Updated Windows source is individually browsable; historical release archives are unchanged.
 
@@ -53,7 +56,7 @@ The unrestricted version of PortalAI is currently private to prevent misuse. To 
 **Mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](Documentation/MISSION-REVIEW-20261022.md).
 
 
-**Latest update (2026-10-29 r51):** Detected coding requests now receive automatic bounded implementation assistance. Other long tool workflows periodically consolidate evidence and take one justified next step. Both aids have independent opt-outs; existing execution checks and job parameters remain in force. [Changes and validation](Documentation/RELEASE-r51.txt).
+**Earlier update (2026-10-29 r51):** Detected coding requests now receive automatic bounded implementation assistance. Other long tool workflows periodically consolidate evidence and take one justified next step. Both aids have independent opt-outs; existing execution checks and job parameters remain in force. [Changes and validation](Documentation/RELEASE-r51.txt).
 
 **Previous update (2026-10-28 r50):** Optional coding stall recovery alternates a bounded implementation burst with review and testing. File receipts distinguish changed bytes from no-op writes. [Changes and validation](Documentation/RELEASE-r50.txt).
 
@@ -136,7 +139,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Academic-Universal-Setup-2026.10.29-Desktop-r51.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.30-Desktop-r52/PortalAI-Academic-Universal-Setup-2026.10.30-Desktop-r52.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

@@ -129,7 +129,7 @@ class DownloadDiagnostics(unittest.TestCase):
             folder=Path(t);data=b'verified bundled download';path=folder/'tool.zip';path.write_bytes(data)
             item={'id':'fixture','bundled_file':'tool.zip','bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
             with patch.object(core,'fetch') as fetch:
-                self.assertEqual(core.download_artifact(item,folder,folder/'cache',threading.Event(),lambda *args:None),path)
+                self.assertTrue(path.samefile(core.download_artifact(item,folder,folder/'cache',threading.Event(),lambda *args:None)))
                 fetch.assert_not_called()
 
     def test_corrupt_bundled_archive_stops_without_network_fallback(self):

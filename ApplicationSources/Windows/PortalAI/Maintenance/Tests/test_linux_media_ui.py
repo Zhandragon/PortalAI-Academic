@@ -65,6 +65,7 @@ class LinuxMediaUITests(unittest.TestCase):
         panel.store = SimpleNamespace(recordings=ROOT / 'Outputs')
         panel.mic_stop_event = threading.Event()
         panel.mic_btn = Mock()
+        panel.stop_btn = Mock()
         panel.model_lbl = Mock()
         panel.COL = {'bad': 'red'}
         panel._notice = Mock()
@@ -95,6 +96,7 @@ class LinuxMediaUITests(unittest.TestCase):
         panel._start_ffmpeg_mic = Mock(return_value=Mock())
         panel._open_mic_candidate = Mock(side_effect=AssertionError('raw PCM pipe is not a WAV recording'))
         panel.mic_btn = Mock()
+        panel.stop_btn = Mock()
         panel.model_lbl = Mock()
         panel.COL = {'bad': 'red'}
         panel.start_mic()

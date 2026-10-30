@@ -1,2 +1,2 @@
-"""Verified unified PortalAI distribution version."""
-RELEASE_VERSION = '2026.10.29-Desktop-r51'
+"""Verified Windows PortalAI distribution version."""
+RELEASE_VERSION = '2026.10.30-Desktop-r52'

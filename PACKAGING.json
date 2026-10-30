@@ -2,47 +2,32 @@
   "format": 3,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip",
-      "bytes": 542562829,
-      "sha256": "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a",
+      "archive": "PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r52-suite.zip",
+      "bytes": 621547905,
+      "sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-2026.10.29-Desktop-r51-suite.zip",
-          "bytes": 542562829,
-          "sha256": "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a"
+          "name": "PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r52-suite.zip",
+          "bytes": 621547905,
+          "sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04"
         }
       ],
       "files": [
         {
-          "name": "PortalAI-Academic-Install.exe",
-          "bytes": 11603456,
-          "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
-        },
-        {
-          "name": "release.json",
-          "bytes": 138786249,
-          "sha256": "2d6c94e75ee233415d323afa6c6fe8a697cde11b67a1858ec87b4b05161091e3"
+          "name": "PACKAGE_SHA256.json",
+          "bytes": 1312,
+          "sha256": "15a36a7b976501c244098965536d22fbc25ab0282f9758542a234b58189fb6b7"
         },
         {
           "name": "payload.zip",
-          "bytes": 300190697,
-          "sha256": "1d7c2ae0094d1de9febc49b3926d07dad57b1c924eade36c25afaa66092df4b3"
+          "bytes": 379466625,
+          "sha256": "92859bab59d73cf00160292eb9991a8af4a72c61e733193512a13fc2efc36d09"
         },
         {
-          "name": "START_HERE.txt",
-          "bytes": 4570,
-          "sha256": "758758f3b9c91b1d6060df0419d72d33fc83db25a1d5d0f5677a6eedbdbdcd76"
-        },
-        {
-          "name": "storage-plan.json",
-          "bytes": 190024,
-          "sha256": "bd041cd2251e1d7b5de6b57674ee27997488720d81f313f8b45ad7312a19cc93"
-        },
-        {
-          "name": "sox-14.4.2-win32.zip",
-          "bytes": 2651143,
-          "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+          "name": "PortalAI-Academic-Install.exe",
+          "bytes": 11603456,
+          "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
         },
         {
           "name": "qemu-w64-setup-20260811.exe",
@@ -50,27 +35,43 @@
           "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
         },
         {
-          "name": "PACKAGE_SHA256.json",
-          "bytes": 1312,
-          "sha256": "cf612ca7ab2d0075c0a07cffe285275f78dd19995f11a593713afe02d0b79a28"
+          "name": "release.json",
+          "bytes": 138993546,
+          "sha256": "0c7f77e2c69ac9c9e686e7a1fdb29220384a0f48ac45b1e1936013439d2382dc"
         },
         {
-          "name": "upgrade.json",
-          "bytes": 1050,
-          "sha256": "32c43b40b4ea371da919593987138a2485314eea103b4e0a599acfbb9127436a"
+          "name": "sox-14.4.2-win32.zip",
+          "bytes": 2651143,
+          "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+        },
+        {
+          "name": "START_HERE.txt",
+          "bytes": 4674,
+          "sha256": "682068c5e0a66b3292256484941b147c1e9793cb924b1503a58f5709fdd81e48"
+        },
+        {
+          "name": "storage-plan.json",
+          "bytes": 190024,
+          "sha256": "7467d7fb418340e8b5b1cc3489f9c6656d1941e59a3a83cdf52486f68da73987"
         },
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
           "sha256": "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc31b1fe100183bf9aa51e3eea"
+        },
+        {
+          "name": "upgrade.json",
+          "bytes": 1080,
+          "sha256": "2d9e0134349a81caaedf3e54e7d9520a641c334c0df8b229cc2ae09b265f1d69"
         }
       ],
       "storage_preflight": {
-        "bootstrap_bytes": 1745174425,
+        "bootstrap_bytes": 1982627936,
         "bootstrap_files": 14,
-        "install_bytes": 171947246508,
-        "install_files": 303966
-      }
+        "install_bytes": 513447037541,
+        "install_files": 330150
+      },
+      "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.30-Desktop-r52"
     },
     "Linux": {
       "archive": "PortalAI-Academic-Linux-Installer-2026.10.29-Desktop-r51-suite.tar.gz",
@@ -255,6 +256,6 @@
     }
   },
   "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51",
-  "release": "v2026.10.29-Desktop-r51",
+  "release": "v2026.10.30-Desktop-r52",
   "distribution": "GitHub release assets; old Git-tracked parts retained for existing launchers"
 }

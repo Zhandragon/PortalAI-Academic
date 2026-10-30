@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Current packaged release: [r51](RELEASE-r51.txt). Later source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r52 voice repair](VOICE-CONTROLS-r52.md), [installer verification](WINDOWS-INSTALLER-r52.json). Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |
@@ -37,6 +37,7 @@ Current update: [shutdown and Projection repair](SHUTDOWN-20261024-r10.md) and [
 
 ## Implementation and source
 
+- [Microphone and hands-free voice](VOICE-CONTROLS-r52.md), [test receipts](VOICE-VALIDATION-r52.json), and [voice lifecycle source](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py)
 - [Qwen runtime repair, consolidation and limits](QWEN-RUNTIME-CONSOLIDATION-20261030.txt), [validation receipts](QWEN-RUNTIME-VALIDATION-20261030.json) and [voice worker source](../ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/qwen_tts_runner.py)
 - [Architecture and source map](SOURCE-MAP.md)
 - [Mission recovery: exact behavior, limits and tests](MISSION-RECOVERY.md)

@@ -198,6 +198,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/chat_progress.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_progress.py) | Honest model progress and bounded inference waits, without replaying actions. |
 | [ControlCenter/chat_summary_recovery.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_summary_recovery.py) | Bounded recovery from incomplete reasoning summaries, without another model call. |
 | [ControlCenter/chat_task_checkpoint.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_task_checkpoint.py) | Model-requested checkpoints inside one active chat; no background wakeups. |
+| [ControlCenter/chat_voice.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py) | Turn-bound microphone transcription and cancellable, offline spoken replies. |
 | [ControlCenter/chat_working_memory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_working_memory.py) | Rolling, source-linked working memory; raw messages remain the authority. |
 | [ControlCenter/chat_zoom.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_zoom.py) | Conversation-only zoom; no history rebuild, disk images or player restart. |
 | [ControlCenter/coding_stall.py](../ApplicationSources/Windows/PortalAI/ControlCenter/coding_stall.py) | Request-scoped, bounded recovery from inspection-only coding loops. |
@@ -264,7 +265,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/record_context_menu.py](../ApplicationSources/Windows/PortalAI/ControlCenter/record_context_menu.py) | Themed record actions bound to the right-clicked row, never a stale selection. |
 | [ControlCenter/record_controls.py](../ApplicationSources/Windows/PortalAI/ControlCenter/record_controls.py) | Compact search and manual classification for persistence record lists. |
 | [ControlCenter/record_refresh.py](../ApplicationSources/Windows/PortalAI/ControlCenter/record_refresh.py) | Coalesced, account-scoped presentation reads; workers never call Tk. |
-| [ControlCenter/release_version.py](../ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py) | Verified unified PortalAI distribution version. |
+| [ControlCenter/release_version.py](../ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py) | Verified Windows PortalAI distribution version. |
 | [ControlCenter/remote_desktop_input.py](../ApplicationSources/Windows/PortalAI/ControlCenter/remote_desktop_input.py) | Optional pre-login UI input adapter; no profile keys or private consumers. |
 | [ControlCenter/remote_desktop_layout.py](../ApplicationSources/Windows/PortalAI/ControlCenter/remote_desktop_layout.py) | Use the existing compact chat controller for a portrait phone viewer. |
 | [ControlCenter/reviewed_account_setup.py](../ApplicationSources/Windows/PortalAI/ControlCenter/reviewed_account_setup.py) | One-time account setup for an explicitly reviewed, registry-free copy. |
@@ -444,6 +445,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_chat_task_checkpoint.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_task_checkpoint.py) | Proactive checkpoint cycles preserve tool budgets, evidence and Stop/login gates. |
 | [Maintenance/Tests/test_chat_timeline.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_timeline.py) | Actual withdrawn Tk transcript and deterministic lifecycle checks; no account/model. |
 | [Maintenance/Tests/test_chat_vision_policy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_vision_policy.py) | No module overview; see source and symbol inventory. |
+| [Maintenance/Tests/test_chat_voice.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_voice.py) | Missing STT bindings, voice turn ownership, and actual Tk event-loop routing. |
 | [Maintenance/Tests/test_chat_working_context.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_working_context.py) | Large multi-tool conversations retain exact evidence and account boundaries. |
 | [Maintenance/Tests/test_chat_zoom_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_zoom_tk.py) | Synthetic Tk transcript only: no profiles, model servers or user history. |
 | [Maintenance/Tests/test_checkpoint_evidence_catalog.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_checkpoint_evidence_catalog.py) | Checkpoint IDs are discoverable without weakening evidence validation. |
