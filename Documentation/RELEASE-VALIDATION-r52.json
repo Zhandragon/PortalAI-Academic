@@ -2,7 +2,7 @@
   "passed": true,
   "version": "2026.10.30-Desktop-r52",
   "edition": "Academic",
-  "archive_sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
+  "archive_sha256": "4ab31aa7467f507ac2c7cdef45a18b1cfce0c7823ec7ee447da03c5a5437f9ca",
   "packaged_application_tests": {
     "passed": true,
     "tests": 188,
@@ -95,11 +95,17 @@
   "dependency_pins_unchanged": true,
   "full_recipient_install": false,
   "physical_microphone_and_live_llm_voice_conversation": false,
+  "suite_routes": {
+    "passed": true,
+    "windows_r52_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
   "download_launcher": {
     "passed": true,
     "mode": "real compiled --prepare-only with verified local download cache",
     "files_verified": 10,
-    "archive_sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
+    "archive_sha256": "4ab31aa7467f507ac2c7cdef45a18b1cfce0c7823ec7ee447da03c5a5437f9ca",
     "network_download_tested": false,
     "full_install_started": false
   },

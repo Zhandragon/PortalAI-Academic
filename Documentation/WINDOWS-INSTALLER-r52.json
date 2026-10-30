@@ -2,8 +2,8 @@
   "version": "2026.10.30-Desktop-r52",
   "edition": "Academic",
   "archive": "PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r52-suite.zip",
-  "bytes": 621547905,
-  "sha256": "2793f78797c343898e297b5759b51e1089cb5ca038fff5ff88972e21ad317f04",
+  "bytes": 621547921,
+  "sha256": "4ab31aa7467f507ac2c7cdef45a18b1cfce0c7823ec7ee447da03c5a5437f9ca",
   "previous_sha256": "6cf64c5419af450705357119620986e60b31ad7197b0b73929d9c724f453522a",
   "changed_members": [
     "PortalAI/Agent/mission_runner.py",
@@ -719,7 +719,7 @@
     {
       "name": "PACKAGE_SHA256.json",
       "bytes": 1312,
-      "sha256": "15a36a7b976501c244098965536d22fbc25ab0282f9758542a234b58189fb6b7"
+      "sha256": "b0cc41146c4a6006c2f3b30de5fc8e45fc20676dfb4771202c9feef430f3db04"
     },
     {
       "name": "payload.zip",
@@ -759,7 +759,7 @@
     {
       "name": "suite-catalog.json",
       "bytes": 4338,
-      "sha256": "b13352f1ac78d1cdd6ff7ea40a5c3c399cc8b4fc31b1fe100183bf9aa51e3eea"
+      "sha256": "c5d68beba884eae5a95a45c08a308b378fde9f9dc69d61adc154459f51454168"
     },
     {
       "name": "upgrade.json",

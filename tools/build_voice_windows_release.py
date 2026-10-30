@@ -82,6 +82,17 @@ def build(repo,previous,knowledge,stage):
     write_json(package/'upgrade.json',upgrade)
     plan=json.loads((package/'storage-plan.json').read_text());plan.update(release=release['release'],payload_bytes=sum(r['bytes'] for r in rows),payload_files=len(rows))
     write_json(package/'storage-plan.json',plan)
+    catalog=json.loads((package/'suite-catalog.json').read_text(encoding='utf-8'))
+    catalog['catalog_version']=VERSION
+    for row in catalog['assets']:
+        if row.get('kind')=='installer' and row.get('platform')=='Windows':
+            row['file']=row['file'].replace(old,VERSION)
+            row['tag']='v'+VERSION
+            row['url']=f"https://github.com/{row['repository']}/releases/download/v{VERSION}/{row['file']}"
+            # Resolve final hashes from the matching sidecar or GitHub digest;
+            # an archive cannot embed its own final checksum.
+            row['resolve_release']=True
+    write_json(package/'suite-catalog.json',catalog)
     start=package/'START_HERE.txt';start.write_bytes((start.read_text(encoding='utf-8').replace(old,VERSION)+'\nWindows r52: hands-free speaks visible replies. See the installed Documentation/Voice_Controls_r52.md.\n').encode())
     pins=[{'path':p.name,'bytes':p.stat().st_size,'sha256':digest(p)} for p in sorted(package.iterdir()) if p.name!='PACKAGE_SHA256.json']
     write_json(package/'PACKAGE_SHA256.json',pins)
