@@ -117,6 +117,9 @@ def detect(root:Path)->dict:
     add("diagnostics","Diagnostics",ex("Tools/component_diagnostics.py") and ex("Tools/system_test.py") and ex("Tools/component_smoke.py"),"full + targeted + functional Science + per-component smoke checks")
     add("maintenance","Maintenance",ex("Tools/maintenance_storage.py") and ex("Tools/reference_integrity.py") and ex("Tools/dependency_probe_current.py"),"science-aware storage/duplicate audit + conservative cleanup + dependency/reference checks")
 
+    add('structured','Schema-constrained JSON',ex('Agent/structured_generation.py'),'Supported JSON Schema subset, llama.cpp constraint and independent validation; start a local chat backend first')
+    add('application_api','Application API v1 and SDK',ex('Agent/application_api.py'),'Opt-in authenticated loopback API, scoped tokens, cancellation and durable write receipts; Workspace > API')
+    add('artifacts','Interactive versioned artifacts',ex('Agent/artifacts.py'),'HTML/SVG/chart editor, immutable revisions and export; explicit offline Chromium preview')
     add('knowledge','Local document knowledge',ex('Agent/knowledge_base.py') and ex('Runtime/Knowledge/model/manifest.json') and ex('Runtime/Knowledge/packages/pypdfium2/__init__.py'),'Workspace: transactional folder sync, PDF/Office/OCR, local semantic + keyword retrieval with source citations')
     add('mcp','MCP connections',ex('Agent/mcp_client.py') and ex('Runtime/Knowledge/packages/jsonschema/__init__.py'),'Workspace: stdio and Streamable HTTP tools, explicit per-account grants; pending effects require review')
     add('workflows','Reusable workflows',ex('Agent/workflows.py') and ex('ControlCenter/workspace_panel.py'),'Saved typed inputs, forward conditions, approval points and durable bounded step execution')

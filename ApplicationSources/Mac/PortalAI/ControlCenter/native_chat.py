@@ -996,6 +996,8 @@ class ToolRuntime:
             self._cancel_epoch=getattr(self,'_cancel_epoch',0)+1
             p = self._proc
             if os.name!='nt' and getattr(self,'_managed_job',None):self._managed_job.close()
+        from workspace_services import close_all
+        self._workspace_cleanup_errors=close_all(self.root)
         if getattr(self, '_web_client', None):
             self._web_client.close()
         from agent_collaboration import close_profile
@@ -1276,7 +1278,7 @@ class ToolRuntime:
 
     def execute(self, name: str, args: dict) -> str:
         self._account_role()
-        if name in ('knowledge','mcp','workflow','computer'):
+        if name in ('knowledge','mcp','workflow','computer','structured','artifact'):
             from capability_tools import dispatch
             return json.dumps(dispatch(self,name,args),ensure_ascii=True)
         if name in ('inspect_environment', 'source_search', 'source_map'):

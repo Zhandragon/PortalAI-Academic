@@ -19,6 +19,8 @@
   <a href="Documentation/README.md">Documentation</a>
 </p>
 
+**Workspace integration patch (2026-10-29):** Schema-constrained mission/extraction JSON, an authenticated application API with Python/TypeScript SDKs, and interactive versioned HTML/SVG/chart artifacts. [Guide and source links](Documentation/INTEGRATION.md). [Read-only Python distribution audit](Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md); no runtime or NumPy merging. Source patch; historical r51 archives unchanged.
+
 **Welcome to PortalAI:** a portable workspace for local chat, tools, science, images, video, speech and music.
 
 <p align="center"><a href="https://github.com/sponsors/Zhandragon"><img src="Documentation/assets/sponsor-button.svg" width="252" height="48" alt="Sponsor on GitHub" /></a><br/><sub>Support continued PortalAI development · <a href="Documentation/DONATIONS.md">Donation options</a></sub></p>

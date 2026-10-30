@@ -8,6 +8,7 @@ from internal_sheet import InternalSheet
 from rounded_text import RoundedText
 from account_permissions import require_user,require_admin,can_admin
 from capability_tools import guard,workflow_store
+from workspace_integration_ui import IntegrationUI
 
 
 def show_workspace(parent,root,colors,*,session=None,jobs=None,runtime=None):
@@ -21,21 +22,22 @@ def show_workspace(parent,root,colors,*,session=None,jobs=None,runtime=None):
     return WorkspacePanel(parent,root,colors,session,jobs,runtime)
 
 
-class WorkspacePanel(InternalSheet):
+class WorkspacePanel(IntegrationUI,InternalSheet):
     def __init__(self,parent,root,colors,session,jobs,runtime):
         super().__init__(parent,'Workspace',colors)
         self.root=Path(root);self.session=session;self.jobs=jobs;self.runtime=runtime
         self.events=queue.Queue();self.cancelled=threading.Event();self.busy=False;self.closed=False
         self.on_close=self.close;self.base_check=guard(runtime)
         self.skin.label(self.content,'Your documents, approved connections and reusable tasks stay with your signed-in account.').pack(fill='x',pady=5)
-        nav=self.skin.frame(self.content);nav.pack(fill='x');self.pages={}
-        for title in ('Knowledge','Connections','Workflows','Computer'):
-            self.skin.button(nav,title,lambda t=title:self.page(t)).pack(side='left',padx=3)
+        from ui_extensions import ResponsiveFlow
+        nav=ResponsiveFlow(self.content,bg=self.skin.colors['panel'],hgap=4,vgap=4);nav.pack(fill='x');self.pages={}
+        for title in ('Knowledge','Connections','Workflows','Computer','Structured','API','Artifacts'):
+            nav.add(self.skin.button(nav,title,lambda t=title:self.page(t)))
             self.pages[title]=self.skin.frame(self.content)
         self.status=self.skin.label(self.content,'Ready');self.status.pack(fill='x',pady=5)
         self.skin.button(self.heading,'Stop operation',self.stop).pack(side='right',padx=4)
         self.output=self.text(self.content,'',10);self.output.pack(fill='both',expand=True,pady=6)
-        self.knowledge_page();self.connections_page();self.workflows_page();self.computer_page()
+        self.knowledge_page();self.connections_page();self.workflows_page();self.computer_page();self.structured_page();self.api_page();self.artifacts_page()
         self.page('Knowledge');self.after(100,self.poll)
 
     def check(self):
@@ -110,6 +112,7 @@ class WorkspacePanel(InternalSheet):
         self.status.configure(text='Stopping; uncertain external effects need review')
 
     def close(self):
+        self.close_integrations()
         if self.busy:self.stop()
         self.closed=True;self.destroy()
 

@@ -1,9 +1,9 @@
 {
   "scope": "Tracked and new non-vendored code under ApplicationSources only; not a live-drive or binary-release audit.",
   "files_per_platform": {
-    "Linux": 804,
-    "Mac": 779,
-    "Windows": 846
+    "Linux": 822,
+    "Mac": 797,
+    "Windows": 864
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -1233,6 +1233,86 @@
           "name": "compute_probe",
           "line": 52,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/application_api.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "68a933b37b6b93ebd8237d47e9f514602d8a1e3dd3db6917620ec3c195781d02",
+      "lines": 188,
+      "overview": "Versioned loopback HTTP boundary, scoped bearer grants and write receipts.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APIState",
+          "line": 21,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Server",
+          "line": 95,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/artifact_document.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "ea98e149fca18b81f59e8bb1df1f313ca4ef27207c4aec1b4fb1bfe43b0c686f",
+      "lines": 30,
+      "overview": "Offline interactive previews with an opaque-origin, scripts-only iframe.",
+      "symbols": [
+        {
+          "name": "inner_document",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "preview_document",
+          "line": 28,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/artifact_preview_worker.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "b8fa60101d358a7b38aa9683fa535ee33bae287b2cea264f8ede95f0cd4839c9",
+      "lines": 42,
+      "overview": "Owned portable Chromium preview; no app bindings, persistence or network.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 12,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/artifacts.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "a331f6b6ab0fbec96d409e5e93ab063d6cb458f4fe15de4fe9dcc78aefa8ae39",
+      "lines": 100,
+      "overview": "Immutable, account-private HTML/SVG/chart revisions with explicit export.",
+      "symbols": [
+        {
+          "name": "validate_content",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Artifacts",
+          "line": 33,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -3344,8 +3424,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/mission_runner.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627",
-      "lines": 789,
+      "sha256": "bb1fd7a4cadc108a094bb6748990eae3460ea115e06017e93eb539a5c1cea98a",
+      "lines": 791,
       "overview": "Durable, bounded local agent missions. No service or host startup registration.",
       "symbols": [
         {
@@ -3380,7 +3460,7 @@
         },
         {
           "name": "main",
-          "line": 722,
+          "line": 724,
           "kind": "FunctionDef"
         }
       ]
@@ -4423,23 +4503,23 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
-      "lines": 197,
+      "sha256": "6f1683902ed43f0a90c2e408c31877d6df041798e8147cd568b42d1f983dc8d6",
+      "lines": 198,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
         {
           "name": "is_deferred_path",
-          "line": 21,
+          "line": 22,
           "kind": "FunctionDef"
         },
         {
           "name": "publish_no_replace",
-          "line": 31,
+          "line": 32,
           "kind": "FunctionDef"
         },
         {
           "name": "HydrationState",
-          "line": 51,
+          "line": 52,
           "kind": "ClassDef"
         }
       ]
@@ -5725,6 +5805,46 @@
           "name": "SfxBridge",
           "line": 23,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/structured_generation.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "fdcb2e44376fa8195efd0d848317abf205c0e5103a368e078900bfb52cf080be",
+      "lines": 172,
+      "overview": "Bounded JSON-Schema generation: backend constraint plus independent validation.",
+      "symbols": [
+        {
+          "name": "schema",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "response_format",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "parse",
+          "line": 80,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "mission_schema",
+          "line": 99,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "request_json",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "generate",
+          "line": 155,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -7484,6 +7604,71 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/application_api_contract.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "94e5e06a731591b366a81f5c785edb67b7d22b786b9576a3fdccaedf8a070633",
+      "lines": 22,
+      "overview": "Public v1 request contracts, shared by the OpenAPI document generator.",
+      "symbols": [
+        {
+          "name": "obj",
+          "line": 5,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/application_api_runtime.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "44d8badfceffdcf483656e038710f9243cd5a6118a0cd58a7d04b74a836c2893",
+      "lines": 258,
+      "overview": "Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint.",
+      "symbols": [
+        {
+          "name": "fields",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "integer",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "page",
+          "line": 37,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "openapi",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ApplicationAPI",
+          "line": 62,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/artifact_preview.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "826019843ab23d91202b74edcbcf1f1182b4cc7395d04fce7872065905bd46f2",
+      "lines": 66,
+      "overview": "Gated preview worker lifetime, tied to account/Stop and the Workspace sheet.",
+      "symbols": [
+        {
+          "name": "Preview",
+          "line": 11,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Linux",
       "component": "ControlCenter",
@@ -7517,8 +7702,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
-      "lines": 146,
+      "sha256": "bcad4666222fe5b3924b5cc855aefaea06ac6dee179f5e7151e99bd147a60350",
+      "lines": 167,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -7533,22 +7718,22 @@
         },
         {
           "name": "workflow_store",
-          "line": 59,
+          "line": 62,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 76,
+          "line": 79,
           "kind": "FunctionDef"
         },
         {
           "name": "tool",
-          "line": 112,
+          "line": 129,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 128,
+          "line": 149,
           "kind": "FunctionDef"
         }
       ]
@@ -8831,8 +9016,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/native_chat.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b",
-      "lines": 6712,
+      "sha256": "16611d40dc534be01f3cb6fae64cbf645ad7608b46f44e148aefa249596cabf4",
+      "lines": 6714,
       "overview": "",
       "symbols": [
         {
@@ -8962,27 +9147,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1401,
+          "line": 1403,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1408,
+          "line": 1410,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1426,
+          "line": 1428,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1571,
+          "line": 1573,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6700,
+          "line": 6702,
           "kind": "FunctionDef"
         }
       ]
@@ -11055,8 +11240,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
-      "lines": 185,
+      "sha256": "6dff701e39195d4f084f32def13dcf96d3aa14e90c71a31b9db4cad949919edb",
+      "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -11066,32 +11251,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 65,
+          "line": 66,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 80,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 94,
+          "line": 95,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 101,
+          "line": 102,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 116,
+          "line": 117,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 173,
+          "line": 174,
           "kind": "FunctionDef"
         }
       ]
@@ -11272,22 +11457,62 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/workspace_integration_ui.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "8c1ec7e0eff410f30e66a7b07b9c81b2066ce4f04f89e1b165908b0bff802e79",
+      "lines": 106,
+      "overview": "Workspace controls for structured output, API grants and artifact revisions.",
+      "symbols": [
+        {
+          "name": "IntegrationUI",
+          "line": 10,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
-      "lines": 213,
+      "sha256": "823859932518602d1b1fb6a97143625de78e3d791eb7ea0b4d7f8712b295c107",
+      "lines": 216,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {
           "name": "show_workspace",
-          "line": 13,
+          "line": 14,
           "kind": "FunctionDef"
         },
         {
           "name": "WorkspacePanel",
-          "line": 24,
+          "line": 25,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/workspace_services.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e",
+      "lines": 23,
+      "overview": "Explicitly started Workspace resources share the existing Stop boundary.",
+      "symbols": [
+        {
+          "name": "register",
+          "line": 8,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "unregister",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "close_all",
+          "line": 17,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -13824,6 +14049,46 @@
         {
           "name": "InlineImagesTk",
           "line": 49,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_integration.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "313fa8424386d081f6b73f4387e3e2fb985b12835b8125180d2f0520ef8c010c",
+      "lines": 161,
+      "overview": "Schema, artifact and real HTTP API boundary/recovery regressions.",
+      "symbols": [
+        {
+          "name": "StructuredTests",
+          "line": 23,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ArtifactTests",
+          "line": 43,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APITests",
+          "line": 71,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_integration_profiles.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "b91a84618da2fbf37af54a2d0dec7ce075fca08967e0e70c563b9e25c074b187",
+      "lines": 30,
+      "overview": "Real encrypted sealing/lazy restore for artifact and API persistent state.",
+      "symbols": [
+        {
+          "name": "IntegrationProfiles",
+          "line": 13,
           "kind": "ClassDef"
         }
       ]
@@ -17010,6 +17275,49 @@
       "lines": 10
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/SDK/examples/artifact.ts",
+      "platform": "Linux",
+      "component": "SDK",
+      "sha256": "53bf41a98684efbde33b93ae25821550389d39c4de433222e242fb4979c6587d",
+      "lines": 11
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/SDK/examples/chat.py",
+      "platform": "Linux",
+      "component": "SDK",
+      "sha256": "c12a9380a9bed52034df44af05e1c6c3ab6bc7414b30a2cb7ddf7c5e6a282179",
+      "lines": 13,
+      "overview": "Run with bundled Python: chat.py URL. A local chat model must be running.",
+      "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/SDK/python/portalai.py",
+      "platform": "Linux",
+      "component": "SDK",
+      "sha256": "8aff5a67ebdd72a60c71b90934f51c7eda8993ff310bdf7c65bbd1b8aa9c8847",
+      "lines": 57,
+      "overview": "PortalAI application API v1 client. Standard library only; no implicit retries.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 10,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Client",
+          "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/SDK/typescript/portalai.ts",
+      "platform": "Linux",
+      "component": "SDK",
+      "sha256": "2ef1d80569911a5ab19466514276321816ec41ba101358017d45afc7d9feb2aa",
+      "lines": 38
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Scientific/__init__.py",
       "platform": "Linux",
       "component": "Scientific",
@@ -18062,6 +18370,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/audit_python_distributions.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "814e67569f48f13ec9b6c585bd400268561d244efc04bfc88ee39db0ad6775db",
+      "lines": 60,
+      "overview": "Read-only interpreter/package inventory. Never changes or merges runtimes.",
+      "symbols": [
+        {
+          "name": "walk",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 24,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Tools/audit_source_bloat.py",
       "platform": "Linux",
       "component": "Tools",
@@ -18285,8 +18618,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Tools/capability_registry.py",
       "platform": "Linux",
       "component": "Tools",
-      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
-      "lines": 138,
+      "sha256": "ef47e2a22c2debab90e5d3038e8b7a6a2699d786c21cf8f0561ceea784d6c07f",
+      "lines": 141,
       "overview": "",
       "symbols": [
         {
@@ -18316,7 +18649,7 @@
         },
         {
           "name": "main",
-          "line": 136,
+          "line": 139,
           "kind": "FunctionDef"
         }
       ]
@@ -21319,6 +21652,41 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_integration.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "b637ebd8c2ce256025c185dc2ac5f3a7015c74aa2e0b48f652736154c72f1bb7",
+      "lines": 158,
+      "overview": "Actual portable browser/model/native UI acceptance; synthetic fixtures only.",
+      "symbols": [
+        {
+          "name": "browser",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ui",
+          "line": 47,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "model",
+          "line": 89,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "worker",
+          "line": 131,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 152,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Tools/smoke_lazy_chat_memory_ui.py",
       "platform": "Linux",
       "component": "Tools",
@@ -23440,6 +23808,86 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/application_api.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "68a933b37b6b93ebd8237d47e9f514602d8a1e3dd3db6917620ec3c195781d02",
+      "lines": 188,
+      "overview": "Versioned loopback HTTP boundary, scoped bearer grants and write receipts.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APIState",
+          "line": 21,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Server",
+          "line": 95,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/artifact_document.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "ea98e149fca18b81f59e8bb1df1f313ca4ef27207c4aec1b4fb1bfe43b0c686f",
+      "lines": 30,
+      "overview": "Offline interactive previews with an opaque-origin, scripts-only iframe.",
+      "symbols": [
+        {
+          "name": "inner_document",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "preview_document",
+          "line": 28,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/artifact_preview_worker.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "b8fa60101d358a7b38aa9683fa535ee33bae287b2cea264f8ede95f0cd4839c9",
+      "lines": 42,
+      "overview": "Owned portable Chromium preview; no app bindings, persistence or network.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 12,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/artifacts.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "a331f6b6ab0fbec96d409e5e93ab063d6cb458f4fe15de4fe9dcc78aefa8ae39",
+      "lines": 100,
+      "overview": "Immutable, account-private HTML/SVG/chart revisions with explicit export.",
+      "symbols": [
+        {
+          "name": "validate_content",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Artifacts",
+          "line": 33,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Agent/assistant_guidance.py",
       "platform": "Mac",
       "component": "Agent",
@@ -25547,8 +25995,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/mission_runner.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627",
-      "lines": 789,
+      "sha256": "bb1fd7a4cadc108a094bb6748990eae3460ea115e06017e93eb539a5c1cea98a",
+      "lines": 791,
       "overview": "Durable, bounded local agent missions. No service or host startup registration.",
       "symbols": [
         {
@@ -25583,7 +26031,7 @@
         },
         {
           "name": "main",
-          "line": 722,
+          "line": 724,
           "kind": "FunctionDef"
         }
       ]
@@ -26626,23 +27074,23 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
-      "lines": 197,
+      "sha256": "6f1683902ed43f0a90c2e408c31877d6df041798e8147cd568b42d1f983dc8d6",
+      "lines": 198,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
         {
           "name": "is_deferred_path",
-          "line": 21,
+          "line": 22,
           "kind": "FunctionDef"
         },
         {
           "name": "publish_no_replace",
-          "line": 31,
+          "line": 32,
           "kind": "FunctionDef"
         },
         {
           "name": "HydrationState",
-          "line": 51,
+          "line": 52,
           "kind": "ClassDef"
         }
       ]
@@ -27928,6 +28376,46 @@
           "name": "SfxBridge",
           "line": 23,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/structured_generation.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "fdcb2e44376fa8195efd0d848317abf205c0e5103a368e078900bfb52cf080be",
+      "lines": 172,
+      "overview": "Bounded JSON-Schema generation: backend constraint plus independent validation.",
+      "symbols": [
+        {
+          "name": "schema",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "response_format",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "parse",
+          "line": 80,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "mission_schema",
+          "line": 99,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "request_json",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "generate",
+          "line": 155,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -29687,6 +30175,71 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/application_api_contract.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "94e5e06a731591b366a81f5c785edb67b7d22b786b9576a3fdccaedf8a070633",
+      "lines": 22,
+      "overview": "Public v1 request contracts, shared by the OpenAPI document generator.",
+      "symbols": [
+        {
+          "name": "obj",
+          "line": 5,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/application_api_runtime.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "44d8badfceffdcf483656e038710f9243cd5a6118a0cd58a7d04b74a836c2893",
+      "lines": 258,
+      "overview": "Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint.",
+      "symbols": [
+        {
+          "name": "fields",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "integer",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "page",
+          "line": 37,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "openapi",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ApplicationAPI",
+          "line": 62,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/artifact_preview.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "826019843ab23d91202b74edcbcf1f1182b4cc7395d04fce7872065905bd46f2",
+      "lines": 66,
+      "overview": "Gated preview worker lifetime, tied to account/Stop and the Workspace sheet.",
+      "symbols": [
+        {
+          "name": "Preview",
+          "line": 11,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Mac",
       "component": "ControlCenter",
@@ -29720,8 +30273,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
-      "lines": 146,
+      "sha256": "bcad4666222fe5b3924b5cc855aefaea06ac6dee179f5e7151e99bd147a60350",
+      "lines": 167,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -29736,22 +30289,22 @@
         },
         {
           "name": "workflow_store",
-          "line": 59,
+          "line": 62,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 76,
+          "line": 79,
           "kind": "FunctionDef"
         },
         {
           "name": "tool",
-          "line": 112,
+          "line": 129,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 128,
+          "line": 149,
           "kind": "FunctionDef"
         }
       ]
@@ -31034,8 +31587,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/native_chat.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "1ff630d9c4d0057bf2a9d98eda8e988d31d09a967c5a838f356ec2b5af01d5ad",
-      "lines": 6717,
+      "sha256": "9209cd7d79376e38dc758af61446c08032e59c585fbd63b6f213d7b65055e69b",
+      "lines": 6719,
       "overview": "",
       "symbols": [
         {
@@ -31165,27 +31718,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1406,
+          "line": 1408,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1413,
+          "line": 1415,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1431,
+          "line": 1433,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1576,
+          "line": 1578,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6705,
+          "line": 6707,
           "kind": "FunctionDef"
         }
       ]
@@ -33258,8 +33811,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
-      "lines": 185,
+      "sha256": "6dff701e39195d4f084f32def13dcf96d3aa14e90c71a31b9db4cad949919edb",
+      "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -33269,32 +33822,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 65,
+          "line": 66,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 80,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 94,
+          "line": 95,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 101,
+          "line": 102,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 116,
+          "line": 117,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 173,
+          "line": 174,
           "kind": "FunctionDef"
         }
       ]
@@ -33475,22 +34028,62 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/workspace_integration_ui.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "8c1ec7e0eff410f30e66a7b07b9c81b2066ce4f04f89e1b165908b0bff802e79",
+      "lines": 106,
+      "overview": "Workspace controls for structured output, API grants and artifact revisions.",
+      "symbols": [
+        {
+          "name": "IntegrationUI",
+          "line": 10,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
-      "lines": 213,
+      "sha256": "823859932518602d1b1fb6a97143625de78e3d791eb7ea0b4d7f8712b295c107",
+      "lines": 216,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {
           "name": "show_workspace",
-          "line": 13,
+          "line": 14,
           "kind": "FunctionDef"
         },
         {
           "name": "WorkspacePanel",
-          "line": 24,
+          "line": 25,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/workspace_services.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e",
+      "lines": 23,
+      "overview": "Explicitly started Workspace resources share the existing Stop boundary.",
+      "symbols": [
+        {
+          "name": "register",
+          "line": 8,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "unregister",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "close_all",
+          "line": 17,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -36027,6 +36620,46 @@
         {
           "name": "InlineImagesTk",
           "line": 49,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_integration.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "313fa8424386d081f6b73f4387e3e2fb985b12835b8125180d2f0520ef8c010c",
+      "lines": 161,
+      "overview": "Schema, artifact and real HTTP API boundary/recovery regressions.",
+      "symbols": [
+        {
+          "name": "StructuredTests",
+          "line": 23,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ArtifactTests",
+          "line": 43,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APITests",
+          "line": 71,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_integration_profiles.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "b91a84618da2fbf37af54a2d0dec7ce075fca08967e0e70c563b9e25c074b187",
+      "lines": 30,
+      "overview": "Real encrypted sealing/lazy restore for artifact and API persistent state.",
+      "symbols": [
+        {
+          "name": "IntegrationProfiles",
+          "line": 13,
           "kind": "ClassDef"
         }
       ]
@@ -39206,6 +39839,49 @@
       "symbols": []
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/SDK/examples/artifact.ts",
+      "platform": "Mac",
+      "component": "SDK",
+      "sha256": "53bf41a98684efbde33b93ae25821550389d39c4de433222e242fb4979c6587d",
+      "lines": 11
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/SDK/examples/chat.py",
+      "platform": "Mac",
+      "component": "SDK",
+      "sha256": "c12a9380a9bed52034df44af05e1c6c3ab6bc7414b30a2cb7ddf7c5e6a282179",
+      "lines": 13,
+      "overview": "Run with bundled Python: chat.py URL. A local chat model must be running.",
+      "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/SDK/python/portalai.py",
+      "platform": "Mac",
+      "component": "SDK",
+      "sha256": "8aff5a67ebdd72a60c71b90934f51c7eda8993ff310bdf7c65bbd1b8aa9c8847",
+      "lines": 57,
+      "overview": "PortalAI application API v1 client. Standard library only; no implicit retries.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 10,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Client",
+          "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/SDK/typescript/portalai.ts",
+      "platform": "Mac",
+      "component": "SDK",
+      "sha256": "2ef1d80569911a5ab19466514276321816ec41ba101358017d45afc7d9feb2aa",
+      "lines": 38
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/ExecutableRecovery.cs",
       "platform": "Mac",
       "component": "Tools",
@@ -39443,6 +40119,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/audit_python_distributions.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "814e67569f48f13ec9b6c585bd400268561d244efc04bfc88ee39db0ad6775db",
+      "lines": 60,
+      "overview": "Read-only interpreter/package inventory. Never changes or merges runtimes.",
+      "symbols": [
+        {
+          "name": "walk",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 24,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/audit_source_bloat.py",
       "platform": "Mac",
       "component": "Tools",
@@ -39666,8 +40367,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Tools/capability_registry.py",
       "platform": "Mac",
       "component": "Tools",
-      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
-      "lines": 138,
+      "sha256": "ef47e2a22c2debab90e5d3038e8b7a6a2699d786c21cf8f0561ceea784d6c07f",
+      "lines": 141,
       "overview": "",
       "symbols": [
         {
@@ -39697,7 +40398,7 @@
         },
         {
           "name": "main",
-          "line": 136,
+          "line": 139,
           "kind": "FunctionDef"
         }
       ]
@@ -42700,6 +43401,41 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_integration.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "b637ebd8c2ce256025c185dc2ac5f3a7015c74aa2e0b48f652736154c72f1bb7",
+      "lines": 158,
+      "overview": "Actual portable browser/model/native UI acceptance; synthetic fixtures only.",
+      "symbols": [
+        {
+          "name": "browser",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ui",
+          "line": 47,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "model",
+          "line": 89,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "worker",
+          "line": 131,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 152,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/smoke_lazy_chat_memory_ui.py",
       "platform": "Mac",
       "component": "Tools",
@@ -44821,6 +45557,86 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/application_api.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "68a933b37b6b93ebd8237d47e9f514602d8a1e3dd3db6917620ec3c195781d02",
+      "lines": 188,
+      "overview": "Versioned loopback HTTP boundary, scoped bearer grants and write receipts.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APIState",
+          "line": 21,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Server",
+          "line": 95,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/artifact_document.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "ea98e149fca18b81f59e8bb1df1f313ca4ef27207c4aec1b4fb1bfe43b0c686f",
+      "lines": 30,
+      "overview": "Offline interactive previews with an opaque-origin, scripts-only iframe.",
+      "symbols": [
+        {
+          "name": "inner_document",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "preview_document",
+          "line": 28,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/artifact_preview_worker.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "b8fa60101d358a7b38aa9683fa535ee33bae287b2cea264f8ede95f0cd4839c9",
+      "lines": 42,
+      "overview": "Owned portable Chromium preview; no app bindings, persistence or network.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 12,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/artifacts.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "a331f6b6ab0fbec96d409e5e93ab063d6cb458f4fe15de4fe9dcc78aefa8ae39",
+      "lines": 100,
+      "overview": "Immutable, account-private HTML/SVG/chart revisions with explicit export.",
+      "symbols": [
+        {
+          "name": "validate_content",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Artifacts",
+          "line": 33,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/assistant_guidance.py",
       "platform": "Windows",
       "component": "Agent",
@@ -46928,8 +47744,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/mission_runner.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627",
-      "lines": 789,
+      "sha256": "bb1fd7a4cadc108a094bb6748990eae3460ea115e06017e93eb539a5c1cea98a",
+      "lines": 791,
       "overview": "Durable, bounded local agent missions. No service or host startup registration.",
       "symbols": [
         {
@@ -46964,7 +47780,7 @@
         },
         {
           "name": "main",
-          "line": 722,
+          "line": 724,
           "kind": "FunctionDef"
         }
       ]
@@ -48007,23 +48823,23 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_lazy_state.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705",
-      "lines": 197,
+      "sha256": "6f1683902ed43f0a90c2e408c31877d6df041798e8147cd568b42d1f983dc8d6",
+      "lines": 198,
       "overview": "Authenticated hydration bookkeeping; called under ProfileWorkspace's lock.",
       "symbols": [
         {
           "name": "is_deferred_path",
-          "line": 21,
+          "line": 22,
           "kind": "FunctionDef"
         },
         {
           "name": "publish_no_replace",
-          "line": 31,
+          "line": 32,
           "kind": "FunctionDef"
         },
         {
           "name": "HydrationState",
-          "line": 51,
+          "line": 52,
           "kind": "ClassDef"
         }
       ]
@@ -49309,6 +50125,46 @@
           "name": "SfxBridge",
           "line": 23,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/structured_generation.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "fdcb2e44376fa8195efd0d848317abf205c0e5103a368e078900bfb52cf080be",
+      "lines": 172,
+      "overview": "Bounded JSON-Schema generation: backend constraint plus independent validation.",
+      "symbols": [
+        {
+          "name": "schema",
+          "line": 23,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "response_format",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "parse",
+          "line": 80,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "mission_schema",
+          "line": 99,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "request_json",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "generate",
+          "line": 155,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -51068,6 +51924,71 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/application_api_contract.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "94e5e06a731591b366a81f5c785edb67b7d22b786b9576a3fdccaedf8a070633",
+      "lines": 22,
+      "overview": "Public v1 request contracts, shared by the OpenAPI document generator.",
+      "symbols": [
+        {
+          "name": "obj",
+          "line": 5,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/application_api_runtime.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "44d8badfceffdcf483656e038710f9243cd5a6118a0cd58a7d04b74a836c2893",
+      "lines": 258,
+      "overview": "Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint.",
+      "symbols": [
+        {
+          "name": "fields",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "integer",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "page",
+          "line": 37,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "openapi",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ApplicationAPI",
+          "line": 62,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/artifact_preview.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "826019843ab23d91202b74edcbcf1f1182b4cc7395d04fce7872065905bd46f2",
+      "lines": 66,
+      "overview": "Gated preview worker lifetime, tied to account/Stop and the Workspace sheet.",
+      "symbols": [
+        {
+          "name": "Preview",
+          "line": 11,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -51101,8 +52022,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484",
-      "lines": 146,
+      "sha256": "bcad4666222fe5b3924b5cc855aefaea06ac6dee179f5e7151e99bd147a60350",
+      "lines": 167,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -51117,22 +52038,22 @@
         },
         {
           "name": "workflow_store",
-          "line": 59,
+          "line": 62,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 76,
+          "line": 79,
           "kind": "FunctionDef"
         },
         {
           "name": "tool",
-          "line": 112,
+          "line": 129,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 128,
+          "line": 149,
           "kind": "FunctionDef"
         }
       ]
@@ -52415,8 +53336,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b",
-      "lines": 6712,
+      "sha256": "16611d40dc534be01f3cb6fae64cbf645ad7608b46f44e148aefa249596cabf4",
+      "lines": 6714,
       "overview": "",
       "symbols": [
         {
@@ -52546,27 +53467,27 @@
         },
         {
           "name": "_request_scope",
-          "line": 1401,
+          "line": 1403,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1408,
+          "line": 1410,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1426,
+          "line": 1428,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1571,
+          "line": 1573,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6700,
+          "line": 6702,
           "kind": "FunctionDef"
         }
       ]
@@ -54639,8 +55560,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745",
-      "lines": 185,
+      "sha256": "6dff701e39195d4f084f32def13dcf96d3aa14e90c71a31b9db4cad949919edb",
+      "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -54650,32 +55571,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 65,
+          "line": 66,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 80,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 94,
+          "line": 95,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 101,
+          "line": 102,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 116,
+          "line": 117,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 173,
+          "line": 174,
           "kind": "FunctionDef"
         }
       ]
@@ -54856,22 +55777,62 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_integration_ui.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "8c1ec7e0eff410f30e66a7b07b9c81b2066ce4f04f89e1b165908b0bff802e79",
+      "lines": 106,
+      "overview": "Workspace controls for structured output, API grants and artifact revisions.",
+      "symbols": [
+        {
+          "name": "IntegrationUI",
+          "line": 10,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd",
-      "lines": 213,
+      "sha256": "823859932518602d1b1fb6a97143625de78e3d791eb7ea0b4d7f8712b295c107",
+      "lines": 216,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {
           "name": "show_workspace",
-          "line": 13,
+          "line": 14,
           "kind": "FunctionDef"
         },
         {
           "name": "WorkspacePanel",
-          "line": 24,
+          "line": 25,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_services.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e",
+      "lines": 23,
+      "overview": "Explicitly started Workspace resources share the existing Stop boundary.",
+      "symbols": [
+        {
+          "name": "register",
+          "line": 8,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "unregister",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "close_all",
+          "line": 17,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -57870,6 +58831,46 @@
         {
           "name": "InstallerUpgrade",
           "line": 10,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_integration.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "313fa8424386d081f6b73f4387e3e2fb985b12835b8125180d2f0520ef8c010c",
+      "lines": 161,
+      "overview": "Schema, artifact and real HTTP API boundary/recovery regressions.",
+      "symbols": [
+        {
+          "name": "StructuredTests",
+          "line": 23,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ArtifactTests",
+          "line": 43,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "APITests",
+          "line": 71,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_integration_profiles.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "b91a84618da2fbf37af54a2d0dec7ce075fca08967e0e70c563b9e25c074b187",
+      "lines": 30,
+      "overview": "Real encrypted sealing/lazy restore for artifact and API persistent state.",
+      "symbols": [
+        {
+          "name": "IntegrationProfiles",
+          "line": 13,
           "kind": "ClassDef"
         }
       ]
@@ -61056,6 +62057,49 @@
       "lines": 10
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/SDK/examples/artifact.ts",
+      "platform": "Windows",
+      "component": "SDK",
+      "sha256": "53bf41a98684efbde33b93ae25821550389d39c4de433222e242fb4979c6587d",
+      "lines": 11
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/SDK/examples/chat.py",
+      "platform": "Windows",
+      "component": "SDK",
+      "sha256": "c12a9380a9bed52034df44af05e1c6c3ab6bc7414b30a2cb7ddf7c5e6a282179",
+      "lines": 13,
+      "overview": "Run with bundled Python: chat.py URL. A local chat model must be running.",
+      "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/SDK/python/portalai.py",
+      "platform": "Windows",
+      "component": "SDK",
+      "sha256": "8aff5a67ebdd72a60c71b90934f51c7eda8993ff310bdf7c65bbd1b8aa9c8847",
+      "lines": 57,
+      "overview": "PortalAI application API v1 client. Standard library only; no implicit retries.",
+      "symbols": [
+        {
+          "name": "APIError",
+          "line": 10,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Client",
+          "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/SDK/typescript/portalai.ts",
+      "platform": "Windows",
+      "component": "SDK",
+      "sha256": "2ef1d80569911a5ab19466514276321816ec41ba101358017d45afc7d9feb2aa",
+      "lines": 38
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Scientific/__init__.py",
       "platform": "Windows",
       "component": "Scientific",
@@ -62108,6 +63152,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/audit_python_distributions.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "814e67569f48f13ec9b6c585bd400268561d244efc04bfc88ee39db0ad6775db",
+      "lines": 60,
+      "overview": "Read-only interpreter/package inventory. Never changes or merges runtimes.",
+      "symbols": [
+        {
+          "name": "walk",
+          "line": 16,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "digest",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "audit",
+          "line": 24,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/audit_source_bloat.py",
       "platform": "Windows",
       "component": "Tools",
@@ -62331,8 +63400,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/capability_registry.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2",
-      "lines": 138,
+      "sha256": "ef47e2a22c2debab90e5d3038e8b7a6a2699d786c21cf8f0561ceea784d6c07f",
+      "lines": 141,
       "overview": "",
       "symbols": [
         {
@@ -62362,7 +63431,7 @@
         },
         {
           "name": "main",
-          "line": 136,
+          "line": 139,
           "kind": "FunctionDef"
         }
       ]
@@ -65374,6 +66443,41 @@
         {
           "name": "main",
           "line": 15,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_integration.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "b637ebd8c2ce256025c185dc2ac5f3a7015c74aa2e0b48f652736154c72f1bb7",
+      "lines": 158,
+      "overview": "Actual portable browser/model/native UI acceptance; synthetic fixtures only.",
+      "symbols": [
+        {
+          "name": "browser",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ui",
+          "line": 47,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "model",
+          "line": 89,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "worker",
+          "line": 131,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 152,
           "kind": "FunctionDef"
         }
       ]

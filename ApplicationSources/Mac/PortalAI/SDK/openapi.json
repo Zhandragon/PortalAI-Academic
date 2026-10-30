@@ -1,0 +1,1689 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PortalAI Application API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:{port}",
+      "variables": {
+        "port": {
+          "default": "0",
+          "description": "Copy the live port from Workspace > API"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/v1/status": {
+      "get": {
+        "operationId": "get_status",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: authenticated token; job access limited to its creator",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        }
+      }
+    },
+    "/v1/openapi.json": {
+      "get": {
+        "operationId": "get_openapi_json",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: authenticated token; job access limited to its creator",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        }
+      }
+    },
+    "/v1/chats": {
+      "get": {
+        "operationId": "get_chats",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: chats:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "post_chats",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: chats:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/chats/{id}": {
+      "get": {
+        "operationId": "get_chats_id",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: chats:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/chats/{id}/messages": {
+      "post": {
+        "operationId": "post_chats_id_messages",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: chats:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32000
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "minimum": 64,
+                    "maximum": 4096,
+                    "default": 1024
+                  }
+                },
+                "required": [
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/jobs": {
+      "get": {
+        "operationId": "get_jobs",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: authenticated token; job access limited to its creator",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      }
+    },
+    "/v1/jobs/{id}": {
+      "get": {
+        "operationId": "get_jobs_id",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: authenticated token; job access limited to its creator",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/jobs/{id}/cancel": {
+      "post": {
+        "operationId": "post_jobs_id_cancel",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: authenticated token; job access limited to its creator",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/structured": {
+      "post": {
+        "operationId": "post_structured",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: structured:generate",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16000
+                  },
+                  "context": {},
+                  "schema": {
+                    "type": "object",
+                    "description": "Supported llama.cpp JSON Schema subset; see INTEGRATION.md"
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "minimum": 64,
+                    "maximum": 4096,
+                    "default": 1024
+                  }
+                },
+                "required": [
+                  "question",
+                  "schema"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/missions": {
+      "get": {
+        "operationId": "get_missions",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: missions:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "post_missions",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: missions:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "objective": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16000
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "observe",
+                      "full",
+                      "vm"
+                    ],
+                    "default": "observe"
+                  },
+                  "max_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 12
+                  },
+                  "armed": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "objective"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/missions/{id}": {
+      "get": {
+        "operationId": "get_missions_id",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: missions:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "history_offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "history_limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/v1/missions/{id}/start": {
+      "post": {
+        "operationId": "post_missions_id_start",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: missions:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/missions/{id}/stop": {
+      "post": {
+        "operationId": "post_missions_id_stop",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: missions:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/knowledge/collections": {
+      "get": {
+        "operationId": "get_knowledge_collections",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: knowledge:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "post_knowledge_collections",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: knowledge:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "folder": {
+                    "type": "string"
+                  },
+                  "ocr": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                },
+                "required": [
+                  "name",
+                  "folder"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/knowledge/collections/{id}/sync": {
+      "post": {
+        "operationId": "post_knowledge_collections_id_sync",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: knowledge:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/knowledge/search": {
+      "post": {
+        "operationId": "post_knowledge_search",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: knowledge:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string"
+                  },
+                  "collection": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 6
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/knowledge/citation": {
+      "get": {
+        "operationId": "get_knowledge_citation",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: knowledge:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "citation",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/outputs": {
+      "get": {
+        "operationId": "get_outputs",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: outputs:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      }
+    },
+    "/v1/outputs/content": {
+      "get": {
+        "operationId": "get_outputs_content",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: outputs:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1048576
+            }
+          },
+          {
+            "in": "query",
+            "name": "identity",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts": {
+      "get": {
+        "operationId": "get_artifacts",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "post_artifacts",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "html",
+                      "svg",
+                      "chart"
+                    ]
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "At most 512 KiB UTF-8"
+                  }
+                },
+                "required": [
+                  "title",
+                  "kind",
+                  "content"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts/{id}": {
+      "get": {
+        "operationId": "get_artifacts_id",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "revision",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts/{id}/history": {
+      "get": {
+        "operationId": "get_artifacts_id_history",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:read",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts/{id}/revisions": {
+      "post": {
+        "operationId": "post_artifacts_id_revisions",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "html",
+                      "svg",
+                      "chart"
+                    ]
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "At most 512 KiB UTF-8"
+                  },
+                  "expected_revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$"
+                  }
+                },
+                "required": [
+                  "title",
+                  "kind",
+                  "content",
+                  "expected_revision"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts/{id}/restore": {
+      "post": {
+        "operationId": "post_artifacts_id_restore",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$"
+                  },
+                  "expected_revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$"
+                  }
+                },
+                "required": [
+                  "revision",
+                  "expected_revision"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    },
+    "/v1/artifacts/{id}/export": {
+      "post": {
+        "operationId": "post_artifacts_id_export",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Required scope: artifacts:write",
+        "responses": {
+          "200": {
+            "description": "Versioned JSON envelope containing data"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Invalid/expired token"
+          },
+          "403": {
+            "description": "Insufficient scope or ended login"
+          },
+          "409": {
+            "description": "Conflict, uncertain outcome or required review"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$"
+                  }
+                },
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 120
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

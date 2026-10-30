@@ -404,15 +404,17 @@ class Missions:
         from mission_context import build_messages
         output_tokens = 1280 if tokens >= 4096 else 768
         rejected = None; rejected_reason = None
+        from structured_generation import mission_schema, response_format, parse as parse_structured
+        action_schema=mission_schema(mission['mode'])
         for attempt in range(2):
             check_cancel()
             messages = build_messages(self, mission, instruction, children, notes, tokens,
                 api=lambda path,value:planning_json(self.root,_instance_url('qwen','',root=self.root)+path,value,timeout=10,check_cancel=check_cancel),
                 rejected_action=rejected, rejection_reason=rejected_reason, output_tokens=output_tokens)
             payload = {"messages": messages,
-                       "temperature": 0.1, "max_tokens": output_tokens, "response_format": {"type": "json_object"},
+                       "temperature": 0.1, "max_tokens": output_tokens, "response_format": response_format(action_schema,self.root),
                        "reasoning_budget_tokens": min(512,output_tokens//2),
-                       "chat_template_kwargs": {"enable_thinking": True}}
+                       "chat_template_kwargs": {"enable_thinking": False}}
             activity.update('replanning' if attempt else 'planning',
                             'Correcting an invalid or repeated proposal; no action was executed' if attempt else 'LLM is planning the next action; waiting for its first output',
                             preview='',generated_chars=0,force=bool(attempt))
@@ -426,7 +428,7 @@ class Missions:
             data = planning_json(self.root,_instance_url('qwen','/v1/chat/completions',root=self.root),payload,timeout=180,
                                  on_delta=progress,on_reasoning=reasoning,check_cancel=check_cancel)
             check_cancel()
-            action = json.loads(data["choices"][0]["message"]["content"])
+            action = parse_structured(data["choices"][0]["message"]["content"],action_schema,self.root)
             if not isinstance(action, dict):
                 raise ValueError("Model did not return an action object")
             problem = None

@@ -23,6 +23,10 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/agent_collaboration.py](../ApplicationSources/Windows/PortalAI/Agent/agent_collaboration.py) | Bounded mission agents and explicitly paired loopback-only collaboration. |
 | [Agent/ai_tools.py](../ApplicationSources/Windows/PortalAI/Agent/ai_tools.py) | No module overview; see source and symbol inventory. |
 | [Agent/amd_runtime.py](../ApplicationSources/Windows/PortalAI/Agent/amd_runtime.py) | Isolated ROCm package activation and a real compute probe. Never loads CUDA packages. |
+| [Agent/application_api.py](../ApplicationSources/Windows/PortalAI/Agent/application_api.py) | Versioned loopback HTTP boundary, scoped bearer grants and write receipts. |
+| [Agent/artifact_document.py](../ApplicationSources/Windows/PortalAI/Agent/artifact_document.py) | Offline interactive previews with an opaque-origin, scripts-only iframe. |
+| [Agent/artifact_preview_worker.py](../ApplicationSources/Windows/PortalAI/Agent/artifact_preview_worker.py) | Owned portable Chromium preview; no app bindings, persistence or network. |
+| [Agent/artifacts.py](../ApplicationSources/Windows/PortalAI/Agent/artifacts.py) | Immutable, account-private HTML/SVG/chart revisions with explicit export. |
 | [Agent/assistant_guidance.py](../ApplicationSources/Windows/PortalAI/Agent/assistant_guidance.py) | Current, compact operating guidance for the native Nice chat harness. |
 | [Agent/audio_inpaint_amd_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/audio_inpaint_amd_bridge.py) | Bounded Radeon/Linux localized audio repair with preserved source context. |
 | [Agent/audio_inpaint_amd_entry.py](../ApplicationSources/Windows/PortalAI/Agent/audio_inpaint_amd_entry.py) | Offline, isolated audio-native inpainting; entered only by the bounded worker. |
@@ -134,6 +138,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/service_manager.py](../ApplicationSources/Windows/PortalAI/Agent/service_manager.py) | No module overview; see source and symbol inventory. |
 | [Agent/sfx_amd_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/sfx_amd_bridge.py) | Small MMAudio on isolated ROCm; CPU path is an explicit validation facility. |
 | [Agent/sfx_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/sfx_bridge.py) | No module overview; see source and symbol inventory. |
+| [Agent/structured_generation.py](../ApplicationSources/Windows/PortalAI/Agent/structured_generation.py) | Bounded JSON-Schema generation: backend constraint plus independent validation. |
 | [Agent/stt_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/stt_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/stt_worker.py](../ApplicationSources/Windows/PortalAI/Agent/stt_worker.py) | No module overview; see source and symbol inventory. |
 | [Agent/suite_utilities.py](../ApplicationSources/Windows/PortalAI/Agent/suite_utilities.py) | Public suite discovery and independent utility launchers. No account access. |
@@ -179,6 +184,9 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/activity_monitor.py](../ApplicationSources/Windows/PortalAI/ControlCenter/activity_monitor.py) | Read-only host telemetry and bounded Tk charts; no model or GPU compute probes. |
 | [ControlCenter/admin_profile_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/admin_profile_ui.py) | Administrator inspection of sealed profiles without switching active users. |
 | [ControlCenter/alpha_watermark.py](../ApplicationSources/Windows/PortalAI/ControlCenter/alpha_watermark.py) | Per-pixel Windows composition of existing Tk PNGs, without a color key. |
+| [ControlCenter/application_api_contract.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_contract.py) | Public v1 request contracts, shared by the OpenAPI document generator. |
+| [ControlCenter/application_api_runtime.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_runtime.py) | Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint. |
+| [ControlCenter/artifact_preview.py](../ApplicationSources/Windows/PortalAI/ControlCenter/artifact_preview.py) | Gated preview worker lifetime, tied to account/Stop and the Workspace sheet. |
 | [ControlCenter/bundle_inventory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/bundle_inventory.py) | Current portable capabilities for Settings, Installed and diagnostics. |
 | [ControlCenter/capability_tools.py](../ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py) | Chat adapters for account-scoped workspace features; management stays in the UI. |
 | [ControlCenter/chat_catalog.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_catalog.py) | Small per-account history catalog. Raw transcripts and media stay on demand. |
@@ -282,7 +290,9 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/web_tool_api.py](../ApplicationSources/Windows/PortalAI/ControlCenter/web_tool_api.py) | Account-bound owned browser worker, cancelled by the existing Stop path. |
 | [ControlCenter/window_icons.py](../ApplicationSources/Windows/PortalAI/ControlCenter/window_icons.py) | High-resolution Windows window icons, without changing Tk's DPI or chrome. |
 | [ControlCenter/windows_gpu_counters.py](../ApplicationSources/Windows/PortalAI/ControlCenter/windows_gpu_counters.py) | Optional Windows WDDM counters via PDH, across NVIDIA/AMD/Intel drivers. |
+| [ControlCenter/workspace_integration_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_integration_ui.py) | Workspace controls for structured output, API grants and artifact revisions. |
 | [ControlCenter/workspace_panel.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py) | One native Workspace sheet for knowledge, connections, workflows and computer use. |
+| [ControlCenter/workspace_services.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_services.py) | Explicitly started Workspace resources share the existing Stop boundary. |
 | [ControlCenter/writer_jobs.py](../ApplicationSources/Windows/PortalAI/ControlCenter/writer_jobs.py) | Track every background writer before starting it; close prevents late work. |
 
 ## Documentation
@@ -475,6 +485,8 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_image_lookup_limits.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_image_lookup_limits.py) | Bounded image search and per-turn chat loops; no live requests/models. |
 | [Maintenance/Tests/test_inline_chat_images.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_inline_chat_images.py) | Real Tk/FFmpeg assistant-image rendering with disposable output files. |
 | [Maintenance/Tests/test_installer_upgrade.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_installer_upgrade.py) | Exercise the production Windows upgrade entry on an older, private-data fixture. |
+| [Maintenance/Tests/test_integration.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_integration.py) | Schema, artifact and real HTTP API boundary/recovery regressions. |
+| [Maintenance/Tests/test_integration_profiles.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_integration_profiles.py) | Real encrypted sealing/lazy restore for artifact and API persistent state. |
 | [Maintenance/Tests/test_kicad_linux.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_kicad_linux.py) | Synthetic root path/ownership tests; actual exports run in the Linux guest. |
 | [Maintenance/Tests/test_kicad_windows.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_kicad_windows.py) | Windows KiCad may not use host state or initialize a locked account. |
 | [Maintenance/Tests/test_lazy_chat_catalog.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_lazy_chat_catalog.py) | Real encrypted disposable histories: no production accounts or inference. |
@@ -663,6 +675,15 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/workspace_desktop_fixture.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_desktop_fixture.py) | A disposable owned window for actual mouse/key/window acceptance. |
 | [Maintenance/Tests/workspace_mcp_fixture.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_mcp_fixture.py) | Synthetic stdio MCP server used by smoke_workspace; no production services. |
 
+## SDK
+
+| Source | Overview |
+| --- | --- |
+| [SDK/examples/artifact.ts](../ApplicationSources/Windows/PortalAI/SDK/examples/artifact.ts) | Source script; inspect its comments and entry points. |
+| [SDK/examples/chat.py](../ApplicationSources/Windows/PortalAI/SDK/examples/chat.py) | Run with bundled Python: chat.py URL. A local chat model must be running. |
+| [SDK/python/portalai.py](../ApplicationSources/Windows/PortalAI/SDK/python/portalai.py) | PortalAI application API v1 client. Standard library only; no implicit retries. |
+| [SDK/typescript/portalai.ts](../ApplicationSources/Windows/PortalAI/SDK/typescript/portalai.ts) | Source script; inspect its comments and entry points. |
+
 ## Scientific
 
 | Source | Overview |
@@ -703,6 +724,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/audit_crash_integrity.py](../ApplicationSources/Windows/PortalAI/Tools/audit_crash_integrity.py) | Read-only post-crash audit of receipt-tracked payloads and durable data. |
 | [Tools/audit_portable_permissions.py](../ApplicationSources/Windows/PortalAI/Tools/audit_portable_permissions.py) | Read-only Windows access audit using only the cross-machine Authenticated Users SID. |
 | [Tools/audit_profile_routing.py](../ApplicationSources/Windows/PortalAI/Tools/audit_profile_routing.py) | Static privacy routing review; reads owned source only, never user contents. |
+| [Tools/audit_python_distributions.py](../ApplicationSources/Windows/PortalAI/Tools/audit_python_distributions.py) | Read-only interpreter/package inventory. Never changes or merges runtimes. |
 | [Tools/audit_source_bloat.py](../ApplicationSources/Windows/PortalAI/Tools/audit_source_bloat.py) | Read-only first-party source audit; never scans accounts or deletes assets. |
 | [Tools/audit_specialist_filters.py](../ApplicationSources/Windows/PortalAI/Tools/audit_specialist_filters.py) | Read-only source evidence, not a universal model-behavior or license audit. |
 | [Tools/benchmark_lazy_chat_login.py](../ApplicationSources/Windows/PortalAI/Tools/benchmark_lazy_chat_login.py) | Bounded synthetic login benchmark on the portable volume; no live accounts. |
@@ -836,6 +858,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/smoke_effort_settings_sync.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_effort_settings_sync.py) | Real bidirectional chat/Settings controls with disposable accounts and dummy weights. |
 | [Tools/smoke_execution_modes.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_execution_modes.py) | Exercise real host/VM routing and restricted-mode rejection in test missions. |
 | [Tools/smoke_handoff_recovery.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_handoff_recovery.py) | Verify actual watchdog recovery when a handoff owner exits before restoration. |
+| [Tools/smoke_integration.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_integration.py) | Actual portable browser/model/native UI acceptance; synthetic fixtures only. |
 | [Tools/smoke_lazy_chat_memory_ui.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_lazy_chat_memory_ui.py) | Disposable real-window selection, async reads and retained-memory editing. |
 | [Tools/smoke_linux_handoff.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_linux_handoff.py) | Run bounded Linux guest checks while owned chat is handed off and restored. |
 | [Tools/smoke_login_continuity.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_login_continuity.py) | Real launcher startup on synthetic accounts; no production profiles/services. |

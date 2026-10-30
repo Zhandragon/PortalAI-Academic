@@ -1,0 +1,280 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.10.29-Desktop-r51",
+  "edition": "Academic",
+  "platform": "Windows",
+  "patch": "integration-20261029",
+  "files": [
+    {
+      "path": "Agent/application_api.py",
+      "bytes": 12791,
+      "sha256": "68a933b37b6b93ebd8237d47e9f514602d8a1e3dd3db6917620ec3c195781d02",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/artifact_document.py",
+      "bytes": 4376,
+      "sha256": "ea98e149fca18b81f59e8bb1df1f313ca4ef27207c4aec1b4fb1bfe43b0c686f",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/artifact_preview_worker.py",
+      "bytes": 2213,
+      "sha256": "b8fa60101d358a7b38aa9683fa535ee33bae287b2cea264f8ede95f0cd4839c9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/artifacts.py",
+      "bytes": 6315,
+      "sha256": "a331f6b6ab0fbec96d409e5e93ab063d6cb458f4fe15de4fe9dcc78aefa8ae39",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/mission_runner.py",
+      "bytes": 51347,
+      "sha256": "bb1fd7a4cadc108a094bb6748990eae3460ea115e06017e93eb539a5c1cea98a",
+      "expected_before": [
+        "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/profile_lazy_state.py",
+      "bytes": 10393,
+      "sha256": "6f1683902ed43f0a90c2e408c31877d6df041798e8147cd568b42d1f983dc8d6",
+      "expected_before": [
+        "e1d1d712d726eb20f7aab6cf2e1f05c25b649e84dd07c08f0a463c3b8bff8705"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/structured_generation.py",
+      "bytes": 10223,
+      "sha256": "fdcb2e44376fa8195efd0d848317abf205c0e5103a368e078900bfb52cf080be",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/application_api_contract.py",
+      "bytes": 2615,
+      "sha256": "94e5e06a731591b366a81f5c785edb67b7d22b786b9576a3fdccaedf8a070633",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/application_api_runtime.py",
+      "bytes": 18753,
+      "sha256": "44d8badfceffdcf483656e038710f9243cd5a6118a0cd58a7d04b74a836c2893",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/artifact_preview.py",
+      "bytes": 3184,
+      "sha256": "826019843ab23d91202b74edcbcf1f1182b4cc7395d04fce7872065905bd46f2",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/capability_tools.py",
+      "bytes": 12021,
+      "sha256": "bcad4666222fe5b3924b5cc855aefaea06ac6dee179f5e7151e99bd147a60350",
+      "expected_before": [
+        "93fb999bc0660fb94d3bd1f4e54771d776a6948aa74e906191374b6f692ba484"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "expected_before": [
+        "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 367468,
+      "sha256": "16611d40dc534be01f3cb6fae64cbf645ad7608b46f44e148aefa249596cabf4",
+      "expected_before": [
+        "d3d5f3225dce8f78683f9f7267fdc77eec82737b80df982159da8da80738e22b"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 99,
+      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "expected_before": [
+        "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/tool_protocol.py",
+      "bytes": 8652,
+      "sha256": "6dff701e39195d4f084f32def13dcf96d3aa14e90c71a31b9db4cad949919edb",
+      "expected_before": [
+        "dc83c4ee0e37a3d7c628977e7d12c147e96fd59290ecd5659ccc57ada3c7c745"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/workspace_integration_ui.py",
+      "bytes": 7827,
+      "sha256": "8c1ec7e0eff410f30e66a7b07b9c81b2066ce4f04f89e1b165908b0bff802e79",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/workspace_panel.py",
+      "bytes": 14145,
+      "sha256": "823859932518602d1b1fb6a97143625de78e3d791eb7ea0b4d7f8712b295c107",
+      "expected_before": [
+        "0f925ff22b26b9a7a1394daf0d16b118f7ca65ef036cc3b25016e11ffe03acdd"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/workspace_services.py",
+      "bytes": 656,
+      "sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/INTEGRATION.md",
+      "bytes": 11514,
+      "sha256": "b2100f99d63fd961e1d5eecd44bce1a30cd069589fe55629f0fa1a6bcd366890",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md",
+      "bytes": 9838,
+      "sha256": "b16b5f947135fb387def6e1011015ea12e91dc7e6ba0dea74b0bf770868bf0c4",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_integration.py",
+      "bytes": 11891,
+      "sha256": "313fa8424386d081f6b73f4387e3e2fb985b12835b8125180d2f0520ef8c010c",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_integration_profiles.py",
+      "bytes": 1939,
+      "sha256": "b91a84618da2fbf37af54a2d0dec7ce075fca08967e0e70c563b9e25c074b187",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "SDK/examples/artifact.ts",
+      "bytes": 565,
+      "sha256": "53bf41a98684efbde33b93ae25821550389d39c4de433222e242fb4979c6587d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "SDK/examples/chat.py",
+      "bytes": 648,
+      "sha256": "c12a9380a9bed52034df44af05e1c6c3ab6bc7414b30a2cb7ddf7c5e6a282179",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "SDK/openapi.json",
+      "bytes": 45518,
+      "sha256": "de2009aaf06fede6908b014cab557d15dc598ed46e6545c0b3286cfde2d81e58",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "SDK/python/portalai.py",
+      "bytes": 3445,
+      "sha256": "8aff5a67ebdd72a60c71b90934f51c7eda8993ff310bdf7c65bbd1b8aa9c8847",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "SDK/typescript/portalai.ts",
+      "bytes": 3155,
+      "sha256": "2ef1d80569911a5ab19466514276321816ec41ba101358017d45afc7d9feb2aa",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/audit_python_distributions.py",
+      "bytes": 4245,
+      "sha256": "814e67569f48f13ec9b6c585bd400268561d244efc04bfc88ee39db0ad6775db",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/capability_registry.py",
+      "bytes": 16159,
+      "sha256": "ef47e2a22c2debab90e5d3038e8b7a6a2699d786c21cf8f0561ceea784d6c07f",
+      "expected_before": [
+        "01614aa812b45f51845f9259d782b60e463dd5ce6d1af67f722b562214fa27a2"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Tools/smoke_integration.py",
+      "bytes": 11033,
+      "sha256": "b637ebd8c2ce256025c185dc2ac5f3a7015c74aa2e0b48f652736154c72f1bb7",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    }
+  ]
+}

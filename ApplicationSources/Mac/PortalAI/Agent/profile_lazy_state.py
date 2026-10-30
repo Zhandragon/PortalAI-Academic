@@ -15,7 +15,8 @@ from profile_paths import _contained
 
 DEFERRED_PREFIXES = ('Outputs', 'User Folder', 'Data/LegacyRecovery', 'Data/SessionRecovery',
                      'Data/Chat/Sessions', 'Data/Chat/Attachments', 'Data/Chat/Recordings',
-                     'Data/Chat/Thumbnails','Data/Knowledge','Data/Workflows/Runs')
+                     'Data/Chat/Thumbnails','Data/Knowledge','Data/Workflows/Runs',
+                     'Data/Artifacts','Data/ApplicationAPI/Chats','Data/ApplicationAPI/Jobs','Data/ApplicationAPI/Receipts')
 
 
 def is_deferred_path(relative):

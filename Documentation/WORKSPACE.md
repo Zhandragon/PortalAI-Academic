@@ -104,3 +104,7 @@ The 2026-10-29 Windows acceptance run passed 29 focused protocol, recovery, encr
 Evidence is under `Maintenance/Validation/Capabilities-20261029` on the portable SSDs. Tests use synthetic fixtures; they do not resume owner missions. Source-only broad checks initially failed where the checkout lacked bundled runtime paths; installed-runtime validation is recorded separately. The runtime installer omits unused generated CLI launchers that embed build-drive paths. The offline SSD update kits use the existing guarded updater with hashes, prior-file backups, interrupted-update recovery and rollback.
 
 Upstream references: [MCP transports](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports), [MCP tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools), [MiniLM model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), [OpenAI computer-use loop](https://developers.openai.com/api/docs/guides/tools-computer-use).
+
+## Structured output, API and artifacts
+
+The Workspace sheet now also includes Structured, API and Artifacts tabs. See [the integration guide](INTEGRATION.md) for usage, exact API/SDK source, lifecycle, limits and validation. The Python distribution assessment is [read-only](PYTHON-DISTRIBUTION-AUDIT-20261029.md); NumPy and runtime merging remain out of scope.
