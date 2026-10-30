@@ -1,24 +1,24 @@
-PortalAI 2026.10.30-Desktop-r52 - Academic-Windows
+PortalAI 2026.10.30-Desktop-r53 - Academic-Windows
 Progress assistance defaults on: Chat Preferences > Tools & limits provides independent opt-outs.
 See Documentation/Task_Progress_r51.txt in the installed application for tested limits.
 
-PortalAI 2026.10.30-Desktop-r52 - Academic-Windows
+PortalAI 2026.10.30-Desktop-r53 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
 
-PortalAI 2026.10.30-Desktop-r52 - Academic-Windows
+PortalAI 2026.10.30-Desktop-r53 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.10.30-Desktop-r52 - Academic-Windows
+PortalAI 2026.10.30-Desktop-r53 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.10.30-Desktop-r52 — Academic-Windows
+PortalAI 2026.10.30-Desktop-r53 — Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.10.30-Desktop-r52 — Academic-Windows
+PortalAI suite 2026.10.30-Desktop-r53 — Academic-Windows
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -30,7 +30,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.10.30-Desktop-r52 — Academic Windows
+PortalAI 2026.10.30-Desktop-r53 — Academic Windows
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,
@@ -73,3 +73,5 @@ included. Deprecated means superseded for PortalAI's self-contained goals,
 not old according to a third-party package distributor. Nothing is removed.
 
 Windows r52: hands-free speaks visible replies. See the installed Documentation/Voice_Controls_r52.md.
+
+Windows r53: repaired model listener ownership for typed and hands-free chat. See Documentation/Listener_Ownership_r53.md.

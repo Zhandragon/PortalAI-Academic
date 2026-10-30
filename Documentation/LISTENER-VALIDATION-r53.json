@@ -1,0 +1,58 @@
+{
+  "version": "2026.10.30-Desktop-r53",
+  "platform": "Windows",
+  "drives": {
+    "D": {
+      "passed": true,
+      "tests": 158,
+      "skipped": 1,
+      "failures": [],
+      "errors": [],
+      "excluded_posix_only_tests": [
+        "test_startup_settings.StartupModelTests.test_linux_launcher_uses_same_model_and_stop_guard",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_ack_does_not_substitute_for_actual_migration",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_foreign_executable_cannot_acknowledge",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_missing_ack_times_out_without_polling_forever",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_ready_requires_matching_process_and_independent_cgroup",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_stale_pid_start_or_generation_ack_is_rejected",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_wrong_watchdog_script_or_state_cannot_acknowledge"
+      ],
+      "baseline": false
+    },
+    "E": {
+      "passed": true,
+      "tests": 158,
+      "skipped": 1,
+      "failures": [],
+      "errors": [],
+      "excluded_posix_only_tests": [
+        "test_startup_settings.StartupModelTests.test_linux_launcher_uses_same_model_and_stop_guard",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_ack_does_not_substitute_for_actual_migration",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_foreign_executable_cannot_acknowledge",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_missing_ack_times_out_without_polling_forever",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_ready_requires_matching_process_and_independent_cgroup",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_stale_pid_start_or_generation_ack_is_rejected",
+        "test_linux_handoff_watchdog.AcknowledgementTests.test_wrong_watchdog_script_or_state_cannot_acknowledge"
+      ],
+      "baseline": false
+    }
+  },
+  "live_model_test": {
+    "completed": false,
+    "reason": "The isolated test executable disappeared after the first run, then Windows denied restoring that fixture path. Installed D/E executables remained intact. No AV setting or exclusion was changed.",
+    "physical_microphone_tested": false,
+    "model_stop_restore_test_completed": false
+  },
+  "native_socket_evidence": {
+    "passed": true,
+    "synthetic_tcp_listener": true,
+    "netstat_included_test_port": false,
+    "native_owner_matches_actual_process": true,
+    "non_llama_listener_refused_and_left_untouched": true
+  },
+  "baseline_posix_test_errors": [
+    "test_startup_settings.StartupModelTests.test_linux_launcher_uses_same_model_and_stop_guard",
+    "test_linux_handoff_watchdog.AcknowledgementTests.test_missing_ack_times_out_without_polling_forever",
+    "test_linux_handoff_watchdog.AcknowledgementTests.test_ready_requires_matching_process_and_independent_cgroup"
+  ]
+}

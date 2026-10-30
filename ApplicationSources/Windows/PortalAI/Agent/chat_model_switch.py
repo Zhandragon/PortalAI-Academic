@@ -40,7 +40,10 @@ def _guard(root, requested_at, cancel_event=None, state=None):
 def _owned_listener():
     result = service._listener_identity()
     rows = result.get('listeners', [])
-    if result['open'] and (not rows or any(not row.get('portable_qwen') for row in rows)):
+    if result['open'] and not rows:
+        raise RuntimeError('Port '+str(_instance_port('qwen'))+
+                           ' is open, but listener ownership could not be verified; it was left untouched')
+    if result['open'] and any(not row.get('portable_qwen') for row in rows):
         raise RuntimeError(('Port 8080 has a listener outside this portable root; it was left untouched').replace('Port 8080', 'Port '+str(_instance_port('qwen'))))
     return result
 

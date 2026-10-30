@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 877
+    "Windows": 880
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -45831,8 +45831,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/chat_model_switch.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "1aa44b69b6e840010c7d40c7c8567e3f66843a3b00153572c2e6f334c77d4497",
-      "lines": 338,
+      "sha256": "7a4d7e12a16295270bb761d0bb41cc87f2fe415b5d154bb34ac07cec60626c1e",
+      "lines": 341,
       "overview": "Apply chat effort between requests with owned, generation-fenced model recovery.",
       "symbols": [
         {
@@ -45852,42 +45852,42 @@
         },
         {
           "name": "_argv",
-          "line": 48,
+          "line": 51,
           "kind": "FunctionDef"
         },
         {
           "name": "_matches",
-          "line": 69,
+          "line": 72,
           "kind": "FunctionDef"
         },
         {
           "name": "_require_idle",
-          "line": 108,
+          "line": 111,
           "kind": "FunctionDef"
         },
         {
           "name": "_spawn",
-          "line": 129,
+          "line": 132,
           "kind": "FunctionDef"
         },
         {
           "name": "_result",
-          "line": 159,
+          "line": 162,
           "kind": "FunctionDef"
         },
         {
           "name": "_saved_admitted_plan",
-          "line": 170,
+          "line": 173,
           "kind": "FunctionDef"
         },
         {
           "name": "prepare_startup",
-          "line": 196,
+          "line": 199,
           "kind": "FunctionDef"
         },
         {
           "name": "prepare_chat",
-          "line": 203,
+          "line": 206,
           "kind": "FunctionDef"
         }
       ]
@@ -49758,8 +49758,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/service_manager.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "27faa48e6ae4699838c4fa3fc55b6a0f33db7f3076378f9d571c2d63e02b0b34",
-      "lines": 1472,
+      "sha256": "036470e9332dbdead674409c817f2fdc5458034e7cec3b8e7ae4a96bb175b24f",
+      "lines": 1476,
       "overview": "",
       "symbols": [
         {
@@ -49919,177 +49919,177 @@
         },
         {
           "name": "qwen_props",
-          "line": 563,
+          "line": 549,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_handoff_log",
-          "line": 579,
+          "line": 565,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_launch_command_path",
-          "line": 588,
+          "line": 574,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_launch_executable_path",
-          "line": 592,
+          "line": 578,
           "kind": "FunctionDef"
         },
         {
           "name": "_remember_qwen_launch",
-          "line": 596,
+          "line": 582,
           "kind": "FunctionDef"
         },
         {
           "name": "_process_image_path",
-          "line": 608,
+          "line": 594,
           "kind": "FunctionDef"
         },
         {
           "name": "_registered_qwen_command_line",
-          "line": 642,
+          "line": 628,
           "kind": "FunctionDef"
         },
         {
           "name": "_process_command_line",
-          "line": 666,
+          "line": 652,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_health_ready",
-          "line": 771,
+          "line": 757,
           "kind": "FunctionDef"
         },
         {
           "name": "_wait_qwen_ready",
-          "line": 783,
+          "line": 769,
           "kind": "FunctionDef"
         },
         {
           "name": "_stop_qwen_listener",
-          "line": 792,
+          "line": 778,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_generation_path",
-          "line": 849,
+          "line": 835,
           "kind": "FunctionDef"
         },
         {
           "name": "_read_qwen_generation",
-          "line": 852,
+          "line": 838,
           "kind": "FunctionDef"
         },
         {
           "name": "_write_qwen_generation",
-          "line": 859,
+          "line": 845,
           "kind": "FunctionDef"
         },
         {
           "name": "_generation_current",
-          "line": 863,
+          "line": 849,
           "kind": "FunctionDef"
         },
         {
           "name": "_clear_generation_if_current",
-          "line": 866,
+          "line": 852,
           "kind": "FunctionDef"
         },
         {
           "name": "_mark_handoff_done",
-          "line": 871,
+          "line": 857,
           "kind": "FunctionDef"
         },
         {
           "name": "_listener_identity",
-          "line": 877,
+          "line": 863,
           "kind": "FunctionDef"
         },
         {
           "name": "_qwen_lifecycle_mutex",
-          "line": 893,
+          "line": 897,
           "kind": "FunctionDef"
         },
         {
           "name": "_start_qwen_command",
-          "line": 918,
+          "line": 922,
           "kind": "FunctionDef"
         },
         {
           "name": "_wait_handoff_ready",
-          "line": 940,
+          "line": 944,
           "kind": "FunctionDef"
         },
         {
           "name": "_wait_linux_handoff_watchdog",
-          "line": 958,
+          "line": 962,
           "kind": "FunctionDef"
         },
         {
           "name": "qwen_gpu_handoff_begin",
-          "line": 982,
+          "line": 986,
           "kind": "FunctionDef"
         },
         {
           "name": "qwen_gpu_handoff_end",
-          "line": 1015,
+          "line": 1019,
           "kind": "FunctionDef"
         },
         {
           "name": "qwen_gpu_handoff_recover",
-          "line": 1028,
+          "line": 1032,
           "kind": "FunctionDef"
         },
         {
           "name": "_one_status",
-          "line": 1043,
+          "line": 1047,
           "kind": "FunctionDef"
         },
         {
           "name": "status",
-          "line": 1084,
+          "line": 1088,
           "kind": "FunctionDef"
         },
         {
           "name": "launch_detached",
-          "line": 1094,
+          "line": 1098,
           "kind": "FunctionDef"
         },
         {
           "name": "_launch_comfyui_direct",
-          "line": 1109,
+          "line": 1113,
           "kind": "FunctionDef"
         },
         {
           "name": "_launch_acestep_direct",
-          "line": 1175,
+          "line": 1179,
           "kind": "FunctionDef"
         },
         {
           "name": "_launch_bat",
-          "line": 1241,
+          "line": 1245,
           "kind": "FunctionDef"
         },
         {
           "name": "_launch_service",
-          "line": 1273,
+          "line": 1277,
           "kind": "FunctionDef"
         },
         {
           "name": "start",
-          "line": 1281,
+          "line": 1285,
           "kind": "FunctionDef"
         },
         {
           "name": "wait_ready",
-          "line": 1343,
+          "line": 1347,
           "kind": "FunctionDef"
         },
         {
           "name": "stop",
-          "line": 1408,
+          "line": 1412,
           "kind": "FunctionDef"
         }
       ]
@@ -51436,6 +51436,36 @@
           "name": "PortableAccess",
           "line": 7,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/windows_tcp.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "7c8d32a77f509ebc19919f75f2786b7269156a3bce6fc6565ce78ffb76bd2137",
+      "lines": 60,
+      "overview": "Windows listener PIDs from the native, listener-filtered TCP owner tables.",
+      "symbols": [
+        {
+          "name": "Tcp4Row",
+          "line": 14,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Tcp6Row",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "_listener_rows",
+          "line": 25,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "listener_pids",
+          "line": 46,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -55109,7 +55139,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "16691efb37eafdb00b7c0474855cc6a8a1a057fa27b9f9be6a16b63468fba0f9",
+      "sha256": "a59df00a04a0cfed5ecb9b56313a337766a4f0ae0c43428813b52a649ca7b1ad",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -59184,6 +59214,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_listener_startup.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "d3bdb059371d0f16806e391096e43195d95848ba27bc357e7c9b784e42df0a98",
+      "lines": 77,
+      "overview": "Regression coverage for PID-snapshot/socket-probe startup races.",
+      "symbols": [
+        {
+          "name": "ListenerStartupTests",
+          "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_local_accounts.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -61267,8 +61312,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_startup_settings.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "ae4823d6b3a74f62767c4ef7015e7a02bf51336a7ed9eb9a5abc7106278ac5fb",
-      "lines": 195,
+      "sha256": "79b115315f34fe664385c14299bb071e857d757212390e95cab6c26368e2a424",
+      "lines": 196,
       "overview": "Settings/Startup integration with disposable files and owned lifecycle fixtures.",
       "symbols": [
         {
@@ -61278,7 +61323,7 @@
         },
         {
           "name": "SettingsStartupTkTests",
-          "line": 110,
+          "line": 111,
           "kind": "ClassDef"
         }
       ]
@@ -61974,6 +62019,26 @@
         {
           "name": "WindowsInstallerLayoutTests",
           "line": 20,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_tcp.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "f6ec5168014021a0c30906329ffbf0dc9e3782bd88b892f4362b8d5bec5244d5",
+      "lines": 67,
+      "overview": "Native IPv4/IPv6 ownership and bounded TCP-table parsing regression tests.",
+      "symbols": [
+        {
+          "name": "TableTests",
+          "line": 13,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "LiveSocketTests",
+          "line": 47,
           "kind": "ClassDef"
         }
       ]

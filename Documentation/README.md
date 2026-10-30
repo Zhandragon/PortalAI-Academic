@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Current Windows package: [r52 voice repair](VOICE-CONTROLS-r52.md), [installer verification](WINDOWS-INSTALLER-r52.json). Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r53 listener repair](LISTENER-OWNERSHIP-r53.md), [validation](LISTENER-VALIDATION-r53.json), [installer verification](WINDOWS-INSTALLER-r53.json). Includes [r52 voice repair](VOICE-CONTROLS-r52.md). Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

@@ -541,22 +541,8 @@ def _listening_pids(port: int) -> list[int]:
     if os.name != "nt":
         from linux_process import listeners
         return listeners(port)
-    cp = _run_hidden(
-        ["netstat", "-ano", "-p", "tcp"],
-        capture_output=True,
-        text=True,
-        errors="replace",
-    )
-    pids = set()
-    pattern = re.compile(
-        r"^\s*TCP\s+\S+:" + re.escape(str(port)) + r"\s+\S+\s+LISTENING\s+(\d+)\s*$",
-        re.I,
-    )
-    for line in cp.stdout.splitlines():
-        m = pattern.match(line)
-        if m:
-            pids.add(int(m.group(1)))
-    return sorted(pids)
+    from windows_tcp import listener_pids
+    return listener_pids(port)
 
 
 
@@ -875,10 +861,26 @@ def _mark_handoff_done(state: dict, value: str="restored") -> None:
         except Exception:pass
 
 def _listener_identity() -> dict:
-    pids=_listening_pids(SERVICES["qwen"]["port"]);root_norm=os.path.normcase(str(root_dir().resolve())).lower()
-    rows=[];portable=False
+    port = SERVICES["qwen"]["port"]
+    pids = _listening_pids(port)
+    opened = bool(pids)
+    if not pids:
+        opened = port_open(port)
+        # The child can bind after the PID snapshot but before the socket
+        # probe. Refresh OS ownership instead of treating that race as a
+        # foreign listener. An unidentified open socket still fails closed.
+        for attempt in range(3):
+            if not opened:
+                break
+            if attempt:
+                time.sleep(.05)
+            pids = _listening_pids(port)
+            if pids:
+                break
+            opened = port_open(port)
+    rows=[]
     for pid in pids:
-        cmd=_process_command_line(int(pid)) or "";low=os.path.normcase(cmd).lower()
+        cmd=_process_command_line(int(pid)) or ""
         image = _process_image_path(int(pid)) if os.name=='nt' else None
         ok=bool(image and Path(image).name.lower()=='llama-server.exe' and Path(image).resolve().is_relative_to(root_dir().resolve()))
         if os.name!='nt':
@@ -886,8 +888,10 @@ def _listener_identity() -> dict:
             try:
                 row=identity(pid);ok=is_llama(row,root_dir())
             except OSError:ok=False
-        portable=portable or ok;rows.append({"pid":int(pid),"command_line":cmd,"portable_qwen":ok})
-    return {"open":bool(pids) or port_open(SERVICES["qwen"]["port"]),"portable_qwen":portable,"listeners":rows}
+        rows.append({"pid":int(pid),"command_line":cmd,"portable_qwen":ok})
+    return {"open":bool(pids) or opened,
+            "portable_qwen":bool(rows) and all(row["portable_qwen"] for row in rows),
+            "listeners":rows}
 
 @contextmanager
 def _qwen_lifecycle_mutex(timeout: float=30.0):

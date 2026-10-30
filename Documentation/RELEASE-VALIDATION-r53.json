@@ -1,0 +1,112 @@
+{
+  "checks_passed": true,
+  "version": "2026.10.30-Desktop-r53",
+  "edition": "Academic",
+  "archive_sha256": "de3ba6e95fb89bd9e8941f758090c96e69ad14bad5b22047fa09a115bf93cdd2",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 158,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "excluded_posix_only_tests": [
+      "test_startup_settings.StartupModelTests.test_linux_launcher_uses_same_model_and_stop_guard",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_ack_does_not_substitute_for_actual_migration",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_foreign_executable_cannot_acknowledge",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_missing_ack_times_out_without_polling_forever",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_ready_requires_matching_process_and_independent_cgroup",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_stale_pid_start_or_generation_ack_is_rejected",
+      "test_linux_handoff_watchdog.AcknowledgementTests.test_wrong_watchdog_script_or_state_cannot_acknowledge"
+    ],
+    "baseline": false,
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1572,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_checks": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip",
+      "bytes": 11439094,
+      "passed": true
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py",
+      "bytes": 39062,
+      "passed": true
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py",
+      "bytes": 4572,
+      "passed": true
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py",
+      "bytes": 4593,
+      "passed": true
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py",
+      "bytes": 17915,
+      "passed": true
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py",
+      "bytes": 27664,
+      "passed": true
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py",
+      "bytes": 29697,
+      "passed": true
+    }
+  ],
+  "all_published_windows_sources_match_payload": true,
+  "dependency_pins_unchanged": true,
+  "live_model_test": {
+    "completed": false,
+    "reason": "The isolated test executable disappeared after the first run, then Windows denied restoring that fixture path. Installed D/E executables remained intact. No AV setting or exclusion was changed.",
+    "physical_microphone_tested": false,
+    "model_stop_restore_test_completed": false
+  },
+  "full_recipient_install_tested": false,
+  "suite_routes": {
+    "passed": true,
+    "windows_r53_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "de3ba6e95fb89bd9e8941f758090c96e69ad14bad5b22047fa09a115bf93cdd2",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "academic_policy_retained": true
+}

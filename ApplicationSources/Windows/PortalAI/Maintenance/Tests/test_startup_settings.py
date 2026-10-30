@@ -24,11 +24,12 @@ from tk_fixture_cleanup import finish_tk_fixture
 
 class StartupModelTests(unittest.TestCase):
     def configure(self, scenario):
-        policy = {'selection': 'qwen4-abliterated-q4', 'backend': 'cpu', 'context_tokens': 8192,
-                  'models': [{'id': 'qwen4-abliterated-q4', 'automatic': False}]}
+        policy = {'selection': 'qwen4-q4', 'backend': 'cpu', 'context_tokens': 8192,
+                  'models': [{'id': 'qwen4-q4', 'automatic': False}],
+                  'variant_preference': 'standard', 'media': {'media_variant': 'standard'}}
         (scenario.root/'Agent/hardware_profiles.json').write_text(json.dumps(policy))
-        scenario.model['id'] = 'qwen4-abliterated-q4'
-        scenario.model['label'] = '4B Abliterated'
+        scenario.model['id'] = 'qwen4-q4'
+        scenario.model['label'] = '4B Standard'
         return policy
 
     def test_startup_switches_existing_standard_to_selected_alternate(self):

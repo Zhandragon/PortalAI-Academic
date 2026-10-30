@@ -161,6 +161,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/windows_demucs.py](../ApplicationSources/Windows/PortalAI/Agent/windows_demucs.py) | Pinned offline Windows vocal separation; no Hub/cache model lookup. |
 | [Agent/windows_detached_image.py](../ApplicationSources/Windows/PortalAI/Agent/windows_detached_image.py) | Same-handle image evidence for a portable executable on a lost mount. |
 | [Agent/windows_portable_access.py](../ApplicationSources/Windows/PortalAI/Agent/windows_portable_access.py) | Read-only Windows access checks independent of machine-specific owner SIDs. |
+| [Agent/windows_tcp.py](../ApplicationSources/Windows/PortalAI/Agent/windows_tcp.py) | Windows listener PIDs from the native, listener-filtered TCP owner tables. |
 | [Agent/workflows.py](../ApplicationSources/Windows/PortalAI/Agent/workflows.py) | Versioned, bounded workflows with durable step receipts and explicit approvals. |
 | [Agent/workload_compatibility.py](../ApplicationSources/Windows/PortalAI/Agent/workload_compatibility.py) | Bundled workload support, distinct from driver probes and memory admission. |
 | [Agent/workload_request.py](../ApplicationSources/Windows/PortalAI/Agent/workload_request.py) | Keep the original login and Stop fence while a workload waits for admission. |
@@ -505,6 +506,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_linux_music_understanding.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_linux_music_understanding.py) | Linux specialists: explicit admission, isolated workers, no partial-result claims. |
 | [Maintenance/Tests/test_linux_science_portable.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_linux_science_portable.py) | Portable science process dispatch and MAFFT wrapper tests; no external programs run. |
 | [Maintenance/Tests/test_linux_service_stop.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_linux_service_stop.py) | Linux service stop must call the exact-identity stop helper, never a predicate. |
+| [Maintenance/Tests/test_listener_startup.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_listener_startup.py) | Regression coverage for PID-snapshot/socket-probe startup races. |
 | [Maintenance/Tests/test_local_accounts.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_local_accounts.py) | Account cryptography/lifecycle tests: synthetic credentials and temporary roots only. |
 | [Maintenance/Tests/test_low_power_support.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_low_power_support.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_macos_runtime.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_macos_runtime.py) | Host-independent checks for macOS backend selection and account-stop planning. |
@@ -669,6 +671,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_windows_demucs.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_demucs.py) | Offline Windows model/decode/epoch boundaries; synthetic data only. |
 | [Maintenance/Tests/test_windows_detached_image.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_detached_image.py) | Lost-mount image proof; no real processes or files are terminated. |
 | [Maintenance/Tests/test_windows_installer_layout.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_installer_layout.py) | Exercise the actual fresh-install engine on synthetic, data-free payloads. |
+| [Maintenance/Tests/test_windows_tcp.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_tcp.py) | Native IPv4/IPv6 ownership and bounded TCP-table parsing regression tests. |
 | [Maintenance/Tests/test_workload_request.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workload_request.py) | Actual durable Stop files and profile changes at each admission boundary. |
 | [Maintenance/Tests/test_workspace.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace.py) | Meaningful recovery, protocol, document and workflow boundary regressions. |
 | [Maintenance/Tests/test_workspace_computer.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace_computer.py) | Computer image lifetime and chat authorization; no real desktop inputs. |
