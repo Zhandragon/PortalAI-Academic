@@ -193,16 +193,18 @@ class Schedules:
             # ID was checkpointed in the schedule BEFORE creating the mission.
             # Recovery reuses that ID and never duplicates an occurrence.
             m=self.store.create(s['objective'],s['mode'],s['max_steps'],mission_id=mid,schedule_id=s['id'])
-        if s.get('setup_failures') or s.get('error'):
-            s['setup_failures']=0
-            s.pop('error',None)
-            self.save(s)
         if not self.enabled(s) or (self.store.base/'supervisor.stop').exists():return
         if m.get('pending_action') or m['status'] not in ACTIVE or self.store.stopped(m):return
         from mission_supervisor import policy_path
         from remote_lifecycle import stop_epoch
         atomic_json(policy_path(self.store,mid),{'enabled':True,'mode':m['mode'],'armed_at':time.time(), 'remote_stop_epoch':stop_epoch(self.root),
                                               'schedule_id':s['id'],'schedule_epoch':s['epoch']})
+        # Creating the checkpoint alone does not finish setup. Retain the
+        # failure count until the run policy has actually been published.
+        if s.get('setup_failures') or s.get('error') or s['status']!='running':
+            s.update(setup_failures=0,status='running')
+            s.pop('error',None)
+            self.save(s)
 
     def tick(self, now=None):
         now=time.time() if now is None else float(now)
@@ -216,10 +218,14 @@ class Schedules:
                     s = self.load(summary['id'])
                     if not self.enabled(s): continue
                     if s.get('active_run'):
-                        # Preparation may retry safely only before a mission
-                        # checkpoint exists; the saved timestamp is its backoff.
-                        if s['next_run_at']>now and not self.store.checkpoint_path(s['active_run']).exists():
-                            continue
+                        # Policy publication can fail after mission creation.
+                        # Honor its persisted backoff as well, but inspect Stop,
+                        # pending effects and terminal states without delay.
+                        if s['next_run_at']>now:
+                            if not self.store.checkpoint_path(s['active_run']).exists():continue
+                            if s.get('setup_failures'):
+                                m=self.store.load(s['active_run'])
+                                if m['status'] in ACTIVE and not m.get('pending_action') and not self.store.stopped(m):continue
                         self._ensure_run(s)
                         m=self.store.load(s['active_run'])
                         if m['status']=='needs_review' and s.get('autonomous_recovery'):

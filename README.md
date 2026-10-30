@@ -275,3 +275,5 @@ The r2 checks passed 23 Academic tests per platform payload, plus the 174-test W
 The r2 release changed new installation packages and did not modify an existing personal installation. Its policy and regression checks remain the baseline for subsequent updates.
 
 Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-click the tray or inside the launcher for themed actions and help. Appearance and Documentation are built in. Keep Connections/ and state/ when updating. Native Mac/Linux tray acceptance remains pending.
+
+**Follow-up bug fixes (2026-10-29):** schedule backoff, worker launch recovery, and durable failure records. [Findings, source, tests and SSD patch](Documentation/BUG-REVIEW-20261029.md).

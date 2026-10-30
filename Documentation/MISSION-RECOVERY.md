@@ -119,3 +119,5 @@ child processes to prove timeout restart/completion, no replay after an effectfu
 crash, and Stop preventing relaunch. It accelerates timeout/backoff clocks, not
 the recovery state machine. Linux/Mac source checks executed on Windows are not
 native Linux/Mac process-ownership acceptance or real USB-removal tests.
+
+The [follow-up bug review](BUG-REVIEW-20261029.md) extends bounded worker recovery to launch failures and fixes schedule setup backoff after checkpoint creation.

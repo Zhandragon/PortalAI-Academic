@@ -504,6 +504,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_mission_review_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_mission_review_tk.py) | Real Tk review entry, draft retention and schedule re-enable controls. |
 | [Maintenance/Tests/test_mission_runner.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_mission_runner.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_mission_schedule.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_mission_schedule.py) | No module overview; see source and symbol inventory. |
+| [Maintenance/Tests/test_mission_setup_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_mission_setup_recovery.py) | Regressions for launch/setup failures before any mission action executes. |
 | [Maintenance/Tests/test_modal_surfaces_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_modal_surfaces_tk.py) | Synthetic Tk input boundaries and in-memory backdrop/theme regressions. |
 | [Maintenance/Tests/test_model_variants.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_model_variants.py) | Explicit selection, catalog truthfulness, and alternate model admission. |
 | [Maintenance/Tests/test_musetalk_portable.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_musetalk_portable.py) | Runtime relocation and media-integrity regressions without GPU generation. |

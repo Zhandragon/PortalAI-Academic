@@ -261,25 +261,30 @@ class Supervisor:
             self.last_state = state; self.last_heartbeat = now; self.last_identity = identity
 
     def reconcile(self, mid, failure=None):
-        try:
-            with self.store.lock(mid):
-                m = self.store.load(mid)
-                if m.get("pending_action"):
-                    m.update(status="needs_review", error="Worker interrupted with an uncertain action outcome. Review before retrying or skipping.")
-                elif self.store.stopped(m) and m["status"] in ACTIVE: m["status"] = "paused"
-                elif failure and m["status"] in ACTIVE:
-                    failures = m.get("worker_failures", 0)+1
-                    m.update(worker_failures=failures, status="waiting" if failures < MAX_WORKER_FAILURES else "needs_review",
-                             error=failure, next_run_at=time.time()+min(300, WORKER_RETRY_BASE_SECONDS*2**min(failures, 5)))
-                else: return m
-                self.store.save(m); return m
-        except OSError:
-            return None  # An existing worker owns this mission; do not interfere.
+        from contextlib import ExitStack
+        with ExitStack() as stack:
+            try:stack.enter_context(self.store.lock(mid))
+            except OSError:
+                return None  # Cannot acquire this mission; do not interfere.
+            # Once locked, storage errors are not contention. Propagate rather
+            # than keep launching workers without a durable retry count.
+            m = self.store.load(mid)
+            if m.get("pending_action"):
+                m.update(status="needs_review", error="Worker interrupted with an uncertain action outcome. Review before retrying or skipping.")
+            elif self.store.stopped(m) and m["status"] in ACTIVE: m["status"] = "paused"
+            elif failure and m["status"] in ACTIVE:
+                failures = m.get("worker_failures", 0)+1
+                m.update(worker_failures=failures, status="waiting" if failures < MAX_WORKER_FAILURES else "needs_review",
+                         error=failure, next_run_at=time.time()+min(300, WORKER_RETRY_BASE_SECONDS*2**min(failures, 5)))
+            else: return m
+            self.store.save(m); return m
 
     def finish_worker(self, cancelled=False, failure=None):
         proc = self.worker
-        if not proc: return
         try:
+            if not proc:
+                if self.mid and failure:self.reconcile(self.mid, failure)
+                return
             if cancelled and self.job:
                 self.job.close(); proc.wait(timeout=15)
             try:m = self.store.load(self.mid)
@@ -291,11 +296,15 @@ class Supervisor:
             if self.job: self.job.close(completed=completed)
             self.reconcile(self.mid, None if completed else failure or "Worker exited before a confirmed action result")
         finally:
-            if self.job and self.job.handle: self.job.close()
-            if proc.poll() is None: proc.kill(); proc.wait(timeout=10)
-            if self.log: self.log.close()
-            self.worker = self.job = self.log = None
-            self.mid = self.root_id = None
+            try:
+                if self.job and self.job.handle: self.job.close()
+            finally:
+                try:
+                    if proc and proc.poll() is None: proc.kill(); proc.wait(timeout=10)
+                finally:
+                    if self.log: self.log.close()
+                    self.worker = self.job = self.log = None
+                    self.mid = self.root_id = None
 
     def selection(self):
         all_missions = {}; self.store.load_errors = []
@@ -399,14 +408,14 @@ class Supervisor:
             m = self.store.load(m["id"])
             if m["status"] not in ACTIVE or m["next_run_at"] > time.time(): continue
             model_ready=self.model_ready()
-            require_space(self.root, 4*1024**2, for_outputs=True)
             self.mid, self.root_id = m["id"], root_id
-            self.log = (self.store.folder(self.mid)/"worker-error.log").open("wb")
-            # Gate the worker until it is assigned to the kill-on-close job.
-            gate = self.store.folder(self.mid)/"supervisor-start.gate"
-            gate.unlink(missing_ok=True)
-            env = portable_env(self.root, include_account_unlock=True); env["PORTALAI_MISSION_GATE"] = str(gate)
             try:
+                require_space(self.root, 4*1024**2, for_outputs=True)
+                self.log = (self.store.folder(self.mid)/"worker-error.log").open("wb")
+                # Gate the worker until it is assigned to the kill-on-close job.
+                gate = self.store.folder(self.mid)/"supervisor-start.gate"
+                gate.unlink(missing_ok=True)
+                env = portable_env(self.root, include_account_unlock=True); env["PORTALAI_MISSION_GATE"] = str(gate)
                 from account_connections import start_account_process
                 self.worker = start_account_process([*self.worker_command, "run", self.mid, "--steps", "1"], self.root, cwd=self.root,
                     env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=self.log,
@@ -414,6 +423,12 @@ class Supervisor:
                 self.job = WorkerJob(self.worker)
                 gate.touch()
                 self.started = time.monotonic(); self.heartbeat("running" if model_ready else "starting_model")
+                return True
+            except Exception as exc:
+                # A failed spawn has no process to reap, but still owns a log
+                # and must consume the same durable, bounded retry budget.
+                self.finish_worker(cancelled=True, failure='Worker launch failed: '+str(exc))
+                self.heartbeat('waiting', launch_error=str(exc))
                 return True
             except BaseException:
                 self.finish_worker(cancelled=True); raise

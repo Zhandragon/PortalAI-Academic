@@ -1,0 +1,288 @@
+{
+  "date": "2026-10-29",
+  "scope": "D and E current Full installations; fresh Full/Academic GitHub source checkouts. Deprecated C installation excluded.",
+  "confirmed_bugs": [
+    "Schedule setup ignored backoff after checkpoint creation and reset consecutive failure count before policy publication.",
+    "Failed worker launch escaped supervision and left the opened error log unclosed.",
+    "Recovery checkpoint storage errors after lock acquisition were swallowed as lock contention."
+  ],
+  "before_fix": "Three original regression cases failed/error; the additional durable-failure regression separately failed (OSError not raised).",
+  "installations": [
+    {
+      "installation": "D:\\PortalAI Windows",
+      "edition": "Full",
+      "release": "2026.10.29-Desktop-r51",
+      "python": "bundled Python 3.12.14",
+      "tests_run": 294,
+      "passed": 293,
+      "skipped": 1,
+      "seconds": 55.664,
+      "skip_reason": "Windows directory symlink privilege unavailable",
+      "owned_source_scan": {
+        "passed": true,
+        "files_selected": 902,
+        "counts": {
+          ".py": 840,
+          ".json": 39,
+          ".ps1": 23
+        },
+        "errors": [],
+        "incomplete": false
+      },
+      "process_smoke_checks": [
+        {
+          "name": "second supervisor cannot dispatch",
+          "passed": true,
+          "exit_code": 1
+        },
+        {
+          "name": "scheduled wait survives supervisor exit",
+          "passed": true
+        },
+        {
+          "name": "fresh supervisor resumes when due",
+          "passed": true,
+          "mission": "d0fd929ee1ad41f1abbaa47dcafb9897",
+          "completed_at": 1793319910.3415198,
+          "scheduled_at": 1793319909.9003456
+        },
+        {
+          "name": "crashed action effect is not replayed",
+          "passed": true,
+          "effects": 1
+        },
+        {
+          "name": "controller crash kills its worker tree",
+          "passed": true
+        },
+        {
+          "name": "stop prevents late planning effects",
+          "passed": true
+        }
+      ],
+      "recovery": "Maintenance/Updates/80367969ae84410ebdf973794c83aa83",
+      "verified_payload_sha256": {
+        "Agent/mission_schedule.py": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+        "Agent/mission_supervisor.py": "66d852955f8330f6b9dd19575149e4eb8b12e6363ac7ea280d4c3888c32fd37d",
+        "Maintenance/Tests/test_mission_setup_recovery.py": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+        "Documentation/Bug_Review_20261029.md": "874506e96b21b6c5a8eb7f23748aa3332ea99820c78955850bb5ceb525b51ba9",
+        "Agent/mission_runner.py": "4125d46bc7b3403a6177f49014176fd0b0691e19b5b28b4424ba2078ae3288d5",
+        "Maintenance/Tests/mission_fault_worker.py": "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a",
+        "ControlCenter/control_center_bootstrap.py": "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91",
+        "ControlCenter/release_version.py": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      }
+    },
+    {
+      "installation": "E:\\PortalAI Windows",
+      "edition": "Full",
+      "release": "2026.10.29-Desktop-r51",
+      "python": "bundled Python 3.12.14",
+      "tests_run": 294,
+      "passed": 293,
+      "skipped": 1,
+      "seconds": 52.002,
+      "skip_reason": "Windows directory symlink privilege unavailable",
+      "owned_source_scan": {
+        "passed": true,
+        "files_selected": 900,
+        "counts": {
+          ".py": 842,
+          ".json": 34,
+          ".ps1": 24
+        },
+        "errors": [],
+        "incomplete": false
+      },
+      "process_smoke_checks": [
+        {
+          "name": "second supervisor cannot dispatch",
+          "passed": true,
+          "exit_code": 1
+        },
+        {
+          "name": "scheduled wait survives supervisor exit",
+          "passed": true
+        },
+        {
+          "name": "fresh supervisor resumes when due",
+          "passed": true,
+          "mission": "d74064476c4847d0bd0ba386ce1471d2",
+          "completed_at": 1793319940.7601514,
+          "scheduled_at": 1793319940.3032832
+        },
+        {
+          "name": "crashed action effect is not replayed",
+          "passed": true,
+          "effects": 1
+        },
+        {
+          "name": "controller crash kills its worker tree",
+          "passed": true
+        },
+        {
+          "name": "stop prevents late planning effects",
+          "passed": true
+        }
+      ],
+      "recovery": "Maintenance/Updates/63a14ea6cf5a480e9175d31a5a83378a",
+      "verified_payload_sha256": {
+        "Agent/mission_schedule.py": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+        "Agent/mission_supervisor.py": "66d852955f8330f6b9dd19575149e4eb8b12e6363ac7ea280d4c3888c32fd37d",
+        "Maintenance/Tests/test_mission_setup_recovery.py": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+        "Documentation/Bug_Review_20261029.md": "874506e96b21b6c5a8eb7f23748aa3332ea99820c78955850bb5ceb525b51ba9",
+        "Agent/mission_runner.py": "4125d46bc7b3403a6177f49014176fd0b0691e19b5b28b4424ba2078ae3288d5",
+        "Maintenance/Tests/mission_fault_worker.py": "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a",
+        "ControlCenter/control_center_bootstrap.py": "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91",
+        "ControlCenter/release_version.py": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      }
+    }
+  ],
+  "source_variants_tested_on_windows": [
+    {
+      "edition": "Full",
+      "platform_sources": "Windows",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 11.42,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 11.197s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "edition": "Full",
+      "platform_sources": "Linux",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 8.41,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 8.191s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "edition": "Full",
+      "platform_sources": "Mac",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 8.55,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 8.336s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "platform_sources": "Windows",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 11.94,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 11.704s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "platform_sources": "Linux",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 9.92,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 9.683s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "edition": "Academic",
+      "platform_sources": "Mac",
+      "execution_host": "Windows",
+      "bundled_python": "3.12.14",
+      "modules": [
+        "test_mission_setup_recovery",
+        "test_mission_schedule",
+        "test_persistence_supervisor",
+        "test_mission_crash_recovery",
+        "test_mission_autonomous_recovery"
+      ],
+      "exit_code": 0,
+      "seconds": 9.84,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 58 tests in 9.626s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "rollback_fixture": {
+    "fixture_only": true,
+    "restored_files": 4,
+    "verified": true,
+    "real_installation_unchanged": true
+  },
+  "deployment_note": "Guard rejected a wrapper process running from the same installation as an owned ancestor. Standalone guarded commands applied/restored successfully; no closure guard was bypassed. The intermediate two-fix patch was rolled back before applying the final three-fix patch, retaining original recovery.",
+  "limitations": [
+    "No live LLM/GPU/media/provider acceptance; Tools/smoke_schedules.py requires a signed-in real model session and was not run.",
+    "No native Linux/macOS acceptance or physical SSD removal/power-loss experiment.",
+    "Windows symlink test skipped for missing privilege.",
+    "Original downloadable r51 installers were not rebuilt.",
+    "This targeted review and static scan do not prove the entire application is bug-free."
+  ]
+}

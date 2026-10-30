@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.10.29-Desktop-r51",
+  "edition": "Academic",
+  "platform": "Windows",
+  "patch": "bug-review-20261029",
+  "files": [
+    {
+      "path": "Agent/mission_schedule.py",
+      "bytes": 18250,
+      "sha256": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+      "expected_before": [
+        "cddd24a9dd956d46a8ca3f81ecb2351701a907b8cbdb114e0ddbe2cf21b50e55"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/mission_supervisor.py",
+      "bytes": 24522,
+      "sha256": "7f24a2e77fa50c79fde1abcd846d406d788d654944fa67d6b0cfce5a6e3628a4",
+      "expected_before": [
+        "8c1389256a42c8934b9dcc50d455219bf3df94fc13544f325579b27a4a86fe04"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_mission_setup_recovery.py",
+      "bytes": 9508,
+      "sha256": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/Bug_Review_20261029.md",
+      "bytes": 2970,
+      "sha256": "874506e96b21b6c5a8eb7f23748aa3332ea99820c78955850bb5ceb525b51ba9",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Agent/mission_runner.py",
+      "bytes": 51144,
+      "sha256": "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627",
+      "expected_before": [
+        "5db4439f9ae5133e718df00c28690c1888e5ec5f43f847957ea32d27c484b627"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/mission_fault_worker.py",
+      "bytes": 1218,
+      "sha256": "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a",
+      "expected_before": [
+        "8944a1dd1c7c4346a535139bc9fe71effc5ed86e6d1a78c470593704eff9298a"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "expected_before": [
+        "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 99,
+      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "expected_before": [
+        "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569"
+      ],
+      "mode": 420
+    }
+  ]
+}

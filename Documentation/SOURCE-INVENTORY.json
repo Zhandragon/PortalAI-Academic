@@ -1,9 +1,9 @@
 {
   "scope": "Tracked and new non-vendored code under ApplicationSources only; not a live-drive or binary-release audit.",
   "files_per_platform": {
-    "Linux": 782,
-    "Mac": 757,
-    "Windows": 824
+    "Linux": 783,
+    "Mac": 758,
+    "Windows": 825
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -3275,8 +3275,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/mission_schedule.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "cddd24a9dd956d46a8ca3f81ecb2351701a907b8cbdb114e0ddbe2cf21b50e55",
-      "lines": 311,
+      "sha256": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+      "lines": 317,
       "overview": "Durable, non-overlapping mission schedules driven by the existing supervisor.",
       "symbols": [
         {
@@ -3296,7 +3296,7 @@
         },
         {
           "name": "main",
-          "line": 291,
+          "line": 297,
           "kind": "FunctionDef"
         }
       ]
@@ -3320,8 +3320,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/mission_supervisor.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "8c1389256a42c8934b9dcc50d455219bf3df94fc13544f325579b27a4a86fe04",
-      "lines": 459,
+      "sha256": "7f24a2e77fa50c79fde1abcd846d406d788d654944fa67d6b0cfce5a6e3628a4",
+      "lines": 474,
       "overview": "Portable Windows/Linux mission supervision. No services, registry or login tasks.",
       "symbols": [
         {
@@ -3376,7 +3376,7 @@
         },
         {
           "name": "main",
-          "line": 436,
+          "line": 451,
           "kind": "FunctionDef"
         }
       ]
@@ -14220,6 +14220,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_mission_setup_recovery.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+      "lines": 183,
+      "overview": "Regressions for launch/setup failures before any mission action executes.",
+      "symbols": [
+        {
+          "name": "SetupRecoveryTests",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_modal_surfaces_tk.py",
       "platform": "Linux",
       "component": "Maintenance",
@@ -25020,8 +25035,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/mission_schedule.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "cddd24a9dd956d46a8ca3f81ecb2351701a907b8cbdb114e0ddbe2cf21b50e55",
-      "lines": 311,
+      "sha256": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+      "lines": 317,
       "overview": "Durable, non-overlapping mission schedules driven by the existing supervisor.",
       "symbols": [
         {
@@ -25041,7 +25056,7 @@
         },
         {
           "name": "main",
-          "line": 291,
+          "line": 297,
           "kind": "FunctionDef"
         }
       ]
@@ -25065,8 +25080,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/mission_supervisor.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "cb2f0645e343c637712a6ed99b229fe982800dbd748640752a46cc4a8b07f5b3",
-      "lines": 482,
+      "sha256": "66d852955f8330f6b9dd19575149e4eb8b12e6363ac7ea280d4c3888c32fd37d",
+      "lines": 497,
       "overview": "Portable Windows/Linux/macOS mission supervision. No services or login tasks.",
       "symbols": [
         {
@@ -25121,7 +25136,7 @@
         },
         {
           "name": "main",
-          "line": 459,
+          "line": 474,
           "kind": "FunctionDef"
         }
       ]
@@ -35965,6 +35980,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_mission_setup_recovery.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+      "lines": 183,
+      "overview": "Regressions for launch/setup failures before any mission action executes.",
+      "symbols": [
+        {
+          "name": "SetupRecoveryTests",
+          "line": 17,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_modal_surfaces_tk.py",
       "platform": "Mac",
       "component": "Maintenance",
@@ -45943,8 +45973,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/mission_schedule.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "cddd24a9dd956d46a8ca3f81ecb2351701a907b8cbdb114e0ddbe2cf21b50e55",
-      "lines": 311,
+      "sha256": "b70ea5ddec46052879b2e24cde6e12e8f52679b32c887935861f554aefe84137",
+      "lines": 317,
       "overview": "Durable, non-overlapping mission schedules driven by the existing supervisor.",
       "symbols": [
         {
@@ -45964,7 +45994,7 @@
         },
         {
           "name": "main",
-          "line": 291,
+          "line": 297,
           "kind": "FunctionDef"
         }
       ]
@@ -45988,8 +46018,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/mission_supervisor.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "8c1389256a42c8934b9dcc50d455219bf3df94fc13544f325579b27a4a86fe04",
-      "lines": 459,
+      "sha256": "7f24a2e77fa50c79fde1abcd846d406d788d654944fa67d6b0cfce5a6e3628a4",
+      "lines": 474,
       "overview": "Portable Windows/Linux mission supervision. No services, registry or login tasks.",
       "symbols": [
         {
@@ -46044,7 +46074,7 @@
         },
         {
           "name": "main",
-          "line": 436,
+          "line": 451,
           "kind": "FunctionDef"
         }
       ]
@@ -57345,6 +57375,21 @@
         {
           "name": "ScheduleTests",
           "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_mission_setup_recovery.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "8e91872e1fd8c8e983aa2de53aadf5f8838f2e5a119e527e869cb15159be2972",
+      "lines": 183,
+      "overview": "Regressions for launch/setup failures before any mission action executes.",
+      "symbols": [
+        {
+          "name": "SetupRecoveryTests",
+          "line": 17,
           "kind": "ClassDef"
         }
       ]
