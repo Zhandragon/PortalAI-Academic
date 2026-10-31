@@ -38,10 +38,10 @@
     }
   },
   "live_model_test": {
-    "completed": false,
-    "reason": "The isolated test executable disappeared after the first run, then Windows denied restoring that fixture path. Installed D/E executables remained intact. No AV setting or exclusion was changed.",
+    "completed": true,
+    "model_stop_restore_test_completed": true,
     "physical_microphone_tested": false,
-    "model_stop_restore_test_completed": false
+    "receipt": "LISTENER-LIVE-VALIDATION-r53.json"
   },
   "native_socket_evidence": {
     "passed": true,

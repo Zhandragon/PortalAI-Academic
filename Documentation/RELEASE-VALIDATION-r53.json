@@ -88,10 +88,10 @@
   "all_published_windows_sources_match_payload": true,
   "dependency_pins_unchanged": true,
   "live_model_test": {
-    "completed": false,
-    "reason": "The isolated test executable disappeared after the first run, then Windows denied restoring that fixture path. Installed D/E executables remained intact. No AV setting or exclusion was changed.",
-    "physical_microphone_tested": false,
-    "model_stop_restore_test_completed": false
+    "completed": true,
+    "scope": "Full D/E fixtures; shared Windows implementation",
+    "receipt": "LISTENER-LIVE-VALIDATION-r53.json",
+    "physical_microphone_tested": false
   },
   "full_recipient_install_tested": false,
   "suite_routes": {
@@ -108,5 +108,6 @@
     "network_download_tested": false,
     "full_install_started": false
   },
-  "academic_policy_retained": true
+  "academic_policy_retained": true,
+  "validation_supplement_after_original_release": true
 }

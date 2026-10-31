@@ -32,3 +32,5 @@ and live-test limitations. Linux/Mac distributions remain r51; Windows includes 
 
 Native API reference:
 https://learn.microsoft.com/windows/win32/api/iphlpapi/nf-iphlpapi-getextendedtcptable
+
+Live follow-up: after restoring the previously inaccessible test executable, both independent D/E Full fixtures passed actual CPU model startup, typed inference, Whisper transcription without evicting Nice, owned stop/healthy restore, and the NativeChat tool handoff using Fast effort. Two successive hands-free turns per drive displayed real model replies, played Piper speech and resumed listening automatically. Manual Mic put real transcription in the draft without sending it. An additional 4B CPU Balanced tool probe produced a truncated tool batch; PortalAI withheld it without executing the tool. Audio input was synthetic; physical microphone speech and perceived speaker loudness remain unverified. See [live receipts](LISTENER-LIVE-VALIDATION-r53.json) and [test harness source](../tools/validation/listener-recovery/README.md). The r53 installer bytes are unchanged.

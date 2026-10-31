@@ -1,0 +1,208 @@
+{
+  "version": "2026.10.30-Desktop-r53",
+  "passed": true,
+  "edition_under_live_test": "Full",
+  "scope": "Independent D/E portable runtimes; standard Qwen3 4B CPU, Whisper base CPU, Piper English and actual audio-device playback with synthetic speech.",
+  "physical_microphone_speech_verified": false,
+  "human_speaker_audibility_confirmed": false,
+  "academic_live_inference_verified": false,
+  "application_code_changed_since_r53": false,
+  "drives": {
+    "D": {
+      "checks": [
+        {
+          "name": "real prepare_startup healthy",
+          "passed": true,
+          "model": "qwen4-q4",
+          "pid": 33320,
+          "port": 24183
+        },
+        {
+          "name": "typed message actual inference",
+          "passed": true,
+          "reply": "voice test ready."
+        },
+        {
+          "name": "mic CPU transcription leaves chat server running",
+          "passed": true,
+          "text": "This is a microphone transcription test from the portable drive.",
+          "same_pid": true
+        },
+        {
+          "name": "real owned stop and healthy restore",
+          "passed": true,
+          "old_pid": 33320,
+          "new_pid": 23168
+        }
+      ],
+      "handsfree": {
+        "passed": true,
+        "physical_microphone": false,
+        "human_audibility_confirmed": false,
+        "scope": "Actual withdrawn Tk hands-free loop/event pump, NativeChat agent worker, CPU Whisper, local model and Piper/audio-device playback. Synthetic WAV ingress and minimal submission harness; no owner account.",
+        "order": [
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "closed"
+        ],
+        "turns": 2,
+        "spoken_replies": [
+          "Voice controls are ready.",
+          "Voice controls are ready."
+        ],
+        "visible_replies_verified": true,
+        "automatic_listening_resumed": true,
+        "cleanup_stopped_pids": [
+          9180
+        ]
+      },
+      "manual_mic": {
+        "passed": true,
+        "physical_microphone": false,
+        "scope": "Real CPU Whisper plus native _transcribe_mic and Tk event pump; public synthetic speech input; no chat model needed.",
+        "text": "This microphone text should remain in my draft.",
+        "draft_only": true,
+        "no_message_sent": true
+      },
+      "observed_model_output_rejections": [
+        {
+          "effort": "balanced",
+          "outcome": "Truncated model tool batch was withheld",
+          "tool_calls_executed": 0,
+          "elapsed_seconds": 365.05
+        }
+      ],
+      "native_chat_tool_handoff": {
+        "passed": true,
+        "case": "error",
+        "effort": "fast",
+        "llm_was_stopped": true,
+        "exact_command_restored": true,
+        "tool_return_http": [
+          {
+            "seconds": 52.81,
+            "health": 200,
+            "models": 200
+          }
+        ],
+        "summary": "The command was executed, but it resulted in an error. The error message indicates that the SD1.5 checkpoint is missing, and it suggests running `Tools/import_media_assets.py --install` with the bundled Python to install it. The REMEMBER_afbaaf0aa8 marker is included as requested.",
+        "errors": [],
+        "elapsed_seconds": 103.89
+      },
+      "installed_source_sha256": {
+        "Agent/service_manager.py": "204b4c826f64e8ae4046d14c8327942fd1c245b4af50b6571c342e34ff52b274",
+        "Agent/windows_tcp.py": "7c8d32a77f509ebc19919f75f2786b7269156a3bce6fc6565ce78ffb76bd2137",
+        "Agent/chat_model_switch.py": "7a4d7e12a16295270bb761d0bb41cc87f2fe415b5d154bb34ac07cec60626c1e",
+        "ControlCenter/native_chat.py": "904bf33afe65f4c4d5b7df19a2cbb22b0a7177ae32612eaddef3afc1e0127b0d",
+        "ControlCenter/chat_voice.py": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091",
+        "Agent/stt_bridge.py": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a",
+        "Agent/piper_bridge.py": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0"
+      },
+      "llama_server_sha256": "3e17f28f693dfcbca90d4aa7f04cf9eb389300aa228b28b69d00271d3c4bd451"
+    },
+    "E": {
+      "checks": [
+        {
+          "name": "real prepare_startup healthy",
+          "passed": true,
+          "model": "qwen4-q4",
+          "pid": 6068,
+          "port": 24184
+        },
+        {
+          "name": "typed message actual inference",
+          "passed": true,
+          "reply": "voice test ready."
+        },
+        {
+          "name": "mic CPU transcription leaves chat server running",
+          "passed": true,
+          "text": "This is a microphone transcription test from the portable drive.",
+          "same_pid": true
+        },
+        {
+          "name": "real owned stop and healthy restore",
+          "passed": true,
+          "old_pid": 6068,
+          "new_pid": 30352
+        }
+      ],
+      "handsfree": {
+        "passed": true,
+        "physical_microphone": false,
+        "human_audibility_confirmed": false,
+        "scope": "Actual withdrawn Tk hands-free loop/event pump, NativeChat agent worker, CPU Whisper, local model and Piper/audio-device playback. Synthetic WAV ingress and minimal submission harness; no owner account.",
+        "order": [
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "closed"
+        ],
+        "turns": 2,
+        "spoken_replies": [
+          "Voice controls are ready.",
+          "Voice controls are ready."
+        ],
+        "visible_replies_verified": true,
+        "automatic_listening_resumed": true,
+        "cleanup_stopped_pids": [
+          27228
+        ]
+      },
+      "manual_mic": {
+        "passed": true,
+        "physical_microphone": false,
+        "scope": "Real CPU Whisper plus native _transcribe_mic and Tk event pump; public synthetic speech input; no chat model needed.",
+        "text": "This microphone text should remain in my draft.",
+        "draft_only": true,
+        "no_message_sent": true
+      },
+      "observed_model_output_rejections": [],
+      "native_chat_tool_handoff": {
+        "passed": true,
+        "case": "error",
+        "effort": "fast",
+        "llm_was_stopped": true,
+        "exact_command_restored": true,
+        "tool_return_http": [
+          {
+            "seconds": 53.72,
+            "health": 200,
+            "models": 200
+          }
+        ],
+        "summary": "The command was executed, but it resulted in an error. The error message indicates that the SD1.5 checkpoint is missing, and it suggests running `Tools/import_media_assets.py --install` with the bundled Python to install it. The REMEMBER_c7ad715479 is included as requested.",
+        "errors": [],
+        "elapsed_seconds": 105.17
+      },
+      "installed_source_sha256": {
+        "Agent/service_manager.py": "204b4c826f64e8ae4046d14c8327942fd1c245b4af50b6571c342e34ff52b274",
+        "Agent/windows_tcp.py": "7c8d32a77f509ebc19919f75f2786b7269156a3bce6fc6565ce78ffb76bd2137",
+        "Agent/chat_model_switch.py": "7a4d7e12a16295270bb761d0bb41cc87f2fe415b5d154bb34ac07cec60626c1e",
+        "ControlCenter/native_chat.py": "904bf33afe65f4c4d5b7df19a2cbb22b0a7177ae32612eaddef3afc1e0127b0d",
+        "ControlCenter/chat_voice.py": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091",
+        "Agent/stt_bridge.py": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a",
+        "Agent/piper_bridge.py": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0"
+      },
+      "llama_server_sha256": "3e17f28f693dfcbca90d4aa7f04cf9eb389300aa228b28b69d00271d3c4bd451"
+    }
+  },
+  "initial_harness_failure": "The first D test omitted --effort and exhausted its artificial 700-token reply cap without the GUI context metadata. The passing run used the shipped smoke test with actual effort preparation; no app authentication, model ownership or Stop guard was bypassed."
+}
