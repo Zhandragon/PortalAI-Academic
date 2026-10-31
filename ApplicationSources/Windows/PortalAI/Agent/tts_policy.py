@@ -1,8 +1,12 @@
 """Speech admission for isolated CUDA/ROCm runtimes and basic CPU speech."""
 from runtime_policy import ROOT, GIB, detect_hardware, load_effective_policy, portable_path
 from media_policy import cuda_memory
+from voice_memory import VoiceMemoryError
 
 PIPER_MODEL = "Voice/Piper/models/en_US-ljspeech-medium.onnx"
+NICE_VOICE = "en_US-joe-medium"
+PIPER_VOICES = {"en_US-ljspeech-medium": PIPER_MODEL,
+                NICE_VOICE: "Voice/Piper/models/en_US-joe-medium.onnx"}
 
 
 def with_amd_probe(hardware, root=ROOT):
@@ -52,7 +56,14 @@ def tts_needs_handoff(engine, hardware):
     return hardware["ram_available_bytes"] < 3*GIB
 
 
-def tts_plan(root=ROOT, engine=None, language="English", hardware=None, policy=None):
+def check_piper_memory(hardware):
+    available = hardware["ram_available_bytes"]
+    if available < 3*GIB:
+        raise VoiceMemoryError("Text-to-speech", "piper", 3*GIB, available)
+
+
+def tts_plan(root=ROOT, engine=None, language="English", hardware=None, policy=None, voice=None):
+    if voice is not None and voice not in PIPER_VOICES: raise ValueError("Unknown installed Piper voice")
     cfg = policy if policy is not None else load_effective_policy(root)
     requested = engine or cfg.get("media", {}).get("voice_engine", "auto")
     if requested not in {"auto", "piper", "qwen"}: raise ValueError("Voice engine must be auto, piper or qwen")
@@ -74,15 +85,17 @@ def tts_plan(root=ROOT, engine=None, language="English", hardware=None, policy=N
         if not qwen_fits: raise RuntimeError("Qwen voice needs 8 GiB free CUDA/ROCm GPU memory and 6 GiB available RAM (12 GiB for shared Radeon memory) after chat handoff. AMD also requires a successful compute probe. Use voice-say --engine piper for basic English CPU speech.")
         return {"engine": "qwen", "device": "cuda" if cuda_fits else "rocm", "speaker": "Ryan", "requested_engine": requested}
     if not english: raise RuntimeError("The installed Piper voice supports English only. Other languages need a suitable local voice or Qwen on a supported GPU; no substitution was made.")
-    if hw["ram_available_bytes"] < 3*GIB: raise RuntimeError("CPU speech needs 3 GiB available RAM including the 2 GiB reserve")
+    check_piper_memory(hw)
     package='Voice/Piper/packages' if hw.get('system','Windows')=='Windows' else 'Runtime/LinuxPackages/extras'
     ort='Voice/Piper/packages' if hw.get('system','Windows')=='Windows' else 'Runtime/LinuxPackages/media'
-    required = [PIPER_MODEL, PIPER_MODEL+".json", package+'/piper/__init__.py', ort+'/onnxruntime/__init__.py']
+    selected_voice = voice or "en_US-ljspeech-medium"
+    model = PIPER_VOICES[selected_voice]
+    required = [model, model+".json", package+'/piper/__init__.py', ort+'/onnxruntime/__init__.py']
     if not all(portable_path(root, p).is_file() for p in required):
         raise RuntimeError("CPU voice assets are incomplete. Run Tools/import_voice_assets.py --install with the bundled Python.")
-    return {"engine": "piper", "device": "cpu", "voice": "en_US-ljspeech-medium", "model_path": str(portable_path(root, PIPER_MODEL)),
+    return {"engine": "piper", "device": "cpu", "voice": selected_voice, "model_path": str(portable_path(root, model)),
             "requested_engine": requested, "language": "en-US", "capabilities": ["text-to-speech"],
-            "limits": "One installed English voice; no voice cloning or natural-language voice design"}
+            "limits": "Installed English presets; no voice cloning or natural-language voice design"}
 
 
 def validate_text(text):

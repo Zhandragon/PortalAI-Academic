@@ -45,7 +45,10 @@ class ContextBudgetTests(unittest.TestCase):
         p.settings['max_output_tokens']=2048;second=p._context_plan()
         self.assertEqual(first['estimated_input'],second['estimated_input'])
         self.assertEqual(first['estimated_sent'],first['estimated_input']+1024+500+first['checkpoint_reserve'])
-        self.assertEqual(second['estimated_sent'],second['estimated_input']+2048+500+second['checkpoint_reserve'])
+        self.assertEqual(second['estimated_sent'],second['estimated_input']+second['output_reserve']+500+second['checkpoint_reserve'])
+        self.assertLessEqual(second['output_reserve'],2048)
+        self.assertGreaterEqual(second['output_reserve'],256)
+        self.assertEqual(p.settings['max_output_tokens'],2048)
         self.assertEqual(second['model_limit'],8192)
 
     def test_oversized_current_message_fails_before_api_serialization_without_mutation(self):
@@ -104,7 +107,10 @@ class ContextBudgetTests(unittest.TestCase):
         self.assertEqual(p.session,original)
         p.session['messages'].append({'role':'user','content':'Thank you'})
         p.api_messages()
-        self.assertEqual(p._admitted_output_tokens(),2048)
+        self.assertGreater(p._admitted_output_tokens(),1372-p._last_context_meta['checkpoint_reserve'])
+        self.assertLessEqual(p._admitted_output_tokens(),2048)
+        self.assertLessEqual(p._last_context_meta['estimated_sent'],7372)
+        self.assertEqual(p.settings['max_output_tokens'],2048)
         self.assertEqual(p.session['messages'][:-1],original['messages'])
 
     def test_current_input_must_leave_minimum_reply_room_and_full_safety_margin(self):
@@ -155,7 +161,7 @@ class ContextBudgetTests(unittest.TestCase):
         label=p.token_lbl.configure.call_args.kwargs['text']
         self.assertIn('Last input est. ~5,000',label)
         self.assertIn('context 8,192',label);self.assertIn('reply cap 1,024',label)
-        self.assertNotIn(' · out ',label)
+        self.assertNotIn(' Â· out ',label)
 
     def test_before_first_send_label_does_not_claim_history_is_full_model_input(self):
         p=panel();p.token_lbl=Mock();p.COL={'bad':'bad','gold':'gold','muted':'muted'}

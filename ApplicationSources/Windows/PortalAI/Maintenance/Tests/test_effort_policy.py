@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
+ACADEMIC = (ROOT / 'Agent/academic_policy.py').is_file()
 sys.path.insert(0, str(ROOT / "Agent"))
 import effort_policy as ep
 import runtime_policy as rp
@@ -65,8 +66,9 @@ class EffortPolicyTests(unittest.TestCase):
         self.assertEqual(self.plan("fast")["selection"], "qwen4-q4")
 
     def test_fast_standard_is_independent_of_abliterated_availability(self):
-        model=next(m for m in self.policy['models'] if m['id']=='qwen4-abliterated-q4')
-        (self.root/model['path']).unlink()
+        model=next((m for m in self.policy['models'] if m['id']=='qwen4-abliterated-q4'),None)
+        if model is not None:(self.root/model['path']).unlink()
+        elif not ACADEMIC:self.fail('Full fixture omitted its alternate model')
         self.assertEqual(self.plan('fast')['selection'],'qwen1.7-q8')
 
     def test_fast_missing_standard_does_not_select_available_abliterated(self):
@@ -76,6 +78,10 @@ class EffortPolicyTests(unittest.TestCase):
 
     def test_explicit_alternate_selection_survives_effort_without_silent_fallback(self):
         self.policy['selection']='qwen4-abliterated-q4'
+        if ACADEMIC:
+            self.assertFalse(any('abliterated' in m['id'] for m in self.policy['models']))
+            with self.assertRaises(RuntimeError):self.plan('fast')
+            return
         for level in ('fast','balanced','deep'):
             self.assertEqual(self.plan(level)['selection'],'qwen4-abliterated-q4')
         model=next(m for m in self.policy['models'] if m['id']=='qwen4-abliterated-q4')

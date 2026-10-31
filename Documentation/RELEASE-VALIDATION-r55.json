@@ -1,0 +1,471 @@
+{
+  "checks_passed": true,
+  "version": "2026.10.31-Desktop-r55",
+  "edition": "Academic",
+  "archive_sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 429,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1590,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_checks": [
+    {
+      "bytes": 11439094,
+      "name": "python-bootstrap.zip",
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "passed": true
+    },
+    {
+      "bytes": 39062,
+      "name": "installer_core.py",
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "passed": true
+    },
+    {
+      "bytes": 4572,
+      "name": "engine_cli.py",
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "passed": true
+    },
+    {
+      "bytes": 4593,
+      "name": "installer_storage.py",
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "passed": true
+    },
+    {
+      "bytes": 17915,
+      "name": "portable_update.py",
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "passed": true
+    },
+    {
+      "bytes": 27664,
+      "name": "suite_installer.py",
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "passed": true
+    },
+    {
+      "bytes": 29697,
+      "name": "abliterator_installer_core.py",
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "passed": true
+    }
+  ],
+  "all_published_windows_sources_match_payload": true,
+  "existing_dependency_pins_unchanged": true,
+  "added_nice_voice_assets": [
+    {
+      "id": "piper-nice-voice-en_US-joe-medium-onnx",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/en_US-joe-medium.onnx",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/en_US-joe-medium.onnx",
+      "size": 63201294,
+      "sha256": "58afce0321b8d9c46d7cdf9c16500cc55a793b4220212dba6b70fb788b3baf06",
+      "dest": "Voice/Piper/models/en_US-joe-medium.onnx",
+      "kind": "model"
+    },
+    {
+      "id": "piper-nice-voice-en_US-joe-medium-onnx-json",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/en_US-joe-medium.onnx.json",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/en_US-joe-medium.onnx.json",
+      "size": 4794,
+      "sha256": "3d6d5410b3795cb1950595247ef8f06190719e6fdbfa3a2356d8ec368e1aad33",
+      "dest": "Voice/Piper/models/en_US-joe-medium.onnx.json",
+      "kind": "model"
+    },
+    {
+      "id": "piper-nice-voice-MODEL_CARD",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/MODEL_CARD",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/MODEL_CARD",
+      "size": 281,
+      "sha256": "d2caa63aca0fccb155105e959e393e5c0c0f03a1f388ef5ba217b83ef860c760",
+      "dest": "Voice/Piper/models/joe-MODEL_CARD",
+      "kind": "model"
+    }
+  ],
+  "full_recipient_install_tested": false,
+  "suite_routes": {
+    "passed": true,
+    "windows_r55_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "live_validation": {
+    "version": "2026.10.31-Desktop-r55",
+    "platform": "Windows",
+    "drives": {
+      "D": {
+        "tests": {
+          "passed": true,
+          "tests": 429,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "expressive_voice": {
+          "passed": true,
+          "checks": [
+            {
+              "case": "expressive speech with owned handoff",
+              "passed": true,
+              "seconds": 32.46899999999732,
+              "phases": [
+                "waiting",
+                "waiting",
+                "thinking",
+                "speaking",
+                "restoring"
+              ]
+            },
+            {
+              "case": "cancelled expressive worker stopped before healthy chat restoration",
+              "passed": true
+            }
+          ],
+          "cleanup_stopped_pids": [
+            12908
+          ]
+        },
+        "handsfree": {
+          "passed": true,
+          "physical_microphone": false,
+          "human_audibility_confirmed": false,
+          "scope": "Actual withdrawn Tk hands-free loop/event pump, NativeChat agent worker, CPU Whisper, local model and automatic Qwen Ryan/audio-device playback. Synthetic WAV ingress and minimal submission harness; no owner account.",
+          "order": [
+            "listen",
+            "transcribe",
+            "submit",
+            "speak",
+            "drain",
+            "listen",
+            "transcribe",
+            "submit",
+            "speak",
+            "drain",
+            "listen",
+            "closed"
+          ],
+          "turns": 2,
+          "spoken_replies": [
+            "Voice controls are ready.",
+            "Voice controls are ready."
+          ],
+          "visible_replies_verified": true,
+          "automatic_listening_resumed": true,
+          "cleanup_stopped_pids": [
+            15708
+          ]
+        },
+        "source_hashes_match": true
+      },
+      "E": {
+        "tests": {
+          "passed": true,
+          "tests": 429,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "expressive_voice": {
+          "passed": true,
+          "checks": [
+            {
+              "case": "expressive speech with owned handoff",
+              "passed": true,
+              "seconds": 47.25,
+              "phases": [
+                "waiting",
+                "waiting",
+                "thinking",
+                "speaking",
+                "restoring"
+              ]
+            }
+          ],
+          "cleanup_stopped_pids": [
+            30692
+          ]
+        },
+        "handsfree": {
+          "passed": true,
+          "physical_microphone": false,
+          "human_audibility_confirmed": false,
+          "scope": "Actual withdrawn Tk hands-free loop/event pump, NativeChat agent worker, CPU Whisper, local model and automatic Qwen Ryan/audio-device playback. Synthetic WAV ingress and minimal submission harness; no owner account.",
+          "order": [
+            "listen",
+            "transcribe",
+            "submit",
+            "speak",
+            "drain",
+            "listen",
+            "transcribe",
+            "submit",
+            "speak",
+            "drain",
+            "listen",
+            "closed"
+          ],
+          "turns": 2,
+          "spoken_replies": [
+            "Voice controls are ready.",
+            "Voice controls are ready."
+          ],
+          "visible_replies_verified": true,
+          "automatic_listening_resumed": true,
+          "cleanup_stopped_pids": [
+            27848
+          ]
+        },
+        "source_hashes_match": true
+      }
+    },
+    "synthetic_accounts_only": true,
+    "physical_microphone_end_to_end_tested": false,
+    "full_recipient_install_tested": false,
+    "linux_mac_updated": false,
+    "independent_SSD_installations": true,
+    "general_tasks": "Bounded file_inspect preview/search and streaming read_file; no new dependencies or background index.",
+    "regression_fixture_updates": {
+      "baseline": {
+        "passed": false,
+        "tests": 98,
+        "skipped": 0,
+        "failures": [
+          "test_image_lookup_limits.ImageChatCycleTests.test_general_search_is_not_limited_by_image_query_rules",
+          "test_nice_prompt_integration.NicePromptIntegrationTests.test_shared_current_guidance_reaches_compact_and_full_prompts (capacity=8192)",
+          "test_nice_prompt_integration.NicePromptIntegrationTests.test_shared_current_guidance_reaches_compact_and_full_prompts (capacity=16384)",
+          "test_nice_prompt_integration.NicePromptIntegrationTests.test_shared_current_guidance_reaches_compact_and_full_prompts (capacity=32768)",
+          "test_chat_context_budget.ContextBudgetTests.test_estimated_input_excludes_separate_output_and_safety_reserves",
+          "test_chat_context_budget.ContextBudgetTests.test_tool_evidence_remains_and_next_turn_reclaims_reply_capacity"
+        ],
+        "errors": []
+      },
+      "changes": [
+        "Prompt fixture now checks the existing Optional manual label.",
+        "General search fixture uses distinct productive queries so the existing duplicate-action guard is not mistaken for an image-search limit.",
+        "Context fixtures check admitted reply capacity and preserved user preference, rather than assuming the requested ceiling always fits."
+      ],
+      "introduced_guidance_budget_regression_fixed": true,
+      "manual_revision_matches": true
+    },
+    "edition_fixture_updates": "Shared guide keeps its 5,000-character ceiling plus the fixed mandatory Academic policy. Academic tests assert standard-only choices and use a 64 GiB synthetic RAM budget for its larger standard 27B partial-offload case. Production edition policy is unchanged.",
+    "expressive-27b-report": {
+      "passed": true,
+      "checks": [
+        {
+          "case": "expressive speech with owned handoff",
+          "passed": true,
+          "seconds": 127.71899999999732,
+          "phases": [
+            "waiting",
+            "waiting",
+            "thinking",
+            "speaking",
+            "restoring"
+          ]
+        }
+      ],
+      "large_27b": true,
+      "cleanup_stopped_pids": [
+        15776
+      ]
+    },
+    "live-27b-report": {
+      "passed": true,
+      "physical_microphone": false,
+      "human_audibility_confirmed": false,
+      "large_27b": true,
+      "checks": [
+        {
+          "name": "model ready",
+          "model": "qwen27-standard-q4",
+          "hardware": {
+            "ram_total_bytes": 34142826496,
+            "ram_available_bytes": 1181884416,
+            "gpus": []
+          }
+        },
+        {
+          "name": "transcription low-memory handoff",
+          "passed": true,
+          "first_parent_admission_injected": true,
+          "real_available_bytes": [
+            1166651392,
+            18619068416
+          ],
+          "transcript": "This is the portable microphone transcription test.",
+          "phases": [
+            "waiting",
+            "waiting",
+            "transcribing",
+            "restoring"
+          ],
+          "exact_command_restored": true,
+          "audio_device_playback": false
+        },
+        {
+          "name": "speech low-memory handoff",
+          "passed": true,
+          "first_parent_admission_injected": true,
+          "real_available_bytes": [
+            1254621184,
+            18581794816
+          ],
+          "transcript": null,
+          "phases": [
+            "waiting",
+            "waiting",
+            "thinking",
+            "speaking",
+            "restoring"
+          ],
+          "exact_command_restored": true,
+          "audio_device_playback": true
+        },
+        {
+          "name": "natural memory admission",
+          "passed": true,
+          "available_bytes": 1640476672,
+          "same_pid": false,
+          "text": "This is the portable microphone transcription test."
+        },
+        {
+          "name": "owned cleanup",
+          "passed": true,
+          "pids": [
+            1904
+          ]
+        }
+      ]
+    },
+    "layout-qa-report": {
+      "passed": true,
+      "checks": [
+        "expanded transcript and same voice session",
+        "end restores composer and draft",
+        "normal collapsed layout restored",
+        "full layout and transcript restored"
+      ],
+      "synthetic_account": true
+    },
+    "preferences-qa-report": {
+      "passed": true,
+      "synthetic_account": true,
+      "checks": [
+        "draft bidirectional linking and independent override; Cancel preserves settings",
+        "Save and reopen retain manual Qwen independently of Fast LLM effort",
+        "both preference pages share the same hardware preview"
+      ]
+    },
+    "visualizer-performance": {
+      "passed": true,
+      "active_frame_cap_fps": 20,
+      "idle_poll_ms": 150,
+      "cases": [
+        {
+          "theme": "light",
+          "width": 720,
+          "actual_canvas_width": 672,
+          "logo_decoded_pixel_bytes": 80896,
+          "median_frame_ms": 1.384,
+          "p95_frame_ms": 1.753,
+          "max_frame_ms": 2.592,
+          "canvas_items": 51,
+          "retained_python_growth_bytes": 8888,
+          "peak_python_growth_bytes": 244968,
+          "idle_mean_ms": 0.0012,
+          "idle_canvas_updates": 0
+        },
+        {
+          "theme": "light",
+          "width": 1260,
+          "actual_canvas_width": 1212,
+          "logo_decoded_pixel_bytes": 80896,
+          "median_frame_ms": 1.509,
+          "p95_frame_ms": 5.898,
+          "max_frame_ms": 6.759,
+          "canvas_items": 51,
+          "retained_python_growth_bytes": 8888,
+          "peak_python_growth_bytes": 244968,
+          "idle_mean_ms": 0.0012,
+          "idle_canvas_updates": 0
+        },
+        {
+          "theme": "dark",
+          "width": 720,
+          "actual_canvas_width": 672,
+          "logo_decoded_pixel_bytes": 80896,
+          "median_frame_ms": 2.366,
+          "p95_frame_ms": 6.286,
+          "max_frame_ms": 8.26,
+          "canvas_items": 51,
+          "retained_python_growth_bytes": 8888,
+          "peak_python_growth_bytes": 244968,
+          "idle_mean_ms": 0.0012,
+          "idle_canvas_updates": 0
+        },
+        {
+          "theme": "dark",
+          "width": 1260,
+          "actual_canvas_width": 1212,
+          "logo_decoded_pixel_bytes": 80896,
+          "median_frame_ms": 1.65,
+          "p95_frame_ms": 6.26,
+          "max_frame_ms": 9.741,
+          "canvas_items": 51,
+          "retained_python_growth_bytes": 8888,
+          "peak_python_growth_bytes": 244968,
+          "idle_mean_ms": 0.0012,
+          "idle_canvas_updates": 0
+        }
+      ]
+    },
+    "c-cleanup-report": {
+      "c_free_before": 39144689664,
+      "passed": true,
+      "c_free_after": 45799456768,
+      "logical_bytes_removed": 6654820094.0,
+      "deprecated_C_installation_touched": false,
+      "files_removed": 12,
+      "verified_copies_retained_on_both_ssds": true
+    }
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "academic_policy_retained": true
+}

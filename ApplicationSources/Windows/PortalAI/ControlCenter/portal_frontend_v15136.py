@@ -5725,7 +5725,8 @@ def install_compact_mode(app, content, tabbar, tab_host, tab_pages, selected_tab
         old._refresh_colors()
         old._apply_compact_wordmark_138i()
         old._align_attach_138i()
-        return old
+        from voice_layout import install_compact_voice
+        return install_compact_voice(old)
     if old is not None:
         try:
             old.exit(force=True)
@@ -5743,4 +5744,5 @@ def install_compact_mode(app, content, tabbar, tab_host, tab_pages, selected_tab
         app.after(120, lambda a=app: _portalai_accelerate_elegant_hover(a))
     except Exception:
         pass
-    return ctl
+    from voice_layout import install_compact_voice
+    return install_compact_voice(ctl)

@@ -48,7 +48,7 @@ WEB_DISCOVERY = frozenset(('help', 'search', 'research', 'image', 'image-search'
 def inspection(name, args):
     if not isinstance(args, dict):
         return False
-    if name in DISCOVERY or name in ('read_file', 'chat_history'):
+    if name in DISCOVERY or name in ('read_file', 'file_inspect', 'chat_history'):
         return True
     if name == 'web':
         action = args.get('action', 'help')
@@ -121,7 +121,7 @@ class TaskProgress:
     def menu(self, rows):
         if not self.active:
             return rows
-        blocked = set(DISCOVERY) | {'read_file', 'chat_history'} if self.references >= 2 else set()
+        blocked = set(DISCOVERY) | {'read_file', 'file_inspect', 'chat_history'} if self.references >= 2 else set()
         if self.checkpoints:
             blocked.add('chat_checkpoint')
         return [row for row in rows if row['function']['name'] not in blocked]

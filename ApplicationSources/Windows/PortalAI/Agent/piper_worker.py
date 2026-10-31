@@ -24,6 +24,20 @@ def offline_audit(event, args):
         raise RuntimeError("CPU speech inference is offline; network access is not part of this worker")
 
 
+def verify_model(root, model, lock):
+    """Require both selected voice pins; an unrelated optional voice is irrelevant."""
+    root = Path(root).resolve(); model = Path(model).resolve()
+    if not model.is_relative_to(root / "Voice/Piper/models"):
+        raise ValueError("CPU voice model must stay in portable voice assets")
+    pins = {a["dest"]: a for a in lock["assets"] if a["kind"] == "model"}
+    for path in (model, Path(str(model) + ".json")):
+        pin = pins.get(path.relative_to(root).as_posix())
+        if pin is None: raise RuntimeError("CPU voice model integrity pin is missing")
+        with path.open("rb") as stream: digest = hashlib.file_digest(stream, "sha256").hexdigest()
+        if path.stat().st_size != pin["size"] or digest != pin["sha256"]:
+            raise RuntimeError("CPU voice model integrity check failed")
+
+
 def main():
     gate = os.environ.get("PORTALAI_VOICE_GATE")
     if gate:
@@ -37,16 +51,12 @@ def main():
     args = parser.parse_args()
     request = json.loads(args.request.read_text(encoding="utf-8"))
     text = validate_text(request["text"])
-    plan = tts_plan(engine="piper", language=request.get("language", "English"))
+    plan = tts_plan(engine="piper", language=request.get("language", "English"), voice=request.get("voice"))
     output = args.output.resolve()
     if not output.is_relative_to((private_path(ROOT, "Outputs")).resolve()): raise ValueError("CPU speech output must stay under portable Outputs")
     model = Path(plan["model_path"])
     lock = json.loads((ROOT/"Agent/voice_assets.json").read_text())
-    for a in lock["assets"]:
-        if a["kind"] == "model":
-            p = ROOT/a["dest"]
-            with p.open("rb") as f: digest = hashlib.file_digest(f, "sha256").hexdigest()
-            if p.stat().st_size != a["size"] or digest != a["sha256"]: raise RuntimeError("CPU voice model integrity check failed")
+    verify_model(ROOT, model, lock)
     sys.path[:0]=[str(ROOT/'Voice/Piper/packages')] if os.name=='nt' else [str(ROOT/'Runtime/LinuxPackages/extras'),str(ROOT/'Runtime/LinuxPackages/media')]
     sys.addaudithook(offline_audit)
     import onnxruntime as ort
@@ -73,4 +83,10 @@ def main():
                       "synthesis_seconds": time.monotonic()-started, "providers": voice.session.get_providers()}), flush=True)
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    from voice_memory import VoiceMemoryError
+    try:
+        main()
+    except VoiceMemoryError as exc:
+        print(json.dumps(exc.payload(), ensure_ascii=True), flush=True)
+        raise SystemExit(10)

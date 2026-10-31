@@ -104,7 +104,11 @@ def main():
             shutil.copytree(ROOT/"Voice/Piper/packages", root/"Voice/Piper/packages")
             shutil.copytree(ROOT/"Voice/Piper/models", root/"Voice/Piper/models")
             (root/"Agent").mkdir()
-            for name in ("piper_worker.py", "runtime_policy.py", "media_policy.py", "tts_policy.py", "hardware_profiles.json", "voice_assets.json"):
+            # Profile/media path helpers are part of the worker's portable
+            # dependency closure. Copy public source only, never runtime state.
+            for source in (ROOT/"Agent").glob("*.py"):
+                shutil.copy2(source, root/"Agent"/source.name)
+            for name in ("hardware_profiles.json", "voice_assets.json"):
                 shutil.copy2(ROOT/"Agent"/name, root/"Agent"/name)
             (root/"Outputs/Voices").mkdir(parents=True)
             request = root/"request.json"; atomic_json(request, {"text": "This speech was made from a relocated portable folder."})

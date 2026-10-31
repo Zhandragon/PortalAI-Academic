@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 883
+    "Windows": 898
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -315,6 +315,7 @@
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_effort_smoke_cleanup.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_endurance_status.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_executable_recovery_tk.py",
+    "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_file_inspection.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_gui_stop_contract.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_linux_media_ui.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_low_power_support.py",
@@ -349,6 +350,7 @@
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tts_policy.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_vision_thumbnail.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_vm_runner.py",
+    "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_policy.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_recovery.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_research.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_research_evidence.py",
@@ -45641,8 +45643,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/assistant_guidance.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "366177e1a51b42acc793b1d392e72acf258253995ebfa69c3e74dc6eb16b09d0",
-      "lines": 83,
+      "sha256": "463dacfa69015046ec75e8d349a76fc07dc83f6041508d7fa34dae9fbf32d133",
+      "lines": 84,
       "overview": "Current, compact operating guidance for the native Nice chat harness.",
       "symbols": [
         {
@@ -45657,7 +45659,7 @@
         },
         {
           "name": "media_preference_guidance",
-          "line": 74,
+          "line": 75,
           "kind": "FunctionDef"
         }
       ]
@@ -46176,8 +46178,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/effort_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "7b9aced1a831ad6ace9eaf30a79b07a285b0a579451f1a9e03d8ecc56989b45f",
-      "lines": 381,
+      "sha256": "102a334db72a853deb305763447a462fc0b1d6ea52e33ae8f6880095b50af875",
+      "lines": 383,
       "overview": "Chat effort preferences and admission, without launching or reconfiguring models.",
       "symbols": [
         {
@@ -46237,32 +46239,32 @@
         },
         {
           "name": "require_chat_plan",
-          "line": 261,
+          "line": 263,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_preferences",
-          "line": 276,
+          "line": 278,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_effort",
-          "line": 302,
+          "line": 304,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_environment",
-          "line": 330,
+          "line": 332,
           "kind": "FunctionDef"
         },
         {
           "name": "image_steps",
-          "line": 348,
+          "line": 350,
           "kind": "FunctionDef"
         },
         {
           "name": "sd15_workflow_steps",
-          "line": 372,
+          "line": 374,
           "kind": "FunctionDef"
         }
       ]
@@ -47250,23 +47252,23 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/media_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "d6b0a785247af67ea0d8ac5aa0c900c115425a9d0562792d7e99dadb123daf1b",
-      "lines": 128,
+      "sha256": "c2634111c9da11649711a85f230acc144177ba6ee90c2aca86d23d5bfa3296f9",
+      "lines": 129,
       "overview": "Conservative admission and local model selection for portable media jobs.",
       "symbols": [
         {
           "name": "cuda_memory",
-          "line": 13,
+          "line": 14,
           "kind": "FunctionDef"
         },
         {
           "name": "image_plan",
-          "line": 20,
+          "line": 21,
           "kind": "FunctionDef"
         },
         {
           "name": "speech_plan",
-          "line": 99,
+          "line": 100,
           "kind": "FunctionDef"
         }
       ]
@@ -48617,11 +48619,41 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/nice_voice.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "1b29e85c7db597630e9d0bb7f4cc3bcefb7f85c140cad608026d7106da96c615",
+      "lines": 110,
+      "overview": "Expressive Nice voice using the existing SSD-local Qwen TTS runtime.",
+      "symbols": [
+        {
+          "name": "available",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "admit",
+          "line": 36,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "synthesize",
+          "line": 41,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "worker",
+          "line": 91,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/piper_bridge.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "56bc5ac3214092890b87741b001886c06b4b66252d817e5849d5904a138939e0",
-      "lines": 112,
+      "sha256": "3d747254c98499d77125c9070341630b34b3b5bd76b6961fe70503d982cc298b",
+      "lines": 118,
       "overview": "Bounded CPU speech lifecycle; Windows job owns only this worker tree.",
       "symbols": [
         {
@@ -48645,8 +48677,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/piper_worker.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "6c0b1b1c614ef60322569c48dc6c1f41582e175278f445d4342e705291afef1a",
-      "lines": 76,
+      "sha256": "3bf8e4a01257b8e7484fcb3c9bf6274775f414b41f163be5ea360625f6b41583",
+      "lines": 92,
       "overview": "Short-lived CPU speech worker using only the SSD's pinned package layer.",
       "symbols": [
         {
@@ -48655,8 +48687,13 @@
           "kind": "FunctionDef"
         },
         {
-          "name": "main",
+          "name": "verify_model",
           "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 41,
           "kind": "FunctionDef"
         }
       ]
@@ -49304,8 +49341,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/runtime_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "cd6f795638cec50f4da8210961b46ad6d135428fc06a9182e566e09f9ba0e905",
-      "lines": 456,
+      "sha256": "e09b0f4499cc212d8de86e0b12b5858ccc8b345bdb91add9727d8e824cee7476",
+      "lines": 453,
       "overview": "Portable hardware/model selection. Standard library only; no host installs.",
       "symbols": [
         {
@@ -49330,87 +49367,87 @@
         },
         {
           "name": "load_effective_policy",
-          "line": 86,
+          "line": 85,
           "kind": "FunctionDef"
         },
         {
           "name": "model_variant",
-          "line": 91,
+          "line": 90,
           "kind": "FunctionDef"
         },
         {
           "name": "automatic_models",
-          "line": 95,
+          "line": 94,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic_json",
-          "line": 106,
+          "line": 103,
           "kind": "FunctionDef"
         },
         {
           "name": "portable_env",
-          "line": 119,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "run_probe",
-          "line": 142,
+          "line": 139,
           "kind": "FunctionDef"
         },
         {
           "name": "_windows_memory_status",
-          "line": 155,
+          "line": 152,
           "kind": "FunctionDef"
         },
         {
           "name": "memory_info",
-          "line": 167,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "detect_hardware",
-          "line": 188,
+          "line": 185,
           "kind": "FunctionDef"
         },
         {
           "name": "storage_budget",
-          "line": 208,
+          "line": 205,
           "kind": "FunctionDef"
         },
         {
           "name": "require_space",
-          "line": 223,
+          "line": 220,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_candidates",
-          "line": 230,
+          "line": 227,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_installation_issues",
-          "line": 243,
+          "line": 240,
           "kind": "FunctionDef"
         },
         {
           "name": "choose_backend",
-          "line": 267,
+          "line": 264,
           "kind": "FunctionDef"
         },
         {
           "name": "select_model",
-          "line": 320,
+          "line": 317,
           "kind": "FunctionDef"
         },
         {
           "name": "build_plan",
-          "line": 391,
+          "line": 386,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_plan",
-          "line": 410,
+          "line": 407,
           "kind": "FunctionDef"
         }
       ]
@@ -50173,8 +50210,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/stt_bridge.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "9f0151c4c4e7d0c6934c14977d0646f01a55a54a956c218ccb94c7216e14ed1a",
-      "lines": 256,
+      "sha256": "7540322a98942d9aa9b1ffcf414b224e15276abdc9123e811a7e3b29afbd576b",
+      "lines": 262,
       "overview": "",
       "symbols": [
         {
@@ -50203,73 +50240,73 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/stt_worker.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "63864b2317bb129509fdbe3018b66f191eeb05ed0fe084192f8fda2ef1d0b61b",
-      "lines": 389,
+      "sha256": "04aefc8eaf03f4aef45709a55c41cc320c981172605d806ea6c8ba9bea2cdb23",
+      "lines": 392,
       "overview": "",
       "symbols": [
         {
           "name": "emit",
-          "line": 29,
+          "line": 30,
           "kind": "FunctionDef"
         },
         {
           "name": "_root",
-          "line": 36,
+          "line": 37,
           "kind": "FunctionDef"
         },
         {
           "name": "_bootstrap_paths",
-          "line": 43,
+          "line": 44,
           "kind": "FunctionDef"
         },
         {
           "name": "_imports",
-          "line": 68,
+          "line": 69,
           "kind": "FunctionDef"
         },
         {
           "name": "_cuda_failure_path",
-          "line": 81,
+          "line": 82,
           "kind": "FunctionDef"
         },
         {
           "name": "_cuda_count",
-          "line": 85,
+          "line": 86,
           "kind": "FunctionDef"
         },
         {
           "name": "_write_probe",
-          "line": 92,
+          "line": 93,
           "kind": "FunctionDef"
         },
         {
           "name": "_format_srt_time",
-          "line": 102,
+          "line": 103,
           "kind": "FunctionDef"
         },
         {
           "name": "_format_vtt_time",
-          "line": 110,
+          "line": 111,
           "kind": "FunctionDef"
         },
         {
           "name": "_safe_stem",
-          "line": 114,
+          "line": 115,
           "kind": "FunctionDef"
         },
         {
           "name": "_write_outputs",
-          "line": 119,
+          "line": 120,
           "kind": "FunctionDef"
         },
         {
           "name": "_model",
-          "line": 163,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 170,
+          "line": 171,
           "kind": "FunctionDef"
         }
       ]
@@ -50378,33 +50415,38 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/tts_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "060e28836cf0a6b0326eca57db892398fbf70d2dfadb3a0f95181fe2050c2c10",
-      "lines": 92,
+      "sha256": "bf2272f1cbfd09a1d922ea90dfdf3bfd5795a6db7702db7bf2367ec78fb1fc1a",
+      "lines": 105,
       "overview": "Speech admission for isolated CUDA/ROCm runtimes and basic CPU speech.",
       "symbols": [
         {
           "name": "with_amd_probe",
-          "line": 8,
+          "line": 12,
           "kind": "FunctionDef"
         },
         {
           "name": "qwen_preflight",
-          "line": 23,
+          "line": 27,
           "kind": "FunctionDef"
         },
         {
           "name": "tts_needs_handoff",
-          "line": 35,
+          "line": 39,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "check_piper_memory",
+          "line": 59,
           "kind": "FunctionDef"
         },
         {
           "name": "tts_plan",
-          "line": 55,
+          "line": 65,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_text",
-          "line": 88,
+          "line": 101,
           "kind": "FunctionDef"
         }
       ]
@@ -50886,6 +50928,61 @@
           "name": "VoiceBridge",
           "line": 23,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/voice_memory.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "5a9dc2060dbd690b3810b37945f0f288a1138ac5c21fb6df7cf17e266ec57ea5",
+      "lines": 109,
+      "overview": "Bounded voice admission with the existing owned-model lease and recovery.",
+      "symbols": [
+        {
+          "name": "VoiceMemoryError",
+          "line": 8,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "run_voice_stage",
+          "line": 36,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/voice_policy.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "deb4e3e8e3bd82c2d03ab94d5c284c054cae3eaadecca0c64e5206d883469bfd",
+      "lines": 77,
+      "overview": "Installed voice capacity, effort linking and explicit independent TTS choices.",
+      "symbols": [
+        {
+          "name": "preferences",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "capabilities",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "resolve",
+          "line": 56,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "effort_for_voice",
+          "line": 67,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "after_effort_change",
+          "line": 73,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -52145,8 +52242,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_effort_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "b364ebf41295576273341f07f5715bfd27321d805ed7be12c420c70c20183701",
-      "lines": 350,
+      "sha256": "2fa6ec8a294867ca0814962dd24a1a4d8a112c1523dde23ae2abdd3932436e9d",
+      "lines": 377,
       "overview": "Compact chat effort controls; model switching is delegated to the lifecycle API.",
       "symbols": [
         {
@@ -52360,28 +52457,28 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3bea4c1cce8aede04fe8f79301ad73be94d858c479127b5aa1f1dc7e4d3f7091",
-      "lines": 141,
+      "sha256": "55bf321a8072eb8cb90d30d62f5777b2a977b1a8bcfcaee8532eec9cc68b120b",
+      "lines": 204,
       "overview": "Turn-bound microphone transcription and cancellable, offline spoken replies.",
       "symbols": [
         {
           "name": "VoiceStopped",
-          "line": 17,
+          "line": 18,
           "kind": "ClassDef"
         },
         {
           "name": "VoiceTurn",
-          "line": 22,
+          "line": 23,
           "kind": "ClassDef"
         },
         {
           "name": "spoken_chunks",
-          "line": 45,
+          "line": 46,
           "kind": "FunctionDef"
         },
         {
           "name": "VoiceIO",
-          "line": 63,
+          "line": 64,
           "kind": "ClassDef"
         }
       ]
@@ -52505,7 +52602,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/coding_stall.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "2b367badadee4386a95bfa9790ccb2b18d1cff518a4a9302e587a311fffe2311",
+      "sha256": "7d6e838ac262ff4c8e6e7744d1f3c2d6537aa205371a0b258505a9535c2b2d6c",
       "lines": 144,
       "overview": "Request-scoped, bounded recovery from inspection-only coding loops.",
       "symbols": [
@@ -52808,6 +52905,51 @@
           "name": "RecoveryUI",
           "line": 26,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/file_inspection.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "018b8b81c1a3cc7dd19da6bc1a480fff0415de085a27d2f9882d5c3c32297405",
+      "lines": 164,
+      "overview": "Bounded, read-only file triage and literal search using the Python standard library.",
+      "symbols": [
+        {
+          "name": "guard",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "stamp",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "page",
+          "line": 32,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "search",
+          "line": 50,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_archive",
+          "line": 80,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "preview",
+          "line": 105,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "execute",
+          "line": 153,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -53419,158 +53561,158 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "93f1440a46e3e8d6969362feb3fae515718f59b9bd8f9eb3c80174ae72185435",
-      "lines": 6810,
+      "sha256": "5833d3a1a69f8de7138574246c6438455456bbfe7cf902ac8315b8308aa504f7",
+      "lines": 6855,
       "overview": "",
       "symbols": [
         {
           "name": "creationflags",
-          "line": 121,
+          "line": 123,
           "kind": "FunctionDef"
         },
         {
           "name": "clean_env",
-          "line": 125,
+          "line": 127,
           "kind": "FunctionDef"
         },
         {
           "name": "safe_rel",
-          "line": 141,
+          "line": 143,
           "kind": "FunctionDef"
         },
         {
           "name": "latest_master_instructions",
-          "line": 148,
+          "line": 150,
           "kind": "FunctionDef"
         },
         {
           "name": "load_json",
-          "line": 158,
+          "line": 160,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 165,
+          "line": 167,
           "kind": "FunctionDef"
         },
         {
           "name": "_normalize_qwen_messages",
-          "line": 173,
+          "line": 175,
           "kind": "FunctionDef"
         },
         {
           "name": "model_id",
-          "line": 195,
+          "line": 197,
           "kind": "FunctionDef"
         },
         {
           "name": "model_props",
-          "line": 207,
+          "line": 209,
           "kind": "FunctionDef"
         },
         {
           "name": "context_limit_from_props",
-          "line": 227,
+          "line": 229,
           "kind": "FunctionDef"
         },
         {
           "name": "estimate_tokens",
-          "line": 259,
+          "line": 261,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 267,
+          "line": 269,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 276,
+          "line": 278,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 293,
+          "line": 295,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 483,
+          "line": 485,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 511,
+          "line": 513,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 526,
+          "line": 528,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 530,
+          "line": 532,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 545,
+          "line": 547,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_tool_batch",
-          "line": 556,
+          "line": 558,
           "kind": "FunctionDef"
         },
         {
           "name": "historical_tool_calls",
-          "line": 580,
+          "line": 582,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 612,
+          "line": 614,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 659,
+          "line": 661,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 664,
+          "line": 666,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 819,
+          "line": 821,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1405,
+          "line": 1403,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1412,
+          "line": 1410,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1430,
+          "line": 1428,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1575,
+          "line": 1573,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6798,
+          "line": 6843,
           "kind": "FunctionDef"
         }
       ]
@@ -54414,8 +54556,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/portal_frontend_v15136.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "f0e3b38f0d6bf991e6c6630bcfc65d012e008a235429e33750ce089981118212",
-      "lines": 5746,
+      "sha256": "f612d9ea6c756bca5b140a682636d23c12eaa911405c0fc4ea69d8c894874df9",
+      "lines": 5748,
       "overview": "",
       "symbols": [
         {
@@ -55154,7 +55296,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "fa7449dc07551a69f4d704f4100986d963fdf609c0d7b95fa55c6e551821cc97",
+      "sha256": "9c5267fb9c290df76141d71925d4634c1f85ca26cd8aa12238536a952ba0c5c6",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -55588,7 +55730,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/task_progress.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "0226ef01afb22be380d4a538670072f53b2bf4923cb7cc93eb11c541af76acc1",
+      "sha256": "4530694d2707c752df0357557700c21a823d22462a540b52b9d490767c9c2621",
       "lines": 203,
       "overview": "Request-local progress aid. Tool scheduling and evidence, never permission or replay.",
       "symbols": [
@@ -55643,7 +55785,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "6dff701e39195d4f084f32def13dcf96d3aa14e90c71a31b9db4cad949919edb",
+      "sha256": "8200b006c89fa5c2e9dd18d237ef9750b814beab5b5c58edc424d9307d74557d",
       "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
@@ -55786,6 +55928,116 @@
           "name": "add_login_utilities",
           "line": 66,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_activity.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "4d7e7ff44bbd5954df65011035ef29f5d5f38b6817fb37253729db3a73a64736",
+      "lines": 50,
+      "overview": "Bounded thread-safe voice display state; audio samples never enter Tk workers.",
+      "symbols": [
+        {
+          "name": "pcm_level",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "VoiceActivity",
+          "line": 19,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_layout.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "b67abe5a71df68ab8c8742f72d20ab80a979f6dce39e2e66c10293a3418127e0",
+      "lines": 104,
+      "overview": "Temporary hands-free views over the existing full and compact chat layouts.",
+      "symbols": [
+        {
+          "name": "activity_for",
+          "line": 6,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "sync_voice_view",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "CompactVoiceLayout",
+          "line": 30,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "install_compact_voice",
+          "line": 100,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_logo.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "1d1eb2bb0a775258f7ed6b9b946276ab372ab4d57c3420add636dd07e745c1bf",
+      "lines": 53,
+      "overview": "Read-only PortalAI branding with a tiny, cached rotating portal center.",
+      "symbols": [
+        {
+          "name": "_png",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "VoiceLogo",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "cached_logo",
+          "line": 49,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_preferences.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "f9032a9ed694620f529169313b67844155692f883c33c101564393cb17040d53",
+      "lines": 69,
+      "overview": "Staged voice model controls shared by voice and effort preference pages.",
+      "symbols": [
+        {
+          "name": "VoicePreferences",
+          "line": 6,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_visualizer.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "1b30df673729d74488d1c88565911e836aa1f6c425f206d5ed20b854befb37a4",
+      "lines": 169,
+      "overview": "PortalAI's turquoise-to-gold hands-free card, rendered by the Tk thread.",
+      "symbols": [
+        {
+          "name": "blend",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "VoiceVisualizer",
+          "line": 15,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -57717,8 +57969,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_budget.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "484dc3ad3e92297f3a1c07a5ebc7106cd5afe42a3a16850c3915888a327bed20",
-      "lines": 173,
+      "sha256": "31a9e3a76ac19611759572f22e0f661f50d51de11f633fc6d7f0951b84dfa72c",
+      "lines": 179,
       "overview": "Context admission and UI distinctions without Tk, files, or model requests.",
       "symbols": [
         {
@@ -57762,8 +58014,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_effort_ui.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "f4e0b852205c7c614bbbe0498e219cb27358c3ac49122577b4e1465d7bd4a80c",
-      "lines": 231,
+      "sha256": "3cf8a7f2b73513fc082fd38713ac1ef7cbf782c01bd44a6b7c4fb0a274f9b450",
+      "lines": 241,
       "overview": "",
       "symbols": [
         {
@@ -58192,7 +58444,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_voice.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "6f4b8dfbe69c1fd1d60b12813b19ecb7bfc9d4d3af932f60e8d3731a62636878",
+      "sha256": "8019fb65f5b814d59432414b86bf3778ca053ef112b4b303e967092ae9fc0941",
       "lines": 209,
       "overview": "Missing STT bindings, voice turn ownership, and actual Tk event-loop routing.",
       "symbols": [
@@ -58617,13 +58869,13 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_effort_policy.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "cd0c8007b05901cc844b7ae6ed07b25d41b75060d09284005c2e000332a3092c",
-      "lines": 290,
+      "sha256": "0ae1f99b93891a71b2f4a0fede592ebafde373fab4b7f47211f946e07231ab27",
+      "lines": 296,
       "overview": "",
       "symbols": [
         {
           "name": "EffortPolicyTests",
-          "line": 15,
+          "line": 16,
           "kind": "ClassDef"
         }
       ]
@@ -58684,6 +58936,21 @@
         {
           "name": "RecoveryTkTests",
           "line": 12,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_file_inspection.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "50e4f0f9e291ebceb2d9cf8542f419e56bd8bcebf7e011cc481e5c7b284742db",
+      "lines": 75,
+      "overview": "",
+      "symbols": [
+        {
+          "name": "FileInspectionTests",
+          "line": 10,
           "kind": "ClassDef"
         }
       ]
@@ -58922,7 +59189,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_image_lookup_limits.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "65a1e13d3fe0676248f6bf1c28e3a51a0834929597e5ce128fa79496f729a394",
+      "sha256": "bd04c2b8c4b2de225497c0ccf435c611c5a3ab051cd2cfbeb9b434957d754d75",
       "lines": 229,
       "overview": "Bounded image search and per-turn chat loops; no live requests/models.",
       "symbols": [
@@ -60072,13 +60339,28 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_prompt_integration.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "de48f173cd7871aefd5e29c66104dde214e56a18e1c7b33c93688aac436e1444",
-      "lines": 133,
+      "sha256": "dd3599a6ea196bee0ec80d2ee7711080ced4636602adf59665c9a03d4f306e76",
+      "lines": 146,
       "overview": "Nice receives current operating guidance without any account/model access.",
       "symbols": [
         {
           "name": "NicePromptIntegrationTests",
-          "line": 15,
+          "line": 22,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_voice.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "81811a559c9f4ae055b2e750a811633c23e76d314acdb1159ad8b97dbe15f9c3",
+      "lines": 88,
+      "overview": "Voice choice and integrity regressions for Nice's English male preset.",
+      "symbols": [
+        {
+          "name": "NiceVoiceTests",
+          "line": 17,
           "kind": "ClassDef"
         }
       ]
@@ -61017,13 +61299,13 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_runtime_policy.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "bb8aa147bcd39e33e0af54bdaf0ba25c4e8ba097ea50a45ba35b73289ea12215",
-      "lines": 163,
+      "sha256": "e3e83f9f4fc408b031acd518650ee374fd3ca4674d0eb947ce62807f53d89ee7",
+      "lines": 165,
       "overview": "",
       "symbols": [
         {
           "name": "RuntimePolicyTests",
-          "line": 15,
+          "line": 16,
           "kind": "ClassDef"
         }
       ]
@@ -61262,13 +61544,13 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_small_model_chat.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "1ccad345789cf3ee663c9c939c2d8cc9dac4b80dbe15cf343ffd661756eaff9e",
-      "lines": 37,
+      "sha256": "e7dc10608e454a2ce75b9f5b6bc5e3bae0422594d35a567f7a1468523b85b7aa",
+      "lines": 44,
       "overview": "",
       "symbols": [
         {
           "name": "SmallModelChatTests",
-          "line": 12,
+          "line": 19,
           "kind": "ClassDef"
         }
       ]
@@ -61739,6 +62021,71 @@
         {
           "name": "VMTests",
           "line": 14,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_layout.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "5fcd720a452bdd2df15dcea748483ec65c178c1ee0c6848ee66902550ae96e36",
+      "lines": 80,
+      "overview": "Temporary compact voice views preserve the normal composer and transcript.",
+      "symbols": [
+        {
+          "name": "CompactVoiceTests",
+          "line": 12,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_memory.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "d07b657163b5965847b409a958c34f516bb81fa90274282238bf051f68d36958",
+      "lines": 112,
+      "overview": "Voice admission may recover only before effects, using owned healthy restoration.",
+      "symbols": [
+        {
+          "name": "VoiceMemoryTests",
+          "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_policy.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "01534e85456784d1ccde1760b6b0163bd6a108e7864125ac60eebf3385354b51",
+      "lines": 76,
+      "overview": "",
+      "symbols": [
+        {
+          "name": "VoicePolicyTests",
+          "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_visualizer.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "3b3ecc078474d154c04708ed2fb22714728fec992b7b02277819a27cd3b5a1db",
+      "lines": 99,
+      "overview": "Real Tk rendering, PCM state, and muted capture using disposable audio.",
+      "symbols": [
+        {
+          "name": "ActivityTests",
+          "line": 13,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VisualizerTkTests",
+          "line": 52,
           "kind": "ClassDef"
         }
       ]
@@ -67277,8 +67624,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_voice.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "6b64bbfa1a963005a79dd090d75f66e12ab6d9ed63ca0c245085b4a076ec96bf",
-      "lines": 128,
+      "sha256": "92e3dce2dfe98f187c64147d5e27b421f113120d2341ed0dc9ab9a11a9a6da27",
+      "lines": 132,
       "overview": "Real CPU voice, cancellation and copied-folder portability tests.",
       "symbols": [
         {

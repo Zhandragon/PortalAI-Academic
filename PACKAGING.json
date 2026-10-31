@@ -2,27 +2,27 @@
   "format": 3,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
-      "bytes": 621558357,
-      "sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
+      "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r55-suite.zip",
+      "bytes": 621599733,
+      "sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
-          "bytes": 621558357,
-          "sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249"
+          "name": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r55-suite.zip",
+          "bytes": 621599733,
+          "sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead"
         }
       ],
       "files": [
         {
           "name": "PACKAGE_SHA256.json",
           "bytes": 1312,
-          "sha256": "e8a74bdd12879214393c73c708d2f8a5e4a4dfb7e4b75f872e0113d2d8e20d41"
+          "sha256": "eedc69731b8bec3696e73279457cacb611153466f778e7f4752c192d8159ed67"
         },
         {
           "name": "payload.zip",
-          "bytes": 379478781,
-          "sha256": "d67c3eda4632c306adf69951e7c2fa24d8ac7eb8ece3b65bd04d59974cc82af7"
+          "bytes": 379518299,
+          "sha256": "6bc1fffaadd8003f22716a8908542e7d6fc5075af531810738919454a46b572a"
         },
         {
           "name": "PortalAI-Academic-Install.exe",
@@ -36,8 +36,8 @@
         },
         {
           "name": "release.json",
-          "bytes": 138996014,
-          "sha256": "9bdddac7b7ba55b5edb0b1f08c00cba8d56b5bb2b635e4d0fad3115db5399896"
+          "bytes": 139004948,
+          "sha256": "9646946076d2ae5a6c669b61a1c9f7c9216e37205245e3afc0530f50836a7811"
         },
         {
           "name": "sox-14.4.2-win32.zip",
@@ -46,32 +46,32 @@
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 4836,
-          "sha256": "d9d4b8e8432cb521dc983993c55830e849731950679d189e84951ed4f510e28a"
+          "bytes": 4961,
+          "sha256": "5691d37724755b3e50265ffe5929840b0c7652c2b0735d9679a9402084cdf5b5"
         },
         {
           "name": "storage-plan.json",
           "bytes": 190024,
-          "sha256": "144af94420d09a57d9d74df226c971c639e1c5eca6e11cc355687a90b0378355"
+          "sha256": "53d56e40f8946ee9259c1c1ad94985352a6e83f1cdcf0dea16e611f483c7a1a3"
         },
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
-          "sha256": "a3c8693fd679e1495d4010ac7047bcc8692c73c779387ea6432edac3270e7776"
+          "sha256": "082c33ed4f002a80c5450a2ce209ec58f528b36ca5be02d59949581224287e6f"
         },
         {
           "name": "upgrade.json",
-          "bytes": 1140,
-          "sha256": "907baacc90b065bd5c91517669bad6429e4a1cdc342e9fd83ab899211ad05e2a"
+          "bytes": 1170,
+          "sha256": "bb3dc650d22b68d4a8d6fdf8bb065341f9fbafb03a40576f02fbbe33291d6258"
         }
       ],
       "storage_preflight": {
-        "bootstrap_bytes": 1982663686,
+        "bootstrap_bytes": 1982795045,
         "bootstrap_files": 14,
-        "install_bytes": 513447135537,
-        "install_files": 330158
+        "install_bytes": 513573879200,
+        "install_files": 330178
       },
-      "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r54"
+      "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r55"
     },
     "Linux": {
       "archive": "PortalAI-Academic-Linux-Installer-2026.10.29-Desktop-r51-suite.tar.gz",
@@ -256,6 +256,6 @@
     }
   },
   "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51",
-  "release": "v2026.10.31-Desktop-r54",
+  "release": "v2026.10.31-Desktop-r55",
   "distribution": "GitHub release assets; old Git-tracked parts retained for existing launchers"
 }

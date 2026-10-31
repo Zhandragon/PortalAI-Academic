@@ -1,5 +1,5 @@
 PORTABLEAI MASTER INSTRUCTIONS — v45
-Operational guidance revision: 2026-10-24-web-search (current native harness).
+Operational guidance revision: 2026-10-31-portable-general-tasks (current native harness).
 Designed for the Zhandragon PortableAI distribution.
 Goal: direct routing, minimal deliberation, atomic execution, fast return.
 Keep this file compact enough for the Native Chat context budget. Built-in Help is a summary; Documentation\Capabilities.md is the human capability catalog.

@@ -9,7 +9,7 @@ from __future__ import annotations
 import sys
 from tool_contracts import DIALOGUE_VIDEO
 
-REVISION = "2026-10-24-web-search"
+REVISION = "2026-10-31-portable-general-tasks"
 
 
 def tool_launcher(platform_name=None):
@@ -45,8 +45,9 @@ def host_guidance(root, *, platform_name=None):
         "Science/media success:true or _portableai.terminal_result:true: answer without extra probes. "
         "voice-say: Qwen CUDA/ROCm or English-only CPU Piper. "
         "Piper cannot clone/design/change language; use voice-clone/voice-design. "
-        "Attachments: Data/Chat/Attachments. Success needs evidence.\n"
+        "Attachments: Data/Chat/Attachments.\n"
         "Files: signed-in account workspace; keep paths. "
+        "file_inspect: bounded format previews/literal search; read_file: text pages. "
         "Preview/export deferred outputs; absent deferred files are not deletions. Never decrypt/move/prune Private/Vault, "
         "hydration ledgers or generations: incremental snapshots share ciphertext. "
         "Logout needs verified sealing. Respect account denials; standard/guest have restricted shell/science. "

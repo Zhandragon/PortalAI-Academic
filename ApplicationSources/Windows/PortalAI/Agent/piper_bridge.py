@@ -48,10 +48,10 @@ def cleanup_abandoned(root):
             path.unlink(missing_ok=True)
 
 
-def synthesize(text, language="English", output=None, root=ROOT, stop=None, check=None):
+def synthesize(text, language="English", output=None, root=ROOT, stop=None, check=None, voice=None):
     root = Path(root).resolve(); validate_text(text)
     if check: check()
-    tts_plan(root, "piper", language)
+    plan = tts_plan(root, "piper", language, voice=voice)
     out = output_path(root, output)
     require_space(root, 34*1024**2, for_outputs=True)
     runtime = media_runtime(root); runtime.mkdir(parents=True, exist_ok=True)
@@ -64,7 +64,7 @@ def synthesize(text, language="English", output=None, root=ROOT, stop=None, chec
             cleanup_abandoned(root)
             if stop and Path(stop).exists(): raise RuntimeError("CPU speech stopped")
             out.parent.mkdir(parents=True, exist_ok=True)
-            atomic_json(request, {"text": text, "language": language, "staging_output": part.relative_to(root).as_posix()})
+            atomic_json(request, {"text": text, "language": language, "voice": plan["voice"], "staging_output": part.relative_to(root).as_posix()})
             env = portable_env(root); env.update(PORTALAI_VOICE_GATE=str(gate), HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
             with logpath.open("wb") as log:
                 proc = subprocess.Popen([str(python_path(root)), "-B", str(root/"Agent/piper_worker.py"),
@@ -73,7 +73,7 @@ def synthesize(text, language="English", output=None, root=ROOT, stop=None, chec
                     **worker_process_options())
                 job = WorkerJob(proc)
                 job.limit_memory(2*GIB)
-                atomic_json(request, {"text": text, "language": language, "staging_output": part.relative_to(root).as_posix(), "worker_pid": proc.pid})
+                atomic_json(request, {"text": text, "language": language, "voice": plan["voice"], "staging_output": part.relative_to(root).as_posix(), "worker_pid": proc.pid})
                 gate.touch(); deadline = time.monotonic()+180
                 while proc.poll() is None:
                     job.check()
@@ -85,7 +85,13 @@ def synthesize(text, language="English", output=None, root=ROOT, stop=None, chec
             if stop and Path(stop).exists(): raise RuntimeError("CPU speech stopped")
             if check: check()
             logtext = logpath.read_text(encoding="utf-8", errors="replace")
-            if proc.returncode: raise RuntimeError("CPU speech worker failed: " + logtext[-2500:])
+            if proc.returncode:
+                from voice_memory import VoiceMemoryError
+                try: payload = json.loads(logtext.splitlines()[-1])
+                except (ValueError, IndexError): payload = None
+                admission = VoiceMemoryError.from_payload(payload)
+                if admission is not None: raise admission
+                raise RuntimeError("CPU speech worker failed: " + logtext[-2500:])
             result = json.loads(logtext.splitlines()[-1])
             if not result.get("success"): raise RuntimeError("CPU speech worker did not confirm success")
             with wave.open(str(part), "rb") as wav:

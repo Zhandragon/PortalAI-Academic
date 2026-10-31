@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
+ACADEMIC = (ROOT / 'Agent/academic_policy.py').is_file()
 sys.path.insert(0, str(ROOT / "Agent"))
 import runtime_policy as rp
 
@@ -107,7 +108,8 @@ class RuntimePolicyTests(unittest.TestCase):
         self.assertEqual(self.select(5*rp.GIB)["id"], "qwen4-q4")
 
     def test_manual_partial_offload(self):
-        self.policy["selection"] = "qwen27-q4"
+        self.policy["selection"] = "qwen27-standard-q4" if ACADEMIC else "qwen27-q4"
+        if ACADEMIC:self.hw["ram_available_bytes"]=64*rp.GIB
         selected = self.select(12*rp.GIB)
         self.assertGreater(selected["gpu_layers"], 0)
         self.assertLess(selected["gpu_layers"], 65)

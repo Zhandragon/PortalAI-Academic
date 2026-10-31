@@ -174,6 +174,12 @@ class SttBridge:
                 except Exception:
                     payload = None
                 break
+        from voice_memory import VoiceMemoryError
+        admission = VoiceMemoryError.from_payload(payload)
+        if admission is not None:
+            raise admission
+        if isinstance(payload, dict) and payload.get("success") is False:
+            raise RuntimeError(str(payload.get("error") or "Speech-to-text failed"))
         if cp.returncode != 0 or not isinstance(payload, dict):
             detail = "\n".join(x for x in [(cp.stderr or "").strip(), (cp.stdout or "").strip()] if x)
             raise RuntimeError(

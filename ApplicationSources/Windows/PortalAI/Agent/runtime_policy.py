@@ -79,8 +79,7 @@ def load_policy(root: Path = ROOT) -> dict:
         policy["storage"] = {"minimum_free_gib": minimum,
                              "minimum_free_fraction": fraction,
                              "output_reserve_gib": output}
-    from academic_policy import enforce_policy
-    return enforce_policy(policy)
+    return policy
 
 
 def load_effective_policy(root: Path = ROOT) -> dict:
@@ -93,8 +92,6 @@ def model_variant(model):
 
 
 def automatic_models(policy):
-    from academic_policy import enforce_policy
-    policy = enforce_policy(policy)
     preference = policy.get('variant_preference', 'standard')
     if preference not in ('standard', 'uncensored'):
         raise ValueError('Unknown model variant preference')
@@ -318,8 +315,6 @@ def choose_backend(root: Path, hardware: dict, requested: str = "auto", probe: b
 
 
 def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dict:
-    from academic_policy import enforce_policy
-    policy = enforce_policy(policy)
     selection = policy.get("selection", "auto")
     requested_context = int(policy.get("context_tokens", 8192))
     if not 512 <= requested_context <= 32768:
@@ -403,7 +398,9 @@ def build_plan(root: Path = ROOT, hardware: dict | None = None, policy: dict | N
     if m["absolute_projector"]:
         command += ["--mmproj", m["absolute_projector"], "--no-mmproj-offload"]
         command += small_vision_command_options(m)
+    from voice_policy import capabilities as voice_capabilities
     return {"hardware": hw, "backend": backend, "model": m, "command": command,
+            "voice": voice_capabilities(root, hw, probe=False),
             "storage": storage_budget(root, cfg), "rejected": selection["rejected"]}
 
 

@@ -100,6 +100,8 @@ DEFAULT_SETTINGS = {
     "conversation_min_speech_seconds": 0.25,
     "conversation_max_utterance_seconds": 90,
     "conversation_speak_replies": True,
+    "tts_model": "auto",
+    "tts_link_effort": True,
     "conversation_status_levels": True,
     "max_attachment_mb": 1024,
     "max_inline_text_chars": 50000,
@@ -1124,19 +1126,11 @@ class ToolRuntime:
         return text[-120000:]
 
     def read_file(self, path: str, max_chars: int = 60000, offset=None) -> str:
-        p = self.safe_path(path)
-        if not p.is_file():
-            raise FileNotFoundError(p)
-        text = p.read_text(encoding="utf-8", errors="replace")
-        if offset is None:  # Compatibility for internal callers.
-            return text[:max_chars]
-        if type(offset) is not int or offset < 0 or type(max_chars) is not int or max_chars < 1:
-            raise ValueError('offset must be nonnegative and max_chars positive integers')
-        offset = min(offset, len(text))
-        end = min(len(text), offset + min(max_chars, 60000))
-        return json.dumps({'path': str(p), 'total_chars': len(text), 'offset': offset,
-            'text': text[offset:end], 'returned_chars': end-offset,
-            'next_offset': end if end < len(text) else None, 'complete': end >= len(text)}, ensure_ascii=False)
+        from file_inspection import guard, page
+        check=guard(self);p=self.safe_path(path)
+        if not p.is_file():raise FileNotFoundError(p)
+        result=page(p,0 if offset is None else offset,max_chars,check)
+        return result['text'] if offset is None else json.dumps(result,ensure_ascii=False)
 
     def write_file(self, path: str, content: str) -> str:
         if self._account_role() != 'admin':
@@ -1299,6 +1293,9 @@ class ToolRuntime:
             return catalog_response(self.root, args.get('command'), args.get('detail','summary'))
         if name == "shell":
             return self.shell(args.get("command", ""))
+        if name == 'file_inspect':
+            from file_inspection import execute
+            return execute(self,args)
         if name == "read_file":
             return self.read_file(args.get("path", ""), args.get("max_chars", 60000), args.get("offset", 0))
         if name == "write_file":
@@ -1400,7 +1397,8 @@ from web_tool_api import TOOL as WEB_TOOL
 from agent_collaboration import TOOL as AGENTS_TOOL
 from maintenance_tools import TOOLS as MAINTENANCE_TOOLS
 from capability_tools import TOOLS as WORKSPACE_TOOLS
-TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
+from file_inspection import TOOL as FILE_INSPECT_TOOL
+TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL, FILE_INSPECT_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
 
 def _request_scope(panel):
     scope = getattr(panel, '_request_tool_scope', None)
@@ -1412,11 +1410,11 @@ def _request_scope(panel):
 def _request_tools(panel):
     """Explicit host-selected task menu; never an account permission grant."""
     if _request_scope(panel) == 'maintenance':
-        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'write_file',
+        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'file_inspect', 'write_file',
                  'edit_file', 'list_dir', 'web', 'inspect_environment', 'source_search', 'source_map'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     elif _request_scope(panel) == 'coding':
-        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file',
+        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'file_inspect',
                  'write_file', 'edit_file', 'list_dir'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     else:
@@ -1785,6 +1783,11 @@ class NativeChat:
                                  relief="flat", bd=0, wrap="word", padx=14, pady=10, width=1, height=8,
                                  font=(ui_font(self.host), 10), state="disabled")
         self.chat.pack(fill='both', expand=True, padx=8, pady=8)
+        from voice_visualizer import VoiceVisualizer
+        self.voice_host = tk.Frame(self.main_pane, bg=self.COL['bg'])
+        self.voice_host.grid(row=1, column=0, sticky='ew', padx=2)
+        self.voice_host.grid_remove()
+        self.voice_visualizer = VoiceVisualizer(self.voice_host, self.COL)
         self.chat.bind("<Button-3>", self._chat_context_menu, add="+")
         self.chat.tag_config("you", foreground=self.COL["cyan"], font=(ui_font(self.host), 10, "bold"))
         self.chat.tag_config("assistant", foreground=self.COL["good"], font=(ui_font(self.host), 10, "bold"))
@@ -1797,7 +1800,7 @@ class NativeChat:
         self.chat_zoom = ChatZoom(self.chat, self.settings, self.store.save_settings)
 
         self.composer_shell = ornate_frame(self.main_pane, self.COL, surface='panel', filigree=True)
-        self.composer_shell.grid(row=1, column=0, sticky='ew', padx=2, pady=(2, 0))
+        self.composer_shell.grid(row=2, column=0, sticky='ew', padx=2, pady=(2, 0))
         self.attachbar = tk.Frame(self.composer_shell, bg=self.COL['panel'], bd=0)
         self.attachbar.pack(fill='x', padx=10, pady=(10, 3))
         self.attach_lbl = tk.Label(self.attachbar, text="Drop files here or click Attach", bg=self.COL["panel"], fg=self.COL["muted"],
@@ -2023,6 +2026,12 @@ class NativeChat:
         if zoom is not None: zoom._schedule_images()
         layout = getattr(self, 'chat_layout', None)
         if layout is not None: layout.apply_palette()
+        visualizer = getattr(self, "voice_visualizer", None)
+        if visualizer is not None: visualizer.apply_palette(self.COL)
+        voice_host = getattr(self, 'voice_host', None)
+        if voice_host is not None: voice_host.configure(bg=self.COL['bg'])
+        from voice_layout import sync_voice_view
+        sync_voice_view(self)
         skin = getattr(self, '_sheet_skin', None)
         if skin is not None: skin.apply_palette(self.COL)
         effort=getattr(self,'effort',None)
@@ -5714,6 +5723,18 @@ class NativeChat:
         else:
             self.start_conversation_mode()
 
+    def _new_voice_io(self, check, *, handsfree=False):
+        from voice_activity import VoiceActivity
+        activity = VoiceActivity() if handsfree else None
+        def idle():
+            check()
+            if self.busy: raise VoiceStopped('A model response began while voice was waiting for memory')
+        voice = VoiceIO(self.root, check, handoff_check=idle, activity=activity,
+                        voice_options=lambda: (dict(self.settings), getattr(getattr(self, 'effort', None), 'profile', 'balanced')),
+                        on_status=lambda phase, text: self.ev.put(('voice_status', {'voice':voice, 'text':text})))
+
+        return voice
+
     def start_conversation_mode(self):
         """Start rolling VAD capture that auto-sends each completed utterance."""
         self._check_login()
@@ -5742,7 +5763,9 @@ class NativeChat:
             if (getattr(self, '_closing', False) or not self.conversation_active.is_set()
                     or not self.session or self.session.get('id') != sid):
                 raise VoiceStopped('Hands-free conversation ended')
-        self._conversation_io = VoiceIO(self.root, check)
+        self._conversation_io = self._new_voice_io(check, handsfree=True)
+        from voice_layout import sync_voice_view
+        sync_voice_view(self)
         self._conversation_request = None
         self.conversation_turn = 0
         self.conversation_btn.configure(text="■ End hands-free", bg="#5B3535")
@@ -5843,6 +5866,8 @@ class NativeChat:
         noise_floor = max(25.0, base_threshold / 5.0)
         effective_threshold = float(base_threshold)
 
+        voice = getattr(self, "_conversation_io", None)
+        if getattr(voice, "activity", None) is not None: voice.activity.phase("listening", "Listening")
         self.ev.put(("conversation_status", f"Hands-free · listening · {device_used}"))
         while self.conversation_active.is_set():
             voice = getattr(self, '_conversation_io', None)
@@ -5864,7 +5889,14 @@ class NativeChat:
                 chunk = stream.stdout.read(int(sample_rate * channels * 2 * chunk_seconds))
             if not chunk:
                 continue
+            activity = getattr(voice, 'activity', None) if voice is not None else None
+            if activity is not None and activity.muted:
+                ring.clear(); captured.clear(); speech_started = False
+                hot_chunks = silence_chunks = speech_chunks = 0
+                started = time.monotonic(); activity.level(0)
+                continue
             level = pcm16_rms(chunk)
+            if activity is not None: activity.level(min(1.0, (level / 9000) ** .5))
             now = time.monotonic()
             if not speech_started and level < base_threshold:
                 noise_floor = (noise_floor * 0.94) + (float(level) * 0.06)
@@ -6067,7 +6099,7 @@ class NativeChat:
             self._check_login()
             if getattr(self, '_closing', False) or not self.session or self.session.get('id') != sid:
                 raise VoiceStopped('Microphone conversation ended')
-        voice = self._mic_voice = VoiceIO(self.root, check)
+        voice = self._mic_voice = self._new_voice_io(check)
         self.stop_btn.configure(state='normal')
         self._thread(target=self._transcribe_mic, args=(wav, voice), daemon=True).start()
 
@@ -6086,7 +6118,7 @@ class NativeChat:
         active = getattr(self, 'conversation_active', None)
         voice = getattr(self, '_conversation_io', None) if active is not None and active.is_set() else None
         if voice is None:
-            voice = VoiceIO(self.root, self._check_login)
+            voice = self._new_voice_io(self._check_login)
         return voice.transcribe(wav)
 
     def _conversation_loop(self):
@@ -6140,6 +6172,7 @@ class NativeChat:
                     break
                 request = VoiceTurn(self.session['id'], text)
                 self._conversation_request = request
+                if getattr(voice, "activity", None) is not None: voice.activity.phase("thinking", "Nice is thinking…")
                 self.ev.put(("conversation_text", request))
                 while not request.done.wait(.08):
                     voice.check()
@@ -6222,7 +6255,7 @@ class NativeChat:
                 entries[key] = skin.row(section, label, lambda row, key=key: skin.entry(row, self.settings.get(key, '')))
         speak_var = tk.BooleanVar(body, value=self.settings.get('conversation_speak_replies', True))
         skin.check(sections['voice'], "Speak Nice's replies in Hands-free mode", speak_var)
-        skin.label(sections['voice'], 'Uses the bundled English CPU voice. Replies remain in chat. Listening pauses during playback; End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
+        skin.label(sections['voice'], 'Uses the selected local voice model. Replies remain in chat. Listening pauses during playback; End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
         support_var = tk.BooleanVar(body, value=bool(self.settings.get('low_power_support', False)))
         skin.check(sections['tools'], 'Optional support for 1.7B and 4B models', support_var)
         skin.label(sections['tools'], 'Adds source-navigation, research and verification guidance when a supported small model is actually running. Uses the same tools and permissions. Off by default; does not apply to 27B.', muted=True).pack(fill='x', pady=4)
@@ -6241,6 +6274,9 @@ class NativeChat:
         explanation_section = skin.section(tabs.add('effort', 'Effort & continuation'), 'Effort and continuation')
         effort = getattr(self, 'effort', None)
         effort_draft = effort.preferences_controls(explanation_section, skin) if effort is not None else None
+        from voice_preferences import VoicePreferences
+        voice_draft = self._voice_preferences = VoicePreferences(self, skin, sections['voice'], effort_draft)
+        voice_draft.add_mirror(skin, explanation_section)
         effort_name = str(getattr(effort, 'profile', 'fallback')).title()
         effective = self._request_output_tokens()
         explanations = [
@@ -6317,8 +6353,10 @@ class NativeChat:
                 updated["collapse_tool_blocks"] = bool(collapse_tool_var.get())
                 updated["auto_title_chats"] = bool(auto_title_var.get())
                 updated["auto_context_management"] = bool(auto_ctx_var.get())
+                updated.update(voice_draft.validated_values())
                 if effort_draft is not None: effort.save_preferences_draft(effort_draft)
                 self.settings.update(updated)
+                if effort is not None: effort._render()
                 self._coding_stall_next_request = bool(stall_var.get())
                 self.store.save_settings(); self.render_history(); self.update_token_label(); self._close_sheet()
             except Exception as exc:
@@ -6648,6 +6686,9 @@ class NativeChat:
                             raise
                         data.failed = True
                         data.done.set()
+                elif kind == "voice_status":
+                    if data.get("voice") not in (getattr(self, "_mic_voice", None), getattr(self, "_conversation_io", None)): continue
+                    self.model_lbl.configure(text=data["text"], fg=self.COL["gold"])
                 elif kind == "conversation_error":
                     if isinstance(data, dict):
                         if data.get('voice') is not getattr(self, '_conversation_io', None): continue
@@ -6656,9 +6697,13 @@ class NativeChat:
                     self.conversation_btn.configure(text="🎧 Hands-free", bg=self.COL["panel2"])
                     self.mic_btn.configure(state="normal")
                     self.refresh_status()
+                    from voice_layout import sync_voice_view
+                    sync_voice_view(self)
                     self._notice("Hands-free mode", str(data), kind="error")
                 elif kind == "conversation_stopped":
                     if data is not None and data is not getattr(self, '_conversation_io', None): continue
+                    from voice_layout import sync_voice_view
+                    sync_voice_view(self)
                     self.conversation_btn.configure(text="🎧 Hands-free", bg=self.COL["panel2"])
                     self.mic_btn.configure(state="normal")
                     if not self.busy:

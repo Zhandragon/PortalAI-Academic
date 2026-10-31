@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Current Windows package: [r54 selected history deletion](HISTORY-DELETE-r54.md), [validation](HISTORY-DELETE-VALIDATION-r54.json), [installer verification](WINDOWS-INSTALLER-r54.json). Includes the r52 voice and r53 listener repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r55 hands-free voice and memory handoff](VOICE-MEMORY-r55.md), [validation](VOICE-MEMORY-VALIDATION-r55.json), [installer verification](WINDOWS-INSTALLER-r55.json). Includes the r52/r53 voice and listener repairs and r54 history deletion. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

@@ -21,6 +21,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from media_policy import speech_plan
+from voice_memory import VoiceMemoryError
 from runtime_policy import require_space
 
 RESULT_PREFIX = "PORTABLEAI_STT_RESULT="
@@ -385,5 +386,7 @@ if __name__ == "__main__":
         main()
     except SystemExit:
         raise
+    except VoiceMemoryError as exc:
+        emit(exc.payload(), 10)
     except Exception as exc:
         emit({"success": False, "error": f"{type(exc).__name__}: {exc}"}, 10)

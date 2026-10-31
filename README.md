@@ -20,6 +20,8 @@
   <a href="Documentation/README.md">Documentation</a>
 </p>
 
+**Windows r55 (2026-10-31):** Expressive hands-free speech, automatic/manual voice models linked to effort or selected independently, owned chat/voice memory handoff, and the PortalAI logo visualizer in full and compact layouts. [Voice details](Documentation/VOICE-MEMORY-r55.md). New bounded file inspection and streaming text pages improve general tasks without extra dependencies. [File tools](Documentation/PORTABLE-TASKS-r55.md). Exit and reopen PortalAI after updating. Linux/Mac remain r51.
+
 **Windows r54 history deletion (2026-10-31):** Delete now previews and removes every selected chat. [Details and validation](Documentation/HISTORY-DELETE-r54.md). Exit and reopen PortalAI after updating. Linux/Mac remain r51.
 
 **Windows r53 listener repair (2026-10-30):** Fixed model ownership detection that could block typed and hands-free chat with a port 8080 error. [Explanation, source and validation](Documentation/LISTENER-OWNERSHIP-r53.md). Exit and reopen PortalAI after updating. Linux/Mac remain r51.
@@ -143,7 +145,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r54/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r54.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r55/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r55.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

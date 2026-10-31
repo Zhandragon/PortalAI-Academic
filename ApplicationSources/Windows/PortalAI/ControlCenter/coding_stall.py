@@ -14,7 +14,7 @@ CODE_SUFFIXES = frozenset(('.py', '.js', '.ts', '.jsx', '.tsx', '.html', '.css',
     '.c', '.h', '.cc', '.cpp', '.hpp', '.cs', '.go', '.rs', '.java', '.kt',
     '.swift', '.sh', '.ps1', '.bat', '.cmd', '.sql', '.rb', '.php', '.lua',
     '.r', '.m', '.vue', '.svelte'))
-INSPECTIONS = frozenset(('read_file', 'source_search', 'source_map', 'list_dir',
+INSPECTIONS = frozenset(('read_file', 'file_inspect', 'source_search', 'source_map', 'list_dir',
                          'inspect_environment', 'web'))
 WRITES = frozenset(('edit_file', 'write_file'))
 

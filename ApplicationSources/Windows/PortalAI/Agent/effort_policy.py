@@ -230,10 +230,12 @@ def capabilities(root: Path = ROOT, *, hardware: dict | None = None,
     hw = hardware if hardware is not None else runtime.detect_hardware()
     cfg = policy if policy is not None else runtime.load_effective_policy(root)
     profiles = {}
+    from voice_policy import capabilities as voice_capabilities
+    voice = voice_capabilities(root, hw, probe=probe)
     try:
         backend = runtime.choose_backend(root, hw, cfg.get("backend", "auto"), probe)
     except (OSError, ValueError, RuntimeError) as exc:
-        return {"hardware": hw, "profiles": {
+        return {"hardware": hw, "voice": voice, "profiles": {
             level: {"level": level, "label": level.title(), "available": False,
                     "locked": False, "can_apply": False, "warning": "", "reason": str(exc),
                     "requires_recheck": True, "preview_only": True} for level in LEVELS}}
@@ -254,7 +256,7 @@ def capabilities(root: Path = ROOT, *, hardware: dict | None = None,
         except (OSError, ValueError, RuntimeError) as exc:
             profiles[level] = {**_base(level, backend, session_unlocked), "available": False,
                                "can_apply": False, "reason": str(exc), "preview_only": True}
-    return {"hardware": hw, "profiles": profiles, "preview_only": True,
+    return {"hardware": hw, "profiles": profiles, "voice": voice, "preview_only": True,
             "requires_recheck": True}
 
 

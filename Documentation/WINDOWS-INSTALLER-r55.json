@@ -1,0 +1,156 @@
+{
+  "version": "2026.10.31-Desktop-r55",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r55-suite.zip",
+  "bytes": 621599733,
+  "sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead",
+  "previous_sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
+  "changed_members": [
+    "PortalAI/Agent/assistant_guidance.py",
+    "PortalAI/Agent/effort_policy.py",
+    "PortalAI/Agent/media_policy.py",
+    "PortalAI/Agent/piper_bridge.py",
+    "PortalAI/Agent/piper_worker.py",
+    "PortalAI/Agent/runtime_policy.py",
+    "PortalAI/Agent/stt_bridge.py",
+    "PortalAI/Agent/stt_worker.py",
+    "PortalAI/Agent/tts_policy.py",
+    "PortalAI/Agent/voice_assets.json",
+    "PortalAI/ControlCenter/chat_effort_ui.py",
+    "PortalAI/ControlCenter/chat_voice.py",
+    "PortalAI/ControlCenter/coding_stall.py",
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/portal_frontend_v15136.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/task_progress.py",
+    "PortalAI/ControlCenter/tool_protocol.py",
+    "PortalAI/Maintenance/Tests/test_chat_context_budget.py",
+    "PortalAI/Maintenance/Tests/test_chat_effort_ui.py",
+    "PortalAI/Maintenance/Tests/test_chat_voice.py",
+    "PortalAI/Maintenance/Tests/test_effort_policy.py",
+    "PortalAI/Maintenance/Tests/test_image_lookup_limits.py",
+    "PortalAI/Maintenance/Tests/test_nice_prompt_integration.py",
+    "PortalAI/Maintenance/Tests/test_runtime_policy.py",
+    "PortalAI/Maintenance/Tests/test_small_model_chat.py",
+    "PortalAI/PortableAI_Master_Instructions_v45.txt",
+    "PortalAI/Tools/smoke_voice.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/nice_voice.py",
+    "PortalAI/Agent/voice_memory.py",
+    "PortalAI/Agent/voice_policy.py",
+    "PortalAI/ControlCenter/file_inspection.py",
+    "PortalAI/ControlCenter/voice_activity.py",
+    "PortalAI/ControlCenter/voice_layout.py",
+    "PortalAI/ControlCenter/voice_logo.py",
+    "PortalAI/ControlCenter/voice_preferences.py",
+    "PortalAI/ControlCenter/voice_visualizer.py",
+    "PortalAI/Documentation/Portable_Tasks_r55.md",
+    "PortalAI/Documentation/Voice_Memory_r55.md",
+    "PortalAI/Maintenance/Tests/test_file_inspection.py",
+    "PortalAI/Maintenance/Tests/test_nice_voice.py",
+    "PortalAI/Maintenance/Tests/test_voice_layout.py",
+    "PortalAI/Maintenance/Tests/test_voice_memory.py",
+    "PortalAI/Maintenance/Tests/test_voice_policy.py",
+    "PortalAI/Maintenance/Tests/test_voice_visualizer.py"
+  ],
+  "payload_members": 5186,
+  "existing_dependency_pins_unchanged": true,
+  "added_nice_voice_assets": [
+    {
+      "id": "piper-nice-voice-en_US-joe-medium-onnx",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/en_US-joe-medium.onnx",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/en_US-joe-medium.onnx",
+      "size": 63201294,
+      "sha256": "58afce0321b8d9c46d7cdf9c16500cc55a793b4220212dba6b70fb788b3baf06",
+      "dest": "Voice/Piper/models/en_US-joe-medium.onnx",
+      "kind": "model"
+    },
+    {
+      "id": "piper-nice-voice-en_US-joe-medium-onnx-json",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/en_US-joe-medium.onnx.json",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/en_US-joe-medium.onnx.json",
+      "size": 4794,
+      "sha256": "3d6d5410b3795cb1950595247ef8f06190719e6fdbfa3a2356d8ec368e1aad33",
+      "dest": "Voice/Piper/models/en_US-joe-medium.onnx.json",
+      "kind": "model"
+    },
+    {
+      "id": "piper-nice-voice-MODEL_CARD",
+      "revision": "b4e358ffcb232591bf73a540e70f7de528e4174a",
+      "repository": "rhasspy/piper-voices",
+      "filename": "en/en_US/joe/medium/MODEL_CARD",
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/b4e358ffcb232591bf73a540e70f7de528e4174a/en/en_US/joe/medium/MODEL_CARD",
+      "size": 281,
+      "sha256": "d2caa63aca0fccb155105e959e393e5c0c0f03a1f388ef5ba217b83ef860c760",
+      "dest": "Voice/Piper/models/joe-MODEL_CARD",
+      "kind": "model"
+    }
+  ],
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273196215176,
+    "download_bytes": 234114349863,
+    "required_bytes": 511591084155,
+    "files": 330164
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "eedc69731b8bec3696e73279457cacb611153466f778e7f4752c192d8159ed67"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 379518299,
+      "sha256": "6bc1fffaadd8003f22716a8908542e7d6fc5075af531810738919454a46b572a"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139004948,
+      "sha256": "9646946076d2ae5a6c669b61a1c9f7c9216e37205245e3afc0530f50836a7811"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 4961,
+      "sha256": "5691d37724755b3e50265ffe5929840b0c7652c2b0735d9679a9402084cdf5b5"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "53d56e40f8946ee9259c1c1ad94985352a6e83f1cdcf0dea16e611f483c7a1a3"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "082c33ed4f002a80c5450a2ce209ec58f528b36ca5be02d59949581224287e6f"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1170,
+      "sha256": "bb3dc650d22b68d4a8d6fdf8bb065341f9fbafb03a40576f02fbbe33291d6258"
+    }
+  ]
+}

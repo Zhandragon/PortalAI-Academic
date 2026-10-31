@@ -210,7 +210,7 @@ class ImageChatCycleTests(unittest.TestCase):
 
     def test_general_search_is_not_limited_by_image_query_rules(self):
         p=panel()
-        with patch.object(p,'stream_completion',side_effect=[('', '', [call(n,'same query','search')]) for n in range(3)]):
+        with patch.object(p,'stream_completion',side_effect=[('', '', [call(n,f'productive query {n}','search')]) for n in range(3)]):
             p.agent_worker('test')
         self.assertEqual(p.tool_runtime.execute.call_count,3)
 

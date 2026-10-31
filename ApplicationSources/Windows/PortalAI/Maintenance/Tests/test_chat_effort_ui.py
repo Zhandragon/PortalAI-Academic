@@ -35,6 +35,16 @@ def controls():
 
 
 class ChatEffortUITests(unittest.TestCase):
+    def test_voice_model_follows_slider_only_when_linked(self):
+        control=controls();control.panel.store=SimpleNamespace(save_settings=Mock())
+        control.panel.settings.update(tts_model='qwen',tts_link_effort=True)
+        control._changed('0')
+        self.assertEqual(control.panel.settings['tts_model'],'piper')
+        control.panel.store.save_settings.assert_called_once()
+        control.panel.settings.update(tts_model='qwen',tts_link_effort=False)
+        control._sync_linked_voice('fast')
+        self.assertEqual(control.panel.settings['tts_model'],'qwen')
+
     def test_locked_profile_does_not_change_preference(self):
         control = controls()
         control.capability_data = {'profiles': {'deep': {

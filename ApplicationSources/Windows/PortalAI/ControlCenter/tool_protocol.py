@@ -26,7 +26,7 @@ def read_only_tool_attempt(name, args, root) -> bool:
     """
     if root is None or not isinstance(args, dict):
         return False
-    if name in {"read_file", "list_dir", "chat_history"}:
+    if name in {"read_file", "file_inspect", "list_dir", "chat_history"}:
         return True
     if name == 'available_tools':
         return True

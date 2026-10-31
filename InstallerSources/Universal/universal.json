@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "version": "2026.10.31-Desktop-r54",
+  "version": "2026.10.31-Desktop-r55",
   "edition": "Academic",
   "goal": "Prepare all three OS installers on one drive; perform native setup on each OS",
   "download_base_configured": true,
   "assets": [
     {
       "platform": "Windows",
-      "file": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
-      "bytes": 621558357,
-      "sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
-      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r54/PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip"
+      "file": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r55-suite.zip",
+      "bytes": 621599733,
+      "sha256": "e9de8cfb9a7c14ad06c8a94b2502ea0bc339111c095dfe5150a17dc8e8614ead",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r55/PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r55-suite.zip"
     },
     {
       "platform": "Linux",

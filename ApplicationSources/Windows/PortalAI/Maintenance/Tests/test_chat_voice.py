@@ -102,13 +102,13 @@ class SpeechTests(unittest.TestCase):
             self.assertTrue(turn.done.is_set())
 
     def test_cancellation_after_synthesis_prevents_audio_playback(self):
-        voice = VoiceIO(ROOT, lambda: None)
-        def synth(*a, **kw):
-            voice.cancel()
-            return {'files':['unused.wav']}
         with tempfile.TemporaryDirectory() as folder:
+            fixture = Path(folder)
+            voice = VoiceIO(fixture, lambda: None)
             path = Path(folder)/'unused.wav'
-            with patch('piper_bridge.synthesize', side_effect=lambda *a, **kw: (voice.cancel() or {'files':[str(path)]})), \
+            with patch('service_manager.root_dir', return_value=fixture), \
+                 patch.object(voice, '_cpu_memory', return_value={'ram_available_bytes':4*1024**3}), \
+                 patch('piper_bridge.synthesize', side_effect=lambda *a, **kw: (voice.cancel() or {'files':[str(path)]})), \
                  patch('piper_bridge.output_path', return_value=path), patch.object(voice, 'play') as play:
                 with self.assertRaises(VoiceStopped): voice.speak('Hello')
                 play.assert_not_called()

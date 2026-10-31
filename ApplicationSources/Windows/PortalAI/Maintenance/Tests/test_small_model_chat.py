@@ -5,8 +5,15 @@ from unittest.mock import patch
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[2]
+ACADEMIC = (ROOT / 'Agent/academic_policy.py').is_file()
 sys.path.insert(0, str(ROOT / "ControlCenter"))
 import native_chat
+
+
+POLICY_OVERHEAD = 0
+if ACADEMIC:
+    from academic_policy import instruction_suffix
+    POLICY_OVERHEAD = len(instruction_suffix(ROOT))
 
 
 class SmallModelChatTests(unittest.TestCase):
@@ -22,13 +29,13 @@ class SmallModelChatTests(unittest.TestCase):
         self.assertIn("User's specific requirement", prompt)
         self.assertIn("Optional manual:", prompt)
         self.assertIn("Use known tool syntax directly.", prompt)
-        self.assertLess(len(prompt), 5000)
+        self.assertLess(len(prompt), 5000 + POLICY_OVERHEAD)
 
     def test_large_model_uses_compact_guide_unless_full_manual_requested(self):
         panel = SimpleNamespace(root=ROOT, settings={"use_master_instructions": True},
                                 store=SimpleNamespace(custom_instructions=lambda: ""),
                                 _runtime_context_limit=lambda: 32768)
-        self.assertLess(len(native_chat.NativeChat.system_prompt(panel)), 5000)
+        self.assertLess(len(native_chat.NativeChat.system_prompt(panel)), 5000 + POLICY_OVERHEAD)
         panel.settings["include_full_manual"]=True
         self.assertGreater(len(native_chat.NativeChat.system_prompt(panel)), 30000)
 

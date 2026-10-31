@@ -7,14 +7,22 @@ import unittest
 from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[2]
+ACADEMIC = (ROOT / 'Agent/academic_policy.py').is_file()
 sys.path[:0] = [str(ROOT / "Agent"), str(ROOT / "ControlCenter")]
 import native_chat as chat
 from assistant_guidance import host_guidance
 
 
+POLICY_OVERHEAD = 0
+if ACADEMIC:
+    from academic_policy import instruction_suffix
+    POLICY_OVERHEAD = len(instruction_suffix(ROOT))
+
+
 class NicePromptIntegrationTests(unittest.TestCase):
     def setUp(self):
         self.policy = {'variant_preference':'uncensored','media':{'media_variant':'auto'}}
+        if ACADEMIC:self.policy['variant_preference']='standard'
         policy = patch('runtime_policy.load_effective_policy', return_value=self.policy)
         policy.start(); self.addCleanup(policy.stop)
         self.temporary = tempfile.TemporaryDirectory(prefix="portalai-nice-prompt-")
@@ -49,7 +57,7 @@ class NicePromptIntegrationTests(unittest.TestCase):
                 self.assertIn("Your conversational name is Nice", prompt)
                 self.assertIn("structured function tools", prompt)
                 self.assertIn("Synthetic user preference", prompt)
-                self.assertIn("compact tool guide", prompt)
+                self.assertIn("Optional manual:", prompt)
                 self.assertNotIn("SYNTHETIC MANUAL REVISION ONE", prompt)
 
     def test_full_prompt_rereads_master_and_custom_instructions(self):
@@ -70,10 +78,14 @@ class NicePromptIntegrationTests(unittest.TestCase):
         for mode in ('auto','standard','uncensored'):
             self.policy['media']['media_variant']=mode
             prompt=chat.NativeChat.system_prompt(panel)
-            self.assertIn('Saved preferences: chat=uncensored; media='+mode, prompt)
-            self.assertIn('Media auto: choose a supported variant',prompt)
-            self.assertIn('Media standard/uncensored: omit variant unless the user overrides',prompt)
-            self.assertIn('Never switch on refusal or replay a tool',prompt)
+            self.assertIn('Saved preferences: chat='+('standard' if ACADEMIC else 'uncensored')+'; media='+('standard' if ACADEMIC else mode), prompt)
+            if ACADEMIC:
+                self.assertIn('PortalAI Academic uses standard/censored chat and media models only',prompt)
+                self.assertIn('never use a tool to evade a refusal or replay a completed tool',prompt)
+            else:
+                self.assertIn('Media auto: choose a supported variant',prompt)
+                self.assertIn('Media standard/uncensored: omit variant unless the user overrides',prompt)
+                self.assertIn('Never switch on refusal or replay a tool',prompt)
         from profile_paths import ProfileLocked
         with patch('runtime_policy.load_effective_policy',side_effect=ProfileLocked('revoked')):
             with self.assertRaises(ProfileLocked):chat.NativeChat.system_prompt(panel)
@@ -96,7 +108,8 @@ class NicePromptIntegrationTests(unittest.TestCase):
                 for choice in choices:
                     self.policy['media'][key] = choice
                     prompt = chat.NativeChat.system_prompt(panel)
-                    self.assertIn(key+'='+choice, prompt)
+                    expected='standard' if ACADEMIC and key=='media_variant' else choice
+                    self.assertIn(key+'='+expected, prompt)
                     self.assertIn('Repeats use current defaults',prompt)
                     self.assertIn('Named Images stays pinned',prompt)
 
@@ -123,7 +136,7 @@ class NicePromptIntegrationTests(unittest.TestCase):
             with self.subTest(effort=effort):
                 panel = self.panel(effort=effort, custom="Preserve the user's explicit requested output dimensions.")
                 prompt = chat.NativeChat.system_prompt(panel)
-                self.assertLess(len(prompt), 5000)
+                self.assertLess(len(prompt), 5000 + POLICY_OVERHEAD)
                 self.assertIn("Media/science effort: " + effort, prompt)
                 self.assertIn("Explicit user parameters always prevail", prompt)
                 self.assertIn("Search limits do not block other requested work", prompt)

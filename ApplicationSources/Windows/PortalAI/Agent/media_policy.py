@@ -4,6 +4,7 @@ Call after the LLM handoff: free VRAM, not installed VRAM, determines admission.
 These estimates bound supported jobs; they do not promise speed or peak memory.
 """
 from pathlib import Path
+from voice_memory import VoiceMemoryError
 from runtime_policy import ROOT, GIB, detect_hardware, load_effective_policy, portable_path
 
 SD15 = "Generative/ComfyUI_windows_portable/ComfyUI/models/checkpoints/v1-5-pruned-emaonly.safetensors"
@@ -115,7 +116,7 @@ def speech_plan(root=ROOT, model="auto", device="auto", hardware=None, policy=No
         model = "large-v3-turbo" if chosen == "cuda" and vram >= 3*GIB and hw["ram_available_bytes"] >= 6*GIB else "base"
     ram_needed = (3 if model == "base" else 6)*GIB
     if hw["ram_available_bytes"] < ram_needed:
-        raise RuntimeError(f"Whisper {model} needs at least {ram_needed/GIB:g} GiB available RAM including reserve")
+        raise VoiceMemoryError("Speech-to-text", model, ram_needed, hw["ram_available_bytes"])
     if model == "base":
         path = portable_path(root, BASE_STT)
         if not all((path/name).is_file() for name in ("model.bin", "config.json", "tokenizer.json", "vocabulary.txt")):

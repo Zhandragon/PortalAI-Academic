@@ -110,9 +110,6 @@ class ChatEffortControls:
             activebackground=colors['panel'], activeforeground=colors['text'],
             selectcolor=colors['panel2'], font=('Segoe UI Variable Text', 8), bd=0, highlightthickness=0)
         self.variant_check.pack(side='left', padx=(4, 2))
-        self.variant_check.configure(state='disabled')
-        from academic_policy import bind_help
-        bind_help(self.variant_check)
         self.details_button = ElegantButton(self.widget, text='\u2026', command=self.open_details,
             bg=colors['panel2'], fg=colors['text'], relief='flat', bd=0, padx=6, pady=3)
         self.details_button.pack(side='left', padx=2)
@@ -134,6 +131,7 @@ class ChatEffortControls:
                      policy.get('context_tokens'), preferences['chat'])
         if signature == self._choice_signature: return
         self._choice_signature = signature
+        self._sync_linked_voice(preferences['chat'])
         self.profile = preferences['chat']
         self.scale.set(LEVELS.index(self.profile)); self.uncensored.set(variant == 'uncensored')
         self.active_options = {}; self.active_plan = None; self.capability_data = None
@@ -151,9 +149,22 @@ class ChatEffortControls:
         self.sync_saved_choice()
         if self.on_choice_saved: self.on_choice_saved()
 
+    def _sync_linked_voice(self, level):
+        from voice_policy import after_effort_change
+        updated = after_effort_change(self.panel.settings, level)
+        # Automatic remains automatic; no preference write on a mere repaint.
+        if updated['tts_model'] != self.panel.settings.get('tts_model', 'auto'):
+            self.panel.settings.update(updated)
+            self.panel.store.save_settings()
+
     def _variant_changed(self):
-        self.uncensored.set(False)
-        return
+        if self.panel.busy:
+            self.uncensored.set(self._choice_signature[1] == 'uncensored')
+            return
+        try: self._save_model_choice(uncensored=bool(self.uncensored.get()))
+        except Exception as exc:
+            self.uncensored.set(self._choice_signature[1] == 'uncensored')
+            self.panel._notice('Chat variant', 'Could not save the model choice: ' + str(exc), kind='error')
 
     def _changed(self, value):
         chosen = LEVELS[max(0, min(2, int(float(value))))]
@@ -176,6 +187,7 @@ class ChatEffortControls:
             self.scale.set(LEVELS.index(self.profile))
             self.panel._notice('Chat effort', 'Could not save the chat preference: ' + str(exc), kind='error')
             return
+        self._sync_linked_voice(chosen)
         self.profile = chosen
         self.active_options = {}
         self._render()
@@ -228,6 +240,15 @@ class ChatEffortControls:
         suffix = (' \u00b7 locked' if plan.get('locked') else
                   ' \u00b7 unavailable' if plan and not plan.get('available') else
                   ' \u00b7 ' + chosen if plan else '')
+        from voice_policy import resolve
+        capacity = (self.capability_data or {}).get('voice')
+        if capacity:
+            try:
+                voice = resolve(self.panel.settings, self.profile, capacity)
+                suffix += ' · TTS ' + ('Qwen' if voice['id']=='qwen' else 'Piper')
+            except (ValueError, RuntimeError): suffix += ' · TTS unavailable'
+        draft=getattr(self.panel,'_voice_preferences',None)
+        if draft is not None: draft.refresh()
         self.label.configure(text=self.profile.title() + suffix,
                              fg=self.panel.COL['gold'] if plan.get('locked') else self.panel.COL['cyan'])
         if self._details is not None:
@@ -270,6 +291,12 @@ class ChatEffortControls:
             lines.append(f"{name.title()}: {model}; reasoning {reasoning}; "
                          f"up to {plan.get('max_tokens', '?')} output tokens; {state}. "
                          + str(plan.get('reason') or plan.get('warning') or ''))
+        voice = data.get('voice') or {}
+        for row in (voice.get('models') or {}).values():
+            lines.append(row['label'] + ': ' + ('available' if row['available'] else row['reason'])
+                         + f"; {row['ram_required_bytes']/1024**3:g} GiB RAM and {row['vram_required_bytes']/1024**3:g} GiB VRAM admission. Sequential chat/voice handoff preserves memory reserves.")
+        if voice.get('stt'):
+            lines.append('Transcription: Whisper Base on CPU; 3 GiB available RAM including reserve. Fresh admission can release owned chat memory.')
         if self.active_plan:
             lines.append('Last applied: ' + str(self.active_plan.get('profile', self.profile)).title()
                          + ' \u00b7 ' + model_label(self.active_plan.get('model')))

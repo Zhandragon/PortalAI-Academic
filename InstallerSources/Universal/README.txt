@@ -1,4 +1,4 @@
-PortalAI Universal — Academic — 2026.10.31-Desktop-r54
+PortalAI Universal — Academic — 2026.10.31-Desktop-r55
 
 This fourth distribution prepares Windows, Linux and Mac packages together on
 one drive. Run Prepare Universal.cmd on Windows, Prepare Universal.command on
@@ -32,4 +32,4 @@ Old versions, accounts, credentials, settings, model choices and data are retain
 Academic packages download from the configured public GitHub release. Already populated Packages works
 offline for preparation; native setup may still download dependencies.
 
-Windows is r54; Linux and Mac remain r51. See universal.json for exact versions and hashes.
+Windows is r55; Linux and Mac remain r51. See universal.json for exact versions and hashes.
