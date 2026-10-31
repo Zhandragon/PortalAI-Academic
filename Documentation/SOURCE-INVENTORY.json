@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 901
+    "Windows": 902
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -48622,28 +48622,28 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/nice_voice.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "1b29e85c7db597630e9d0bb7f4cc3bcefb7f85c140cad608026d7106da96c615",
-      "lines": 110,
+      "sha256": "74a4e71f80efc96c761e47a9ea16635827bf2ff839f976e80446c1ca74622aa0",
+      "lines": 111,
       "overview": "Expressive Nice voice using the existing SSD-local Qwen TTS runtime.",
       "symbols": [
         {
           "name": "available",
-          "line": 22,
+          "line": 23,
           "kind": "FunctionDef"
         },
         {
           "name": "admit",
-          "line": 36,
+          "line": 37,
           "kind": "FunctionDef"
         },
         {
           "name": "synthesize",
-          "line": 41,
+          "line": 42,
           "kind": "FunctionDef"
         },
         {
           "name": "worker",
-          "line": 91,
+          "line": 92,
           "kind": "FunctionDef"
         }
       ]
@@ -52507,28 +52507,28 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "55bf321a8072eb8cb90d30d62f5777b2a977b1a8bcfcaee8532eec9cc68b120b",
-      "lines": 204,
+      "sha256": "f8f79e51fc0dc5fe63fdcecb6ba0d312ddf2951ad5269bd085b7a15de50548f3",
+      "lines": 226,
       "overview": "Turn-bound microphone transcription and cancellable, offline spoken replies.",
       "symbols": [
         {
           "name": "VoiceStopped",
-          "line": 18,
+          "line": 25,
           "kind": "ClassDef"
         },
         {
           "name": "VoiceTurn",
-          "line": 23,
+          "line": 30,
           "kind": "ClassDef"
         },
         {
           "name": "spoken_chunks",
-          "line": 46,
+          "line": 53,
           "kind": "FunctionDef"
         },
         {
           "name": "VoiceIO",
-          "line": 64,
+          "line": 71,
           "kind": "ClassDef"
         }
       ]
@@ -55351,7 +55351,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "990a0aed84bb37d5748390f0f157e8c845d6ec3fcfb1e8da757f2320d937f0db",
+      "sha256": "af6da3f9434217c0f2f556d97bc9f95675c8f24b964f42306e96a14181776f99",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -60429,7 +60429,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_voice.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "81811a559c9f4ae055b2e750a811633c23e76d314acdb1159ad8b97dbe15f9c3",
+      "sha256": "b54e0a4270ff73b24fdb2448df3d438e23f78af42bc5ae57d587f1b2c115fe86",
       "lines": 88,
       "overview": "Voice choice and integrity regressions for Nice's English male preset.",
       "symbols": [
@@ -62151,6 +62151,26 @@
         {
           "name": "VoiceMemoryTests",
           "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_onset.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "f01b1ad11952c0bdf99df74af1cef60707cc920cdda196798ae2df52e07d9a9c",
+      "lines": 123,
+      "overview": "Speech onset, same-stream priming, visualizer timing and cancellation tests.",
+      "symbols": [
+        {
+          "name": "PlaybackTests",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FilterSampleTests",
+          "line": 93,
           "kind": "ClassDef"
         }
       ]

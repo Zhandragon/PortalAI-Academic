@@ -55,7 +55,7 @@ class NiceVoiceTests(unittest.TestCase):
             self.assertEqual(synth.call_args.kwargs['voice'], policy.NICE_VOICE)
             self.assertEqual(play.call_args.kwargs['pitch_semitones'],2.0)
 
-    def test_expressive_voice_owns_handoff_and_keeps_natural_pitch(self):
+    def test_expressive_voice_owns_handoff_and_uses_approved_pitch(self):
         with tempfile.TemporaryDirectory() as folder:
             voice=VoiceIO(folder,lambda:None);path=Path(folder)/'reply.wav'
             with patch('nice_voice.available',return_value=True),patch('piper_bridge.output_path',return_value=path), \
@@ -65,7 +65,7 @@ class NiceVoiceTests(unittest.TestCase):
                 voice.speak('We can face this together.')
             self.assertTrue(stage.call_args.kwargs['require_handoff'])
             synth.assert_called_once();basic.assert_not_called()
-            self.assertEqual(play.call_args.kwargs['pitch_semitones'],0)
+            self.assertEqual(play.call_args.kwargs['pitch_semitones'],-.5)
 
     def test_expressive_failure_never_replays_in_basic_voice(self):
         with tempfile.TemporaryDirectory() as folder:

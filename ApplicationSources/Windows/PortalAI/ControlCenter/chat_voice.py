@@ -1,6 +1,6 @@
 """Turn-bound microphone transcription and cancellable, offline spoken replies.
 
-Hands-free uses the installed English CPU voice. Model text remains unchanged;
+Hands-free uses the selected local voice. Model text remains unchanged;
 speech omits Markdown syntax and describes code blocks instead of reading code.
 No microphone samples are submitted while a reply is being spoken.
 """
@@ -13,6 +13,13 @@ import subprocess
 import threading
 import time
 import wave
+
+
+# Prime the newly opened output stream before its first speech sample. A Python
+# sleep before launching the player cannot warm the device. Keep this after any
+# pitch filter so its complete output is delayed without changing the voice.
+PLAYBACK_LEAD_SECONDS = 0.5
+PLAYBACK_TAIL_SECONDS = 0.35
 
 
 class VoiceStopped(RuntimeError):
@@ -135,7 +142,7 @@ class VoiceIO:
                         result = synthesize(chunk, root=self.root, output=str(path), check=check, voice=NICE_VOICE)
                     if Path(result['files'][0]) != path: raise RuntimeError('Voice output identity changed')
                     check()
-                    self.play(path, check=check, pitch_semitones=0 if expressive else 2.0)
+                    self.play(path, check=check, pitch_semitones=nice_voice.PLAYBACK_PITCH_SEMITONES if expressive else 2.0)
                 self._stage('speech', admit, speak, require_handoff=expressive)
             finally:
                 # This call created a new, unique speech output. Keep the chat
@@ -154,11 +161,21 @@ class VoiceIO:
             player = self.root/'Tools/ffmpeg/bin/ffplay.exe'
             if not player.is_file(): raise FileNotFoundError('Bundled audio player is missing')
             command = [str(player), '-nodisp', '-autoexit', '-loglevel', 'error', '-nostats']
+            filters = []
             if pitch_semitones:
                 # Bundled FFmpeg rubberband changes pitch without accelerating speech.
-                command += ['-af', 'rubberband=pitch=' + format(2 ** (pitch_semitones / 12), '.9f')]
+                filters.append('rubberband=pitch=' + format(2 ** (pitch_semitones / 12), '.9f'))
+            lead_seconds = PLAYBACK_LEAD_SECONDS
+            tail_seconds = PLAYBACK_TAIL_SECONDS
+            filters.append('adelay=' + str(round(lead_seconds * 1000)) + ':all=1')
+            # Let the final speech samples reach the device before autoexit closes
+            # its audio handle. This follows pitch processing and preserves it.
+            filters.append('apad=pad_dur=' + format(tail_seconds, 'g'))
+            command += ['-af', ','.join(filters)]
             command.append(str(path))
         else:
+            lead_seconds = 0.0
+            tail_seconds = 0.0
             import media_devices
             command = media_devices.owned_linux_command(
                 self.root, media_devices.linux_player_command(self.root, path, audio_only=True))
@@ -171,7 +188,7 @@ class VoiceIO:
                     envelope.append(pcm_level(data))
         check = check or self.check
         check()
-        self.status('speaking', 'Nice is speaking')
+        self.status('thinking', 'Preparing audio playback…')
         proc = job = None
         try:
             proc = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
@@ -180,13 +197,18 @@ class VoiceIO:
                                     **worker_process_options())
             job = WorkerJob(proc)
             started = time.monotonic()
-            deadline = started + duration + 30
+            deadline = started + lead_seconds + duration + tail_seconds + 30
+            speaking = False
             while True:
                 check()
                 job.check()
+                elapsed = time.monotonic() - started - lead_seconds
+                if elapsed >= 0 and not speaking:
+                    self.status('speaking', 'Nice is speaking')
+                    speaking = True
                 if self.activity is not None and envelope:
-                    index = min(len(envelope) - 1, int((time.monotonic() - started) / .1))
-                    self.activity.level(envelope[index], source='speaker')
+                    level = envelope[min(len(envelope) - 1, int(elapsed / .1))] if 0 <= elapsed < duration else 0
+                    self.activity.level(level, source='speaker')
                 if time.monotonic() > deadline: raise TimeoutError('Audio playback timed out')
                 try:
                     _, error = proc.communicate(timeout=.1)

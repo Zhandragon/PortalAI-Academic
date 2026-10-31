@@ -671,6 +671,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_vm_runner.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_vm_runner.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_voice_layout.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_layout.py) | Temporary compact voice views preserve the normal composer and transcript. |
 | [Maintenance/Tests/test_voice_memory.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_memory.py) | Voice admission may recover only before effects, using owned healthy restoration. |
+| [Maintenance/Tests/test_voice_onset.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_onset.py) | Speech onset, same-stream priming, visualizer timing and cancellation tests. |
 | [Maintenance/Tests/test_voice_policy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_policy.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_voice_visualizer.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_visualizer.py) | Real Tk rendering, PCM state, and muted capture using disposable audio. |
 | [Maintenance/Tests/test_wallet_rpc_identity.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_wallet_rpc_identity.py) | The public RPC receives an honest product identity and retains redirect guards. |

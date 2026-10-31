@@ -1,7 +1,7 @@
 {
-  "release": "PortalAI-2026.10.31-Desktop-r56-suite-Academic-Windows",
-  "payload_bytes": 669301437,
-  "payload_files": 5190,
+  "release": "PortalAI-2026.10.31-Desktop-r57-suite-Academic-Windows",
+  "payload_bytes": 669311711,
+  "payload_files": 5192,
   "bootstrap_bytes": 22640669,
   "components": [
     {

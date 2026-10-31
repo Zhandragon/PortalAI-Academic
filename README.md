@@ -1,5 +1,8 @@
 <p align="center">
 
+**Windows r57 (2026-10-31):** Complete speech playback and a composed adult Nice voice. Brief silent padding protects the opening and ending of spoken replies, with matching visualizer timing and the user-approved voice settings. No new dependencies or model weights. [Details](Documentation/VOICE-ONSET-r57.md). Exit and reopen PortalAI normally after updating. Linux/Mac remain r51.
+
+
 **Windows r56 (2026-10-31):** Context overflow repair across Fast/Balanced/Deep. Nice starts with a small capability index and loads exact tool schemas and matching workflows on demand. Typed and hands-free chat share the repaired admission path. No new dependencies or model weights. [Details and source map](Documentation/CONTEXT-ADMISSION-r56.md). Exit and reopen PortalAI normally after updating. Linux/Mac remain r51.
 
 
@@ -148,7 +151,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r56/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r56.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r57/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r57.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

@@ -1,0 +1,13 @@
+# Complete speech playback and Nice voice — Windows r57
+
+The generated Qwen WAV contained the opening word, but the user heard it clipped in a full hands-free cycle. Standalone original/padded clips both sounded complete, and a WASAPI loopback marker retained its first 120ms. A 500ms silent lead-in within the same playback stream fixed the full-cycle reproduction, confirmed by the user. Later the user heard the end of the approved voice preview clipped; replaying that exact clip with a 350ms silent tail fixed the ending, also confirmed. The evidence establishes playback-startup/drain sensitivity, not a specific speaker or driver defect.
+
+`ControlCenter/chat_voice.py` now applies Windows playback filters in order: the chosen pitch adjustment, `adelay=500:all=1`, then `apad=pad_dur=0.35`. The lead-in primes the opened audio stream; the tail gives the last speech samples time to reach the device before autoexit closes it. All output samples from the pitch filter are retained exactly between those silent regions. No fade-in or trim touches speech. A sleep before opening the player would not prime its device. Piper keeps its existing +2-semitone adjustment.
+
+Nice's Qwen voice uses the existing Ryan/CustomVoice model, with a concise direction for a warm, composed, self-assured adult man around thirty, natural conversational pacing and subtle expression. The user approved the final sample with a small -0.5-semitone adjustment. Pitch changes do not alter tempo. No new models, cloned references or voice assets were added. As with any generated speech, delivery can vary between utterances.
+
+The orb stays settled during priming, its envelope accounts for the lead-in, and the level returns to zero during the tail. Stop/account checks continue throughout, and only the owned player is terminated. Playback timeouts include both pads. No resident service, new dependency, alternate Python tree or extra production output WAV is introduced; the existing player holds the short delay buffers. Windows playback adds 500ms before speech and 350ms after it.
+
+Regression tests cover exact mono/stereo samples before and after padding, both approved Qwen and unchanged Piper pitch paths, Stop/account revocation during priming, failed-player cleanup and visualizer timing. The full Whisper/4B/Qwen cycle used synthetic microphone input and actual speaker output heard by the user. Other audio devices, physical microphone capture and a complete fresh recipient installation were not tested. Linux/Mac players are unchanged.
+
+Source: [chat_voice.py](../ControlCenter/chat_voice.py), [nice_voice.py](../Agent/nice_voice.py). Tests: [test_voice_onset.py](../Maintenance/Tests/test_voice_onset.py). Exit and reopen PortalAI normally.

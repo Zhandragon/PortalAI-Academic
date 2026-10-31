@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Current Windows package: [r56 context admission and on-demand tools](CONTEXT-ADMISSION-r56.md), [validation](CONTEXT-ADMISSION-VALIDATION-r56.json), [installer verification](WINDOWS-INSTALLER-r56.json). Includes the r55 hands-free speech/visualizer and earlier listener/history repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r57 voice onset and poised delivery](VOICE-ONSET-r57.md), [validation](VOICE-ONSET-VALIDATION-r57.json), [installer verification](WINDOWS-INSTALLER-r57.json). Includes r56 on-demand tools/context admission and earlier voice, listener and history repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

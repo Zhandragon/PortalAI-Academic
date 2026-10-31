@@ -12,12 +12,13 @@ import time
 import uuid
 import wave
 
-INSTRUCTION = ('Speak as a youthful adult male hero, in a bright clear upper-mid register. '
-    'Be charismatic, warm, courageous and quietly confident. Use natural human rhythm, '
-    'expressive rising and falling intonation, meaningful emphasis and short pauses. '
-    'Sound engaged and alive, like speaking directly to a friend. Keep it conversational; '
-    'no robotic monotone, no gravelly bass, no shouting and no exaggerated announcer voice.')
+INSTRUCTION = ('Speak naturally as a warm, self-assured man around thirty, with a relaxed '
+    'midrange voice. Use everyday conversational pacing and easy, subtle expression. '
+    'Sound composed, quietly confident and welcoming, with unforced warmth and kindness.')
 
+
+# User-approved small pitch adjustment; tempo stays unchanged.
+PLAYBACK_PITCH_SEMITONES = -0.5
 
 def available(root):
     """Check installed capability, not currently free VRAM before chat release."""

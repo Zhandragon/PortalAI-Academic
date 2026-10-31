@@ -1,0 +1,253 @@
+{
+  "passed": true,
+  "version": "2026.10.31-Desktop-r57",
+  "edition": "Academic",
+  "archive_sha256": "5dfae0448ae939a28b213eac7eb6cde28ef8af14a3b263cd457c682a3048b9b9",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 516,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1594,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "name": "python-bootstrap.zip",
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "passed": true,
+      "bytes": 11439094
+    },
+    {
+      "name": "installer_core.py",
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "passed": true,
+      "bytes": 39062
+    },
+    {
+      "name": "engine_cli.py",
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "passed": true,
+      "bytes": 4572
+    },
+    {
+      "name": "installer_storage.py",
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "passed": true,
+      "bytes": 4593
+    },
+    {
+      "name": "portable_update.py",
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "passed": true,
+      "bytes": 17915
+    },
+    {
+      "name": "suite_installer.py",
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "passed": true,
+      "bytes": 27664
+    },
+    {
+      "name": "abliterator_installer_core.py",
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "passed": true,
+      "bytes": 29697
+    }
+  ],
+  "all_published_windows_source_matches_payload": true,
+  "component_pins_unchanged": true,
+  "catalog": {
+    "passed": true,
+    "windows_r57_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "onset_and_voice": {
+    "version": "2026.10.31-Desktop-r57",
+    "onset_confirmed_in_full_handsfree": true,
+    "user_confirmed_lead_in_fixed_it": true,
+    "lead_ms": 500,
+    "tail_ms": 350,
+    "user_confirmed_tail_fixed_ending": true,
+    "voice_direction": {
+      "pitch_semitones": -0.5,
+      "user_approved": true,
+      "feedback": "Yes, keep it",
+      "age_direction": "Adult man around thirty",
+      "sample": "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Onset-20261031\\qwen-grounded-sample.wav",
+      "generation": {
+        "playback_pitch_semitones": -0.75,
+        "input": "That makes sense. Give me a moment to look it over, and I'll walk you through it.",
+        "transcription_of_original_wav": "That makes sense. Give me a moment to look it over, and I'll walk you through it.",
+        "first_audible_frame_seconds": 0.08,
+        "duration": 4.48,
+        "sample": "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Onset-20261031\\qwen-grounded-sample.wav",
+        "output_frames": 107520,
+        "first_20ms_rms": [
+          0.6191391873668903,
+          0.48733971724044817
+        ]
+      },
+      "approved_final_playback_pitch_semitones": -0.5,
+      "lead_ms": 500,
+      "tail_ms": 350,
+      "user_confirmed_complete_ending": true,
+      "ending_feedback": "Yes, the ending is complete"
+    },
+    "new_dependencies": false,
+    "new_model_weights": false,
+    "independent_full_installations": true,
+    "physical_microphone_tested": false,
+    "human_speaker_playback_confirmed": true,
+    "baseline_handsfree": {
+      "passed": true,
+      "physical_microphone": false,
+      "human_audibility_confirmed": false,
+      "scope": "Real full default prompts/catalog and context admission; native worker, Whisper, local model, TTS and audio-device playback. Synthetic WAV ingress; no owner account.",
+      "level": "balanced",
+      "model": "qwen4-q4",
+      "voice": "qwen",
+      "contexts": [
+        {
+          "estimated_input": 1963,
+          "estimated_sent": 5248,
+          "budget": 7372,
+          "model_limit": 8192,
+          "output_reserve": 2048,
+          "requested_output": 2048,
+          "tool_count": 3
+        }
+      ],
+      "order": [
+        "listen",
+        "transcribe",
+        "submit",
+        "speak",
+        "drain",
+        "listen",
+        "closed"
+      ],
+      "generated_audio_copy": "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Onset-20261031\\handsfree-qwen.wav",
+      "turns": 1,
+      "spoken_replies": [
+        "Hello! I'm here. How can I assist you today?"
+      ],
+      "visible_replies_verified": true,
+      "automatic_listening_resumed": true,
+      "cleanup_stopped_pids": [
+        30948
+      ],
+      "user_reported_opening_clipped": true
+    },
+    "protected_handsfree": {
+      "passed": true,
+      "physical_microphone": false,
+      "human_audibility_confirmed": true,
+      "scope": "Real full default prompts/catalog and context admission; native worker, Whisper, local model, TTS and audio-device playback. Synthetic WAV ingress; no owner account.",
+      "level": "balanced",
+      "model": "qwen4-q4",
+      "voice": "qwen",
+      "contexts": [
+        {
+          "estimated_input": 1963,
+          "estimated_sent": 5248,
+          "budget": 7372,
+          "model_limit": 8192,
+          "output_reserve": 2048,
+          "requested_output": 2048,
+          "tool_count": 3
+        }
+      ],
+      "order": [
+        "listen",
+        "transcribe",
+        "submit",
+        "speak",
+        "drain",
+        "listen",
+        "closed"
+      ],
+      "generated_audio_copy": "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Onset-20261031\\handsfree-qwen-protected.wav",
+      "turns": 1,
+      "spoken_replies": [
+        "Hello! I'm here. How can I assist you today?"
+      ],
+      "visible_replies_verified": true,
+      "automatic_listening_resumed": true,
+      "cleanup_stopped_pids": [
+        27008
+      ],
+      "user_feedback": "Yes, it fixed the opening"
+    },
+    "baseline_wav_had_complete_opening": true,
+    "standalone_AB_both_sounded_complete": true,
+    "output_loopback_opening_marker_preserved_ms": 120,
+    "drives": {
+      "D": {
+        "tests": {
+          "passed": true,
+          "tests": 516,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "ControlCenter/chat_voice.py": "f8f79e51fc0dc5fe63fdcecb6ba0d312ddf2951ad5269bd085b7a15de50548f3",
+          "ControlCenter/release_version.py": "af6da3f9434217c0f2f556d97bc9f95675c8f24b964f42306e96a14181776f99",
+          "Maintenance/Tests/test_voice_onset.py": "f01b1ad11952c0bdf99df74af1cef60707cc920cdda196798ae2df52e07d9a9c",
+          "Documentation/Voice_Onset_r57.md": "ce120e6124fa5e58d5c256ac9fc9c7a817e6d6956957db05f6f81b87dc354eba",
+          "Agent/nice_voice.py": "74a4e71f80efc96c761e47a9ea16635827bf2ff839f976e80446c1ca74622aa0",
+          "Maintenance/Tests/test_nice_voice.py": "b54e0a4270ff73b24fdb2448df3d438e23f78af42bc5ae57d587f1b2c115fe86"
+        }
+      },
+      "E": {
+        "tests": {
+          "passed": true,
+          "tests": 516,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "ControlCenter/chat_voice.py": "f8f79e51fc0dc5fe63fdcecb6ba0d312ddf2951ad5269bd085b7a15de50548f3",
+          "ControlCenter/release_version.py": "af6da3f9434217c0f2f556d97bc9f95675c8f24b964f42306e96a14181776f99",
+          "Maintenance/Tests/test_voice_onset.py": "f01b1ad11952c0bdf99df74af1cef60707cc920cdda196798ae2df52e07d9a9c",
+          "Documentation/Voice_Onset_r57.md": "ce120e6124fa5e58d5c256ac9fc9c7a817e6d6956957db05f6f81b87dc354eba",
+          "Agent/nice_voice.py": "74a4e71f80efc96c761e47a9ea16635827bf2ff839f976e80446c1ca74622aa0",
+          "Maintenance/Tests/test_nice_voice.py": "b54e0a4270ff73b24fdb2448df3d438e23f78af42bc5ae57d587f1b2c115fe86"
+        }
+      }
+    }
+  },
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "5dfae0448ae939a28b213eac7eb6cde28ef8af14a3b263cd457c682a3048b9b9",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

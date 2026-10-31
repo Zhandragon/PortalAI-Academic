@@ -1,24 +1,24 @@
-PortalAI 2026.10.31-Desktop-r56 - Academic-Windows
+PortalAI 2026.10.31-Desktop-r57 - Academic-Windows
 Progress assistance defaults on: Chat Preferences > Tools & limits provides independent opt-outs.
 See Documentation/Task_Progress_r51.txt in the installed application for tested limits.
 
-PortalAI 2026.10.31-Desktop-r56 - Academic-Windows
+PortalAI 2026.10.31-Desktop-r57 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
 
-PortalAI 2026.10.31-Desktop-r56 - Academic-Windows
+PortalAI 2026.10.31-Desktop-r57 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.10.31-Desktop-r56 - Academic-Windows
+PortalAI 2026.10.31-Desktop-r57 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.10.31-Desktop-r56 — Academic-Windows
+PortalAI 2026.10.31-Desktop-r57 — Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.10.31-Desktop-r56 — Academic-Windows
+PortalAI suite 2026.10.31-Desktop-r57 — Academic-Windows
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -30,7 +30,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.10.31-Desktop-r56 — Academic Windows
+PortalAI 2026.10.31-Desktop-r57 — Academic Windows
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,
@@ -81,3 +81,5 @@ Windows r54: history Delete previews and deletes all selected chats. See Documen
 Windows r55: hands-free voice memory handoff and audio-reactive PortalAI visualizer. See Documentation/Voice_Memory_r55.md.
 
 Windows r56: context overflow repair and on-demand tool/workflow loading across effort levels. See Documentation/Context_Admission_r56.md.
+
+Windows r57: protect speech onset with a 500ms playback lead-in. See Documentation/Voice_Onset_r57.md.
