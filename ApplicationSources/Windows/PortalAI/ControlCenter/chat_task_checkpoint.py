@@ -80,7 +80,7 @@ class Cycle:
         return ''
 
     def progress(self, name, args, result):
-        if name in (NAME,'chat_history'):return
+        if name in (NAME,'chat_history','tool_help'):return
         signature=hashlib.sha256(json.dumps([name,args,result],sort_keys=True,ensure_ascii=True).encode()).hexdigest()
         if signature not in self.results:
             self.results.add(signature);self.since_progress=0;self.notes.clear()

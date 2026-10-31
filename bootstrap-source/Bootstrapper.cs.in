@@ -18,7 +18,7 @@ internal static class Bootstrap {
     internal const string Source = "@SOURCE@";
     internal const string Archive = "@ARCHIVE@";
     internal const string ArchiveHash = "@ARCHIVE_HASH@";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261031-Desktop-r55-Windows";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261031-Desktop-r56-Windows";
     internal static readonly Item[] Parts = new Item[] { @PARTS@ };
     internal static readonly Item[] Files = new Item[] { @FILES@ };
     internal static string Digest(string path) {

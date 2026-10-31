@@ -238,7 +238,7 @@ def context_limit_from_props(props: dict) -> int | None:
         if isinstance(x, dict):
             for k, v in x.items():
                 key = str(k).lower()
-                if isinstance(v, (int, float)) and 2048 <= int(v) <= 2_000_000:
+                if isinstance(v, (int, float)) and 512 <= int(v) <= 2_000_000:
                     if key in preferred:
                         hits.append((0, int(v)))
                     elif key in fallback:
@@ -252,6 +252,9 @@ def context_limit_from_props(props: dict) -> int | None:
     if not hits:
         return None
     best_rank = min(rank for rank, _ in hits)
+    if best_rank != 0:
+        # Training capacity does not describe the server's allocated KV cache.
+        return None
     vals = [v for rank, v in hits if rank == best_rank]
     # Prefer the smallest plausible active context when multiple values are exposed;
     # training context can be much larger than the server's actual allocation.
@@ -539,7 +542,7 @@ def _tool_metadata(call, *, known_tool=True):
     name = function.get('name') if isinstance(function, dict) else None
     if not isinstance(name, str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_-]{0,127}', name):
         raise InvalidToolBatch('Tool call has a missing or invalid function name.')
-    if known_tool and name not in {row['function']['name'] for row in TOOLS}:
+    if known_tool and name not in ({row['function']['name'] for row in TOOLS} | {'tool_help'}):
         raise InvalidToolBatch(f'Tool call names an unavailable function: {name}.')
     return identifier, name, function
 
@@ -1407,7 +1410,7 @@ def _request_scope(panel):
     return 'maintenance' if getattr(panel, 'settings', {}).get('maintenance_mode', False) else 'all'
 
 
-def _request_tools(panel):
+def _scoped_tools(panel):
     """Explicit host-selected task menu; never an account permission grant."""
     if _request_scope(panel) == 'maintenance':
         names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'file_inspect', 'write_file',
@@ -1422,7 +1425,13 @@ def _request_tools(panel):
     stall = getattr(panel, '_coding_stall', None)
     rows = stall.menu(rows) if stall is not None else rows
     progress = getattr(panel, '_task_progress', None)
-    return progress.menu(rows) if progress is not None else rows
+    rows = progress.menu(rows) if progress is not None else rows
+    return rows
+
+
+def _request_tools(panel):
+    from chat_tool_menu import request_menu
+    return request_menu(panel, _scoped_tools(panel))
 
 
 class WindowsFileDrop:
@@ -1629,6 +1638,8 @@ class NativeChat:
         self._model_context_limit: int | None = None
         self._model_context_checked = 0.0
         self._last_context_meta: dict = {}
+        from chat_tool_menu import Selection
+        self._tool_selection = Selection()
         # UI performance: never perform model HTTP probes on Tk's main thread.
         # Streaming trace bodies also stay buffered in Python while collapsed so
         # a fast reasoning/tool stream cannot force thousands of Tk Text inserts.
@@ -3755,14 +3766,18 @@ class NativeChat:
             pieces.append(progress.guidance())
         from academic_policy import instruction_suffix
         pieces.append(instruction_suffix(self.root))
-        if _request_scope(self) == 'maintenance':
+        from chat_tool_menu import enabled as progressive_tools, guidance as tool_guidance
+        if progressive_tools(self):
+            pieces.append(tool_guidance(self, _scoped_tools(self)))
+        elif _request_scope(self) == 'maintenance':
             from maintenance_tools import GUIDANCE
             pieces.append('\n\n' + GUIDANCE)
             from source_navigation import progress_guidance
             pieces.append(progress_guidance((getattr(self, 'session', None) or {}).get('messages', ())))
             return ''.join(pieces).strip()
-        pieces.append(host_guidance(self.root))
-        pieces.append(media_preference_guidance(self.root))
+        if not progressive_tools(self):
+            pieces.append(host_guidance(self.root))
+            pieces.append(media_preference_guidance(self.root))
         effort = getattr(self, 'effort', None)
         if effort is not None:
             level = effort.active_tools_profile
@@ -3836,28 +3851,33 @@ class NativeChat:
 
     def _runtime_context_limit(self) -> int | None:
         now = time.time()
-        if self._model_context_limit and now - self._model_context_checked < 60:
+        if getattr(self, '_model_context_limit', None) and now - getattr(self, '_model_context_checked', 0) < 60:
             return self._model_context_limit
         props = model_props()
         lim = context_limit_from_props(props)
         self._model_context_checked = now
         if lim:
             self._model_context_limit = lim
-        return self._model_context_limit
+            return lim
+        # A loaded effort plan is a conservative fallback if props is unavailable.
+        active = getattr(getattr(self, 'effort', None), 'active_plan', None) or {}
+        candidates = [n for n in (getattr(self, '_model_context_limit', None), active.get('context_tokens'))
+                      if isinstance(n, int) and n >= 512]
+        return min(candidates) if candidates else None
 
     def _effective_context_budget(self, minimum_fixed: int = 0) -> tuple[int, int | None]:
         configured = int(self.settings.get("context_budget_tokens") or 0)
         model_limit = self._runtime_context_limit()
+        if not model_limit:
+            raise RuntimeError('Cannot verify the active model context. Wait for model loading to finish and retry; no request was sent.')
         if configured > 0:
             target = configured
         elif model_limit:
             # Leave real headroom for tokenizer-estimation error and server bookkeeping.
-            target = max(4096, int(model_limit * 0.90))
-        else:
-            target = max(16384, minimum_fixed + 4096)
+            target = int(model_limit * 0.90)
         if model_limit:
-            target = min(target, max(2048, model_limit - 512))
-        return max(2048, target), model_limit
+            target = min(target, int(model_limit * 0.90), max(1, model_limit - min(512, model_limit // 4)))
+        return max(1, target), model_limit
 
     def _trim_tool_context(self, text: str) -> str:
         from chat_evidence import excerpt
@@ -4117,9 +4137,20 @@ class NativeChat:
         }
 
     def api_messages(self) -> tuple[list[dict], int]:
+        # Worker-side refresh on each request: effort changes or voice handoffs
+        # can replace the server within the old 60-second properties cache.
+        self._model_context_checked = 0.0
         plan=self._context_plan()
         self._last_context_meta=plan
         if plan['estimated_sent'] > plan['budget']:
+            baseline = plan['fixed'] - plan['output_reserve'] + min(256, plan['output_reserve'])
+            if baseline > plan['budget']:
+                raise RuntimeError('The current request does not fit the active context: '
+                    f"active instructions, tool definitions and reserves require at least {baseline:,} tokens "
+                    f"before conversation content; the request has a {plan['budget']:,}-token budget. "
+                    'Increase the loaded context (the full default harness is tested at 8,192 or more), '
+                    'or reduce optional custom instructions/manuals. Shortening a greeting will not fix this. '
+                    'Saved messages were not truncated.')
             raise RuntimeError('The current request does not fit the active context: '
                 f"estimated input {plan['estimated_input']:,} + reply allowance {plan['output_reserve']:,} "
                 f"+ safety and continuation reserves exceeds the {plan['budget']:,}-token request budget. "
@@ -5245,6 +5276,12 @@ class NativeChat:
                                 for call in (row.get('tool_calls') or []) if isinstance(call, dict)}
                 previous_ids.update(row.get('tool_call_id') for row in self.session['messages'] if row.get('role') == 'tool')
                 prepared = validate_tool_batch(calls, previous_ids=previous_ids)
+                if any(name=='tool_help' for _call,name,_args in prepared) and len(prepared)!=1:
+                    raise InvalidToolBatch('tool_help must be called alone; loaded tools become available next turn.')
+                from chat_tool_menu import enabled as progressive_tools
+                offered_names = {row['function']['name'] for row in _request_tools(self)} if progressive_tools(self) else None
+                if offered_names is not None and any(name not in offered_names for _call,name,_args in prepared):
+                    raise InvalidToolBatch('A tool was called before loading its definition. Use tool_help alone first. No actions from this response were executed.')
                 if any(name=='chat_checkpoint' for _call,name,_args in prepared):
                     if len(prepared)!=1:
                         raise InvalidToolBatch('chat_checkpoint must be called alone, between completed tool batches.')
@@ -5291,7 +5328,7 @@ class NativeChat:
                             result = blocked
                         else:
                             from tool_protocol import read_only_tool_attempt
-                            read_only = name in ('chat_history','chat_checkpoint','inspect_environment','source_search','source_map') or read_only_tool_attempt(name, args, getattr(self, 'root', None))
+                            read_only = name in ('tool_help','chat_history','chat_checkpoint','inspect_environment','source_search','source_map') or read_only_tool_attempt(name, args, getattr(self, 'root', None))
                             execution['effectful'] = not read_only
                             action_key = (name, json.dumps(args, sort_keys=True, ensure_ascii=True))
                             if not read_only:
@@ -5328,6 +5365,9 @@ class NativeChat:
                                         'continue_automatically':accepted_checkpoint is not None,
                                         'next_step':note['next_step'], 'reason':self._checkpoint_final_only,
                                         'notice':'Saved tool outcomes remain authoritative. No tool or reasoning policy is overridden.'})
+                                elif name=='tool_help':
+                                    from chat_tool_menu import load
+                                    result = load(self, args, _scoped_tools(self))
                                 else:
                                     result = self._chat_history(args) if name == 'chat_history' else self.tool_runtime.execute(name, args)
                                 execution['outcome'] = 'returned'

@@ -203,6 +203,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/chat_progress.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_progress.py) | Honest model progress and bounded inference waits, without replaying actions. |
 | [ControlCenter/chat_summary_recovery.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_summary_recovery.py) | Bounded recovery from incomplete reasoning summaries, without another model call. |
 | [ControlCenter/chat_task_checkpoint.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_task_checkpoint.py) | Model-requested checkpoints inside one active chat; no background wakeups. |
+| [ControlCenter/chat_tool_menu.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py) | Request-local capability discovery and on-demand tool/workflow guidance. |
 | [ControlCenter/chat_voice.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py) | Turn-bound microphone transcription and cancellable, offline spoken replies. |
 | [ControlCenter/chat_working_memory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_working_memory.py) | Rolling, source-linked working memory; raw messages remain the authority. |
 | [ControlCenter/chat_zoom.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_zoom.py) | Conversation-only zoom; no history rebuild, disk images or player restart. |
@@ -438,6 +439,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_chat_context_budget.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_budget.py) | Context admission and UI distinctions without Tk, files, or model requests. |
 | [Maintenance/Tests/test_chat_context_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_recovery.py) | Real prompt overhead and small-context recovery without model/tool execution. |
 | [Maintenance/Tests/test_chat_effort_ui.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_effort_ui.py) | No module overview; see source and symbol inventory. |
+| [Maintenance/Tests/test_chat_full_context.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_full_context.py) | Real default prompts/catalog across effort levels, with no private account I/O. |
 | [Maintenance/Tests/test_chat_handoff.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_chat_handoff_effort_smoke.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff_effort_smoke.py) | The real GUI preparation is shared with headless handoff checks. |
 | [Maintenance/Tests/test_chat_header_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_header_tk.py) | Measure the actual native-chat header in off-screen synthetic Tk windows. |
@@ -607,6 +609,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_profile_shutdown_exit_races.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_shutdown_exit_races.py) | Same-handle Windows exit races; mocked ABI, no real process termination. |
 | [Maintenance/Tests/test_profile_snapshot_stream.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_snapshot_stream.py) | Streaming snapshot integrity and commit gates, using synthetic data only. |
 | [Maintenance/Tests/test_profile_workspace.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_workspace.py) | Synthetic encrypted-profile recovery tests; never open production user data. |
+| [Maintenance/Tests/test_progressive_tool_worker.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_progressive_tool_worker.py) | The native worker loads documentation without granting or replaying effects. |
 | [Maintenance/Tests/test_protein_structure.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_protein_structure.py) | Synthetic PDB/mmCIF, explicit sequence edits, and admission regressions. |
 | [Maintenance/Tests/test_public_bootstrap.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_public_bootstrap.py) | Public startup retains preflight and rejects one-off mission migration arguments. |
 | [Maintenance/Tests/test_public_repair_packaging.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_public_repair_packaging.py) | Public Windows runtime wheelhouse scope; no installation or account access. |

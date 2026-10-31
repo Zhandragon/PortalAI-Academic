@@ -1,0 +1,19 @@
+# Context admission and on-demand tools — Windows r56
+
+A short greeting overflowed the 8,192-token model context because every request carried the full tool catalog and unrelated workflow instructions. This affected typed chat and hands-free chat across effort levels; neither Piper nor Qwen TTS was the cause.
+
+Nice now starts with its identity, common account/Stop/evidence rules, the user's instructions, current runtime facts, chat history/checkpoint tools and a small capability index. When tools are needed, Nice calls `tool_help(tools=[...])` alone. On the next model turn the harness supplies the selected tools' **complete original parameter schemas and descriptions**, plus matching file, research, media, science, workspace, agent or desktop workflows. There is no extra routing model or background service.
+
+Up to four optional tools can be selected. Each selection replaces the previous one, and a new user turn or chat clears it. Different capabilities can be loaded sequentially for a multi-step task. The host's bounded coding-recovery mode may supply its own narrow write/read menu. Normal speech replies need no media tool; hands-free STT/TTS remains managed by the host.
+
+Loading documentation is read-only. It cannot execute a tool, elevate an account, grant desktop/MCP access, arm missions, override Stop or replay an effect. It must fit the current context before activation; an oversized selection retains the previous menu and asks for fewer tools. Mixed discovery/action batches and calls to unloaded tools execute no actions. Discovery does not reset checkpoint progress. Full/Academic policy and original runtime guards remain in force.
+
+Context admission refreshes the running server's capacity for each new request, including after effort changes and voice memory handoff. Small allocations and explicit user budgets cannot exceed the actual server window. Training capacity alone is not treated as allocated context; an unknown window is not guessed. All three effort levels retain their requested reply ceilings, adapting only the admitted per-request cap when needed. The 500-token safety margin and continuation reserve remain. Saved user messages, instructions, summaries and tool receipts are not truncated by this repair.
+
+Regression coverage exercises Fast/Balanced/Deep, 4K/8K/16K/32K contexts, hands-free/typed requests, follow-ups, exact loaded schemas, scope restrictions, Stop/login, context rejection rollback, mixed batches and duplicate-effect protection. The 4K checks cover ordinary conversation; larger tool/document/image requests may need 8K or more. 512/1K/2K fallbacks reject requests that cannot fit the base harness instead of overstating capacity. Very long user inputs or custom instructions can still require more context.
+
+The original voice test used a minimal prompt, which missed this integration failure. New live checks use the real prompts, catalog, request admission and native agent worker. Voice ingress is a synthetic WAV, followed by actual Whisper, local LLM, TTS, text transcript and audio-device playback; physical microphone capture and subjective listening are separate from these automated checks.
+
+Source map: `ControlCenter/chat_tool_menu.py` owns capability discovery, request-local selection and modular guidance. `ControlCenter/native_chat.py` owns prompt assembly, admission and guarded dispatch. `tool_protocol.py`, `task_progress.py` and `chat_task_checkpoint.py` classify discovery without treating it as an external effect or productive checkpoint progress. `Maintenance/Tests/test_chat_full_context.py` and `test_progressive_tool_worker.py` cover the integration.
+
+No new runtime, model weights or packages. D: and E: remain independent portable installations. Windows installers include the individual source files; Linux/Mac remain r51. Exit and reopen PortalAI normally to load this update.

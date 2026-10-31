@@ -102,6 +102,8 @@ class ContextRecoveryTests(unittest.TestCase):
 
     def test_real_host_prompt_and_tool_schema_fit_small_two_turn_chat(self):
         p = small_panel(); p.root = ROOT
+        from chat_tool_menu import Selection
+        p._tool_selection = Selection(); p._tool_selection.sync(p); p._tool_selection.names = ('shell',)
         p.store.custom_instructions = lambda: 'Inspect the host and explain what you find.'
         p.system_prompt = lambda: chat.NativeChat.system_prompt(p)
         p.memory.chat_included = lambda _: True; p.memory.config = {}

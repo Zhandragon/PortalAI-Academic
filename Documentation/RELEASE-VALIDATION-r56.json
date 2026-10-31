@@ -1,0 +1,429 @@
+{
+  "checks_passed": true,
+  "version": "2026.10.31-Desktop-r56",
+  "edition": "Academic",
+  "archive_sha256": "7dcb2432c6119f16412086e251d64f8eeff7ff75aa1f05fc75050765414ed089",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 508,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1593,
+    "full_recipient_install": false,
+    "all_final_extracted_member_hashes_verified": true
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_checks": [
+    {
+      "name": "python-bootstrap.zip",
+      "passed": true,
+      "bytes": 11439094,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297"
+    },
+    {
+      "name": "installer_core.py",
+      "passed": true,
+      "bytes": 39062,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459"
+    },
+    {
+      "name": "engine_cli.py",
+      "passed": true,
+      "bytes": 4572,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788"
+    },
+    {
+      "name": "installer_storage.py",
+      "passed": true,
+      "bytes": 4593,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007"
+    },
+    {
+      "name": "portable_update.py",
+      "passed": true,
+      "bytes": 17915,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0"
+    },
+    {
+      "name": "suite_installer.py",
+      "passed": true,
+      "bytes": 27664,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475"
+    },
+    {
+      "name": "abliterator_installer_core.py",
+      "passed": true,
+      "bytes": 29697,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5"
+    }
+  ],
+  "all_published_windows_sources_match_payload": true,
+  "all_existing_component_pins_unchanged": true,
+  "new_dependencies": false,
+  "suite_routes": {
+    "passed": true,
+    "windows_r56_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "live_validation": {
+    "version": "2026.10.31-Desktop-r56",
+    "platform": "Windows",
+    "new_dependencies": false,
+    "model_weights_changed": false,
+    "independent_SSD_installations": true,
+    "linux_mac_updated": false,
+    "physical_microphone_tested": false,
+    "full_recipient_install_tested": false,
+    "drives": {
+      "D": {
+        "regression_tests": {
+          "passed": true,
+          "tests": 508,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "Maintenance/Tests/test_progressive_tool_worker.py": "07c061080d32a357c61b73a42ad47342b9114f6364b4b9e4fad09e2ec23d9eb4",
+          "Maintenance/Tests/test_chat_context_recovery.py": "b97e959f69b328c2c7c608b298c11969808fc1bcfa2c73d9a283abaa9543d496",
+          "ControlCenter/tool_protocol.py": "ad419321ee49155127c74702766e1c8b8708c0a1c3e569db100fa4716cd249f8",
+          "ControlCenter/chat_task_checkpoint.py": "108833133a0542f38aa03e195be4f680484e923604660165705e3df2c392348e",
+          "ControlCenter/task_progress.py": "9a1a42470445b5d0099a0b1fad74696c13b3cf24594e83bbdac4a7c879617c33",
+          "ControlCenter/native_chat.py": "891138e01cecd11d3a027f8ccce12c3c1bad73bc740f73c2eb514f63d3bca339",
+          "ControlCenter/chat_tool_menu.py": "a35b9c928576d37c39d69e547c18a25d49b32231220e2c1cd1c84eb2740ae701",
+          "Maintenance/Tests/test_chat_full_context.py": "2b95c6227efdf0c47ad41fdeacdedc758115812ad574b9fcba76ad60096181f6",
+          "ControlCenter/release_version.py": "990a0aed84bb37d5748390f0f157e8c845d6ec3fcfb1e8da757f2320d937f0db",
+          "Documentation/Context_Admission_r56.md": "900681ebda87176e8cbcb006f0a34c2d54bff02d688f9a3f24a092618d43f35a"
+        }
+      },
+      "E": {
+        "regression_tests": {
+          "passed": true,
+          "tests": 508,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "Maintenance/Tests/test_progressive_tool_worker.py": "07c061080d32a357c61b73a42ad47342b9114f6364b4b9e4fad09e2ec23d9eb4",
+          "Maintenance/Tests/test_chat_context_recovery.py": "b97e959f69b328c2c7c608b298c11969808fc1bcfa2c73d9a283abaa9543d496",
+          "ControlCenter/tool_protocol.py": "ad419321ee49155127c74702766e1c8b8708c0a1c3e569db100fa4716cd249f8",
+          "ControlCenter/chat_task_checkpoint.py": "108833133a0542f38aa03e195be4f680484e923604660165705e3df2c392348e",
+          "ControlCenter/task_progress.py": "9a1a42470445b5d0099a0b1fad74696c13b3cf24594e83bbdac4a7c879617c33",
+          "ControlCenter/native_chat.py": "891138e01cecd11d3a027f8ccce12c3c1bad73bc740f73c2eb514f63d3bca339",
+          "ControlCenter/chat_tool_menu.py": "a35b9c928576d37c39d69e547c18a25d49b32231220e2c1cd1c84eb2740ae701",
+          "Maintenance/Tests/test_chat_full_context.py": "2b95c6227efdf0c47ad41fdeacdedc758115812ad574b9fcba76ad60096181f6",
+          "ControlCenter/release_version.py": "990a0aed84bb37d5748390f0f157e8c845d6ec3fcfb1e8da757f2320d937f0db",
+          "Documentation/Context_Admission_r56.md": "900681ebda87176e8cbcb006f0a34c2d54bff02d688f9a3f24a092618d43f35a"
+        }
+      }
+    },
+    "live": {
+      "D-live-fast-piper": {
+        "passed": true,
+        "physical_microphone": false,
+        "human_audibility_confirmed": false,
+        "scope": "Real full default prompts/catalog and context admission; native worker, Whisper, local model, TTS and audio-device playback. Synthetic WAV ingress; no owner account.",
+        "level": "fast",
+        "model": "qwen1.7-q8",
+        "voice": "piper",
+        "contexts": [
+          {
+            "estimated_input": 1967,
+            "estimated_sent": 4228,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 1024,
+            "requested_output": 1024,
+            "tool_count": 3
+          },
+          {
+            "estimated_input": 2015,
+            "estimated_sent": 4276,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 1024,
+            "requested_output": 1024,
+            "tool_count": 3
+          }
+        ],
+        "order": [
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "closed"
+        ],
+        "turns": 2,
+        "spoken_replies": [
+          "Yes, I'm here. How can I assist you today?",
+          "Yes, I'm here. How can I assist you today?"
+        ],
+        "visible_replies_verified": true,
+        "automatic_listening_resumed": true,
+        "cleanup_stopped_pids": [
+          32080
+        ]
+      },
+      "E-live-balanced-qwen": {
+        "passed": true,
+        "physical_microphone": false,
+        "human_audibility_confirmed": false,
+        "scope": "Real full default prompts/catalog and context admission; native worker, Whisper, local model, TTS and audio-device playback. Synthetic WAV ingress; no owner account.",
+        "level": "balanced",
+        "model": "qwen4-q4",
+        "voice": "qwen",
+        "contexts": [
+          {
+            "estimated_input": 1964,
+            "estimated_sent": 5249,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 2048,
+            "requested_output": 2048,
+            "tool_count": 3
+          },
+          {
+            "estimated_input": 2027,
+            "estimated_sent": 5312,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 2048,
+            "requested_output": 2048,
+            "tool_count": 3
+          }
+        ],
+        "order": [
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "closed"
+        ],
+        "turns": 2,
+        "spoken_replies": [
+          "Hello! I'm Nice, your PortalAI assistant. I'm here and ready to help. How can I assist you today?",
+          "I am Nice, your PortalAI assistant. I'm here and ready to help. How can I assist you today?"
+        ],
+        "visible_replies_verified": true,
+        "automatic_listening_resumed": true,
+        "cleanup_stopped_pids": [
+          32064
+        ]
+      },
+      "D-live-deep-qwen": {
+        "passed": true,
+        "physical_microphone": false,
+        "human_audibility_confirmed": false,
+        "scope": "Real full default prompts/catalog and context admission; native worker, Whisper, local model, TTS and audio-device playback. Synthetic WAV ingress; no owner account.",
+        "level": "deep",
+        "model": "qwen27-standard-q4",
+        "voice": "qwen",
+        "contexts": [
+          {
+            "estimated_input": 1967,
+            "estimated_sent": 7300,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 4096,
+            "requested_output": 4096,
+            "tool_count": 3
+          },
+          {
+            "estimated_input": 2018,
+            "estimated_sent": 7351,
+            "budget": 7372,
+            "model_limit": 8192,
+            "output_reserve": 4096,
+            "requested_output": 4096,
+            "tool_count": 3
+          }
+        ],
+        "order": [
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "transcribe",
+          "submit",
+          "speak",
+          "drain",
+          "listen",
+          "closed"
+        ],
+        "turns": 2,
+        "spoken_replies": [
+          "Hey! Yeah, I'm here. What can I help you with today?",
+          "Yep, I'm here! What can I do for you?"
+        ],
+        "visible_replies_verified": true,
+        "automatic_listening_resumed": true,
+        "cleanup_stopped_pids": [
+          14420
+        ]
+      },
+      "D-tools-fast": {
+        "passed": true,
+        "level": "fast",
+        "owner_accounts": false,
+        "real_model": true,
+        "turns": [
+          {
+            "tools": [
+              "tool_help",
+              "file_inspect"
+            ],
+            "final": "The two named colors in the file are turquoise and gold.",
+            "input_estimate": 2633,
+            "budget": 7372
+          },
+          {
+            "tools": [
+              "tool_help",
+              "write_file"
+            ],
+            "final": "The file has been successfully written with the content \"turquoise and gold\". The file path is:  \n`D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Memory-20261031\\listener-fixture\\context-regression\\model-write-1793465973948299900.txt`  \n\nPlease confirm the saved result.",
+            "input_estimate": 3327,
+            "budget": 7372
+          }
+        ],
+        "cleanup_stopped_pids": [
+          28128
+        ]
+      },
+      "E-routing-fast": {
+        "passed": true,
+        "real_model": "Qwen 1.7B Fast",
+        "effects_dispatched": false,
+        "cases": [
+          {
+            "case": "research",
+            "loaded": [
+              "web"
+            ],
+            "requested_next": [
+              "web"
+            ],
+            "estimated_input": 2550,
+            "within_context": true
+          },
+          {
+            "case": "image",
+            "loaded": [
+              "media_tool",
+              "available_tools"
+            ],
+            "requested_next": [
+              "available_tools"
+            ],
+            "estimated_input": 3167,
+            "within_context": true
+          },
+          {
+            "case": "science",
+            "loaded": [
+              "science"
+            ],
+            "requested_next": [
+              "science"
+            ],
+            "estimated_input": 2519,
+            "within_context": true
+          },
+          {
+            "case": "desktop",
+            "loaded": [
+              "computer"
+            ],
+            "requested_next": [
+              "computer"
+            ],
+            "estimated_input": 2488,
+            "within_context": true
+          }
+        ],
+        "cleanup_stopped_pids": [
+          30492
+        ]
+      }
+    },
+    "context_matrix": {
+      "efforts": [
+        "fast",
+        "balanced",
+        "deep"
+      ],
+      "greeting_contexts": [
+        4096,
+        8192,
+        16384,
+        32768
+      ],
+      "insufficient_base_contexts_rejected": [
+        512,
+        1024,
+        2048
+      ]
+    },
+    "baseline_reproduction": {
+      "full_input_estimate": 6238,
+      "academic_input_estimate": 6409,
+      "budget": 7372,
+      "greeting_failed": true
+    },
+    "validation_fixture_corrections": [
+      "Original r55 live voice fixture bypassed the full prompt/catalog; r56 uses real admission.",
+      "Long synthetic Tk tests start exactly one recurring event pump, matching the application.",
+      "Synthetic input audio is prepared before loading the large model; production speech memory guards remain unchanged."
+    ],
+    "cleanup": {
+      "unpublished_draft_retained": true,
+      "recursive_cleanup_blocked_by_automatic_approval_review": true
+    }
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "7dcb2432c6119f16412086e251d64f8eeff7ff75aa1f05fc75050765414ed089",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "academic_policy_retained": true
+}

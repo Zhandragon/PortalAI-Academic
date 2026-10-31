@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 898
+    "Windows": 901
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -52422,7 +52422,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_task_checkpoint.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "109d9c31869294da2d949c72aa053d09ae6c822f912460c284f8a08e51a76457",
+      "sha256": "108833133a0542f38aa03e195be4f680484e923604660165705e3df2c392348e",
       "lines": 103,
       "overview": "Model-requested checkpoints inside one active chat; no background wakeups.",
       "symbols": [
@@ -52449,6 +52449,56 @@
         {
           "name": "commit",
           "line": 89,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "a35b9c928576d37c39d69e547c18a25d49b32231220e2c1cd1c84eb2740ae701",
+      "lines": 206,
+      "overview": "Request-local capability discovery and on-demand tool/workflow guidance.",
+      "symbols": [
+        {
+          "name": "compact_menu",
+          "line": 37,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Selection",
+          "line": 56,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "enabled",
+          "line": 72,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "discovery",
+          "line": 76,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "selected_names",
+          "line": 84,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "request_menu",
+          "line": 93,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "guidance",
+          "line": 105,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "load",
+          "line": 176,
           "kind": "FunctionDef"
         }
       ]
@@ -53561,8 +53611,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "5833d3a1a69f8de7138574246c6438455456bbfe7cf902ac8315b8308aa504f7",
-      "lines": 6855,
+      "sha256": "3c4b042ccc177879473c0058773096dec1c624a04ddcc0791d9d14bd243cb882",
+      "lines": 6895,
       "overview": "",
       "symbols": [
         {
@@ -53617,102 +53667,107 @@
         },
         {
           "name": "estimate_tokens",
-          "line": 261,
+          "line": 264,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 269,
+          "line": 272,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 278,
+          "line": 281,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 295,
+          "line": 298,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 485,
+          "line": 488,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 513,
+          "line": 516,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 528,
+          "line": 531,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 532,
+          "line": 535,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 547,
+          "line": 550,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_tool_batch",
-          "line": 558,
+          "line": 561,
           "kind": "FunctionDef"
         },
         {
           "name": "historical_tool_calls",
-          "line": 582,
+          "line": 585,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 614,
+          "line": 617,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 661,
+          "line": 664,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 666,
+          "line": 669,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 821,
+          "line": 824,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1403,
+          "line": 1406,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_scoped_tools",
+          "line": 1413,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1410,
+          "line": 1432,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1428,
+          "line": 1437,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1573,
+          "line": 1582,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6843,
+          "line": 6883,
           "kind": "FunctionDef"
         }
       ]
@@ -55296,7 +55351,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "9c5267fb9c290df76141d71925d4634c1f85ca26cd8aa12238536a952ba0c5c6",
+      "sha256": "990a0aed84bb37d5748390f0f157e8c845d6ec3fcfb1e8da757f2320d937f0db",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -55730,7 +55785,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/task_progress.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "4530694d2707c752df0357557700c21a823d22462a540b52b9d490767c9c2621",
+      "sha256": "9a1a42470445b5d0099a0b1fad74696c13b3cf24594e83bbdac4a7c879617c33",
       "lines": 203,
       "overview": "Request-local progress aid. Tool scheduling and evidence, never permission or replay.",
       "symbols": [
@@ -55785,7 +55840,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "8200b006c89fa5c2e9dd18d237ef9750b814beab5b5c58edc424d9307d74557d",
+      "sha256": "ad419321ee49155127c74702766e1c8b8708c0a1c3e569db100fa4716cd249f8",
       "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
@@ -57989,8 +58044,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "ed8faf935416541b7531a6a9642e77aa91780897fb447a6267d8b4baf946df9c",
-      "lines": 235,
+      "sha256": "b97e959f69b328c2c7c608b298c11969808fc1bcfa2c73d9a283abaa9543d496",
+      "lines": 237,
       "overview": "Real prompt overhead and small-context recovery without model/tool execution.",
       "symbols": [
         {
@@ -58026,6 +58081,26 @@
         {
           "name": "ChatEffortUITests",
           "line": 37,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_full_context.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "2b95c6227efdf0c47ad41fdeacdedc758115812ad574b9fcba76ad60096181f6",
+      "lines": 187,
+      "overview": "Real default prompts/catalog across effort levels, with no private account I/O.",
+      "symbols": [
+        {
+          "name": "full_panel",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "FullContextTests",
+          "line": 40,
           "kind": "ClassDef"
         }
       ]
@@ -61016,6 +61091,31 @@
         {
           "name": "WorkspaceTests",
           "line": 23,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_progressive_tool_worker.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "07c061080d32a357c61b73a42ad47342b9114f6364b4b9e4fad09e2ec23d9eb4",
+      "lines": 86,
+      "overview": "The native worker loads documentation without granting or replaying effects.",
+      "symbols": [
+        {
+          "name": "call",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "fixture",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ProgressiveWorkerTests",
+          "line": 26,
           "kind": "ClassDef"
         }
       ]

@@ -41,7 +41,7 @@ def task_kind(text):
     return 'tools'
 
 
-DISCOVERY = frozenset(('available_tools', 'inspect_environment', 'source_search', 'source_map', 'list_dir'))
+DISCOVERY = frozenset(('tool_help', 'available_tools', 'inspect_environment', 'source_search', 'source_map', 'list_dir'))
 WEB_DISCOVERY = frozenset(('help', 'search', 'research', 'image', 'image-search', 'site_search', 'catalog_search', 'discover'))
 
 
