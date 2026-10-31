@@ -1,0 +1,38 @@
+{
+  "version": "2026.10.31-Desktop-r54",
+  "platform": "Windows",
+  "drives": {
+    "D": {
+      "passed": true,
+      "tests": 114,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    },
+    "E": {
+      "passed": true,
+      "tests": 114,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "synthetic_chats_only": true,
+  "owner_conversations_opened_or_deleted": false,
+  "native_preview": {
+    "passed": true,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      720,
+      1260
+    ],
+    "scrollable_titles": 80,
+    "screenshots_visually_reviewed": true
+  },
+  "encrypted_batch_delete_survives_seal_and_reopen": true,
+  "full_recipient_install_tested": false,
+  "linux_mac_updated": false
+}

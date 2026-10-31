@@ -1,0 +1,115 @@
+{
+  "checks_passed": true,
+  "version": "2026.10.31-Desktop-r54",
+  "edition": "Academic",
+  "archive_sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 114,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1575,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_checks": [
+    {
+      "passed": true,
+      "bytes": 11439094,
+      "name": "python-bootstrap.zip",
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297"
+    },
+    {
+      "passed": true,
+      "bytes": 39062,
+      "name": "installer_core.py",
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459"
+    },
+    {
+      "passed": true,
+      "bytes": 4572,
+      "name": "engine_cli.py",
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788"
+    },
+    {
+      "passed": true,
+      "bytes": 4593,
+      "name": "installer_storage.py",
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007"
+    },
+    {
+      "passed": true,
+      "bytes": 17915,
+      "name": "portable_update.py",
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0"
+    },
+    {
+      "passed": true,
+      "bytes": 27664,
+      "name": "suite_installer.py",
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475"
+    },
+    {
+      "passed": true,
+      "bytes": 29697,
+      "name": "abliterator_installer_core.py",
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5"
+    }
+  ],
+  "all_published_windows_sources_match_payload": true,
+  "dependency_pins_unchanged": true,
+  "full_recipient_install_tested": false,
+  "suite_routes": {
+    "passed": true,
+    "windows_r54_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "academic_policy_retained": true,
+  "test_fixture_correction": {
+    "baseline": {
+      "baseline": "r53 Academic extracted source",
+      "tests": 12,
+      "passed": false,
+      "errors": [
+        "test_chat_hydration.ChatHydrationTests.test_picker_cancel_during_restore_is_tracked_and_cannot_open_late",
+        "test_chat_hydration.ChatHydrationTests.test_picker_rejects_late_completion_after_close_chat_switch_or_revocation (change='close')",
+        "test_chat_hydration.ChatHydrationTests.test_picker_rejects_late_completion_after_close_chat_switch_or_revocation (change='chat')",
+        "test_chat_hydration.ChatHydrationTests.test_picker_rejects_late_completion_after_close_chat_switch_or_revocation (change='revoke')",
+        "test_chat_hydration.ChatHydrationTests.test_picker_rejects_late_completion_after_close_chat_switch_or_revocation (change='busy')",
+        "test_chat_hydration.ChatHydrationTests.test_picker_restore_failure_never_opens_dialog",
+        "test_chat_hydration.ChatHydrationTests.test_picker_restores_in_worker_then_opens_only_on_completion_thread",
+        "test_chat_hydration.ChatHydrationTests.test_picker_revoke_during_dialog_prevents_copy"
+      ],
+      "exception": "AttributeError: NativeChat has no app in synthetic attachment test fixture"
+    },
+    "change": "Set the synthetic panel app to a no-projection SimpleNamespace; no attachment production code or Academic policy changed."
+  }
+}

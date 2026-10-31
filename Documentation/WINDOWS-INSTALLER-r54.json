@@ -1,0 +1,83 @@
+{
+  "version": "2026.10.31-Desktop-r54",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
+  "bytes": 621558357,
+  "sha256": "e3c33f230d28235ba8c2433e6cd2062d7e4bbe94de1a58ef83d50ed279a9b249",
+  "previous_sha256": "de3ba6e95fb89bd9e8941f758090c96e69ad14bad5b22047fa09a115bf93cdd2",
+  "changed_members": [
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/Maintenance/Tests/test_chat_hydration.py"
+  ],
+  "added_members": [
+    "PortalAI/ControlCenter/chat_history_delete.py",
+    "PortalAI/Documentation/History_Delete_r54.md",
+    "PortalAI/Maintenance/Tests/test_chat_history_delete.py",
+    "PortalAI/Maintenance/Tests/test_chat_history_delete_tk.py"
+  ],
+  "payload_members": 5169,
+  "dependency_pins_unchanged": true,
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273132903426,
+    "download_bytes": 234051143494,
+    "required_bytes": 511464471851,
+    "files": 330144
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "e8a74bdd12879214393c73c708d2f8a5e4a4dfb7e4b75f872e0113d2d8e20d41"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 379478781,
+      "sha256": "d67c3eda4632c306adf69951e7c2fa24d8ac7eb8ece3b65bd04d59974cc82af7"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 138996014,
+      "sha256": "9bdddac7b7ba55b5edb0b1f08c00cba8d56b5bb2b635e4d0fad3115db5399896"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 4836,
+      "sha256": "d9d4b8e8432cb521dc983993c55830e849731950679d189e84951ed4f510e28a"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "144af94420d09a57d9d74df226c971c639e1c5eca6e11cc355687a90b0378355"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "a3c8693fd679e1495d4010ac7047bcc8692c73c779387ea6432edac3270e7776"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1140,
+      "sha256": "907baacc90b065bd5c91517669bad6429e4a1cdc342e9fd83ab899211ad05e2a"
+    }
+  ]
+}

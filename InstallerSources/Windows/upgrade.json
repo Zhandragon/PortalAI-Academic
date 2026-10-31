@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "2026.10.30-Desktop-r53",
+  "version": "2026.10.31-Desktop-r54",
   "edition": "Academic",
   "platform": "Windows",
   "compatible_versions": [
@@ -15,7 +15,8 @@
     "2026.10.27-Desktop-r49",
     "2026.10.28-Desktop-r50",
     "2026.10.29-Desktop-r51",
-    "2026.10.30-Desktop-r52"
+    "2026.10.30-Desktop-r52",
+    "2026.10.30-Desktop-r53"
   ],
   "legacy_fingerprints": [
     {

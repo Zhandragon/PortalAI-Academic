@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "catalog_version": "2026.10.30-Desktop-r53",
+  "catalog_version": "2026.10.31-Desktop-r54",
   "assets": [
     {
       "id": "installer-academic-linux",
@@ -39,13 +39,13 @@
       "kind": "installer",
       "edition": "Academic",
       "platform": "Windows",
-      "file": "PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r53-suite.zip",
+      "file": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
       "bytes": 542552794,
       "sha256": "1a4501fbdfe2e0e7938508624752f5ff37046d5134effb10e042631132eed65a",
-      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.30-Desktop-r53/PortalAI-Academic-Windows-Installer-2026.10.30-Desktop-r53-suite.zip",
+      "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r54/PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r54-suite.zip",
       "private": false,
       "repository": "Zhandragon/PortalAI-Academic",
-      "tag": "v2026.10.30-Desktop-r53",
+      "tag": "v2026.10.31-Desktop-r54",
       "expanded_bytes": 98222826082,
       "resolve_release": true,
       "additional_download_bytes": 71492424818

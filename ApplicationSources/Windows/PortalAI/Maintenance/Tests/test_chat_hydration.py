@@ -62,6 +62,7 @@ class ChatHydrationTests(unittest.TestCase):
     def panel(self):
         p = chat.NativeChat.__new__(chat.NativeChat)
         p.root = self.root
+        p.app = SimpleNamespace(_portalai_native_workflow=None)
         p.store = SimpleNamespace(profile=CapturedProfile(self.root), copy_attachment=Mock())
         p.session = {'id': 'synthetic-chat'}
         p.busy = False

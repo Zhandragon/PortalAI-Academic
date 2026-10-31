@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 880
+    "Windows": 883
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -52212,6 +52212,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_history_delete.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "1a972d6e19304ed815531032e567ba677c6f34298471f103f3ea3f0196aac6b4",
+      "lines": 85,
+      "overview": "Delete an explicitly selected, previewed history batch under its original login.",
+      "symbols": [
+        {
+          "name": "delete_selected",
+          "line": 4,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_layout.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -53404,8 +53419,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "c8ec43eb87683d33362c9c2a37e7bd831c520e8702031202dc3eaab7dfec824a",
-      "lines": 6829,
+      "sha256": "93f1440a46e3e8d6969362feb3fae515718f59b9bd8f9eb3c80174ae72185435",
+      "lines": 6810,
       "overview": "",
       "symbols": [
         {
@@ -53555,7 +53570,7 @@
         },
         {
           "name": "main",
-          "line": 6817,
+          "line": 6798,
           "kind": "FunctionDef"
         }
       ]
@@ -55139,7 +55154,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a59df00a04a0cfed5ecb9b56313a337766a4f0ae0c43428813b52a649ca7b1ad",
+      "sha256": "fa7449dc07551a69f4d704f4100986d963fdf609c0d7b95fa55c6e551821cc97",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -57829,6 +57844,46 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_history_delete.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "709da2b3fc14e0e9283001cf81a584955820ebdeb57c918738999f99205027a7",
+      "lines": 150,
+      "overview": "Selection/confirmation safety and encrypted disposable batch deletion.",
+      "symbols": [
+        {
+          "name": "SelectionDeleteTests",
+          "line": 13,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "EncryptedDeleteTests",
+          "line": 125,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_history_delete_tk.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "1055a245557c1fdbfdbd95037cc4cc73f9910580fafaaaf6ae6e9d2a5c20467a",
+      "lines": 63,
+      "overview": "Real Tk confirmation content, scrolling and Cancel; synthetic titles only.",
+      "symbols": [
+        {
+          "name": "descendants",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "DeletePreviewTkTests",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_http_progress.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -57857,8 +57912,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_hydration.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "b878ae3831721d423fedb3a747212b6879b3419a4b15e0736b728c048dc71283",
-      "lines": 235,
+      "sha256": "4b0615caf26203b848a026db10e75eb876d3a4d3eba70bcbf5bd0c584d21d013",
+      "lines": 236,
       "overview": "Lazy chat I/O boundaries using temporary profiles; no model or user data.",
       "symbols": [
         {

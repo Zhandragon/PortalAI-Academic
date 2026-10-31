@@ -1,0 +1,9 @@
+Windows r54 fixes History group deletion. Previously the Delete button used only the open chat and the right-click menu disabled deletion for a group. Both now use the selected rows, with the count and every selected title in a scrollable confirmation and a matching Delete N chats button.
+
+The confirmed IDs remain fixed even if the underlying selection changes. Cancel removes nothing. Empty filtered selection does nothing; Stop, changed/revoked login, busy or closing state reject stale confirmation. Pending history reads/searches are cancelled before deletion. An unselected open chat and its draft are preserved. Batch failure stops and reports progress; deletion is not an atomic filesystem transaction.
+
+Validation: 114 checks on each independent D/E installation and each extracted Windows edition (113 passed, one existing skip). Tests include real encrypted dormant chat/attachment/memory deletion across sealing and reopening, exact selection, partial failure and native Windows Tk previews in light/dark themes at 720/1260 pixels. Only disposable synthetic chats were used. Installer checks: 45 per edition (44 passed, one existing skip), verified payload/source hashes and seven embedded installer resources per edition. Academic's compiled download launcher passed preparation from a verified local archive. A complete fresh recipient installation and physical Linux/Mac execution are not claimed.
+
+Exit and reopen PortalAI normally to load the fix. Full/Academic preserve their policies and runtime/model pins. Universal setup selects Windows r54 plus unchanged Linux/Mac r51. Includes the r52 voice and r53 listener repairs.
+
+[Details and source map](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/HISTORY-DELETE-r54.md) · [Validation](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/HISTORY-DELETE-VALIDATION-r54.json).

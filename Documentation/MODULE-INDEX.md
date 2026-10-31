@@ -195,6 +195,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/chat_discovery.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_discovery.py) | Recovery cues for repeated discovery; never block reads or dispatch actions. |
 | [ControlCenter/chat_effort_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_effort_ui.py) | Compact chat effort controls; model switching is delegated to the lifecycle API. |
 | [ControlCenter/chat_evidence.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_evidence.py) | Bounded model views and read-only access to the current saved conversation. |
+| [ControlCenter/chat_history_delete.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_history_delete.py) | Delete an explicitly selected, previewed history batch under its original login. |
 | [ControlCenter/chat_layout.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_layout.py) | Ornate chat surfaces and a profile-owned, responsive history divider. |
 | [ControlCenter/chat_progress.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_progress.py) | Honest model progress and bounded inference waits, without replaying actions. |
 | [ControlCenter/chat_summary_recovery.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_summary_recovery.py) | Bounded recovery from incomplete reasoning summaries, without another model call. |
@@ -431,6 +432,8 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_chat_handoff.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_chat_handoff_effort_smoke.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff_effort_smoke.py) | The real GUI preparation is shared with headless handoff checks. |
 | [Maintenance/Tests/test_chat_header_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_header_tk.py) | Measure the actual native-chat header in off-screen synthetic Tk windows. |
+| [Maintenance/Tests/test_chat_history_delete.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_history_delete.py) | Selection/confirmation safety and encrypted disposable batch deletion. |
+| [Maintenance/Tests/test_chat_history_delete_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_history_delete_tk.py) | Real Tk confirmation content, scrolling and Cancel; synthetic titles only. |
 | [Maintenance/Tests/test_chat_http_progress.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_http_progress.py) | Real loopback HTTP/SSE deadlines; no model, production account, or GUI. |
 | [Maintenance/Tests/test_chat_hydration.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_hydration.py) | Lazy chat I/O boundaries using temporary profiles; no model or user data. |
 | [Maintenance/Tests/test_chat_layout_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_layout_tk.py) | Real native chat layout with harmless in-memory conversations and no workers. |

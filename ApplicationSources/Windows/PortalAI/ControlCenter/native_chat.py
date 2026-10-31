@@ -2636,11 +2636,22 @@ class NativeChat:
         ElegantButton(row, text="Close", command=self._close_sheet, bg=self.COL["panel2"], fg=self.COL["text"],
                   relief="flat", bd=0, padx=16, pady=7).pack(side="right")
 
-    def _confirm(self, title: str, text: str, on_yes, *, yes_text: str = "Continue", danger: bool = False):
-        body = self._open_sheet(title, width=0.62, height=0.40)
-        tk.Label(body, text=text, bg=self.COL["bg"], fg=self.COL["text"], justify="left", anchor="nw",
-                 wraplength=650, font=(ui_font(self.host), 9)).pack(fill="both", expand=True, padx=18, pady=18)
-        row = tk.Frame(body, bg=self.COL["bg"]); row.pack(fill="x", padx=18, pady=(0, 14))
+    def _confirm(self, title: str, text: str, on_yes, *, yes_text: str = "Continue", danger: bool = False, items=None):
+        body = self._open_sheet(title, width=0.78 if items is not None else 0.62,
+                                height=0.66 if items is not None else 0.40)
+        row = tk.Frame(body, bg=self.COL["bg"]); row.pack(side="bottom", fill="x", padx=18, pady=(0, 14))
+        label = tk.Label(body, text=text, bg=self.COL["bg"], fg=self.COL["text"], justify="left", anchor="nw",
+                         wraplength=650, font=(ui_font(self.host), 9))
+        label.pack(fill="x" if items is not None else "both", expand=items is None, padx=18, pady=18)
+        body.bind('<Configure>', lambda event: label.configure(wraplength=max(120, event.width - 36)), add='+')
+        if items is not None:
+            from rounded_text import RoundedText
+            box = RoundedText(body, palette=self._sheet_skin.colors, scrollbars=True, horizontal=False,
+                              bg=self.COL["panel2"], fg=self.COL["text"], wrap="word",
+                              font=(ui_font(self.host), 9), height=4, padx=8, pady=8)
+            box.pack(fill="both", expand=True, padx=18, pady=(0, 14))
+            box.insert("1.0", "\n".join(items)); box.configure(state="disabled")
+            self._sheet_skin.gold_controls.append(box)
         ElegantButton(row, text="Cancel", command=self._close_sheet, bg=self.COL["panel2"], fg=self.COL["text"],
                   relief="flat", bd=0, padx=15, pady=7).pack(side="right")
         def yes():
@@ -2834,39 +2845,8 @@ class NativeChat:
         self._text_prompt("Rename chat", "Chat title", current, save)
 
     def delete_chat(self):
-        if not self.session or self.busy:
-            return
-        title = str(self.session.get("title") or "this chat")
-        sid = str(self.session.get("id") or "")
-
-        def perform():
-            # Cancel a low-priority memory request first. The generation guard in
-            # PersistentMemory prevents a just-finished worker from committing after
-            # this deletion even if its HTTP response raced the UI action.
-            try:
-                self.memory.cancel_active()
-            except Exception:
-                pass
-            self.store.delete_session(sid)
-            try:
-                self.memory.forget_chat(sid)
-            except Exception:
-                # The raw session is already gone. Startup orphan pruning is a second
-                # line of defense, but attempt it immediately too.
-                try:
-                    self.memory.prune_orphans_from_disk()
-                except Exception:
-                    pass
-            self.session = None
-            self.refresh_sessions()
-
-        self._confirm(
-            "Delete chat",
-            f"Delete '{title}'?\n\nThis removes the raw chat history, its chat-owned attachments, and persistent-memory observations learned from this chat. Other chats are not affected.",
-            perform,
-            yes_text="Delete",
-            danger=True,
-        )
+        from chat_history_delete import delete_selected
+        delete_selected(self)
 
     def _filtered_sessions(self) -> list[dict]:
         rows = self.store.list_sessions()
@@ -3151,7 +3131,7 @@ class NativeChat:
         )
         menu.add_separator()
         menu.add_command(label="Rename…", command=self.rename_chat, state='disabled' if multiple else 'normal')
-        menu.add_command(label="Delete…", command=self.delete_chat, state='disabled' if multiple else 'normal')
+        menu.add_command(label="Delete selected…" if multiple else "Delete…", command=self.delete_chat)
         menu.add_separator()
         menu.add_command(label="Help: History & memory", command=lambda: self._show_help_topic("history"))
         try:
@@ -5542,6 +5522,7 @@ class NativeChat:
         return "break" if remote_text is None else True
 
     def stop_generation(self):
+        self._history_delete_request = None
         if getattr(self, 'mic_stream', None) is not None or getattr(self, 'mic_proc', None) is not None:
             self.release_audio_capture()
             self.mic_btn.configure(text='🎙 Mic', bg=self.COL['panel2'])
