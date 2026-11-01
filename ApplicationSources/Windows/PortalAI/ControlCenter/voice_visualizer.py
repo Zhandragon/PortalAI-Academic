@@ -13,7 +13,7 @@ def blend(first, second, amount):
 
 
 class VoiceVisualizer(tk.Frame):
-    def __init__(self, parent, palette, *, on_end=None):
+    def __init__(self, parent, palette, *, on_end=None,on_interrupt=None):
         super().__init__(parent, bg=palette['panel'], bd=0)
         self.palette = dict(palette)
         self.activity = None
@@ -45,10 +45,16 @@ class VoiceVisualizer(tk.Frame):
             self.end = ElegantButton(row, text='End hands-free', command=on_end,
                                      bg=palette['panel2'], fg=palette['text'], padx=9, pady=4, bd=0)
             self.end.pack(side='right', padx=(6, 0))
-        self.canvas.bind('<Button-1>', lambda event: self.toggle_mute() if event.x < 105 else None)
+        self.on_interrupt=on_interrupt
+        self.canvas.bind('<Button-1>', self.activate_orb)
         self.canvas.bind('<space>', self.toggle_mute)
-        self.canvas.bind('<Return>', self.toggle_mute)
+        self.canvas.bind('<Return>', self.activate_orb)
         self.bind('<Destroy>', self._destroyed, add='+')
+
+    def activate_orb(self,event=None):
+        phase=self.activity.snapshot().get('phase') if self.activity is not None else None
+        if phase=='speaking' and self.on_interrupt is not None:self.on_interrupt()
+        elif event is None or getattr(event,'x',0)<105:self.toggle_mute()
 
     def show(self, activity, *, before=None):
         self.hide()

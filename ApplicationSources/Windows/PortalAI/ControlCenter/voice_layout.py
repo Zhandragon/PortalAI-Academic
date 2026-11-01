@@ -76,7 +76,8 @@ class CompactVoiceLayout:
                     self.saved_full_composer = _hide_with_snapshot(full)
             if self.view is None:
                 self.view = VoiceVisualizer(ctl._compact_bar, ctl.native_chat_panel.COL,
-                                            on_end=ctl.native_chat_panel.stop_conversation_mode)
+                                            on_end=ctl.native_chat_panel.stop_conversation_mode,
+                                            on_interrupt=getattr(ctl.native_chat_panel,'interrupt_voice_reply',None))
             if self.view.palette != ctl.native_chat_panel.COL:
                 self.view.apply_palette(ctl.native_chat_panel.COL)
             if self.view.activity is not activity or not self.view._visible:

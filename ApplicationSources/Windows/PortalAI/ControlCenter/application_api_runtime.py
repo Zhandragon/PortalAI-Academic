@@ -14,6 +14,9 @@ ROUTES=[
  ('GET','/v1/chats/{id}','chats:read'),('POST','/v1/chats/{id}/messages','chats:write'),
  ('GET','/v1/jobs',None),('GET','/v1/jobs/{id}',None),('POST','/v1/jobs/{id}/cancel',None),
  ('POST','/v1/structured','structured:generate'),
+ ('GET','/v1/workflows','workflows:read'),('GET','/v1/workflows/{id}','workflows:read'),
+ ('POST','/v1/workflows/{id}/runs','workflows:execute'),('GET','/v1/workflow-runs/{id}','workflows:read'),
+ ('POST','/v1/workflow-runs/{id}/continue','workflows:execute'),
  ('GET','/v1/missions','missions:read'),('POST','/v1/missions','missions:write'),
  ('GET','/v1/missions/{id}','missions:read'),('POST','/v1/missions/{id}/start','missions:write'),('POST','/v1/missions/{id}/stop','missions:write'),
  ('GET','/v1/knowledge/collections','knowledge:read'),('POST','/v1/knowledge/collections','knowledge:write'),
@@ -129,6 +132,9 @@ class ApplicationAPI:
         return {'job_id':jid,'state':'queued','status_path':'/v1/jobs/'+jid}
 
     def work(self,kind,body,check,event):
+        if kind=='workflow':
+            from capability_tools import workflow_store
+            return workflow_store(self.runtime,check).advance(body['run'])
         if kind=='structured':
             from structured_generation import generate
             return generate(self.root,body['question'],body.get('context',''),body['schema'],check,max_tokens=body.get('max_tokens',1024))
@@ -166,6 +172,21 @@ class ApplicationAPI:
         self.check();route,rid,scope=self.match(method,path)
         if route=='/v1/status':return {'version':'1.0','running':True,'scopes':token['scopes'],'active_jobs':len(self.active)}
         if route=='/v1/openapi.json':return openapi()
+        if route.startswith('/v1/workflows') or route.startswith('/v1/workflow-runs'):
+            from capability_tools import workflow_store
+            store=workflow_store(self.runtime,self.check)
+            if route=='/v1/workflows':return page([{'id':r['id'],'name':r['name'],'inputs':r.get('inputs',[])} for r in store.templates()],query)
+            if route=='/v1/workflows/{id}':fields(query,());return store.template(rid)
+            if route=='/v1/workflow-runs/{id}':fields(query,());return store.run(rid)
+            fields(query,())
+            if route.endswith('/runs'):
+                fields(body,('inputs',),('inputs',));run=store.start(rid,body['inputs'])
+            else:
+                fields(body,());run=store.run(rid)
+                if run.get('pending') or run['state'] in ('approval','needs_review'):
+                    from application_api import APIRejected
+                    raise APIRejected(409,'NEEDS_REVIEW','Approve or review this workflow in the native Workspace before continuing')
+            return {**self.submit('workflow',{'run':run['id']},token,scope),'workflow_run':run['id']}
         if route=='/v1/jobs':
             rows=[self.job(i) for i in self.state.records('Jobs')];return page([{k:v for k,v in r.items() if k not in ('input','result')} for r in rows if r['token']==token['id']],query)
         if route.startswith('/v1/jobs/'):

@@ -1,0 +1,298 @@
+{
+  "passed": true,
+  "version": "2026.10.31-Desktop-r58",
+  "edition": "Academic",
+  "archive_sha256": "5134e06d2484bd3c37b52b88df3223955ef94d7e1d8ee1d0d7a5e700a82d3502",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 600,
+    "skipped": 2,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1603,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "passed": true,
+      "bytes": 11439094,
+      "name": "python-bootstrap.zip"
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "passed": true,
+      "bytes": 39062,
+      "name": "installer_core.py"
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "passed": true,
+      "bytes": 4572,
+      "name": "engine_cli.py"
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "passed": true,
+      "bytes": 4593,
+      "name": "installer_storage.py"
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "passed": true,
+      "bytes": 17915,
+      "name": "portable_update.py"
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "passed": true,
+      "bytes": 27664,
+      "name": "suite_installer.py"
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "passed": true,
+      "bytes": 29697,
+      "name": "abliterator_installer_core.py"
+    }
+  ],
+  "all_published_windows_source_matches_payload": true,
+  "existing_component_pins_unchanged": true,
+  "new_dependencies": "Pinned offline browser renderer assets; native 9 KiB accessibility helper",
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "capabilities": {
+    "version": "2026.10.31-Desktop-r58",
+    "files": 56,
+    "drives": {
+      "D": {
+        "added_application_bytes": 6043167,
+        "source_hashes": {
+          "Agent/application_api.py": "0d41bc6207739613475e5f6d4b87ffd5197f7e6351afa78f5ba2ed076663034a",
+          "Agent/artifact_document.py": "648906116d559d1aa027db6b47f2787d0af4ae00ec93f1d47fe905da56ebe770",
+          "Agent/artifact_preview_worker.py": "c1cf6ba792f6412edadb131687d0e5e3b458dc4b60f6bdd255cf212760ee4339",
+          "Agent/artifacts.py": "827046f8bac38c48143254e11a508a9cc67014dd0d6f8317a533b3db46ec433e",
+          "Agent/desktop_accessibility.py": "8d21f6768d9578f1a43be470c7aef60ea86b6346d1e0899e6822a04bc4031c81",
+          "Agent/desktop_control.py": "0df1dc3028e9d0320ca25500ef3eba8d52dd10c28c181f200107df87e0882748",
+          "Agent/knowledge_base.py": "68a690f6a291e1ac074e9b1bece7c09b06be37c6c59fa7a0258aa9d080f38347",
+          "Agent/mcp_client.py": "1393fe68d7d4c91add0e36a01a9daae6f0a99d65f7fe10cbe93fc5bbe794c270",
+          "Agent/mcp_oauth.py": "3a7cf89298fc844097cedd80e7477480290e4404f2e2049500967e7d9c4c35d3",
+          "Agent/portable_workspace.py": "5b6a89766ff201afe3d59d1b20f5cfbf06d93e7e8ada6ed1feb7c8b0d5933008",
+          "Agent/rich_artifacts.py": "d6f8c0c310943f5ac3c53f1a16558ad16d7907fb140c8f92b1da79a364a9d8b5",
+          "ControlCenter/ArtifactAssets/babel-standalone-LICENSE": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76",
+          "ControlCenter/ArtifactAssets/babel-standalone-babel.min.js": "7dd1d84b2d92ec6b2fbe35bb9c028ef6b933d21b113d6266b3561bb66de40f72",
+          "ControlCenter/ArtifactAssets/dompurify-LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "ControlCenter/ArtifactAssets/dompurify-purify.min.js": "cd37898f9782adf54820c413191b5691803f0f137c799d6edcfd38523b4c2c31",
+          "ControlCenter/ArtifactAssets/manifest.json": "f93fa6d20d6c704451454faa8131fe1f75573d9a703fc5a41b9e52c5ecc8ebda",
+          "ControlCenter/ArtifactAssets/marked-LICENSE": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c",
+          "ControlCenter/ArtifactAssets/marked-marked.umd.js": "9eb730d2362ae1a8c6201698f17009e16671be6946d3d06503ddc0575283db7c",
+          "ControlCenter/ArtifactAssets/mermaid-js-tiny-LICENSE": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+          "ControlCenter/ArtifactAssets/mermaid-js-tiny-mermaid.tiny.js": "ea0cdf04eb31907eb20d956a34fe300095365c876887b54ffa29f1f847f56d00",
+          "ControlCenter/ArtifactAssets/react-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/react-dom-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/react-dom-react-dom-client.production.js": "a319b413b7a19ee34422d9a12a8e7afd003c07846716d278ba1a0898e8cb6251",
+          "ControlCenter/ArtifactAssets/react-dom-react-dom.production.js": "7a05d7f7bb2b02aae84018a88d4815a2181eef48d2cb8172d403eaa2b131eefd",
+          "ControlCenter/ArtifactAssets/react-react.production.js": "0b5529981841afa1b58c76ba85c29bb681ff5f07cd8cde6a10b967d3915b8e1c",
+          "ControlCenter/ArtifactAssets/scheduler-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/scheduler-scheduler.production.js": "679adff761d31e9426604f80c0e99be44a3e6f4c6834b0218ecf0312a67c171f",
+          "ControlCenter/application_api_contract.py": "3bb5200d3cde1c8cf7a37f9e279c005b345840122d3d23d9ab839d625c294fca",
+          "ControlCenter/application_api_runtime.py": "8a73b5ab9afbf690b6e2b193bc1cfcda15213ef546064acbaf59c27cfe9d825c",
+          "ControlCenter/capability_tools.py": "34ae875c04d4ecb8fbe32ef28b5ac457fa562ed5295c23341103944eec1eb0a7",
+          "ControlCenter/chat_tool_menu.py": "20f56e0fc6d3abebfce715e1c0ee289ced7c197aee6ff6dbf35ba35e393a622a",
+          "ControlCenter/chat_voice.py": "2889387835a957e1287b169a1e3054eea60809155119b6085338b6b14622a5c3",
+          "ControlCenter/mcp_workspace_ui.py": "a345a3daea356b83d724c14547e00f57f1d2344d80403e1b2a3dbc0a9a24c182",
+          "ControlCenter/model_comparison.py": "b0c5e83082f004be9f445c32671e9de57f39edab63f9f593c90191d3c129dda1",
+          "ControlCenter/native_chat.py": "47e88879e2224a1f5bad79bb5ab69081dbcb454e79b1091f31f36a38ca922273",
+          "ControlCenter/portable_workspace_ui.py": "c1059e292578ea82fc18538369398276f77c69673b73b4cbce829813271669b5",
+          "ControlCenter/release_version.py": "0de2397e101d9d53e315c629e02d2b771e84ca1fc61e2010fa528066e5d01c7f",
+          "ControlCenter/tool_protocol.py": "7d2a7c18172715e7b8a530daa19190b2a05489eabf1e64ebc426f64b13264b8d",
+          "ControlCenter/voice_layout.py": "6fc62687bd9036adffd2edc26117d79a9ab4e6d57d7552f38e1cf3e5886acb69",
+          "ControlCenter/voice_visualizer.py": "05bb8e342f81bcd7d8490f71aa53552ea4e1ee5dc7190cac2737a118ef0616c6",
+          "ControlCenter/workflow_builder.py": "d19ba2269711327783c93a35c8eb442e28723a71a8e40c20fa7df45b5273f062",
+          "ControlCenter/workspace_integration_ui.py": "081fc1dc5aefe03563577ebd5278a32b0aa3650ef38a37d68d4a4f90bb1ae967",
+          "ControlCenter/workspace_panel.py": "867566fb8f84ce5fb4193d9192600df6a96284b09603d1fa7a9c7c94e8bdacc2",
+          "Documentation/Portable_Capabilities_r58.md": "0857fe0c4cf23919f8dfc67b9962fa0da99e616775225d217a28d62c65505a73",
+          "Maintenance/Tests/test_chat_voice.py": "1f77b04c95bc530ed1935aadbc40812a848c3f32c223eea2a079e7d999b934ea",
+          "Maintenance/Tests/test_integration.py": "f0c9b66796c152b6c0a63e772056c90569eff8a913243f0aaf6facd8f5d21a44",
+          "Maintenance/Tests/test_portable_capabilities.py": "c46d956fcfe85b7280ba1efe33d4507168884b2b8773d7a5849eb17735d17817",
+          "Maintenance/Tests/test_workspace_profiles.py": "7ef45d15543d1060f3e0f0fe90e915e3b422d60ca4233b2f28f7193cb74d7625",
+          "Maintenance/Tests/test_chat_full_context.py": "2842b3e6b383ef017a1dd484bf3c857358cdb24b2a2f5fb0fc748293befac0ab",
+          "Maintenance/Tests/test_chat_context_recovery.py": "5bb3f186215ae7f155d1bad20656e1faefe93aa4a2697b9f17bf106544c725c2",
+          "Maintenance/Tests/test_small_model_chat.py": "75875d7911a57055599d8fe95d9f4c0addbde8fe2203baf7842dd0cf9bbaab8a",
+          "Maintenance/Tests/test_coding_stall.py": "62ffd392a7d1edd4bcf38dec1adb729f80ef1f4a2d651178fa56d1db31da5e38",
+          "Maintenance/Tests/test_account_web_commands.py": "bb9aa814bd9b0af1e0cd0a22830264695ffc855413e8b41861c4c9e1d2e8d981",
+          "Tools/AccessibilitySnapshot.cs": "bf7e81e9c113d86ff0397b89492f9640beec5b5cac7f74e709db6d908c703802",
+          "Tools/accessibility_snapshot.exe": "c18551853ba6a70505ac9ae1db8226700ffd0fdb5eaf9e07b41066f11a87dbc3",
+          "Tools/accessibility_snapshot.json": "97a20b68d907b0588d05881ee48651472f08408c3a4fb1a72abf58786484e0a0"
+        },
+        "independent_copies": true,
+        "tests": {
+          "passed": true,
+          "tests": 600,
+          "skipped": 2,
+          "failures": [],
+          "errors": []
+        },
+        "free_bytes": 187024105472
+      },
+      "E": {
+        "added_application_bytes": 6043167,
+        "source_hashes": {
+          "Agent/application_api.py": "0d41bc6207739613475e5f6d4b87ffd5197f7e6351afa78f5ba2ed076663034a",
+          "Agent/artifact_document.py": "648906116d559d1aa027db6b47f2787d0af4ae00ec93f1d47fe905da56ebe770",
+          "Agent/artifact_preview_worker.py": "c1cf6ba792f6412edadb131687d0e5e3b458dc4b60f6bdd255cf212760ee4339",
+          "Agent/artifacts.py": "827046f8bac38c48143254e11a508a9cc67014dd0d6f8317a533b3db46ec433e",
+          "Agent/desktop_accessibility.py": "8d21f6768d9578f1a43be470c7aef60ea86b6346d1e0899e6822a04bc4031c81",
+          "Agent/desktop_control.py": "0df1dc3028e9d0320ca25500ef3eba8d52dd10c28c181f200107df87e0882748",
+          "Agent/knowledge_base.py": "68a690f6a291e1ac074e9b1bece7c09b06be37c6c59fa7a0258aa9d080f38347",
+          "Agent/mcp_client.py": "1393fe68d7d4c91add0e36a01a9daae6f0a99d65f7fe10cbe93fc5bbe794c270",
+          "Agent/mcp_oauth.py": "3a7cf89298fc844097cedd80e7477480290e4404f2e2049500967e7d9c4c35d3",
+          "Agent/portable_workspace.py": "5b6a89766ff201afe3d59d1b20f5cfbf06d93e7e8ada6ed1feb7c8b0d5933008",
+          "Agent/rich_artifacts.py": "d6f8c0c310943f5ac3c53f1a16558ad16d7907fb140c8f92b1da79a364a9d8b5",
+          "ControlCenter/ArtifactAssets/babel-standalone-LICENSE": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76",
+          "ControlCenter/ArtifactAssets/babel-standalone-babel.min.js": "7dd1d84b2d92ec6b2fbe35bb9c028ef6b933d21b113d6266b3561bb66de40f72",
+          "ControlCenter/ArtifactAssets/dompurify-LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "ControlCenter/ArtifactAssets/dompurify-purify.min.js": "cd37898f9782adf54820c413191b5691803f0f137c799d6edcfd38523b4c2c31",
+          "ControlCenter/ArtifactAssets/manifest.json": "f93fa6d20d6c704451454faa8131fe1f75573d9a703fc5a41b9e52c5ecc8ebda",
+          "ControlCenter/ArtifactAssets/marked-LICENSE": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c",
+          "ControlCenter/ArtifactAssets/marked-marked.umd.js": "9eb730d2362ae1a8c6201698f17009e16671be6946d3d06503ddc0575283db7c",
+          "ControlCenter/ArtifactAssets/mermaid-js-tiny-LICENSE": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+          "ControlCenter/ArtifactAssets/mermaid-js-tiny-mermaid.tiny.js": "ea0cdf04eb31907eb20d956a34fe300095365c876887b54ffa29f1f847f56d00",
+          "ControlCenter/ArtifactAssets/react-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/react-dom-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/react-dom-react-dom-client.production.js": "a319b413b7a19ee34422d9a12a8e7afd003c07846716d278ba1a0898e8cb6251",
+          "ControlCenter/ArtifactAssets/react-dom-react-dom.production.js": "7a05d7f7bb2b02aae84018a88d4815a2181eef48d2cb8172d403eaa2b131eefd",
+          "ControlCenter/ArtifactAssets/react-react.production.js": "0b5529981841afa1b58c76ba85c29bb681ff5f07cd8cde6a10b967d3915b8e1c",
+          "ControlCenter/ArtifactAssets/scheduler-LICENSE": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "ControlCenter/ArtifactAssets/scheduler-scheduler.production.js": "679adff761d31e9426604f80c0e99be44a3e6f4c6834b0218ecf0312a67c171f",
+          "ControlCenter/application_api_contract.py": "3bb5200d3cde1c8cf7a37f9e279c005b345840122d3d23d9ab839d625c294fca",
+          "ControlCenter/application_api_runtime.py": "8a73b5ab9afbf690b6e2b193bc1cfcda15213ef546064acbaf59c27cfe9d825c",
+          "ControlCenter/capability_tools.py": "34ae875c04d4ecb8fbe32ef28b5ac457fa562ed5295c23341103944eec1eb0a7",
+          "ControlCenter/chat_tool_menu.py": "20f56e0fc6d3abebfce715e1c0ee289ced7c197aee6ff6dbf35ba35e393a622a",
+          "ControlCenter/chat_voice.py": "2889387835a957e1287b169a1e3054eea60809155119b6085338b6b14622a5c3",
+          "ControlCenter/mcp_workspace_ui.py": "a345a3daea356b83d724c14547e00f57f1d2344d80403e1b2a3dbc0a9a24c182",
+          "ControlCenter/model_comparison.py": "b0c5e83082f004be9f445c32671e9de57f39edab63f9f593c90191d3c129dda1",
+          "ControlCenter/native_chat.py": "47e88879e2224a1f5bad79bb5ab69081dbcb454e79b1091f31f36a38ca922273",
+          "ControlCenter/portable_workspace_ui.py": "c1059e292578ea82fc18538369398276f77c69673b73b4cbce829813271669b5",
+          "ControlCenter/release_version.py": "0de2397e101d9d53e315c629e02d2b771e84ca1fc61e2010fa528066e5d01c7f",
+          "ControlCenter/tool_protocol.py": "7d2a7c18172715e7b8a530daa19190b2a05489eabf1e64ebc426f64b13264b8d",
+          "ControlCenter/voice_layout.py": "6fc62687bd9036adffd2edc26117d79a9ab4e6d57d7552f38e1cf3e5886acb69",
+          "ControlCenter/voice_visualizer.py": "05bb8e342f81bcd7d8490f71aa53552ea4e1ee5dc7190cac2737a118ef0616c6",
+          "ControlCenter/workflow_builder.py": "d19ba2269711327783c93a35c8eb442e28723a71a8e40c20fa7df45b5273f062",
+          "ControlCenter/workspace_integration_ui.py": "081fc1dc5aefe03563577ebd5278a32b0aa3650ef38a37d68d4a4f90bb1ae967",
+          "ControlCenter/workspace_panel.py": "867566fb8f84ce5fb4193d9192600df6a96284b09603d1fa7a9c7c94e8bdacc2",
+          "Documentation/Portable_Capabilities_r58.md": "0857fe0c4cf23919f8dfc67b9962fa0da99e616775225d217a28d62c65505a73",
+          "Maintenance/Tests/test_chat_voice.py": "1f77b04c95bc530ed1935aadbc40812a848c3f32c223eea2a079e7d999b934ea",
+          "Maintenance/Tests/test_integration.py": "f0c9b66796c152b6c0a63e772056c90569eff8a913243f0aaf6facd8f5d21a44",
+          "Maintenance/Tests/test_portable_capabilities.py": "c46d956fcfe85b7280ba1efe33d4507168884b2b8773d7a5849eb17735d17817",
+          "Maintenance/Tests/test_workspace_profiles.py": "7ef45d15543d1060f3e0f0fe90e915e3b422d60ca4233b2f28f7193cb74d7625",
+          "Maintenance/Tests/test_chat_full_context.py": "2842b3e6b383ef017a1dd484bf3c857358cdb24b2a2f5fb0fc748293befac0ab",
+          "Maintenance/Tests/test_chat_context_recovery.py": "5bb3f186215ae7f155d1bad20656e1faefe93aa4a2697b9f17bf106544c725c2",
+          "Maintenance/Tests/test_small_model_chat.py": "75875d7911a57055599d8fe95d9f4c0addbde8fe2203baf7842dd0cf9bbaab8a",
+          "Maintenance/Tests/test_coding_stall.py": "62ffd392a7d1edd4bcf38dec1adb729f80ef1f4a2d651178fa56d1db31da5e38",
+          "Maintenance/Tests/test_account_web_commands.py": "bb9aa814bd9b0af1e0cd0a22830264695ffc855413e8b41861c4c9e1d2e8d981",
+          "Tools/AccessibilitySnapshot.cs": "bf7e81e9c113d86ff0397b89492f9640beec5b5cac7f74e709db6d908c703802",
+          "Tools/accessibility_snapshot.exe": "c18551853ba6a70505ac9ae1db8226700ffd0fdb5eaf9e07b41066f11a87dbc3",
+          "Tools/accessibility_snapshot.json": "97a20b68d907b0588d05881ee48651472f08408c3a4fb1a72abf58786484e0a0"
+        },
+        "independent_copies": true,
+        "tests": {
+          "passed": true,
+          "tests": 600,
+          "skipped": 2,
+          "failures": [],
+          "errors": []
+        },
+        "free_bytes": 205868548096
+      }
+    },
+    "new_model_weights": false,
+    "new_runtime": false,
+    "permanent_service": false,
+    "physical_microphone_barge_in_tested": false,
+    "actual_qwen_streaming": false,
+    "real_provider_oauth_tested": false,
+    "real_llm_comparison_tested": false,
+    "native_gui_inspected": [
+      "Projects",
+      "Skills",
+      "Knowledge",
+      "Workflows",
+      "Workflow step editor round-trip",
+      "Compare"
+    ],
+    "browser_smoke": [
+      {
+        "kind": "markdown",
+        "rendered": true,
+        "interactive": false,
+        "parent_access_blocked": true,
+        "browser_errors": []
+      },
+      {
+        "kind": "mermaid",
+        "rendered": true,
+        "interactive": false,
+        "parent_access_blocked": true,
+        "browser_errors": []
+      },
+      {
+        "kind": "react",
+        "rendered": true,
+        "interactive": true,
+        "parent_access_blocked": true,
+        "browser_errors": []
+      }
+    ],
+    "audio_smoke": {
+      "passed": true,
+      "real_owned_ffplay": true,
+      "silent_audio_only": true,
+      "interrupt_seconds": 1.0309999999881256,
+      "capture_guard_survives": true,
+      "next_playback_completed": true,
+      "qwen_synthesis_tested": false
+    },
+    "accessibility_smoke": {
+      "passed": true,
+      "real_windows_uia_helper": true,
+      "own_fixture_only": true,
+      "password_control_excluded": true,
+      "elements": 8,
+      "actual_click_or_drag_tested": false
+    }
+  },
+  "catalog": {
+    "passed": true,
+    "windows_r58_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "5134e06d2484bd3c37b52b88df3223955ef94d7e1d8ee1d0d7a5e700a82d3502",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

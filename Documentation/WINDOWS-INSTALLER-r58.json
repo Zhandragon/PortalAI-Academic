@@ -1,0 +1,136 @@
+{
+  "version": "2026.10.31-Desktop-r58",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r58-suite.zip",
+  "bytes": 623108828,
+  "sha256": "5134e06d2484bd3c37b52b88df3223955ef94d7e1d8ee1d0d7a5e700a82d3502",
+  "previous_sha256": "5dfae0448ae939a28b213eac7eb6cde28ef8af14a3b263cd457c682a3048b9b9",
+  "changed_members": [
+    "PortalAI/Agent/application_api.py",
+    "PortalAI/Agent/artifact_document.py",
+    "PortalAI/Agent/artifact_preview_worker.py",
+    "PortalAI/Agent/artifacts.py",
+    "PortalAI/Agent/desktop_control.py",
+    "PortalAI/Agent/knowledge_base.py",
+    "PortalAI/Agent/mcp_client.py",
+    "PortalAI/ControlCenter/application_api_contract.py",
+    "PortalAI/ControlCenter/application_api_runtime.py",
+    "PortalAI/ControlCenter/capability_tools.py",
+    "PortalAI/ControlCenter/chat_tool_menu.py",
+    "PortalAI/ControlCenter/chat_voice.py",
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/tool_protocol.py",
+    "PortalAI/ControlCenter/voice_layout.py",
+    "PortalAI/ControlCenter/voice_visualizer.py",
+    "PortalAI/ControlCenter/workspace_integration_ui.py",
+    "PortalAI/ControlCenter/workspace_panel.py",
+    "PortalAI/Maintenance/Tests/test_account_web_commands.py",
+    "PortalAI/Maintenance/Tests/test_chat_context_recovery.py",
+    "PortalAI/Maintenance/Tests/test_chat_full_context.py",
+    "PortalAI/Maintenance/Tests/test_chat_voice.py",
+    "PortalAI/Maintenance/Tests/test_coding_stall.py",
+    "PortalAI/Maintenance/Tests/test_integration.py",
+    "PortalAI/Maintenance/Tests/test_small_model_chat.py",
+    "PortalAI/Maintenance/Tests/test_workspace_profiles.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/desktop_accessibility.py",
+    "PortalAI/Agent/mcp_oauth.py",
+    "PortalAI/Agent/portable_workspace.py",
+    "PortalAI/Agent/rich_artifacts.py",
+    "PortalAI/ControlCenter/ArtifactAssets/babel-standalone-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/babel-standalone-babel.min.js",
+    "PortalAI/ControlCenter/ArtifactAssets/dompurify-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/dompurify-purify.min.js",
+    "PortalAI/ControlCenter/ArtifactAssets/manifest.json",
+    "PortalAI/ControlCenter/ArtifactAssets/marked-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/marked-marked.umd.js",
+    "PortalAI/ControlCenter/ArtifactAssets/mermaid-js-tiny-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/mermaid-js-tiny-mermaid.tiny.js",
+    "PortalAI/ControlCenter/ArtifactAssets/react-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/react-dom-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/react-dom-react-dom-client.production.js",
+    "PortalAI/ControlCenter/ArtifactAssets/react-dom-react-dom.production.js",
+    "PortalAI/ControlCenter/ArtifactAssets/react-react.production.js",
+    "PortalAI/ControlCenter/ArtifactAssets/scheduler-LICENSE",
+    "PortalAI/ControlCenter/ArtifactAssets/scheduler-scheduler.production.js",
+    "PortalAI/ControlCenter/mcp_workspace_ui.py",
+    "PortalAI/ControlCenter/model_comparison.py",
+    "PortalAI/ControlCenter/portable_workspace_ui.py",
+    "PortalAI/ControlCenter/workflow_builder.py",
+    "PortalAI/Documentation/Portable_Capabilities_r58.md",
+    "PortalAI/Maintenance/Tests/test_portable_capabilities.py",
+    "PortalAI/Tools/AccessibilitySnapshot.cs",
+    "PortalAI/Tools/accessibility_snapshot.exe",
+    "PortalAI/Tools/accessibility_snapshot.json"
+  ],
+  "payload_members": 5221,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": true,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_dependencies": "Pinned offline browser renderers only",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273202306671,
+    "download_bytes": 234114349863,
+    "required_bytes": 511597393736,
+    "files": 330199
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "0d3082986a023491155b74706b3ae14c0f818271b76df5c81c547acab25f4d8b"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381036085,
+      "sha256": "7a63ae5be2ceac416e7038988507ff376afc98e4a7fa22cf9c62c16f1301892b"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139015421,
+      "sha256": "25071688edf5a3762085b3bc98261256603eae46bdc29273d141119c09573761"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 5396,
+      "sha256": "ebacead5572957e9b910c71d0b25b807c97ee65d8f9390e95f6b8d88efacb668"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "24ee913ac23bcbca7cf288e88fcc764250914e4db7b3e88b608bb08e3159ddb7"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "62410e8ffddfe3ca70504a85aa82b748dd678c14c23a77acbd7e0a0052d93232"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1260,
+      "sha256": "74f7da43d6efcaeb6b99bc63ccbfb8e0137c81a6bf92093b82ecc25357e6fe05"
+    }
+  ]
+}

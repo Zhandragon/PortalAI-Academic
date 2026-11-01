@@ -4,6 +4,7 @@
 
 # Preserve exact packaged source bytes for archive/source verification.
 ApplicationSources/** -text
+ApplicationSources/Windows/PortalAI/ControlCenter/ArtifactAssets/** -text -whitespace linguist-vendored
 InstallerSources/** -text
 Utilities/Projection/source/** -text
 Utilities/Projection/Mac-HA-Setup/** -text

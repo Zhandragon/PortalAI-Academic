@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 902
+    "Windows": 912
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -45563,8 +45563,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/application_api.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "68a933b37b6b93ebd8237d47e9f514602d8a1e3dd3db6917620ec3c195781d02",
-      "lines": 188,
+      "sha256": "0d41bc6207739613475e5f6d4b87ffd5197f7e6351afa78f5ba2ed076663034a",
+      "lines": 196,
       "overview": "Versioned loopback HTTP boundary, scoped bearer grants and write receipts.",
       "symbols": [
         {
@@ -45573,13 +45573,18 @@
           "kind": "ClassDef"
         },
         {
-          "name": "APIState",
+          "name": "APIRejected",
           "line": 21,
           "kind": "ClassDef"
         },
         {
+          "name": "APIState",
+          "line": 25,
+          "kind": "ClassDef"
+        },
+        {
           "name": "Server",
-          "line": 95,
+          "line": 103,
           "kind": "ClassDef"
         }
       ]
@@ -45588,8 +45593,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/artifact_document.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "ea98e149fca18b81f59e8bb1df1f313ca4ef27207c4aec1b4fb1bfe43b0c686f",
-      "lines": 30,
+      "sha256": "648906116d559d1aa027db6b47f2787d0af4ae00ec93f1d47fe905da56ebe770",
+      "lines": 33,
       "overview": "Offline interactive previews with an opaque-origin, scripts-only iframe.",
       "symbols": [
         {
@@ -45599,7 +45604,7 @@
         },
         {
           "name": "preview_document",
-          "line": 28,
+          "line": 31,
           "kind": "FunctionDef"
         }
       ]
@@ -45608,8 +45613,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/artifact_preview_worker.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "b8fa60101d358a7b38aa9683fa535ee33bae287b2cea264f8ede95f0cd4839c9",
-      "lines": 42,
+      "sha256": "c1cf6ba792f6412edadb131687d0e5e3b458dc4b60f6bdd255cf212760ee4339",
+      "lines": 47,
       "overview": "Owned portable Chromium preview; no app bindings, persistence or network.",
       "symbols": [
         {
@@ -45623,8 +45628,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/artifacts.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "a331f6b6ab0fbec96d409e5e93ab063d6cb458f4fe15de4fe9dcc78aefa8ae39",
-      "lines": 100,
+      "sha256": "827046f8bac38c48143254e11a508a9cc67014dd0d6f8317a533b3db46ec433e",
+      "lines": 101,
       "overview": "Immutable, account-private HTML/SVG/chart revisions with explicit export.",
       "symbols": [
         {
@@ -45634,7 +45639,7 @@
         },
         {
           "name": "Artifacts",
-          "line": 33,
+          "line": 34,
           "kind": "ClassDef"
         }
       ]
@@ -46055,11 +46060,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/desktop_accessibility.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "8d21f6768d9578f1a43be470c7aef60ea86b6346d1e0899e6822a04bc4031c81",
+      "lines": 48,
+      "overview": "Bounded read-only Windows UI Automation query in an owned, timed helper.",
+      "symbols": [
+        {
+          "name": "snapshot",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "point",
+          "line": 43,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/desktop_control.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "318122566075b14bb3b81b91ca0e75db7e6094804f1a43e6ab2901c703ead683",
-      "lines": 226,
+      "sha256": "0df1dc3028e9d0320ca25500ef3eba8d52dd10c28c181f200107df87e0882748",
+      "lines": 255,
       "overview": "Session-only Windows desktop grants and observed, bounded native input.",
       "symbols": [
         {
@@ -46483,8 +46508,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_base.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "2feb7d09d4560bcfbff2dc20a863882eb949612bda3dcfc0f7ea747868eafc94",
-      "lines": 185,
+      "sha256": "68a690f6a291e1ac074e9b1bece7c09b06be37c6c59fa7a0258aa9d080f38347",
+      "lines": 211,
       "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
       "symbols": [
         {
@@ -46928,8 +46953,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/mcp_client.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "a24f308333926d895b84d17bf56232f4f7360f1e139e3b001d1e037402f21659",
-      "lines": 314,
+      "sha256": "1393fe68d7d4c91add0e36a01a9daae6f0a99d65f7fe10cbe93fc5bbe794c270",
+      "lines": 393,
       "overview": "Bounded MCP tools client: stdio and Streamable HTTP, with explicit tool grants.",
       "symbols": [
         {
@@ -46939,7 +46964,7 @@
         },
         {
           "name": "Connections",
-          "line": 220,
+          "line": 239,
           "kind": "ClassDef"
         }
       ]
@@ -46952,6 +46977,51 @@
       "lines": 29,
       "overview": "Start a configured stdio server only after its parent establishes job ownership.",
       "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/mcp_oauth.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "3a7cf89298fc844097cedd80e7477480290e4404f2e2049500967e7d9c4c35d3",
+      "lines": 142,
+      "overview": "OAuth authorization-code/PKCE for pre-registered public MCP clients.",
+      "symbols": [
+        {
+          "name": "endpoint",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "request_json",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_config",
+          "line": 45,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "metadata",
+          "line": 59,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "token_result",
+          "line": 84,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "authorize",
+          "line": 94,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "refresh",
+          "line": 138,
+          "kind": "FunctionDef"
+        }
+      ]
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Agent/media_defaults.py",
@@ -48798,6 +48868,41 @@
       "symbols": []
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/portable_workspace.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "5b6a89766ff201afe3d59d1b20f5cfbf06d93e7e8ada6ed1feb7c8b0d5933008",
+      "lines": 163,
+      "overview": "Small, account-private projects and text-only skills; no additional runtime.",
+      "symbols": [
+        {
+          "name": "short_text",
+          "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Organization",
+          "line": 19,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "parse_skill",
+          "line": 75,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Skills",
+          "line": 101,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "chat_guidance",
+          "line": 150,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/process_diagnostics.py",
       "platform": "Windows",
       "component": "Agent",
@@ -49333,6 +49438,31 @@
         {
           "name": "clean_environment",
           "line": 39,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/rich_artifacts.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "d6f8c0c310943f5ac3c53f1a16558ad16d7907fb140c8f92b1da79a364a9d8b5",
+      "lines": 42,
+      "overview": "Pinned offline Markdown, Mermaid and React renderers, loaded only on preview.",
+      "symbols": [
+        {
+          "name": "asset",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "script",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "document",
+          "line": 21,
           "kind": "FunctionDef"
         }
       ]
@@ -52062,8 +52192,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/application_api_contract.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "94e5e06a731591b366a81f5c785edb67b7d22b786b9576a3fdccaedf8a070633",
-      "lines": 22,
+      "sha256": "3bb5200d3cde1c8cf7a37f9e279c005b345840122d3d23d9ab839d625c294fca",
+      "lines": 23,
       "overview": "Public v1 request contracts, shared by the OpenAPI document generator.",
       "symbols": [
         {
@@ -52077,33 +52207,33 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/application_api_runtime.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "44d8badfceffdcf483656e038710f9243cd5a6118a0cd58a7d04b74a836c2893",
-      "lines": 258,
+      "sha256": "8a73b5ab9afbf690b6e2b193bc1cfcda15213ef546064acbaf59c27cfe9d825c",
+      "lines": 279,
       "overview": "Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint.",
       "symbols": [
         {
           "name": "fields",
-          "line": 27,
+          "line": 30,
           "kind": "FunctionDef"
         },
         {
           "name": "integer",
-          "line": 31,
+          "line": 34,
           "kind": "FunctionDef"
         },
         {
           "name": "page",
-          "line": 37,
+          "line": 40,
           "kind": "FunctionDef"
         },
         {
           "name": "openapi",
-          "line": 42,
+          "line": 45,
           "kind": "FunctionDef"
         },
         {
           "name": "ApplicationAPI",
-          "line": 62,
+          "line": 65,
           "kind": "ClassDef"
         }
       ]
@@ -52157,8 +52287,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "bcad4666222fe5b3924b5cc855aefaea06ac6dee179f5e7151e99bd147a60350",
-      "lines": 167,
+      "sha256": "34ae875c04d4ecb8fbe32ef28b5ac457fa562ed5295c23341103944eec1eb0a7",
+      "lines": 186,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -52183,12 +52313,12 @@
         },
         {
           "name": "tool",
-          "line": 129,
+          "line": 146,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 149,
+          "line": 168,
           "kind": "FunctionDef"
         }
       ]
@@ -52457,7 +52587,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a35b9c928576d37c39d69e547c18a25d49b32231220e2c1cd1c84eb2740ae701",
+      "sha256": "20f56e0fc6d3abebfce715e1c0ee289ced7c197aee6ff6dbf35ba35e393a622a",
       "lines": 206,
       "overview": "Request-local capability discovery and on-demand tool/workflow guidance.",
       "symbols": [
@@ -52507,28 +52637,38 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "f8f79e51fc0dc5fe63fdcecb6ba0d312ddf2951ad5269bd085b7a15de50548f3",
-      "lines": 226,
+      "sha256": "2889387835a957e1287b169a1e3054eea60809155119b6085338b6b14622a5c3",
+      "lines": 289,
       "overview": "Turn-bound microphone transcription and cancellable, offline spoken replies.",
       "symbols": [
         {
           "name": "VoiceStopped",
-          "line": 25,
+          "line": 27,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "SpeechInterrupted",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "SpeechBuffer",
+          "line": 36,
           "kind": "ClassDef"
         },
         {
           "name": "VoiceTurn",
-          "line": 30,
+          "line": 58,
           "kind": "ClassDef"
         },
         {
           "name": "spoken_chunks",
-          "line": 53,
+          "line": 83,
           "kind": "FunctionDef"
         },
         {
           "name": "VoiceIO",
-          "line": 71,
+          "line": 101,
           "kind": "ClassDef"
         }
       ]
@@ -53304,6 +53444,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/mcp_workspace_ui.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "a345a3daea356b83d724c14547e00f57f1d2344d80403e1b2a3dbc0a9a24c182",
+      "lines": 51,
+      "overview": "On-demand MCP sign-in and resource/prompt dialogs.",
+      "symbols": [
+        {
+          "name": "oauth_dialog",
+          "line": 8,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "content_dialog",
+          "line": 26,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/media_choices.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -53573,6 +53733,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/model_comparison.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "b0c5e83082f004be9f445c32671e9de57f39edab63f9f593c90191d3c129dda1",
+      "lines": 75,
+      "overview": "Sequential text-only model comparison through existing effort admission.",
+      "symbols": [
+        {
+          "name": "Comparisons",
+          "line": 6,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "comparison_page",
+          "line": 51,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/model_connection.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -53611,8 +53791,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3c4b042ccc177879473c0058773096dec1c624a04ddcc0791d9d14bd243cb882",
-      "lines": 6895,
+      "sha256": "8bdf5839a0f78ee0a14d31215eb3298def134b3702c421de64d48c0eee4f2a08",
+      "lines": 6969,
       "overview": "",
       "symbols": [
         {
@@ -53767,7 +53947,7 @@
         },
         {
           "name": "main",
-          "line": 6883,
+          "line": 6957,
           "kind": "FunctionDef"
         }
       ]
@@ -54499,6 +54679,21 @@
           "name": "assert_bootstrap_compatible",
           "line": 26,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/portable_workspace_ui.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "c1059e292578ea82fc18538369398276f77c69673b73b4cbce829813271669b5",
+      "lines": 102,
+      "overview": "Native project and skill management, sharing the existing Workspace sheet.",
+      "symbols": [
+        {
+          "name": "PortableWorkspaceUI",
+          "line": 8,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -55351,7 +55546,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "af6da3f9434217c0f2f556d97bc9f95675c8f24b964f42306e96a14181776f99",
+      "sha256": "0de2397e101d9d53e315c629e02d2b771e84ca1fc61e2010fa528066e5d01c7f",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -55840,7 +56035,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "ad419321ee49155127c74702766e1c8b8708c0a1c3e569db100fa4716cd249f8",
+      "sha256": "7d2a7c18172715e7b8a530daa19190b2a05489eabf1e64ebc426f64b13264b8d",
       "lines": 186,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
@@ -56010,8 +56205,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_layout.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "b67abe5a71df68ab8c8742f72d20ab80a979f6dce39e2e66c10293a3418127e0",
-      "lines": 104,
+      "sha256": "6fc62687bd9036adffd2edc26117d79a9ab4e6d57d7552f38e1cf3e5886acb69",
+      "lines": 105,
       "overview": "Temporary hands-free views over the existing full and compact chat layouts.",
       "symbols": [
         {
@@ -56031,7 +56226,7 @@
         },
         {
           "name": "install_compact_voice",
-          "line": 100,
+          "line": 101,
           "kind": "FunctionDef"
         }
       ]
@@ -56080,8 +56275,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_visualizer.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "1b30df673729d74488d1c88565911e836aa1f6c425f206d5ed20b854befb37a4",
-      "lines": 169,
+      "sha256": "05bb8e342f81bcd7d8490f71aa53552ea4e1ee5dc7190cac2737a118ef0616c6",
+      "lines": 175,
       "overview": "PortalAI's turquoise-to-gold hands-free card, rendered by the Tk thread.",
       "symbols": [
         {
@@ -56167,10 +56362,40 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workflow_builder.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "d19ba2269711327783c93a35c8eb442e28723a71a8e40c20fa7df45b5273f062",
+      "lines": 109,
+      "overview": "Native ordered-step editor for the existing durable workflow engine.",
+      "symbols": [
+        {
+          "name": "typed",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "display",
+          "line": 25,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "update_step",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "open_builder",
+          "line": 44,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_integration_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "8c1ec7e0eff410f30e66a7b07b9c81b2066ce4f04f89e1b165908b0bff802e79",
+      "sha256": "081fc1dc5aefe03563577ebd5278a32b0aa3650ef38a37d68d4a4f90bb1ae967",
       "lines": 106,
       "overview": "Workspace controls for structured output, API grants and artifact revisions.",
       "symbols": [
@@ -56185,18 +56410,18 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "823859932518602d1b1fb6a97143625de78e3d791eb7ea0b4d7f8712b295c107",
-      "lines": 216,
+      "sha256": "867566fb8f84ce5fb4193d9192600df6a96284b09603d1fa7a9c7c94e8bdacc2",
+      "lines": 266,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {
           "name": "show_workspace",
-          "line": 14,
+          "line": 16,
           "kind": "FunctionDef"
         },
         {
           "name": "WorkspacePanel",
-          "line": 25,
+          "line": 27,
           "kind": "ClassDef"
         }
       ]
@@ -57724,8 +57949,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_account_web_commands.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "ba3d8a057a00613e3a94aaf1f547f59cec6ef09d35635a52444d77aa35ae74bc",
-      "lines": 151,
+      "sha256": "bb9aa814bd9b0af1e0cd0a22830264695ffc855413e8b41861c4c9e1d2e8d981",
+      "lines": 153,
       "overview": "Public web access for authenticated accounts, using literal argv and temp roots.",
       "symbols": [
         {
@@ -58044,8 +58269,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "b97e959f69b328c2c7c608b298c11969808fc1bcfa2c73d9a283abaa9543d496",
-      "lines": 237,
+      "sha256": "5bb3f186215ae7f155d1bad20656e1faefe93aa4a2697b9f17bf106544c725c2",
+      "lines": 241,
       "overview": "Real prompt overhead and small-context recovery without model/tool execution.",
       "symbols": [
         {
@@ -58089,8 +58314,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_full_context.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "2b95c6227efdf0c47ad41fdeacdedc758115812ad574b9fcba76ad60096181f6",
-      "lines": 187,
+      "sha256": "2842b3e6b383ef017a1dd484bf3c857358cdb24b2a2f5fb0fc748293befac0ab",
+      "lines": 189,
       "overview": "Real default prompts/catalog across effort levels, with no private account I/O.",
       "symbols": [
         {
@@ -58519,8 +58744,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_voice.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "8019fb65f5b814d59432414b86bf3778ca053ef112b4b303e967092ae9fc0941",
-      "lines": 209,
+      "sha256": "1f77b04c95bc530ed1935aadbc40812a848c3f32c223eea2a079e7d999b934ea",
+      "lines": 212,
       "overview": "Missing STT bindings, voice turn ownership, and actual Tk event-loop routing.",
       "symbols": [
         {
@@ -58599,8 +58824,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_coding_stall.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "f39217ef3f9494438a6e97efac93efa5c84c5e3d137e9960539ba41a1fa23431",
-      "lines": 220,
+      "sha256": "62ffd392a7d1edd4bcf38dec1adb729f80ef1f4a2d651178fa56d1db31da5e38",
+      "lines": 224,
       "overview": "Behavioral coverage for stall recovery, real byte receipts and worker gates.",
       "symbols": [
         {
@@ -59329,8 +59554,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_integration.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "313fa8424386d081f6b73f4387e3e2fb985b12835b8125180d2f0520ef8c010c",
-      "lines": 161,
+      "sha256": "f0c9b66796c152b6c0a63e772056c90569eff8a913243f0aaf6facd8f5d21a44",
+      "lines": 181,
       "overview": "Schema, artifact and real HTTP API boundary/recovery regressions.",
       "symbols": [
         {
@@ -60556,6 +60781,51 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_capabilities.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "c46d956fcfe85b7280ba1efe33d4507168884b2b8773d7a5849eb17735d17817",
+      "lines": 219,
+      "overview": "Storage, account, authorization, interruption and recovery boundaries for r58.",
+      "symbols": [
+        {
+          "name": "ProjectSkillTests",
+          "line": 26,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VoiceTests",
+          "line": 84,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MCPContentTests",
+          "line": 104,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "OAuthLoopbackTests",
+          "line": 124,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "AccessibilityTests",
+          "line": 166,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ComparisonTests",
+          "line": 175,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "DesktopActionTests",
+          "line": 193,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_installer_placement.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -61644,8 +61914,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_small_model_chat.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "e7dc10608e454a2ce75b9f5b6bc5e3bae0422594d35a567f7a1468523b85b7aa",
-      "lines": 44,
+      "sha256": "75875d7911a57055599d8fe95d9f4c0addbde8fe2203baf7842dd0cf9bbaab8a",
+      "lines": 46,
       "overview": "",
       "symbols": [
         {
@@ -62639,8 +62909,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace_profiles.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "51f5c9106e402a17495eb6ff0ede9160bbe749b8c89d1a90dbf45d8f4ca24fd5",
-      "lines": 49,
+      "sha256": "7ef45d15543d1060f3e0f0fe90e915e3b422d60ca4233b2f28f7193cb74d7625",
+      "lines": 67,
       "overview": "Workspace data follows real encrypted lazy-profile and login boundaries.",
       "symbols": [
         {
@@ -63618,6 +63888,13 @@
       "component": "Setup",
       "sha256": "853ed3b5df5951a6e7d88ad35b1dd3f96297407300921270bc18694453e8662f",
       "lines": 176
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/AccessibilitySnapshot.cs",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "bf7e81e9c113d86ff0397b89492f9640beec5b5cac7f74e709db6d908c703802",
+      "lines": 47
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Tools/ExecutableRecovery.cs",

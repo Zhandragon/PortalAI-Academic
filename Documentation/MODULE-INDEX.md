@@ -41,6 +41,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/comfy_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/comfy_errors.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_errors.py) | Bounded ComfyUI failure evidence; no recovery actions or hardware guesses. |
 | [Agent/comfy_safetensors.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_safetensors.py) | Scoped Windows ROCm fallback for CPU safetensors checkpoint reads. |
+| [Agent/desktop_accessibility.py](../ApplicationSources/Windows/PortalAI/Agent/desktop_accessibility.py) | Bounded read-only Windows UI Automation query in an owned, timed helper. |
 | [Agent/desktop_control.py](../ApplicationSources/Windows/PortalAI/Agent/desktop_control.py) | Session-only Windows desktop grants and observed, bounded native input. |
 | [Agent/dialogue_portable.py](../ApplicationSources/Windows/PortalAI/Agent/dialogue_portable.py) | Sequential, bounded reference-motion dialogue for ROCm and Linux CUDA. |
 | [Agent/dialogue_timing.py](../ApplicationSources/Windows/PortalAI/Agent/dialogue_timing.py) | Explicit dialogue timelines; bounded model calls never change spoken words. |
@@ -65,6 +66,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/mafft_linux.py](../ApplicationSources/Windows/PortalAI/Agent/mafft_linux.py) | Run the verified Linux MAFFT payload with bundled shells, utilities and ELF loader. |
 | [Agent/mcp_client.py](../ApplicationSources/Windows/PortalAI/Agent/mcp_client.py) | Bounded MCP tools client: stdio and Streamable HTTP, with explicit tool grants. |
 | [Agent/mcp_launch.py](../ApplicationSources/Windows/PortalAI/Agent/mcp_launch.py) | Start a configured stdio server only after its parent establishes job ownership. |
+| [Agent/mcp_oauth.py](../ApplicationSources/Windows/PortalAI/Agent/mcp_oauth.py) | OAuth authorization-code/PKCE for pre-registered public MCP clients. |
 | [Agent/media_defaults.py](../ApplicationSources/Windows/PortalAI/Agent/media_defaults.py) | Saved media route choices; actual compute/memory admission stays in each job. |
 | [Agent/media_edit_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/media_edit_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/media_paths.py](../ApplicationSources/Windows/PortalAI/Agent/media_paths.py) | Private media paths without changing the shared model/program root. |
@@ -114,6 +116,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/portable_fs.py](../ApplicationSources/Windows/PortalAI/Agent/portable_fs.py) | Canonical application paths with Windows long-path I/O, without registry edits. |
 | [Agent/portable_permissions.py](../ApplicationSources/Windows/PortalAI/Agent/portable_permissions.py) | Portable read/execute access for public, allowlisted Windows package trees. |
 | [Agent/portable_process.py](../ApplicationSources/Windows/PortalAI/Agent/portable_process.py) | Select the native process identity/launcher helpers for this POSIX host. |
+| [Agent/portable_workspace.py](../ApplicationSources/Windows/PortalAI/Agent/portable_workspace.py) | Small, account-private projects and text-only skills; no additional runtime. |
 | [Agent/process_diagnostics.py](../ApplicationSources/Windows/PortalAI/Agent/process_diagnostics.py) | Bounded process errors that retain the cause of a native crash. |
 | [Agent/profile_hydration.py](../ApplicationSources/Windows/PortalAI/Agent/profile_hydration.py) | Session-owned on-demand restoration without passing encryption keys to tools. |
 | [Agent/profile_lazy_state.py](../ApplicationSources/Windows/PortalAI/Agent/profile_lazy_state.py) | Authenticated hydration bookkeeping; called under ProfileWorkspace's lock. |
@@ -129,6 +132,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/radeon_edit_entry.py](../ApplicationSources/Windows/PortalAI/Agent/radeon_edit_entry.py) | Offline InstructPix2Pix on ROCm; masked edits preserve unselected source pixels. |
 | [Agent/record_dates.py](../ApplicationSources/Windows/PortalAI/Agent/record_dates.py) | Presentation dates, separate from execution checkpoints and deletion proofs. |
 | [Agent/remote_lifecycle.py](../ApplicationSources/Windows/PortalAI/Agent/remote_lifecycle.py) | Public, key-free lifecycle fences for the optional Home Assistant bridge. |
+| [Agent/rich_artifacts.py](../ApplicationSources/Windows/PortalAI/Agent/rich_artifacts.py) | Pinned offline Markdown, Mermaid and React renderers, loaded only on preview. |
 | [Agent/runtime_policy.py](../ApplicationSources/Windows/PortalAI/Agent/runtime_policy.py) | Portable hardware/model selection. Standard library only; no host installs. |
 | [Agent/schedule_catalog.py](../ApplicationSources/Windows/PortalAI/Agent/schedule_catalog.py) | Read-only schedule presentation filters; never an execution policy. |
 | [Agent/science_tools.py](../ApplicationSources/Windows/PortalAI/Agent/science_tools.py) | No module overview; see source and symbol inventory. |
@@ -229,6 +233,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/low_power_support.py](../ApplicationSources/Windows/PortalAI/ControlCenter/low_power_support.py) | Optional general task scaffolding for the actual running 1.7B/4B model. |
 | [ControlCenter/maintenance_cleanup.py](../ApplicationSources/Windows/PortalAI/ControlCenter/maintenance_cleanup.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/maintenance_tools.py](../ApplicationSources/Windows/PortalAI/ControlCenter/maintenance_tools.py) | Observed environment and bounded first-party source lookup for maintenance. |
+| [ControlCenter/mcp_workspace_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/mcp_workspace_ui.py) | On-demand MCP sign-in and resource/prompt dialogs. |
 | [ControlCenter/media_choices.py](../ApplicationSources/Windows/PortalAI/ControlCenter/media_choices.py) | Human-readable descriptions of bundled routes, not hardware admission claims. |
 | [ControlCenter/media_devices.py](../ApplicationSources/Windows/PortalAI/ControlCenter/media_devices.py) | Portable desktop media I/O; capture endpoints are checked when opened. |
 | [ControlCenter/media_tool_api.py](../ApplicationSources/Windows/PortalAI/ControlCenter/media_tool_api.py) | Small structured media interface over the existing registered CLI workers. |
@@ -238,6 +243,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/mission_settings.py](../ApplicationSources/Windows/PortalAI/ControlCenter/mission_settings.py) | Persistent mission controls, using the existing Control Center palette. |
 | [ControlCenter/modal_backdrop.py](../ApplicationSources/Windows/PortalAI/ControlCenter/modal_backdrop.py) | Owned-window visual snapshots, held only in memory for modal presentation. |
 | [ControlCenter/modal_guard.py](../ApplicationSources/Windows/PortalAI/ControlCenter/modal_guard.py) | Tk-only modal input shield; window chrome remains usable. |
+| [ControlCenter/model_comparison.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_comparison.py) | Sequential text-only model comparison through existing effort admission. |
 | [ControlCenter/model_connection.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_connection.py) | Cancellable readiness checks; never starts a server or repeats a tool action. |
 | [ControlCenter/model_settings.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_settings.py) | Compatibility dialog; the main GUI now exposes a Settings page. |
 | [ControlCenter/native_chat.py](../ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py) | No module overview; see source and symbol inventory. |
@@ -263,6 +269,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/persistent_memory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/persistent_memory.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/portable_chat.py](../ApplicationSources/Windows/PortalAI/ControlCenter/portable_chat.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/portable_runtime.py](../ApplicationSources/Windows/PortalAI/ControlCenter/portable_runtime.py) | No module overview; see source and symbol inventory. |
+| [ControlCenter/portable_workspace_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/portable_workspace_ui.py) | Native project and skill management, sharing the existing Workspace sheet. |
 | [ControlCenter/portableai_common.py](../ApplicationSources/Windows/PortalAI/ControlCenter/portableai_common.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/portal_frontend_v15136.py](../ApplicationSources/Windows/PortalAI/ControlCenter/portal_frontend_v15136.py) | No module overview; see source and symbol inventory. |
 | [ControlCenter/profile_context.py](../ApplicationSources/Windows/PortalAI/ControlCenter/profile_context.py) | Immutable login capture for GUI stores and jobs; no user hot-swapping. |
@@ -304,6 +311,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/web_tool_api.py](../ApplicationSources/Windows/PortalAI/ControlCenter/web_tool_api.py) | Account-bound owned browser worker, cancelled by the existing Stop path. |
 | [ControlCenter/window_icons.py](../ApplicationSources/Windows/PortalAI/ControlCenter/window_icons.py) | High-resolution Windows window icons, without changing Tk's DPI or chrome. |
 | [ControlCenter/windows_gpu_counters.py](../ApplicationSources/Windows/PortalAI/ControlCenter/windows_gpu_counters.py) | Optional Windows WDDM counters via PDH, across NVIDIA/AMD/Intel drivers. |
+| [ControlCenter/workflow_builder.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workflow_builder.py) | Native ordered-step editor for the existing durable workflow engine. |
 | [ControlCenter/workspace_integration_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_integration_ui.py) | Workspace controls for structured output, API grants and artifact revisions. |
 | [ControlCenter/workspace_panel.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py) | One native Workspace sheet for knowledge, connections, workflows and computer use. |
 | [ControlCenter/workspace_services.py](../ApplicationSources/Windows/PortalAI/ControlCenter/workspace_services.py) | Explicitly started Workspace resources share the existing Stop boundary. |
@@ -577,6 +585,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_personal_model_policy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_personal_model_policy.py) | Real disposable accounts, encrypted restart/relocation, and hardware fixtures. |
 | [Maintenance/Tests/test_plannotate_tool.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plannotate_tool.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_platform_metadata.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_platform_metadata.py) | Installed metadata must use the selected OS and not equate files with GPU validation. |
+| [Maintenance/Tests/test_portable_capabilities.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_capabilities.py) | Storage, account, authorization, interruption and recovery boundaries for r58. |
 | [Maintenance/Tests/test_portable_installer_placement.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_installer_placement.py) | Execute the install scripts' actual default-path expressions without installing. |
 | [Maintenance/Tests/test_portable_permissions.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_permissions.py) | Real Windows restricted-token checks for public runtime transfer permissions. |
 | [Maintenance/Tests/test_portable_pip_paths.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_pip_paths.py) | Path representation only; these tests never visit the named network paths. |
@@ -756,6 +765,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 
 | Source | Overview |
 | --- | --- |
+| [Tools/AccessibilitySnapshot.cs](../ApplicationSources/Windows/PortalAI/Tools/AccessibilitySnapshot.cs) | Source script; inspect its comments and entry points. |
 | [Tools/ExecutableRecovery.cs](../ApplicationSources/Windows/PortalAI/Tools/ExecutableRecovery.cs) | Source script; inspect its comments and entry points. |
 | [Tools/abliterator_installer_core.py](../ApplicationSources/Windows/PortalAI/Tools/abliterator_installer_core.py) | Clean-install engine. No account creation, pairing, elevation or process control. |
 | [Tools/activate_windows_kicad.py](../ApplicationSources/Windows/PortalAI/Tools/activate_windows_kicad.py) | Activate only the verified, tested Windows 9.0.2 portable extraction. |

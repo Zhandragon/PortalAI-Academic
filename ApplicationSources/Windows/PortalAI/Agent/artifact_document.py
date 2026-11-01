@@ -22,6 +22,9 @@ def inner_document(kind,content):
     validate_content(kind,content)
     if kind=='chart':content=CHART.replace('__DATA__',json.dumps(json.loads(content),ensure_ascii=True).replace('<','\\u003c'))
     elif kind=='svg':content='<html><body style="margin:0;background:white">'+content+'</body></html>'
+    elif kind in ('markdown','mermaid','react'):
+        from rich_artifacts import document
+        content=document(kind,content)
     return '<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="'+html.escape(CSP,quote=True)+'">'+content
 
 

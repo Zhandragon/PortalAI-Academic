@@ -59,9 +59,9 @@ class IntegrationUI:
         from artifacts import Artifacts
         p=self.pages['Artifacts'];self.preview=None;store=Artifacts(self.root,self.check)
         self.artifact_id=None;self.artifact_head=None
-        self.skin.label(p,'HTML, SVG or chart JSON. Save creates an immutable revision. Preview runs scripts offline in an isolated browser; exporting produces the original file.').pack(fill='x')
+        self.skin.label(p,'HTML, SVG, chart JSON, Markdown, Mermaid or React. Preview uses offline renderers in the existing isolated browser. React: export a default component or define App; only React/ReactDOM imports are available.').pack(fill='x')
         items=self.tree(p,('Title','Kind','Revision'));history=self.tree(p,('Revision','Created'))
-        title=self.field(p,'Title','My artifact');kind=self.field(p,'Kind: html, svg or chart','html')
+        title=self.field(p,'Title','My artifact');kind=self.field(p,'Kind: html, svg, chart, markdown, mermaid or react','html')
         editor=self.text(p,EXAMPLE_HTML,7);editor.pack(fill='x')
         def refresh():
             items.delete(*items.get_children())

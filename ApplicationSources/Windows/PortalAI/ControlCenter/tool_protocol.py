@@ -30,11 +30,11 @@ def read_only_tool_attempt(name, args, root) -> bool:
         return True
     if name == 'available_tools':
         return True
-    if name in ('knowledge','mcp','workflow','computer','structured','artifact'):
+    if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill'):
         action=args.get('action')
         safe={'knowledge':{'list','search','read'},'mcp':{'list','tools'},
               'workflow':{'list','describe','status'},'computer':{'windows','status'},
-              'structured':{'generate'},'artifact':{'list','read','history','compare'}}
+              'structured':{'generate'},'artifact':{'list','read','history','compare'},'skill':{'list','read'}}
         return isinstance(action,str) and action in safe[name]
     if name == 'web':
         action = args.get('action')

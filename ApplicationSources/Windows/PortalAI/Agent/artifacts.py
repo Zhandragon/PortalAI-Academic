@@ -8,13 +8,14 @@ from pathlib import Path
 import time
 from workspace_store import Workspace,identifier,read_json,encoded
 
-KINDS={'html':'.html','svg':'.svg','chart':'.json'}
+KINDS={'html':'.html','svg':'.svg','chart':'.json','markdown':'.md','mermaid':'.mmd','react':'.jsx'}
 LIMIT=512*1024
 
 
 def validate_content(kind,content):
     if kind not in KINDS or not isinstance(content,str) or not content.strip() or len(content.encode())>LIMIT:
-        raise ValueError('Artifact must be HTML, SVG or chart JSON, with 1..512 KiB of source')
+        raise ValueError('Artifact must be HTML, SVG, chart JSON, Markdown, Mermaid or React, with 1..512 KiB of source')
+    if kind=='mermaid' and len(content)>50000:raise ValueError('Mermaid preview is limited to 50,000 characters')
     if kind=='chart':
         chart=json.loads(content)
         if not isinstance(chart,dict) or set(chart)-{'title','labels','series','style'}:raise ValueError('Chart fields: title, labels, series, style')

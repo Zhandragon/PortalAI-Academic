@@ -2,7 +2,8 @@
 
 Hands-free uses the selected local voice. Model text remains unchanged;
 speech omits Markdown syntax and describes code blocks instead of reading code.
-No microphone samples are submitted while a reply is being spoken.
+Optional headphone interruption captures the next utterance while speaking;
+transcription and the next model turn wait for owned speech cleanup.
 """
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -13,6 +14,7 @@ import subprocess
 import threading
 import time
 import wave
+import queue
 
 
 # Prime the newly opened output stream before its first speech sample. A Python
@@ -26,6 +28,32 @@ class VoiceStopped(RuntimeError):
     pass
 
 
+class SpeechInterrupted(RuntimeError):
+    """End only the current spoken reply; keep hands-free capture available."""
+    pass
+
+
+class SpeechBuffer:
+    """Bounded sentence queue; the final saved reply supplies any unspoken tail."""
+    def __init__(self):
+        self.queue=queue.Queue(maxsize=8);self.pending='';self.heard='';self.disabled=False
+    def feed(self,text):
+        if self.disabled:return
+        self.pending+=text
+        if '```' in self.pending or len(self.pending)>4000:
+            self.disabled=True;return
+        while True:
+            match=re.search(r'[.!?][\"\’\u201d\)]?\s+',self.pending)
+            if not match:return
+            if match.end()>600:self.disabled=True;return
+            raw=self.pending[:match.end()]
+            try:self.queue.put_nowait(raw)
+            except queue.Full:self.disabled=True;return
+            self.pending=self.pending[match.end():]
+    def remaining(self,reply):
+        return reply[len(self.heard):] if reply.startswith(self.heard) else reply
+
+
 @dataclass
 class VoiceTurn:
     session_id: str
@@ -34,6 +62,8 @@ class VoiceTurn:
     request_index: int = -1
     reply: str = ''
     failed: bool = False
+    stream: object = None
+    speech_cancelled: bool = False
 
     def finish(self, session, cancelled=False):
         self.failed |= cancelled or not session or session.get('id') != self.session_id
@@ -77,6 +107,7 @@ class VoiceIO:
         self.activity = activity
         self.voice_options = voice_options
         self.cancelled = threading.Event()
+        self.interrupted = threading.Event()
 
     def status(self, phase, text):
         if self.activity is not None: self.activity.phase(phase, text)
@@ -97,8 +128,18 @@ class VoiceIO:
         self.cancelled.set()
 
     def check(self):
+        self.check_capture()
+        if self.interrupted.is_set(): raise SpeechInterrupted('Spoken reply interrupted')
+
+    def check_capture(self):
         if self.cancelled.is_set(): raise VoiceStopped('Voice interaction stopped')
         self.check_context()
+
+    def interrupt_speech(self):
+        self.interrupted.set()
+
+    def reset_speech(self):
+        self.interrupted.clear()
 
     def transcribe(self, wav):
         from stt_bridge import SttBridge
@@ -148,6 +189,28 @@ class VoiceIO:
                 # This call created a new, unique speech output. Keep the chat
                 # text; do not accumulate an invisible WAV for every reply.
                 path.unlink(missing_ok=True)
+
+    def can_stream_piper(self):
+        if self.voice_options is None:return False
+        from voice_policy import capabilities,resolve
+        from tts_policy import check_piper_memory
+        from voice_memory import VoiceMemoryError
+        settings,level=self.voice_options()
+        if resolve(settings,level,capabilities(self.root,probe=False))['id']!='piper':return False
+        try:check_piper_memory(self._cpu_memory())
+        except VoiceMemoryError:return False
+        return True
+
+    def speak_piper_live(self,text):
+        """Never enter a model handoff while the LLM is still generating."""
+        from piper_bridge import synthesize,output_path
+        from tts_policy import check_piper_memory,NICE_VOICE
+        self.check();check_piper_memory(self._cpu_memory());path=output_path(self.root)
+        try:
+            result=synthesize(text,root=self.root,output=str(path),check=self.check,voice=NICE_VOICE)
+            if Path(result['files'][0])!=path:raise RuntimeError('Voice output identity changed')
+            self.play(path,pitch_semitones=2.0)
+        finally:path.unlink(missing_ok=True)
 
     def play(self, path, *, check=None, pitch_semitones=0):
         from mission_supervisor import WorkerJob

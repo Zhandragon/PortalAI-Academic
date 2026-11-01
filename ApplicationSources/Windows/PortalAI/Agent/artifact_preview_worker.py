@@ -31,6 +31,11 @@ def main():
             context.route('**/*',lambda route:route.abort('blockedbyclient'))
             page=context.new_page();page.set_default_timeout(10000)
             page.set_content(preview_document(request['title'],request['kind'],request['content']),wait_until='domcontentloaded')
+            if request['kind'] in ('markdown','mermaid','react'):
+                frame=page.frames[1]
+                frame.wait_for_function("document.getElementById('portalai-render-status').dataset.state !== 'loading'",timeout=15000)
+                if frame.locator('#portalai-render-status').get_attribute('data-state')!='ready':
+                    raise ValueError(frame.locator('#portalai-render-status').inner_text()[:1500])
             page.on('popup',lambda popup:popup.close())
             print(json.dumps({'ready':True,'network':'blocked','sandbox':'opaque-origin iframe with scripts only','browser_sandbox':True}),flush=True)
             deadline=time.monotonic()+1800

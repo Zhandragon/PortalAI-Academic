@@ -92,6 +92,26 @@ class APITests(Fixture):
         limited=self.state.issue('limited',['artifacts:read'])
         self.assertEqual(self.request('POST','/chats',{},'create-123',limited['token'])[0],403)
         self.state.revoke(self.grant['id']);self.assertEqual(self.request('GET','/status')[0],401)
+
+    def test_workflow_api_keeps_human_approval_and_idempotency(self):
+        from workflows import Workflows
+        store=Workflows(self.root)
+        tid=store.put({'version':1,'name':'API approval fixture','inputs':['message'],
+            'steps':[{'id':'approval','kind':'approval'},{'id':'answer','kind':'output','value':{'$ref':'inputs.message'}}]})['id']
+        limited=self.state.issue('read-only',['workflows:read'])['token']
+        self.assertEqual(self.request('POST','/workflows/'+tid+'/runs',{'inputs':{'message':'Hello'}},'workflow-denied-1',limited)[0],403)
+        status,first=self.request('POST','/workflows/'+tid+'/runs',{'inputs':{'message':'Hello'}},'workflow-start-1')
+        self.assertEqual(status,200);rid=first['data']['workflow_run'];jid=first['data']['job_id']
+        deadline=time.monotonic()+5
+        while self.api.job(jid)['state'] in ('queued','running') and time.monotonic()<deadline:time.sleep(.01)
+        self.assertEqual(store.run(rid)['state'],'approval')
+        self.assertEqual(self.request('POST','/workflows/'+tid+'/runs',{'inputs':{'message':'Hello'}},'workflow-start-1')[1],first)
+        self.assertEqual(self.request('POST','/workflow-runs/'+rid+'/continue',{},'workflow-wait-1')[0],409)
+        store.approve(rid)
+        status,value=self.request('POST','/workflow-runs/'+rid+'/continue',{},'workflow-continue-1');self.assertEqual(status,200,value)
+        jid=value['data']['job_id'];deadline=time.monotonic()+5
+        while self.api.job(jid)['state'] in ('queued','running') and time.monotonic()<deadline:time.sleep(.01)
+        self.assertEqual(store.run(rid)['results']['answer'],'Hello')
     def test_sdk_mutations_idempotency_and_revision_conflict(self):
         from portalai import Client,APIError as ClientError
         c=Client(self.url,self.token);a=c.create_chat('Test',key='create-chat-1')

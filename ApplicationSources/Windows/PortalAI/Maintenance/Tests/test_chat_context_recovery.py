@@ -31,6 +31,10 @@ def exchange(p, text='Directory of D:\\Example\\Workspace\n' + 'folder entry\n'*
 
 
 class ContextRecoveryTests(unittest.TestCase):
+    def setUp(self):
+        # Project/skill integration is tested with disposable profiles separately.
+        guide=patch('portable_workspace.chat_guidance',return_value='');guide.start();self.addCleanup(guide.stop)
+
     def test_failed_periodic_summary_keeps_exact_exchanges_while_they_fit(self):
         p=small_panel();p._runtime_context_limit=lambda:32768
         for number in range(14):exchange(p,'Source code body '+str(number),'inspect '+str(number))

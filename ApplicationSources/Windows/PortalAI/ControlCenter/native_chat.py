@@ -1272,7 +1272,7 @@ class ToolRuntime:
 
     def execute(self, name: str, args: dict) -> str:
         self._account_role()
-        if name in ('knowledge','mcp','workflow','computer','structured','artifact'):
+        if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill'):
             from capability_tools import dispatch
             return json.dumps(dispatch(self,name,args),ensure_ascii=True)
         if name in ('inspect_environment', 'source_search', 'source_map'):
@@ -1798,7 +1798,7 @@ class NativeChat:
         self.voice_host = tk.Frame(self.main_pane, bg=self.COL['bg'])
         self.voice_host.grid(row=1, column=0, sticky='ew', padx=2)
         self.voice_host.grid_remove()
-        self.voice_visualizer = VoiceVisualizer(self.voice_host, self.COL)
+        self.voice_visualizer = VoiceVisualizer(self.voice_host, self.COL,on_interrupt=self.interrupt_voice_reply)
         self.chat.bind("<Button-3>", self._chat_context_menu, add="+")
         self.chat.tag_config("you", foreground=self.COL["cyan"], font=(ui_font(self.host), 10, "bold"))
         self.chat.tag_config("assistant", foreground=self.COL["good"], font=(ui_font(self.host), 10, "bold"))
@@ -3755,6 +3755,8 @@ class NativeChat:
         custom = self.store.custom_instructions().strip()
         if custom:
             pieces.append("\n\n===== USER CUSTOM INSTRUCTIONS =====\n" + custom)
+        from portable_workspace import chat_guidance
+        pieces.append(chat_guidance(self.root, getattr(self,'session',None)))
         # PORTABLEAI_NATIVE_SCIENCE_ROUTING_v15_134c
         # Current host contracts reach compact/full models even if the optional
         # long manual is disabled. They never replace runtime authorization.
@@ -5881,7 +5883,7 @@ class NativeChat:
             raise RuntimeError(err.strip() or f"FFmpeg could not open microphone {device!r}")
         return p
 
-    def _capture_conversation_utterance(self, stream, device_used: str) -> Path | None:
+    def _capture_conversation_utterance(self, stream, device_used: str, *, speaking_done=None, interrupt=None) -> Path | None:
         """Capture one utterance from an already-open rolling PCM stream."""
         chunk_seconds = 0.10
         sample_rate = int(getattr(stream, "sample_rate", 16000))
@@ -5907,11 +5909,15 @@ class NativeChat:
         effective_threshold = float(base_threshold)
 
         voice = getattr(self, "_conversation_io", None)
-        if getattr(voice, "activity", None) is not None: voice.activity.phase("listening", "Listening")
-        self.ev.put(("conversation_status", f"Hands-free · listening · {device_used}"))
+        if speaking_done is None:
+            if getattr(voice, "activity", None) is not None: voice.activity.phase("listening", "Listening")
+            self.ev.put(("conversation_status", f"Hands-free · listening · {device_used}"))
         while self.conversation_active.is_set():
             voice = getattr(self, '_conversation_io', None)
-            if voice is not None: voice.check()
+            if speaking_done is not None and speaking_done.is_set() and not speech_started:return None
+            if voice is not None:
+                if speaking_done is not None:voice.check_capture()
+                else:voice.check()
             if self.busy: return None
             if time.monotonic() - started >= max_seconds and speech_started:
                 break
@@ -5936,12 +5942,12 @@ class NativeChat:
                 started = time.monotonic(); activity.level(0)
                 continue
             level = pcm16_rms(chunk)
-            if activity is not None: activity.level(min(1.0, (level / 9000) ** .5))
+            if activity is not None and (speaking_done is None or speech_started): activity.level(min(1.0, (level / 9000) ** .5))
             now = time.monotonic()
             if not speech_started and level < base_threshold:
                 noise_floor = (noise_floor * 0.94) + (float(level) * 0.06)
             effective_threshold = max(float(base_threshold), noise_floor * 3.0)
-            if now - last_level_emit >= 0.45 and self.settings.get("conversation_status_levels", True):
+            if (speaking_done is None or speech_started) and now - last_level_emit >= 0.45 and self.settings.get("conversation_status_levels", True):
                 state = "speaking" if speech_started else "listening"
                 self.ev.put(("conversation_status", f"Hands-free · {state} · level {level} / {int(effective_threshold)}"))
                 last_level_emit = now
@@ -5951,6 +5957,7 @@ class NativeChat:
                 hot_chunks = hot_chunks + 1 if level >= effective_threshold else 0
                 if hot_chunks >= 2:
                     speech_started = True
+                    if interrupt is not None:interrupt()
                     captured.extend(list(ring)); ring.clear()
                     speech_chunks = hot_chunks; silence_chunks = 0
                     self.ev.put(("conversation_status", "Hands-free · hearing you…"))
@@ -6161,6 +6168,55 @@ class NativeChat:
             voice = self._new_voice_io(self._check_login)
         return voice.transcribe(wav)
 
+    def interrupt_voice_reply(self):
+        voice=getattr(self,'_conversation_io',None)
+        if voice is not None and self.conversation_active.is_set():voice.interrupt_speech()
+
+    def _speak_interruptible(self,voice,text,capture,device_label):
+        from chat_voice import SpeechInterrupted
+        done=threading.Event();errors=[];voice.reset_speech()
+        def speak():
+            try:voice.speak(text)
+            except SpeechInterrupted:pass
+            except Exception as exc:errors.append(exc)
+            finally:done.set()
+        thread=self._thread(target=speak,name='PortalAI-spoken-reply',daemon=True);thread.start()
+        try:
+            wav=None
+            if self.settings.get('conversation_voice_interrupt',False):
+                wav=self._capture_conversation_utterance(capture,device_label,speaking_done=done,interrupt=voice.interrupt_speech)
+            while not done.wait(.08):voice.check_capture()
+            if errors:raise errors[0]
+            return wav
+        finally:
+            if not done.is_set():voice.interrupt_speech()
+            # Registered writer ownership keeps profile sealing behind this worker.
+            thread.join(timeout=2)
+            if done.is_set():voice.reset_speech()
+
+    def _wait_voice_reply(self,voice,request):
+        from chat_voice import SpeechInterrupted
+        from voice_memory import VoiceMemoryError
+        while not request.done.is_set() or (request.stream and not request.stream.queue.empty()):
+            voice.check_capture()
+            if request.stream and not request.speech_cancelled:
+                try:raw=request.stream.queue.get_nowait()
+                except queue.Empty:raw=None
+                if raw:
+                    try:
+                        voice.speak_piper_live(raw);request.stream.heard+=raw
+                    except VoiceMemoryError:
+                        # Typed pre-inference rejection only. Finish text first,
+                        # then use ordinary voice admission for the unspoken tail.
+                        request.stream.disabled=True
+                        while not request.stream.queue.empty():request.stream.queue.get_nowait()
+                    except SpeechInterrupted:
+                        request.speech_cancelled=True;request.stream.disabled=True
+                        while not request.stream.queue.empty():request.stream.queue.get_nowait()
+                    continue
+            request.done.wait(.08)
+        voice.reset_speech()
+
     def _conversation_loop(self):
         capture = None
         voice = self._conversation_io
@@ -6188,6 +6244,7 @@ class NativeChat:
 
             self.ev.put(("conversation_status", f"Hands-free · ready · {device_label}"))
             first_turn = True
+            pending_wav = None
             while self.conversation_active.is_set():
                 voice.check()
                 # Turn-taking: keep the capture handle open, but do not submit speech
@@ -6198,10 +6255,11 @@ class NativeChat:
                     time.sleep(0.08)
                 if not self.conversation_active.is_set():
                     break
-                if isinstance(capture, (WindowsWaveInStream, media_devices.LinuxPCMStream)) and not first_turn:
+                if pending_wav is None and isinstance(capture, (WindowsWaveInStream, media_devices.LinuxPCMStream)) and not first_turn:
                     capture.drain_pending()
                 first_turn = False
-                wav = self._capture_conversation_utterance(capture, device_label)
+                wav = pending_wav or self._capture_conversation_utterance(capture, device_label)
+                pending_wav = None
                 if not self.conversation_active.is_set():
                     break
                 if wav is None:
@@ -6211,15 +6269,20 @@ class NativeChat:
                 if not self.conversation_active.is_set():
                     break
                 request = VoiceTurn(self.session['id'], text)
+                voice.reset_speech()
+                if (self.settings.get('conversation_stream_piper',False) and self.settings.get('conversation_speak_replies',True)
+                        and not self.settings.get('conversation_voice_interrupt',False) and voice.can_stream_piper()):
+                    from chat_voice import SpeechBuffer
+                    request.stream=SpeechBuffer()
                 self._conversation_request = request
                 if getattr(voice, "activity", None) is not None: voice.activity.phase("thinking", "Nice is thinking…")
                 self.ev.put(("conversation_text", request))
-                while not request.done.wait(.08):
-                    voice.check()
+                self._wait_voice_reply(voice,request)
                 voice.check()
-                if request.reply and not request.failed and self.settings.get('conversation_speak_replies', True):
+                reply=request.stream.remaining(request.reply) if request.stream else request.reply
+                if reply and not request.failed and not request.speech_cancelled and self.settings.get('conversation_speak_replies', True):
                     self.ev.put(('conversation_status', 'Hands-free · Nice is speaking…'))
-                    voice.speak(request.reply)
+                    pending_wav=self._speak_interruptible(voice,reply,capture,device_label)
                     # Allow the final speaker buffer to drain before listening.
                     for _ in range(4):
                         voice.check()
@@ -6253,7 +6316,7 @@ class NativeChat:
         if self.busy:
             self._notice('Workspace','Finish or stop the active chat turn before managing Workspace.')
             return
-        show_workspace(self.app,self.root,self.COL,session=getattr(self.app,'_portalai_account_session',None),jobs=self._writer_jobs,runtime=self.tool_runtime)
+        show_workspace(self.app,self.root,self.COL,session=getattr(self.app,'_portalai_account_session',None),jobs=self._writer_jobs,runtime=self.tool_runtime,chat=self)
 
     def open_settings(self):
         body = self._open_sheet("Chat Preferences", width=0.86, height=0.90)
@@ -6295,6 +6358,12 @@ class NativeChat:
                 entries[key] = skin.row(section, label, lambda row, key=key: skin.entry(row, self.settings.get(key, '')))
         speak_var = tk.BooleanVar(body, value=self.settings.get('conversation_speak_replies', True))
         skin.check(sections['voice'], "Speak Nice's replies in Hands-free mode", speak_var)
+        interrupt_var=tk.BooleanVar(body,value=self.settings.get('conversation_voice_interrupt',False))
+        skin.check(sections['voice'], 'Allow spoken interruption (use headphones)', interrupt_var)
+        stream_piper_var=tk.BooleanVar(body,value=self.settings.get('conversation_stream_piper',False))
+        skin.check(sections['voice'], 'Stream completed sentences with Piper when RAM permits', stream_piper_var)
+        skin.label(sections['voice'], 'Qwen speech retains the completed-reply handoff. Spoken interruption takes priority over Piper streaming. Early streamed speech may be partial if generation is stopped.',muted=True).pack(fill='x',pady=4)
+        skin.label(sections['voice'], 'Tap Nice’s orb during speech to interrupt and keep listening. Optional spoken interruption captures your next utterance during playback. Use headphones: acoustic echo cancellation is not provided.',muted=True).pack(fill='x',pady=4)
         skin.label(sections['voice'], 'Uses the selected local voice model. Replies remain in chat. Listening pauses during playback; End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
         support_var = tk.BooleanVar(body, value=bool(self.settings.get('low_power_support', False)))
         skin.check(sections['tools'], 'Optional support for 1.7B and 4B models', support_var)
@@ -6379,6 +6448,8 @@ class NativeChat:
                 updated["max_inline_text_chars"] = max(1000, int(entries["max_inline_text_chars"].get()))
                 updated["microphone_device"] = entries["microphone_device"].get().strip() or "auto"
                 updated['conversation_speak_replies'] = bool(speak_var.get())
+                updated['conversation_voice_interrupt'] = bool(interrupt_var.get())
+                updated['conversation_stream_piper'] = bool(stream_piper_var.get())
                 updated["conversation_vad_threshold"] = max(80, int(entries["conversation_vad_threshold"].get()))
                 updated["conversation_silence_seconds"] = max(0.3, min(5.0, float(entries["conversation_silence_seconds"].get())))
                 updated["conversation_preroll_seconds"] = max(0.0, min(2.0, float(entries["conversation_preroll_seconds"].get())))
@@ -6540,6 +6611,9 @@ class NativeChat:
             if content_parts:
                 text = "".join(content_parts)
                 content_parts.clear()
+                request=getattr(self,'_conversation_request',None)
+                if request is not None and request.stream is not None and not request.done.is_set() and request.session_id==self.session.get('id'):
+                    request.stream.feed(text)
                 try:
                     self.assistant_text(text, stream=True)
                 except Exception:

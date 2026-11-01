@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "file": "mermaid-js-tiny-mermaid.tiny.js",
+      "bytes": 2811424,
+      "sha256": "ea0cdf04eb31907eb20d956a34fe300095365c876887b54ffa29f1f847f56d00",
+      "package": "@mermaid-js/tiny",
+      "version": "12.2.0",
+      "tarball": "https://registry.npmjs.org/@mermaid-js/tiny/-/tiny-12.2.0.tgz",
+      "tarball_integrity": "sha512-9bEE+R974NTh1YJlfc6ztgwhy6+9sE+wAFiFrqvSdtlJHdxGfLytQmHYHNpFKmj94+Z+uMicYrQeGXnTTjILAQ==",
+      "member": "package/dist/mermaid.tiny.js",
+      "license": "MIT"
+    },
+    {
+      "file": "mermaid-js-tiny-LICENSE",
+      "bytes": 1089,
+      "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+      "package": "@mermaid-js/tiny",
+      "version": "12.2.0",
+      "tarball": "https://registry.npmjs.org/@mermaid-js/tiny/-/tiny-12.2.0.tgz",
+      "tarball_integrity": "sha512-9bEE+R974NTh1YJlfc6ztgwhy6+9sE+wAFiFrqvSdtlJHdxGfLytQmHYHNpFKmj94+Z+uMicYrQeGXnTTjILAQ==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "babel-standalone-babel.min.js",
+      "bytes": 2349140,
+      "sha256": "7dd1d84b2d92ec6b2fbe35bb9c028ef6b933d21b113d6266b3561bb66de40f72",
+      "package": "@babel/standalone",
+      "version": "8.0.10",
+      "tarball": "https://registry.npmjs.org/@babel/standalone/-/standalone-8.0.10.tgz",
+      "tarball_integrity": "sha512-2djd4l/VPFnYfcl0S4XzQMKV511LRmYbiL0PYuxtWJLin65wo95OIl7a+1RIrGz2f1JGB7XjZJ/w6+a1Ey/OYQ==",
+      "member": "package/babel.min.js",
+      "license": "MIT"
+    },
+    {
+      "file": "babel-standalone-LICENSE",
+      "bytes": 1106,
+      "sha256": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76",
+      "package": "@babel/standalone",
+      "version": "8.0.10",
+      "tarball": "https://registry.npmjs.org/@babel/standalone/-/standalone-8.0.10.tgz",
+      "tarball_integrity": "sha512-2djd4l/VPFnYfcl0S4XzQMKV511LRmYbiL0PYuxtWJLin65wo95OIl7a+1RIrGz2f1JGB7XjZJ/w6+a1Ey/OYQ==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "react-react.production.js",
+      "bytes": 18040,
+      "sha256": "0b5529981841afa1b58c76ba85c29bb681ff5f07cd8cde6a10b967d3915b8e1c",
+      "package": "react",
+      "version": "19.3.1",
+      "tarball": "https://registry.npmjs.org/react/-/react-19.3.1.tgz",
+      "tarball_integrity": "sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==",
+      "member": "package/cjs/react.production.js",
+      "license": "MIT"
+    },
+    {
+      "file": "react-LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+      "package": "react",
+      "version": "19.3.1",
+      "tarball": "https://registry.npmjs.org/react/-/react-19.3.1.tgz",
+      "tarball_integrity": "sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "react-dom-react-dom.production.js",
+      "bytes": 7326,
+      "sha256": "7a05d7f7bb2b02aae84018a88d4815a2181eef48d2cb8172d403eaa2b131eefd",
+      "package": "react-dom",
+      "version": "19.3.1",
+      "tarball": "https://registry.npmjs.org/react-dom/-/react-dom-19.3.1.tgz",
+      "tarball_integrity": "sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==",
+      "member": "package/cjs/react-dom.production.js",
+      "license": "MIT"
+    },
+    {
+      "file": "react-dom-react-dom-client.production.js",
+      "bytes": 625168,
+      "sha256": "a319b413b7a19ee34422d9a12a8e7afd003c07846716d278ba1a0898e8cb6251",
+      "package": "react-dom",
+      "version": "19.3.1",
+      "tarball": "https://registry.npmjs.org/react-dom/-/react-dom-19.3.1.tgz",
+      "tarball_integrity": "sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==",
+      "member": "package/cjs/react-dom-client.production.js",
+      "license": "MIT"
+    },
+    {
+      "file": "react-dom-LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+      "package": "react-dom",
+      "version": "19.3.1",
+      "tarball": "https://registry.npmjs.org/react-dom/-/react-dom-19.3.1.tgz",
+      "tarball_integrity": "sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "scheduler-scheduler.production.js",
+      "bytes": 10181,
+      "sha256": "679adff761d31e9426604f80c0e99be44a3e6f4c6834b0218ecf0312a67c171f",
+      "package": "scheduler",
+      "version": "0.28.0",
+      "tarball": "https://registry.npmjs.org/scheduler/-/scheduler-0.28.0.tgz",
+      "tarball_integrity": "sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==",
+      "member": "package/cjs/scheduler.production.js",
+      "license": "MIT"
+    },
+    {
+      "file": "scheduler-LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+      "package": "scheduler",
+      "version": "0.28.0",
+      "tarball": "https://registry.npmjs.org/scheduler/-/scheduler-0.28.0.tgz",
+      "tarball_integrity": "sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "marked-marked.umd.js",
+      "bytes": 49207,
+      "sha256": "9eb730d2362ae1a8c6201698f17009e16671be6946d3d06503ddc0575283db7c",
+      "package": "marked",
+      "version": "18.1.2",
+      "tarball": "https://registry.npmjs.org/marked/-/marked-18.1.2.tgz",
+      "tarball_integrity": "sha512-DfOnvLAQ6WYeWxWO1u4RyFOeqyHup6dks5PPqnoFiooU7ipRvidO/2j8plhAHIiZg574E9ZlzSjUiPMLAzFkgg==",
+      "member": "package/lib/marked.umd.js",
+      "license": "MIT"
+    },
+    {
+      "file": "marked-LICENSE",
+      "bytes": 2942,
+      "sha256": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c",
+      "package": "marked",
+      "version": "18.1.2",
+      "tarball": "https://registry.npmjs.org/marked/-/marked-18.1.2.tgz",
+      "tarball_integrity": "sha512-DfOnvLAQ6WYeWxWO1u4RyFOeqyHup6dks5PPqnoFiooU7ipRvidO/2j8plhAHIiZg574E9ZlzSjUiPMLAzFkgg==",
+      "member": "package/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "file": "dompurify-purify.min.js",
+      "bytes": 29828,
+      "sha256": "cd37898f9782adf54820c413191b5691803f0f137c799d6edcfd38523b4c2c31",
+      "package": "dompurify",
+      "version": "3.4.17",
+      "tarball": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.17.tgz",
+      "tarball_integrity": "sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==",
+      "member": "package/dist/purify.min.js",
+      "license": "(MPL-2.0 OR Apache-2.0)"
+    },
+    {
+      "file": "dompurify-LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "package": "dompurify",
+      "version": "3.4.17",
+      "tarball": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.17.tgz",
+      "tarball_integrity": "sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==",
+      "member": "package/LICENSE",
+      "license": "(MPL-2.0 OR Apache-2.0)"
+    }
+  ]
+}

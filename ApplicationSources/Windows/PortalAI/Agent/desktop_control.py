@@ -170,23 +170,52 @@ class Desktop:
             if type(hwnd) is not int:raise ValueError('Use a window ID returned by windows')
             row=self.check(hwnd,check)
             if action=='screenshot':return self.screenshot(hwnd,check)
+            if action=='elements':
+                from desktop_accessibility import snapshot,point
+                result=self.screenshot(hwnd,check);elements=snapshot(self.root,hwnd,lambda:self.check(hwnd,check));usable=[]
+                if self.info(hwnd)['rect']!=self.observation['rect']:self.observation=None;raise ValueError('Window moved during accessibility query; observe again')
+                for element in elements:
+                    try:point(element,self.observation)
+                    except ValueError:continue
+                    usable.append(element)
+                self.observation['elements']={e['id']:e for e in usable}
+                result['elements']=[{k:v for k,v in e.items() if k!='rect'} for e in usable]
+                result['bounded']=True;return result
             observation=self.observation
             if not observation or args.get('observation')!=observation['token'] or observation['window']!=hwnd or time.monotonic()-observation['at']>120:raise ValueError('Take a fresh screenshot before acting')
             if row['rect']!=observation['rect']:self.observation=None;raise ValueError('Window moved or resized; take a fresh screenshot')
+            if action=='click_element':
+                from desktop_accessibility import snapshot,point
+                old=observation.get('elements',{}).get(args.get('element'))
+                if not old:raise ValueError('Use an element ID returned by a fresh elements observation')
+                current=next((e for e in snapshot(self.root,hwnd,lambda:self.check(hwnd,check)) if e['id']==old['id']),None)
+                if current!=old: self.observation=None;raise ValueError('Accessible control changed; observe again')
+                args={**args,'x':point(current,observation)[0],'y':point(current,observation)[1]};action='click'
             self.focus(hwnd,check);user,_=self.api()
             # Consume before input: any exception means this token cannot replay.
             self.observation=None
             def focused():
                 self.check(hwnd,check)
                 if user.GetForegroundWindow()!=hwnd:raise RuntimeError('Focus changed; desktop action stopped')
-            if action in ('click','double_click','move','scroll'):
+            if action in ('click','double_click','move','scroll','drag'):
                 x,y=args.get('x'),args.get('y');width,height=observation['size']
                 if type(x) is not int or type(y) is not int or not (0<=x<width and 0<=y<height):raise ValueError('Coordinates are outside the observed image')
                 px=row['rect'][0]+round(x*observation['native'][0]/width);py=row['rect'][1]+round(y*observation['native'][1]/height)
                 hit=user.WindowFromPoint(W.POINT(px,py))
                 if user.GetAncestor(hit,2)!=hwnd:raise RuntimeError('Another window covers the intended point; capture again')
                 focused();user.SetCursorPos(px,py);focused()
-                if action=='scroll':
+                if action=='drag':
+                    end_x,end_y=args.get('end_x'),args.get('end_y')
+                    if type(end_x) is not int or type(end_y) is not int or not (0<=end_x<width and 0<=end_y<height):raise ValueError('Drag destination is outside the observed image')
+                    tx=row['rect'][0]+round(end_x*observation['native'][0]/width);ty=row['rect'][1]+round(end_y*observation['native'][1]/height)
+                    try:
+                        self._send(mouse=(2,0))
+                        for step in range(1,13):
+                            focused();cx=round(px+(tx-px)*step/12);cy=round(py+(ty-py)*step/12)
+                            if user.GetAncestor(user.WindowFromPoint(W.POINT(cx,cy)),2)!=hwnd:raise RuntimeError('Drag path left the allowed window; released mouse button')
+                            user.SetCursorPos(cx,cy);time.sleep(.025)
+                    finally:self._send(mouse=(4,0))
+                elif action=='scroll':
                     amount=args.get('amount',0)
                     if type(amount) is not int or not -10<=amount<=10:raise ValueError('Scroll amount must be -10 to 10 notches')
                     self._send(mouse=(0x0800,(amount*120)&0xffffffff))

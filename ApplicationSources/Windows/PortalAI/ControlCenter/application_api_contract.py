@@ -3,8 +3,9 @@ STRING={'type':'string'}
 ID={'type':'string','pattern':'^[a-f0-9]{32}$'}
 TOKENS={'type':'integer','minimum':64,'maximum':4096,'default':1024}
 def obj(properties,required=()):return {'type':'object','properties':properties,'required':list(required),'additionalProperties':False}
-ARTIFACT={'title':{'type':'string','minLength':1,'maxLength':160},'kind':{'type':'string','enum':['html','svg','chart']},'content':{'type':'string','minLength':1,'description':'At most 512 KiB UTF-8'},'expected_revision':ID}
+ARTIFACT={'title':{'type':'string','minLength':1,'maxLength':160},'kind':{'type':'string','enum':['html','svg','chart','markdown','mermaid','react']},'content':{'type':'string','minLength':1,'description':'At most 512 KiB UTF-8'},'expected_revision':ID}
 REQUESTS={
+ '/v1/workflows/{id}/runs':obj({'inputs':{'type':'object'}},['inputs']),
  '/v1/chats':obj({'title':{'type':'string','minLength':1,'maxLength':160}}),
  '/v1/chats/{id}/messages':obj({'message':{'type':'string','minLength':1,'maxLength':32000},'max_tokens':TOKENS},['message']),
  '/v1/structured':obj({'question':{'type':'string','minLength':1,'maxLength':16000},'context':{},'schema':{'type':'object','description':'Supported llama.cpp JSON Schema subset; see INTEGRATION.md'},'max_tokens':TOKENS},['question','schema']),

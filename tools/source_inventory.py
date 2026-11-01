@@ -25,7 +25,7 @@ def inventory():
         if path.suffix.lower() not in SUFFIXES or not path.is_file():
             continue
         parts = Path(name).parts
-        if any(p.lower() in {'vendor','dependencies','node_modules','licenses'} for p in parts):
+        if any(p.lower() in {'vendor','dependencies','node_modules','licenses','artifactassets'} for p in parts):
             continue
         text = path.read_text(encoding='utf-8-sig')
         row = {'path':name,'platform':parts[1],

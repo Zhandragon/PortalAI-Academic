@@ -194,7 +194,7 @@ class Transport:
         value=self.request('initialize',{'protocolVersion':VERSIONS[0],'capabilities':{},'clientInfo':{'name':'PortalAI','version':'workspace-1'}})
         if value.get('protocolVersion') not in VERSIONS:raise ValueError('MCP protocol version is not supported')
         self.version=value['protocolVersion']
-        if 'tools' not in value.get('capabilities',{}):raise ValueError('This MCP server does not expose tools')
+        self.capabilities=value.get('capabilities',{})
         self.send({'jsonrpc':'2.0','method':'notifications/initialized'})
 
     def tools(self):
@@ -215,6 +215,25 @@ class Transport:
             names.add(row['name'])
             if not isinstance(row.get('inputSchema'),dict):raise ValueError('MCP tool input schema is missing')
         return result
+
+    def catalog(self,kind):
+        if kind not in ('resources','prompts'):raise ValueError('Unknown MCP catalog')
+        rows=[];cursor=None;seen=set()
+        while True:
+            page=self.request(kind+'/list',{'cursor':cursor} if cursor else {})
+            values=page.get(kind)
+            if not isinstance(values,list):raise ValueError('Invalid MCP catalog')
+            rows.extend(values)
+            if len(rows)>256:raise ValueError('MCP catalog exceeds 256 entries')
+            cursor=page.get('nextCursor')
+            if not cursor:break
+            if not isinstance(cursor,str) or cursor in seen:raise ValueError('MCP pagination cycle')
+            seen.add(cursor)
+        key='uri' if kind=='resources' else 'name';names=set()
+        for row in rows:
+            if not isinstance(row,dict) or not isinstance(row.get(key),str) or len(row[key])>4000 or row[key] in names:raise ValueError('Invalid MCP catalog entry')
+            names.add(row[key])
+        return rows
 
 
 class Connections(Workspace):
@@ -249,8 +268,68 @@ class Connections(Workspace):
         self.save('Servers/'+row['id']+'.json',row);return {'id':row['id'],'name':row['name']}
 
     def discover(self,cid):
-        t=Transport(self.root,self.load(cid),self.check)
+        t=Transport(self.root,self.config(cid),self.check)
         try:t.initialize();return t.tools()
+        finally:t.close()
+
+    def configure_oauth(self,cid,config):
+        from mcp_oauth import validate_config
+        with self.lock(cid):
+            row=self.load(cid)
+            if row['transport']!='http':raise ValueError('OAuth is available for HTTP connections')
+            row['oauth']=validate_config(config);row.pop('oauth_token',None)
+            row['headers']={k:v for k,v in row.get('headers',{}).items() if k.lower()!='authorization'}
+            self.save('Servers/'+cid+'.json',row)
+
+    def sign_in(self,cid,on_url):
+        from mcp_oauth import authorize
+        row=self.load(cid);config=row.get('oauth')
+        if not config:raise ValueError('Configure the provider issuer and public client ID first')
+        token=authorize(config,row['url'],self.check,on_url)
+        with self.lock(cid):
+            latest=self.load(cid)
+            if latest.get('oauth')!=config or latest['url']!=row['url']:raise RuntimeError('Connection changed during sign-in')
+            latest['oauth_token']=token;self.save('Servers/'+cid+'.json',latest)
+        return {'connection':cid,'signed_in':True,'expires_at':token['expires_at']}
+
+    def sign_out(self,cid):
+        with self.lock(cid):
+            row=self.load(cid);row.pop('oauth_token',None);self.save('Servers/'+cid+'.json',row)
+
+    def config(self,cid):
+        with self.lock('auth-'+identifier(cid)):
+            row=self.load(cid)
+            if row.get('oauth'):
+                token=row.get('oauth_token')
+                if not token:raise RuntimeError('Sign in to this MCP connection in Workspace')
+                if token['resource']!=row['url']:raise ValueError('OAuth token belongs to a different resource')
+                if token['expires_at']<=time.time()+30:
+                    from mcp_oauth import refresh
+                    token=refresh(row['oauth'],token,self.check)
+                    with self.lock(cid):
+                        latest=self.load(cid)
+                        if latest.get('oauth_token')!=row.get('oauth_token') or latest.get('oauth')!=row.get('oauth'):raise RuntimeError('MCP sign-in changed during refresh')
+                        latest['oauth_token']=token;self.save('Servers/'+cid+'.json',latest);row=latest
+                row={**row,'headers':{**row.get('headers',{}),'Authorization':'Bearer '+token['access_token']}}
+            return row
+
+    def allow_content(self,cid,enabled):
+        with self.lock(cid):
+            row=self.load(cid);row['content_enabled']=bool(enabled);self.save('Servers/'+cid+'.json',row)
+
+    def content(self,cid,kind,key=None,arguments=None):
+        row=self.config(cid)
+        if not row.get('content_enabled'):raise PermissionError('Allow resources/prompts for this connection in Workspace first')
+        t=Transport(self.root,row,self.check)
+        try:
+            t.initialize();catalog=t.catalog(kind)
+            if key is None:return catalog
+            field='uri' if kind=='resources' else 'name'
+            if key not in {r[field] for r in catalog}:raise ValueError('Choose an item returned by this server catalog')
+            if not self.load(cid).get('content_enabled'):raise PermissionError('MCP content access was revoked')
+            if kind=='resources':return t.request('resources/read',{'uri':key})
+            if not isinstance(arguments or {},dict) or any(not isinstance(k,str) or not isinstance(v,str) for k,v in (arguments or {}).items()):raise ValueError('Prompt arguments must be text values')
+            return t.request('prompts/get',{'name':key,'arguments':arguments or {}})
         finally:t.close()
 
     def grant(self,cid,tools,*,enabled=True,read_only=()):
@@ -266,7 +345,7 @@ class Connections(Workspace):
         from knowledge_embeddings import packages
         packages(self.root)
         from jsonschema import Draft202012Validator
-        row=self.load(cid);grant=row.get('grants',{}).get(tool)
+        row=self.config(cid);grant=row.get('grants',{}).get(tool)
         if not row['enabled'] or not grant:raise PermissionError('Enable this connection and approve the tool in Workspace > Connections')
         if not isinstance(arguments,dict):raise ValueError('Tool arguments must be an object')
         # Remote schema references could cause hidden network access. Local

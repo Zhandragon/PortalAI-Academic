@@ -71,12 +71,38 @@ class Knowledge(Workspace):
                 rows.append((p.relative_to(source).as_posix(),p,sha,size))
         return rows,total
 
-    def sync(self,cid,progress=lambda message:None):
+    def refresh_policy(self,cid,seconds=0):
+        if type(seconds) is not int or seconds not in (0,300,900,3600):raise ValueError('Refresh interval must be off, 5, 15 or 60 minutes')
+        with self.lock(identifier(cid)):
+            row=self.load(cid);row['refresh_seconds']=seconds
+            row.setdefault('automatic_source_bytes',0)
+            self.save('Collections/'+cid+'.json',row)
+        return row
+
+    def sync(self,cid,progress=lambda message:None,*,automatic=False):
         collection=self.load(cid);source=source_path(self.root,collection['source'])
         with self.lock(identifier(cid)):
             inventory,total=self._inventory(source)
+            current=self._dbpath(cid)
+            existing_hashes={}
+            if current.exists():
+                old=self._read(cid)
+                try:existing_hashes={row['name']:row['sha'] for row in old.execute('SELECT name,sha FROM docs')}
+                finally:old.close()
+                if existing_hashes=={name:sha for name,_,sha,_ in inventory}:
+                    return {'collection':cid,'documents':len(inventory),'changed':0,'removed_from_index':0,'source_bytes':total,'complete':True}
+            if automatic:
+                collection=self.load(cid)
+                if not collection.get('refresh_seconds'):raise RuntimeError('Automatic refresh is disabled')
+                changed_bytes=sum(size for name,_,sha,size in inventory if existing_hashes.get(name)!=sha)
+                used=collection.get('automatic_source_bytes',0)
+                # Durable charge before any new snapshots: a crash never resets the
+                # allowance. Manual sync stays explicit and retains existing reserves.
+                if used+changed_bytes>32*1024**2:raise RuntimeError('Automatic refresh reached its 32 MiB source-copy allowance. Review and Sync selected manually.')
+                collection['automatic_source_bytes']=used+changed_bytes
+                self.save('Collections/'+cid+'.json',collection)
             require_space(self.root,total+64*1024**2,for_outputs=True)
-            embedding=self.embeddings();current=self._dbpath(cid)
+            embedding=self.embeddings()
             staging=current.with_name(current.name+'.'+uuid.uuid4().hex+'.tmp')
             staging.parent.mkdir(parents=True,exist_ok=True)
             db=sqlite3.connect(staging)

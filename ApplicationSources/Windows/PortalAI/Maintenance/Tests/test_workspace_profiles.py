@@ -20,6 +20,24 @@ class ProfileTests(unittest.TestCase):
         (self.root/'Agent/hardware_profiles.json').write_text(json.dumps({'storage':{'minimum_free_gib':1,'minimum_free_fraction':.0001,'output_reserve_gib':0}}))
     tearDown=fixtures.HydrationTests.tearDown
 
+    def test_projects_skills_and_oauth_tokens_seal_and_reopen(self):
+        from portable_workspace import Organization,Skills
+        from mcp_client import Connections
+        org=Organization(self.root);pid=org.put('Private project','Private guidance')['id'];org.assign(['a'*32],pid)
+        skills=Skills(self.root);sid=skills.put('Private skill','For tests','Secret synthetic instructions',enabled=True)['id']
+        connections=Connections(self.root);cid=connections.create('Fixture','http',url='https://example.org/mcp')['id']
+        connections.configure_oauth(cid,{'issuer':'https://auth.example.org','client_id':'fixture'})
+        row=connections.load(cid);row['oauth_token']={'access_token':'synthetic-private-access','refresh_token':'synthetic-private-refresh','resource':row['url'],'expires_at':9999999999}
+        connections.save('Servers/'+cid+'.json',row)
+        paths=[org.path('projects.json'),skills.path('Items/'+sid+'.json'),connections.path('Servers/'+cid+'.json')]
+        self.runtime.close(self.session,writers_stopped=True)
+        self.assertTrue(all(not p.exists() for p in paths))
+        with self.assertRaises(ProfileLocked):skills.read(sid)
+        self.session=self.backend.login(fixtures.OWNER);self.runtime.prepare(self.session)
+        self.assertEqual(Organization(self.root).for_chat('a'*32)['id'],pid)
+        self.assertIn('Secret synthetic',Skills(self.root).read(sid)['instructions'])
+        self.assertEqual(Connections(self.root).load(cid)['oauth_token']['refresh_token'],'synthetic-private-refresh')
+
     def test_sealed_knowledge_lazy_reopen_and_stale_login_fence(self):
         source=self.root/'synthetic-documents';source.mkdir();(source/'notes.txt').write_text('Plants grow towards sunlight.')
         kb=Knowledge(self.root,embedder=Embedder());cid=kb.create('Private research',source)['id'];kb.sync(cid)

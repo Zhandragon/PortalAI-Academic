@@ -11,11 +11,15 @@ import urllib.parse
 from workspace_store import Workspace,identifier,read_json,digest,encoded
 
 SCOPES={'chats:read','chats:write','missions:read','missions:write','knowledge:read',
-        'knowledge:write','outputs:read','artifacts:read','artifacts:write','structured:generate'}
+        'knowledge:write','outputs:read','artifacts:read','artifacts:write','structured:generate','workflows:read','workflows:execute'}
 
 
 class APIError(Exception):
     def __init__(self,status,code,message):super().__init__(message);self.status=status;self.code=code
+
+
+class APIRejected(APIError):
+    """An explicit pre-execution refusal; no operation has been submitted."""
 
 
 class APIState(Workspace):
@@ -61,6 +65,7 @@ class APIState(Workspace):
             if current:
                 if current['fingerprint']!=fingerprint:raise APIError(409,'IDEMPOTENCY_CONFLICT','This key was used for a different request')
                 if current['state']=='complete':return current['result']
+                if current['state']=='rejected':raise APIRejected(**current['error'])
                 if current['state']!='retry_allowed':raise APIError(409,'NEEDS_REVIEW','The prior outcome is uncertain; review its receipt in Workspace')
             rows=self.records('Receipts')
             if len(rows)>=10000:raise APIError(409,'RECEIPT_LIMIT','Receipt retention needs review before more API writes')
@@ -71,6 +76,9 @@ class APIState(Workspace):
             row={'id':rid,'token':token['id'],'fingerprint':fingerprint,'method':method,'path':path,'state':'pending','created':time.time()}
             self.save(relative,row)
             try:result=operation()
+            except APIRejected as exc:
+                row.update(state='rejected',error={'status':exc.status,'code':exc.code,'message':str(exc)})
+                self.save(relative,row);raise
             except Exception:
                 # The process may already have published a local/external effect.
                 # Retain pending; never convert an exception to permission to retry.

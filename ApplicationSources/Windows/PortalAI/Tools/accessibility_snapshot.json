@@ -1,0 +1,8 @@
+{
+  "source": "AccessibilitySnapshot.cs",
+  "source_sha256": "bf7e81e9c113d86ff0397b89492f9640beec5b5cac7f74e709db6d908c703802",
+  "file": "accessibility_snapshot.exe",
+  "bytes": 9216,
+  "sha256": "c18551853ba6a70505ac9ae1db8226700ffd0fdb5eaf9e07b41066f11a87dbc3",
+  "runtime": "Windows .NET Framework; no bundled runtime"
+}

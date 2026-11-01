@@ -167,6 +167,10 @@ class WorkerStallTests(unittest.TestCase):
 
 
 class RuntimeWriteReceiptTests(unittest.TestCase):
+    def setUp(self):
+        # Project/skill integration is tested with disposable profiles separately.
+        guide=patch('portable_workspace.chat_guidance',return_value='');guide.start();self.addCleanup(guide.stop)
+
     def test_real_runtime_noop_create_edit_and_failed_edit(self):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'x.py'

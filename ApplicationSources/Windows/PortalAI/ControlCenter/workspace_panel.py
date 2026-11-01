@@ -3,15 +3,17 @@ import json
 from pathlib import Path
 import queue
 import threading
+import time
 from tkinter import ttk,filedialog
 from internal_sheet import InternalSheet
 from rounded_text import RoundedText
 from account_permissions import require_user,require_admin,can_admin
 from capability_tools import guard,workflow_store
 from workspace_integration_ui import IntegrationUI
+from portable_workspace_ui import PortableWorkspaceUI
 
 
-def show_workspace(parent,root,colors,*,session=None,jobs=None,runtime=None):
+def show_workspace(parent,root,colors,*,session=None,jobs=None,runtime=None,chat=None):
     require_user(root,session)
     if jobs is None or not callable(getattr(jobs,'thread',None)):raise RuntimeError('Workspace requires tracked background jobs')
     if runtime is None:
@@ -19,26 +21,30 @@ def show_workspace(parent,root,colors,*,session=None,jobs=None,runtime=None):
         runtime=ToolRuntime(Path(root),{})
         current=session() if callable(session) else session
         if current is not None:runtime.bind_account(current)
-    return WorkspacePanel(parent,root,colors,session,jobs,runtime)
+    return WorkspacePanel(parent,root,colors,session,jobs,runtime,chat)
 
 
-class WorkspacePanel(IntegrationUI,InternalSheet):
-    def __init__(self,parent,root,colors,session,jobs,runtime):
+class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
+    def __init__(self,parent,root,colors,session,jobs,runtime,chat=None):
         super().__init__(parent,'Workspace',colors)
         self.root=Path(root);self.session=session;self.jobs=jobs;self.runtime=runtime
+        self.chat=chat
         self.events=queue.Queue();self.cancelled=threading.Event();self.busy=False;self.closed=False
         self.on_close=self.close;self.base_check=guard(runtime)
         self.skin.label(self.content,'Your documents, approved connections and reusable tasks stay with your signed-in account.').pack(fill='x',pady=5)
         from ui_extensions import ResponsiveFlow
         nav=ResponsiveFlow(self.content,bg=self.skin.colors['panel'],hgap=4,vgap=4);nav.pack(fill='x');self.pages={}
-        for title in ('Knowledge','Connections','Workflows','Computer','Structured','API','Artifacts'):
+        for title in ('Projects','Skills','Knowledge','Connections','Workflows','Computer','Structured','API','Artifacts','Compare'):
             nav.add(self.skin.button(nav,title,lambda t=title:self.page(t)))
             self.pages[title]=self.skin.frame(self.content)
         self.status=self.skin.label(self.content,'Ready');self.status.pack(fill='x',pady=5)
         self.skin.button(self.heading,'Stop operation',self.stop).pack(side='right',padx=4)
         self.output=self.text(self.content,'',10);self.output.pack(fill='both',expand=True,pady=6)
-        self.knowledge_page();self.connections_page();self.workflows_page();self.computer_page();self.structured_page();self.api_page();self.artifacts_page()
+        self.projects_page();self.skills_page();self.knowledge_page();self.connections_page();self.workflows_page();self.computer_page();self.structured_page();self.api_page();self.artifacts_page()
+        from model_comparison import comparison_page
+        comparison_page(self)
         self.page('Knowledge');self.after(100,self.poll)
+        self.refresh_due={};self.after(30000,self.refresh_knowledge_if_idle)
 
     def check(self):
         self.base_check()
@@ -98,6 +104,14 @@ class WorkspacePanel(IntegrationUI,InternalSheet):
 
     def poll(self):
         if self.closed:return
+        if hasattr(self,'oauth_urls'):
+            try:
+                target=self.oauth_urls.get_nowait();self.check()
+                import webbrowser
+                webbrowser.open(target,new=2)
+                self.show('Finish MCP sign-in in the browser. Stop cancels sign-in; the callback closes after three minutes.')
+            except queue.Empty:pass
+            except Exception as exc:self.show(str(exc))
         try:
             while True:
                 ok,result,done=self.events.get_nowait();self.busy=False
@@ -137,7 +151,39 @@ class WorkspacePanel(IntegrationUI,InternalSheet):
             query=self.query.get();chosen=self.collections.selection();cid=chosen[0] if len(chosen)==1 else None
             self.job(lambda:self.kb.search(query,cid))
         self.buttons(p,[('Choose folder',browse),('Add collection',add),('Refresh',refresh),('Sync selected',sync),('Search',search)])
+        def automatic(seconds):
+            row=self.kb.refresh_policy(self.selected(self.collections),seconds)
+            self.refresh_due[row['id']]=time.monotonic()+seconds
+            self.show({'automatic_refresh_minutes':seconds//60,'while':'Workspace is open and chat is idle',
+                       'source_copy_allowance_bytes':32*1024**2,'source_copy_bytes_used':row.get('automatic_source_bytes',0)})
+        self.buttons(p,[('Auto refresh off',lambda:automatic(0)),('Every 5 minutes',lambda:automatic(300)),
+                        ('Every 15 minutes',lambda:automatic(900)),('Every hour',lambda:automatic(3600))])
         self.invoke(refresh)
+
+    def refresh_knowledge_if_idle(self):
+        if self.closed:return
+        try:
+            # Never revive work after Stop; user operations explicitly capture a
+            # new epoch. No daemon, filesystem watcher or resident embedding model.
+            self.check()
+            if self.busy or (self.chat and (self.chat.busy or self.chat.conversation_active.is_set())):return
+            from runtime_policy import memory_info
+            if memory_info()[1]<2*1024**3:return
+            now=time.monotonic()
+            for row in self.kb.list():
+                interval=row.get('refresh_seconds',0)
+                if interval and now>=self.refresh_due.setdefault(row['id'],now+interval):
+                    self.refresh_due[row['id']]=now+interval
+                    cid=row['id']
+                    def refresh_one():
+                        from knowledge_base import Knowledge
+                        return Knowledge(self.root,self.check).sync(cid,automatic=True)
+                    self.job(refresh_one);break
+        except Exception:
+            # Account/Stop changes disable polling until an explicit operation.
+            pass
+        finally:
+            if not self.closed:self.after(30000,self.refresh_knowledge_if_idle)
 
     def connections_page(self):
         from mcp_client import Connections
@@ -166,6 +212,8 @@ class WorkspacePanel(IntegrationUI,InternalSheet):
         def disable():
             self.admin();cid=self.selected(self.servers);self.connections.grant(cid,[],enabled=False);refresh()
         self.buttons(p,[('Create disabled',create),('Refresh',refresh),('Discover',discover),('Approve selected tools',approve),('Disable',disable)])
+        from mcp_workspace_ui import oauth_dialog,content_dialog
+        self.buttons(p,[('OAuth sign-in',lambda:oauth_dialog(self)),('Resources and prompts',lambda:content_dialog(self))])
         self.receipt=self.field(p,'Uncertain receipt ID')
         def receipts():self.admin();self.show([r for r in self.connections.receipts() if r['state']=='pending'])
         def resolve(decision):self.admin();self.connections.resolve(self.receipt.get().strip(),decision);self.show('Review saved. No action was executed.')
@@ -178,6 +226,8 @@ class WorkspacePanel(IntegrationUI,InternalSheet):
         self.skin.label(p,'Saved steps with explicit inputs, forward conditions and approval points. Edit the example JSON; references preserve their data type.').pack(fill='x')
         self.templates=self.tree(p,('Name','ID'));self.editing=None
         self.editor=self.text(p,json.dumps(EXAMPLE,indent=2),9);self.editor.pack(fill='x')
+        from workflow_builder import open_builder
+        self.buttons(p,[('Visual step editor',lambda:open_builder(self))])
         self.inputs=self.field(p,'Inputs JSON','{"question":"What do these documents say?"}')
         def refresh():
             self.templates.delete(*self.templates.get_children())

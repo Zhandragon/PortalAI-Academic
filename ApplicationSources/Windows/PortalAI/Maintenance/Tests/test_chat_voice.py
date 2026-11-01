@@ -137,6 +137,8 @@ class VoiceUITests(unittest.TestCase):
 
     def test_two_turns_listen_transcribe_reply_speak_then_listen_again(self):
         p = self.prepare(); order = []; calls = [0]
+        from writer_jobs import WriterJobs
+        p._writer_jobs=WriterJobs()
         class Capture:
             def drain_pending(self): order.append('drain')
             def close(self): order.append('closed')
@@ -171,6 +173,7 @@ class VoiceUITests(unittest.TestCase):
                 voice.cancel(); p.conversation_active.clear(); worker.join(3)
                 self.assertFalse(worker.is_alive())
             self.pump()
+        p._notice.assert_not_called()
         self.assertEqual([x for x in order if x != 'drain'], ['listen','transcribe','submit','speak']*2 + ['closed'])
         self.assertIn('Visible spoken answer', p.chat.get('1.0','end'))
         p._notice.assert_not_called()

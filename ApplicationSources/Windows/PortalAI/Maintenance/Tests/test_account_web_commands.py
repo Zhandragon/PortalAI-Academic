@@ -130,6 +130,8 @@ class WebAccountRuntimeTests(unittest.TestCase):
 
 class WebPromptTests(unittest.TestCase):
     def setUp(self):
+        # Project/skill integration is tested with disposable profiles separately.
+        guide=patch('portable_workspace.chat_guidance',return_value='');guide.start();self.addCleanup(guide.stop)
         policy = patch('runtime_policy.load_effective_policy', return_value={})
         policy.start(); self.addCleanup(policy.stop)
 
