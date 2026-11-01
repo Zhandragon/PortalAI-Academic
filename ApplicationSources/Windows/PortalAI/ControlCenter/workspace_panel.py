@@ -44,7 +44,8 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         from model_comparison import comparison_page
         comparison_page(self)
         self.page('Knowledge');self.after(100,self.poll)
-        self.refresh_due={};self.after(30000,self.refresh_knowledge_if_idle)
+        self.refresh_due={}
+        if not self.chat:self.after(30000,self.refresh_knowledge_if_idle)
 
     def check(self):
         self.base_check()
@@ -154,10 +155,14 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         def automatic(seconds):
             row=self.kb.refresh_policy(self.selected(self.collections),seconds)
             self.refresh_due[row['id']]=time.monotonic()+seconds
-            self.show({'automatic_refresh_minutes':seconds//60,'while':'Workspace is open and chat is idle',
+            if self.chat:
+                from knowledge_monitor import start
+                start(self.chat)
+            self.show({'automatic_refresh_minutes':seconds//60,'while':'Signed in, chat and voice idle; continues when Workspace closes' if self.chat else 'Workspace is open and idle',
                        'source_copy_allowance_bytes':32*1024**2,'source_copy_bytes_used':row.get('automatic_source_bytes',0)})
+        def monitor_status():self.show(getattr(getattr(self.chat,'_knowledge_monitor',None),'status',{'monitor':'No background monitor in this view'}))
         self.buttons(p,[('Auto refresh off',lambda:automatic(0)),('Every 5 minutes',lambda:automatic(300)),
-                        ('Every 15 minutes',lambda:automatic(900)),('Every hour',lambda:automatic(3600))])
+                        ('Every 15 minutes',lambda:automatic(900)),('Every hour',lambda:automatic(3600)),('Monitor status',monitor_status)])
         self.invoke(refresh)
 
     def refresh_knowledge_if_idle(self):

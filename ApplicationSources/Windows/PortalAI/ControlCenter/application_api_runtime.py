@@ -12,6 +12,7 @@ ROUTES=[
  ('GET','/v1/status',None),('GET','/v1/openapi.json',None),
  ('GET','/v1/chats','chats:read'),('POST','/v1/chats','chats:write'),
  ('GET','/v1/chats/{id}','chats:read'),('POST','/v1/chats/{id}/messages','chats:write'),
+ ('POST','/v1/chats/{id}/agent','agent:execute'),
  ('GET','/v1/jobs',None),('GET','/v1/jobs/{id}',None),('POST','/v1/jobs/{id}/cancel',None),
  ('POST','/v1/structured','structured:generate'),
  ('GET','/v1/workflows','workflows:read'),('GET','/v1/workflows/{id}','workflows:read'),
@@ -132,6 +133,9 @@ class ApplicationAPI:
         return {'job_id':jid,'state':'queued','status_path':'/v1/jobs/'+jid}
 
     def work(self,kind,body,check,event):
+        if kind=='agent':
+            from headless_chat import run
+            return run(self,body,check,event)
         if kind=='workflow':
             from capability_tools import workflow_store
             return workflow_store(self.runtime,check).advance(body['run'])
@@ -207,6 +211,17 @@ class ApplicationAPI:
             cid=self.state.new_id();row={'id':cid,'title':title,'created':time.time(),'updated':time.time(),'messages':[]}
             self.state.save('Chats/'+cid+'.json',row);return row
         if route=='/v1/chats/{id}':fields(query,());return read_json(self.state.path('Chats/'+rid+'.json'))
+        if route=='/v1/chats/{id}/agent':
+            fields(body,('message','max_tokens','max_tool_calls','tools'),('message',))
+            if not isinstance(body['message'],str) or not body['message'].strip() or len(body['message'])>32000:raise ValueError('Message must contain 1..32000 characters')
+            integer(body.get('max_tokens',1024),64,4096);integer(body.get('max_tool_calls',12),1,32)
+            selected=body.get('tools',token.get('tools',[]))
+            if not isinstance(selected,list) or any(not isinstance(t,str) or t not in token.get('tools',[]) for t in selected):raise APIError(403,'TOOL_GRANT_REQUIRED','Select only tools explicitly granted when issuing this token in Workspace')
+            saved=read_json(self.state.path('Chats/'+rid+'.json'))
+            if saved.get('pending_agent_job'):
+                from application_api import APIRejected
+                raise APIRejected(409,'NEEDS_REVIEW','The earlier agent turn did not finish; inspect its saved receipts before creating a new chat')
+            return self.submit('agent',{'chat':rid,**body,'tools':selected,'token':token['id']},token,scope)
         if route=='/v1/chats/{id}/messages':
             fields(body,('message','max_tokens'),('message',))
             if not isinstance(body['message'],str) or not body['message'].strip() or len(body['message'])>32000:raise ValueError('Message must contain 1..32000 characters')
@@ -255,8 +270,8 @@ class ApplicationAPI:
             store=Artifacts(self.root,self.check)
             if route=='/v1/artifacts' and method=='GET':return page(store.list(),query)
             if route=='/v1/artifacts' or route.endswith('/revisions'):
-                fields(body,('title','kind','content','expected_revision'),('title','kind','content'))
-                return store.save(body['title'],body['kind'],body['content'],artifact=rid,expected_revision=body.get('expected_revision'))
+                fields(body,('title','kind','content','expected_revision','dependencies'),('title','kind','content'))
+                return store.save(body['title'],body['kind'],body['content'],artifact=rid,expected_revision=body.get('expected_revision'),dependencies=body.get('dependencies'))
             if route.endswith('/history'):fields(query,());return store.history(rid)
             if route.endswith('/restore'):
                 fields(body,('revision','expected_revision'),('revision','expected_revision'));return store.restore(rid,body['revision'],body['expected_revision'])

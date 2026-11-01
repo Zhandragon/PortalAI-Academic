@@ -8,12 +8,14 @@ from internal_sheet import InternalSheet
 def oauth_dialog(panel):
     panel.admin();cid=panel.selected(panel.servers);connection=panel.connections.load(cid)
     sheet=InternalSheet(panel,'MCP sign-in',panel.skin.colors);skin=sheet.skin;p=sheet.content
-    skin.label(p,'Register a public/native OAuth client with the provider. Callback path: /portalai-oauth/callback on 127.0.0.1. No client secret is stored.').pack(fill='x')
+    skin.label(p,'Choose a registered client, automatic public-client registration, or a client metadata URL. Callback: /portalai-oauth/callback on 127.0.0.1. Metadata documents need a fixed registered callback port.').pack(fill='x')
+    mode=ttk.Combobox(p,values=('registered','dynamic','metadata'),state='readonly');mode.set(connection.get('oauth',{}).get('client_mode','registered'));mode.pack(fill='x')
     fields={}
-    for key,label,default in (('issuer','Issuer URL',''),('client_id','Registered public client ID',''),('scope','Requested scopes',''),('callback_port','Callback port (0 = automatic)','0')):
+    for key,label,default in (('issuer','Issuer URL (blank = discover from MCP server)',''),('client_id','Public client ID / metadata URL (blank for dynamic)',''),('scope','Requested scopes',''),('callback_port','Callback port (0 = automatic)','0')):
         skin.label(p,label).pack(fill='x');entry=skin.entry(p,str(connection.get('oauth',{}).get(key,default)));entry.pack(fill='x');fields[key]=entry
     def signin():
         config={k:v.get().strip() for k,v in fields.items()};config['callback_port']=int(config['callback_port'])
+        config['client_mode']=mode.get()
         panel.connections.configure_oauth(cid,config)
         sheet.destroy()
         if not hasattr(panel,'oauth_urls'):panel.oauth_urls=queue.Queue(maxsize=1)

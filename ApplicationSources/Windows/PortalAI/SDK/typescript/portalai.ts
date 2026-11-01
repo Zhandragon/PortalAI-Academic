@@ -26,6 +26,7 @@ export class Client {
   status(){return this.request('GET','/status');}
   createChat(title:string,key:string){return this.request<{id:string}>('POST','/chats',{title},{key});}
   message(chat:string,message:string,key:string,max_tokens=1024){return this.request<Submitted>('POST',`/chats/${chat}/messages`,{message,max_tokens},{key});}
+  agent(chat:string,message:string,key:string,options:{tools?:string[];max_tokens?:number;max_tool_calls?:number}={}){return this.request<Submitted>('POST',`/chats/${chat}/agent`,{message,...options},{key});}
   structured(question:string,schema:object,context:unknown,key:string,max_tokens=1024){return this.request<Submitted>('POST','/structured',{question,schema,context,max_tokens},{key});}
   job(id:string){return this.request<Job>('GET',`/jobs/${id}`);}
   cancel(id:string,key:string){return this.request('POST',`/jobs/${id}/cancel`,{},{key});}

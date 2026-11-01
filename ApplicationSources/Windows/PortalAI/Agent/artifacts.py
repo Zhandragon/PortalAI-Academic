@@ -6,7 +6,7 @@ import math
 import os
 from pathlib import Path
 import time
-from workspace_store import Workspace,identifier,read_json,encoded
+from workspace_store import Workspace,identifier,read_json,encoded,digest
 
 KINDS={'html':'.html','svg':'.svg','chart':'.json','markdown':'.md','mermaid':'.mmd','react':'.jsx'}
 LIMIT=512*1024
@@ -46,9 +46,10 @@ class Artifacts(Workspace):
         value=read_json(self.path('Versions/'+identifier(aid)+'/'+revision+'.json'))
         if value.get('artifact')!=aid or value.get('id')!=revision:raise ValueError('Artifact revision identity mismatch')
         if hashlib.sha256(value['content'].encode()).hexdigest()!=value['sha256']:raise ValueError('Artifact revision checksum mismatch')
+        if value.get('version',1)>=2 and digest(value.get('dependencies',[]))!=value.get('dependencies_sha256'):raise ValueError('Artifact library pins changed')
         self.check();return value
 
-    def save(self,title,kind,content,*,artifact=None,expected_revision=None):
+    def save(self,title,kind,content,*,artifact=None,expected_revision=None,dependencies=None):
         validate_content(kind,content)
         if not isinstance(title,str) or not title.strip() or len(title)>160:raise ValueError('Title must contain 1..160 characters')
         aid=identifier(artifact) if artifact else self.new_id()
@@ -57,8 +58,15 @@ class Artifacts(Workspace):
             if previous and previous['head']!=expected_revision:raise RuntimeError('Artifact changed; reload before saving another revision')
             if previous and previous['kind']!=kind:raise ValueError('Save a different artifact kind as a new artifact')
             if previous and previous['revision_count']>=256:raise ValueError('Artifact has 256 revisions; save as a new artifact')
+            from artifact_libraries import Libraries
+            libraries=Libraries(self.root,self.check)
+            if dependencies is None:
+                pins=self.read(aid,previous['head']).get('dependencies',[]) if previous else []
+            else:pins=libraries.pins(dependencies)
+            if pins and kind!='react':raise ValueError('Library bundles are supported by React artifacts')
+            if pins:libraries.modules(pins)  # Integrity, revocation and combined size before committing.
             revision=self.new_id();now=time.time()
-            value={'version':1,'id':revision,'artifact':aid,'parent':previous['head'] if previous else None,
+            value={'version':2,'dependencies':pins,'dependencies_sha256':digest(pins),'id':revision,'artifact':aid,'parent':previous['head'] if previous else None,
                    'title':title.strip(),'kind':kind,'content':content,'sha256':hashlib.sha256(content.encode()).hexdigest(),'created':now}
             # An interrupted head publication leaves an inert, retained revision.
             # It never overwrites the previous committed head or historical bytes.
@@ -77,11 +85,12 @@ class Artifacts(Workspace):
 
     def restore(self,aid,revision,expected_revision):
         old=self.read(aid,revision)
-        return self.save(old['title'],old['kind'],old['content'],artifact=aid,expected_revision=expected_revision)
+        return self.save(old['title'],old['kind'],old['content'],artifact=aid,expected_revision=expected_revision,dependencies=[p['id'] for p in old.get('dependencies',[])])
 
     def compare(self,aid,before,after):
         a=self.read(aid,before);b=self.read(aid,after)
-        return ''.join(difflib.unified_diff(a['content'].splitlines(True),b['content'].splitlines(True),fromfile=before,tofile=after))[:200000]
+        dependency_diff=('Libraries: '+json.dumps(a.get('dependencies',[]))+' → '+json.dumps(b.get('dependencies',[]))+'\n') if a.get('dependencies',[])!=b.get('dependencies',[]) else ''
+        return (dependency_diff+''.join(difflib.unified_diff(a['content'].splitlines(True),b['content'].splitlines(True),fromfile=before,tofile=after)))[:200000]
 
     def export(self,aid,revision=None):
         from profile_paths import private_path
@@ -89,6 +98,11 @@ class Artifacts(Workspace):
         from profile_lazy_state import publish_no_replace
         row=self.read(aid,revision);relative='Outputs/Artifacts/'+aid+'/'+row['id']+KINDS[row['kind']]
         path=private_path(self.root,relative,context=self.identity);data=row['content'].encode()
+        if row.get('dependencies'):
+            from artifact_libraries import Libraries
+            from artifact_document import preview_document
+            data=preview_document(row['title'],row['kind'],row['content'],Libraries(self.root,self.check).modules(row['dependencies'])).encode()
+            relative='Outputs/Artifacts/'+aid+'/'+row['id']+'.html';path=private_path(self.root,relative,context=self.identity)
         require_space(self.root,len(data)*2,for_outputs=True);self.check()
         if path.exists():
             if path.read_bytes()!=data:raise RuntimeError('An exported revision was modified; existing output retained')
@@ -98,4 +112,4 @@ class Artifacts(Workspace):
                 with temporary.open('xb') as stream:stream.write(data);stream.flush();os.fsync(stream.fileno())
                 self.check();publish_no_replace(temporary,path)
             finally:temporary.unlink(missing_ok=True)
-        self.check();return {'path':relative,'bytes':len(data),'sha256':row['sha256'],'artifact':aid,'revision':row['id']}
+        self.check();return {'path':relative,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'artifact':aid,'revision':row['id']}

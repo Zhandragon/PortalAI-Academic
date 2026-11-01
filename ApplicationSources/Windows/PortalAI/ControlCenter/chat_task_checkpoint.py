@@ -26,7 +26,7 @@ def validate(args, messages):
             raise ValueError('Checkpoint '+key+' must be concise nonempty text' if key!='uncertainty' else 'Invalid uncertainty text')
     ids=args.get('evidence_ids', [])
     if not isinstance(ids,list) or len(ids)>12 or any(type(i) is not int or not 0<=i<len(messages)
-            or messages[i].get('role')!='tool' or messages[i].get('name') in (NAME,'chat_history') for i in ids):
+            or messages[i].get('role')!='tool' or messages[i].get('name') in (NAME,'chat_history','task') for i in ids):
         raise ValueError('Evidence IDs must refer to saved non-checkpoint tool results')
     return {'summary':args['summary'].strip(), 'next_step':args['next_step'].strip(),
             'uncertainty':args.get('uncertainty','').strip(), 'evidence_ids':list(dict.fromkeys(ids))}
@@ -36,7 +36,7 @@ def evidence_catalog(messages):
     """Recent usable IDs and tool names only; never quote retrieved source prose."""
     rows=[]
     for index,row in enumerate(messages or ()):
-        if not isinstance(row,dict) or row.get('role')!='tool' or row.get('name') in (NAME,'chat_history'):
+        if not isinstance(row,dict) or row.get('role')!='tool' or row.get('name') in (NAME,'chat_history','task'):
             continue
         name=row.get('name')
         label=name if isinstance(name,str) and re.fullmatch(r'[A-Za-z][A-Za-z_0-9]{0,63}',name) else 'tool'
@@ -80,7 +80,7 @@ class Cycle:
         return ''
 
     def progress(self, name, args, result):
-        if name in (NAME,'chat_history','tool_help'):return
+        if name in (NAME,'chat_history','tool_help','task'):return
         signature=hashlib.sha256(json.dumps([name,args,result],sort_keys=True,ensure_ascii=True).encode()).hexdigest()
         if signature not in self.results:
             self.results.add(signature);self.since_progress=0;self.notes.clear()

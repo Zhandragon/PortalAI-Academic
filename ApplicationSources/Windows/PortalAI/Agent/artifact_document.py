@@ -18,16 +18,16 @@ s.values.forEach((v,i)=>{const bar=data.style==='bar',w=Math.max(1,700/data.labe
 data.series.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s.name;b.setAttribute('aria-pressed','true');b.onclick=()=>{on[i]=!on[i];b.setAttribute('aria-pressed',String(on[i]));draw()};document.getElementById('legend').appendChild(b)});draw();</script>'''
 
 
-def inner_document(kind,content):
+def inner_document(kind,content,modules=()):
     validate_content(kind,content)
     if kind=='chart':content=CHART.replace('__DATA__',json.dumps(json.loads(content),ensure_ascii=True).replace('<','\\u003c'))
     elif kind=='svg':content='<html><body style="margin:0;background:white">'+content+'</body></html>'
     elif kind in ('markdown','mermaid','react'):
         from rich_artifacts import document
-        content=document(kind,content)
+        content=document(kind,content,modules)
     return '<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="'+html.escape(CSP,quote=True)+'">'+content
 
 
-def preview_document(title,kind,content):
-    inner=inner_document(kind,content)
+def preview_document(title,kind,content,modules=()):
+    inner=inner_document(kind,content,modules)
     return '''<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:; frame-src about:; connect-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>PortalAI artifact preview</title><style>body{margin:0;background:#171b1e;color:#eef3f5;font:14px system-ui}header{padding:12px}iframe{border:0;width:100%;height:calc(100vh - 60px);background:white}</style></head><body><header>'''+html.escape(title)+''' · Isolated preview · Network, files, forms and downloads disabled</header><iframe title="Artifact preview" sandbox="allow-scripts" referrerpolicy="no-referrer" allow="camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'; payment 'none'; usb 'none'; serial 'none'; hid 'none'" srcdoc="'''+html.escape(inner,quote=True)+'''"></iframe></body></html>'''

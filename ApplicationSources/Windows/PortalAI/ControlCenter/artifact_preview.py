@@ -12,12 +12,12 @@ class Preview:
     def __init__(self,runtime,check):
         self.runtime=runtime;self.check=check;self.process=None;self.job=None;self.lock=threading.RLock()
 
-    def open(self,revision,*,headless=False):
+    def open(self,revision,*,headless=False,parent_hwnd=None):
         from native_chat import clean_env
         from mission_supervisor import WorkerJob
         from platform_runtime import worker_process_options
         self.close();self.check();rt=self.runtime
-        payload=json.dumps({k:revision[k] for k in ('title','kind','content')}|{'headless':headless})
+        payload=json.dumps({k:revision[k] for k in ('title','kind','content')}|{'headless':headless,'parent_hwnd':parent_hwnd,'dependencies':revision.get('dependencies',[])})
         with self.lock:
             self.check()
             self.process=subprocess.Popen([str(rt.boot),'-B','-I',str(rt.root/'Agent/artifact_preview_worker.py')],cwd=rt.root,

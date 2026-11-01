@@ -68,6 +68,8 @@ class ContextBudgetTests(unittest.TestCase):
 
     def test_reported_62_token_overflow_adapts_real_payload_after_effort_overrides(self):
         p=panel();p.effort=SimpleNamespace(active_options={'max_tokens':2048})
+        from chat_tool_menu import Selection
+        p._tool_selection=Selection()  # The current production discovery menu.
         delta=4886-p._context_plan()['estimated_input']
         self.assertGreater(delta,0)
         p.session['messages'][0]['content']+='x'*(4*delta)

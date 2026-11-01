@@ -208,6 +208,13 @@ def storage_budget(root: Path = ROOT, policy: dict | None = None, additional_byt
     usage = shutil.disk_usage(root)
     floor = max(int(float(cfg["minimum_free_gib"]) * GIB),
                 int(float(cfg["minimum_free_fraction"]) * usage.total))
+    reserve_path=Path(root)/'Agent/storage_reserve.json'
+    if reserve_path.exists():
+        reserve_cfg=json.loads(reserve_path.read_text(encoding='utf-8'))
+        minimum=reserve_cfg.get('minimum_free_gib')
+        if type(minimum) not in (int,float) or not math.isfinite(minimum) or not 0<=minimum<=16384:
+            raise ValueError('Invalid portable storage reserve')
+        floor=max(floor,int(minimum*GIB))
     output = max(0, int(float(cfg["output_reserve_gib"]) * GIB))
     if floor < 0 or not 0 <= float(cfg["minimum_free_fraction"]) < 1 or additional_bytes < 0:
         raise ValueError("Invalid storage reserve or size")

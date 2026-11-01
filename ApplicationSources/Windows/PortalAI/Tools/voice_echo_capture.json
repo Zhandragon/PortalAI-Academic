@@ -1,0 +1,9 @@
+{
+  "source": "VoiceEchoCapture.cpp",
+  "source_sha256": "5a19068669e4fbfc72b2c9e3f5d47085206956c04d1099d39a9f24cdc9254ff2",
+  "file": "voice_echo_capture.exe",
+  "bytes": 168448,
+  "sha256": "11497a9674fa3d64970a2fdc75a02c88622a32066dac48bb469f7d47a1646ed4",
+  "runtime": "Windows Voice Capture DSP; statically linked C++ runtime",
+  "reference": "https://learn.microsoft.com/windows/win32/medfound/voicecapturedmo"
+}

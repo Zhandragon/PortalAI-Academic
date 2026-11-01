@@ -45,6 +45,10 @@ class Client:
     def status(self):return self.request('GET','/status')
     def create_chat(self,title,*,key):return self.request('POST','/chats',{'title':title},key=key)
     def message(self,chat,text,*,key,max_tokens=1024):return self.request('POST','/chats/'+chat+'/messages',{'message':text,'max_tokens':max_tokens},key=key)
+    def agent(self,chat,text,*,key,tools=None,max_tokens=1024,max_tool_calls=12):
+        body={'message':text,'max_tokens':max_tokens,'max_tool_calls':max_tool_calls}
+        if tools is not None:body['tools']=list(tools)
+        return self.request('POST','/chats/'+chat+'/agent',body,key=key)
     def structured(self,question,schema,context='',*,key,max_tokens=1024):return self.request('POST','/structured',{'question':question,'schema':schema,'context':context,'max_tokens':max_tokens},key=key)
     def job(self,jid):return self.request('GET','/jobs/'+jid)
     def cancel(self,jid,*,key):return self.request('POST','/jobs/'+jid+'/cancel',{},key=key)

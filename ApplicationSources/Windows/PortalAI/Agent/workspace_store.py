@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import re
 import uuid
+import os
+import time
 
 from profile_paths import capture, private_path, ProfileLocked
 from runtime_policy import atomic_json, require_space
@@ -25,8 +27,15 @@ def digest(value):
 
 
 def read_json(path, limit=2*1024**2):
-    with Path(path).open('rb') as stream:
-        data=stream.read(limit+1)
+    # Windows can briefly refuse an open while another thread atomically replaces
+    # the same job record. Retry only the read, never the action recorded in it.
+    for attempt in range(6):
+        try:
+            with Path(path).open('rb') as stream:data=stream.read(limit+1)
+            break
+        except PermissionError:
+            if os.name!='nt' or attempt==5:raise
+            time.sleep(.01*(2**attempt))
     if len(data)>limit:raise ValueError('Workspace record exceeds its size limit')
     return json.loads(data)
 

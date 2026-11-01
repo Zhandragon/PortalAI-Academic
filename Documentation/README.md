@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Current Windows package: [r58 portable capabilities](PORTABLE-CAPABILITIES-r58.md), [validation](PORTABLE-CAPABILITIES-VALIDATION-r58.json), [installer verification](WINDOWS-INSTALLER-r58.json). Includes r57 voice padding and earlier context, memory and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r59 portable intelligence](PORTABLE-INTELLIGENCE-r59.md), [validation](PORTABLE-INTELLIGENCE-VALIDATION-r59.json), [installer verification](WINDOWS-INSTALLER-r59.json). Includes earlier context, voice padding, memory and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

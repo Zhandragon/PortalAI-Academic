@@ -1,0 +1,611 @@
+{
+  "passed": true,
+  "version": "2026.10.31-Desktop-r59",
+  "edition": "Academic",
+  "archive_sha256": "1f6aef03e516b800c97e12ac9b3823f25fe16072c8a29a832603b7ffee22b164",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 631,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1619,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip",
+      "passed": true,
+      "bytes": 11439094
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py",
+      "passed": true,
+      "bytes": 39062
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py",
+      "passed": true,
+      "bytes": 4572
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py",
+      "passed": true,
+      "bytes": 4593
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py",
+      "passed": true,
+      "bytes": 17915
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py",
+      "passed": true,
+      "bytes": 27664
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py",
+      "passed": true,
+      "bytes": 29697
+    }
+  ],
+  "all_published_windows_source_matches_payload": true,
+  "existing_component_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_original_helper_bytes": 168448,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "capabilities": {
+    "version": "2026.10.31-Desktop-r59",
+    "files": 53,
+    "minimum_free_bytes": 85899345920,
+    "drives": {
+      "D": {
+        "added_application_bytes": 327252,
+        "source_hashes": {
+          "Agent/application_api.py": "66d869f01764ab15ee71b672552b3e898017ab3c3d46443c991f484bcf673084",
+          "Agent/artifact_document.py": "ccb59fa40ae2d601c44db353d4b0fe71cb4bc4a7db0d4a2cfc885bb8c59c861c",
+          "Agent/artifact_embed.py": "81acd6a0fe768a1110d22aef34929cb4ae87c5cc990e8d5d87f4e7ad8ad3d7d4",
+          "Agent/artifact_libraries.py": "6b60317c515eb284353601c86ed40109884e6294464b8e1ba77cefe7d435f99d",
+          "Agent/artifact_preview_worker.py": "17dc5ad59c6b5dabfae5e13c87bc0088f6549a5997034507e567609642a57cd8",
+          "Agent/artifacts.py": "87764e1ee8df1277cec9204f1ded79e6b42320aef1f6e5d71bd2695dbf69f1f8",
+          "Agent/mcp_oauth.py": "165a95d649d2b58e6eeb5a49d2f44c33b73434fb8ef85252ab98806a2decfef5",
+          "Agent/model_compare_worker.py": "6d91124091937eb3113e09127592e3109a80b5b6d28744a18c441e409bea6f11",
+          "Agent/nice_voice.py": "d1ac46e13e436a54e9110a5e216fa9b29e6380173a934d50ed512c435a4c4fa7",
+          "Agent/portable_workspace.py": "fefc1a9256769d0a91c56fe5f115a12f02a348a77c51ff9b8fce60f46e93b6d8",
+          "Agent/qwen_voice_stream.py": "bcc43d9032f8828c65f12de8dcbbdaf59fbba89dec8dbb1c30c2f5c09dcaf6dd",
+          "Agent/rich_artifacts.py": "ddb57821edfbcebbe692b57dcd55328ca9b0611cdaf8691e84d465e605f795b7",
+          "Agent/runtime_policy.py": "48da48bd7c572f1b07140424171b05c9a2ea2a658d0be54b6d9c5e350f720bc3",
+          "Agent/skill_packs.py": "70272722142cdda6d88fcce2e736de0402aa79e0bf5d5ae0b21338adfb7de5a8",
+          "Agent/storage_reserve.json": "6fe0f5635c203d544b8fee2869ed5b55cf2ba6b0eec49e189f674b7442ba3bff",
+          "Agent/voice_prewarm.py": "9a5c2f3098fa2ad0b1d7c41951a5d8382367618b2492e762017f244366230688",
+          "Agent/workflows.py": "14c7fa796347404a2ad4fc172664eed6ef9db49f606d22d5fb14e3b9116230a2",
+          "Agent/workspace_store.py": "1ef3bc20f3069f84fc3699a4fb999f493e7765a5a68b94c816cb6d00e0535efe",
+          "ControlCenter/application_api_contract.py": "88f0d3cb5240493116c415fba6e97ddde4a46e14accd5fa5d2acbeb0bf9e8387",
+          "ControlCenter/application_api_runtime.py": "f752592352a63cba0176b73ee2dcd4c6f07e1c149d6e670f78585efe6ca78ea4",
+          "ControlCenter/artifact_preview.py": "2678853ce1e9fac7bce57acbe86f1476df419a728304ea7c466b10c61cc06570",
+          "ControlCenter/capability_tools.py": "b872d02b429244989163315a36b66f164022fe4788fdc5a2aa6ba35f0ddac971",
+          "ControlCenter/chat_task_checkpoint.py": "aff06652d18ded5ee57e5a500d59c0a141c1b8ab02ee5dd5e677d97ad49a9bf6",
+          "ControlCenter/chat_tool_menu.py": "71fde7d2dd5a15e8c9a0d7f3ffaead733c571d6f24da7bf85cb56bc456e24918",
+          "ControlCenter/chat_voice.py": "05d242eabb014fff49ab9b29e5475e6f5ca04e3e6719d094d857a9d79c57dd40",
+          "ControlCenter/comparison_workers.py": "f0f06a60dbea94d9562a47c26bf6895ef6ad522db319123222785d1444d98963",
+          "ControlCenter/headless_chat.py": "552ae97adb8374d00d83d64753299878be33f5f716c4ce564475124d53f54792",
+          "ControlCenter/knowledge_monitor.py": "a428dc8ef9e9477f8c6806c34d77b798eec846d827ed95df95dd3cea2f644c5a",
+          "ControlCenter/mcp_workspace_ui.py": "777c1f7d7f12aad2ae6d26e5292192490c6db1d35f1d72caf9eb980cfa1808d4",
+          "ControlCenter/model_comparison.py": "2078a4f1aaa2f12116653a97da6e69285ae54432a628e0d7a48690975629f939",
+          "ControlCenter/native_chat.py": "ac20708e83ab9bf7b3b6c969fb9ef570171a17ac6d450e58c1da0be7662a5b6a",
+          "ControlCenter/portable_workspace_ui.py": "de00e60963aa96de903cb249e185283ed56e6f11e20f0d4c5b902a3ad700cf9a",
+          "ControlCenter/release_version.py": "2c10eeeef3556674f6eaa5953304eee15384c5354470395e0304b4dfea43c2e7",
+          "ControlCenter/task_notebook.py": "a450809ab1acac56585e9f63fbc1744d1fa60346156868f25665fb6f5be3a4cf",
+          "ControlCenter/task_progress.py": "b3081b0067ef2c1b21b9bda9b225a02e43d6c1d40ab02105768f344a1263eb66",
+          "ControlCenter/tool_protocol.py": "c27bf3eccda5343b4479465454aecf644a28a699ab3a95f8e8398690a4b09690",
+          "ControlCenter/voice_echo.py": "ce3cb1bd26adf43580b96fed15799383241232e8c7d858f60830b43361ad5d48",
+          "ControlCenter/voice_pcm_player.py": "c6b242f03f1178a5c44dfb64f142ac77afe073169a9c4c4800621872f0ee2194",
+          "ControlCenter/workflow_builder.py": "8b9cd23feb3fb2eaf8fd8d3261d6e7ec788ce774d871eb87c63baef88be4a633",
+          "ControlCenter/workflow_canvas.py": "6ca109a5abb5f0876705c13922484616056b2b46f9a6170f65446338979e0e92",
+          "ControlCenter/workspace_integration_ui.py": "3b6abe73ee187491b482851fbe4a2d834c70580ad213d9d6b48307142f7ec054",
+          "ControlCenter/workspace_panel.py": "5f3a69608dfcf9efb38fc47dca7973c433ad9a050d78d63eed085207ad0374e7",
+          "Documentation/Portable_Intelligence_r59.md": "f72b2ef42869c6a4995c636f436b6c9595b2d6e712ce9daaa54e1b6e4c4df612",
+          "Maintenance/Tests/test_artifact_libraries.py": "f765497ea719b191fe98dcf6b83455b90bd98a75d816895aed2d9330a0e3b229",
+          "Maintenance/Tests/test_chat_context_budget.py": "84e59a206e3daed8c239c91be1a943a7be0b231a8df1025f690bfe7b6dbabd16",
+          "Maintenance/Tests/test_chat_reasoning_continuation.py": "d82d506ecb9e363368883cc9c423bf1c03707dbc66358a8d7e0ae5c465c1ad71",
+          "Maintenance/Tests/test_intelligence_lifecycle.py": "b4515391dd9dc1788d210b77ff122f16e1057425a64781ca12c4774db5e2f883",
+          "Maintenance/Tests/test_portable_intelligence.py": "d1bf2f5c605c1c99b2e0d555f11919d99e1374c8854cd7d2b2f8086d97a8042c",
+          "SDK/python/portalai.py": "c4e7f7d8d7adf6cbeb7041830151d12a9f32a0e5614b9fafe80a3898b96af13a",
+          "SDK/typescript/portalai.ts": "e8ef8c15e329bd4a8d136984ce3b0bfd31ed51f070f9e07931f32c1804158036",
+          "Tools/VoiceEchoCapture.cpp": "5a19068669e4fbfc72b2c9e3f5d47085206956c04d1099d39a9f24cdc9254ff2",
+          "Tools/voice_echo_capture.exe": "11497a9674fa3d64970a2fdc75a02c88622a32066dac48bb469f7d47a1646ed4",
+          "Tools/voice_echo_capture.json": "0b84d85f168ca498bd63f20dd4afa369fb5e69d06c5fa66b42d391bef5931faf"
+        },
+        "independent_copies": true,
+        "free_bytes": 190914510848,
+        "tests": {
+          "passed": true,
+          "tests": 631,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "free_bytes_before_installer_copy": 185702961152
+      },
+      "E": {
+        "added_application_bytes": 327252,
+        "source_hashes": {
+          "Agent/application_api.py": "66d869f01764ab15ee71b672552b3e898017ab3c3d46443c991f484bcf673084",
+          "Agent/artifact_document.py": "ccb59fa40ae2d601c44db353d4b0fe71cb4bc4a7db0d4a2cfc885bb8c59c861c",
+          "Agent/artifact_embed.py": "81acd6a0fe768a1110d22aef34929cb4ae87c5cc990e8d5d87f4e7ad8ad3d7d4",
+          "Agent/artifact_libraries.py": "6b60317c515eb284353601c86ed40109884e6294464b8e1ba77cefe7d435f99d",
+          "Agent/artifact_preview_worker.py": "17dc5ad59c6b5dabfae5e13c87bc0088f6549a5997034507e567609642a57cd8",
+          "Agent/artifacts.py": "87764e1ee8df1277cec9204f1ded79e6b42320aef1f6e5d71bd2695dbf69f1f8",
+          "Agent/mcp_oauth.py": "165a95d649d2b58e6eeb5a49d2f44c33b73434fb8ef85252ab98806a2decfef5",
+          "Agent/model_compare_worker.py": "6d91124091937eb3113e09127592e3109a80b5b6d28744a18c441e409bea6f11",
+          "Agent/nice_voice.py": "d1ac46e13e436a54e9110a5e216fa9b29e6380173a934d50ed512c435a4c4fa7",
+          "Agent/portable_workspace.py": "fefc1a9256769d0a91c56fe5f115a12f02a348a77c51ff9b8fce60f46e93b6d8",
+          "Agent/qwen_voice_stream.py": "bcc43d9032f8828c65f12de8dcbbdaf59fbba89dec8dbb1c30c2f5c09dcaf6dd",
+          "Agent/rich_artifacts.py": "ddb57821edfbcebbe692b57dcd55328ca9b0611cdaf8691e84d465e605f795b7",
+          "Agent/runtime_policy.py": "48da48bd7c572f1b07140424171b05c9a2ea2a658d0be54b6d9c5e350f720bc3",
+          "Agent/skill_packs.py": "70272722142cdda6d88fcce2e736de0402aa79e0bf5d5ae0b21338adfb7de5a8",
+          "Agent/storage_reserve.json": "6fe0f5635c203d544b8fee2869ed5b55cf2ba6b0eec49e189f674b7442ba3bff",
+          "Agent/voice_prewarm.py": "9a5c2f3098fa2ad0b1d7c41951a5d8382367618b2492e762017f244366230688",
+          "Agent/workflows.py": "14c7fa796347404a2ad4fc172664eed6ef9db49f606d22d5fb14e3b9116230a2",
+          "Agent/workspace_store.py": "1ef3bc20f3069f84fc3699a4fb999f493e7765a5a68b94c816cb6d00e0535efe",
+          "ControlCenter/application_api_contract.py": "88f0d3cb5240493116c415fba6e97ddde4a46e14accd5fa5d2acbeb0bf9e8387",
+          "ControlCenter/application_api_runtime.py": "f752592352a63cba0176b73ee2dcd4c6f07e1c149d6e670f78585efe6ca78ea4",
+          "ControlCenter/artifact_preview.py": "2678853ce1e9fac7bce57acbe86f1476df419a728304ea7c466b10c61cc06570",
+          "ControlCenter/capability_tools.py": "b872d02b429244989163315a36b66f164022fe4788fdc5a2aa6ba35f0ddac971",
+          "ControlCenter/chat_task_checkpoint.py": "aff06652d18ded5ee57e5a500d59c0a141c1b8ab02ee5dd5e677d97ad49a9bf6",
+          "ControlCenter/chat_tool_menu.py": "71fde7d2dd5a15e8c9a0d7f3ffaead733c571d6f24da7bf85cb56bc456e24918",
+          "ControlCenter/chat_voice.py": "05d242eabb014fff49ab9b29e5475e6f5ca04e3e6719d094d857a9d79c57dd40",
+          "ControlCenter/comparison_workers.py": "f0f06a60dbea94d9562a47c26bf6895ef6ad522db319123222785d1444d98963",
+          "ControlCenter/headless_chat.py": "552ae97adb8374d00d83d64753299878be33f5f716c4ce564475124d53f54792",
+          "ControlCenter/knowledge_monitor.py": "a428dc8ef9e9477f8c6806c34d77b798eec846d827ed95df95dd3cea2f644c5a",
+          "ControlCenter/mcp_workspace_ui.py": "777c1f7d7f12aad2ae6d26e5292192490c6db1d35f1d72caf9eb980cfa1808d4",
+          "ControlCenter/model_comparison.py": "2078a4f1aaa2f12116653a97da6e69285ae54432a628e0d7a48690975629f939",
+          "ControlCenter/native_chat.py": "ac20708e83ab9bf7b3b6c969fb9ef570171a17ac6d450e58c1da0be7662a5b6a",
+          "ControlCenter/portable_workspace_ui.py": "de00e60963aa96de903cb249e185283ed56e6f11e20f0d4c5b902a3ad700cf9a",
+          "ControlCenter/release_version.py": "2c10eeeef3556674f6eaa5953304eee15384c5354470395e0304b4dfea43c2e7",
+          "ControlCenter/task_notebook.py": "a450809ab1acac56585e9f63fbc1744d1fa60346156868f25665fb6f5be3a4cf",
+          "ControlCenter/task_progress.py": "b3081b0067ef2c1b21b9bda9b225a02e43d6c1d40ab02105768f344a1263eb66",
+          "ControlCenter/tool_protocol.py": "c27bf3eccda5343b4479465454aecf644a28a699ab3a95f8e8398690a4b09690",
+          "ControlCenter/voice_echo.py": "ce3cb1bd26adf43580b96fed15799383241232e8c7d858f60830b43361ad5d48",
+          "ControlCenter/voice_pcm_player.py": "c6b242f03f1178a5c44dfb64f142ac77afe073169a9c4c4800621872f0ee2194",
+          "ControlCenter/workflow_builder.py": "8b9cd23feb3fb2eaf8fd8d3261d6e7ec788ce774d871eb87c63baef88be4a633",
+          "ControlCenter/workflow_canvas.py": "6ca109a5abb5f0876705c13922484616056b2b46f9a6170f65446338979e0e92",
+          "ControlCenter/workspace_integration_ui.py": "3b6abe73ee187491b482851fbe4a2d834c70580ad213d9d6b48307142f7ec054",
+          "ControlCenter/workspace_panel.py": "5f3a69608dfcf9efb38fc47dca7973c433ad9a050d78d63eed085207ad0374e7",
+          "Documentation/Portable_Intelligence_r59.md": "f72b2ef42869c6a4995c636f436b6c9595b2d6e712ce9daaa54e1b6e4c4df612",
+          "Maintenance/Tests/test_artifact_libraries.py": "f765497ea719b191fe98dcf6b83455b90bd98a75d816895aed2d9330a0e3b229",
+          "Maintenance/Tests/test_chat_context_budget.py": "84e59a206e3daed8c239c91be1a943a7be0b231a8df1025f690bfe7b6dbabd16",
+          "Maintenance/Tests/test_chat_reasoning_continuation.py": "d82d506ecb9e363368883cc9c423bf1c03707dbc66358a8d7e0ae5c465c1ad71",
+          "Maintenance/Tests/test_intelligence_lifecycle.py": "b4515391dd9dc1788d210b77ff122f16e1057425a64781ca12c4774db5e2f883",
+          "Maintenance/Tests/test_portable_intelligence.py": "d1bf2f5c605c1c99b2e0d555f11919d99e1374c8854cd7d2b2f8086d97a8042c",
+          "SDK/python/portalai.py": "c4e7f7d8d7adf6cbeb7041830151d12a9f32a0e5614b9fafe80a3898b96af13a",
+          "SDK/typescript/portalai.ts": "e8ef8c15e329bd4a8d136984ce3b0bfd31ed51f070f9e07931f32c1804158036",
+          "Tools/VoiceEchoCapture.cpp": "5a19068669e4fbfc72b2c9e3f5d47085206956c04d1099d39a9f24cdc9254ff2",
+          "Tools/voice_echo_capture.exe": "11497a9674fa3d64970a2fdc75a02c88622a32066dac48bb469f7d47a1646ed4",
+          "Tools/voice_echo_capture.json": "0b84d85f168ca498bd63f20dd4afa369fb5e69d06c5fa66b42d391bef5931faf"
+        },
+        "independent_copies": true,
+        "free_bytes": 204621008896,
+        "tests": {
+          "passed": true,
+          "tests": 631,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "free_bytes_before_installer_copy": 204621008896
+      }
+    },
+    "new_model_weights": false,
+    "new_runtime": false,
+    "permanent_service": false,
+    "actual_qwen_streaming": true,
+    "physical_microphone_speaker_interruption_tested": true,
+    "real_provider_oauth_tested": false,
+    "other_physical_hardware_tiers_tested": false,
+    "native_gui_inspected": [
+      "Workflow dragging and links",
+      "Embedded artifact interaction and resizing"
+    ],
+    "user_streaming_confirmation": "Complete and smooth",
+    "voice_prewarm": {
+      "preparation": [
+        {
+          "working": 450797568,
+          "peak_working": 450797568,
+          "private": 744296448
+        },
+        {
+          "working": 486850560,
+          "peak_working": 486850560,
+          "private": 776589312
+        },
+        {
+          "working": 525660160,
+          "peak_working": 525660160,
+          "private": 814673920
+        },
+        {
+          "working": 557330432,
+          "peak_working": 557330432,
+          "private": 847548416
+        },
+        {
+          "working": 576200704,
+          "peak_working": 576200704,
+          "private": 866299904
+        },
+        {
+          "working": 588800000,
+          "peak_working": 588800000,
+          "private": 878645248
+        },
+        {
+          "working": 606289920,
+          "peak_working": 606289920,
+          "private": 893882368
+        },
+        {
+          "working": 623861760,
+          "peak_working": 623861760,
+          "private": 911638528
+        },
+        {
+          "working": 649060352,
+          "peak_working": 649060352,
+          "private": 967983104
+        },
+        {
+          "working": 693813248,
+          "peak_working": 693813248,
+          "private": 1006542848
+        },
+        {
+          "working": 719265792,
+          "peak_working": 719265792,
+          "private": 1026867200
+        },
+        {
+          "working": 745574400,
+          "peak_working": 745574400,
+          "private": 1046020096
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        },
+        {
+          "working": 777527296,
+          "peak_working": 777527296,
+          "private": 1104789504
+        }
+      ],
+      "passed": true,
+      "seconds": 13.859,
+      "chunks": [
+        8.015,
+        9.656,
+        11.187,
+        12.718,
+        12.922
+      ],
+      "result": {
+        "success": true,
+        "sample_rate": 24000,
+        "mode": "custom",
+        "stream_chunks": 5,
+        "timing": {
+          "imports_seconds": 0.0,
+          "voice_package_seconds": 0.0,
+          "model_ready_seconds": 5.093,
+          "first_chunk_seconds": 7.359,
+          "total_seconds": 12.218
+        },
+        "files": [
+          "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Memory-20261031\\listener-fixture\\Outputs\\Voices\\a6a424e2aa28_speech.wav"
+        ],
+        "device": "cuda",
+        "worker_seconds": 13.312000000005355
+      }
+    },
+    "streaming_voice": {
+      "chunks": [
+        {
+          "at": 51.656,
+          "frames": 23040
+        },
+        {
+          "at": 53.187,
+          "frames": 23040
+        },
+        {
+          "at": 54.719,
+          "frames": 23040
+        },
+        {
+          "at": 56.25,
+          "frames": 23040
+        }
+      ],
+      "generation_complete_at": 57.375,
+      "result": {
+        "success": true,
+        "sample_rate": 24000,
+        "mode": "custom",
+        "stream_chunks": 4,
+        "files": [
+          "D:\\PortalAI Windows\\Maintenance\\Validation\\Voice-Memory-20261031\\listener-fixture\\Outputs\\Voices\\ea29283d6d1f_speech.wav"
+        ],
+        "device": "cuda",
+        "worker_seconds": 56.64100000000326
+      },
+      "finished_at": 57.484,
+      "phrase": "I'm here. Tell me what's on your mind, and we'll work through it together.",
+      "wave": "D:\\PortalAI Windows\\Maintenance\\Validation\\Portable-Intelligence-r59\\streamed-approved-voice.wav",
+      "passed": true
+    },
+    "speaker_interruption": {
+      "interrupted": true,
+      "seconds": 3.406,
+      "captured": true,
+      "captured_seconds": 1.6,
+      "transcript": "Nice stop speaking",
+      "passed": true
+    },
+    "model_comparison": {
+      "passed": true,
+      "seconds": 13.687000000005355,
+      "run": {
+        "id": "b35649aac8df4aabb86260b4cceb8872",
+        "question": "A project has three tasks, lasting 2, 3 and 4 hours. They must run one after another. Give the total duration and one way to verify it, in two sentences.",
+        "created": 1793503980.370727,
+        "models": [
+          "qwen1.7-q8",
+          "qwen4-q4"
+        ],
+        "rounds": 2,
+        "results": [
+          {
+            "answer": "The total duration of the project is 2 + 3 + 4 = 9 hours. One way to verify this is to add the individual task durations sequentially.",
+            "truncated": false,
+            "usage": {
+              "completion_tokens": 35,
+              "prompt_tokens": 92,
+              "total_tokens": 127,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "profile": "Round 1",
+            "round": 1,
+            "model": "qwen1.7-q8",
+            "seconds": 1.19
+          },
+          {
+            "answer": "The total duration is 9 hours (2 + 3 + 4). One way to verify is to add the durations of each task together.",
+            "truncated": false,
+            "usage": {
+              "completion_tokens": 31,
+              "prompt_tokens": 92,
+              "total_tokens": 123,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "profile": "Round 1",
+            "round": 1,
+            "model": "qwen4-q4",
+            "seconds": 1.19
+          },
+          {
+            "answer": "The total duration of the project is 9 hours. One way to verify this is to add the individual task durations: 2 + 3 + 4 = 9.",
+            "truncated": false,
+            "usage": {
+              "completion_tokens": 37,
+              "prompt_tokens": 203,
+              "total_tokens": 240,
+              "prompt_tokens_details": {
+                "cached_tokens": 82
+              }
+            },
+            "profile": "Round 2",
+            "round": 2,
+            "model": "qwen1.7-q8",
+            "seconds": 1.2
+          },
+          {
+            "answer": "The total duration of the project is 9 hours. One way to verify is to add the individual task durations together: 2 + 3 + 4 = 9.",
+            "truncated": false,
+            "usage": {
+              "completion_tokens": 37,
+              "prompt_tokens": 203,
+              "total_tokens": 240,
+              "prompt_tokens_details": {
+                "cached_tokens": 82
+              }
+            },
+            "profile": "Round 2",
+            "round": 2,
+            "model": "qwen4-q4",
+            "seconds": 1.27
+          }
+        ],
+        "parallel_requested": true,
+        "state": "complete",
+        "restored": true,
+        "admission": [
+          {
+            "round": 1,
+            "models": [
+              "qwen1.7-q8",
+              "qwen4-q4"
+            ],
+            "parallel": true,
+            "reason": "Two fully offloaded models fit with RAM and VRAM reserves"
+          },
+          {
+            "round": 2,
+            "models": [
+              "qwen1.7-q8",
+              "qwen4-q4"
+            ],
+            "parallel": true,
+            "reason": "Reusing the two admitted workers for this bounded comparison"
+          }
+        ],
+        "seconds": 13.64
+      }
+    },
+    "tool_enabled_api": {
+      "job_state": "complete",
+      "seconds": 6.187,
+      "result": {
+        "chat": "8c39261cb59048d18d94f56d20f34c11",
+        "events": [
+          {
+            "detail": "Checking chat effort and waiting for available model memory\u2026",
+            "event": "connection_status"
+          },
+          {
+            "detail": "Reclaiming the current model memory for Fast effort\u2026",
+            "event": "connection_status"
+          },
+          {
+            "detail": "Loading qwen1.7-q8 (Fast)\u2026",
+            "event": "connection_status"
+          },
+          {
+            "detail": "None",
+            "event": "done"
+          }
+        ],
+        "message": "The file contains 7 turquoise tiles.",
+        "state": "complete",
+        "tool_messages": [
+          {
+            "execution": {
+              "dispatched": true,
+              "effectful": false,
+              "outcome": "returned",
+              "request_index": 0
+            },
+            "message_id": 2,
+            "name": "tool_help"
+          },
+          {
+            "execution": {
+              "dispatched": true,
+              "effectful": false,
+              "outcome": "returned",
+              "request_index": 0
+            },
+            "message_id": 4,
+            "name": "read_file"
+          }
+        ]
+      },
+      "error": null,
+      "file_reads": [
+        {
+          "content": "{\"path\": \"D:\\\\PortalAI Windows\\\\Maintenance\\\\Validation\\\\Portable-Intelligence-r59\\\\api-evidence.txt\", \"total_chars\": 103, \"offset\": 0, \"text\": \"The validation project has exactly seven turquoise tiles and three gold tiles. The total is ten tiles.\\n\", \"returned_chars\": 103, \"next_offset\": null, \"complete\": true}",
+          "execution": {
+            "dispatched": true,
+            "effectful": false,
+            "outcome": "returned",
+            "request_index": 0
+          },
+          "media": [],
+          "name": "read_file",
+          "role": "tool",
+          "tool_call_id": "pWGl6z8XlrLY7IznuQgKSgnKhKnWOkKe"
+        }
+      ],
+      "passed": true
+    },
+    "artifact_library_preview": {
+      "passed": true,
+      "reviewed_bundle_react_rendered": true,
+      "interactive": true,
+      "parent_access_blocked": true,
+      "network_blocked": true
+    },
+    "gui_timer_measurement": {
+      "samples": 4573,
+      "median_lateness_ms": 10.999999988125637,
+      "p95_lateness_ms": 12.000000006519258,
+      "maximum_lateness_ms": 824.0000000118744
+    }
+  },
+  "catalog": {
+    "passed": true,
+    "windows_r59_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "1f6aef03e516b800c97e12ac9b3823f25fe16072c8a29a832603b7ffee22b164",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

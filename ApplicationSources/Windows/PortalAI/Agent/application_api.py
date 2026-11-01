@@ -11,7 +11,8 @@ import urllib.parse
 from workspace_store import Workspace,identifier,read_json,digest,encoded
 
 SCOPES={'chats:read','chats:write','missions:read','missions:write','knowledge:read',
-        'knowledge:write','outputs:read','artifacts:read','artifacts:write','structured:generate','workflows:read','workflows:execute'}
+        'knowledge:write','outputs:read','artifacts:read','artifacts:write','structured:generate','workflows:read','workflows:execute','agent:execute'}
+AGENT_TOOLS={'read_file','write_file','edit_file','list_dir','file_inspect','web','science','media_tool','generate_image','knowledge','structured','artifact','skill','mcp','workflow','shell','computer','available_tools','inspect_environment','source_search','source_map'}
 
 
 class APIError(Exception):
@@ -29,15 +30,17 @@ class APIState(Workspace):
         rows=[read_json(self.path('Tokens/'+i+'.json')) for i in self.records('Tokens')]
         return [{k:v for k,v in row.items() if k!='secret_hash'} for row in rows]
 
-    def issue(self,name,scopes,hours=24):
+    def issue(self,name,scopes,hours=24,*,tools=()):
         if not isinstance(name,str) or not name.strip() or len(name)>100:raise ValueError('Token name must contain 1..100 characters')
         if not isinstance(scopes,list) or not scopes or any(s not in SCOPES for s in scopes):raise ValueError('Choose explicit supported API scopes')
         if type(hours) is not int or not 1<=hours<=720:raise ValueError('Token lifetime must be 1..720 hours')
+        if not isinstance(tools,(list,tuple)) or any(t not in AGENT_TOOLS for t in tools):raise ValueError('Choose supported, explicit agent tool grants')
+        if tools and 'agent:execute' not in scopes:raise ValueError('Tool grants require the agent:execute scope')
         with self.lock('tokens'):
             if len(self.records('Tokens'))>=128:raise ValueError('Token catalogue limit reached')
             tid=self.new_id();secret=secrets.token_urlsafe(32)
             row={'id':tid,'name':name.strip(),'scopes':sorted(set(scopes)),'expires':time.time()+hours*3600,'revoked':False,
-                 'secret_hash':hashlib.sha256(secret.encode()).hexdigest()}
+                 'secret_hash':hashlib.sha256(secret.encode()).hexdigest(),'tools':sorted(set(tools))}
             self.save('Tokens/'+tid+'.json',row)
         return {'id':tid,'token':'pai_'+tid+'.'+secret,'scopes':row['scopes'],'expires':row['expires'],'note':'Copy this token now; only its hash is stored.'}
 

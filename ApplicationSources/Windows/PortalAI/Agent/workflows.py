@@ -29,10 +29,18 @@ def validate(template):
         if step['kind']=='tool' and step.get('tool') not in TOOLS:raise ValueError('Workflow tool is not supported')
         if step['kind']=='condition' and step.get('operator','equals') not in ('equals','not_equals','contains','truthy'):raise ValueError('Unknown condition operator')
     for i,step in enumerate(steps):
+        if 'next' in step:
+            target=step['next']
+            if step['kind']=='condition' or (target!='end' and (target not in names or names.index(target)<=i)):
+                raise ValueError('Next links must branch forward from a non-condition step or end')
         if step['kind']=='condition':
             for key in ('then','else'):
                 target=step.get(key)
                 if target!='end' and (target not in names or names.index(target)<=i):raise ValueError('Conditions must branch forward to a step ID or end')
+    layout=template.get('layout',{})
+    if not isinstance(layout,dict) or set(layout)-set(names):raise ValueError('Canvas layout must name existing steps')
+    for point in layout.values():
+        if not isinstance(point,list) or len(point)!=2 or any(type(v) not in (int,float) or not -10000<=v<=10000 for v in point):raise ValueError('Invalid canvas position')
     if len(encoded(template))>128*1024:raise ValueError('Workflow template exceeds 128 KiB')
     return copy.deepcopy(template)
 
@@ -116,6 +124,7 @@ class Workflows(Workspace):
                     if len(encoded(result))>16000:raise ValueError('Step result exceeds 16 KiB; narrow the requested output')
                     self.check();row['results'][sid]=result;row['pending']=None
                     if kind=='condition':row['cursor']=len(steps) if target=='end' else next(i for i,s in enumerate(steps) if s['id']==target)
+                    elif 'next' in step:row['cursor']=len(steps) if step['next']=='end' else next(i for i,s in enumerate(steps) if s['id']==step['next'])
                     else:row['cursor']+=1
                     row['state']='ready';self._save(row)
                 except Exception as exc:

@@ -39,7 +39,7 @@ def admit(root):
     return tts_plan(root,'qwen')
 
 
-def synthesize(text, root, output, check):
+def synthesize(text, root, output, check, *, on_chunk=None, prepared=None):
     from media_paths import media_runtime
     from mission_runner import process_lock
     from mission_supervisor import WorkerJob
@@ -52,24 +52,41 @@ def synthesize(text, root, output, check):
     out=output_path(root,output);runtime=media_runtime(root);runtime.mkdir(parents=True,exist_ok=True)
     token=uuid.uuid4().hex;request=runtime/('nice_voice_'+token+'.json');gate=request.with_suffix('.gate');logpath=request.with_suffix('.log')
     part=out.with_name(out.stem+'.'+token+'.part.wav');proc=job=None
+    chunks=request.with_suffix('.chunks') if on_chunk is not None else None;chunk_number=0
+    def drain_chunks():
+        nonlocal chunk_number
+        if chunks is None:return
+        while True:
+            item=chunks/(str(chunk_number).zfill(4)+'.wav')
+            if not item.exists():return
+            check()
+            with wave.open(str(item),'rb') as wav:
+                if wav.getnchannels()!=1 or wav.getsampwidth()!=2 or wav.getframerate()!=24000 or not 0<wav.getnframes()<=48000:raise RuntimeError('Invalid incremental speech chunk')
+            on_chunk(item);item.unlink();chunk_number+=1
     with process_lock(runtime/'nice-voice.lock'):
         try:
-            require_space(root,32*1024**2,for_outputs=True);check();out.parent.mkdir(parents=True,exist_ok=True)
-            atomic_json(request,{'text':text,'output':str(part)})
+            require_space(root,40*1024**2,for_outputs=True);check();out.parent.mkdir(parents=True,exist_ok=True)
+            if chunks:chunks.mkdir(exist_ok=False)
+            atomic_json(request,{'text':text,'output':str(part),**({'stream_dir':str(chunks)} if chunks else {})})
             env=portable_env(root);env.update(PORTALAI_VOICE_GATE=str(gate),PORTALAI_TORCH_BACKEND=plan['device'],
                 HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',PYTHONUTF8='1',PYTHONIOENCODING='utf-8',
                 OMP_NUM_THREADS='4',MKL_NUM_THREADS='4')
-            with logpath.open('wb') as log:
-                proc=subprocess.Popen([str(python_path(root)),'-B','-I',str(root/'Agent/nice_voice.py'),'--worker',str(request)],
-                    cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
-                    creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),**worker_process_options())
-                job=WorkerJob(proc);job.limit_memory(16*GIB);check();gate.touch();started=time.monotonic();deadline=started+240
+            adopted=prepared.take(root,request,check,plan['device']) if prepared is not None else None
+            if adopted:proc,job=adopted;logpath=prepared.logpath
+            with logpath.open('ab' if adopted else 'wb') as log:
+                if not adopted:
+                    proc=subprocess.Popen([str(python_path(root)),'-B','-I',str(root/'Agent/nice_voice.py'),'--worker',str(request)],
+                        cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
+                        creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),**worker_process_options())
+                    job=WorkerJob(proc);job.limit_memory(16*GIB);check();gate.touch()
+                started=time.monotonic();deadline=started+240
                 while proc.poll() is None:
                     check();job.check()
+                    drain_chunks()
                     if time.monotonic()>=deadline:raise TimeoutError('Expressive voice exceeded 240 seconds')
                     if logpath.stat().st_size>1024**2:raise RuntimeError('Expressive voice log exceeded its limit')
                     require_space(root,for_outputs=True);time.sleep(.1)
-            check();result=VoiceBridge._payload(proc.returncode,logpath.read_text(encoding='utf-8',errors='replace'),'',plan)
+            check();drain_chunks();result=VoiceBridge._payload(proc.returncode,logpath.read_text(encoding='utf-8',errors='replace'),'',plan)
             if [Path(p).resolve() for p in result['files']] != [part]:raise RuntimeError('Expressive voice output identity changed')
             with wave.open(str(part),'rb') as wav:
                 if wav.getnchannels()!=1 or not wav.getnframes() or part.stat().st_size>32*1024**2:
@@ -81,6 +98,9 @@ def synthesize(text, root, output, check):
                 if proc.poll() is None:proc.kill()
                 proc.wait(timeout=10)
             for path in (request,gate,part):path.unlink(missing_ok=True)
+            if chunks and chunks.exists():
+                for path in chunks.iterdir():path.unlink()
+                chunks.rmdir()
             if logpath.exists():
                 for attempt in range(10):
                     try:os.replace(logpath,runtime/'nice-voice-last.log');break
@@ -89,17 +109,21 @@ def synthesize(text, root, output, check):
                         time.sleep(.1)
 
 
-def worker(request):
+def worker(request,*,warm=False):
     import runpy
     import sys
     root=Path(__file__).resolve().parents[1]
     sys.path.insert(0,str(root/'Agent'))
-    gate=Path(os.environ['PORTALAI_VOICE_GATE']);deadline=time.monotonic()+15
-    while not gate.exists():
-        if time.monotonic()>=deadline:raise RuntimeError('Voice parent did not release startup gate')
-        time.sleep(.05)
+    if not warm:
+        gate=Path(os.environ['PORTALAI_VOICE_GATE']);deadline=time.monotonic()+15
+        while not gate.exists():
+            if time.monotonic()>=deadline:raise RuntimeError('Voice parent did not release startup gate')
+            time.sleep(.05)
     data=json.loads(Path(request).read_text(encoding='utf-8'));admit(root)
     runner=root/'Voice/Qwen3-TTS/qwen_tts_runner.py'
+    if data.get('stream_dir'):
+        from qwen_voice_stream import generate
+        generate(root,data,INSTRUCTION);return
     sys.argv=[str(runner),'custom','--text',data['text'],'--speaker','Ryan','--instruction',INSTRUCTION,
               '--language','English','--output',data['output']]
     runpy.run_path(str(runner),run_name='__main__')
@@ -107,5 +131,17 @@ def worker(request):
 
 if __name__=='__main__':
     import sys
-    if len(sys.argv)!=3 or sys.argv[1]!='--worker':raise SystemExit('Internal voice worker')
-    worker(sys.argv[2])
+    if sys.argv[1:]==['--warm']:
+        if sys.stdin.buffer.readline(32)!=b'warm\n':raise SystemExit('Voice import gate closed')
+        import runpy
+        root=Path(__file__).resolve().parents[1]
+        runpy.run_path(str(root/'Voice/Qwen3-TTS/qwen_tts_runner.py'))
+        import torch
+        import qwen_tts
+        # No model or CUDA context before fresh admission and the model handoff.
+        request=sys.stdin.buffer.readline(32769).decode('utf-8').strip()
+        if not request or len(request)>32768:raise SystemExit('Voice request gate closed')
+        torch.set_num_threads(4);worker(request,warm=True)
+    else:
+        if len(sys.argv)!=3 or sys.argv[1]!='--worker':raise SystemExit('Internal voice worker')
+        worker(sys.argv[2])

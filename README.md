@@ -9,7 +9,9 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r58 (2026-10-31):** Lightweight portable projects, text skills, MCP OAuth/content, visual workflow editing/API, optional voice interruption/streaming, idle knowledge refresh, sequential model comparison and offline rich artifacts. About 6.1 MB added per SSD; no new model or runtime. [Details and limits](Documentation/PORTABLE-CAPABILITIES-r58.md). Exit and reopen PortalAI normally. Linux/Mac remain r51.
+**Windows r59 (2026-10-31):** Streamed Qwen speech, speaker interruption, reviewed skill and artifact bundles, MCP client registration, workflow canvas, background indexing, bounded model comparisons, tool-enabled API and evidence-linked task plans. About 0.33 MB added per SSD; no new model weights or runtime. At least 80 GiB free remains reserved. [Details, measurements and limits](Documentation/PORTABLE-INTELLIGENCE-r59.md). Exit and reopen PortalAI normally. Linux/Mac remain r51.
+
+
 
 
 
@@ -25,8 +27,6 @@
   <a href="#companion-utilities">Utilities</a> &nbsp;·&nbsp;
   <a href="Documentation/README.md">Documentation</a>
 </p>
-
-**Windows r54 history deletion (2026-10-31):** Delete now previews and removes every selected chat. [Details and validation](Documentation/HISTORY-DELETE-r54.md). Exit and reopen PortalAI after updating. Linux/Mac remain r51.
 
 **Windows r52 voice repair (2026-10-30):** Mic runtime discovery is repaired; hands-free now speaks Nice's visible replies and resumes listening. [Voice guide and validation](Documentation/VOICE-CONTROLS-r52.md). Windows installers include the later mission, Workspace, integration and Qwen fixes. Linux/Mac remain r51.
 
@@ -147,7 +147,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r58/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r58.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r59/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r59.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

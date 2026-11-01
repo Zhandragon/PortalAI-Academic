@@ -1,0 +1,4 @@
+{
+  "minimum_free_gib": 80,
+  "reason": "Portable workspace headroom for user data and generated media"
+}

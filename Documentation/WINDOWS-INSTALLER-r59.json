@@ -1,0 +1,133 @@
+{
+  "version": "2026.10.31-Desktop-r59",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.10.31-Desktop-r59-suite.zip",
+  "bytes": 623253684,
+  "sha256": "1f6aef03e516b800c97e12ac9b3823f25fe16072c8a29a832603b7ffee22b164",
+  "previous_sha256": "5134e06d2484bd3c37b52b88df3223955ef94d7e1d8ee1d0d7a5e700a82d3502",
+  "changed_members": [
+    "PortalAI/Agent/application_api.py",
+    "PortalAI/Agent/artifact_document.py",
+    "PortalAI/Agent/artifact_preview_worker.py",
+    "PortalAI/Agent/artifacts.py",
+    "PortalAI/Agent/mcp_oauth.py",
+    "PortalAI/Agent/nice_voice.py",
+    "PortalAI/Agent/portable_workspace.py",
+    "PortalAI/Agent/rich_artifacts.py",
+    "PortalAI/Agent/runtime_policy.py",
+    "PortalAI/Agent/workflows.py",
+    "PortalAI/Agent/workspace_store.py",
+    "PortalAI/ControlCenter/application_api_contract.py",
+    "PortalAI/ControlCenter/application_api_runtime.py",
+    "PortalAI/ControlCenter/artifact_preview.py",
+    "PortalAI/ControlCenter/capability_tools.py",
+    "PortalAI/ControlCenter/chat_task_checkpoint.py",
+    "PortalAI/ControlCenter/chat_tool_menu.py",
+    "PortalAI/ControlCenter/chat_voice.py",
+    "PortalAI/ControlCenter/mcp_workspace_ui.py",
+    "PortalAI/ControlCenter/model_comparison.py",
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/portable_workspace_ui.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/task_progress.py",
+    "PortalAI/ControlCenter/tool_protocol.py",
+    "PortalAI/ControlCenter/workflow_builder.py",
+    "PortalAI/ControlCenter/workspace_integration_ui.py",
+    "PortalAI/ControlCenter/workspace_panel.py",
+    "PortalAI/Maintenance/Tests/test_chat_context_budget.py",
+    "PortalAI/Maintenance/Tests/test_chat_reasoning_continuation.py",
+    "PortalAI/SDK/python/portalai.py",
+    "PortalAI/SDK/typescript/portalai.ts"
+  ],
+  "added_members": [
+    "PortalAI/Agent/artifact_embed.py",
+    "PortalAI/Agent/artifact_libraries.py",
+    "PortalAI/Agent/model_compare_worker.py",
+    "PortalAI/Agent/qwen_voice_stream.py",
+    "PortalAI/Agent/skill_packs.py",
+    "PortalAI/Agent/storage_reserve.json",
+    "PortalAI/Agent/voice_prewarm.py",
+    "PortalAI/ControlCenter/comparison_workers.py",
+    "PortalAI/ControlCenter/headless_chat.py",
+    "PortalAI/ControlCenter/knowledge_monitor.py",
+    "PortalAI/ControlCenter/task_notebook.py",
+    "PortalAI/ControlCenter/voice_echo.py",
+    "PortalAI/ControlCenter/voice_pcm_player.py",
+    "PortalAI/ControlCenter/workflow_canvas.py",
+    "PortalAI/Documentation/Portable_Intelligence_r59.md",
+    "PortalAI/Maintenance/Tests/test_artifact_libraries.py",
+    "PortalAI/Maintenance/Tests/test_intelligence_lifecycle.py",
+    "PortalAI/Maintenance/Tests/test_portable_intelligence.py",
+    "PortalAI/Tools/VoiceEchoCapture.cpp",
+    "PortalAI/Tools/voice_echo_capture.exe",
+    "PortalAI/Tools/voice_echo_capture.json"
+  ],
+  "payload_members": 5242,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_original_helper": "Windows Voice Capture DSP adapter with published C++ source",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273202633923,
+    "download_bytes": 234114349863,
+    "required_bytes": 511598041135,
+    "files": 330220
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "5ebc4270bba060d9b22484fd617eaad689bab2b23567a82bbc6c0c2dc7adc622"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381182263,
+      "sha256": "cfd0a347c006c302839f0418ac1b497b2085368bf3a07825654204e1a9c34f5c"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139021065,
+      "sha256": "03ef9d927400716cd36bcc089b5c82bd2c67fe20d0fbfc126773842cc1b3ac75"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 5665,
+      "sha256": "89daee3ce2517ca2dcd2b692159cac38b356e4ef5af6b1411bcc36273be0cdea"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "6d47c16cd1f88e3b89ac20c407d7b62bf4679fd65c28f828416b0de30c7bd7c8"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "82409280d08a04163e7fccef83b46690bdf37f6cd4ddbcc9cbc165c27faa14f0"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1290,
+      "sha256": "6d3e95e7e1dd64d588a07487b683160d577b468d5b74da66cb1f2f6eda7a9233"
+    }
+  ]
+}

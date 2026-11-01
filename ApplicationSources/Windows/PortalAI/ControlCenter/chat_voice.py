@@ -108,6 +108,22 @@ class VoiceIO:
         self.voice_options = voice_options
         self.cancelled = threading.Event()
         self.interrupted = threading.Event()
+        self._prepared_voice=None
+
+    def prepare_next_reply(self):
+        """Called by hands-free capture, never the Tk event thread."""
+        if self._prepared_voice is not None and not self._prepared_voice.closed:return
+        if not self.voice_options:return
+        settings,level=self.voice_options()
+        if not settings.get('conversation_speak_replies',True):return
+        try:
+            from voice_policy import capabilities,resolve
+            if resolve(settings,level,capabilities(self.root,probe=False))['id']!='qwen':return
+            from voice_prewarm import PreparedVoice
+            self._prepared_voice=PreparedVoice.start(self.root,self.check_capture)
+        except Exception:
+            # This is an optional pre-inference optimization, never speech replay.
+            self._prepared_voice=None
 
     def status(self, phase, text):
         if self.activity is not None: self.activity.phase(phase, text)
@@ -126,6 +142,8 @@ class VoiceIO:
 
     def cancel(self):
         self.cancelled.set()
+        prepared=self._prepared_voice;self._prepared_voice=None
+        if prepared:prepared.close()
 
     def check(self):
         self.check_capture()
@@ -158,12 +176,13 @@ class VoiceIO:
     def speak(self, text):
         from piper_bridge import synthesize, output_path
         import nice_voice
-        self.check()
+        self.check();stream_qwen=False
         if self.voice_options is None:
             expressive = nice_voice.available(self.root)
         else:
             from voice_policy import capabilities, resolve
             settings, level = self.voice_options()
+            stream_qwen=os.name=='nt' and settings.get('conversation_stream_qwen',True)
             selection = resolve(settings, level, capabilities(self.root, probe=True))
             expressive = selection['id'] == 'qwen'
         for chunk in spoken_chunks(text):
@@ -177,7 +196,20 @@ class VoiceIO:
                 def speak(check):
                     if expressive:
                         self.status('thinking', "Preparing Nice's expressive voice…")
-                        result = nice_voice.synthesize(chunk, self.root, str(path), check)
+                        prepared=self._prepared_voice;self._prepared_voice=None
+                        if stream_qwen:
+                            from voice_pcm_player import PCMPlayer
+                            with PCMPlayer(self,nice_voice.PLAYBACK_PITCH_SEMITONES) as player:
+                                def streaming_check():check();player.tick()
+                                try:result=nice_voice.synthesize(chunk,self.root,str(path),streaming_check,on_chunk=player.push,**({'prepared':prepared} if prepared else {}))
+                                finally:
+                                    if prepared:prepared.close()
+                                if Path(result['files'][0])!=path:raise RuntimeError('Voice output identity changed')
+                                player.finish()
+                            return
+                        try:result = nice_voice.synthesize(chunk, self.root, str(path), check,**({'prepared':prepared} if prepared else {}))
+                        finally:
+                            if prepared:prepared.close()
                     else:
                         self.status('thinking', "Preparing Nice's basic CPU voice…")
                         result = synthesize(chunk, root=self.root, output=str(path), check=check, voice=NICE_VOICE)

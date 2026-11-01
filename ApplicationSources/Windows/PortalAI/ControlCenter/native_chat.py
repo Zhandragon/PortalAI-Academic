@@ -1400,6 +1400,8 @@ from web_tool_api import TOOL as WEB_TOOL
 from agent_collaboration import TOOL as AGENTS_TOOL
 from maintenance_tools import TOOLS as MAINTENANCE_TOOLS
 from capability_tools import TOOLS as WORKSPACE_TOOLS
+from task_notebook import TOOL as TASK_NOTEBOOK_TOOL
+WORKSPACE_TOOLS = [*WORKSPACE_TOOLS, TASK_NOTEBOOK_TOOL]
 from file_inspection import TOOL as FILE_INSPECT_TOOL
 TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL, FILE_INSPECT_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
 
@@ -1413,11 +1415,11 @@ def _request_scope(panel):
 def _scoped_tools(panel):
     """Explicit host-selected task menu; never an account permission grant."""
     if _request_scope(panel) == 'maintenance':
-        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'file_inspect', 'write_file',
+        names = {'chat_history', 'chat_checkpoint', 'task', 'shell', 'read_file', 'file_inspect', 'write_file',
                  'edit_file', 'list_dir', 'web', 'inspect_environment', 'source_search', 'source_map'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     elif _request_scope(panel) == 'coding':
-        names = {'chat_history', 'chat_checkpoint', 'shell', 'read_file', 'file_inspect',
+        names = {'chat_history', 'chat_checkpoint', 'task', 'shell', 'read_file', 'file_inspect',
                  'write_file', 'edit_file', 'list_dir'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     else:
@@ -1426,6 +1428,8 @@ def _scoped_tools(panel):
     rows = stall.menu(rows) if stall is not None else rows
     progress = getattr(panel, '_task_progress', None)
     rows = progress.menu(rows) if progress is not None else rows
+    api_allowed=getattr(panel,'_api_allowed_tools',None)
+    if api_allowed is not None:rows=[r for r in rows if r['function']['name'] in api_allowed]
     return rows
 
 
@@ -1695,6 +1699,8 @@ class NativeChat:
         self.app.after(50, self._pump)
         # v15.117: no archive distillation during launcher startup; begin after real chat activity.
         self._status_after = self.app.after(1000, self._status_tick)
+        from knowledge_monitor import start as start_knowledge_monitor
+        start_knowledge_monitor(self)
         if not self.embedded:
             self.app.protocol("WM_DELETE_WINDOW", self.on_close)
 
@@ -3757,6 +3763,8 @@ class NativeChat:
             pieces.append("\n\n===== USER CUSTOM INSTRUCTIONS =====\n" + custom)
         from portable_workspace import chat_guidance
         pieces.append(chat_guidance(self.root, getattr(self,'session',None)))
+        from task_notebook import guidance as task_guidance
+        pieces.append(task_guidance(getattr(self,'session',None)))
         # PORTABLEAI_NATIVE_SCIENCE_ROUTING_v15_134c
         # Current host contracts reach compact/full models even if the optional
         # long manual is disabled. They never replace runtime authorization.
@@ -5370,6 +5378,9 @@ class NativeChat:
                                 elif name=='tool_help':
                                     from chat_tool_menu import load
                                     result = load(self, args, _scoped_tools(self))
+                                elif name=='task':
+                                    from task_notebook import execute as task_execute
+                                    result = task_execute(self,args)
                                 else:
                                     result = self._chat_history(args) if name == 'chat_history' else self.tool_runtime.execute(name, args)
                                 execution['outcome'] = 'returned'
@@ -5746,11 +5757,16 @@ class NativeChat:
             add(int(e["device_id"]), str(e["name"]))
         return out
 
-    def _open_mic_candidate(self, candidate: dict):
+    def _open_mic_candidate(self, candidate: dict, *, echo=False):
         backend = str(candidate.get("backend") or "winmm")
         if backend in ("pulse", "alsa") and os.name != "nt":
             return media_devices.LinuxPCMStream(self.root, candidate), str(candidate["name"])
         if backend == "winmm":
+            if echo:
+                from voice_echo import EchoCapture
+                name='auto' if candidate.get('device_id') is None else str(candidate['name'])
+                stream=EchoCapture(self.root,name,self._conversation_io.check_capture)
+                return stream,str(candidate.get('name') or 'Windows microphone')+' · echo cancellation'
             stream = WindowsWaveInStream(candidate.get("device_id"), chunk_seconds=0.10)
             return stream, str(candidate.get("name") or "Windows microphone")
         # Explicit legacy escape hatch only. Never reached automatically.
@@ -5883,7 +5899,7 @@ class NativeChat:
             raise RuntimeError(err.strip() or f"FFmpeg could not open microphone {device!r}")
         return p
 
-    def _capture_conversation_utterance(self, stream, device_used: str, *, speaking_done=None, interrupt=None) -> Path | None:
+    def _capture_conversation_utterance(self, stream, device_used: str, *, speaking_done=None, interrupt=None, allow_busy=False) -> Path | None:
         """Capture one utterance from an already-open rolling PCM stream."""
         chunk_seconds = 0.10
         sample_rate = int(getattr(stream, "sample_rate", 16000))
@@ -5918,10 +5934,10 @@ class NativeChat:
             if voice is not None:
                 if speaking_done is not None:voice.check_capture()
                 else:voice.check()
-            if self.busy: return None
+            if self.busy and not allow_busy: return None
             if time.monotonic() - started >= max_seconds and speech_started:
                 break
-            if isinstance(stream, (WindowsWaveInStream, media_devices.LinuxPCMStream)):
+            if callable(getattr(stream,'read_chunk',None)):
                 chunk = stream.read_chunk(timeout=0.35)
             else:
                 if stream.poll() is not None:
@@ -6172,19 +6188,22 @@ class NativeChat:
         voice=getattr(self,'_conversation_io',None)
         if voice is not None and self.conversation_active.is_set():voice.interrupt_speech()
 
-    def _speak_interruptible(self,voice,text,capture,device_label):
+    def _speak_interruptible(self,voice,text,capture,device_label,*,live=False):
         from chat_voice import SpeechInterrupted
-        done=threading.Event();errors=[];voice.reset_speech()
+        done=threading.Event();errors=[];voice.reset_speech();voice.last_speech_interrupted=False
+        if callable(getattr(capture,'drain_pending',None)):capture.drain_pending()
         def speak():
-            try:voice.speak(text)
-            except SpeechInterrupted:pass
+            try:
+                if live:voice.speak_piper_live(text)
+                else:voice.speak(text)
+            except SpeechInterrupted:voice.last_speech_interrupted=True
             except Exception as exc:errors.append(exc)
             finally:done.set()
         thread=self._thread(target=speak,name='PortalAI-spoken-reply',daemon=True);thread.start()
         try:
             wav=None
             if self.settings.get('conversation_voice_interrupt',False):
-                wav=self._capture_conversation_utterance(capture,device_label,speaking_done=done,interrupt=voice.interrupt_speech)
+                wav=self._capture_conversation_utterance(capture,device_label,speaking_done=done,interrupt=voice.interrupt_speech,allow_busy=live)
             while not done.wait(.08):voice.check_capture()
             if errors:raise errors[0]
             return wav
@@ -6194,9 +6213,10 @@ class NativeChat:
             thread.join(timeout=2)
             if done.is_set():voice.reset_speech()
 
-    def _wait_voice_reply(self,voice,request):
+    def _wait_voice_reply(self,voice,request,capture=None,device_label=''):
         from chat_voice import SpeechInterrupted
         from voice_memory import VoiceMemoryError
+        pending_wav=None
         while not request.done.is_set() or (request.stream and not request.stream.queue.empty()):
             voice.check_capture()
             if request.stream and not request.speech_cancelled:
@@ -6204,7 +6224,11 @@ class NativeChat:
                 except queue.Empty:raw=None
                 if raw:
                     try:
-                        voice.speak_piper_live(raw);request.stream.heard+=raw
+                        if capture is not None and self.settings.get('conversation_voice_interrupt',False):
+                            pending_wav=self._speak_interruptible(voice,raw,capture,device_label,live=True)
+                            if pending_wav is not None or voice.last_speech_interrupted:raise SpeechInterrupted('Streaming reply interrupted')
+                        else:voice.speak_piper_live(raw)
+                        request.stream.heard+=raw
                     except VoiceMemoryError:
                         # Typed pre-inference rejection only. Finish text first,
                         # then use ordinary voice admission for the unspoken tail.
@@ -6216,6 +6240,7 @@ class NativeChat:
                     continue
             request.done.wait(.08)
         voice.reset_speech()
+        return pending_wav
 
     def _conversation_loop(self):
         capture = None
@@ -6227,7 +6252,7 @@ class NativeChat:
                 if not self.conversation_active.is_set():
                     return
                 try:
-                    capture, device_label = self._open_mic_candidate(candidate)
+                    capture, device_label = self._open_mic_candidate(candidate,echo=self.settings.get('conversation_echo_cancel',True))
                     break
                 except Exception as exc:
                     errors.append(f"{candidate.get('name')}: {exc}")
@@ -6235,7 +6260,7 @@ class NativeChat:
                 raise RuntimeError("Could not open a microphone. " + " | ".join(errors[:4]))
 
             with self.conversation_capture_lock:
-                if isinstance(capture, (WindowsWaveInStream, media_devices.LinuxPCMStream)):
+                if isinstance(capture,(WindowsWaveInStream,media_devices.LinuxPCMStream)) or callable(getattr(capture,'read_chunk',None)):
                     self.conversation_capture_stream = capture
                     self.conversation_capture_proc = None
                 else:
@@ -6247,6 +6272,7 @@ class NativeChat:
             pending_wav = None
             while self.conversation_active.is_set():
                 voice.check()
+                if callable(getattr(voice,'prepare_next_reply',None)):voice.prepare_next_reply()
                 # Turn-taking: keep the capture handle open, but do not submit speech
                 # while Qwen/tool execution is active. This avoids repeatedly opening
                 # and closing USB camera microphones between turns.
@@ -6255,7 +6281,7 @@ class NativeChat:
                     time.sleep(0.08)
                 if not self.conversation_active.is_set():
                     break
-                if pending_wav is None and isinstance(capture, (WindowsWaveInStream, media_devices.LinuxPCMStream)) and not first_turn:
+                if pending_wav is None and callable(getattr(capture,'drain_pending',None)) and not first_turn:
                     capture.drain_pending()
                 first_turn = False
                 wav = pending_wav or self._capture_conversation_utterance(capture, device_label)
@@ -6271,13 +6297,13 @@ class NativeChat:
                 request = VoiceTurn(self.session['id'], text)
                 voice.reset_speech()
                 if (self.settings.get('conversation_stream_piper',False) and self.settings.get('conversation_speak_replies',True)
-                        and not self.settings.get('conversation_voice_interrupt',False) and voice.can_stream_piper()):
+                        and voice.can_stream_piper()):
                     from chat_voice import SpeechBuffer
                     request.stream=SpeechBuffer()
                 self._conversation_request = request
                 if getattr(voice, "activity", None) is not None: voice.activity.phase("thinking", "Nice is thinking…")
                 self.ev.put(("conversation_text", request))
-                self._wait_voice_reply(voice,request)
+                pending_wav=self._wait_voice_reply(voice,request,capture,device_label)
                 voice.check()
                 reply=request.stream.remaining(request.reply) if request.stream else request.reply
                 if reply and not request.failed and not request.speech_cancelled and self.settings.get('conversation_speak_replies', True):
@@ -6295,10 +6321,11 @@ class NativeChat:
                 self.ev.put(("conversation_error", {'voice':voice, 'error':f"{type(exc).__name__}: {exc}"}))
         finally:
             self.conversation_active.clear()
+            voice.cancel()
             with self.conversation_capture_lock:
                 self.conversation_capture_stream = None
                 self.conversation_capture_proc = None
-            if isinstance(capture, (WindowsWaveInStream, media_devices.LinuxPCMStream)):
+            if isinstance(capture,(WindowsWaveInStream,media_devices.LinuxPCMStream)) or callable(getattr(capture,'read_chunk',None)):
                 try: capture.close()
                 except Exception: pass
             elif capture is not None:
@@ -6359,12 +6386,16 @@ class NativeChat:
         speak_var = tk.BooleanVar(body, value=self.settings.get('conversation_speak_replies', True))
         skin.check(sections['voice'], "Speak Nice's replies in Hands-free mode", speak_var)
         interrupt_var=tk.BooleanVar(body,value=self.settings.get('conversation_voice_interrupt',False))
-        skin.check(sections['voice'], 'Allow spoken interruption (use headphones)', interrupt_var)
+        skin.check(sections['voice'], 'Allow spoken interruption', interrupt_var)
+        echo_var=tk.BooleanVar(body,value=self.settings.get('conversation_echo_cancel',True))
+        skin.check(sections['voice'], 'Windows speaker echo cancellation (default output device)', echo_var)
         stream_piper_var=tk.BooleanVar(body,value=self.settings.get('conversation_stream_piper',False))
         skin.check(sections['voice'], 'Stream completed sentences with Piper when RAM permits', stream_piper_var)
-        skin.label(sections['voice'], 'Qwen speech retains the completed-reply handoff. Spoken interruption takes priority over Piper streaming. Early streamed speech may be partial if generation is stopped.',muted=True).pack(fill='x',pady=4)
-        skin.label(sections['voice'], 'Tap Nice’s orb during speech to interrupt and keep listening. Optional spoken interruption captures your next utterance during playback. Use headphones: acoustic echo cancellation is not provided.',muted=True).pack(fill='x',pady=4)
-        skin.label(sections['voice'], 'Uses the selected local voice model. Replies remain in chat. Listening pauses during playback; End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
+        stream_qwen_var=tk.BooleanVar(body,value=self.settings.get('conversation_stream_qwen',True))
+        skin.check(sections['voice'], 'Play Qwen audio as it is synthesized after the model handoff', stream_qwen_var)
+        skin.label(sections['voice'], 'Piper streaming and spoken interruption can work together. Your next utterance is held until the current model turn finishes; tool actions are not replayed. Early speech can be partial when stopped.',muted=True).pack(fill='x',pady=4)
+        skin.label(sections['voice'], 'Tap Nice’s orb to interrupt. Windows echo cancellation uses the default speaker reference; headphones remain useful in loud or reverberant rooms. If disabled, use headphones for spoken interruption.',muted=True).pack(fill='x',pady=4)
+        skin.label(sections['voice'], 'Uses the selected local voice model. Replies remain in chat. Transcription waits until playback or interruption finishes. End hands-free or Stop cancels voice activity. Mic records dictation into the draft without sending it.', muted=True).pack(fill='x', pady=4)
         support_var = tk.BooleanVar(body, value=bool(self.settings.get('low_power_support', False)))
         skin.check(sections['tools'], 'Optional support for 1.7B and 4B models', support_var)
         skin.label(sections['tools'], 'Adds source-navigation, research and verification guidance when a supported small model is actually running. Uses the same tools and permissions. Off by default; does not apply to 27B.', muted=True).pack(fill='x', pady=4)
@@ -6449,7 +6480,9 @@ class NativeChat:
                 updated["microphone_device"] = entries["microphone_device"].get().strip() or "auto"
                 updated['conversation_speak_replies'] = bool(speak_var.get())
                 updated['conversation_voice_interrupt'] = bool(interrupt_var.get())
+                updated['conversation_echo_cancel'] = bool(echo_var.get())
                 updated['conversation_stream_piper'] = bool(stream_piper_var.get())
+                updated['conversation_stream_qwen'] = bool(stream_qwen_var.get())
                 updated["conversation_vad_threshold"] = max(80, int(entries["conversation_vad_threshold"].get()))
                 updated["conversation_silence_seconds"] = max(0.3, min(5.0, float(entries["conversation_silence_seconds"].get())))
                 updated["conversation_preroll_seconds"] = max(0.0, min(2.0, float(entries["conversation_preroll_seconds"].get())))

@@ -13,7 +13,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-SUFFIXES = {'.py','.ps1','.sh','.command','.cmd','.bat','.c','.h','.cs','.js','.mjs','.ts','.html','.css'}
+SUFFIXES = {'.py','.ps1','.sh','.command','.cmd','.bat','.c','.h','.cpp','.hpp','.cs','.js','.mjs','.ts','.html','.css'}
 
 
 def inventory():

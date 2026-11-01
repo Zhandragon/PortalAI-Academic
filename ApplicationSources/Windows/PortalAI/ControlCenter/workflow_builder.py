@@ -32,6 +32,7 @@ def update_step(previous, sid, kind, values):
     row=copy.deepcopy(previous) if previous.get('kind')==kind else {}
     row.update(id=sid,kind=kind)
     for path,value in values.items():
+        if path=='next' and not value:row.pop('next',None);continue
         parts=path.split('.');target=row
         if not value and path=='arguments.collection':
             if isinstance(row.get('arguments'),dict):row['arguments'].pop('collection',None)
@@ -50,12 +51,17 @@ def open_builder(panel):
     tree=ttk.Treeview(p,columns=('order','id','kind'),show='headings',height=5,selectmode='browse')
     for key in ('order','id','kind'):tree.heading(key,text=key);tree.column(key,width=140)
     tree.pack(fill='x');sheet.style_tree(tree)
+    skin.label(p,'Drag nodes to arrange them. Click an output dot, then a later node to connect. Routing follows arrows; conditions use then/else. Right-click cancels a link.').pack(fill='x')
+    from workflow_canvas import WorkflowCanvas
+    def canvas_select(index):tree.selection_set(str(index));edit()
+    canvas=WorkflowCanvas(p,draft,skin.colors,canvas_select,panel.invoke);canvas.pack(fill='both',expand=True)
     skin.label(p,'Step type for new steps').pack(fill='x')
     kind=ttk.Combobox(p,values=sorted(KINDS),state='readonly');kind.set('prompt');kind.pack(fill='x')
     form=skin.frame(p);form.pack(fill='x');selected=[None];widgets={};id_entry=[None]
     def refresh(index=None):
         tree.delete(*tree.get_children())
         for i,row in enumerate(draft['steps']):tree.insert('','end',iid=str(i),values=(i+1,row['id'],row['kind']))
+        canvas.redraw()
         if index is not None:tree.selection_set(str(index));edit()
     def edit(event=None):
         chosen=tree.selection()
@@ -63,7 +69,8 @@ def open_builder(panel):
         i=int(chosen[0]);selected[0]=i;row=draft['steps'][i];widgets.clear()
         for child in form.winfo_children():child.destroy()
         skin.label(form,'Step ID').pack(fill='x');entry=skin.entry(form,row['id']);entry.pack(fill='x');id_entry[0]=entry
-        for path,label,default in FIELDS[row['kind']]:
+        fields=FIELDS[row['kind']]+([('next','Next step ID, end, or blank for next in order','')] if row['kind']!='condition' else [])
+        for path,label,default in fields:
             value=row
             try:
                 for part in path.split('.'):value=value[part]
@@ -80,10 +87,12 @@ def open_builder(panel):
         def rename(value):
             if isinstance(value,dict):
                 return {k: ('steps.'+new+v[len('steps.'+old):] if k=='$ref' and isinstance(v,str) and (v=='steps.'+old or v.startswith('steps.'+old+'.'))
-                            else new if k in ('then','else') and v==old else rename(v)) for k,v in value.items()}
+                            else new if k in ('then','else','next') and v==old else rename(v)) for k,v in value.items()}
             if isinstance(value,list):return [rename(v) for v in value]
             return value
-        draft['steps'][i]=candidate;draft['steps']=rename(draft['steps']);refresh(i)
+        draft['steps'][i]=candidate;draft['steps']=rename(draft['steps'])
+        if old in draft.get('layout',{}):draft['layout'][new]=draft['layout'].pop(old)
+        refresh(i)
     def add():
         if len(draft['steps'])>=64:raise ValueError('Workflow limit: 64 steps')
         number=1

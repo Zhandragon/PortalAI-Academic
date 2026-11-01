@@ -4,10 +4,12 @@ ID={'type':'string','pattern':'^[a-f0-9]{32}$'}
 TOKENS={'type':'integer','minimum':64,'maximum':4096,'default':1024}
 def obj(properties,required=()):return {'type':'object','properties':properties,'required':list(required),'additionalProperties':False}
 ARTIFACT={'title':{'type':'string','minLength':1,'maxLength':160},'kind':{'type':'string','enum':['html','svg','chart','markdown','mermaid','react']},'content':{'type':'string','minLength':1,'description':'At most 512 KiB UTF-8'},'expected_revision':ID}
+ARTIFACT['dependencies']={'type':'array','items':ID,'maxItems':8,'description':'IDs of libraries already reviewed and enabled in Workspace'}
 REQUESTS={
  '/v1/workflows/{id}/runs':obj({'inputs':{'type':'object'}},['inputs']),
  '/v1/chats':obj({'title':{'type':'string','minLength':1,'maxLength':160}}),
  '/v1/chats/{id}/messages':obj({'message':{'type':'string','minLength':1,'maxLength':32000},'max_tokens':TOKENS},['message']),
+ '/v1/chats/{id}/agent':obj({'message':{'type':'string','minLength':1,'maxLength':32000},'max_tokens':TOKENS,'max_tool_calls':{'type':'integer','minimum':1,'maximum':32,'default':12},'tools':{'type':'array','maxItems':24,'uniqueItems':True,'items':STRING,'description':'Subset of the explicit tool grants saved with this API token'}},['message']),
  '/v1/structured':obj({'question':{'type':'string','minLength':1,'maxLength':16000},'context':{},'schema':{'type':'object','description':'Supported llama.cpp JSON Schema subset; see INTEGRATION.md'},'max_tokens':TOKENS},['question','schema']),
  '/v1/missions':obj({'objective':{'type':'string','minLength':1,'maxLength':16000},'mode':{'type':'string','enum':['observe','full','vm'],'default':'observe'},'max_steps':{'type':'integer','minimum':1,'maximum':100,'default':12},'armed':{'type':'boolean','default':False}},['objective']),
  '/v1/knowledge/collections':obj({'name':STRING,'folder':STRING,'ocr':{'type':'boolean','default':True}},['name','folder']),

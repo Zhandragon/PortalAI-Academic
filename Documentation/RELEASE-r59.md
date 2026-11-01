@@ -1,0 +1,15 @@
+# Windows r59 — portable intelligence and streamed voice
+
+Adds streamed Qwen audio, Windows speaker echo cancellation and interruption, hardware-aware voice import preparation, reviewed script/wheel skill packs, reviewed offline artifact libraries with embedded previews, MCP dynamic/public metadata client registration, a workflow canvas, background knowledge refresh, evidence-linked task plans, bounded installed-model comparisons and explicitly granted tool-enabled API chat.
+
+Installed application growth: **327,252 bytes per independent Full SSD** (about 0.33 MB). No new model weights, Python/Node runtime or permanent service. Application admission now keeps an **80 GiB free-space floor**; external writes are not an OS quota. User content, installer archives and recovery/test copies are separate. Nice's approved voice, pitch and playback padding remain.
+
+On the development RTX 3090, prepared Qwen's first audio chunk arrived in about **8 seconds**, versus roughly 52 seconds cold. Preparation uses about 742 MiB working RAM and is skipped on smaller/low-memory hardware. Two installed small models over two rounds took about **14 seconds including loading**; a real 1.7B tool-enabled API file request took about **6 seconds**. GUI timer lateness was about 12 ms at the 95th percentile, with an 824 ms maximum during resizing/automation. These are local measurements, not guarantees for other computers.
+
+Validation: 631 application tests on each D/E installation and each exact extracted edition (630 passed, 1 skipped per extracted edition); 45 installer tests per edition; seven embedded installer resources and the compiled Academic launcher. Real streamed audio was confirmed complete and smooth. Actual speaker/microphone capture recognized “Nice stop speaking” and stopped playback. Real Chromium validated reviewed-library interaction and isolation; native GUI embedding, resizing and workflow dragging were inspected. Real model comparison and API tool execution passed.
+
+Limits: Qwen audio still waits for the LLM text turn and VRAM handoff. Echo cancellation depends on audio routing and acoustics. Skills need reviewed grants and are not an OS security sandbox; bundles supply their own transitive offline dependencies. Artifact libraries use prebundled CommonJS, not arbitrary npm installation. Parallel comparisons are opt-in, capped at two admitted models, and fall back to sequential operation. OAuth protocol tests use synthetic providers; real-provider sign-in, other physical hardware tiers and a complete fresh recipient installation were not tested. Unknown external effects are never automatically replayed.
+
+D: and E: contain independently updated Full installations and installer kits. The deprecated C: installation was excluded. Windows is r59; Linux/Mac remain r51. **Exit and reopen PortalAI normally** to load the update.
+
+[Feature guide, source links and limits](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/PORTABLE-INTELLIGENCE-r59.md) · [Validation](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/PORTABLE-INTELLIGENCE-VALIDATION-r59.json).

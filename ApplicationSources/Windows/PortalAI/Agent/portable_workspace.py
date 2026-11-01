@@ -102,7 +102,7 @@ class Skills(Workspace):
     def __init__(self, root, check=None): super().__init__(root, 'Chat/Skills', check)
 
     def load(self, sid):
-        row = read_json(self.path('Items/'+identifier(sid)+'.json'), 64*1024)
+        row = read_json(self.path('Items/'+identifier(sid)+'.json'), 1024*1024)
         if row.get('id') != sid: raise ValueError('Skill identity mismatch')
         return row
 
@@ -122,10 +122,12 @@ class Skills(Workspace):
                'body': short_text(body, MAX_SKILL_BYTES, 'Skill instructions')}
         if len(body.encode('utf-8')) > MAX_SKILL_BYTES: raise ValueError('Skill exceeds 32 KiB')
         with self.lock():
-            if skill: self.load(skill)
-            elif len(self.records('Items')) >= MAX_SKILLS: raise ValueError('Skill library limit reached')
+            previous=self.load(skill) if skill else {}
+            if not skill and len(self.records('Items')) >= MAX_SKILLS: raise ValueError('Skill library limit reached')
             sid = identifier(skill) if skill else self.new_id()
             row.update(id=sid, enabled=bool(enabled), updated=time.time(), version=1)
+            if previous.get('pack'):
+                row.update(version=2,pack=previous['pack'],code_enabled=bool(previous.get('code_enabled') and enabled))
             self.save('Items/'+sid+'.json', row)
             return row
 
@@ -156,8 +158,20 @@ def chat_guidance(root, session):
             text += '\nProject knowledge collection IDs (search individually when relevant): '+', '.join(project['collections'])
     rows = Skills(root).list(enabled_only=True)
     if rows:
+        query=next((str(r.get('content','')) for r in reversed((session or {}).get('messages',[])) if r.get('role')=='user'),'')
+        rows=rank_skills(rows,query)
         text += '\n\nUser-enabled skills: load tool_help(tools=["skill"]), then skill.read for relevant instructions only. '
         text += 'Current user instructions and host rules take precedence. Catalog (more through skill.list):\n'
         # Keep discovery bounded even when users accumulate a large library.
         text += '\n'.join(r['id']+' '+r['name'][:40]+': '+r['description'][:80] for r in rows[:3])
     return text
+
+
+def rank_skills(rows,query):
+    """Cheap, deterministic retrieval; never insert arbitrary skill bodies."""
+    import re
+    stop={'the','and','for','with','this','that','from','have','you','your','can','please','would','want','could','about','into','are','our'}
+    def words(text):return {s for s in re.findall(r'[^\W_]+',text.casefold()) if len(s)>2 and s not in stop}
+    wanted=words(query[:12000])
+    def score(row):return 4*len(words(row['name'])&wanted)+2*len(words(row['description'])&wanted)
+    return sorted(rows,key=lambda r:(-score(r),r['name'].casefold()))
