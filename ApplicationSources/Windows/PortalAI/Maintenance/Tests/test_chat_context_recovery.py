@@ -16,6 +16,8 @@ from test_chat_rolling_resume import assert_pairs
 
 def small_panel():
     p = fixture()
+    from chat_tool_menu import Selection
+    p._tool_selection = Selection()
     p._runtime_context_limit = lambda: 8192
     p.settings['max_output_tokens'] = 2048
     p._single_completion = Mock(side_effect=AssertionError('No model in offline recovery'))
@@ -215,6 +217,8 @@ class ContextRecoveryTests(unittest.TestCase):
         from test_chat_handoff import panel as worker_panel
         from test_chat_reasoning_continuation import responses
         p = worker_panel(); context = small_panel()
+        p._tool_selection = context._tool_selection
+        p._tool_selection.sync(p); p._tool_selection.names = ('shell',)
         del p.api_messages; del p.compact_context_if_needed
         for name in ('memory', 'system_prompt', '_persistent_memory_query',
                      '_runtime_session_context', '_runtime_context_limit', 'user_api_message'):

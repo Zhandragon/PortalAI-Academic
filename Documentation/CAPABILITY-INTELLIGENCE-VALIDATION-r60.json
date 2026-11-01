@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "version": "2026.11.01-Desktop-r60",
+  "edition": "Academic",
+  "archive_sha256": "a9cc0f33fc4f7ef536969ac928b8eb2c5a1625aff47633005e8d44c6411838f7",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 666,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1628,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "passed": true,
+      "name": "python-bootstrap.zip",
+      "bytes": 11439094,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297"
+    },
+    {
+      "passed": true,
+      "name": "installer_core.py",
+      "bytes": 39062,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459"
+    },
+    {
+      "passed": true,
+      "name": "engine_cli.py",
+      "bytes": 4572,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788"
+    },
+    {
+      "passed": true,
+      "name": "installer_storage.py",
+      "bytes": 4593,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007"
+    },
+    {
+      "passed": true,
+      "name": "portable_update.py",
+      "bytes": 17915,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0"
+    },
+    {
+      "passed": true,
+      "name": "suite_installer.py",
+      "bytes": 27664,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475"
+    },
+    {
+      "passed": true,
+      "name": "abliterator_installer_core.py",
+      "bytes": 29697,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5"
+    }
+  ],
+  "all_published_windows_source_matches_payload": true,
+  "existing_component_pins_unchanged": true,
+  "added_application_bytes_vs_r59": 130241,
+  "growth_scope": "Published Windows application files including tests/docs; excludes installer kits, recovery and user data.",
+  "new_dependencies": false,
+  "new_original_helper_bytes": 0,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "capabilities": {
+    "version": "2026.11.01-Desktop-r60",
+    "features": 6,
+    "new_model_weights": false,
+    "new_runtime": false,
+    "new_permanent_service": false,
+    "minimum_free_gib": 80,
+    "deprecated_C_installation_excluded": true,
+    "other_physical_hardware_tiers_tested": false,
+    "full_fresh_recipient_install_tested": false,
+    "gui_visual_inspection_complete": false,
+    "gui_visual_inspection_limit": "Computer Use stopped with physical Escape; no further GUI input performed.",
+    "automated_hidden_Tk_checks_passed": true,
+    "gui_timer_measurement": {
+      "passed": true,
+      "errors": [],
+      "samples": 3871,
+      "median_lateness_ms": 10.999999988125637,
+      "p95_lateness_ms": 12.000000006519258,
+      "maximum_lateness_ms": 558.0000000086147
+    },
+    "project_worker": {
+      "stale_result_rejected": true,
+      "timeout_stopped_child": true,
+      "uncertain_repeat_blocked": true
+    },
+    "calibration": {
+      "state": "complete",
+      "seconds": 42.78,
+      "recommendation": {
+        "domain": "overall",
+        "recommendation": "qwen1.7-q8",
+        "current_selection": "auto",
+        "candidates": [
+          {
+            "model": "qwen1.7-q8",
+            "passed": 6,
+            "cases": 8,
+            "qualified": true,
+            "mean_seconds": 0.951,
+            "within_latency_budget": true,
+            "run": "68daee1f67a246c3882f402b4ae1a344",
+            "plan": {
+              "backend": "cuda",
+              "gpu_layers": 29,
+              "context_tokens": 4096,
+              "load_seconds": 7.17
+            }
+          },
+          {
+            "model": "qwen4-q4",
+            "passed": 6,
+            "cases": 8,
+            "qualified": true,
+            "mean_seconds": 1.086,
+            "within_latency_budget": true,
+            "run": "68daee1f67a246c3882f402b4ae1a344",
+            "plan": {
+              "backend": "cuda",
+              "gpu_layers": 37,
+              "context_tokens": 4096,
+              "load_seconds": 9.23
+            }
+          }
+        ],
+        "notice": "Recommendations require >=75% passed within the latency budget. Small deterministic probes, not a general intelligence benchmark. Speed depends on load and offload. Settings are unchanged; Apply is explicit. Hardware admission still applies."
+      },
+      "owner_settings_changed": false
+    },
+    "live_1_7b_write_and_independent_verify": {
+      "passed": true,
+      "seconds": 7.937,
+      "tool_calls": [
+        "tool_help",
+        "write_file",
+        "tool_help",
+        "verify"
+      ]
+    },
+    "live_4b_agent_limit": {
+      "passed": false,
+      "state": "needs_review",
+      "reason": "Qwen returned an invalid tool response: chat_checkpoint must be called alone, between completed tool batches. No tools from this response were run. Earlier completed results remain saved. Review the response and send a new request to continue.",
+      "notice": "Other attempts emitted duplicate writes; invalid batches were blocked before execution. Calibration scores do not establish agent-task reliability."
+    },
+    "document_retrieval": {
+      "passed": true,
+      "index_seconds": 0.89,
+      "search_seconds": 0.016,
+      "real_local_MiniLM": true,
+      "synthetic_markdown_and_table": true,
+      "manual_rebuild": true,
+      "paged_240_file_project_scan_seconds": [
+        0.078,
+        0.063,
+        0.031
+      ]
+    },
+    "drives": {
+      "D": {
+        "independent_full_installation": true,
+        "tests": {
+          "passed": true,
+          "tests": 666,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "feature_and_fix_file_hashes_verified": 31,
+        "free_bytes_before_installer_copy": 181505462272,
+        "added_application_bytes_vs_r59": 130241
+      },
+      "E": {
+        "independent_full_installation": true,
+        "tests": {
+          "passed": true,
+          "tests": 666,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "feature_and_fix_file_hashes_verified": 31,
+        "free_bytes_before_installer_copy": 203045445632,
+        "added_application_bytes_vs_r59": 130241
+      }
+    }
+  },
+  "catalog": {
+    "passed": true,
+    "windows_r60_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "a9cc0f33fc4f7ef536969ac928b8eb2c5a1625aff47633005e8d44c6411838f7",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

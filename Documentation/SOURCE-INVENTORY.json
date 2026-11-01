@@ -46025,8 +46025,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/code_projects.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "077eed44ab064929e3ff59f1b2f19ee21654805779d31fa106d11cec9bb093dd",
-      "lines": 308,
+      "sha256": "0760e7320acf8ba65a7aedd15cfae96c745cb435638c4e464b26663e01530474",
+      "lines": 322,
       "overview": "Bounded external project navigation, reviewed checks, and conflict-aware undo.",
       "symbols": [
         {
@@ -46035,38 +46035,43 @@
           "kind": "FunctionDef"
         },
         {
-          "name": "bounded",
+          "name": "remove_worker_log",
           "line": 21,
           "kind": "FunctionDef"
         },
         {
+          "name": "bounded",
+          "line": 35,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "within",
-          "line": 27,
+          "line": 41,
           "kind": "FunctionDef"
         },
         {
           "name": "describe",
-          "line": 33,
+          "line": 47,
           "kind": "FunctionDef"
         },
         {
           "name": "CodeProjects",
-          "line": 55,
+          "line": 69,
           "kind": "ClassDef"
         },
         {
           "name": "Edits",
-          "line": 211,
+          "line": 225,
           "kind": "ClassDef"
         },
         {
           "name": "atomic_write",
-          "line": 281,
+          "line": 295,
           "kind": "FunctionDef"
         },
         {
           "name": "write_tracked",
-          "line": 292,
+          "line": 306,
           "kind": "FunctionDef"
         }
       ]
@@ -46595,7 +46600,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_base.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "01f000fcdef4c51337818657deb88cc2d73319653e027a3a0e56dcd1b156cc04",
+      "sha256": "c3471d6a936328dfbe4da257d038efade1d1a84d8f5f046940691be357ffe764",
       "lines": 242,
       "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
       "symbols": [
@@ -46630,8 +46635,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_extract.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "fb01d6090462c8b00d081032fa821d6510c6b1c0e3e3f567de9b44bf260039eb",
-      "lines": 145,
+      "sha256": "1abe420a9330f9066cfbd37b309f0aef2066ab936eba300885e72b21e606e1c8",
+      "lines": 146,
       "overview": "Bounded local extraction with page/slide/sheet locations and optional scan OCR.",
       "symbols": [
         {
@@ -46641,12 +46646,12 @@
         },
         {
           "name": "extract",
-          "line": 67,
+          "line": 68,
           "kind": "FunctionDef"
         },
         {
           "name": "chunks",
-          "line": 143,
+          "line": 144,
           "kind": "FunctionDef"
         }
       ]
@@ -51966,8 +51971,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/workspace_store.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "1ef3bc20f3069f84fc3699a4fb999f493e7765a5a68b94c816cb6d00e0535efe",
-      "lines": 93,
+      "sha256": "703bec8dfac568486382a8eb0cc309b439f54e6efe7d7e4fcd8e59149eac285d",
+      "lines": 103,
       "overview": "Small shared storage boundary for account-scoped knowledge, connections and flows.",
       "symbols": [
         {
@@ -51997,12 +52002,12 @@
         },
         {
           "name": "portable_source",
-          "line": 80,
+          "line": 90,
           "kind": "FunctionDef"
         },
         {
           "name": "source_path",
-          "line": 88,
+          "line": 98,
           "kind": "FunctionDef"
         }
       ]
@@ -52493,8 +52498,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a21b52e0ac08bb9c888fae4b6e0f956520dba48de670039c069cf7ee58927369",
-      "lines": 223,
+      "sha256": "1ed6030ade93b76832b45c5ce5c178bdd2751653514f9b8adee59f8143b28a8d",
+      "lines": 248,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -52519,12 +52524,12 @@
         },
         {
           "name": "tool",
-          "line": 179,
+          "line": 183,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 205,
+          "line": 230,
           "kind": "FunctionDef"
         }
       ]
@@ -55942,7 +55947,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "2c10eeeef3556674f6eaa5953304eee15384c5354470395e0304b4dfea43c2e7",
+      "sha256": "da0387211ce2d2083df9cfec627d05e892dc4433e037ed905b49debb53137a05",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -55996,8 +56001,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/result_verification.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3b2c23e0d67e78c3b00514eaa449159e18437d86adbc7ba2bc41c8d2ab1dc728",
-      "lines": 199,
+      "sha256": "2b7085ba43609e33a9127b5138ec70ba716aa6e5457097770282492b2d453c36",
+      "lines": 206,
       "overview": "Bounded, independent acceptance checks. No model-generated code is executed.",
       "symbols": [
         {
@@ -56017,17 +56022,17 @@
         },
         {
           "name": "begin_request",
-          "line": 114,
+          "line": 121,
           "kind": "FunctionDef"
         },
         {
           "name": "after_write",
-          "line": 139,
+          "line": 146,
           "kind": "FunctionDef"
         },
         {
           "name": "completion_audit",
-          "line": 157,
+          "line": 164,
           "kind": "FunctionDef"
         }
       ]
@@ -56501,8 +56506,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "d6edc64afe2d0fe9c268b0955eac089234804eeb8a7bc47b14e0141541b6cbce",
-      "lines": 189,
+      "sha256": "22b4d87f8410d52be3de862da0c194c8391d4349b11141b1c704635322cfa49f",
+      "lines": 191,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -56512,32 +56517,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 69,
+          "line": 71,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 84,
+          "line": 86,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 98,
+          "line": 100,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 105,
+          "line": 107,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 120,
+          "line": 122,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 177,
+          "line": 179,
           "kind": "FunctionDef"
         }
       ]
@@ -58680,33 +58685,48 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_capability_intelligence.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "f4346129af2d9c28984f45004d4edd6ab058bed5dee37528265bf610c5b81eba",
-      "lines": 177,
-      "overview": "Regression source for the implementation-only patch; not run during gaming.",
+      "sha256": "df14f92fbfa58d4db8d00f63209bf123874b2e40070a73bbaab14207287885cf",
+      "lines": 317,
+      "overview": "Regression checks for bounded capability intelligence and its lifecycle.",
       "symbols": [
         {
           "name": "Fixture",
-          "line": 16,
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "WorkspacePublicationTests",
+          "line": 32,
           "kind": "ClassDef"
         },
         {
           "name": "VerificationTests",
-          "line": 31,
+          "line": 59,
           "kind": "ClassDef"
         },
         {
           "name": "ProjectTests",
-          "line": 68,
+          "line": 131,
           "kind": "ClassDef"
         },
         {
           "name": "MemoryTests",
-          "line": 107,
+          "line": 179,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MenuTests",
+          "line": 209,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "CalibrationTests",
+          "line": 248,
           "kind": "ClassDef"
         },
         {
           "name": "RetrievalTests",
-          "line": 137,
+          "line": 273,
           "kind": "ClassDef"
         }
       ]
@@ -58825,8 +58845,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_budget.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "84e59a206e3daed8c239c91be1a943a7be0b231a8df1025f690bfe7b6dbabd16",
-      "lines": 181,
+      "sha256": "504a14f4957f9c26018e973067bda989f09ab81350662acdbff0dcabb7ceadb4",
+      "lines": 183,
       "overview": "Context admission and UI distinctions without Tk, files, or model requests.",
       "symbols": [
         {
@@ -58836,7 +58856,7 @@
         },
         {
           "name": "ContextBudgetTests",
-          "line": 31,
+          "line": 33,
           "kind": "ClassDef"
         }
       ]
@@ -58845,8 +58865,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_context_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "5bb3f186215ae7f155d1bad20656e1faefe93aa4a2697b9f17bf106544c725c2",
-      "lines": 241,
+      "sha256": "0d5429960050808abc7610bcd7ca9b9d448582ac21c8cd184af8245e4cd9737c",
+      "lines": 245,
       "overview": "Real prompt overhead and small-context recovery without model/tool execution.",
       "symbols": [
         {
@@ -58856,12 +58876,12 @@
         },
         {
           "name": "exchange",
-          "line": 25,
+          "line": 27,
           "kind": "FunctionDef"
         },
         {
           "name": "ContextRecoveryTests",
-          "line": 33,
+          "line": 35,
           "kind": "ClassDef"
         }
       ]
@@ -59400,8 +59420,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_coding_stall.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "62ffd392a7d1edd4bcf38dec1adb729f80ef1f4a2d651178fa56d1db31da5e38",
-      "lines": 224,
+      "sha256": "5b12f344e191762920ed27f807dfa3920bfcb34bdf188cae621477ebce92f0a0",
+      "lines": 227,
       "overview": "Behavioral coverage for stall recovery, real byte receipts and worker gates.",
       "symbols": [
         {
@@ -63550,8 +63570,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_workspace_profiles.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "7ef45d15543d1060f3e0f0fe90e915e3b422d60ca4233b2f28f7193cb74d7625",
-      "lines": 67,
+      "sha256": "092ff3f513b3a0c7e53957e07c4b1eb8d0ca0aaa5e6f7182678ff54685312326",
+      "lines": 88,
       "overview": "Workspace data follows real encrypted lazy-profile and login boundaries.",
       "symbols": [
         {

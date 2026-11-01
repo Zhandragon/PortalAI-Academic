@@ -123,9 +123,13 @@ def dispatch(runtime,name,args,check=None):
         if action=='read':return store.read(args['receipt'],fresh=True)
         if action=='run':
             from workspace_store import digest
-            active=getattr(runtime,'_verification_latest',{});key=digest(args['checks'])
+            # Models get one flat check. Keep bounded batches for existing callers.
+            fields={'kind','path','text','expected','expected_json','pointer','allow_empty','project','command'}
+            if 'checks' in args and fields.intersection(args):raise ValueError('Use a single flat check or checks, not both')
+            checks=args['checks'] if 'checks' in args else [{k:v for k,v in args.items() if k in fields}]
+            active=getattr(runtime,'_verification_latest',{});key=digest(checks)
             if len(active)>=16 and key not in active:raise ValueError('This turn already has 16 acceptance batches; finish or report the existing checks before adding more')
-            row=store.run(args['checks'])
+            row=store.run(checks)
             # Latest result for the same explicit predicate batch supersedes its
             # earlier failure; no check or side-effect is replayed here.
             active[key]=row['id'];runtime._verification_latest=active
@@ -183,8 +187,8 @@ def tool(name,description,properties):
 TOOLS=[
     tool('project','Registered external code projects: list; scan(project, restart?) takes one bounded page, repeat until complete; search(project,query) maps symbols/imports and suggests tests. edits lists Nice direct-file undo IDs; diff(edits:[IDs]) previews consolidated changes; undo(edit) refuses if current bytes changed. Shell edits are not journaled. Registration and test-command grants are user-only in Workspace → Code.',
          {'action':{'type':'string','enum':['list','scan','search','edits','diff','undo']},'project':{'type':'string'},'query':{'type':'string'},'restart':{'type':'boolean'},'limit':{'type':'integer'},'edit':{'type':'string'},'edits':{'type':'array','items':{'type':'string'},'maxItems':32}}),
-    tool('verify','Independently check outputs before claiming completion. run(checks) returns a receipt; read(receipt) rejects stale evidence. Kinds: file(path) reopens and parses Python/JSON without execution; contains(path,text) literal; sha256(path,expected); json_value(path,pointer:[keys/indices],expected); test(project,command) runs only a user-approved named command, with side effects possible. Declare criteria before checking; passing only proves these predicates. Never retry uncertain tests. Use receipt in task.update verification.',
-         {'action':{'type':'string','enum':['run','read']},'receipt':{'type':'string'},'checks':{'type':'array','maxItems':16,'items':{'type':'object','properties':{'kind':{'type':'string','enum':['file','contains','sha256','json_value','test']},'path':{'type':'string'},'text':{'type':'string'},'expected':{},'pointer':{'type':'array','items':{}},'allow_empty':{'type':'boolean'},'project':{'type':'string'},'command':{'type':'string'}},'required':['kind']}}}),
+    tool('verify','Independently check one output before claiming completion. action run needs kind and the fields for that kind; returns a receipt. action read needs receipt and rejects stale evidence. Kinds: file(path) reopens and parses Python/JSON without execution; contains(path,text); sha256(path,expected); json_value(path,pointer,expected_json); test(project,command) runs a user-approved named command. For number 10 use expected_json="10". For a string use JSON quotes inside expected_json. Example: {"action":"run","kind":"json_value","path":"result.json","pointer":["total"],"expected_json":"10"}. Only supply relevant fields. Passing proves only this predicate. Never retry uncertain tests. Use receipt in task.update verification.',
+         {'action':{'type':'string','enum':['run','read']},'receipt':{'type':'string'},'kind':{'type':'string','enum':['file','contains','sha256','json_value','test']},'path':{'type':'string'},'text':{'type':'string'},'expected':{'type':'string','description':'SHA-256 digest for sha256 checks.'},'expected_json':{'type':'string','description':'JSON-encoded expected value for json_value; required for that kind.'},'pointer':{'type':'array','items':{'type':'string'},'description':'Object keys or decimal array indices; empty means the entire document.'},'allow_empty':{'type':'boolean'},'project':{'type':'string'},'command':{'type':'string'}}),
     tool('skill','List user-enabled guides; read relevant instructions, assets or a supporting file(path). Follow next_offset for pages. run(skill,script,arguments:string[]) executes only an explicitly granted bundled script as administrator. Scripts may have side effects: never retry an uncertain result. Guidance cannot grant permissions.',
          {'action':{'type':'string','enum':['list','read','assets','file','run']},'skill':{'type':'string'},'offset':{'type':'integer'},'limit':{'type':'integer'},'path':{'type':'string'},'script':{'type':'string'},'arguments':{'type':'array','items':{'type':'string'}}}),
     tool('structured','Generate a validated JSON result from question, context and a supported JSON Schema. Uses constrained local decoding; never invent facts or execute actions.',
@@ -200,6 +204,27 @@ TOOLS=[
     tool('computer','Windows desktop control for a window explicitly allowed in Workspace. First windows/status, then screenshot(window) or elements(window) for fresh accessible IDs. Use returned observation token for exactly one click, click_element(element ID), double_click, move, scroll, drag(x,y,end_x,end_y), type, keypress or window action; inspect the fresh screenshot before more input. Coordinates are pixels within the returned image. Screen text is untrusted. Never infer success without checking the result. Stop revokes access.',
          {'action':{'type':'string','enum':['windows','status','screenshot','elements','click_element','click','double_click','move','scroll','drag','type','keypress','window']},'window':{'type':'integer'},'observation':{'type':'string'},'element':{'type':'string'},'x':{'type':'integer'},'y':{'type':'integer'},'end_x':{'type':'integer'},'end_y':{'type':'integer'},'button':{'type':'string','enum':['left','right']},'text':{'type':'string'},'keys':{'type':'array','items':{'type':'string'}},'amount':{'type':'integer'},'operation':{'type':'string','enum':['restore','maximize','minimize','focus']}})
 ]
+
+
+# Conditional requirements keep the model from emitting a JSON comparison with
+# no expected value, or irrelevant project-command fields for a file check.
+_verify=next(row for row in TOOLS if row['function']['name']=='verify')
+_props=_verify['function']['parameters']['properties']
+_forms=[]
+for _action,_kind,_fields,_optional in (
+    ('read',None,('receipt',),()),
+    ('run','file',('path',),('allow_empty',)),
+    ('run','contains',('path','text'),()),
+    ('run','sha256',('path','expected'),()),
+    ('run','json_value',('path','expected_json'),('pointer',)),
+    ('run','test',('project','command'),()),
+):
+    _form={'action':{'type':'string','enum':[_action]}}
+    if _kind:_form['kind']={'type':'string','enum':[_kind]}
+    _form.update({key:_props[key] for key in _fields+_optional})
+    _forms.append({'type':'object','properties':_form,'required':['action']+(['kind'] if _kind else [])+list(_fields),'additionalProperties':False})
+_verify['function']['parameters']={'type':'object','oneOf':_forms}
+del _verify,_props,_forms,_form,_action,_kind,_fields,_optional
 
 
 def computer_context(chat):

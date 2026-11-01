@@ -9,9 +9,9 @@
 
 <h1 align="center">PortalAI</h1>
 
-**2026-11-01 implementation-only source patch:** Independent output checks, code-project maps and undo, memory corrections, structured retrieval, optional model calibration, and Ctrl+K search. [Access, source files, limits and deferred validation](Documentation/CAPABILITY-INTELLIGENCE-20261101.txt). No runtime tests were run while the user was gaming; r59 installer archives remain unchanged. Includes the earlier [static audit repairs](Documentation/STATIC-AUDIT-20261101.txt).
+**Windows r60 (2026-11-01):** Independent result checks, external project navigation and guarded undo, memory corrections, structured document retrieval, optional measured model recommendations, and Ctrl+K search. No new models, runtimes or background services; the 80 GiB free-space floor remains. [Features and validation](Documentation/CAPABILITY-INTELLIGENCE-r60.md). Exit and reopen normally. Linux/Mac remain r51.
 
-**Windows r59 (2026-10-31):** Streamed Qwen speech, speaker interruption, reviewed skill and artifact bundles, MCP client registration, workflow canvas, background indexing, bounded model comparisons, tool-enabled API and evidence-linked task plans. About 0.33 MB added per SSD; no new model weights or runtime. At least 80 GiB free remains reserved. [Details, measurements and limits](Documentation/PORTABLE-INTELLIGENCE-r59.md). Exit and reopen PortalAI normally. Linux/Mac remain r51.
+
 
 
 
@@ -29,8 +29,6 @@
   <a href="#companion-utilities">Utilities</a> &nbsp;·&nbsp;
   <a href="Documentation/README.md">Documentation</a>
 </p>
-
-**Windows r52 voice repair (2026-10-30):** Mic runtime discovery is repaired; hands-free now speaks Nice's visible replies and resumes listening. [Voice guide and validation](Documentation/VOICE-CONTROLS-r52.md). Windows installers include the later mission, Workspace, integration and Qwen fixes. Linux/Mac remain r51.
 
 **Qwen voice runtime repair (2026-10-30):** One active SSD-local Qwen package layer, corrected repair/status references, and a Windows checkpoint-loading crash fix. [Changes and validation](Documentation/QWEN-RUNTIME-CONSOLIDATION-20261030.txt). Updated Windows source is individually browsable; historical release archives are unchanged.
 
@@ -149,7 +147,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.31-Desktop-r59/PortalAI-Academic-Universal-Setup-2026.10.31-Desktop-r59.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.01-Desktop-r60/PortalAI-Academic-Universal-Setup-2026.11.01-Desktop-r60.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

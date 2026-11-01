@@ -78,12 +78,19 @@ class Verifications(Workspace):
                             pointer = spec.get('pointer', [])
                             if not isinstance(pointer, list) or len(pointer) > 16: raise ValueError('Use a JSON key/index array of at most 16 elements')
                             for key in pointer:
-                                if isinstance(value, list) and type(key) is int: value = value[key]
+                                if isinstance(value, list) and (type(key) is int or isinstance(key,str) and key.isascii() and key.isdecimal()): value = value[int(key)]
                                 elif isinstance(value, dict) and isinstance(key, str): value = value[key]
                                 else: raise ValueError('JSON key/index does not match its container')
-                            if 'expected' not in spec:raise ValueError('json_value requires an expected value')
+                            if 'expected_json' in spec:
+                                if 'expected' in spec:raise ValueError('Use expected_json alone for json_value; expected is the legacy alternative')
+                                literal=spec['expected_json']
+                                if not isinstance(literal,str) or not 1<=len(literal)<=4000:raise ValueError('expected_json must be a JSON-encoded string of 1–4000 characters')
+                                inspect_bytes(Path('expected.json'),literal.encode('utf-8'))
+                                expected=json.loads(literal)
+                            elif 'expected' in spec:expected=spec['expected']  # Existing API callers/receipts.
+                            else:raise ValueError('json_value requires expected_json, e.g. "10" for number 10')
                             from workspace_store import encoded
-                            item['success'] = encoded(value)==encoded(spec['expected'])
+                            item['success'] = encoded(value)==encoded(expected)
                         else: raise ValueError('Check kinds: file, contains, sha256, json_value, test')
                 except (OSError, ValueError, SyntaxError, KeyError, IndexError, UnicodeError) as exc:
                     item['error'] = str(exc)[:1200]

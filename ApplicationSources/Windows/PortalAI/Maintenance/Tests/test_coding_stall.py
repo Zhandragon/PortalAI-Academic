@@ -174,7 +174,10 @@ class RuntimeWriteReceiptTests(unittest.TestCase):
     def test_real_runtime_noop_create_edit_and_failed_edit(self):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'x.py'
-            rt=SimpleNamespace(_account_role=lambda:'admin',safe_path=lambda _:p)
+            root=Path(td);(root/'Agent').mkdir()
+            (root/'Agent/hardware_profiles.json').write_text(json.dumps({'storage':{'minimum_free_gib':1,'minimum_free_fraction':.0001,'output_reserve_gib':0}}))
+            with patch.object(chat,'bootstrap_python',return_value=sys.executable):
+                rt=chat.ToolRuntime(root,{})
             created=json.loads(chat.ToolRuntime.write_file(rt,'x.py','x=1\n'))
             self.assertTrue(created['changed']);self.assertIsNone(created['before_sha256'])
             unchanged=json.loads(chat.ToolRuntime.write_file(rt,'x.py','x=1\n'))

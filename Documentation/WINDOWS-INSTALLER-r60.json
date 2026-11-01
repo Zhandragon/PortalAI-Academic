@@ -1,0 +1,114 @@
+{
+  "version": "2026.11.01-Desktop-r60",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.01-Desktop-r60-suite.zip",
+  "bytes": 623301555,
+  "sha256": "a9cc0f33fc4f7ef536969ac928b8eb2c5a1625aff47633005e8d44c6411838f7",
+  "previous_sha256": "1f6aef03e516b800c97e12ac9b3823f25fe16072c8a29a832603b7ffee22b164",
+  "changed_members": [
+    "PortalAI/Agent/application_api.py",
+    "PortalAI/Agent/artifact_libraries.py",
+    "PortalAI/Agent/knowledge_base.py",
+    "PortalAI/Agent/knowledge_extract.py",
+    "PortalAI/Agent/rich_artifacts.py",
+    "PortalAI/Agent/workspace_store.py",
+    "PortalAI/ControlCenter/capability_tools.py",
+    "PortalAI/ControlCenter/chat_tool_menu.py",
+    "PortalAI/ControlCenter/headless_chat.py",
+    "PortalAI/ControlCenter/knowledge_monitor.py",
+    "PortalAI/ControlCenter/memory_items_ui.py",
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/persistent_memory.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/task_notebook.py",
+    "PortalAI/ControlCenter/tool_protocol.py",
+    "PortalAI/ControlCenter/workspace_panel.py",
+    "PortalAI/Maintenance/Imports/distribution-version.json",
+    "PortalAI/Maintenance/Tests/test_chat_context_budget.py",
+    "PortalAI/Maintenance/Tests/test_chat_context_recovery.py",
+    "PortalAI/Maintenance/Tests/test_coding_stall.py",
+    "PortalAI/Maintenance/Tests/test_portable_intelligence.py",
+    "PortalAI/Maintenance/Tests/test_workspace_profiles.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/code_projects.py",
+    "PortalAI/Agent/retrieval_quality.py",
+    "PortalAI/Agent/verification_worker.py",
+    "PortalAI/ControlCenter/code_projects_ui.py",
+    "PortalAI/ControlCenter/command_palette.py",
+    "PortalAI/ControlCenter/memory_resolution.py",
+    "PortalAI/ControlCenter/model_calibration.py",
+    "PortalAI/ControlCenter/result_verification.py",
+    "PortalAI/Documentation/Capability_Intelligence_20261101.txt",
+    "PortalAI/Documentation/Static_Audit_20261101.txt",
+    "PortalAI/Maintenance/Tests/test_capability_intelligence.py"
+  ],
+  "payload_members": 5253,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_original_helper": null,
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273202764164,
+    "download_bytes": 234114349863,
+    "required_bytes": 511598216421,
+    "files": 330231
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "a89d3815625ce0efe885acc078182c404cf9792349fe5cffec091081a091da52"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381228769,
+      "sha256": "8430d82b6b0504da532f3446adcc3945aa70e82af6f5d4467767f55b9d9096e9"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139024157,
+      "sha256": "a50c79c3bfcdecd4d4acd4182e6e612cd85967208d241b127c6206061f127feb"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 5886,
+      "sha256": "9438101cb1e4ce8ecb110a56c2f628efdfa3c3ff15c7918a70d0bc8cd790c432"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "3a6ab251e7737a79878d3564751331c1745e915674ed3f1cea407829e422b7cb"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "bd59ee3a5f956d9f67b16fad5cdfe56555aa47d4c0ab7711bccdc5a838784739"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1320,
+      "sha256": "aa8b46b60934fefb7493bd50f62956955d38273f06a116224968d1f982182254"
+    }
+  ]
+}

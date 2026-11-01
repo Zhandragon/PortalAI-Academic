@@ -20,6 +20,27 @@ class ProfileTests(unittest.TestCase):
         (self.root/'Agent/hardware_profiles.json').write_text(json.dumps({'storage':{'minimum_free_gib':1,'minimum_free_fraction':.0001,'output_reserve_gib':0}}))
     tearDown=fixtures.HydrationTests.tearDown
 
+    def test_new_project_undo_verification_and_calibration_state_seals(self):
+        from types import SimpleNamespace
+        from code_projects import CodeProjects,Edits
+        from result_verification import Verifications
+        from model_calibration import Calibration
+        folder=self.root/'synthetic-project';folder.mkdir();path=folder/'result.json';path.write_bytes(b'{"count":3}')
+        projects=CodeProjects(self.root);pid=projects.add('Private code',folder)['id'];projects.scan(pid)
+        edits=Edits(self.root);edit=edits.prepare(path,b'private before image',path.read_bytes());edits.finish(edit)
+        runtime=SimpleNamespace(root=self.root,safe_path=lambda value:Path(value))
+        verifier=Verifications(runtime);receipt=verifier.run([{'kind':'json_value','path':str(path),'expected_json':'{"count":3}'}])
+        calibration=Calibration(self.root);rid=calibration.new_id();calibration.save('Runs/'+rid+'.json',{'id':rid,'state':'running','created':1})
+        image=edits.path('Images/'+edit['id']+'.bin');proof=verifier.path('Runs/'+receipt['id']+'.json')
+        self.runtime.close(self.session,writers_stopped=True)
+        self.assertFalse(image.exists());self.assertFalse(proof.exists())
+        with self.assertRaises(ProfileLocked):edits.before_image(edit)
+        self.session=self.backend.login(fixtures.OWNER);self.runtime.prepare(self.session)
+        self.assertEqual(CodeProjects(self.root).list()[0]['id'],pid)
+        self.assertEqual(Edits(self.root).before_image(edit),b'private before image')
+        self.assertTrue(Verifications(runtime).read(receipt['id'],fresh=True)['success'])
+        self.assertEqual(Calibration(self.root).read(rid)['state'],'unfinished')
+
     def test_projects_skills_and_oauth_tokens_seal_and_reopen(self):
         from portable_workspace import Organization,Skills
         from mcp_client import Connections

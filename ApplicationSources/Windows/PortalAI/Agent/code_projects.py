@@ -18,6 +18,20 @@ MAX_EDIT = 512 * 1024
 def sha(data): return hashlib.sha256(data).hexdigest()
 
 
+def remove_worker_log(path):
+    # Job closure terminates descendants asynchronously on Windows. Their log
+    # handles can outlive the gated parent briefly; never mask Stop/timeout.
+    for attempt in range(21):
+        try:
+            path.unlink(missing_ok=True)
+            return True
+        except PermissionError:
+            if attempt < 20: time.sleep(.05)
+        except OSError:
+            break
+    return False  # A locked diagnostic may be retained in the private Checks folder.
+
+
 def bounded(path, limit=MAX_EDIT):
     with Path(path).open('rb') as stream: data = stream.read(limit + 1)
     if len(data) > limit: raise ValueError('File exceeds the bounded project read limit')
@@ -193,7 +207,7 @@ class CodeProjects(Workspace):
                 if proc:
                     if proc.poll() is None: proc.kill()
                     proc.wait(timeout=10)
-                log.unlink(missing_ok=True)
+                remove_worker_log(log)
 
     def validate_command_result(self, result):
         self.check(); config = self.load(result['project']).get('commands', {}).get(result['command'])

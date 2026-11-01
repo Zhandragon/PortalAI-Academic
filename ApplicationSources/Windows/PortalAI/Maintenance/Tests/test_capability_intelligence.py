@@ -1,5 +1,6 @@
-"""Regression source for the implementation-only patch; not run during gaming."""
+"""Regression checks for bounded capability intelligence and its lifecycle."""
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -28,7 +29,69 @@ class Fixture(unittest.TestCase):
                                        profile=CapturedProfile(self.root), _cancel_epoch=0)
 
 
+class WorkspacePublicationTests(Fixture):
+    @unittest.skipUnless(os.name=='nt','Windows file sharing semantics')
+    def test_active_reader_does_not_lose_the_completed_record(self):
+        from workspace_store import Workspace,read_json
+        store=Workspace(self.root,'Publication');store.save('job.json',{'state':'running'})
+        path=store.path('job.json');opened=threading.Event()
+        def reader():
+            with path.open('rb') as stream:
+                opened.set();time.sleep(.08);stream.read()
+        worker=threading.Thread(target=reader);worker.start();self.assertTrue(opened.wait(1))
+        try:store.save('job.json',{'state':'complete','result':7})
+        finally:worker.join(2)
+        self.assertEqual(read_json(path),{'state':'complete','result':7})
+
+    def test_revocation_during_publication_retry_prevents_late_write(self):
+        from workspace_store import Workspace,read_json
+        store=Workspace(self.root,'Publication');store.save('job.json',{'state':'running'})
+        path=store.path('job.json')
+        def fail(*args):
+            store.check_callback=lambda: (_ for _ in ()).throw(RuntimeError('login ended'))
+            raise PermissionError('reader holds file')
+        with patch('workspace_store.atomic_json',side_effect=fail) as publish,patch('workspace_store.os',SimpleNamespace(name='nt')),patch('workspace_store.time.sleep'):
+            with self.assertRaisesRegex(RuntimeError,'login ended'):store.save('job.json',{'state':'complete'})
+            self.assertEqual(publish.call_count,1)
+        self.assertEqual(read_json(path),{'state':'running'})
+
+
 class VerificationTests(Fixture):
+    def test_flat_model_check_and_legacy_batch_share_receipt_semantics(self):
+        from capability_tools import dispatch
+        from tool_protocol import read_only_tool_attempt
+        path=self.root/'result.json';path.write_text('{"total":10}')
+        spec={'kind':'json_value','path':str(path),'pointer':['total'],'expected_json':'10'}
+        first=dispatch(self.runtime,'verify',{'action':'run',**spec})
+        second=dispatch(self.runtime,'verify',{'action':'run','checks':[spec]})
+        self.assertTrue(first['success']);self.assertTrue(second['success'])
+        self.assertEqual(self.runtime._verification_receipts,[second['id']])
+        self.assertTrue(read_only_tool_attempt('verify',{'action':'run',**spec},self.root))
+        self.assertFalse(read_only_tool_attempt('verify',{'action':'run','kind':'test'},self.root))
+        with self.assertRaises(ValueError):dispatch(self.runtime,'verify',{'action':'run','checks':[spec],**spec})
+
+    def test_model_facing_expected_json_preserves_types_and_rejects_ambiguity(self):
+        from result_verification import Verifications
+        path=self.root/'result.json';path.write_text('{"items":[true,10,{"x":3}]}')
+        v=Verifications(self.runtime)
+        spec={'kind':'json_value','path':str(path),'pointer':['items','1'],'expected_json':'10'}
+        self.assertTrue(v.run([spec])['success'])
+        for changes in ({'expected':10},{'expected_json':'"10"'},{'expected_json':'NaN'},{'expected_json':'{"x":3,"x":3}'}):
+            self.assertFalse(v.run([{**spec,**changes}])['success'])
+        self.assertFalse(v.run([{**spec,'pointer':['items','0'],'expected_json':'1'}])['success'])
+        self.assertTrue(v.run([{**spec,'pointer':['items','2'],'expected_json':'{"x":3}'}])['success'])
+
+    def test_api_revocation_and_stop_fence_new_capabilities(self):
+        from capability_tools import guard
+        from unittest.mock import Mock
+        self.runtime._operation_check=Mock()
+        check=guard(self.runtime);check()
+        self.runtime._operation_check.side_effect=PermissionError('grant revoked')
+        with self.assertRaisesRegex(PermissionError,'revoked'):check()
+        self.runtime._operation_check.side_effect=None
+        self.runtime._cancel_epoch+=1
+        with self.assertRaises(RuntimeError):check()
+
     def test_json_predicate_and_changed_file_invalidate_receipt(self):
         from result_verification import Verifications
         path = self.root / 'result.json'; path.write_text('{"count":3,"ready":true}')
@@ -66,6 +129,15 @@ class VerificationTests(Fixture):
 
 
 class ProjectTests(Fixture):
+    def test_log_cleanup_waits_for_windows_handles_without_masking_timeout(self):
+        from code_projects import remove_worker_log
+        from unittest.mock import Mock
+        path=Mock();path.unlink.side_effect=[PermissionError('child closing'),PermissionError('child closing'),None]
+        with patch('code_projects.time.sleep'):
+            self.assertTrue(remove_worker_log(path));self.assertEqual(path.unlink.call_count,3)
+            path.unlink.side_effect=PermissionError('still locked')
+            self.assertFalse(remove_worker_log(path))
+
     def test_conflicting_undo_preserves_new_user_edit(self):
         from code_projects import write_tracked, Edits
         path = self.root / 'app.py'; path.write_bytes(b'x = 1\n')
@@ -134,6 +206,70 @@ class MemoryTests(unittest.TestCase):
             self.assertEqual(memory.data['facts']['color']['corrections'][0]['previous'], 'Red')
 
 
+class MenuTests(Fixture):
+    def test_hidden_tk_menu_filters_routes_to_lazy_pages_and_stop_closes_worker(self):
+        import tkinter as tk
+        from unittest.mock import Mock
+        from writer_jobs import WriterJobs
+        from command_palette import install, close
+        from workspace_panel import WorkspacePanel
+        app=tk.Tk();app.withdraw();jobs=WriterJobs();panels=[]
+        colors={'bg':'#EFE8DC','panel':'#F8F3EA','panel2':'#E9E0D2','text':'#202224','muted':'#6E665E','accent':'#3E91A2'}
+        chat=SimpleNamespace(app=app,root=self.root,COL=colors,tool_runtime=self.runtime,_writer_jobs=jobs,
+            _closing=False,_check_login=lambda:None,_notice=Mock(),busy=False,
+            store=SimpleNamespace(profile=self.runtime.profile,catalog=SimpleNamespace(lock=threading.RLock(),rows={})))
+        def workspace():
+            panel=WorkspacePanel(app,self.root,colors,None,jobs,self.runtime,chat=None);panels.append(panel);return panel
+        chat.open_workspace=workspace
+        def pump(predicate):
+            end=time.monotonic()+4
+            while not predicate() and time.monotonic()<end:app.update();time.sleep(.01)
+            self.assertTrue(predicate())
+        try:
+            install(chat);self.assertTrue(app.bind('<Control-k>'))
+            chat.open_command_palette();palette=chat._command_palette
+            self.assertIsNotNone(palette);palette.query.set('Calibration')
+            pump(lambda:len(palette.visible)==1)
+            self.assertEqual(palette.visible[0]['page'],'Calibration')
+            palette.activate();self.assertIsNone(chat._command_palette)
+            self.assertTrue(panels[0].pages['Calibration'].winfo_children())
+            panels[0].page('Code');self.assertTrue(panels[0].pages['Code'].winfo_children())
+            panels[0].close()
+            chat.open_command_palette();palette=chat._command_palette
+            self.runtime._cancel_epoch+=1;pump(lambda:palette.closed)
+            self.assertIsNone(chat._command_palette);chat._notice.assert_not_called()
+        finally:
+            close(chat)
+            for panel in panels:
+                if panel.winfo_exists():panel.close()
+            jobs.close();self.assertTrue(jobs.wait(3)['stopped']);app.destroy()
+
+
+class CalibrationTests(Fixture):
+    def test_only_complete_current_successful_fast_reports_can_recommend(self):
+        from model_calibration import Calibration, CASES, SUITE
+        from workspace_store import digest
+        store=Calibration(self.root)
+        row={'id':store.new_id(),'created':time.time(),'suite':SUITE,'suite_sha256':digest(CASES),
+             'state':'complete','machine':'machine','models':['tiny'], 'identities':{'tiny':'identity'},
+             'plans':{'tiny':{'backend':'cuda'}}, 'results':[{'model':'tiny','domain':d,'passed':True,'seconds':.5} for d,_,_,_ in CASES]}
+        path='Runs/'+row['id']+'.json';store.save(path,row)
+        with patch('runtime_policy.detect_hardware',return_value={}),patch('model_calibration.machine_identity',return_value='machine'),patch('model_calibration.model_identity',return_value='identity'),patch('runtime_policy.load_effective_policy',return_value={'selection':'manual-model'}):
+            result=store.recommend();self.assertEqual(result['recommendation'],'tiny')
+            self.assertEqual(result['current_selection'],'manual-model')
+            row['state']='running';store.save(path,row)
+            self.assertEqual(store.read(row['id'])['state'],'unfinished');self.assertIsNone(store.recommend()['recommendation'])
+            row['state']='complete';row['created']=time.time()-91*86400;store.save(path,row)
+            self.assertIsNone(store.recommend()['recommendation'])
+            row['created']=time.time();row['identities']['tiny']='changed';store.save(path,row)
+            self.assertIsNone(store.recommend()['recommendation'])
+            row['identities']['tiny']='identity'
+            for r in row['results']:r['seconds']=31
+            store.save(path,row);self.assertIsNone(store.recommend()['recommendation'])
+            for r in row['results']:r.update(seconds=.5,passed=False)
+            store.save(path,row);self.assertIsNone(store.recommend()['recommendation'])
+
+
 class RetrievalTests(unittest.TestCase):
     def test_long_tail_heading_and_table_header_survive_chunking(self):
         from retrieval_quality import chunks
@@ -167,9 +303,13 @@ class RetrievalTests(unittest.TestCase):
             import sqlite3
             key=citation.split(':',2)[2];doc,_,number=key.split(':')
             legacy=doc+':'+row['source_sha256'][:16]+':'+number
-            with sqlite3.connect(kb._dbpath(cid)) as db:
-                db.execute('UPDATE chunks SET id=? WHERE id=?',(legacy,key))
-                db.execute('UPDATE search SET chunk=? WHERE chunk=?',(legacy,key))
+            from contextlib import closing
+            with closing(sqlite3.connect(kb._dbpath(cid))) as db:
+                with db:
+                    db.execute('UPDATE chunks SET id=? WHERE id=?',(legacy,key))
+                    db.execute('UPDATE search SET chunk=? WHERE chunk=?',(legacy,key))
+            with self.assertRaisesRegex(ValueError, 'explicit manual'):
+                kb.sync(cid,automatic=True,rebuild=True)
             kb.sync(cid,rebuild=True)
             with self.assertRaises(ValueError):kb.read('kb:'+cid+':'+legacy)
 

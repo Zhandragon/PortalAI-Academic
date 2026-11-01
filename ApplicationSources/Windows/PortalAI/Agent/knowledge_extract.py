@@ -19,7 +19,8 @@ def _office(path):
         def texts(node):return '\n'.join(e.text for e in node.iter() if e.tag.rsplit('}',1)[-1]=='t' and e.text)
         if path.suffix.lower()=='.docx':
             ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
-            body=xml('word/document.xml').find('w:body',ns);lines=[]
+            document=xml('word/document.xml');body=document.find('w:body',ns);lines=[]
+            if body is None:return [('document',texts(document))]
             def paragraph(node):return ''.join(e.text or '' for e in node.iter() if e.tag.rsplit('}',1)[-1]=='t')
             for node in body:
                 tag=node.tag.rsplit('}',1)[-1]

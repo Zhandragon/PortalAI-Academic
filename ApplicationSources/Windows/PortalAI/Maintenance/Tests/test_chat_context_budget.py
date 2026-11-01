@@ -25,6 +25,8 @@ def panel():
     p._persistent_memory_query=lambda:''
     p._runtime_session_context=lambda _memory:'Synthetic runtime context'
     p._runtime_context_limit=lambda:8192
+    from chat_tool_menu import Selection
+    p._tool_selection=Selection()
     return p
 
 

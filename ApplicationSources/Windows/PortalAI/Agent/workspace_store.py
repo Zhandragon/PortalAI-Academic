@@ -56,7 +56,17 @@ class Workspace:
     def save(self, relative, value):
         if len(encoded(value))>2*1024**2:raise ValueError('Workspace record exceeds its size limit')
         require_space(self.root, 4*1024**2, for_outputs=True)
-        self.check();atomic_json(self.path(relative), value)
+        # A concurrent Windows reader can briefly deny atomic replacement.
+        # Retry publication only, with fresh account/Stop checks each time.
+        # The action represented by this record must never be repeated here.
+        for attempt in range(6):
+            self.check();path=self.path(relative)
+            try:
+                atomic_json(path, value)
+                return
+            except PermissionError:
+                if os.name!='nt' or attempt==5:raise
+                time.sleep(.01*(2**attempt))
 
     def lock(self, name='workspace'):
         return process_lock(self.path(name+'.lock'))

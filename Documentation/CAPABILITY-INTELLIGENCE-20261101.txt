@@ -1,22 +1,26 @@
 PortalAI Windows: capability improvements, 2026-11-01
 
-IMPLEMENTATION-ONLY SOURCE PATCH
-The user explicitly requested no direct tests while playing Apex. The changes
-below received source/control-flow review and static Python syntax parsing only.
-No application regression tests, GUI launch, inference, calibration, voice test,
-project command, or document re-embedding was run to validate this patch.
-The published r59 installers and release tag remain unchanged. Their earlier
-passing test results do NOT validate these later changes. Linux/Mac remain r51.
-Normal exit/reopen loads updated Windows code; this is not a tested new release.
+WINDOWS r60: TESTED CAPABILITY UPDATE
+This supersedes the implementation-only patch. Regression, actual project-worker,
+encrypted-profile lifecycle, hidden Tk GUI, local embedding, model calibration,
+and real 1.7B API creation/verification checks were run. Exact test counts and
+installer evidence are published in Documentation/CAPABILITY-INTELLIGENCE-r60.md
+and CAPABILITY-INTELLIGENCE-VALIDATION-r60.json in each repository.
+Desktop visual inspection was stopped with Escape; GUI components were exercised
+by automated hidden-window checks. Linux/Mac remain r51. Exit/reopen normally.
 
 1. Independent result checks
 ControlCenter/result_verification.py; task_notebook.py; native_chat.py
 
-Nice can load verify through tool_help. verify.run accepts up to 16 predicates:
+Nice can load verify through tool_help. The model-facing call checks one predicate
+with flat fields and kind-specific required parameters. Existing API callers may
+still pass checks:[...] with up to 16 predicates:
 - file(path): reopen a file (2 MiB maximum), parse Python/JSON without execution;
 - contains(path,text): check literal text;
 - sha256(path,expected): compare observed bytes with a requested digest;
-- json_value(path,pointer,expected): check a JSON value through key/index steps;
+- json_value(path,pointer,expected_json): compare a JSON-encoded expected value;
+  e.g. expected_json="10" checks number 10. Pointer keys/decimal indices are strings;
+  legacy integer indices and raw expected values remain supported for API callers;
 - test(project,command): invoke an exact, user-approved named project command.
 
 Direct write_file/edit_file calls now return readback/syntax findings separately
@@ -70,6 +74,8 @@ Commands use an owned gated process tree, a 2 GiB memory cap, 1-120 second deadl
 64 KiB retained output, Stop/account fences, and pending-before-dispatch receipts.
 An interrupted/uncertain identical command remains blocked until reviewed in
 Check history. Neither restart nor a new model turn silently replays it.
+Windows log cleanup waits briefly for terminated child handles; a still-locked
+diagnostic may remain private instead of hiding the original Stop/timeout error.
 
 3. Memory correction and conflict handling
 ControlCenter/memory_resolution.py; persistent_memory.py; memory_items_ui.py
@@ -171,26 +177,28 @@ D and E remain independent Full installations; no cross-drive dependency was add
 The deprecated C: PortalAI installation was excluded. Source checkouts are on C;
 work logs and recovery copies are on the SSDs. No runtime/model cleanup was done.
 
-Regression source (NOT EXECUTED):
-Maintenance/Tests/test_capability_intelligence.py
-Maintenance/Tests/test_portable_intelligence.py (updated verification expectation)
-Pending acceptance: these regressions and the existing relevant suites; real
-GUI/keyboard/compact-mode/account-switch/Stop checks; crash and changed-file undo;
-reviewed project process-tree/deadline tests; retrieval rebuild/citation migration;
-optional real-model calibration/speed; final D/E and installer acceptance.
-No benchmark scores or latency claims are asserted for this patch.
+Validation coverage and limits:
+Maintenance/Tests/test_capability_intelligence.py covers readback, strict JSON,
+stale receipts, conflict-aware undo, project maps, source chronology, corrections,
+expiry, rebuild/citation retirement, API/Stop fences, calibration selection and
+hidden Tk search/page/worker lifecycle. test_workspace_profiles.py also verifies
+that project maps, before-images, receipts and calibration state seal/reopen.
+Existing context, voice, history, API, mission and portability suites were rerun.
 
-Installation bookkeeping repair
-The D/E distribution-version receipts still named r51 although release stamps
-and saved r59 deployment evidence identified r59. Both receipts were backed up
-and aligned after checking all 53 recorded r59 deployment files (allowing only
-the subsequently documented static-audit changes), under the existing closed-
-installation/account-sealing guard. The source editions now carry matching r59
-base receipts. This is metadata reconciliation, not new runtime validation.
+The real gated project worker passed command execution, changed-input rejection,
+deadline termination and uncertain-repeat blocking. Real local MiniLM indexing,
+retrieval and explicit rebuild passed. A 240-file project scanned in three bounded
+pages. Eight calibration questions per model completed on installed 1.7B and 4B:
+each scored 6/8, about one second per short response (not a broad intelligence test).
+A real 1.7B tool-enabled API turn created JSON and independently verified total=10
+in approximately 7.5 seconds after the stricter verification schema repair.
+Separate 4B multi-tool attempts produced duplicate or improperly batched calls;
+the harness rejected them before execution. Calibration is a small proxy and
+does not guarantee reliable multi-step tool use. No silent model upgrade occurs.
+The stopped desktop visual check, other physical hardware tiers and a complete
+fresh recipient download/install are not claimed as tested. Published package
+evidence distinguishes allowlist extraction and installer tests from a fresh install.
 
-API integration
-API agent tokens can explicitly grant project and verify. Existing token grants
-are unchanged. Long workspace operations now also consult the API cancellation/
-revocation callback, in addition to account and Stop guards. API user turns record
-source timestamps too. REST knowledge routes retain their existing contracts;
-neighbor reads are available through the knowledge agent tool.
+A bounded metadata-publication retry also handles transient Windows read/replace
+sharing conflicts. It rechecks account/Stop fences before each attempt and never
+repeats the action represented by the record.

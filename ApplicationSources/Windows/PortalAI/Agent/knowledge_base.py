@@ -73,7 +73,6 @@ class Knowledge(Workspace):
 
     def refresh_policy(self,cid,seconds=0):
         if type(seconds) is not int or seconds not in (0,300,900,3600):raise ValueError('Refresh interval must be off, 5, 15 or 60 minutes')
-        if rebuild and automatic:raise ValueError('Structural rebuild requires an explicit manual sync')
         with self.lock(identifier(cid)):
             row=self.load(cid);row['refresh_seconds']=seconds
             row.setdefault('automatic_source_bytes',0)
@@ -81,6 +80,7 @@ class Knowledge(Workspace):
         return row
 
     def sync(self,cid,progress=lambda message:None,*,automatic=False,rebuild=False):
+        if rebuild and automatic:raise ValueError('Structural rebuild requires an explicit manual sync')
         with self.lock(identifier(cid)):
             collection=self.load(cid);source=source_path(self.root,collection['source'])
             def complete(result):
