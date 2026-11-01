@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 938
+    "Windows": 939
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -53608,8 +53608,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/knowledge_monitor.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "cbeeb8dd29fcc5c4dc687a3f816f9a9644f4edc2741da52c810f12ec252d22b0",
-      "lines": 99,
+      "sha256": "2482037c28d554d0ca0fe4b480f0d3dd92158fc3271673e6641d7d7f37bf3940",
+      "lines": 102,
       "overview": "Account-owned background collection monitoring; no persistent embedding worker.",
       "symbols": [
         {
@@ -53624,7 +53624,7 @@
         },
         {
           "name": "start",
-          "line": 91,
+          "line": 94,
           "kind": "FunctionDef"
         }
       ]
@@ -54192,8 +54192,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "2ae111e154d823c58c03a097f2f9cae41cac957aa7be6b04b6c6256e483003e4",
-      "lines": 7020,
+      "sha256": "8428e0a9bb82fc6e39d6d22c326a71279d60b9862a27ffdfc9869d26105f9c5b",
+      "lines": 7027,
       "overview": "",
       "symbols": [
         {
@@ -54348,7 +54348,7 @@
         },
         {
           "name": "main",
-          "line": 7008,
+          "line": 7015,
           "kind": "FunctionDef"
         }
       ]
@@ -55947,7 +55947,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "da0387211ce2d2083df9cfec627d05e892dc4433e037ed905b49debb53137a05",
+      "sha256": "ed971990cd2f55ebe868b1652451a1abd75144433aa91c28c4c635692170efe4",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -56951,8 +56951,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_services.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e",
-      "lines": 23,
+      "sha256": "684af20edc86042daa512e14e1fd2fbae6dbb7bb0bbabfdddbcc01e45631d76e",
+      "lines": 26,
       "overview": "Explicitly started Workspace resources share the existing Stop boundary.",
       "symbols": [
         {
@@ -60067,6 +60067,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_idle_shutdown.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "5b6946e52e38b83e24691ae03cee154d7181aeb50be52898b4c8bac7b29511a8",
+      "lines": 112,
+      "overview": "Idle background resources must finish before verified account sealing.",
+      "symbols": [
+        {
+          "name": "IdleShutdownTests",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_image_effort.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -62555,8 +62570,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_shutdown_lifecycle_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "81587880a0421868e1215da57e4cfad02e8b69f44b4eb7cedbad833e26f02a2e",
-      "lines": 244,
+      "sha256": "c9875e3dd53410ef8ef462e80fb052badcede09ff2c51eeb6a9e0b4e5cbe20d4",
+      "lines": 245,
       "overview": "Real Tk close/retry/timer tests with synthetic services and no profile data.",
       "symbols": [
         {

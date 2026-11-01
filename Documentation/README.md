@@ -6,7 +6,7 @@ Documentation and help are already inside PortalAI. Open **Help** to browse or s
 
 Latest capability update: [tested Windows r60](CAPABILITY-INTELLIGENCE-r60.md), superseding the implementation-only patch and including the earlier [static audit repairs](STATIC-AUDIT-20261101.txt).
 
-Current Windows package: [r60 capability intelligence](CAPABILITY-INTELLIGENCE-r60.md), [validation](CAPABILITY-INTELLIGENCE-VALIDATION-r60.json), [installer verification](WINDOWS-INSTALLER-r60.json). Includes earlier context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r61 idle shutdown repair](IDLE-SHUTDOWN-r61.md), [validation](IDLE-SHUTDOWN-VALIDATION-r61.json), [installer verification](WINDOWS-INSTALLER-r61.json). Includes earlier context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

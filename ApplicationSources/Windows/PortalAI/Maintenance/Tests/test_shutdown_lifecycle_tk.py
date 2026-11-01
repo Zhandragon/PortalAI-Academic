@@ -200,6 +200,7 @@ class ShutdownLifecycleTests(unittest.TestCase):
         chat._memory_after=None; chat._model_probe_running=False; chat._model_probe_due=0
         chat.memory=Mock(); chat._stop_embedded_media=Mock(); chat.release_audio_capture=Mock()
         chat.busy=True; chat.stop_generation=Mock(); chat.drop_target=Mock()
+        chat.tool_runtime=Mock(); chat.tool_runtime._workspace_cleanup_errors=[]
         chat._pai128e_timer={'active':True}
         return chat
 

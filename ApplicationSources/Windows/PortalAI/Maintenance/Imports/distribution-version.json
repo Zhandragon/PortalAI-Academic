@@ -1,7 +1,7 @@
 {
-  "version": "2026.11.01-Desktop-r60",
+  "version": "2026.11.01-Desktop-r61",
   "edition": "Academic",
   "platform": "Windows",
-  "previous_receipt_version": "2026.10.31-Desktop-r59",
-  "reconciliation": "r60 capability-intelligence update; runtime validation and package evidence are published with the matching release."
+  "previous_receipt_version": "2026.11.01-Desktop-r60",
+  "reconciliation": "r61 idle shutdown cancellation and retryable Workspace cleanup"
 }

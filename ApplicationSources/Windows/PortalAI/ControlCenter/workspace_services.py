@@ -19,5 +19,8 @@ def close_all(root):
     errors=[]
     for resource in values:
         try:resource.close()
-        except Exception as exc:errors.append(str(exc))
+        except Exception as exc:
+            errors.append(str(exc))
+            # Retain failed cleanup for the next verified-shutdown attempt.
+            register(root,resource)
     return errors

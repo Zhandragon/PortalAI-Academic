@@ -531,6 +531,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_home_assistant_remote.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_home_assistant_remote.py) | Remote boundary/lifecycle tests use only disposable roots and fake processes. |
 | [Maintenance/Tests/test_host_environment.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_host_environment.py) | Development-only checks for factual, current-account environment context. |
 | [Maintenance/Tests/test_hydration_host_boundaries.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_hydration_host_boundaries.py) | Unmanaged host/desktop entry points must see restored historical paths. |
+| [Maintenance/Tests/test_idle_shutdown.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_idle_shutdown.py) | Idle background resources must finish before verified account sealing. |
 | [Maintenance/Tests/test_image_effort.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_image_effort.py) | Exercise the actual image CLI parser and route bodies without model execution. |
 | [Maintenance/Tests/test_image_lookup_limits.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_image_lookup_limits.py) | Bounded image search and per-turn chat loops; no live requests/models. |
 | [Maintenance/Tests/test_inline_chat_images.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_inline_chat_images.py) | Real Tk/FFmpeg assistant-image rendering with disposable output files. |

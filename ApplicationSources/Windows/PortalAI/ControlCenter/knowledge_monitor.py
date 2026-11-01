@@ -39,8 +39,11 @@ class KnowledgeMonitor:
     def idle(self):
         return not self.chat.busy and not self.chat.conversation_active.is_set()
     def check(self):
+        # Closing revokes this observer even while the account remains open
+        # for final writer joins and encrypted sealing. Do not wait for logout.
+        if self.stopped.is_set() or getattr(self.chat, '_closing', False):
+            raise RuntimeError('Knowledge monitor stopped')
         self.check_login()
-        if self.stopped.is_set():raise RuntimeError('Knowledge monitor stopped')
     def indexing_check(self):
         self.check()
         if not self.idle():raise RuntimeError('Foreground chat or voice takes priority; indexing deferred')

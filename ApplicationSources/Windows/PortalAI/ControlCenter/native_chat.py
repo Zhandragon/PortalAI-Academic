@@ -6975,11 +6975,18 @@ class NativeChat:
         if zoom is not None: actions.append(zoom.close)
         layout = getattr(self, 'chat_layout', None)
         if layout is not None: actions.append(layout.close)
-        if self.busy: actions.append(self.stop_generation)
+        if self.busy:
+            actions.append(self.stop_generation)
+        else:
+            # Workspace monitors/services outlive individual generations. Even
+            # an idle chat must revoke their operations before joining writers.
+            actions.append(lambda: self.tool_runtime.cancel(cleanup_media=False))
         if self.drop_target is not None: actions.append(self.drop_target.close)
         for action in actions:
             try: action()
             except Exception as exc: errors.append(type(exc).__name__)
+        if getattr(self.tool_runtime, '_workspace_cleanup_errors', None):
+            errors.append('Workspace resource cleanup')
         if errors:
             raise RuntimeError('Chat shutdown cleanup needs retry: '+', '.join(errors))
 

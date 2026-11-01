@@ -1,0 +1,270 @@
+{
+  "passed": true,
+  "version": "2026.11.01-Desktop-r61",
+  "edition": "Academic",
+  "archive_sha256": "29f5d2c4e335bee5661a3d0b6ce35c520f444c2673aeb7ad10ef81d98145ce70",
+  "packaged_application_tests": {
+    "passed": true,
+    "tests": 755,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1629,
+    "full_recipient_install": false
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "passed": true,
+      "bytes": 11439094,
+      "name": "python-bootstrap.zip"
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "passed": true,
+      "bytes": 39062,
+      "name": "installer_core.py"
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "passed": true,
+      "bytes": 4572,
+      "name": "engine_cli.py"
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "passed": true,
+      "bytes": 4593,
+      "name": "installer_storage.py"
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "passed": true,
+      "bytes": 17915,
+      "name": "portable_update.py"
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "passed": true,
+      "bytes": 27664,
+      "name": "suite_installer.py"
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "passed": true,
+      "bytes": 29697,
+      "name": "abliterator_installer_core.py"
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r61_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "real_disposable_gui_shutdown": {
+    "passed": true,
+    "edition": "Academic",
+    "actual_full_GUI_idle_exit": true,
+    "shutdown_seconds": 14.375,
+    "monitor_joined": true,
+    "account_sealed": true,
+    "authenticated_reopen_preserved_content": true,
+    "final_state": "closed",
+    "callback_errors": [],
+    "model_startup_disabled": true,
+    "status_and_mission_startup_suppressed": true,
+    "production_session_touched": false
+  },
+  "all_published_windows_source_matches_payload": true,
+  "existing_component_pins_unchanged": true,
+  "added_payload_bytes_vs_r60": 7555,
+  "new_dependencies": false,
+  "new_models": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "installation_validation": {
+    "version": "2026.11.01-Desktop-r61",
+    "regression_introduced": "Windows r59 document monitor",
+    "new_dependencies": false,
+    "new_models": false,
+    "new_background_services": false,
+    "minimum_free_gib": 80,
+    "production_session_controlled": false,
+    "production_profile_recovery_performed": false,
+    "deprecated_C_installation_excluded": true,
+    "full_fresh_recipient_install_tested": false,
+    "linux_mac_updated": false,
+    "drives": {
+      "D": {
+        "independent_full_installation": true,
+        "installed_source_hashes_verified": 8,
+        "application_tests": {
+          "passed": true,
+          "tests": 755,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "installed_receipt": {
+          "version": "2026.11.01-Desktop-r61",
+          "files": [
+            {
+              "path": "ControlCenter/native_chat.py",
+              "sha256": "fad8472da3a9be0084af907b1382e78e8e919f8f9639449aca648ab877204948",
+              "bytes": 389661,
+              "before_sha256": "fed8109e636e7321a48bed2786e22cc4a9e35d0ae817fb574e3c9e35965e8e44"
+            },
+            {
+              "path": "ControlCenter/knowledge_monitor.py",
+              "sha256": "2482037c28d554d0ca0fe4b480f0d3dd92158fc3271673e6641d7d7f37bf3940",
+              "bytes": 5366,
+              "before_sha256": "cbeeb8dd29fcc5c4dc687a3f816f9a9644f4edc2741da52c810f12ec252d22b0"
+            },
+            {
+              "path": "ControlCenter/workspace_services.py",
+              "sha256": "684af20edc86042daa512e14e1fd2fbae6dbb7bb0bbabfdddbcc01e45631d76e",
+              "bytes": 781,
+              "before_sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e"
+            },
+            {
+              "path": "ControlCenter/release_version.py",
+              "sha256": "ed971990cd2f55ebe868b1652451a1abd75144433aa91c28c4c635692170efe4",
+              "bytes": 97,
+              "before_sha256": "da0387211ce2d2083df9cfec627d05e892dc4433e037ed905b49debb53137a05"
+            },
+            {
+              "path": "Maintenance/Imports/distribution-version.json",
+              "sha256": "06bbb89c7dd29af24dd61b50a3c680fe5a28c3ea0d9eebd50a10feeac1c70b8a",
+              "bytes": 230,
+              "before_sha256": "523b9a7b9f40228dcde18aea473d5a0a3eb0f8f78b00d018439cdb29c46843eb"
+            },
+            {
+              "path": "Maintenance/Tests/test_shutdown_lifecycle_tk.py",
+              "sha256": "c9875e3dd53410ef8ef462e80fb052badcede09ff2c51eeb6a9e0b4e5cbe20d4",
+              "bytes": 13068,
+              "before_sha256": "81587880a0421868e1215da57e4cfad02e8b69f44b4eb7cedbad833e26f02a2e"
+            },
+            {
+              "path": "Maintenance/Tests/test_idle_shutdown.py",
+              "sha256": "5b6946e52e38b83e24691ae03cee154d7181aeb50be52898b4c8bac7b29511a8",
+              "bytes": 4812,
+              "before_sha256": null
+            },
+            {
+              "path": "Documentation/Idle_Shutdown_r61.md",
+              "sha256": "c411452866c15aa2ce3be9eacb7ced2617f6de10ae66453b4d5d84e7033ddc59",
+              "bytes": 1993,
+              "before_sha256": null
+            }
+          ],
+          "source_bytes_verified": true,
+          "owner_authorized_on_disk_update_while_running": true,
+          "runtime_reload_performed": false,
+          "production_profile_touched": false,
+          "observed_marker_state": "open",
+          "free_bytes": 185525878784
+        },
+        "free_bytes": 180259840000
+      },
+      "E": {
+        "independent_full_installation": true,
+        "installed_source_hashes_verified": 8,
+        "application_tests": {
+          "passed": true,
+          "tests": 755,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "installed_receipt": {
+          "version": "2026.11.01-Desktop-r61",
+          "files": [
+            {
+              "path": "ControlCenter/native_chat.py",
+              "sha256": "fad8472da3a9be0084af907b1382e78e8e919f8f9639449aca648ab877204948",
+              "bytes": 389661,
+              "before_sha256": "fed8109e636e7321a48bed2786e22cc4a9e35d0ae817fb574e3c9e35965e8e44"
+            },
+            {
+              "path": "ControlCenter/knowledge_monitor.py",
+              "sha256": "2482037c28d554d0ca0fe4b480f0d3dd92158fc3271673e6641d7d7f37bf3940",
+              "bytes": 5366,
+              "before_sha256": "cbeeb8dd29fcc5c4dc687a3f816f9a9644f4edc2741da52c810f12ec252d22b0"
+            },
+            {
+              "path": "ControlCenter/workspace_services.py",
+              "sha256": "684af20edc86042daa512e14e1fd2fbae6dbb7bb0bbabfdddbcc01e45631d76e",
+              "bytes": 781,
+              "before_sha256": "76bbcd8cded604cf318cde5d7c31d0e6e6eb122087714417b25d29916de9046e"
+            },
+            {
+              "path": "ControlCenter/release_version.py",
+              "sha256": "ed971990cd2f55ebe868b1652451a1abd75144433aa91c28c4c635692170efe4",
+              "bytes": 97,
+              "before_sha256": "da0387211ce2d2083df9cfec627d05e892dc4433e037ed905b49debb53137a05"
+            },
+            {
+              "path": "Maintenance/Imports/distribution-version.json",
+              "sha256": "06bbb89c7dd29af24dd61b50a3c680fe5a28c3ea0d9eebd50a10feeac1c70b8a",
+              "bytes": 230,
+              "before_sha256": "523b9a7b9f40228dcde18aea473d5a0a3eb0f8f78b00d018439cdb29c46843eb"
+            },
+            {
+              "path": "Maintenance/Tests/test_shutdown_lifecycle_tk.py",
+              "sha256": "c9875e3dd53410ef8ef462e80fb052badcede09ff2c51eeb6a9e0b4e5cbe20d4",
+              "bytes": 13068,
+              "before_sha256": "81587880a0421868e1215da57e4cfad02e8b69f44b4eb7cedbad833e26f02a2e"
+            },
+            {
+              "path": "Maintenance/Tests/test_idle_shutdown.py",
+              "sha256": "5b6946e52e38b83e24691ae03cee154d7181aeb50be52898b4c8bac7b29511a8",
+              "bytes": 4812,
+              "before_sha256": null
+            },
+            {
+              "path": "Documentation/Idle_Shutdown_r61.md",
+              "sha256": "c411452866c15aa2ce3be9eacb7ced2617f6de10ae66453b4d5d84e7033ddc59",
+              "bytes": 1993,
+              "before_sha256": null
+            }
+          ],
+          "source_bytes_verified": true,
+          "owner_authorized_on_disk_update_while_running": true,
+          "runtime_reload_performed": false,
+          "production_profile_touched": false,
+          "observed_marker_state": "closed",
+          "free_bytes": 201797718016
+        },
+        "free_bytes": 201797582848
+      }
+    }
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "29f5d2c4e335bee5661a3d0b6ce35c520f444c2673aeb7ad10ef81d98145ce70",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

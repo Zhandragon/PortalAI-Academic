@@ -1,24 +1,24 @@
-PortalAI 2026.11.01-Desktop-r60 - Academic-Windows
+PortalAI 2026.11.01-Desktop-r61 - Academic-Windows
 Progress assistance defaults on: Chat Preferences > Tools & limits provides independent opt-outs.
 See Documentation/Task_Progress_r51.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r60 - Academic-Windows
+PortalAI 2026.11.01-Desktop-r61 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r60 - Academic-Windows
+PortalAI 2026.11.01-Desktop-r61 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r60 - Academic-Windows
+PortalAI 2026.11.01-Desktop-r61 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r60 — Academic-Windows
+PortalAI 2026.11.01-Desktop-r61 — Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.11.01-Desktop-r60 — Academic-Windows
+PortalAI suite 2026.11.01-Desktop-r61 — Academic-Windows
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -30,7 +30,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.11.01-Desktop-r60 — Academic Windows
+PortalAI 2026.11.01-Desktop-r61 — Academic Windows
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,
@@ -89,3 +89,5 @@ Windows r58: portable projects, skills, MCP sign-in/content, workflow editing/AP
 Windows r59: portable skill bundles, task evidence, MCP registration, workflow canvas, background refresh, bounded model comparison, reviewed embedded artifacts, tool-enabled API, streamed Qwen and speaker interruption. See Documentation/Portable_Intelligence_r59.md.
 
 Windows r60: result verification, external code projects and guarded undo, memory corrections, structured retrieval, optional model calibration, and Ctrl+K search. See Documentation/Capability_Intelligence_20261101.txt.
+
+Windows r61: idle shutdown cancels background document monitoring and retries failed Workspace resource cleanup. See Documentation/Idle_Shutdown_r61.md.
