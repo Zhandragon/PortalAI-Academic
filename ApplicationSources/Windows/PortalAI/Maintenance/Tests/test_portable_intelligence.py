@@ -135,12 +135,17 @@ class TaskNotebookTests(unittest.TestCase):
     def chat(self,messages):
         import threading
         from unittest.mock import Mock
-        return SimpleNamespace(session={'messages':messages},cancel_event=threading.Event(),_check_login=lambda:None,store=SimpleNamespace(save_session=Mock()))
+        return SimpleNamespace(tool_runtime=SimpleNamespace(root=ROOT),session={'messages':messages},cancel_event=threading.Event(),_check_login=lambda:None,store=SimpleNamespace(save_session=Mock()))
     def test_verified_plan_requires_original_successful_evidence(self):
         from task_notebook import execute
         chat=self.chat([{'role':'user','content':'Fix and test'},{'role':'tool','name':'shell','content':'{"exit_code":0,"output":"3 tests passed"}','execution':{'dispatched':True,'outcome':'returned'}}])
-        step={'id':'verify','goal':'Run relevant tests','check':'Tests pass','status':'verified','evidence':[1]}
-        result=json.loads(execute(chat,{'action':'update','steps':[step]}));self.assertTrue(result['all_verified'])
+        step={'id':'verify','goal':'Run relevant tests','check':'Tests pass','status':'verified','evidence':[1],'verification':'a'*32}
+        with patch('result_verification.Verifications') as verifier:
+            verifier.return_value.read.return_value={'success':True,'results':[]}
+            result=json.loads(execute(chat,{'action':'update','steps':[step]}));self.assertTrue(result['all_verified'])
+            verifier.return_value.read.assert_called_once_with('a'*32,fresh=True)
+            verifier.return_value.read.return_value={'success':False}
+            with self.assertRaisesRegex(ValueError,'did not pass'):execute(chat,{'action':'update','steps':[step]})
         for change in ({'evidence':[]},{'evidence':[0]}):
             with self.assertRaises(ValueError):execute(chat,{'action':'update','steps':[{**step,**change}]})
         chat.session['messages'][1]['content']='{"exit_code":1}'

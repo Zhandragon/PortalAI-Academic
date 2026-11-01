@@ -12,7 +12,7 @@ from workspace_store import Workspace,identifier,read_json,digest,encoded
 
 SCOPES={'chats:read','chats:write','missions:read','missions:write','knowledge:read',
         'knowledge:write','outputs:read','artifacts:read','artifacts:write','structured:generate','workflows:read','workflows:execute','agent:execute'}
-AGENT_TOOLS={'read_file','write_file','edit_file','list_dir','file_inspect','web','science','media_tool','generate_image','knowledge','structured','artifact','skill','mcp','workflow','shell','computer','available_tools','inspect_environment','source_search','source_map'}
+AGENT_TOOLS={'read_file','write_file','edit_file','list_dir','file_inspect','web','science','media_tool','generate_image','knowledge','structured','artifact','skill','mcp','workflow','shell','computer','available_tools','inspect_environment','source_search','source_map','project','verify'}
 
 
 class APIError(Exception):

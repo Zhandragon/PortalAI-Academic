@@ -1,0 +1,196 @@
+PortalAI Windows: capability improvements, 2026-11-01
+
+IMPLEMENTATION-ONLY SOURCE PATCH
+The user explicitly requested no direct tests while playing Apex. The changes
+below received source/control-flow review and static Python syntax parsing only.
+No application regression tests, GUI launch, inference, calibration, voice test,
+project command, or document re-embedding was run to validate this patch.
+The published r59 installers and release tag remain unchanged. Their earlier
+passing test results do NOT validate these later changes. Linux/Mac remain r51.
+Normal exit/reopen loads updated Windows code; this is not a tested new release.
+
+1. Independent result checks
+ControlCenter/result_verification.py; task_notebook.py; native_chat.py
+
+Nice can load verify through tool_help. verify.run accepts up to 16 predicates:
+- file(path): reopen a file (2 MiB maximum), parse Python/JSON without execution;
+- contains(path,text): check literal text;
+- sha256(path,expected): compare observed bytes with a requested digest;
+- json_value(path,pointer,expected): check a JSON value through key/index steps;
+- test(project,command): invoke an exact, user-approved named project command.
+
+Direct write_file/edit_file calls now return readback/syntax findings separately
+from write success. At the final reply boundary, changed files are reopened;
+failed/stale checks and uncertain tool outcomes mark the reply incomplete and
+append an explicit verification notice. This never automatically reruns a test
+or side-effecting tool. It adds no extra model request to ordinary conversation.
+Task steps marked verified require BOTH saved successful execution evidence and
+a successful, current verify receipt (verification field). Plans saved by older
+versions may need new checks if resumed. A predicate is not proof of every user
+requirement: Nice must choose checks that cover the goal, obey no-test requests,
+and report behavior that remains untested. Streamed draft text is provisional;
+the final verification notice records outstanding limits.
+
+2. External coding projects, change preview and undo
+Agent/code_projects.py; Agent/verification_worker.py;
+ControlCenter/code_projects_ui.py
+
+Workspace -> Code registers an explicit folder. Start fresh scan / Continue scan
+process at most 100 source files per page, with a three-second soft work budget.
+Directory discovery is bounded too; a single directory can take longer than the
+soft budget. Up to 2,500 queued/indexed entries per project, 128 KiB per source
+file, 32 projects, and a shared 8 MiB map ceiling. Generated/dependency/private
+folders and linked paths are excluded. Oversized projects need narrower roots.
+Python uses AST symbols/imports; other supported code uses lexical patterns.
+Find files/tests ranks names, symbols and imports and suggests relevant tests.
+This is a bounded cached map, not a complete compiler dependency graph. Restart
+scans to refresh changed files; read current source before editing.
+
+Direct text edits retain at most 128 undo records / 32 MiB of before-images,
+with a 512 KiB per-file ceiling. Larger edits disclose that undo was not retained.
+Metadata is separate from before-images, so listing edits does not load snapshots.
+Preview selected edits produces a bounded consolidated diff against current
+bytes. Undo one edit, newest first, restores exact before-bytes only when current
+bytes still match the edit's after-hash. It refuses conflicts. Undoing a newly
+created file removes that file only after the same check. Shell/external-tool
+edits are not captured by this journal. The UI can discard reviewed undo records
+without changing project files. Pending records preserve uncertainty after crashes.
+
+Test commands are configured and approved in this UI, never self-granted through
+the project/verify tool. Example:
+{"unit":{"argv":["{python}","-m","unittest","test_example"],
+         "inputs":["example.py","test_example.py"],"timeout":60}}
+Use installed dependencies/runtimes appropriate to the project. Placeholders:
+{python} = bundled Python; {root} = this PortalAI root; {project} = registered root.
+Literal argv avoids implicit shell parsing, but approved commands still have
+administrator access and can have side effects. Declare all files relevant to a
+test's validity (1-32 bounded inputs); hashes before/after and on receipt reuse
+detect declared-input changes. Undeclared dependencies are not proven unchanged.
+Commands use an owned gated process tree, a 2 GiB memory cap, 1-120 second deadline,
+64 KiB retained output, Stop/account fences, and pending-before-dispatch receipts.
+An interrupted/uncertain identical command remains blocked until reviewed in
+Check history. Neither restart nor a new model turn silently replays it.
+
+3. Memory correction and conflict handling
+ControlCenter/memory_resolution.py; persistent_memory.py; memory_items_ui.py
+
+Chat Memory -> retained items now shows durable, corrected, temporary, expired,
+and superseded states, with possible same-key conflicts marked for review.
+Select a fact, edit Correction, then Correct / resolve or Keep for 24 hours.
+Corrections retain a bounded 12-entry correction history and supersede prior
+observations for that key. Existing raw chats stay intact. Stale UI selections
+fail safely; correction invalidates in-flight distillation commits.
+
+New user messages record statement time. Memory ranking uses source chronology,
+not when old chats happened to be distilled. Legacy messages without timestamps
+fall back conservatively to the chat creation time; chronology is not invented.
+Old backfilled text cannot override an explicit correction. Temporary learned
+facts expire 24 hours after their source time; explicit temporary corrections
+expire 24 hours after the user sets them. Expiry does not revive superseded facts.
+Different text under the same stable key is a POSSIBLE conflict, not a semantic
+proof of contradiction. Relevant conflict alternatives are surfaced with a prompt
+to clarify if material. Cross-key contradictions/paraphrases are not exhaustively
+detected. Old chat summaries remain historical evidence, not current authority.
+
+4. More precise retrieval
+Agent/retrieval_quality.py; knowledge_extract.py; knowledge_base.py
+
+Chunks preserve line/row boundaries where possible and carry Markdown/DOCX
+heading context. DOCX paragraphs keep text runs together and tables keep rows;
+CSV/TSV rows include first-row column labels. Spreadsheet chunks retain first-row
+context. Long lines are split without dropping tails. PDF extraction still uses
+its existing page/OCR capabilities; layout reconstruction is not guaranteed.
+
+Search reuses existing MiniLM + FTS5, bounds candidate accumulation, suppresses
+near-duplicate passages, and returns matched terms plus an explicit evidence
+hint. This is not calibrated confidence. No/newly empty collections return an
+insufficient-evidence response without loading embeddings unnecessarily.
+knowledge.read(citation,neighbors=1 or 2) returns adjacent chunks with their own
+citations and locations. Claims still need support from the retrieved text.
+
+Existing indexes remain readable. Workspace -> Knowledge -> Rebuild document
+structure explicitly re-extracts/re-embeds unchanged files with the new chunker;
+automatic refresh never starts a full rebuild. New chunk IDs include a chunker
+version fingerprint, so rebuilding legacy chunks retires their old citations
+instead of silently pointing them to different passages. Original snapshots stay.
+
+5. Optional measured model recommendations
+ControlCenter/model_calibration.py; existing comparison_workers.py/voice_memory.py
+
+Workspace -> Calibration lists installed models and runs eight small probes per
+selected model (one to three models, sequential, ten-minute total deadline).
+Coding concepts, supplied-evidence answers, tool-choice/uncertainty handling and
+conversation constraints each have two deterministic checks. No generated code
+executes and no live external tools are exercised by this suite. These are small
+capability proxies, not broad intelligence or subjective voice-quality scores.
+
+Only clicking Run starts inference. Results retain pass/fail, answer latency,
+model load time, backend/offload/context and model/hardware identity. Existing
+memory admission, owned ports, chat handoff/restore, cancellation and login fences
+apply. Stop/crash retains completed cases; unfinished runs never resume by themselves.
+Reports are bounded to 32 runs; no model weights or new runtime are downloaded.
+Recommendations use complete, matching-machine/model/suite reports younger than
+90 days, require at least 75% checks passed, and respect the chosen latency budget.
+Scores/speed measured under other system load may differ. Recommendations alone
+change nothing. Apply explicitly replaces the current LLM selection; manual voice
+selection remains independent, and hardware admission still runs on future requests.
+
+6. Unified search and quiet notifications
+ControlCenter/command_palette.py
+
+Ctrl+K opens one themed in-app menu for chat titles, chat/code projects, saved
+artifact titles, currently available output filenames, settings and actions.
+Enter opens the selection; Escape closes. Project/artifact selections lead to
+the matching Workspace page/record. Files open their containing folder, not the
+file executable. Stop and hands-free remain existing controls/actions.
+
+The menu uses one tracked background worker, 200 ms query debounce, generation
+checks and bounded results (80 displayed). Index ceilings: 1,500 recent chat
+titles, 200 artifact titles, and 2,000 available output-directory entries with a
+1.5-second soft traversal budget. It does not decrypt whole histories or hydrate
+all archived output bytes. Reopen to refresh. Larger/deeper searches still use
+existing history/file tools. Logout, Stop epoch changes and closing the menu
+cancel or invalidate results; no background service survives the menu.
+
+Completion/attention notifications are silent in-app notices plus a brief Windows
+taskbar flash when PortalAI lacks focus. They never activate its window. Hands-free
+exchanges suppress repeated toasts. Ctrl+K -> Toggle completion notifications
+changes the account preference. These notices indicate a reply/attention state,
+not proof that every requirement was satisfied.
+
+Portability, storage, and validation status
+All added code uses the existing Python standard library and bundled services.
+Account state lives below Data on the current SSD: CodeProjects, CodeEdits,
+Verification and ModelCalibration; memory remains in its existing private index.
+Existing storage reservations, including the 80 GiB free floor, remain in force.
+Separate caps bound maps (8 MiB), undo images (32 MiB), verification records
+(16 MiB), command history (128 small records), and calibration (32 small reports).
+User documents, test-generated outputs, memory and knowledge collection growth
+remain subject to the general SSD reserve rather than those cache quotas.
+D and E remain independent Full installations; no cross-drive dependency was added.
+The deprecated C: PortalAI installation was excluded. Source checkouts are on C;
+work logs and recovery copies are on the SSDs. No runtime/model cleanup was done.
+
+Regression source (NOT EXECUTED):
+Maintenance/Tests/test_capability_intelligence.py
+Maintenance/Tests/test_portable_intelligence.py (updated verification expectation)
+Pending acceptance: these regressions and the existing relevant suites; real
+GUI/keyboard/compact-mode/account-switch/Stop checks; crash and changed-file undo;
+reviewed project process-tree/deadline tests; retrieval rebuild/citation migration;
+optional real-model calibration/speed; final D/E and installer acceptance.
+No benchmark scores or latency claims are asserted for this patch.
+
+Installation bookkeeping repair
+The D/E distribution-version receipts still named r51 although release stamps
+and saved r59 deployment evidence identified r59. Both receipts were backed up
+and aligned after checking all 53 recorded r59 deployment files (allowing only
+the subsequently documented static-audit changes), under the existing closed-
+installation/account-sealing guard. The source editions now carry matching r59
+base receipts. This is metadata reconciliation, not new runtime validation.
+
+API integration
+API agent tokens can explicitly grant project and verify. Existing token grants
+are unchanged. Long workspace operations now also consult the API cancellation/
+revocation callback, in addition to account and Stop guards. API user turns record
+source timestamps too. REST knowledge routes retain their existing contracts;
+neighbor reads are available through the knowledge agent tool.

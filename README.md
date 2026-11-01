@@ -9,7 +9,7 @@
 
 <h1 align="center">PortalAI</h1>
 
-**2026-11-01 source patch:** Small knowledge, artifact and Workspace fixes from a [static audit](Documentation/STATIC-AUDIT-20261101.txt). No execution tests were run for these edits; the published r59 installer archives remain unchanged.
+**2026-11-01 implementation-only source patch:** Independent output checks, code-project maps and undo, memory corrections, structured retrieval, optional model calibration, and Ctrl+K search. [Access, source files, limits and deferred validation](Documentation/CAPABILITY-INTELLIGENCE-20261101.txt). No runtime tests were run while the user was gaming; r59 installer archives remain unchanged. Includes the earlier [static audit repairs](Documentation/STATIC-AUDIT-20261101.txt).
 
 **Windows r59 (2026-10-31):** Streamed Qwen speech, speaker interruption, reviewed skill and artifact bundles, MCP client registration, workflow canvas, background indexing, bounded model comparisons, tool-enabled API and evidence-linked task plans. About 0.33 MB added per SSD; no new model weights or runtime. At least 80 GiB free remains reserved. [Details, measurements and limits](Documentation/PORTABLE-INTELLIGENCE-r59.md). Exit and reopen PortalAI normally. Linux/Mac remain r51.
 

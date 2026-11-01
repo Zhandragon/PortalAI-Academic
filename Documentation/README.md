@@ -4,7 +4,7 @@
 
 Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
 
-Latest source patch: [2026-11-01 static audit](STATIC-AUDIT-20261101.txt); execution tests deferred and r59 installer archives unchanged.
+Latest source patch: [six capability improvements](CAPABILITY-INTELLIGENCE-20261101.txt), following the [static audit](STATIC-AUDIT-20261101.txt). Implementation and static review only; runtime tests and updated installer publication are deferred. r59 archives are unchanged.
 
 Current Windows package: [r59 portable intelligence](PORTABLE-INTELLIGENCE-r59.md), [validation](PORTABLE-INTELLIGENCE-VALIDATION-r59.json), [installer verification](WINDOWS-INSTALLER-r59.json). Includes earlier context, voice padding, memory and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 

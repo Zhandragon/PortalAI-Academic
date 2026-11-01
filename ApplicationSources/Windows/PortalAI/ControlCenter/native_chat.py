@@ -1143,9 +1143,8 @@ class ToolRuntime:
         p.parent.mkdir(parents=True, exist_ok=True)
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator.')
-        p.write_text(str(content), encoding="utf-8")
-        from coding_stall import write_receipt
-        return write_receipt(p, before)
+        from code_projects import write_tracked
+        return write_tracked(self, p, str(content), before)
 
     def edit_file(self, path: str, old: str, new: str) -> str:
         if self._account_role() != 'admin':
@@ -1163,9 +1162,8 @@ class ToolRuntime:
             raise ValueError("old text is ambiguous; provide a unique match")
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator.')
-        p.write_text(s.replace(old, new, 1), encoding="utf-8")
-        from coding_stall import write_receipt
-        return write_receipt(p, before)
+        from code_projects import write_tracked
+        return write_tracked(self, p, s.replace(old, new, 1), before)
 
     def list_dir(self, path: str = ".", max_entries: int = 200) -> str:
         p = self.safe_path(path)
@@ -1272,7 +1270,7 @@ class ToolRuntime:
 
     def execute(self, name: str, args: dict) -> str:
         self._account_role()
-        if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill'):
+        if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill','project','verify'):
             from capability_tools import dispatch
             return json.dumps(dispatch(self,name,args),ensure_ascii=True)
         if name in ('inspect_environment', 'source_search', 'source_map'):
@@ -1416,11 +1414,11 @@ def _scoped_tools(panel):
     """Explicit host-selected task menu; never an account permission grant."""
     if _request_scope(panel) == 'maintenance':
         names = {'chat_history', 'chat_checkpoint', 'task', 'shell', 'read_file', 'file_inspect', 'write_file',
-                 'edit_file', 'list_dir', 'web', 'inspect_environment', 'source_search', 'source_map'}
+                 'edit_file', 'list_dir', 'web', 'inspect_environment', 'source_search', 'source_map', 'project', 'verify'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     elif _request_scope(panel) == 'coding':
         names = {'chat_history', 'chat_checkpoint', 'task', 'shell', 'read_file', 'file_inspect',
-                 'write_file', 'edit_file', 'list_dir'}
+                 'write_file', 'edit_file', 'list_dir', 'project', 'verify'}
         rows = [row for row in TOOLS if row['function']['name'] in names]
     else:
         rows = TOOLS
@@ -1849,6 +1847,8 @@ class NativeChat:
         self.prompt.bind("<Return>", self._prompt_return)
         self.prompt.bind("<Shift-Return>", self._prompt_shift_return)
         self.prompt.bind("<Control-Return>", self.submit)
+        from command_palette import install as install_command_palette
+        install_command_palette(self)
         self.prompt.bind("<KeyRelease>", self._resize_prompt, add="+")
         self.prompt.bind("<<Paste>>", lambda _e: self.app.after_idle(self._resize_prompt), add="+")
         self.prompt.bind("<<Cut>>", lambda _e: self.app.after_idle(self._resize_prompt), add="+")
@@ -5176,6 +5176,8 @@ class NativeChat:
                                     if row.get('role') == 'user'), '')
             request_index = next((i for i in range(len(self.session['messages'])-1, -1, -1)
                                   if self.session['messages'][i].get('role') == 'user'), -1)
+            from result_verification import begin_request
+            begin_request(self.tool_runtime,self.session,request_index)
             usage['request_index'] = request_index
             self._context_state()['last_run'] = dict(usage)
             attempted_results.update(prior_action_results(self.session, request_index))
@@ -5300,6 +5302,13 @@ class NativeChat:
                 if repaired and any((name, json.dumps(args, sort_keys=True, ensure_ascii=True)) in attempted_actions
                                     for _call, name, args in prepared):
                     raise InvalidToolBatch('Format repair repeated a previously attempted action. Automatic replay was blocked; earlier results remain saved.')
+                if not calls and not self.cancel_event.is_set():
+                    from result_verification import completion_audit
+                    verification_note, verified = completion_audit(self)
+                    if verification_note:
+                        content = str(content or '') + verification_note
+                        self.ev.put(('content', verification_note))
+                    if not verified: incomplete = True
                 assistant = {"role": "assistant", "content": content, "reasoning": reasoning}
                 if incomplete:
                     assistant['incomplete'] = True
@@ -5541,7 +5550,7 @@ class NativeChat:
         if remote_text is None:
             self.prompt.delete("1.0", "end")
             self._resize_prompt(reset=True)
-        msg = {"role": "user", "content": text, "attachments": attachments}
+        msg = {"role": "user", "content": text, "attachments": attachments, "created": time.time()}
         if recover_coding:
             msg['coding_stall_recovery'] = True
         self._coding_stall_next_request = False
@@ -6343,7 +6352,7 @@ class NativeChat:
         if self.busy:
             self._notice('Workspace','Finish or stop the active chat turn before managing Workspace.')
             return
-        show_workspace(self.app,self.root,self.COL,session=getattr(self.app,'_portalai_account_session',None),jobs=self._writer_jobs,runtime=self.tool_runtime,chat=self)
+        return show_workspace(self.app,self.root,self.COL,session=getattr(self.app,'_portalai_account_session',None),jobs=self._writer_jobs,runtime=self.tool_runtime,chat=self)
 
     def open_settings(self):
         body = self._open_sheet("Chat Preferences", width=0.86, height=0.90)
@@ -6718,6 +6727,7 @@ class NativeChat:
                     self.update_token_label()
                     self._schedule_model_probe(force=True)
                 elif kind == "error":
+                    self._request_attention = True
                     voice_turn = getattr(self, '_conversation_request', None)
                     if voice_turn is not None: voice_turn.failed = True
                     self.chat_insert("\n" + str(data) + "\n", "error")
@@ -6740,6 +6750,12 @@ class NativeChat:
                     self._live_thinking_block=None; self._live_tool_block=None
                     self.refresh_sessions_labels_only(); self.refresh_status(); self.update_token_label(); self._maybe_schedule_auto_title(); self._schedule_model_probe(force=True)
                     self._schedule_memory_maintenance(30000)
+                    try:
+                        from command_palette import notify
+                        latest = next((r for r in reversed(self.session.get('messages', [])) if r.get('role') == 'assistant'), {})
+                        notify(self, cancelled=was_cancelled, attention=bool(getattr(self, '_request_attention', False) or latest.get('incomplete')))
+                    except Exception: pass
+                    self._request_attention = False
                 elif kind == "memory_maintenance_done":
                     self._memory_job_running = False
                     if data.get("updated") and not self.busy:
@@ -6926,6 +6942,8 @@ class NativeChat:
 
     def shutdown(self):
         self._closing = True
+        from command_palette import close as close_command_palette
+        close_command_palette(self)
         rebuild_cancel = getattr(self, '_memory_rebuild_cancel', None)
         if rebuild_cancel is not None: rebuild_cancel.set()
         self._memory_rebuild_pending = None

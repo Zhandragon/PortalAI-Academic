@@ -40,7 +40,7 @@ def execute(chat,args):
     if len(json.dumps(steps,ensure_ascii=False).encode())>12000:raise ValueError('Task notebook exceeds 12 KiB')
     normalized=[];ids=set()
     for row in steps:
-        if not isinstance(row,dict) or set(row)-{'id','goal','check','status','evidence','blocker'}:raise ValueError('Invalid task step fields')
+        if not isinstance(row,dict) or set(row)-{'id','goal','check','status','evidence','blocker','verification'}:raise ValueError('Invalid task step fields')
         sid=row.get('id');status=row.get('status','pending')
         if not isinstance(sid,str) or not re.fullmatch('[a-zA-Z][a-zA-Z0-9_]{0,31}',sid) or sid in ids:raise ValueError('Steps need distinct short IDs')
         ids.add(sid)
@@ -51,11 +51,16 @@ def execute(chat,args):
         if not isinstance(references,list) or len(references)>8 or len(set(map(str,references)))!=len(references):raise ValueError('Use up to eight distinct evidence message IDs')
         evidence=[success_evidence(session,i) for i in references]
         if status=='verified' and not evidence:raise ValueError('A verified step needs actual tool evidence; a plan is not execution')
+        if status=='verified':
+            from result_verification import Verifications
+            verification=Verifications(chat.tool_runtime,chat._check_login).read(row.get('verification',''),fresh=True)
+            if not verification['success']:raise ValueError('Acceptance checks did not pass; retain a blocker or run relevant checks')
+
         blocker=row.get('blocker','')
         if not isinstance(blocker,str) or len(blocker)>600 or (status=='blocked' and not blocker.strip()):raise ValueError('Blocked steps need a short, specific blocker')
         normalized.append({**row,'status':status,'evidence':references,'evidence_records':evidence,'blocker':blocker})
     result={'request_index':int(key),'steps':normalized,'all_verified':all(s['status']=='verified' for s in normalized),
-            'notice':'Evidence confirms a recorded return, not that it proves the acceptance criterion. Inspect results and report remaining uncertainty.'}
+            'notice':'Verified steps require successful, current predicate receipts and execution evidence. Their coverage must match the written requirement; this is not proof of every possible behavior.'}
     # Existing saved plan revisions are retained in ordinary tool messages.
     if not isinstance(plans,dict) or len(plans)>256:raise ValueError('Task notebook history limit reached; start a new chat')
     session.setdefault('task_notebooks',{})[key]=result
@@ -70,6 +75,6 @@ def guidance(session):
     return '\nTask notebook: '+('; '.join(active)[:900] if active else 'All planned steps have linked execution evidence; check that it meets each criterion before claiming success.')+' Use task.read for checks and evidence; update the plan when scope changes. Plans do not grant permissions.'
 
 
-TOOL={'type':'function','function':{'name':'task','description':'For multi-step work, keep a small plan with concrete acceptance checks. update replaces this turn\'s steps; read retrieves them. Mark verified only with original successful tool message IDs proving the check. Blockers retain uncertainty. Plans do not execute actions or grant permissions.',
+TOOL={'type':'function','function':{'name':'task','description':'For multi-step work, keep a small plan with concrete acceptance checks. update replaces this turn\'s steps; read retrieves them. Mark verified only with original successful tool message IDs and verification (successful verify receipt ID) covering the check. Blockers retain uncertainty. Plans do not execute actions or grant permissions.',
     'parameters':{'type':'object','properties':{'action':{'type':'string','enum':['read','update']},'steps':{'type':'array','maxItems':16,'items':{'type':'object','properties':{
-        'id':{'type':'string'},'goal':{'type':'string'},'check':{'type':'string'},'status':{'type':'string','enum':['pending','active','verified','blocked']},'evidence':{'type':'array','items':{'type':'integer'}},'blocker':{'type':'string'}},'required':['id','goal','check','status'],'additionalProperties':False}}},'required':['action'],'additionalProperties':False}}}
+        'id':{'type':'string'},'goal':{'type':'string'},'check':{'type':'string'},'status':{'type':'string','enum':['pending','active','verified','blocked']},'evidence':{'type':'array','items':{'type':'integer'}},'blocker':{'type':'string'},'verification':{'type':'string'}},'required':['id','goal','check','status'],'additionalProperties':False}}},'required':['action'],'additionalProperties':False}}}

@@ -29,6 +29,7 @@ class MemoryItemsEditor:
         self.detail.pack(fill='x', pady=5); self.detail.configure(state='disabled')
         self.detail._portalai_native_selection=True
         skin.remember(self.detail, bg='panel', fg='text')
+        self.correction = skin.row(parent, 'Correction (for selected fact)', lambda row: skin.entry(row, ''))
         from ui_extensions import ResponsiveFlow
         actions = ResponsiveFlow(parent, bg=colors['bg'], hgap=5, vgap=5); actions.pack(fill='x')
         actions.pack_configure(before=frame)
@@ -39,6 +40,8 @@ class MemoryItemsEditor:
         self.blocked_button = skin.button(actions, 'Blocked items', self.toggle_blocked)
         for button in (self.delete_button, self.fragment_button,
                        self.source_button, self.blocked_button,
+                       skin.button(actions, 'Correct / resolve', self.correct),
+                       skin.button(actions, 'Keep for 24 hours', lambda: self.correct(temporary=True)),
                        skin.button(actions, 'Refresh', self.refresh),
                        skin.button(actions, 'Previous', lambda: self.page(-1)),
                        skin.button(actions, 'Next', lambda: self.page(1))): actions.add(button)
@@ -80,9 +83,10 @@ class MemoryItemsEditor:
         self.visible = self.filtered[self.offset:self.offset+self.PAGE]
         self.list.delete(0, 'end')
         for item in self.visible:
-            label = 'Fact' if item['kind'] == 'fact' else 'Summary'
+            label = ('Fact · '+item.get('status', 'durable')+(' · review conflict' if item.get('possible_conflict') else '')) if item['kind'] == 'fact' else 'Summary'
             self.list.insert('end', f"{label} · {item['title']} · {' '.join(item['text'].split())[:160]}")
         self.selected = None
+        self.correction.delete(0,'end')
         self.detail.configure(state='normal'); self.detail.delete('1.0', 'end'); self.detail.configure(state='disabled')
         self.delete_button.configure(state='disabled'); self.fragment_button.configure(state='disabled')
         self.source_button.configure(state='disabled')
@@ -92,6 +96,8 @@ class MemoryItemsEditor:
         selected = self.list.curselection()
         if not selected: return
         self.selected = self.visible[selected[0]]
+        self.correction.delete(0,'end')
+        if self.selected['kind']=='fact':self.correction.insert(0,self.selected['text'])
         self.detail.configure(state='normal'); self.detail.delete('1.0', 'end')
         self.detail.insert('1.0', self.selected['text']); self.detail.configure(state='disabled')
         self.delete_button.configure(state='normal'); self.fragment_button.configure(state='disabled' if self.show_blocked else 'normal')
@@ -115,3 +121,14 @@ class MemoryItemsEditor:
             self.status.set('Selected text removed.' if fragment else 'Selected memory removed.')
         except Exception as exc:
             self.status.set('Not deleted: '+str(exc))
+
+    def correct(self, temporary=False):
+        if self.show_blocked or not self.selected or self.selected['kind'] != 'fact':
+            self.status.set('Select a retained fact first.'); return
+        try:
+            value = self.correction.get()
+            from memory_resolution import correct
+            correct(self.memory, self.selected, value, hours=24 if temporary else None)
+            self.refresh(); self.on_change()
+            self.status.set('Correction saved; temporary for 24 hours.' if temporary else 'Correction saved; previous observations superseded.')
+        except Exception as exc: self.status.set('Not changed: '+str(exc))

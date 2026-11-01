@@ -1,6 +1,7 @@
 """API adapter for Nice's actual chat harness, checkpoints and effect receipts."""
 from collections import deque
 import json
+import time
 from types import SimpleNamespace
 from profile_context import CapturedProfile
 
@@ -44,7 +45,7 @@ def run(api,body,check,event):
         session=read_json(api.state.path('Chats/'+cid+'.json'))
         if session.get('pending_agent_job'):raise RuntimeError('This chat has an unfinished agent turn; inspect saved execution receipts before starting a new conversation')
         # Record the turn before preparation; a crash cannot silently replay it.
-        session['pending_agent_job']=True;session.setdefault('messages',[]).append({'role':'user','content':body['message'],'attachments':[]})
+        session['pending_agent_job']=True;session.setdefault('messages',[]).append({'role':'user','content':body['message'],'attachments':[],'created':time.time()})
         store=APIChatStore(api.state,cid,grant_check);store.save_session(session)
         panel=native.NativeChat.__new__(native.NativeChat);panel.root=api.root;panel.session=session;panel.store=store
         panel.settings={**native.DEFAULT_SETTINGS,'max_output_tokens':body.get('max_tokens',1024),'tool_call_limit':body.get('max_tool_calls',12),
@@ -54,6 +55,7 @@ def run(api,body,check,event):
         panel.tool_runtime=GrantedRuntime(api.root,panel.settings)
         account=getattr(api.runtime,'_account_session',None)
         if account is not None:panel.tool_runtime.bind_account(account)
+        panel.tool_runtime._operation_check=grant_check
         panel._check_login=grant_check
         # API conversations do not silently import memory from unrelated GUI chats.
         panel.memory=SimpleNamespace(context_for=lambda *a,**kw:'');panel._persistent_memory_query=lambda:''

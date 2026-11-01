@@ -7,6 +7,7 @@ from instance_runtime import port as _instance_port, url as _instance_url
 
 import http.client
 import copy
+from memory_resolution import source_time, status as observation_status
 import hashlib
 import json
 import math
@@ -389,12 +390,15 @@ class PersistentMemory:
             for key, record in sorted(self.data.get('facts', {}).items()):
                 if not isinstance(record, dict): continue
                 signature = self._item_signature(record)
+                conflict = bool((self._eligible_observation(record, '') or {}).get('conflict'))
                 for index, observation in enumerate(record.get('observations') or []):
                     if not isinstance(observation, dict): continue
                     source = str(observation.get('session_id') or '')
                     items.append({'kind': 'fact', 'key': key, 'index': index, 'signature': signature,
                                   'text': str(observation.get('value') or ''), 'source': source,
-                                  'title': str(self.data.get('chats', {}).get(source, {}).get('title') or source)})
+                                  'title': str(self.data.get('chats', {}).get(source, {}).get('title') or source),
+                                  'status': observation_status(observation),
+                                  'possible_conflict': conflict})
             for sid, state in sorted(self.data.get('chats', {}).items()):
                 if not isinstance(state, dict) or not str(state.get('capsule') or '').strip(): continue
                 items.append({'kind': 'capsule', 'key': sid, 'index': 0,
@@ -555,7 +559,7 @@ class PersistentMemory:
                     removed_observations += 1
                     changed = True
             kept = list(newest_by_source.values())
-            kept.sort(key=lambda o: float(o.get("updated") or 0))
+            kept.sort(key=lambda o: (o.get("session_id") == "__manual__", float(o.get("source_at") or 0), float(o.get("updated") or 0)))
             kept = kept[-24:]
             if not kept:
                 facts.pop(key, None)
@@ -764,12 +768,13 @@ class PersistentMemory:
         system = (
             "You update a compact private memory index for a local assistant. Return ONLY valid JSON with this schema:\n"
             '{"capsule":"rolling session summary","tags":["tag"],"upserts":['
-            '{"key":"stable.dot.key","value":"durable fact","kind":"profile|preference|project|decision|constraint|workflow|relationship|other","importance":1,"tags":["tag"]}]}\n\n'
+            '{"key":"stable.dot.key","value":"durable fact","kind":"profile|preference|project|decision|constraint|workflow|relationship|other","importance":1,"tags":["tag"],"lifetime":"durable|temporary"}]}\n\n'
             "Rules:\n"
             f"- capsule must remain under about {cap_limit} characters and preserve only durable project state, decisions, preferences, constraints, and unresolved work.\n"
-            "- Upsert only durable facts that could improve a future conversation. Use stable lowercase dot-delimited keys so later chats can update the same concept.\n"
+            "- Upsert only facts that could improve a future conversation; distinguish durable facts from temporary circumstances. Use stable lowercase dot-delimited keys so later chats can update the same concept.\n"
             "- Prefer facts stated by the user. Assistant claims count only when confirmed by the user or grounded in a concrete tool/result.\n"
             "- Do not infer personality, diagnosis, politics, religion, sexuality, or other sensitive traits. Do not store passwords, API keys, tokens, account numbers, secrets, or transient logs.\n"
+            "- Use lifetime temporary only for relevant short-lived circumstances; these expire after 24 hours. Durable preferences must not be inferred from temporary conditions.\n"
             "- Omit greetings, one-off questions, generic knowledge, and verbose reasoning. Never invent information.\n"
             "- importance: 5 = broadly useful and durable; 1 = narrow project detail."
         )
@@ -789,6 +794,7 @@ class PersistentMemory:
         tags = [_slug(str(x), "") for x in (obj.get("tags") or []) if str(x).strip()][:16]
         now = time.time()
         count = 0
+        observed_at = source_time(session, chosen)
         with self.lock:
             # Clear/delete/exclude operations invalidate any worker that began before
             # them. This check is intentionally inside the final commit lock.
@@ -831,8 +837,11 @@ class PersistentMemory:
                 obs.append({
                     "session_id": sid, "value": value, "importance": importance,
                     "tags": itags, "updated": now,
+                    "source_at": observed_at,
+                    "expires_at": observed_at + 24 * 3600 if item.get('lifetime') == 'temporary' else None,
+                    "superseded_at": rec.get('corrected_at') if observed_at <= rec.get('corrected_at', 0) else None,
                 })
-                rec["observations"] = obs[-24:]
+                rec["observations"] = sorted(obs, key=lambda o: (o.get("session_id") == "__manual__", float(o.get("source_at") or 0), float(o.get("updated") or 0)))[-24:]
                 count += 1
             self._compact_locked(max_fact_keys=2048)
             self.save()
@@ -888,16 +897,8 @@ class PersistentMemory:
         return out
 
     def _eligible_observation(self, rec: dict, current_sid: str) -> dict | None:
-        eligible = []
-        for obs in rec.get("observations") or []:
-            sid = str(obs.get("session_id") or "")
-            if sid == current_sid:
-                continue
-            if sid == "__manual__" or self.chat_included(sid):
-                eligible.append(obs)
-        if not eligible:
-            return None
-        return max(eligible, key=lambda o: float(o.get("updated") or 0))
+        from memory_resolution import eligible
+        return eligible(self, rec, current_sid)
 
     def context_for(self, current_sid: str, query: str, *, current_title: str = "") -> str:
         self.profile.check()
@@ -938,7 +939,7 @@ class PersistentMemory:
             overlap = len(qterms & terms)
             importance = int(obs.get("importance") or 2)
             kind = str(rec.get("kind") or "other")
-            age_days = max(0.0, (now - float(obs.get("updated") or now)) / 86400.0)
+            age_days = max(0.0, (now - float(obs.get("source_at") or 0)) / 86400.0)
             recency = max(0.0, 2.0 - math.log2(1.0 + age_days / 14.0))
             global_bonus = 3.0 if kind in {"profile", "preference", "constraint", "relationship"} and importance >= 4 else 0.0
             durable_bonus = 1.8 if kind in {"profile","preference","project","decision","constraint","workflow","relationship"} else 0.0
@@ -984,7 +985,7 @@ class PersistentMemory:
             "Persistent memory from prior chats selected for relevance:"
         ]
         if fact_rows:
-            lines.append("Facts:")
+            lines.append("Facts (explicit corrections override older capsules; expired/superseded facts must not be revived from summaries):")
             for _score, key, rec, obs in fact_rows:
                 lines.append(f"- [{rec.get('kind') or 'memory'}] {key}: {obs.get('value')}")
         if capsule_rows:

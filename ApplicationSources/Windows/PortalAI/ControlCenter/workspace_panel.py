@@ -34,7 +34,7 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         self.skin.label(self.content,'Your documents, approved connections and reusable tasks stay with your signed-in account.').pack(fill='x',pady=5)
         from ui_extensions import ResponsiveFlow
         nav=ResponsiveFlow(self.content,bg=self.skin.colors['panel'],hgap=4,vgap=4);nav.pack(fill='x');self.pages={}
-        for title in ('Projects','Skills','Knowledge','Connections','Workflows','Computer','Structured','API','Artifacts','Compare'):
+        for title in ('Projects','Skills','Knowledge','Connections','Workflows','Computer','Structured','API','Artifacts','Compare','Code','Calibration'):
             nav.add(self.skin.button(nav,title,lambda t=title:self.page(t)))
             self.pages[title]=self.skin.frame(self.content)
         self.status=self.skin.label(self.content,'Ready');self.status.pack(fill='x',pady=5)
@@ -90,6 +90,13 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         except Exception as exc:self.show(str(exc))
 
     def page(self,name):
+        if name in ('Code','Calibration') and not self.pages[name].winfo_children():
+            if name=='Code':
+                from code_projects_ui import code_page
+                code_page(self)
+            else:
+                from model_calibration import calibration_page
+                calibration_page(self)
         for frame in self.pages.values():frame.pack_forget()
         self.pages[name].pack(fill='x',before=self.status,pady=6)
 
@@ -161,7 +168,7 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         def search():
             query=self.query.get();chosen=self.collections.selection();cid=chosen[0] if len(chosen)==1 else None
             self.job(lambda:self.kb.search(query,cid))
-        self.buttons(p,[('Choose folder',browse),('Add collection',add),('Refresh',refresh),('Sync selected',sync),('Search',search)])
+        self.buttons(p,[('Choose folder',browse),('Add collection',add),('Refresh',refresh),('Sync selected',sync),('Rebuild document structure',lambda:self.rebuild_knowledge()),('Search',search)])
         def automatic(seconds):
             row=self.kb.refresh_policy(self.selected(self.collections),seconds)
             self.refresh_due[row['id']]=time.monotonic()+seconds
@@ -174,6 +181,12 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         self.buttons(p,[('Auto refresh off',lambda:automatic(0)),('Every 5 minutes',lambda:automatic(300)),
                         ('Every 15 minutes',lambda:automatic(900)),('Every hour',lambda:automatic(3600)),('Monitor status',monitor_status)])
         self.invoke(refresh)
+
+    def rebuild_knowledge(self):
+        from tkinter import messagebox
+        cid=self.selected(self.collections)
+        if not messagebox.askyesno('Rebuild document structure','Re-extract and embed this collection with heading/table boundaries? This uses CPU while running. Previous citation IDs become stale; saved source files remain.',parent=self):return
+        self.job(lambda:self.kb.sync(cid,rebuild=True))
 
     def refresh_knowledge_if_idle(self):
         if self.closed:return

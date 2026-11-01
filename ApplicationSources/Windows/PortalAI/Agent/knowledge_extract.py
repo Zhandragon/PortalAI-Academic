@@ -17,7 +17,25 @@ def _office(path):
             if b'<!DOCTYPE' in data or b'<!ENTITY' in data:raise ValueError('XML entities are not supported')
             return ET.fromstring(data)
         def texts(node):return '\n'.join(e.text for e in node.iter() if e.tag.rsplit('}',1)[-1]=='t' and e.text)
-        if path.suffix.lower()=='.docx':return [('document',texts(xml('word/document.xml')))]
+        if path.suffix.lower()=='.docx':
+            ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+            body=xml('word/document.xml').find('w:body',ns);lines=[]
+            def paragraph(node):return ''.join(e.text or '' for e in node.iter() if e.tag.rsplit('}',1)[-1]=='t')
+            for node in body:
+                tag=node.tag.rsplit('}',1)[-1]
+                if tag=='p':
+                    value=paragraph(node);style=node.find('w:pPr/w:pStyle',ns)
+                    label=style.get('{'+ns['w']+'}val','') if style is not None else ''
+                    import re
+                    level=re.fullmatch(r'Heading([1-6])',label,re.I)
+                    lines.append(('#'*int(level[1])+' ' if level else '')+value+'\n')
+                elif tag=='tbl':
+                    for index,row in enumerate(node.findall('w:tr',ns)):
+                        cells=[' / '.join(paragraph(p) for p in cell.findall('w:p',ns)) for cell in row.findall('w:tc',ns)]
+                        lines.append('| '+' | '.join(cells)+' |\n')
+                        if index==0:lines.append('| '+' | '.join('---' for _ in cells)+' |\n')
+                    lines.append('\n')
+            return [('document',''.join(lines))]
         if path.suffix.lower()=='.pptx':
             import re,posixpath
             names=sorted((n for n in z.namelist() if re.fullmatch('ppt/slides/slide[0-9]+.xml',n)),key=lambda n:int(re.search(r'slide(\d+)',n).group(1)))
@@ -64,7 +82,18 @@ def extract(root, path, check=lambda:None, ocr=True):
                 def handle_data(self,data):
                     if not self.skip:self.parts.append(data)
             parser=Text();parser.feed(text);text='\n'.join(parser.parts)
-        pages=[('text',text)]
+        if ext in ('.csv','.tsv'):
+            import csv,io
+            reader=csv.reader(io.StringIO(text),delimiter='\t' if ext=='.tsv' else ',')
+            header=next(reader,[]);rows=[];size=0
+            for index,values in enumerate(reader,2):
+                check()
+                value='row '+str(index)+': '+' | '.join((header[i] if i<len(header) else 'column '+str(i+1))+': '+cell for i,cell in enumerate(values))
+                size+=len(value.encode('utf-8'))
+                if size>MAX_TEXT:raise ValueError('Labeled table exceeds 8 MiB; import a narrower extract')
+                rows.append(value)
+            pages=[('table (first row used as column labels)','Columns: '+' | '.join(header)+'\n'+'\n'.join(rows))]
+        else:pages=[('text',text)]
     elif ext in ('.docx','.xlsx','.pptx'):pages=_office(path)
     else:
         from knowledge_embeddings import packages
@@ -112,10 +141,5 @@ def extract(root, path, check=lambda:None, ocr=True):
 
 
 def chunks(pages):
-    for location,text in pages:
-        # Small overlaps retain sentence boundaries without silently losing a
-        # document tail. Every chunk is retrievable with its source location.
-        text=text.replace('\x00','')
-        for start in range(0,len(text),800):
-            part=text[start:start+1000].strip()
-            if part:yield location,start,part
+    from retrieval_quality import chunks as structured_chunks
+    yield from structured_chunks(pages)

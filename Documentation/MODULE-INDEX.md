@@ -39,6 +39,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/chat_priority.py](../ApplicationSources/Windows/PortalAI/Agent/chat_priority.py) | Per-profile foreground chat priority, with OS-owned crash-released leases. |
 | [Agent/chat_selection.py](../ApplicationSources/Windows/PortalAI/Agent/chat_selection.py) | Shared size/variant mapping for the chat slider and model Settings. |
 | [Agent/chat_vision_policy.py](../ApplicationSources/Windows/PortalAI/Agent/chat_vision_policy.py) | Image-only companion selection; never persist a temporary model choice. |
+| [Agent/code_projects.py](../ApplicationSources/Windows/PortalAI/Agent/code_projects.py) | Bounded external project navigation, reviewed checks, and conflict-aware undo. |
 | [Agent/comfy_amd_entry.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_amd_entry.py) | Run existing ComfyUI code with the isolated portable ROCm package layer. |
 | [Agent/comfy_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/comfy_errors.py](../ApplicationSources/Windows/PortalAI/Agent/comfy_errors.py) | Bounded ComfyUI failure evidence; no recovery actions or hardware guesses. |
@@ -136,6 +137,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/radeon_edit_entry.py](../ApplicationSources/Windows/PortalAI/Agent/radeon_edit_entry.py) | Offline InstructPix2Pix on ROCm; masked edits preserve unselected source pixels. |
 | [Agent/record_dates.py](../ApplicationSources/Windows/PortalAI/Agent/record_dates.py) | Presentation dates, separate from execution checkpoints and deletion proofs. |
 | [Agent/remote_lifecycle.py](../ApplicationSources/Windows/PortalAI/Agent/remote_lifecycle.py) | Public, key-free lifecycle fences for the optional Home Assistant bridge. |
+| [Agent/retrieval_quality.py](../ApplicationSources/Windows/PortalAI/Agent/retrieval_quality.py) | Structure-aware bounded chunks and transparent retrieval heuristics. |
 | [Agent/rich_artifacts.py](../ApplicationSources/Windows/PortalAI/Agent/rich_artifacts.py) | Pinned offline Markdown, Mermaid and React renderers, loaded only on preview. |
 | [Agent/runtime_policy.py](../ApplicationSources/Windows/PortalAI/Agent/runtime_policy.py) | Portable hardware/model selection. Standard library only; no host installs. |
 | [Agent/schedule_catalog.py](../ApplicationSources/Windows/PortalAI/Agent/schedule_catalog.py) | Read-only schedule presentation filters; never an execution policy. |
@@ -155,6 +157,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/tool_contracts.py](../ApplicationSources/Windows/PortalAI/Agent/tool_contracts.py) | Small current execution contracts, independent of catalog and private state. |
 | [Agent/tts_policy.py](../ApplicationSources/Windows/PortalAI/Agent/tts_policy.py) | Speech admission for isolated CUDA/ROCm runtimes and basic CPU speech. |
 | [Agent/vace_reference.py](../ApplicationSources/Windows/PortalAI/Agent/vace_reference.py) | Bounded VACE reference-conditioned generation; caller holds the GPU lease. |
+| [Agent/verification_worker.py](../ApplicationSources/Windows/PortalAI/Agent/verification_worker.py) | Gated child for explicitly approved project test commands; no shell parsing. |
 | [Agent/video_range_edit_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/video_range_edit_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/video_understanding_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/video_understanding_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/vm_runner.py](../ApplicationSources/Windows/PortalAI/Agent/vm_runner.py) | Hardware-backed, offline guest command transport. Never falls back to a host shell. |
@@ -217,7 +220,9 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/chat_voice.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py) | Turn-bound microphone transcription and cancellable, offline spoken replies. |
 | [ControlCenter/chat_working_memory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_working_memory.py) | Rolling, source-linked working memory; raw messages remain the authority. |
 | [ControlCenter/chat_zoom.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_zoom.py) | Conversation-only zoom; no history rebuild, disk images or player restart. |
+| [ControlCenter/code_projects_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/code_projects_ui.py) | Explicit project registration, command grants, diffs and guarded undo. |
 | [ControlCenter/coding_stall.py](../ApplicationSources/Windows/PortalAI/ControlCenter/coding_stall.py) | Request-scoped, bounded recovery from inspection-only coding loops. |
+| [ControlCenter/command_palette.py](../ApplicationSources/Windows/PortalAI/ControlCenter/command_palette.py) | Account-scoped Ctrl+K menu with one cancellable worker and bounded metadata. |
 | [ControlCenter/comparison_workers.py](../ApplicationSources/Windows/PortalAI/ControlCenter/comparison_workers.py) | On-demand, tool-free comparisons with owned ports and aggregate admission. |
 | [ControlCenter/confirmation_dialog.py](../ApplicationSources/Windows/PortalAI/ControlCenter/confirmation_dialog.py) | Explicit yes/no choices inside PortalAI's existing themed modal surface. |
 | [ControlCenter/control_center_bootstrap.py](../ApplicationSources/Windows/PortalAI/ControlCenter/control_center_bootstrap.py) | No module overview; see source and symbol inventory. |
@@ -247,11 +252,13 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/media_devices.py](../ApplicationSources/Windows/PortalAI/ControlCenter/media_devices.py) | Portable desktop media I/O; capture endpoints are checked when opened. |
 | [ControlCenter/media_tool_api.py](../ApplicationSources/Windows/PortalAI/ControlCenter/media_tool_api.py) | Small structured media interface over the existing registered CLI workers. |
 | [ControlCenter/memory_items_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/memory_items_ui.py) | Selectable retained memory observations and exact-fragment deletion. |
+| [ControlCenter/memory_resolution.py](../ApplicationSources/Windows/PortalAI/ControlCenter/memory_resolution.py) | Explicit corrections and conservative same-key conflict handling; no extra model. |
 | [ControlCenter/mission_monitor.py](../ApplicationSources/Windows/PortalAI/ControlCenter/mission_monitor.py) | Read-only mission progress and results, shared by missions and schedules. |
 | [ControlCenter/mission_review_issue.py](../ApplicationSources/Windows/PortalAI/ControlCenter/mission_review_issue.py) | Short, evidence-based review explanations. No model calls or state changes. |
 | [ControlCenter/mission_settings.py](../ApplicationSources/Windows/PortalAI/ControlCenter/mission_settings.py) | Persistent mission controls, using the existing Control Center palette. |
 | [ControlCenter/modal_backdrop.py](../ApplicationSources/Windows/PortalAI/ControlCenter/modal_backdrop.py) | Owned-window visual snapshots, held only in memory for modal presentation. |
 | [ControlCenter/modal_guard.py](../ApplicationSources/Windows/PortalAI/ControlCenter/modal_guard.py) | Tk-only modal input shield; window chrome remains usable. |
+| [ControlCenter/model_calibration.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_calibration.py) | Opt-in, small deterministic capability probes. Never executes generated code. |
 | [ControlCenter/model_comparison.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_comparison.py) | Explicit text-only comparisons; ordinary chat never starts extra models. |
 | [ControlCenter/model_connection.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_connection.py) | Cancellable readiness checks; never starts a server or repeats a tool action. |
 | [ControlCenter/model_settings.py](../ApplicationSources/Windows/PortalAI/ControlCenter/model_settings.py) | Compatibility dialog; the main GUI now exposes a Settings page. |
@@ -291,6 +298,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/release_version.py](../ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py) | Verified Windows PortalAI distribution version. |
 | [ControlCenter/remote_desktop_input.py](../ApplicationSources/Windows/PortalAI/ControlCenter/remote_desktop_input.py) | Optional pre-login UI input adapter; no profile keys or private consumers. |
 | [ControlCenter/remote_desktop_layout.py](../ApplicationSources/Windows/PortalAI/ControlCenter/remote_desktop_layout.py) | Use the existing compact chat controller for a portrait phone viewer. |
+| [ControlCenter/result_verification.py](../ApplicationSources/Windows/PortalAI/ControlCenter/result_verification.py) | Bounded, independent acceptance checks. No model-generated code is executed. |
 | [ControlCenter/reviewed_account_setup.py](../ApplicationSources/Windows/PortalAI/ControlCenter/reviewed_account_setup.py) | One-time account setup for an explicitly reviewed, registry-free copy. |
 | [ControlCenter/rounded_controls.py](../ApplicationSources/Windows/PortalAI/ControlCenter/rounded_controls.py) | Rounded native ttk fields; selection, editing and keyboard behavior stay native. |
 | [ControlCenter/rounded_text.py](../ApplicationSources/Windows/PortalAI/ControlCenter/rounded_text.py) | Rounded text containers with ordinary Tk editing and geometry interfaces. |
@@ -454,6 +462,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_audio_inpaint_scaled.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_audio_inpaint_scaled.py) | No model loads: actual masked flow, source PCM preservation and route contracts. |
 | [Maintenance/Tests/test_biology.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_biology.py) | Scientific invariants and profile/Stop boundaries; synthetic data only. |
 | [Maintenance/Tests/test_bounded_comfy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_bounded_comfy.py) | Bounded ComfyUI startup/lifetime tests without importing a model or starting a server. |
+| [Maintenance/Tests/test_capability_intelligence.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_capability_intelligence.py) | Regression source for the implementation-only patch; not run during gaming. |
 | [Maintenance/Tests/test_capability_presence.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_capability_presence.py) | Installed means the current platform's payload exists, not just a dispatcher. |
 | [Maintenance/Tests/test_chat_compact_discovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_compact_discovery.py) | Compact help remains usable without prerequisite retrieval or action replay. |
 | [Maintenance/Tests/test_chat_compaction_retry.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_compaction_retry.py) | A rejected unchanged history prefix must not consume every next tool cycle. |

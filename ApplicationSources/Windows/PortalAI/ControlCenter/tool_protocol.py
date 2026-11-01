@@ -30,6 +30,8 @@ def read_only_tool_attempt(name, args, root) -> bool:
         return True
     if name == 'available_tools':
         return True
+    if name=='project':return args.get('action') in {'list','scan','search','edits','diff'}
+    if name=='verify':return args.get('action')=='read' or (args.get('action')=='run' and isinstance(args.get('checks'),list) and all(isinstance(c,dict) and c.get('kind')!='test' for c in args['checks']))
     if name=='task':return args.get('action')=='read'
     if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill'):
         action=args.get('action')

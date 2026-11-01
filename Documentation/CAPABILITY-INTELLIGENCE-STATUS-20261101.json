@@ -1,0 +1,167 @@
+{
+  "patch": "2026-11-01-capability-implementation-only",
+  "base_release": "2026.10.31-Desktop-r59",
+  "features": 6,
+  "validation": {
+    "static_syntax": "passed",
+    "changed_python_files_per_edition": 22,
+    "runtime_tests_run": false,
+    "benchmarks_run": false,
+    "gui_launched": false,
+    "reason": "User explicitly requested implementation only while playing Apex",
+    "installer_release_updated": false
+  },
+  "drives": {
+    "D": {
+      "edition": "Full",
+      "independent_installation": true,
+      "file_hashes_verified": 26,
+      "added_application_bytes": 109126,
+      "free_bytes": 188245975040,
+      "free_gib": 175.32,
+      "minimum_free_gib": 80
+    },
+    "E": {
+      "edition": "Full",
+      "independent_installation": true,
+      "file_hashes_verified": 26,
+      "added_application_bytes": 109126,
+      "free_bytes": 203201986560,
+      "free_gib": 189.25,
+      "minimum_free_gib": 80
+    }
+  },
+  "files": [
+    {
+      "path": "Agent/application_api.py",
+      "sha256": "70eae17f0d6a18f320d13652b49b007ae214879c9627fdf2f9837a784e377d6a",
+      "bytes": 13831
+    },
+    {
+      "path": "Agent/code_projects.py",
+      "sha256": "077eed44ab064929e3ff59f1b2f19ee21654805779d31fa106d11cec9bb093dd",
+      "bytes": 20474
+    },
+    {
+      "path": "Agent/knowledge_base.py",
+      "sha256": "01f000fcdef4c51337818657deb88cc2d73319653e027a3a0e56dcd1b156cc04",
+      "bytes": 15956
+    },
+    {
+      "path": "Agent/knowledge_extract.py",
+      "sha256": "fb01d6090462c8b00d081032fa821d6510c6b1c0e3e3f567de9b44bf260039eb",
+      "bytes": 8204
+    },
+    {
+      "path": "Agent/retrieval_quality.py",
+      "sha256": "4ec82d5b58eb424649cefcad9c78140322afa3dc959bc87e0b48d6124e350c86",
+      "bytes": 3133
+    },
+    {
+      "path": "Agent/verification_worker.py",
+      "sha256": "16ff1cc8f3a4b423d4fe726755e79f02d0c326ae9294b824441b436a3d547fc8",
+      "bytes": 745
+    },
+    {
+      "path": "ControlCenter/capability_tools.py",
+      "sha256": "a21b52e0ac08bb9c888fae4b6e0f956520dba48de670039c069cf7ee58927369",
+      "bytes": 19349
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "sha256": "8b36b97256a64a3779b379bb59842b706931097addd53d1fb1bd660e97e1cd7e",
+      "bytes": 16903
+    },
+    {
+      "path": "ControlCenter/code_projects_ui.py",
+      "sha256": "2558e8c27ae8e6ffd8a60acec652637b774e3695faad7395fe438a2595bbae8b",
+      "bytes": 6041
+    },
+    {
+      "path": "ControlCenter/command_palette.py",
+      "sha256": "964752ac8b38f02a8a5e0744b86b4fe404a05699e11360330a4ef5bba276e5af",
+      "bytes": 12884
+    },
+    {
+      "path": "ControlCenter/headless_chat.py",
+      "sha256": "ca04be0938972f70e1a31c9d9825ab76f5869074324d031f8b57d2dd7f04835f",
+      "bytes": 5186
+    },
+    {
+      "path": "ControlCenter/memory_items_ui.py",
+      "sha256": "6186b54ae80e1a65972114adacd375eb2cd3300b997f9b019d7907aace24ffc9",
+      "bytes": 8373
+    },
+    {
+      "path": "ControlCenter/memory_resolution.py",
+      "sha256": "d68b190526a12e2e83333011e729af592ceacf3336d91cf421e91ce8bd71b592",
+      "bytes": 4225
+    },
+    {
+      "path": "ControlCenter/model_calibration.py",
+      "sha256": "31a9bb55708091f5809001349acd6d4d463d1241c622e64035a6b0f2f27c1bce",
+      "bytes": 12332
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "sha256": "2ae111e154d823c58c03a097f2f9cae41cac957aa7be6b04b6c6256e483003e4",
+      "bytes": 388960
+    },
+    {
+      "path": "ControlCenter/persistent_memory.py",
+      "sha256": "f2396561d572d60de1cb62a12fac63ffccf05c7f8b088b71587e4a473dffb2ee",
+      "bytes": 47098
+    },
+    {
+      "path": "ControlCenter/result_verification.py",
+      "sha256": "3b2c23e0d67e78c3b00514eaa449159e18437d86adbc7ba2bc41c8d2ab1dc728",
+      "bytes": 11565
+    },
+    {
+      "path": "ControlCenter/task_notebook.py",
+      "sha256": "100a3f9847ad9e4ff450363df908da6069e4ebf1e4934da95e11b18fbd87c031",
+      "bytes": 6470
+    },
+    {
+      "path": "ControlCenter/tool_protocol.py",
+      "sha256": "d6edc64afe2d0fe9c268b0955eac089234804eeb8a7bc47b14e0141541b6cbce",
+      "bytes": 9092
+    },
+    {
+      "path": "ControlCenter/workspace_panel.py",
+      "sha256": "5f02280a017d8b4028b0b9437b5ba4eb5590d22c3ed25cf8683868ffded6915f",
+      "bytes": 18904
+    },
+    {
+      "path": "Documentation/Capability_Intelligence_20261101.txt",
+      "sha256": "d16052bfa3bb4bdd92cefa343178c48f57794b690fbaa065e5c06efa90fb5367",
+      "bytes": 12843
+    },
+    {
+      "path": "Maintenance/Imports/distribution-version.json",
+      "sha256": "cb3bc6db08dda2b9bddee97e65b29eafd45122e20651aa995fe3d6e519b0d11c",
+      "bytes": 289
+    },
+    {
+      "path": "Maintenance/Tests/test_capability_intelligence.py",
+      "sha256": "f4346129af2d9c28984f45004d4edd6ab058bed5dee37528265bf610c5b81eba",
+      "bytes": 10978
+    },
+    {
+      "path": "Maintenance/Tests/test_portable_intelligence.py",
+      "sha256": "a4e4bdc7f516a18311dcff1e9924fab4798bbbe1388adde2dee695fc2cd92628",
+      "bytes": 18369
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "sha256": "2c10eeeef3556674f6eaa5953304eee15384c5354470395e0304b4dfea43c2e7",
+      "bytes": 99
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "bytes": 4852
+    }
+  ],
+  "edition": "Academic"
+}

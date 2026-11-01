@@ -1,5 +1,7 @@
 {
-  "version": "2026.10.29-Desktop-r51",
+  "version": "2026.10.31-Desktop-r59",
   "edition": "Academic",
-  "platform": "Windows"
+  "platform": "Windows",
+  "previous_receipt_version": "2026.10.29-Desktop-r51",
+  "reconciliation": "2026-11-01: aligned with r59 release stamp and saved deployment evidence; later source patches are not runtime-tested"
 }

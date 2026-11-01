@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 929
+    "Windows": 938
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -45565,7 +45565,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/application_api.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "66d869f01764ab15ee71b672552b3e898017ab3c3d46443c991f484bcf673084",
+      "sha256": "70eae17f0d6a18f320d13652b49b007ae214879c9627fdf2f9837a784e377d6a",
       "lines": 199,
       "overview": "Versioned loopback HTTP boundary, scoped bearer grants and write receipts.",
       "symbols": [
@@ -46017,6 +46017,56 @@
         {
           "name": "select",
           "line": 36,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/code_projects.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "077eed44ab064929e3ff59f1b2f19ee21654805779d31fa106d11cec9bb093dd",
+      "lines": 308,
+      "overview": "Bounded external project navigation, reviewed checks, and conflict-aware undo.",
+      "symbols": [
+        {
+          "name": "sha",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "bounded",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "within",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "describe",
+          "line": 33,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "CodeProjects",
+          "line": 55,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Edits",
+          "line": 211,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "atomic_write",
+          "line": 281,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "write_tracked",
+          "line": 292,
           "kind": "FunctionDef"
         }
       ]
@@ -46545,8 +46595,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_base.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "850d595aaf276717efe8604664e9fc194217d302e5fb948d74d544bcdbd9cc4f",
-      "lines": 218,
+      "sha256": "01f000fcdef4c51337818657deb88cc2d73319653e027a3a0e56dcd1b156cc04",
+      "lines": 242,
       "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
       "symbols": [
         {
@@ -46580,8 +46630,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_extract.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "6e7cea5361af2fdaf761e6b98738bd72d57b828b764958a62505173787519511",
-      "lines": 121,
+      "sha256": "fb01d6090462c8b00d081032fa821d6510c6b1c0e3e3f567de9b44bf260039eb",
+      "lines": 145,
       "overview": "Bounded local extraction with page/slide/sheet locations and optional scan OCR.",
       "symbols": [
         {
@@ -46591,12 +46641,12 @@
         },
         {
           "name": "extract",
-          "line": 49,
+          "line": 67,
           "kind": "FunctionDef"
         },
         {
           "name": "chunks",
-          "line": 114,
+          "line": 143,
           "kind": "FunctionDef"
         }
       ]
@@ -49525,6 +49575,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/retrieval_quality.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "4ec82d5b58eb424649cefcad9c78140322afa3dc959bc87e0b48d6124e350c86",
+      "lines": 54,
+      "overview": "Structure-aware bounded chunks and transparent retrieval heuristics.",
+      "symbols": [
+        {
+          "name": "chunks",
+          "line": 5,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "diverse",
+          "line": 41,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/rich_artifacts.py",
       "platform": "Windows",
       "component": "Agent",
@@ -50727,6 +50797,15 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/verification_worker.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "16ff1cc8f3a4b423d4fe726755e79f02d0c326ae9294b824441b436a3d547fc8",
+      "lines": 15,
+      "overview": "Gated child for explicitly approved project test commands; no shell parsing.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Agent/video_range_edit_bridge.py",
@@ -52414,8 +52493,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "b872d02b429244989163315a36b66f164022fe4788fdc5a2aa6ba35f0ddac971",
-      "lines": 192,
+      "sha256": "a21b52e0ac08bb9c888fae4b6e0f956520dba48de670039c069cf7ee58927369",
+      "lines": 223,
       "overview": "Chat adapters for account-scoped workspace features; management stays in the UI.",
       "symbols": [
         {
@@ -52425,27 +52504,27 @@
         },
         {
           "name": "prompt",
-          "line": 20,
+          "line": 22,
           "kind": "FunctionDef"
         },
         {
           "name": "workflow_store",
-          "line": 62,
+          "line": 64,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 79,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "tool",
-          "line": 152,
+          "line": 179,
           "kind": "FunctionDef"
         },
         {
           "name": "computer_context",
-          "line": 174,
+          "line": 205,
           "kind": "FunctionDef"
         }
       ]
@@ -52714,48 +52793,48 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "71fde7d2dd5a15e8c9a0d7f3ffaead733c571d6f24da7bf85cb56bc456e24918",
-      "lines": 210,
+      "sha256": "8b36b97256a64a3779b379bb59842b706931097addd53d1fb1bd660e97e1cd7e",
+      "lines": 217,
       "overview": "Request-local capability discovery and on-demand tool/workflow guidance.",
       "symbols": [
         {
           "name": "compact_menu",
-          "line": 37,
+          "line": 39,
           "kind": "FunctionDef"
         },
         {
           "name": "Selection",
-          "line": 56,
+          "line": 58,
           "kind": "ClassDef"
         },
         {
           "name": "enabled",
-          "line": 72,
+          "line": 74,
           "kind": "FunctionDef"
         },
         {
           "name": "discovery",
-          "line": 76,
+          "line": 78,
           "kind": "FunctionDef"
         },
         {
           "name": "selected_names",
-          "line": 84,
+          "line": 86,
           "kind": "FunctionDef"
         },
         {
           "name": "request_menu",
-          "line": 93,
+          "line": 95,
           "kind": "FunctionDef"
         },
         {
           "name": "guidance",
-          "line": 105,
+          "line": 107,
           "kind": "FunctionDef"
         },
         {
           "name": "load",
-          "line": 180,
+          "line": 187,
           "kind": "FunctionDef"
         }
       ]
@@ -52916,6 +52995,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/code_projects_ui.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "2558e8c27ae8e6ffd8a60acec652637b774e3695faad7395fe438a2595bbae8b",
+      "lines": 78,
+      "overview": "Explicit project registration, command grants, diffs and guarded undo.",
+      "symbols": [
+        {
+          "name": "code_page",
+          "line": 8,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/coding_stall.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -52937,6 +53031,36 @@
           "name": "CodingStall",
           "line": 39,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/command_palette.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "964752ac8b38f02a8a5e0744b86b4fe404a05699e11360330a4ef5bba276e5af",
+      "lines": 228,
+      "overview": "Account-scoped Ctrl+K menu with one cancellable worker and bounded metadata.",
+      "symbols": [
+        {
+          "name": "install",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "close",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Palette",
+          "line": 47,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "notify",
+          "line": 206,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -53329,23 +53453,23 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/headless_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "552ae97adb8374d00d83d64753299878be33f5f716c4ce564475124d53f54792",
-      "lines": 75,
+      "sha256": "ca04be0938972f70e1a31c9d9825ab76f5869074324d031f8b57d2dd7f04835f",
+      "lines": 77,
       "overview": "API adapter for Nice's actual chat harness, checkpoints and effect receipts.",
       "symbols": [
         {
           "name": "EventSink",
-          "line": 8,
+          "line": 9,
           "kind": "ClassDef"
         },
         {
           "name": "APIChatStore",
-          "line": 16,
+          "line": 17,
           "kind": "ClassDef"
         },
         {
           "name": "run",
-          "line": 27,
+          "line": 28,
           "kind": "FunctionDef"
         }
       ]
@@ -53773,14 +53897,49 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/memory_items_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "5df05c8973d6fad5e9bfa9b153037513e3b3bf0a5e19004e3a792b2ba7b0ab4a",
-      "lines": 117,
+      "sha256": "6186b54ae80e1a65972114adacd375eb2cd3300b997f9b019d7907aace24ffc9",
+      "lines": 134,
       "overview": "Selectable retained memory observations and exact-fragment deletion.",
       "symbols": [
         {
           "name": "MemoryItemsEditor",
           "line": 5,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/memory_resolution.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "d68b190526a12e2e83333011e729af592ceacf3336d91cf421e91ce8bd71b592",
+      "lines": 72,
+      "overview": "Explicit corrections and conservative same-key conflict handling; no extra model.",
+      "symbols": [
+        {
+          "name": "timestamp",
+          "line": 7,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "source_time",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "eligible",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "status",
+          "line": 40,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "correct",
+          "line": 47,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -53940,6 +54099,36 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/model_calibration.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "31a9bb55708091f5809001349acd6d4d463d1241c622e64035a6b0f2f27c1bce",
+      "lines": 155,
+      "overview": "Opt-in, small deterministic capability probes. Never executes generated code.",
+      "symbols": [
+        {
+          "name": "model_identity",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "machine_identity",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Calibration",
+          "line": 34,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "calibration_page",
+          "line": 116,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/model_comparison.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -53998,8 +54187,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3e71d6363d79cb5c28a9e68e59f90a93636e8fb19f18caee54b03e5ba8872fd9",
-      "lines": 7002,
+      "sha256": "2ae111e154d823c58c03a097f2f9cae41cac957aa7be6b04b6c6256e483003e4",
+      "lines": 7020,
       "overview": "",
       "symbols": [
         {
@@ -54129,32 +54318,32 @@
         },
         {
           "name": "_request_scope",
-          "line": 1408,
+          "line": 1406,
           "kind": "FunctionDef"
         },
         {
           "name": "_scoped_tools",
-          "line": 1415,
+          "line": 1413,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1436,
+          "line": 1434,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1441,
+          "line": 1439,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1586,
+          "line": 1584,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6990,
+          "line": 7008,
           "kind": "FunctionDef"
         }
       ]
@@ -54803,38 +54992,38 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/persistent_memory.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "cc1a51628929adb4a3ff91f5b34d294e6c91a6a6e22b6a3eeb3eb726f76f69e6",
-      "lines": 999,
+      "sha256": "f2396561d572d60de1cb62a12fac63ffccf05c7f8b088b71587e4a473dffb2ee",
+      "lines": 1000,
       "overview": "",
       "symbols": [
         {
           "name": "_load_json",
-          "line": 43,
+          "line": 44,
           "kind": "FunctionDef"
         },
         {
           "name": "_write_json",
-          "line": 51,
+          "line": 52,
           "kind": "FunctionDef"
         },
         {
           "name": "_tokens",
-          "line": 58,
+          "line": 59,
           "kind": "FunctionDef"
         },
         {
           "name": "_slug",
-          "line": 63,
+          "line": 64,
           "kind": "FunctionDef"
         },
         {
           "name": "_clip",
-          "line": 69,
+          "line": 70,
           "kind": "FunctionDef"
         },
         {
           "name": "PersistentMemory",
-          "line": 74,
+          "line": 75,
           "kind": "ClassDef"
         }
       ]
@@ -55804,6 +55993,46 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/result_verification.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "3b2c23e0d67e78c3b00514eaa449159e18437d86adbc7ba2bc41c8d2ab1dc728",
+      "lines": 199,
+      "overview": "Bounded, independent acceptance checks. No model-generated code is executed.",
+      "symbols": [
+        {
+          "name": "file_bytes",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "inspect_bytes",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Verifications",
+          "line": 39,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "begin_request",
+          "line": 114,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "after_write",
+          "line": 139,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "completion_audit",
+          "line": 157,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/reviewed_account_setup.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -56187,8 +56416,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/task_notebook.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a450809ab1acac56585e9f63fbc1744d1fa60346156868f25665fb6f5be3a4cf",
-      "lines": 75,
+      "sha256": "100a3f9847ad9e4ff450363df908da6069e4ebf1e4934da95e11b18fbd87c031",
+      "lines": 80,
       "overview": "Small, evidence-linked task plans saved inside the existing chat checkpoint.",
       "symbols": [
         {
@@ -56208,7 +56437,7 @@
         },
         {
           "name": "guidance",
-          "line": 66,
+          "line": 71,
           "kind": "FunctionDef"
         }
       ]
@@ -56272,8 +56501,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/tool_protocol.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "c27bf3eccda5343b4479465454aecf644a28a699ab3a95f8e8398690a4b09690",
-      "lines": 187,
+      "sha256": "d6edc64afe2d0fe9c268b0955eac089234804eeb8a7bc47b14e0141541b6cbce",
+      "lines": 189,
       "overview": "Recognize failed tool serialization without interpreting it as an action.",
       "symbols": [
         {
@@ -56283,32 +56512,32 @@
         },
         {
           "name": "_strict_json",
-          "line": 67,
+          "line": 69,
           "kind": "FunctionDef"
         },
         {
           "name": "_function",
-          "line": 82,
+          "line": 84,
           "kind": "FunctionDef"
         },
         {
           "name": "_api_call",
-          "line": 96,
+          "line": 98,
           "kind": "FunctionDef"
         },
         {
           "name": "requests_protocol_example",
-          "line": 103,
+          "line": 105,
           "kind": "FunctionDef"
         },
         {
           "name": "classify_text_tool_call",
-          "line": 118,
+          "line": 120,
           "kind": "FunctionDef"
         },
         {
           "name": "correction_message",
-          "line": 175,
+          "line": 177,
           "kind": "FunctionDef"
         }
       ]
@@ -56697,8 +56926,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "507f682e84a58da076d6563791fbd31dee969ba2f3fcf65ff4a6701a2914e2fc",
-      "lines": 281,
+      "sha256": "5f02280a017d8b4028b0b9437b5ba4eb5590d22c3ed25cf8683868ffded6915f",
+      "lines": 294,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {
@@ -58443,6 +58672,41 @@
         {
           "name": "DiagnosticTests",
           "line": 194,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_capability_intelligence.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "f4346129af2d9c28984f45004d4edd6ab058bed5dee37528265bf610c5b81eba",
+      "lines": 177,
+      "overview": "Regression source for the implementation-only patch; not run during gaming.",
+      "symbols": [
+        {
+          "name": "Fixture",
+          "line": 16,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VerificationTests",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ProjectTests",
+          "line": 68,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "MemoryTests",
+          "line": 107,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "RetrievalTests",
+          "line": 137,
           "kind": "ClassDef"
         }
       ]
@@ -61181,8 +61445,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_intelligence.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "d1bf2f5c605c1c99b2e0d555f11919d99e1374c8854cd7d2b2f8086d97a8042c",
-      "lines": 245,
+      "sha256": "a4e4bdc7f516a18311dcff1e9924fab4798bbbe1388adde2dee695fc2cd92628",
+      "lines": 250,
       "overview": "r59 portable bundle, authorization, storage and reasoning regressions.",
       "symbols": [
         {
@@ -61207,17 +61471,17 @@
         },
         {
           "name": "CanvasWorkflowTests",
-          "line": 159,
+          "line": 164,
           "kind": "ClassDef"
         },
         {
           "name": "MonitorTests",
-          "line": 178,
+          "line": 183,
           "kind": "ClassDef"
         },
         {
           "name": "AgentAPITests",
-          "line": 207,
+          "line": 212,
           "kind": "ClassDef"
         }
       ]
