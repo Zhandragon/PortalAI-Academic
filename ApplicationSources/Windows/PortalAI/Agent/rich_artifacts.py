@@ -1,6 +1,7 @@
 """Pinned offline Markdown, Mermaid and React renderers, loaded only on preview."""
 import hashlib
 import json
+import re
 from pathlib import Path
 
 ASSETS=Path(__file__).resolve().parents[1]/'ControlCenter/ArtifactAssets'
@@ -15,7 +16,11 @@ def asset(name):
     return data.decode('utf-8').replace('</script','<\\/script')
 
 
-def script(value):return '<script>'+value+'</script>'
+def script(value):
+    # HTML recognizes closing script tags without regard to case, including in
+    # JavaScript strings/comments. Escape only the slash, preserving JS text.
+    value=re.sub(r'</script',lambda match:'<\\/'+match.group(0)[2:],value,flags=re.IGNORECASE)
+    return '<script>'+value+'</script>'
 
 
 def document(kind,content,modules=()):

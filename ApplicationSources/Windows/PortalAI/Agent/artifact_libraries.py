@@ -10,6 +10,11 @@ LIMIT=16*1024**2
 RESERVED={'react','react-dom','react-dom/client','scheduler'}
 
 
+def module_filename(value):
+    return (isinstance(value,str) and re.fullmatch(r'[a-zA-Z0-9_-]+\.js',value)
+            and not re.fullmatch(r'(?:con|prn|aux|nul|com[1-9]|lpt[1-9])\.js',value,re.IGNORECASE))
+
+
 class Libraries(Workspace):
     def __init__(self,root,check=None):super().__init__(root,'Artifacts/Libraries',check)
 
@@ -17,10 +22,11 @@ class Libraries(Workspace):
 
     def read(self,lid):
         row=read_json(self.path('Catalog/'+identifier(lid)+'.json'),65536)
+        if row.get('id')!=lid:raise ValueError('Library identity mismatch')
         if digest(row['modules'])!=row['sha256']:raise ValueError('Library manifest checksum mismatch')
         if not isinstance(row['modules'],list) or not 1<=len(row['modules'])<=32:raise ValueError('Invalid library modules')
         for module in row['modules']:
-            if not isinstance(module,dict) or not re.fullmatch(r'[a-zA-Z0-9_-]+\.js',str(module.get('file',''))):raise ValueError('Invalid library filename')
+            if not isinstance(module,dict) or not module_filename(module.get('file')):raise ValueError('Invalid or reserved library filename')
             if not re.fullmatch(r'(?:@[a-z0-9_-]+/)?[a-z0-9_-]+(?:/[a-z0-9_-]+)*',str(module.get('name',''))):raise ValueError('Invalid library module name')
         return row
 
@@ -45,7 +51,7 @@ class Libraries(Workspace):
                     if not isinstance(module,dict) or set(module)!={'name','file','sha256'}:raise ValueError('Each module needs name, file and sha256')
                     name=module['name'];file=module['file']
                     if not isinstance(name,str) or not re.fullmatch(r'(?:@[a-z0-9_-]+/)?[a-z0-9_-]+(?:/[a-z0-9_-]+)*',name) or name in RESERVED or name in seen:raise ValueError('Invalid, duplicate or reserved module name')
-                    if not isinstance(file,str) or not re.fullmatch(r'[a-zA-Z0-9_-]+\.js',file) or file in expected:raise ValueError('Each module must use a unique plain .js filename')
+                    if not module_filename(file) or file in expected:raise ValueError('Each module must use a unique, nonreserved plain .js filename')
                     if not isinstance(module['sha256'],str) or not re.fullmatch('[0-9a-f]{64}',module['sha256']):raise ValueError('Invalid module checksum')
                     seen.add(name);expected.add(file)
                 if set(names)!=expected:raise ValueError('Library files must exactly match the manifest')

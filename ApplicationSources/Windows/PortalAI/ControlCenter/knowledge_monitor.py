@@ -35,7 +35,7 @@ class FolderSignal:
 class KnowledgeMonitor:
     def __init__(self,chat):
         self.chat=chat;self.root=Path(chat.root);self.check_login=guard(chat.tool_runtime)
-        self.stopped=threading.Event();self.due={};self.signals={};self.dirty=set();self.status={};self.thread=None
+        self.stopped=threading.Event();self.due={};self.intervals={};self.signals={};self.dirty=set();self.status={};self.thread=None
     def idle(self):
         return not self.chat.busy and not self.chat.conversation_active.is_set()
     def check(self):
@@ -50,10 +50,14 @@ class KnowledgeMonitor:
         # Metadata reads and signal checks are cheap; imports run only while idle.
         rows=Knowledge(self.root,self.check).list();enabled={r['id']:r for r in rows if r.get('refresh_seconds',0)}
         if len(enabled)>64:raise ValueError('Background monitoring supports at most 64 collections')
-        for cid in set(self.signals)-set(enabled):self.signals.pop(cid).close();self.due.pop(cid,None);self.dirty.discard(cid)
+        for cid in set(self.signals)-set(enabled):
+            self.signals.pop(cid).close();self.due.pop(cid,None);self.intervals.pop(cid,None);self.dirty.discard(cid)
         for cid,row in enabled.items():
             if cid not in self.signals:
-                self.signals[cid]=FolderSignal(source_path(self.root,row['source']));self.dirty.add(cid);self.due[cid]=now+row['refresh_seconds']
+                self.signals[cid]=FolderSignal(source_path(self.root,row['source']));self.dirty.add(cid)
+            interval=row['refresh_seconds']
+            if self.intervals.get(cid)!=interval:
+                self.intervals[cid]=interval;self.due[cid]=now+interval
             if self.signals[cid].changed():self.dirty.add(cid)
         if not self.idle():return None
         from runtime_policy import memory_info,require_space

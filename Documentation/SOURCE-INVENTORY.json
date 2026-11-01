@@ -45630,13 +45630,18 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/artifact_libraries.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "6b60317c515eb284353601c86ed40109884e6294464b8e1ba77cefe7d435f99d",
-      "lines": 92,
+      "sha256": "f0163bedffad74466dee4189fbcfa7c1b453b964e7994e329743cc66cf717199",
+      "lines": 98,
       "overview": "Reviewed offline CommonJS bundles; code runs only inside artifact Chromium.",
       "symbols": [
         {
-          "name": "Libraries",
+          "name": "module_filename",
           "line": 13,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Libraries",
+          "line": 18,
           "kind": "ClassDef"
         }
       ]
@@ -46540,8 +46545,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/knowledge_base.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "68a690f6a291e1ac074e9b1bece7c09b06be37c6c59fa7a0258aa9d080f38347",
-      "lines": 211,
+      "sha256": "850d595aaf276717efe8604664e9fc194217d302e5fb948d74d544bcdbd9cc4f",
+      "lines": 218,
       "overview": "Portable document collections: transactional sync, hybrid retrieval and exact citations.",
       "symbols": [
         {
@@ -49523,23 +49528,23 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/rich_artifacts.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "ddb57821edfbcebbe692b57dcd55328ca9b0611cdaf8691e84d465e605f795b7",
-      "lines": 46,
+      "sha256": "8bb249857153b19c6d1abf715ce701bad3600cb2d65fb6d9603ebd139c8088f3",
+      "lines": 51,
       "overview": "Pinned offline Markdown, Mermaid and React renderers, loaded only on preview.",
       "symbols": [
         {
           "name": "asset",
-          "line": 9,
+          "line": 10,
           "kind": "FunctionDef"
         },
         {
           "name": "script",
-          "line": 18,
+          "line": 19,
           "kind": "FunctionDef"
         },
         {
           "name": "document",
-          "line": 21,
+          "line": 26,
           "kind": "FunctionDef"
         }
       ]
@@ -53474,8 +53479,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/knowledge_monitor.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a428dc8ef9e9477f8c6806c34d77b798eec846d827ed95df95dd3cea2f644c5a",
-      "lines": 95,
+      "sha256": "cbeeb8dd29fcc5c4dc687a3f816f9a9644f4edc2741da52c810f12ec252d22b0",
+      "lines": 99,
       "overview": "Account-owned background collection monitoring; no persistent embedding worker.",
       "symbols": [
         {
@@ -53490,7 +53495,7 @@
         },
         {
           "name": "start",
-          "line": 87,
+          "line": 91,
           "kind": "FunctionDef"
         }
       ]
@@ -56692,8 +56697,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/workspace_panel.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "5f3a69608dfcf9efb38fc47dca7973c433ad9a050d78d63eed085207ad0374e7",
-      "lines": 271,
+      "sha256": "507f682e84a58da076d6563791fbd31dee969ba2f3fcf65ff4a6701a2914e2fc",
+      "lines": 281,
       "overview": "One native Workspace sheet for knowledge, connections, workflows and computer use.",
       "symbols": [
         {

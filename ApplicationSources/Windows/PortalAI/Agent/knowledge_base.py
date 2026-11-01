@@ -80,8 +80,15 @@ class Knowledge(Workspace):
         return row
 
     def sync(self,cid,progress=lambda message:None,*,automatic=False):
-        collection=self.load(cid);source=source_path(self.root,collection['source'])
         with self.lock(identifier(cid)):
+            collection=self.load(cid);source=source_path(self.root,collection['source'])
+            def complete(result):
+                # A successful explicit review renews the automatic allowance,
+                # including a no-change sync. Failures retain the durable charge.
+                if not automatic and collection.get('automatic_source_bytes',0):
+                    collection['automatic_source_bytes']=0
+                    self.save('Collections/'+cid+'.json',collection)
+                return result
             inventory,total=self._inventory(source)
             current=self._dbpath(cid)
             existing_hashes={}
@@ -90,7 +97,7 @@ class Knowledge(Workspace):
                 try:existing_hashes={row['name']:row['sha'] for row in old.execute('SELECT name,sha FROM docs')}
                 finally:old.close()
                 if existing_hashes=={name:sha for name,_,sha,_ in inventory}:
-                    return {'collection':cid,'documents':len(inventory),'changed':0,'removed_from_index':0,'source_bytes':total,'complete':True}
+                    return complete({'collection':cid,'documents':len(inventory),'changed':0,'removed_from_index':0,'source_bytes':total,'complete':True})
             if automatic:
                 collection=self.load(cid)
                 if not collection.get('refresh_seconds'):raise RuntimeError('Automatic refresh is disabled')
@@ -159,7 +166,7 @@ class Knowledge(Workspace):
                 self.check();db.execute("INSERT OR REPLACE INTO meta VALUES('synced_at',?)",(str(time.time()),));db.commit();db.close();db=None
                 with staging.open('r+b') as stream:os.fsync(stream.fileno())
                 self.check();os.replace(staging,current)
-                return {'collection':cid,'documents':len(inventory),'changed':changed,'removed_from_index':removed,'source_bytes':total,'complete':True}
+                return complete({'collection':cid,'documents':len(inventory),'changed':changed,'removed_from_index':removed,'source_bytes':total,'complete':True})
             finally:
                 if db is not None:db.close()
                 staging.unlink(missing_ok=True)

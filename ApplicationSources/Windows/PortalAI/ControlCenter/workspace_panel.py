@@ -116,11 +116,21 @@ class WorkspacePanel(PortableWorkspaceUI,IntegrationUI,InternalSheet):
         try:
             while True:
                 ok,result,done=self.events.get_nowait();self.busy=False
-                self.status.configure(text='Ready' if ok else 'Stopped or failed; saved results retained')
-                self.show(result)
-                if ok and done:done(result)
+                try:
+                    # Stop or a revoked login can arrive after the worker queued
+                    # its result. Do not publish through a stale workspace.
+                    self.check()
+                    self.status.configure(text='Ready' if ok else 'Stopped or failed; saved results retained')
+                    self.show(result)
+                    if ok and done:done(result)
+                except Exception as exc:
+                    if not self.closed:
+                        self.status.configure(text='Stopped or failed; saved results retained')
+                        self.show(str(exc))
         except queue.Empty:pass
-        self.after(100,self.poll)
+        finally:
+            # A view callback failure must not strand all subsequent jobs.
+            if not self.closed:self.after(100,self.poll)
 
     def stop(self):
         self.cancelled.set();self.runtime.cancel(cleanup_media=False)

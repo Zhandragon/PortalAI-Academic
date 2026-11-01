@@ -1,0 +1,62 @@
+PortalAI Windows r59 source patch - static audit, 2026-11-01
+
+Status: source fixes applied to independent D/E Full installations and both
+source editions. No direct tests, model inference, GPU workloads, GUI launch,
+installer rebuild or new release tag were run for this patch. The published
+r59 installer archives remain unchanged. Their earlier passing test results
+do not validate these later edits. Reopen PortalAI normally to load the fixes.
+
+Review method
+------------
+Read control flow and callers in the workspace, knowledge, artifact, voice,
+API, model-comparison and workflow modules. Separately parsed 521 published
+Windows Agent/ControlCenter/Tools Python files, with a 30 ms pause per file and
+below-normal process priority. The parser imported no application code and
+used no model runtime. Syntax parsing and pattern review do not prove behavior
+or mean every source line received a complete semantic audit.
+
+Changes established by source inspection
+---------------------------------------
+1. Agent/knowledge_base.py: manual Sync now renews the exhausted 32 MiB
+   automatic source-copy allowance after success, including an unchanged sync.
+   Previously the suggested recovery action never cleared the counter. Failed
+   syncs retain the charge. Collection metadata is read inside its existing lock.
+2. ControlCenter/knowledge_monitor.py: changing an enabled refresh interval
+   reschedules the deadline. Previously selecting five minutes could retain
+   the old hourly deadline. Removing a monitor also clears interval bookkeeping.
+3. Agent/rich_artifacts.py: escape script-closing text case-insensitively at
+   the final inline-script boundary. HTML treats </SCRIPT> and </script> alike;
+   the earlier lowercase-only replacement could break a valid library string.
+   The opaque iframe and network restrictions are unchanged.
+4. Agent/artifact_libraries.py: reject Windows device names such as CON.js and
+   NUL.js before writing bundle files, and validate them on subsequent reads.
+   The previous filename expression accepted names Windows cannot store normally.
+5. Agent/artifact_libraries.py: reject a catalog record whose embedded ID does
+   not match the requested ID. Other workspace stores already make this check;
+   mismatched library records must not select a different bundle directory.
+6. ControlCenter/workspace_panel.py: keep the result-polling timer alive when
+   a view callback throws. Previously that exception skipped timer rescheduling
+   and left subsequent jobs without their completion being processed.
+7. ControlCenter/workspace_panel.py: recheck Stop/account validity immediately
+   before displaying a queued result or invoking its completion callback.
+   A result queued just before Stop previously bypassed this final check.
+
+Deferred execution checks
+-------------------------
+Manual/no-change/failed knowledge sync and allowance persistence; changing
+refresh intervals and disable/re-enable; mixed-case script strings in actual
+Chromium; reserved-name imports and catalog identity refusal; callback failure
+followed by another job; and Stop/login changes between queueing and display.
+These were not executed because the user requested no direct tests while gaming.
+
+Further review candidate, not changed: memory retrieval orders observations by
+distillation/update time. Backfilled old conversations may need explicit source
+chronology to avoid overriding a newer fact. That needs a separate data-compatibility
+review before changing retained memory behavior.
+
+Portable constraints
+--------------------
+No dependencies, model weights, user data, runtime configuration or installed
+Python trees were added, removed or merged. The deprecated C: installation was
+excluded. Small checksum-verified source backups remain under each drive's
+Backups/PortalAI-Static-Audit-20261101. The 80 GiB free-space floor is preserved.
