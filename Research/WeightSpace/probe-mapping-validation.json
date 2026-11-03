@@ -1,0 +1,34 @@
+[
+  {
+    "model": "1.7-standard",
+    "mapping_verified": true,
+    "tensors": 310,
+    "gpu_allocated": false
+  },
+  {
+    "model": "1.7-abliterated",
+    "mapping_verified": true,
+    "tensors": 310,
+    "gpu_allocated": false
+  },
+  {
+    "model": "4-standard",
+    "mapping_verified": true,
+    "tensors": 398,
+    "gpu_allocated": false
+  },
+  {
+    "model": "4-abliterated",
+    "mapping_verified": true,
+    "tensors": 398,
+    "gpu_allocated": false
+  },
+  {
+    "model": "27-standard",
+    "unsupported_architecture_rejected": true
+  },
+  {
+    "model": "27-abliterated",
+    "unsupported_architecture_rejected": true
+  }
+]

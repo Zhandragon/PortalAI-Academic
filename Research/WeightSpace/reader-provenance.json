@@ -1,0 +1,12 @@
+{
+  "filename": "gguf-0.19.0-py3-none-any.whl",
+  "url": "https://files.pythonhosted.org/packages/b3/bb/d71d6da82763528c2c2ed6b59a9d6142c6595545a4c448e2085d155e88c2/gguf-0.19.0-py3-none-any.whl",
+  "size": 118475,
+  "digests": {
+    "blake2b_256": "b3bbd71d6da82763528c2c2ed6b59a9d6142c6595545a4c448e2085d155e88c2",
+    "md5": "cfd976613beda8e1a86cec5f52595f1d",
+    "sha256": "70bcd10edfe697fb2dad6e40af2234b9d8ece9a41a99761405121ebda1c3c1cd"
+  },
+  "version": "0.19.0",
+  "dependencies_installed": false
+}
