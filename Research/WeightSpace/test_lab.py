@@ -1,10 +1,33 @@
-import json,sys,tempfile,unittest
+import hashlib,json,sys,tempfile,unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 from pathlib import Path
 LAB=Path(__file__).parent;sys.path.insert(0,str(LAB))
 import sparse_edit as edit
 import benchmark
+import research_guard as guard
 np=edit.np
 class AlgebraTests(unittest.TestCase):
+    def test_pause_marker_blocks_even_when_empty_or_invalid(self):
+        with tempfile.TemporaryDirectory(dir=LAB) as folder:
+            root=Path(folder);marker=root/'GPU-PAUSED.json'
+            self.assertFalse(guard.gpu_paused(root))
+            for body in ('', 'invalid JSON', '{"automatic_resume":true}'):
+                marker.write_text(body)
+                with self.assertRaises(guard.ResearchPaused):guard.require_gpu_unpaused(root)
+            marker.unlink();guard.require_gpu_unpaused(root)
+    def test_paused_benchmark_never_acquires_gpu_lease(self):
+        with patch.object(benchmark,'require_gpu_unpaused',side_effect=guard.ResearchPaused('paused')), patch.object(benchmark,'acquire_gpu_lease') as lease:
+            with self.assertRaises(guard.ResearchPaused):benchmark.run(SimpleNamespace())
+            lease.assert_not_called()
+    def test_hashing_matches_sha_and_stops_at_chunk_boundary(self):
+        with tempfile.TemporaryDirectory(dir=LAB) as folder:
+            root=Path(folder);source=root/'model-fixture';source.write_bytes(b'a'*(8*1024**2+13))
+            with patch.object(guard,'LAB',root):
+                self.assertEqual(guard.model_digest(source),hashlib.sha256(source.read_bytes()).hexdigest())
+                with patch.object(guard,'require_gpu_unpaused',side_effect=[None,None,guard.ResearchPaused('paused')]) as check:
+                    with self.assertRaises(guard.ResearchPaused):guard.model_digest(source)
+                    self.assertEqual(check.call_count,3)
     def test_sparse_update_matches_dense_formula_and_preserves_other_columns(self):
         rng=np.random.default_rng(7);w=rng.normal(size=(32,128)).astype(np.float32);u=rng.normal(size=32).astype(np.float32);u/=np.linalg.norm(u)
         a,b,cols=edit.factors(w,u,8,2)

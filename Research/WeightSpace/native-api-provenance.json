@@ -1,0 +1,34 @@
+{
+  "tag": "b10935",
+  "commit": "8e330954adb6e86c329c9d7e338f01f93ffe4b88",
+  "files": {
+    "include/llama.h": {
+      "bytes": 84829,
+      "sha256": "fedb52ea9291c9900e637ed6ffec339919dd27c3dadc2c8cf216c552e0488dda"
+    },
+    "ggml/include/ggml.h": {
+      "bytes": 115658,
+      "sha256": "9ac7ee3d3a957e5f7b21b104d3e3dc50b1b106f808f9d6735ead950450bfeec6"
+    },
+    "ggml/include/ggml-backend.h": {
+      "bytes": 25374,
+      "sha256": "46d84cb998105f871240864fd0f55446939a2fe86c5c281afa63a010fb1f65a2"
+    },
+    "src/models/qwen3.cpp": {
+      "bytes": 5872,
+      "sha256": "06f400665980d30fd357886a5d14b541adda06d159a5b7f0ce929ca36788778c"
+    },
+    "src/models/qwen35.cpp": {
+      "bytes": 28105,
+      "sha256": "ef973e9c789eb52ef27a77e0b1f36c6f41a378733a994d41b5924e3be012f671"
+    },
+    "src/llama-graph.cpp": {
+      "bytes": 138727,
+      "sha256": "3b65f7caee0c2f31af180f7cc41e689e650332746b3bcaa9fe584340d601e570"
+    },
+    "LICENSE": {
+      "bytes": 1078,
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    }
+  }
+}

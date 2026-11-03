@@ -2,10 +2,20 @@
 
 **Status: experimental preparation, not an installed model improvement. No model
 weights have been changed, no candidate has been accepted, and no quality gain has
-been established.** The first native 1.7B diagnostic completed; the next request
-was interrupted and the D-side server executable disappeared. Subsequent native
-testing is pending review of the host's antivirus detection. Existing originals
-and the production model selection remain unchanged.
+been established.** After the user stopped the interfering antivirus shields,
+native inference resumed and all 48 selection cases on the four 1.7B/4B variants
+completed. GPU experiments are now manually paused while the user plays a game;
+the two 27B variants remain pending. Existing originals and the production model
+selection remain unchanged.
+
+Native strict passes were **9/12 standard 1.7B, 10/12 abliterated 1.7B,
+10/12 standard 4B, and 8/12 abliterated 4B**. These are tiny selection diagnostics,
+not general model rankings. Review separates correct mathematics with formatting
+errors from actual coding and tool-selection failures. One standard 4B coding
+response exhausted its 3,072-token allowance; the advisory repetition detector
+flagged none. Repeated self-checking still warrants a matched larger-budget
+follow-up; neither a cutoff nor a negative detector proves whether a loop exists.
+See [native results and reviewed limitations](NATIVE-PILOT-RESULTS.json).
 
 A valid 12-case direct Torch pilot on the standard 1.7B weights completed:
 **9 strict passes, no observed repetition loops and no cutoffs**. The three
@@ -63,10 +73,20 @@ layers nor their edit vectors can be copied across models.
   This is a quantized-runtime adaptation, **not a bit-identical recreation of the
   authors' BF16 overwrite**. Native adapter loading and behavioral effects have
   not yet been validated.
-- `test_lab.py`: nine offline checks covering algebra, unchanged columns,
+- `research_guard.py`: a manual experiment-only pause shared by the native and
+  Torch runners. Any `GPU-PAUSED.json` marker blocks startup, including an empty or
+  malformed file. Hashing, loading and case boundaries check for a new pause.
+  Native requests already in flight finish before the next check; this is not an
+  immediate process termination mechanism. The guard never resumes automatically.
+- `fetch_native_headers.py`: downloads a bounded set of upstream C-API headers
+  and graph definitions pinned to the installed native build, for preparation
+  of a quantized activation backend. Downloading these files does not implement
+  or validate native activation capture.
+- `test_lab.py`: twelve offline checks covering algebra, unchanged columns,
   equivalent matrix application, control norm/orthogonality, invalid inputs,
   adapter round-trip, data separation, loop detection, restricted code grading,
-  host-I/O rejection and termination of an infinite loop.
+  host-I/O rejection, termination of an infinite loop, pause admission and
+  interruptible model hashing. These checks do not load a GPU model.
 
 The loop metric is advisory: a long unfinished answer is not automatically a
 reasoning loop. Tool-workflow repetition and missing web evidence are separate
@@ -91,7 +111,8 @@ Python packages, services, model weights or production runtime upgrades are
 installed. Optional loopback TLS uses disposable, experiment-local certificates;
 certificate verification is never disabled.
 
-Example native baseline, after the host executable issue is resolved:
+Example native baseline, when GPU resources are available and any manual pause
+marker has been explicitly cleared:
 
 ```powershell
 & '.\Runtime\BootstrapPython\python.exe' -B -I '.\Maintenance\Research\Weight-Space-20261103\benchmark.py' --models 1.7-standard 1.7-abliterated --output baseline-new
@@ -105,6 +126,8 @@ match. The current pilot uses 3,072 output tokens and 8,192 context tokens;
 truncated cases need a separate matched, larger-budget check before diagnosing
 model defects. Tool-selection tests use a small synthetic schema, not the whole
 PortalAI harness, and therefore cannot prove end-to-end tool reliability.
+Completed JSONL case records from a stopped run are preserved. Run the pending
+models into a new output directory; there is no automatic retry or auto-resume.
 
 ## Acceptance before deployment
 

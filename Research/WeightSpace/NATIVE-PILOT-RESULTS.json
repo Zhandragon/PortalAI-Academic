@@ -1,0 +1,213 @@
+{
+  "status": "four_native_models_completed_gpu_work_manually_paused",
+  "native_runtime": true,
+  "production_models_changed": false,
+  "accepted_edits": 0,
+  "quality_gains_established": false,
+  "cases_per_model": 12,
+  "completed_case_results": 48,
+  "pending_models": [
+    "27-standard",
+    "27-abliterated"
+  ],
+  "split": "selection",
+  "models": [
+    {
+      "model": "1.7-standard",
+      "base_model_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+      "cases": 12,
+      "strict_passed": 9,
+      "areas": {
+        "math": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 2,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 0,
+      "median_seconds_per_case": 3.016,
+      "failure_review": [
+        {
+          "case": "c2",
+          "category": "coding_constraint",
+          "finding": "Sorted the caller input in place despite an explicit no-mutation requirement."
+        },
+        {
+          "case": "t1",
+          "category": "tool_selection",
+          "finding": "Selected the already-rejected default avatar instead of the observed Scholar profile."
+        },
+        {
+          "case": "r3",
+          "category": "answer_delivery",
+          "finding": "Private reasoning found 54, but the user-visible answer was the literal placeholder FINAL: number. This is not a correct delivered answer."
+        }
+      ],
+      "raw_results_sha256": "c579f23c551eda37e31fc1e489231ee9db06822260b04dd60737f8175bb61c06"
+    },
+    {
+      "model": "1.7-abliterated",
+      "base_model_sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+      "cases": 12,
+      "strict_passed": 10,
+      "areas": {
+        "math": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 3,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 0,
+      "median_seconds_per_case": 2.375,
+      "failure_review": [
+        {
+          "case": "c2",
+          "category": "coding_constraint",
+          "finding": "Sorted the caller input in place despite an explicit no-mutation requirement."
+        },
+        {
+          "case": "t1",
+          "category": "tool_selection",
+          "finding": "Selected the already-rejected default avatar instead of the observed Scholar profile."
+        }
+      ],
+      "raw_results_sha256": "cd0968dfe1ac6d1e18f1385ba798373231296bc7a505bb198956c04749da74ee"
+    },
+    {
+      "model": "4-standard",
+      "base_model_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+      "cases": 12,
+      "strict_passed": 10,
+      "areas": {
+        "math": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 2,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 1,
+      "median_seconds_per_case": 4.312,
+      "failure_review": [
+        {
+          "case": "c2",
+          "category": "budget_exhaustion",
+          "finding": "Reached the 3072-token output limit without delivering code. Repeated self-checking appears in the trace, but requires a matched larger-budget comparison before classifying a reasoning loop."
+        },
+        {
+          "case": "r3",
+          "category": "output_format",
+          "finding": "Delivered the correct value 54 using Final Answer instead of the requested FINAL: marker. Not an arithmetic failure."
+        }
+      ],
+      "raw_results_sha256": "5900b2e5e29d64a3dfc1bbdd107b0b036d44f69de1df83f213bf371e173cee75"
+    },
+    {
+      "model": "4-abliterated",
+      "base_model_sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+      "cases": 12,
+      "strict_passed": 8,
+      "areas": {
+        "math": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 2,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 1,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 0,
+      "median_seconds_per_case": 4.688,
+      "failure_review": [
+        {
+          "case": "m3",
+          "category": "output_format",
+          "finding": "Delivered the correct value 48 without the requested FINAL: marker. Not an arithmetic failure."
+        },
+        {
+          "case": "t1",
+          "category": "tool_selection",
+          "finding": "Selected the already-rejected default avatar; reasoning repeatedly reconsidered the same choice without resolving contrary evidence. The n-gram detector did not flag it."
+        },
+        {
+          "case": "r1",
+          "category": "output_format",
+          "finding": "Correctly explained impossibility, without the requested FINAL: marker. Not a logic failure."
+        },
+        {
+          "case": "r3",
+          "category": "output_format",
+          "finding": "Delivered the correct value 54 without the requested FINAL: marker. Not an arithmetic failure."
+        }
+      ],
+      "raw_results_sha256": "eff266ba09c4b2d74cf1d1cbf7115b12316f14d85c6082c98cb845f95a864c89"
+    }
+  ],
+  "case_file_sha256": "a482b518c3a0b92819c072ae950123b7481da65908ad2e227e7d0c4c8aeb1409",
+  "sampling": {
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "seed": 20261103
+  },
+  "thinking": true,
+  "max_output_tokens": 3072,
+  "context_tokens": 8192,
+  "limitations": [
+    "Tiny synthetic selection set, one seed per case: not general model rankings or broad capability scores.",
+    "No candidate adapter, causal intervention, activation capture, or held-out comparison has run.",
+    "Correct answers in an unexpected format are reported separately; strict original grades are preserved.",
+    "A negative n-gram flag does not rule out repetitive reasoning. A length cutoff alone does not establish a loop.",
+    "The r1 instruction permits a justification, while its strict grader expects only the label on that line. Clarify the protocol before expanding the dataset.",
+    "Tool calls were graded but never executed. This does not measure the full production harness.",
+    "Latency is descriptive only; a game started during the session. Do not treat these as controlled throughput comparisons.",
+    "Native testing resumed after the user stopped antivirus shields. Assistant did not change antivirus settings.",
+    "GPU work was stopped before 27B model loading to preserve the user game session. Completed results remain intact."
+  ]
+}

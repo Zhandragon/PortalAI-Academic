@@ -11,7 +11,8 @@ from pathlib import Path
 LAB=Path(__file__).parent;ROOT=LAB.parents[2]
 os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',HF_HOME=str(LAB/'hf-cache'))
 os.environ.setdefault('OMP_NUM_THREADS','4');os.environ.setdefault('OPENBLAS_NUM_THREADS','2')
-sys.path[:0]=[str(LAB/'reader-packages'),str(ROOT/'Voice/Qwen3-TTS/.venv/Lib/site-packages'),str(ROOT/'Agent')]
+sys.path[:0]=[str(LAB),str(LAB/'reader-packages'),str(ROOT/'Voice/Qwen3-TTS/.venv/Lib/site-packages'),str(ROOT/'Agent')]
+from research_guard import require_gpu_unpaused, model_digest
 import numpy as np
 import gguf
 
@@ -49,6 +50,7 @@ def empty_model(reader):
     return model
 
 def load_probe(reader):
+    require_gpu_unpaused()
     import torch
     from accelerate.utils import set_module_tensor_to_device
     if not torch.cuda.is_available():raise RuntimeError('CUDA activation probe unavailable')
@@ -57,6 +59,7 @@ def load_probe(reader):
     if torch.cuda.mem_get_info()[0]<required:raise RuntimeError('Not enough free VRAM for bounded activation probe')
     torch.set_num_threads(4)
     for tensor in reader.tensors:
+        require_gpu_unpaused()
         values=gguf.quants.dequantize(tensor.data,tensor.tensor_type)
         target=parameter_name(tensor.name)
         set_module_tensor_to_device(model,target,'cuda:0',value=torch.from_numpy(np.array(values,copy=True)),dtype=torch.bfloat16)
@@ -65,6 +68,7 @@ def load_probe(reader):
     return model
 
 def capture(args):
+    require_gpu_unpaused()
     import torch
     from transformers import AutoTokenizer
     from service_manager import acquire_gpu_lease,release_gpu_lease
@@ -77,7 +81,7 @@ def capture(args):
     model_path=args.model.resolve()
     if not model_path.is_relative_to((ROOT/'LLM/models').resolve()):raise ValueError('Use this portable root model')
     reader=gguf.GGUFReader(str(model_path),'r');configuration(reader)
-    with model_path.open('rb') as stream:model_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+    model_sha=model_digest(model_path)
     if inputs.get('model_sha256')!=model_sha:raise ValueError('Pairs were captured from a different model')
     tokenizer=AutoTokenizer.from_pretrained(str(LAB/'tokenizer-qwen3'),trust_remote_code=False,local_files_only=True)
     tokens=reader.fields['tokenizer.ggml.tokens'].contents()
@@ -95,13 +99,16 @@ def capture(args):
             handles.extend([layer.register_forward_hook(residual_hook),layer.mlp.down_proj.register_forward_pre_hook(writer_hook)])
         captures={i:{'productive':[],'repetitive':[],'productive_writers':[],'repetitive_writers':[]} for i in range(len(model.model.layers))}
         for pair in inputs['pairs']:
+            require_gpu_unpaused()
             lengths=[len(tokenizer.encode(pair[branch],add_special_tokens=False)) for branch in ('productive','repetitive')]
             if min(lengths)<64 or max(lengths)>1.25*min(lengths):raise ValueError('Match branch token lengths within 25%, with at least 64 tokens each')
             prefix=tokenizer.apply_chat_template([{'role':'user','content':pair['prompt']}],tokenize=False,add_generation_prompt=True,enable_thinking=True)
             for branch in ('productive','repetitive'):
+                require_gpu_unpaused()
                 encoded=tokenizer(prefix+pair[branch],return_tensors='pt',add_special_tokens=False)
                 if encoded['input_ids'].shape[-1]>4096:raise ValueError('Activation probe limited to 4096 tokens; no silent truncation')
                 with torch.inference_mode():model.model(**encoded.to('cuda:0'),use_cache=False)
+                require_gpu_unpaused()
                 for i in captures:
                     captures[i][branch].append(residual[i]);captures[i][branch+'_writers'].append(writers[i])
             print(json.dumps({'captured':pair['id'],'layers':len(captures)}),flush=True)
