@@ -19,6 +19,7 @@ from web_tools import _validate_public_url, _request_bytes, _decode, _check_chal
 from web_runtime import prepare
 
 LIMIT = 16*1024*1024
+HTML_CACHE_CHARS = 2_000_000
 
 def page_slice(text, offset=0, count=12000):
     offset = int(offset); count = max(100, min(50000, int(count)))
@@ -130,6 +131,15 @@ class WebSession:
             self.playwright=self.browser=self.context=None; self.pages.clear(); self.documents.clear()
     def _save_document(self, value):
         if len(self.documents)>=20: self.documents.pop(next(iter(self.documents)))
+        # Raw HTML supports read -> discover/data without refetching. Bound
+        # this extra cache to two million characters across the whole worker.
+        if len(value.get('_html',''))>HTML_CACHE_CHARS//2:
+            value.pop('_html',None);value['html_cached']=False
+        used=sum(len(doc.get('_html','')) for doc in self.documents.values())
+        for doc in self.documents.values():
+            if used+len(value.get('_html',''))<=HTML_CACHE_CHARS:break
+            if '_html' not in doc:continue
+            used-=len(doc.pop('_html',''));doc['html_cached']=False
         key=uuid.uuid4().hex; self.documents[key]=value; return key
     def _read(self,args):
         if args.get('document'):
@@ -159,7 +169,13 @@ class WebSession:
                 parsed=Document(final_url); parsed.feed(source)
                 doc={'url':final_url,'text':''.join(parsed.parts),'headings':parsed.headings,'links':parsed.links,'source':'Fetched HTML/text'}
                 if 'html' not in content_type.lower(): doc['text']=source
-                else:anchors=parsed.anchors;anchor_lookup_limited=parsed.anchor_lookup_limited
+                else:
+                    anchors=parsed.anchors;anchor_lookup_limited=parsed.anchor_lookup_limited
+                    from web_tools import _html_image_candidates
+                    doc.update(_html=source,html_cached=True,content_type=content_type,
+                               images=_html_image_candidates(source,final_url,12))
+                    doc['image_urls']=[item['image_url'] for item in doc['images']]
+                    doc['image_note']='Image links/markup only, not verified subject identity. Prefer the identified profile photo; use download on its exact URL. Default avatars and related profiles are not substitutes.'
             doc.update(fragment=fragment,fragment_found=(fragment in anchors) if fragment else None,
                        anchor_lookup_limited=anchor_lookup_limited,_section_offset=anchors.get(fragment,0))
             if len(doc['text'])>2_000_000: raise ValueError('Document text exceeds 2 million characters')
@@ -167,7 +183,7 @@ class WebSession:
         if args.get('find'):
             hits,next_offset=find_text(doc['text'],args['find'],args.get('offset',0))
             return {'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':next_offset}
-        return {k:v for k,v in doc.items() if k not in ('text','links','headings','_section_offset')} | page_slice(doc['text'],args.get('offset',doc.get('_section_offset',0)),args.get('max_chars',12000)) | {
+        return {k:v for k,v in doc.items() if not k.startswith('_') and k not in ('text','links','headings')} | page_slice(doc['text'],args.get('offset',doc.get('_section_offset',0)),args.get('max_chars',12000)) | {
             'headings':doc['headings'][:100], 'links':doc['links'][int(args.get('link_offset',0)):int(args.get('link_offset',0))+100],
             'link_count':len(doc['links']), 'heading_count':len(doc['headings'])}
     def _start(self):
@@ -223,8 +239,8 @@ class WebSession:
             'discover':'url OR document, optional query/kind, offset/limit; page links, media, transcript links, search forms and tables',
             'data':'url OR document; format auto/json/jsonl/csv/tsv/html/xml; pointer for JSON, table for HTML, tag for XML; offset/limit. Binary spreadsheets/archives require download and a suitable local reader.',
             'media_info':'url; video oEmbed metadata for supported hosts or HTTP file headers; does not analyze media content',
-            'download':'url, max_bytes (default 8 MiB, maximum 32 MiB); saves inert file in private Outputs/WebResearch for local reading/analysis; no execution/extraction',
-            'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs. HTML #fragment links start at the first visible ID/named anchor; percent-encoded fragments are decoded. fragment_found=false means no matching anchor was found. Explicit offset overrides section navigation; cached full text remains available.',
+            'download':'url, max_bytes (default 8 MiB, maximum 32 MiB), optional purpose=person_photo to reject likely placeholder avatars; saves inert file in private Outputs/WebResearch for local reading/analysis; no execution/extraction',
+            'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs. HTML also returns ranked images/image_urls with profile/placeholder hints; download exact image URLs, do not guess them. HTML #fragment links start at the first visible ID/named anchor; percent-encoded fragments are decoded. fragment_found=false means no matching anchor was found. Explicit offset overrides section navigation; cached full text remains available.',
             'open':'url (new browser tab); optional page to navigate existing tab',
             'tabs':'list browser tab IDs and URLs', 'inspect':'page, optional selector or role+name; optional frame selector; offset/max_chars',
             'click':'page and selector or role+name, optional index', 'fill':'page, selector or role+name, value',

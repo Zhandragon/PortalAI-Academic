@@ -151,8 +151,10 @@ def guidance(panel, rows):
     if 'web' in names:
         text += ('\nResearch workflow: search(query), then read observed URLs; cite supported findings. Sources are not limited '
                  'to Wikipedia. Help and snippets are not read-page analysis. Use observed selectors/offsets. '
-                 'image-search returns image_url/page_url; fetch returns text AND images/image_urls for download-image. '
-                 'Downloads verify bytes, not subject identity. Present candidates and ask for the edit if unspecified. '
+                 'For a person photo, read the identified profile first: images/image_urls expose profile pictures and placeholder hints. '
+                 'Follow a relevant observed profile link before broadening search; discover(document,kind=image) inspects cached markup. '
+                 'download(url,purpose=person_photo) saves the exact photo URL and rejects likely placeholders. Check image_assessment. '
+                 'Downloads verify bytes, not subject identity. Source association is not face recognition. '
                  'Never guess URL variants after a 404, substitute generated images or bypass TLS/site challenges. '
                  'Host bounds elapsed time and progress; search limits do not block other requested work.')
     if 'science' in names:

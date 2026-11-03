@@ -163,6 +163,9 @@ def fetch_document(session,args):
     if args.get('document'):
         doc=session.documents[str(args['document'])]
         if 'text' not in doc:raise ValueError('Document has no readable text')
+        if 'html_cached' in doc:
+            if '_html' not in doc:raise ValueError('Raw HTML was outside the bounded cache; use the exact page URL for discover/data')
+            return {**doc,'text':doc['_html']}
         return doc
     url=args.get('url')
     if not isinstance(url,str):raise ValueError('url or document is required')
@@ -180,7 +183,12 @@ def fetch_document(session,args):
 def discover(session,args):
     doc=fetch_document(session,args);offset=integer(args,'offset',0,0,2000);limit=integer(args,'limit',30,1,100)
     parser=Resources(doc['url']);parser.feed(doc['text'])
-    links=parser.links;query=args.get('query','');kind=args.get('kind')
+    from web_tools import _html_image_candidates
+    ranked=_html_image_candidates(doc['text'],doc['url'],100)
+    ranked_urls={item['image_url'] for item in ranked}
+    images=[{**item,'url':item['image_url'],'label':item.get('alt',''),'kind':'image','content_fetched':False} for item in ranked]
+    links=images+[item for item in parser.links if item['url'] not in ranked_urls]
+    query=args.get('query','');kind=args.get('kind')
     if not isinstance(query,str) or len(query)>500:raise ValueError('query must be text up to 500 characters')
     if query:links=[x for x in links if query.casefold() in (x['label']+' '+x['url']).casefold()]
     if kind:links=[x for x in links if x['kind']==kind]
@@ -359,6 +367,15 @@ def download(session,args):
     kind=kind_of(final,mime);ext=Path(urlsplit(final).path).suffix.lower()
     allowed={suffix for values in KINDS.values() for suffix in values}|{'.html'}
     if ext not in allowed:ext={"application/pdf":".pdf","application/json":".json","text/csv":".csv","text/plain":".txt","text/html":".html","video/mp4":".mp4","audio/mpeg":".mp3"}.get(mime.split(';')[0].lower(),'.data')
+    image_details={}
+    if kind=='image' and mime.split(';')[0].lower()!='image/svg+xml':
+        from web_tools import _image_bytes_extension
+        from web_image_quality import assess_image
+        ext=_image_bytes_extension(raw)
+        assessment=assess_image(raw,final,session.root)
+        if args.get('purpose')=='person_photo' and assessment['likely_placeholder']:
+            raise ValueError('Likely default avatar; no person photo saved. Inspect another observed profile image.')
+        image_details={'download_verified':True,'image_format':ext[1:],'image_assessment':assessment,'exact_match_verified':False}
     folder=session.profile.private('Outputs/WebResearch');_contained(session.root,folder)
     require_space(session.root,len(raw)+1024**2,for_outputs=True);session.check();folder.mkdir(parents=True,exist_ok=True)
     path=folder/(uuid.uuid4().hex+ext);part=path.with_suffix(ext+'.part');identity=None;published=False
@@ -371,7 +388,7 @@ def download(session,args):
         if path.exists():raise FileExistsError('Download destination already exists')
         part.rename(path);published=True;session.check()
         return {'path':str(path),'files':[str(path)],'url':final,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
-                'content_type':mime,'kind':kind,'content_analyzed':False,'executed':False,
+                'content_type':mime,'kind':kind,'content_analyzed':False,'executed':False,**image_details,
                 'next_step':'Use a supported local file reader; media_tool transcribe accepts audio/video and video-understand accepts video. Fetch tool help before selecting arguments. Downloading does not verify content or meaning.'}
     except BaseException:
         if published:

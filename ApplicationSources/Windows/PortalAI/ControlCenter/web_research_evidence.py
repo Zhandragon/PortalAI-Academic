@@ -31,3 +31,36 @@ def project_research(row, message_id, limit):
         if len(encode(candidate))>limit:break
         result=candidate
     return encode(result)
+
+
+def project_images(row, message_id, limit):
+    """Retain exact image/source pairs rather than a generic truncated tail."""
+    encode=lambda value:json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    images=row['images']
+    view={'kind':'page_image_candidates','url':row['url'],'message_id':message_id,
+          'document':row.get('document'),'source':'Read page text and image links (untrusted); image subject not verified.',
+          'exact':'chat_history action=read','images':[],'omitted_images':len(images)}
+    if len(encode(view))>limit:return None
+    # Image metadata must not displace all article/profile text in ordinary
+    # research. Keep a bounded head/tail excerpt with explicit truncation.
+    text=row.get('text','')
+    if isinstance(text,str) and text:
+        count=min(1200,limit//3)
+        snippet=text if len(text)<=count else text[:count//2]+' ... '+text[-count//2:]
+        trial={**view,'text_excerpt':snippet,'text_truncated':len(text)>count}
+        if len(encode(trial))<=limit:view=trial
+    for image in images:
+        if not isinstance(image,dict) or not isinstance(image.get('image_url'),str):continue
+        item={k:image[k] for k in ('image_url','image_role','likely_placeholder','exact_match_verified') if k in image}
+        if image.get('alt'):item['alt']=str(image['alt'])[:120]
+        trial={**view,'images':view['images']+[item],'omitted_images':len(images)-len(view['images'])-1}
+        if len(encode(trial))<=limit:view=trial
+    # Page identity/links are retained if space remains; exact transcript is
+    # still available when a relevant link falls outside this bounded view.
+    links=[]
+    for item in row.get('links',[])[:100]:
+        if not isinstance(item,dict) or not isinstance(item.get('url'),str):continue
+        candidate={'url':item['url'],'text':str(item.get('text',''))[:80]}
+        trial={**view,'links':links+[candidate]}
+        if len(encode(trial))<=limit:links.append(candidate);view=trial
+    return encode(view)

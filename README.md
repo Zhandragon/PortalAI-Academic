@@ -9,7 +9,9 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r61 (2026-11-01):** Fixes verified shutdown stalling on an idle document monitor. Background Workspace resources now stop before sealing; failed cleanup remains retryable. No new dependencies or models. [Repair and validation](Documentation/IDLE-SHUTDOWN-r61.md). Existing processes load the fix after restart. Linux/Mac remain r51.
+**Windows r62 (2026-11-01):** Exposes profile photos to Nice, preserves cached HTML discovery and image evidence, flags placeholder avatars, and fixes extensionless image downloads. No new dependencies or models. [Repair and validation](Documentation/PROFILE-IMAGES-r62.md). Existing processes load the fix after restart. Linux/Mac remain r51.
+
+
 
 
 
@@ -149,7 +151,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.01-Desktop-r61/PortalAI-Academic-Universal-Setup-2026.11.01-Desktop-r61.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.01-Desktop-r62/PortalAI-Academic-Universal-Setup-2026.11.01-Desktop-r62.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

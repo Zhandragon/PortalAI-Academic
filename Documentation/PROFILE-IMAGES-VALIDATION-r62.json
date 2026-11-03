@@ -1,0 +1,284 @@
+{
+  "passed": true,
+  "version": "2026.11.01-Desktop-r62",
+  "edition": "Academic",
+  "archive_sha256": "7ca01bb72c2d93bb0154b1c5e8b8409c1eb8509a51052a3562a8ee3bc6795aea",
+  "packaged_application_tests": {
+    "passed": false,
+    "tests": 878,
+    "skipped": 1,
+    "failures": [],
+    "errors": [
+      "test_portable_capabilities.OAuthLoopbackTests.test_cancel_closes_callback_and_never_exchanges_token",
+      "test_portable_capabilities.OAuthLoopbackTests.test_real_callback_state_pkce_resource_and_token_binding"
+    ],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1631,
+    "full_recipient_install": false,
+    "passed_tests": 875,
+    "accepted_for_release": true,
+    "acceptance_reason": "Both errors reproduce on the unchanged installed OAuth path. A standalone raw socket fixture shows Content-Length emitted by the server replaced with Transfer-Encoding: chunked on receipt, without chunk framing, only on /.well-known routes. TLS fixture attempts also fail recipient certificate verification. No HTTP parser, trust validation, OAuth source or test source was weakened. All changed image/web tests pass; earlier installed full suites passed. This is not a claim that the complete packaged suite passed.",
+    "unchanged_oauth_source_sha256": {
+      "Agent/mcp_oauth.py": "165a95d649d2b58e6eeb5a49d2f44c33b73434fb8ef85252ab98806a2decfef5",
+      "Maintenance/Tests/test_portable_capabilities.py": "c46d956fcfe85b7280ba1efe33d4507168884b2b8773d7a5849eb17735d17817"
+    }
+  },
+  "installer_tests": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_resources": [
+    {
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "bytes": 11439094,
+      "passed": true,
+      "name": "python-bootstrap.zip"
+    },
+    {
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "bytes": 39062,
+      "passed": true,
+      "name": "installer_core.py"
+    },
+    {
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "bytes": 4572,
+      "passed": true,
+      "name": "engine_cli.py"
+    },
+    {
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "bytes": 4593,
+      "passed": true,
+      "name": "installer_storage.py"
+    },
+    {
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "bytes": 17915,
+      "passed": true,
+      "name": "portable_update.py"
+    },
+    {
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "bytes": 27664,
+      "passed": true,
+      "name": "suite_installer.py"
+    },
+    {
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "bytes": 29697,
+      "passed": true,
+      "name": "abliterator_installer_core.py"
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r62_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "real_public_profile_photo_retrieval": {
+    "D": {
+      "passed": true,
+      "total_seconds": 1.3589999999967404,
+      "steps": [
+        {
+          "action": "read",
+          "seconds": 0.46899999998277053
+        },
+        {
+          "action": "read",
+          "seconds": 0.375
+        },
+        {
+          "action": "discover",
+          "seconds": 0.015000000013969839
+        },
+        {
+          "action": "download",
+          "seconds": 0.26600000000325963
+        }
+      ],
+      "placeholder_rejected_before_save": true,
+      "model_answer_tested": false,
+      "production_account_used": false
+    },
+    "E": {
+      "passed": true,
+      "total_seconds": 1.1410000000032596,
+      "steps": [
+        {
+          "action": "read",
+          "seconds": 0.26600000000325963
+        },
+        {
+          "action": "read",
+          "seconds": 0.34299999999348074
+        },
+        {
+          "action": "discover",
+          "seconds": 0.01600000000325963
+        },
+        {
+          "action": "download",
+          "seconds": 0.25
+        }
+      ],
+      "placeholder_rejected_before_save": true,
+      "model_answer_tested": false,
+      "production_account_used": false
+    }
+  },
+  "all_published_windows_source_matches_payload": true,
+  "existing_component_pins_unchanged": true,
+  "added_payload_bytes_vs_r61": 26182,
+  "new_dependencies": false,
+  "new_models": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "installation_validation": {
+    "version": "2026.11.01-Desktop-r62",
+    "scope": "Structured web profile-image retrieval and evidence",
+    "new_dependencies": false,
+    "new_models": false,
+    "new_background_services": false,
+    "minimum_free_gib": 80,
+    "production_session_controlled": false,
+    "production_profile_recovery_performed": false,
+    "deprecated_C_installation_excluded": true,
+    "full_fresh_recipient_install_tested": false,
+    "linux_mac_updated": false,
+    "drives": {
+      "D": {
+        "independent_full_installation": true,
+        "installed_source_hashes_verified": 14,
+        "application_tests": {
+          "passed": true,
+          "tests": 878,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "final_targeted_tests": {
+          "passed": true,
+          "tests": 91,
+          "skipped": 0,
+          "failures": [],
+          "errors": []
+        },
+        "installed_receipt": {
+          "schema": 1,
+          "from_version": "2026.11.01-Desktop-r62",
+          "to_version": "2026.11.01-Desktop-r62",
+          "action": "repair",
+          "target": "D:\\PortalAI Windows",
+          "source": "C:\\Users\\genes\\source\\PortalAI-mission-audit-20261029\\Full\\ApplicationSources\\Windows\\PortalAI",
+          "edition": "Full",
+          "platform": "Windows",
+          "backup_bytes": 47123,
+          "install_bytes": 48045,
+          "private_data_changed": false,
+          "verified": true,
+          "changed": 4,
+          "recovery": "D:\\PortalAI Windows\\Maintenance\\Updates\\a41b8a4fb36e432f927e8ce7f49f3e90",
+          "free_bytes": 179570036736
+        },
+        "free_bytes": 174340485120
+      },
+      "E": {
+        "independent_full_installation": true,
+        "installed_source_hashes_verified": 14,
+        "application_tests": {
+          "passed": true,
+          "tests": 878,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "final_targeted_tests": {
+          "passed": true,
+          "tests": 91,
+          "skipped": 0,
+          "failures": [],
+          "errors": []
+        },
+        "installed_receipt": {
+          "schema": 1,
+          "from_version": "2026.11.01-Desktop-r62",
+          "to_version": "2026.11.01-Desktop-r62",
+          "action": "repair",
+          "target": "E:\\PortalAI Windows",
+          "source": "C:\\Users\\genes\\source\\PortalAI-mission-audit-20261029\\Full\\ApplicationSources\\Windows\\PortalAI",
+          "edition": "Full",
+          "platform": "Windows",
+          "backup_bytes": 47123,
+          "install_bytes": 48045,
+          "private_data_changed": false,
+          "verified": true,
+          "changed": 4,
+          "recovery": "E:\\PortalAI Windows\\Maintenance\\Updates\\70d68e159fdd4d76ba17ef7367176cb4",
+          "free_bytes": 200534749184
+        },
+        "free_bytes": 200534732800
+      }
+    },
+    "additional_web_runtime_tests": {
+      "passed": true,
+      "tests": 70,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "live_web_smoke": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "Live public search",
+          "passed": true
+        },
+        {
+          "name": "Injected HTML 403; real independent/Lite fallback",
+          "passed": true
+        },
+        {
+          "name": "Repeated query served from portable cache without network",
+          "passed": true
+        },
+        {
+          "name": "Live public page fetch",
+          "passed": true
+        },
+        {
+          "name": "Live Wikimedia page fetch",
+          "passed": true
+        },
+        {
+          "name": "Real image search and bounded direct image download",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "7ca01bb72c2d93bb0154b1c5e8b8409c1eb8509a51052a3562a8ee3bc6795aea",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

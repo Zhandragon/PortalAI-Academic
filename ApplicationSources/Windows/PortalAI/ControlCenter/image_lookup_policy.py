@@ -55,8 +55,26 @@ class ImageLookupCycle:
 
     @staticmethod
     def request(name, args):
-        if name != 'shell' or not isinstance(args, dict):
-            return None
+        if not isinstance(args,dict):return None
+        if name=='web':
+            action=args.get('action');values=args.get('arguments',{})
+            if not isinstance(action,str) or not isinstance(values,dict):return None
+            if action in ('search','site_search'):
+                query=values.get('query')
+                if not isinstance(query,str):return None
+                scope=str(values.get('site','')) if action=='site_search' else ''
+                return 'search',' '.join((scope+' '+query).split()).casefold()
+            if action not in ('read','discover','download','media_info'):return None
+            value=values.get('url')
+            if not isinstance(value,str):
+                document=values.get('document')
+                if not isinstance(document,str):return None
+                value='document:'+document
+            # Paging or find is a distinct inspection, still bounded overall.
+            options={k:values[k] for k in ('find','offset','link_offset','query','kind','pdf_page') if k in values}
+            if options:value+=' '+json.dumps(options,sort_keys=True,ensure_ascii=True)
+            return {'read':'fetch','download':'download-image'}.get(action,action),value
+        if name!='shell':return None
         command = args.get('command', '')
         if not isinstance(command, str):
             return None
@@ -121,7 +139,7 @@ class ImageLookupCycle:
         # file or other requested tool calls in the same task or batch.
         if request is None:
             return None
-        if request[0] in {'image', 'image-search', 'download-image'}:
+        if name=='shell' and request[0] in {'image', 'image-search', 'download-image'}:
             self.active = True
         if not self.active:
             return None
@@ -131,7 +149,7 @@ class ImageLookupCycle:
         if self.finalize:
             if search or not self._evidence_retrieval_available():
                 return self.blocked()
-            if value not in self._seen_urls:
+            if value not in self._seen_urls and value.split(' ',1)[0] not in self._seen_urls:
                 return self.blocked('Searches have finished. Only previously returned candidate image/source URLs may now be inspected or downloaded; this new URL was not executed.')
         if request in self.actions or (search and value in self.queries):
             self.duplicates += 1
@@ -184,13 +202,16 @@ class ImageLookupCycle:
     def _collect(self, data):
         # Inspect only known result fields; prose/error text does not invent URL
         # evidence. Keep source pages separate from actual image candidates.
+        if isinstance(data.get('result'),dict):data=data['result']
+        if data.get('ok') is False:return 0
         rows = [data]
+        if isinstance(data.get('document'),str):self._seen_urls.add('document:'+data['document'])
         for name in ('details', 'chosen', 'download'):
             row = data.get(name)
             if isinstance(row, dict):
                 rows.append(row)
         for row in list(rows):
-            for name in ('images', 'alternatives', 'results', 'search_results', 'pages'):
+            for name in ('images', 'alternatives', 'results', 'search_results', 'pages', 'resources', 'links'):
                 items = row.get(name)
                 if isinstance(items, list):
                     rows.extend(item for item in items[:30] if isinstance(item, dict))
@@ -202,7 +223,7 @@ class ImageLookupCycle:
             images.append(row.get('image_url'))
             sources.append(row.get('page_url'))
             if row.get('download_verified') is True:
-                images.append(row.get('source_url'))
+                images.append(row.get('source_url') or row.get('url'))
                 if isinstance(row.get('path'), str) and row['path'] not in self.saved_files:
                     self.saved_files.append(row['path'])
             elif row.get('success') is not False and not row.get('error'):
@@ -232,7 +253,7 @@ class ImageLookupCycle:
         if not isinstance(data, dict):
             data = {}
         progress = self._collect(data)
-        failed = data.get('success') is False or not data
+        failed = data.get('ok') is False or data.get('success') is False or not data
         self.last_progress = (f'The last attempt returned {progress} new candidate image/source URLs.' if progress else
                               'The last attempt failed without new candidate URLs.' if failed else
                               'The last attempt returned no new candidate image/source URLs.')
@@ -265,8 +286,10 @@ class ImageLookupCycle:
                 f'{self.downloads}/{self.MAX_INSPECTIONS} page/download attempts. ' + self.last_progress +
                 ' Stop when evidence is adequate. If it is inadequate, make a meaningful broader/narrower query or inspect '
                 'a credible returned page; check a possibly misspelled name/event using evidence and do not silently substitute a different subject. '
-                'Do not repeat an attempted query. fetch PAGE_URL supplies page text plus images/image_urls from metadata/img/srcset; '
-                'download-image IMAGE_URL downloads that candidate without repeating search. Source pages are not image URLs, '
+                'Inspect an identified person profile and its images before broadening search; default avatars and coauthor photos are not substitutes. '
+                'With web use read(url), discover(document,kind=image), then download(url) on a returned image. '
+                'Legacy shell fetch/download-image also remain available. Check image_assessment for likely placeholders. '
+                'Do not repeat queries. Source pages are not image URLs, '
                 'and downloading verifies image bytes, not an exact semantic match. The elapsed allowance limits new lookup '
                 'attempts, not an already-running model response. Continue other requested tool work normally.')
 

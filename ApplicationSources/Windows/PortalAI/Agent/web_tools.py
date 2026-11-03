@@ -650,25 +650,29 @@ class PageImageParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.page_url = page_url
         self.candidates: list[dict[str, str]] = []
+        self.json_ld=None;self.json_ld_size=0
 
-    def _add(self, url: str, source: str, alt: str = "") -> None:
+    def _add(self, url: str, source: str, alt: str = "", hint: str = "") -> None:
         if not url or len(self.candidates) >= 256:
             return
         url = html.unescape(url.strip())
         if url.startswith("data:"):
             return
-        absolute = urllib.parse.urljoin(self.page_url, url)
+        try:absolute = urllib.parse.urljoin(self.page_url, url)
+        except ValueError:return
         if not absolute.startswith(("http://", "https://")):
             return
+        from web_image_quality import candidate_quality
         self.candidates.append(
             {
+                **candidate_quality(absolute,self.page_url,source+" "+hint+" "+alt),
                 "image_url": absolute,
                 "source": source,
                 "alt": " ".join(alt.split())[:300],
             }
         )
 
-    def _srcset(self, value, source, alt=''):
+    def _srcset(self, value, source, alt='', hint=''):
         # Keep responsive/lazy images available without returning raw HTML.
         # Data URIs and invalid entries are rejected by _add/_candidate_url.
         # Commas inside a data URI are not candidate separators. Decline that
@@ -684,11 +688,13 @@ class PageImageParser(HTMLParser):
                 except ValueError: pass
             entries.append((size, parts[0]))
         for _size, url in sorted(entries, reverse=True):
-            self._add(url, source, alt)
+            self._add(url, source, alt, hint)
 
     def handle_starttag(self, tag, attrs):
         attr = {str(k).lower(): (v or "") for k, v in attrs}
         tag = tag.lower()
+        if tag=='script' and attr.get('type','').lower()=='application/ld+json':
+            self.json_ld=[];self.json_ld_size=0
 
         if tag == "meta":
             key = (attr.get("property") or attr.get("name") or attr.get("itemprop") or '').lower()
@@ -710,11 +716,37 @@ class PageImageParser(HTMLParser):
 
         elif tag == "img":
             alt = attr.get("alt", "")
-            self._srcset(attr.get('data-srcset') or attr.get('srcset', ''), 'img:srcset', alt)
+            hint=' '.join(attr.get(k,'') for k in ('id','class','itemprop'))
+            self._srcset(attr.get('data-srcset') or attr.get('srcset', ''), 'img:srcset', alt, hint)
             for key in ('data-src', 'data-original', 'data-lazy-src', 'src'):
-                self._add(attr.get(key, ''), 'img:' + key, alt)
+                self._add(attr.get(key, ''), 'img:' + key, alt, hint)
         elif tag == 'source':
             self._srcset(attr.get('srcset', ''), 'source:srcset')
+
+
+    def handle_data(self, data):
+        if self.json_ld is not None and self.json_ld_size<200000:
+            value=data[:200000-self.json_ld_size];self.json_ld.append(value);self.json_ld_size+=len(value)
+
+    def handle_endtag(self, tag):
+        if tag=='script' and self.json_ld is not None:
+            try:self._person_images(json.loads(''.join(self.json_ld)))
+            except (ValueError,TypeError,RecursionError):pass
+            self.json_ld=None
+
+    def _person_images(self, value, depth=0):
+        if depth>8:return
+        if isinstance(value,list):
+            for item in value[:100]:self._person_images(item,depth+1)
+        elif isinstance(value,dict):
+            types=value.get('@type',[]);types=[types] if isinstance(types,str) else types
+            if isinstance(types,list) and 'Person' in types:
+                images=value.get('image',[]);images=images if isinstance(images,list) else [images]
+                for item in images[:8]:
+                    if isinstance(item,dict):item=item.get('contentUrl') or item.get('url')
+                    if isinstance(item,str):self._add(item,'json_ld:person',str(value.get('name','')))
+            for item in list(value.values())[:100]:
+                if isinstance(item,(dict,list)):self._person_images(item,depth+1)
 
 
 def _page_image_candidates(page_url: str, max_candidates: int = 8) -> list[dict[str, str]]:
@@ -749,7 +781,8 @@ def _html_image_candidates(text, final_url, max_candidates=8):
     }
     seen: set[str] = set()
     out: list[dict[str, str]] = []
-    for item in sorted(parser.candidates, key=lambda x: priority.get(x["source"], 10)):
+    roles={'profile_image':-20,'related_profile_image':60,'decorative':80,'placeholder':100}
+    for item in sorted(parser.candidates, key=lambda x: roles.get(x.get('image_role'),priority.get(x["source"],10))):
         u = item["image_url"]
         if u in seen:
             continue
@@ -1158,6 +1191,7 @@ def download_public_image(
     *,
     query: str = "web-image",
     output_root: str | None = None,
+    reject_placeholder: bool = False,
 ) -> dict[str, Any]:
     portable_root = ROOT
     context = capture(portable_root)
@@ -1173,6 +1207,10 @@ def download_public_image(
     check_profile()
     if 'html' in content_type:_check_challenge(_decode(data[:30000], content_type))
     ext = _image_bytes_extension(data)
+    from web_image_quality import assess_image
+    assessment=assess_image(data,final_url,portable_root)
+    if reject_placeholder and assessment['likely_placeholder']:
+        raise ValueError('Candidate is a likely default avatar, not a person photo; use another observed profile image.')
     folder = media_output(portable_root, output_root) if output_root else private_path(portable_root, 'Outputs/WebImages', context=context)
     scope = portable_root if folder.is_relative_to(portable_root) else folder
     _contained(scope, folder)
@@ -1199,7 +1237,7 @@ def download_public_image(
         check_profile()
         return {'path':str(path), 'files':[str(path)], 'source_url':final_url,
                 'content_type':content_type, 'image_format':ext[1:], 'validation':'image_signature',
-                'download_verified':True, 'exact_match_verified':False,
+                'download_verified':True, 'exact_match_verified':False, 'image_assessment':assessment,
                 'note':'Image bytes are already validated and saved; redundant file/PIL checks are unnecessary. This does not verify the pictured subject. Return the candidate and source; if the edit is unspecified, ask what to change. There is no ai_tools.py image-info command.',
                 'preview_url':preview_url,
                 'preview_markdown':f'![Web image]({preview_url})' if preview_url else None}
@@ -1235,6 +1273,7 @@ def find_and_download_image(query: str, page_limit: int = 5) -> dict[str, Any]:
             downloaded = download_public_image(
                 candidate["image_url"],
                 query=query,
+                reject_placeholder=not bool(re.search(r'\b(?:avatar|identicon|logo|icon|placeholder)\b',query,re.I)),
             )
             state.check()
             return {

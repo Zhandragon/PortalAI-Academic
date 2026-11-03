@@ -1,7 +1,7 @@
 {
-  "version": "2026.11.01-Desktop-r61",
+  "version": "2026.11.01-Desktop-r62",
   "edition": "Academic",
   "platform": "Windows",
-  "previous_receipt_version": "2026.11.01-Desktop-r60",
-  "reconciliation": "r61 idle shutdown cancellation and retryable Workspace cleanup"
+  "previous_receipt_version": "2026.11.01-Desktop-r61",
+  "reconciliation": "r62 profile-image evidence, cached HTML discovery, placeholder checks and image download naming"
 }

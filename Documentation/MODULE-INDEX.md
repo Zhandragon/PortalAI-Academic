@@ -167,6 +167,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/voice_policy.py](../ApplicationSources/Windows/PortalAI/Agent/voice_policy.py) | Installed voice capacity, effort linking and explicit independent TTS choices. |
 | [Agent/voice_prewarm.py](../ApplicationSources/Windows/PortalAI/Agent/voice_prewarm.py) | Optional bounded CPU import overlap; never loads weights or allocates VRAM. |
 | [Agent/web_capabilities.py](../ApplicationSources/Windows/PortalAI/Agent/web_capabilities.py) | Structured page reader, stateful browser and bounded HTTP API operations. |
+| [Agent/web_image_quality.py](../ApplicationSources/Windows/PortalAI/Agent/web_image_quality.py) | Small, advisory image checks: source association is not face recognition. |
 | [Agent/web_research.py](../ApplicationSources/Windows/PortalAI/Agent/web_research.py) | Bounded public research, data previews and inert file/media discovery. |
 | [Agent/web_runtime.py](../ApplicationSources/Windows/PortalAI/Agent/web_runtime.py) | Load only the SSD's pinned, platform-specific browser/PDF dependencies. |
 | [Agent/web_search_fallback.py](../ApplicationSources/Windows/PortalAI/Agent/web_search_fallback.py) | Bounded parsing of ordinary Bing search results; no browser/challenge bypass. |
@@ -629,6 +630,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_profile_hydration_consumers.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_hydration_consumers.py) | Lazy profile consumers preserve authorization, exports and ordinary tool paths. |
 | [Maintenance/Tests/test_profile_hydration_process_crash.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_hydration_process_crash.py) | Abrupt child exits during synthetic hydration; no production keys or paths. |
 | [Maintenance/Tests/test_profile_hydration_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_hydration_recovery.py) | Failed lazy startup and real credential replacement; temporary profiles only. |
+| [Maintenance/Tests/test_profile_images.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_images.py) | Photo retrieval regressions; invented profiles/pixels, never owner identity. |
 | [Maintenance/Tests/test_profile_incremental.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_incremental.py) | Incremental ciphertext and partial-workspace crash tests; synthetic roots only. |
 | [Maintenance/Tests/test_profile_initialize.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_initialize.py) | One-time initializer uses synthetic profiles and external recovery targets. |
 | [Maintenance/Tests/test_profile_login_progress.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_login_progress.py) | Authenticated restore progress and fresh/resumed integrity, synthetic roots only. |

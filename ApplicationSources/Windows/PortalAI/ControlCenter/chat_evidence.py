@@ -121,6 +121,9 @@ def web_evidence(message, message_id, limit):
     if row.get('kind') in ('data_preview','resource_discovery','catalog_results'):
         from web_research_evidence import project_research
         return project_research(row, message_id, limit)
+    if isinstance(row.get('images'),list) and row['images'] and isinstance(row.get('url'),str):
+        from web_research_evidence import project_images
+        return project_images(row,message_id,limit)
     encode = lambda data: json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     if message.get('name') == 'web' and isinstance(row.get('actions'), dict):
         view = {'kind':'tool_help', 'message_id':message_id,

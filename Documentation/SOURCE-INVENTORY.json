@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 939
+    "Windows": 941
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -51331,39 +51331,59 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/web_capabilities.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "6314f23837a66712e35beac0fcb94a642696520bd1a580fa0291743d9de35bca",
-      "lines": 277,
+      "sha256": "c5ea15e2c57a9421e35c325c4725437012cc4aa99cb3653a76e228cc0a5ef061",
+      "lines": 293,
       "overview": "Structured page reader, stateful browser and bounded HTTP API operations.",
       "symbols": [
         {
           "name": "page_slice",
-          "line": 23,
+          "line": 24,
           "kind": "FunctionDef"
         },
         {
           "name": "Document",
-          "line": 30,
+          "line": 31,
           "kind": "ClassDef"
         },
         {
           "name": "find_text",
-          "line": 61,
+          "line": 62,
           "kind": "FunctionDef"
         },
         {
           "name": "NoRedirect",
-          "line": 80,
+          "line": 81,
           "kind": "ClassDef"
         },
         {
           "name": "api_request",
-          "line": 83,
+          "line": 84,
           "kind": "FunctionDef"
         },
         {
           "name": "WebSession",
-          "line": 120,
+          "line": 121,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/web_image_quality.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "c1d35adc53b8bfc5ff6b231b011dc0f25f16c8d8ed34ee46e5323b40eb800ef1",
+      "lines": 62,
+      "overview": "Small, advisory image checks: source association is not face recognition.",
+      "symbols": [
+        {
+          "name": "candidate_quality",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "assess_image",
+          "line": 32,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -51371,8 +51391,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/web_research.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "7cc1cf156066b19b70ca562cb79ac4bdf92a1dd047500219e9fa96710536a9da",
-      "lines": 392,
+      "sha256": "92d7007479ee138058f6b5581d367962b71749ed05c864ce75b87a26ad847363",
+      "lines": 409,
       "overview": "Bounded public research, data previews and inert file/media discovery.",
       "symbols": [
         {
@@ -51402,52 +51422,52 @@
         },
         {
           "name": "discover",
-          "line": 180,
+          "line": 183,
           "kind": "FunctionDef"
         },
         {
           "name": "site_search",
-          "line": 195,
+          "line": 203,
           "kind": "FunctionDef"
         },
         {
           "name": "is_binary",
-          "line": 214,
+          "line": 222,
           "kind": "FunctionDef"
         },
         {
           "name": "site_query",
-          "line": 220,
+          "line": 228,
           "kind": "FunctionDef"
         },
         {
           "name": "short_value",
-          "line": 236,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "read_data",
           "line": 244,
           "kind": "FunctionDef"
         },
         {
+          "name": "read_data",
+          "line": 252,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "catalog_search",
-          "line": 303,
+          "line": 311,
           "kind": "FunctionDef"
         },
         {
           "name": "media_info",
-          "line": 340,
+          "line": 348,
           "kind": "FunctionDef"
         },
         {
           "name": "download",
-          "line": 354,
+          "line": 362,
           "kind": "FunctionDef"
         },
         {
           "name": "execute",
-          "line": 390,
+          "line": 407,
           "kind": "FunctionDef"
         }
       ]
@@ -51551,8 +51571,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/web_tools.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "4b079023cf5687386c111777b9399282807cdebcc5c14222cb6bb4b3d167f69e",
-      "lines": 1465,
+      "sha256": "1f3f4ef8e3bf0a72a3553764b2010edabcecb88140ee6c0047f833586d949b2d",
+      "lines": 1504,
       "overview": "",
       "symbols": [
         {
@@ -51697,82 +51717,82 @@
         },
         {
           "name": "_page_image_candidates",
-          "line": 720,
+          "line": 752,
           "kind": "FunctionDef"
         },
         {
           "name": "_html_image_candidates",
-          "line": 736,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "_json_request",
           "line": 768,
           "kind": "FunctionDef"
         },
         {
+          "name": "_json_request",
+          "line": 801,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "_wikipedia_lead_images",
-          "line": 794,
+          "line": 827,
           "kind": "FunctionDef"
         },
         {
           "name": "_wikimedia_commons_images",
-          "line": 849,
+          "line": 882,
           "kind": "FunctionDef"
         },
         {
           "name": "_duckduckgo_vqd",
-          "line": 903,
+          "line": 936,
           "kind": "FunctionDef"
         },
         {
           "name": "_duckduckgo_images",
-          "line": 933,
+          "line": 966,
           "kind": "FunctionDef"
         },
         {
           "name": "_page_metadata_images",
-          "line": 979,
+          "line": 1012,
           "kind": "FunctionDef"
         },
         {
           "name": "image_search",
-          "line": 1031,
+          "line": 1064,
           "kind": "FunctionDef"
         },
         {
           "name": "_safe_filename",
-          "line": 1135,
+          "line": 1168,
           "kind": "FunctionDef"
         },
         {
           "name": "_image_bytes_extension",
-          "line": 1141,
+          "line": 1174,
           "kind": "FunctionDef"
         },
         {
           "name": "download_public_image",
-          "line": 1156,
+          "line": 1189,
           "kind": "FunctionDef"
         },
         {
           "name": "find_and_download_image",
-          "line": 1221,
+          "line": 1259,
           "kind": "FunctionDef"
         },
         {
           "name": "fetch_url",
-          "line": 1272,
+          "line": 1311,
           "kind": "FunctionDef"
         },
         {
           "name": "research",
-          "line": 1343,
+          "line": 1382,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 1385,
+          "line": 1424,
           "kind": "FunctionDef"
         }
       ]
@@ -52613,8 +52633,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_evidence.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a8eb08732ac056b4cfd0f34cb0d4e760c1d5403733900d6ebaee341b24d4a33a",
-      "lines": 250,
+      "sha256": "61bf4d00657084fd0ed08224882abbe184e14e7650686a4a4b60b1adfe0ffdfd",
+      "lines": 253,
       "overview": "Bounded model views and read-only access to the current saved conversation.",
       "symbols": [
         {
@@ -52639,12 +52659,12 @@
         },
         {
           "name": "project",
-          "line": 163,
+          "line": 166,
           "kind": "FunctionDef"
         },
         {
           "name": "execute",
-          "line": 194,
+          "line": 197,
           "kind": "FunctionDef"
         }
       ]
@@ -52798,8 +52818,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "8b36b97256a64a3779b379bb59842b706931097addd53d1fb1bd660e97e1cd7e",
-      "lines": 217,
+      "sha256": "e2c2b18ba1f74b9cdb306ef2af2ee89bf9392f4c2af23ac62eaf98a4d280affc",
+      "lines": 219,
       "overview": "Request-local capability discovery and on-demand tool/workflow guidance.",
       "symbols": [
         {
@@ -52839,7 +52859,7 @@
         },
         {
           "name": "load",
-          "line": 187,
+          "line": 189,
           "kind": "FunctionDef"
         }
       ]
@@ -53523,8 +53543,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/image_lookup_policy.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a506e2819edbbb2ae344804dcf517771448574136e6ca9193f4781deebedb60f",
-      "lines": 285,
+      "sha256": "6e98ea3d397fe6a83ee014c4bf4326743393c532af1596376bf74670474f401a",
+      "lines": 308,
       "overview": "Progress-aware image lookup limits; unrelated requested tools remain available.",
       "symbols": [
         {
@@ -55947,7 +55967,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "ed971990cd2f55ebe868b1652451a1abd75144433aa91c28c4c635692170efe4",
+      "sha256": "439e6f1a5a42f152dc6be63198efbc0d6e0ef54f84c41a547f281aae33851bd9",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -56796,13 +56816,18 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/web_research_evidence.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a1f6f61c7a09eb2883b0db860c6b3d3987ea527eb38caf005c72aabd65b66f85",
-      "lines": 33,
+      "sha256": "7400315cf9b4b93af4e3056825ecf302401e9fa79ba27b94b452121f3aa25ff6",
+      "lines": 66,
       "overview": "Keep data-page cursors and metadata distinctions when chat context shrinks.",
       "symbols": [
         {
           "name": "project_research",
           "line": 5,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "project_images",
+          "line": 36,
           "kind": "FunctionDef"
         }
       ]
@@ -56811,7 +56836,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/web_tool_api.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "689ea59855afdb90d578c772989ce08150d315947723defba16d83a9747fc0f1",
+      "sha256": "121fc87dc682152b4d667436c697a6ac01ea40f6f2d931ca483d3e988b8f55ac",
       "lines": 69,
       "overview": "Account-bound owned browser worker, cancelled by the existing Stop path.",
       "symbols": [
@@ -61792,6 +61817,21 @@
         {
           "name": "RealCredentialHydrationTests",
           "line": 97,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_images.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "562666c99e148e012cbd505cba9a7b204a97bf7a190205e0c8b2cffaccacb077",
+      "lines": 133,
+      "overview": "Photo retrieval regressions; invented profiles/pixels, never owner identity.",
+      "symbols": [
+        {
+          "name": "ProfileImages",
+          "line": 27,
           "kind": "ClassDef"
         }
       ]
