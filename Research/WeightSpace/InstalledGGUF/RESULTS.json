@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T12:07:43Z",
+  "updated_at_utc": "2026-11-04T13:11:05Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -1231,6 +1231,21 @@
         },
         "selection_data": "Existing discovery loss only; no candidate answer or final benchmark was used.",
         "matrix_norm_ceiling": 0.15
+      },
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_1337",
+            "record_sha256": "28d4749881d53fa91a6b41b94aae6c6cc1e43448fc56b9f0d71e5a82b8e48f1e",
+            "classification": "answer-key unit ambiguity",
+            "observation": "The question ends by asking for shoes. Its supplied answer key is 27, the number of pairs; the response derives 27 pairs and converts them to 54 individual shoes. The literal shoes interpretation supports 54. The official incorrect grade is retained for reproducibility, but this is not a clear arithmetic failure.",
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false,
+            "sensitivity_note": "Report comparison results excluding this ambiguous item as a separate post-hoc diagnostic if it appears in an original/edit/control screen. Do not rewrite the frozen official scores or use this note to retune the selected recipe."
+          }
+        ]
       }
     },
     "4-abliterated": {
@@ -1712,7 +1727,7 @@
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",
-      "status": "in progress",
+      "status": "discovery complete without supported contrast",
       "production_original_replaced": false,
       "completed_case_counts": {
         "baseline": {
@@ -1746,11 +1761,11 @@
           "reply_budget_exhaustions": 2
         },
         "001b-natural-discovery": {
-          "completed": 11,
+          "completed": 32,
           "planned": 32,
-          "correct": 11,
-          "correct_with_natural_stop": 11,
-          "reply_budget_exhaustions": 0
+          "correct": 31,
+          "correct_with_natural_stop": 30,
+          "reply_budget_exhaustions": 1
         }
       },
       "accounted_passes": [
@@ -1762,9 +1777,15 @@
         {
           "id": "001b-natural-discovery",
           "phase": "discovery",
-          "status": "running"
+          "status": "complete"
         }
       ],
+      "admission": {
+        "good": 51,
+        "bad": 2,
+        "qualified": false,
+        "reason": "No supported natural-failure contrast; retain the original."
+      },
       "interpretation_notes": {
         "discovery_only": true,
         "scores_modified": false,
@@ -1775,14 +1796,62 @@
             "classification": "scalar answer-target/format mismatch",
             "observation": "The response gives the correct component counts (3000 pizzas and 1800 hot dogs) in its final box; the benchmark target is their combined total, 4800. The published scalar-answer grader marks it incorrect. This is not evidence of incorrect component arithmetic.",
             "official_grade_retained": true
+          },
+          {
+            "id": "gsm8k_train_1337",
+            "record_sha256": "b63f6070839b9386f11cc4ecfc1aae29227108e9611ec8f7e8e0aac7e40303d5",
+            "classification": "answer-key unit ambiguity",
+            "observation": "The question ends by asking for shoes. Its supplied answer key is 27, the number of pairs; the response derives 27 pairs and converts them to 54 individual shoes. The literal shoes interpretation supports 54. The official incorrect grade is retained for reproducibility, but this is not a clear arithmetic failure.",
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false,
+            "sensitivity_note": "Report comparison results excluding this ambiguous item as a separate post-hoc diagnostic if it appears in an original/edit/control screen. Do not rewrite the frozen official scores or use this note to retune the selected recipe."
           }
         ]
       }
     },
     "27-abliterated": {
       "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
-      "status": "not started",
-      "production_original_replaced": false
+      "status": "in progress",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 16,
+          "planned": 24,
+          "correct": 15,
+          "correct_with_natural_stop": 15,
+          "reply_budget_exhaustions": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ]
     }
   },
   "production_model_replacements": 0,

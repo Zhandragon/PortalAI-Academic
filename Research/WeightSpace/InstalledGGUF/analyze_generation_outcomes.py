@@ -63,7 +63,24 @@ def analyze(folder):
     assert arms['baseline']['correct'] == summary['paired']['baseline_correct']
     assert arms['candidate']['correct'] == summary['paired']['candidate_correct']
     assert arms['random']['correct'] == summary['random_control']['candidate_correct']
-    return {'status': 'Completed comparison analyzed', 'arms': arms}
+    result = {'status': 'Completed comparison analyzed', 'arms': arms}
+    notes_path = folder / 'INTERPRETATION-NOTES.json'
+    if notes_path.is_file():
+        notes = json.loads(notes_path.read_text(encoding='utf-8'))
+        assert notes['scores_modified'] is False
+        excluded = sorted({note['id'] for note in notes['notes']
+                           if note.get('classification') == 'answer-key unit ambiguity'} & case_ids)
+        if excluded:
+            result['post_hoc_excluding_ambiguous_items'] = {
+                'excluded_ids': excluded,
+                'frozen_grades_and_admission_unchanged': True,
+                'used_for_recipe_selection': False,
+                'arms': {arm: {
+                    'cases': len(case_ids) - len(excluded),
+                    'correct': sum(row['correct'] for key, row in values['cases_with_diagnostics'].items() if key not in excluded),
+                } for arm, values in arms.items()},
+            }
+    return result
 
 
 def report():

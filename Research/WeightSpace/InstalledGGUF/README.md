@@ -19,6 +19,12 @@ loop. The read-only analyzer is published alongside these results.
 1. Collect natural completions from 24 frozen practice problems, at the pinned
    32,768-token reply budget. If fewer than four successes or failures occur,
    gather a further 32 preselected discovery problems. No synthetic bad reasoning.
+   Here success means a correct answer with a natural stop; failure means an
+   incorrect answer. Correct answers extracted from limit-hit replies are
+   reported separately and do not enter either localization group. Therefore
+   a lack of incorrect answers does not establish an absence of inefficient
+   or unfinished reasoning, and this accuracy-contrast hypothesis does not
+   directly target every kind of loop.
 2. Replay actual prompt/completion tokens through the native quantized graph.
    Compare successful/unsuccessful activation means and rank internal MLP sites.
    These groups are not matched by topic or difficulty: localization is a
