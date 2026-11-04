@@ -8,6 +8,12 @@ The [selected recipes and edit receipts](Profiles/) are individually readable
 JSON; [optional profile downloads](OPTIONAL-PROFILES.md) avoid repeating the
 experiment when a user explicitly wants to try a recorded tradeoff.
 
+[Completion diagnostics](COMPLETION-DIAGNOSTICS.json) separately report token
+limits, correct answers with a natural stop, output lengths and repetitive
+tails. They are post-hoc descriptions of completed comparisons, not new
+selection rules. Repetition is a heuristic and cannot detect every reasoning
+loop. The read-only analyzer is published alongside these results.
+
 ## Method and boundaries
 
 1. Collect natural completions from 24 frozen practice problems, at the pinned

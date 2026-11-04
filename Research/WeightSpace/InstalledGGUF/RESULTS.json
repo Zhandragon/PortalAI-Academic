@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T10:28:48Z",
+  "updated_at_utc": "2026-11-04T11:12:26Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -1700,7 +1700,20 @@
           "phase": "discovery",
           "status": "running"
         }
-      ]
+      ],
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_4302",
+            "record_sha256": "7fb61af1b20e8ccfafafadb8ce8ec5bd95fd58091e3e1cb3341b1e432f84626a",
+            "classification": "scalar answer-target/format mismatch",
+            "observation": "The response gives the correct component counts (3000 pizzas and 1800 hot dogs) in its final box; the benchmark target is their combined total, 4800. The published scalar-answer grader marks it incorrect. This is not evidence of incorrect component arithmetic.",
+            "official_grade_retained": true
+          }
+        ]
+      }
     },
     "27-abliterated": {
       "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
