@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 974
+    "Windows": 976
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -63714,6 +63714,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_tool_formats.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "80a7340e12d1b6d1a930eb9f7f8efd8de2c5ab87bea5fbc1297795d93fb6d0df",
+      "lines": 79,
+      "overview": "Tool-choice scoring accepts native Qwen dialects without executing tool text.",
+      "symbols": [
+        {
+          "name": "fixture",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "xml",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "ToolFormatTests",
+          "line": 22,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -64974,8 +64999,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "421f1fb1780ea4d224a8fb820a3c3a0df9c9ab12ec7039114076225b28cf0861",
-      "lines": 66,
+      "sha256": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+      "lines": 65,
       "overview": "Explicit, deterministic task graders; tool choices are never executed.",
       "symbols": [
         {
@@ -64995,7 +65020,7 @@
         },
         {
           "name": "read_cases",
-          "line": 55,
+          "line": 54,
           "kind": "FunctionDef"
         }
       ]
@@ -65262,6 +65287,36 @@
         {
           "name": "build",
           "line": 69,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/tool_call_format.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7",
+      "lines": 78,
+      "overview": "Parse native Qwen tool dialects for offline grading only; never dispatch calls.",
+      "symbols": [
+        {
+          "name": "strict_json",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "same_value",
+          "line": 19,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "typed",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "parse_tool_calls",
+          "line": 34,
           "kind": "FunctionDef"
         }
       ]

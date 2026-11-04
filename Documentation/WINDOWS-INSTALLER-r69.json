@@ -2,18 +2,21 @@
   "version": "2026.11.04-Desktop-r69",
   "edition": "Academic",
   "archive": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r69-suite.zip",
-  "bytes": 624058310,
-  "sha256": "c258560fd5007de16f5a51630a6fa1c89e4a87b8bfcc57fa4495bbede80a480c",
+  "bytes": 624061872,
+  "sha256": "c0e8421f0e96b8cc39a1f487ddce1804a16b9152461ac9868699e71334103ccc",
   "previous_sha256": "8c698c52a82a0ccb5d6fd17b33139ff14b220ba8d51a7ddd637b5248ac97fa20",
   "changed_members": [
     "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/Tools/WeightSpace/evaluation.py",
     "PortalAI/Tools/WeightSpace/native_forward.py"
   ],
   "added_members": [
     "PortalAI/Documentation/Weight_MTP_r69.txt",
-    "PortalAI/Maintenance/Tests/test_weightspace_decoder_layers.py"
+    "PortalAI/Maintenance/Tests/test_weightspace_decoder_layers.py",
+    "PortalAI/Maintenance/Tests/test_weightspace_tool_formats.py",
+    "PortalAI/Tools/WeightSpace/tool_call_format.py"
   ],
-  "payload_members": 5440,
+  "payload_members": 5442,
   "existing_dependency_pins_unchanged": true,
   "new_dependencies": false,
   "new_runtime": false,
@@ -28,21 +31,21 @@
   "native_storage_preflight_includes_component": true,
   "full_recipient_install": false,
   "storage": {
-    "installed_bytes": 274374162789,
+    "installed_bytes": 274374173056,
     "download_bytes": 234759855909,
-    "required_bytes": 513416294269,
-    "files": 330473
+    "required_bytes": 513416312726,
+    "files": 330475
   },
   "package_files": [
     {
       "name": "PACKAGE_SHA256.json",
       "bytes": 1312,
-      "sha256": "abb5717aae90b07777bf07011e7e9bfe7179be10472f114f74e72c7cc6f63dd6"
+      "sha256": "df1e88c9a8f503f889816a289e56a91e3baf0e7ae28ac70f6abb54255d2349d1"
     },
     {
       "name": "payload.zip",
-      "bytes": 381997171,
-      "sha256": "9aec0440b9e0548f2a3600fb4792583dab447947b8575eac20f0152299569177"
+      "bytes": 382001149,
+      "sha256": "0754a5b5f82ed927ff89493fb0f23e49001df6d074e8362c1263d63a70814b8a"
     },
     {
       "name": "PortalAI-Academic-Install.exe",
@@ -56,8 +59,8 @@
     },
     {
       "name": "release.json",
-      "bytes": 139098663,
-      "sha256": "44c80151ff20d928b30b9a7831573c87343865278bf71fb89f0dde47a3380cbb"
+      "bytes": 139099223,
+      "sha256": "5f63edbbde4c8db9289bbf6851f0815de6a7aefd86c2e12ee8fa5cb497c5e85b"
     },
     {
       "name": "sox-14.4.2-win32.zip",
@@ -66,13 +69,13 @@
     },
     {
       "name": "START_HERE.txt",
-      "bytes": 7190,
-      "sha256": "5395a80fdc5287b002f4bc075b98e37af65fbedebc479b65e6c0f85a68cb5b41"
+      "bytes": 7236,
+      "sha256": "e4350e9459907bf3f9a5e9e3f1587e4dcbac443c67f548322c9a0de05b5caf29"
     },
     {
       "name": "storage-plan.json",
       "bytes": 190614,
-      "sha256": "f3a79a9d5008cebf8b8f3f9156b2f12475a76140cc9a86ba9e9e9632d81b5a27"
+      "sha256": "2de68915d520086f524e4e774ccc67049bf6d4b116a9611d0c3cf37e1c704a6a"
     },
     {
       "name": "suite-catalog.json",

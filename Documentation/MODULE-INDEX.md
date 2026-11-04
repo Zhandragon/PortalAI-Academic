@@ -738,6 +738,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_weightspace_decoder_layers.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_decoder_layers.py) | The capture topology must follow the main decoder, excluding NextN blocks. |
 | [Maintenance/Tests/test_weightspace_grading.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_grading.py) | A non-terminating model answer must not abort independent comparisons. |
 | [Maintenance/Tests/test_weightspace_sampling.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_sampling.py) | Exercise native presence penalties without loading a model or GPU backend. |
+| [Maintenance/Tests/test_weightspace_tool_formats.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_tool_formats.py) | Tool-choice scoring accepts native Qwen dialects without executing tool text. |
 | [Maintenance/Tests/test_window_icons.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py) | Read back real native icon pixels and exercise Tk wrapper lifetimes. |
 | [Maintenance/Tests/test_window_minimize.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_minimize.py) | Native minimize with the real drop hook; current tray callback routing. |
 | [Maintenance/Tests/test_windows_demucs.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_demucs.py) | Offline Windows model/decode/epoch boundaries; synthetic data only. |
@@ -831,6 +832,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/WeightSpace/research_guard.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/research_guard.py) | Manual, portable GPU pause for this experiment; no production policy changes. |
 | [Tools/WeightSpace/run_owned.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/run_owned.py) | Gate a native worker behind a bounded Windows Job; no inherited account keys. |
 | [Tools/WeightSpace/sparse_edit.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/sparse_edit.py) | Experimental sparse projection edits; originals are never written. |
+| [Tools/WeightSpace/tool_call_format.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/tool_call_format.py) | Parse native Qwen tool dialects for offline grading only; never dispatch calls. |
 | [Tools/WeightSpace/ui.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/ui.py) | Lightweight standalone Tk utility; work runs in owned background processes. |
 | [Tools/WeightSpace/utility_worker.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/utility_worker.py) | Portable worker for model inspection, direct edits and paired task evaluation. |
 | [Tools/WeightSpace/verify_native_abi.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/verify_native_abi.py) | Compile field offsets from the exact pinned header using bundled clang. |

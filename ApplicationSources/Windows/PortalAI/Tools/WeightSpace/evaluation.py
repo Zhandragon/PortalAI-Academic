@@ -38,13 +38,12 @@ def grade(case,text):
                     'reason':'Model program exceeded the five-second code execution budget; owned worker stopped.'}
         return {'correct':bool(result['passed']),'detail':result}
     if kind=='tool':
-        raw=re.findall(r'<tool_call>\s*(.*?)\s*</tool_call>',content,re.S)
-        calls=[]
-        for piece in raw:
-            try:calls.append(json.loads(piece))
-            except ValueError:return {'correct':False,'reason':'Malformed tool call'}
+        from tool_call_format import parse_tool_calls,same_value
+        try:calls=parse_tool_calls(content,case.get('tools',()))
+        except (ValueError,TypeError,RecursionError):
+            return {'correct':False,'reason':'Malformed or unsupported tool call','tools_executed':False,'grader_version':'qwen-tool-formats-v2'}
         wanted=case['calls']
-        return {'correct':calls==wanted,'observed_calls':calls,'tools_executed':False}
+        return {'correct':same_value(calls,wanted),'observed_calls':calls,'tools_executed':False,'grader_version':'qwen-tool-formats-v2'}
     if kind=='exact':return {'correct':content==case['answer'],'observed':content[:500]}
     if kind=='json':
         try:got=json.loads(content)

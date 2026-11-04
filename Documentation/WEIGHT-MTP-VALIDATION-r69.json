@@ -6,7 +6,7 @@
     "D": {
       "focused_checks": {
         "passed": true,
-        "tests": 96,
+        "tests": 108,
         "skipped": 1,
         "failures": [],
         "errors": []
@@ -15,15 +15,18 @@
         "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
         "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
         "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
-        "Documentation/Weight_MTP_r69.txt": "0dc1a31af94ae46ba341ab9178118835222f459f65e3ac65bb1580c15eb2353e"
+        "Documentation/Weight_MTP_r69.txt": "34097c992fc022cfac13bd7bd750b2792ec3c7a3a9d4385263d75086956ec6f7",
+        "Tools/WeightSpace/evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+        "Tools/WeightSpace/tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7",
+        "Maintenance/Tests/test_weightspace_tool_formats.py": "80a7340e12d1b6d1a930eb9f7f8efd8de2c5ab87bea5fbc1297795d93fb6d0df"
       },
-      "free_bytes": 104924676096,
+      "free_bytes": 104137887744,
       "independent_installation": true
     },
     "E": {
       "focused_checks": {
         "passed": true,
-        "tests": 96,
+        "tests": 108,
         "skipped": 1,
         "failures": [],
         "errors": []
@@ -32,22 +35,25 @@
         "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
         "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
         "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
-        "Documentation/Weight_MTP_r69.txt": "0dc1a31af94ae46ba341ab9178118835222f459f65e3ac65bb1580c15eb2353e"
+        "Documentation/Weight_MTP_r69.txt": "34097c992fc022cfac13bd7bd750b2792ec3c7a3a9d4385263d75086956ec6f7",
+        "Tools/WeightSpace/evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+        "Tools/WeightSpace/tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7",
+        "Maintenance/Tests/test_weightspace_tool_formats.py": "80a7340e12d1b6d1a930eb9f7f8efd8de2c5ab87bea5fbc1297795d93fb6d0df"
       },
-      "free_bytes": 188431364096,
+      "free_bytes": 179017543680,
       "independent_installation": true
     }
   },
   "packaged_application_checks": {
     "passed": true,
-    "tests": 96,
+    "tests": 108,
     "skipped": 1,
     "failures": [],
     "errors": [],
     "installer_allowlist_extraction_verified": true,
     "native_runtime_extracted_from_verified_component": true,
     "native_abi_hashes_verified": true,
-    "source_python_parsed": 1763,
+    "source_python_parsed": 1765,
     "full_recipient_install": false,
     "scope": "Focused grading, editor, profiles, startup and model-switch regressions with packaged native DLLs; Python package fixtures still copied from D. r65 full suite evidence remains historical."
   },
@@ -71,46 +77,46 @@
   },
   "embedded_source_resources": [
     {
-      "name": "python-bootstrap.zip",
       "bytes": 11439094,
       "passed": true,
-      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297"
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip"
     },
     {
-      "name": "installer_core.py",
       "bytes": 39062,
       "passed": true,
-      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459"
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py"
     },
     {
-      "name": "engine_cli.py",
       "bytes": 4572,
       "passed": true,
-      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788"
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py"
     },
     {
-      "name": "installer_storage.py",
       "bytes": 4593,
       "passed": true,
-      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007"
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py"
     },
     {
-      "name": "portable_update.py",
       "bytes": 17915,
       "passed": true,
-      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0"
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py"
     },
     {
-      "name": "suite_installer.py",
       "bytes": 27664,
       "passed": true,
-      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475"
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py"
     },
     {
-      "name": "abliterator_installer_core.py",
       "bytes": 29697,
       "passed": true,
-      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5"
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py"
     }
   ],
   "catalog": {
@@ -356,7 +362,7 @@
     "complete_fresh_install": false
   },
   "source_matches_payload": true,
-  "payload_growth_bytes_vs_r68": 4641,
+  "payload_growth_bytes_vs_r68": 14908,
   "existing_component_pins_unchanged": true,
   "production_defaults_changed": false,
   "new_dependencies": false,
@@ -365,138 +371,13 @@
   "full_fresh_recipient_install_tested": false,
   "linux_mac_updated": false,
   "deprecated_C_installation_excluded": true,
-  "scope": "Main-decoder metadata excludes inactive NextN prediction blocks. Prompt rendering, sampling and Forward methods are byte-identical to r68; runtime pins and original models are unchanged.",
-  "prior_evidence": "r65 completed full 1233-check suites on both SSDs and extracted editions, with actual original/edit/original native inference on D and E. This follow-up ran 96 focused checks on each installation and extracted edition. A real 27B probe reproduced the inactive-block failure and verified all active captures; the separately tracked research comparison is not part of these software checks.",
-  "documentation_correction": {
-    "passed": true,
-    "only_payload_member_changed": "PortalAI/Documentation/Weight_MTP_r69.txt",
-    "all_tested_code_bytes_unchanged": true,
-    "previous_payload_sha256": "5af784270d51d5c58c841298f5cb676114ae9ca14f7de130b87452929c519d14",
-    "payload_sha256": "9aec0440b9e0548f2a3600fb4792583dab447947b8575eac20f0152299569177",
-    "installed_topology": {
-      "passed": true,
-      "models": [
-        {
-          "drive": "D",
-          "model": "1.7-standard",
-          "architecture": "qwen3",
-          "layers": 28,
-          "total_layers": 28,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "D",
-          "model": "1.7-abliterated",
-          "architecture": "qwen3",
-          "layers": 28,
-          "total_layers": 28,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "D",
-          "model": "4-standard",
-          "architecture": "qwen3",
-          "layers": 36,
-          "total_layers": 36,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "D",
-          "model": "4-abliterated",
-          "architecture": "qwen3",
-          "layers": 36,
-          "total_layers": 36,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "D",
-          "model": "27-standard",
-          "architecture": "qwen35",
-          "layers": 64,
-          "total_layers": 64,
-          "mtp_layers": 0,
-          "training_context": 262144
-        },
-        {
-          "drive": "D",
-          "model": "27-abliterated",
-          "architecture": "qwen35",
-          "layers": 64,
-          "total_layers": 65,
-          "mtp_layers": 1,
-          "training_context": 262144
-        },
-        {
-          "drive": "E",
-          "model": "1.7-standard",
-          "architecture": "qwen3",
-          "layers": 28,
-          "total_layers": 28,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "E",
-          "model": "1.7-abliterated",
-          "architecture": "qwen3",
-          "layers": 28,
-          "total_layers": 28,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "E",
-          "model": "4-standard",
-          "architecture": "qwen3",
-          "layers": 36,
-          "total_layers": 36,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "E",
-          "model": "4-abliterated",
-          "architecture": "qwen3",
-          "layers": 36,
-          "total_layers": 36,
-          "mtp_layers": 0,
-          "training_context": 40960
-        },
-        {
-          "drive": "E",
-          "model": "27-standard",
-          "architecture": "qwen35",
-          "layers": 64,
-          "total_layers": 64,
-          "mtp_layers": 0,
-          "training_context": 262144
-        },
-        {
-          "drive": "E",
-          "model": "27-abliterated",
-          "architecture": "qwen35",
-          "layers": 64,
-          "total_layers": 65,
-          "mtp_layers": 1,
-          "training_context": 262144
-        }
-      ],
-      "gpu_loaded": false,
-      "weights_modified": false,
-      "D_E_metadata_identical": true,
-      "note": "Optional MTP count is read per file, not assumed from size or variant."
-    },
-    "existing_96_check_result_remains_applicable_to_identical_executable_bytes": true
-  },
+  "scope": "Main-decoder metadata excludes inactive NextN blocks; offline tool grading accepts schema-typed native Qwen XML and JSON without executing calls. Generation/sampling, runtime pins and original models remain unchanged.",
+  "prior_evidence": "r65 completed full 1233-check suites on both SSDs and extracted editions, with actual original/edit/original native inference on D and E. This follow-up ran 108 focused checks on each installation and extracted edition. A real 27B probe reproduced the inactive-block failure and verified all active captures; the separately tracked research comparison is not part of these software checks.",
   "download_launcher": {
     "passed": true,
     "mode": "real compiled --prepare-only with verified local download cache",
     "files_verified": 10,
-    "archive_sha256": "c258560fd5007de16f5a51630a6fa1c89e4a87b8bfcc57fa4495bbede80a480c",
+    "archive_sha256": "c0e8421f0e96b8cc39a1f487ddce1804a16b9152461ac9868699e71334103ccc",
     "network_download_tested": false,
     "full_install_started": false
   }

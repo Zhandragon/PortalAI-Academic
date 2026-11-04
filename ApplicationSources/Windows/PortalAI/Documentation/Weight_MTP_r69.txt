@@ -1,4 +1,4 @@
-PortalAI Windows r69: main-decoder capture repair
+PortalAI Windows r69: decoder capture and tool-grading repairs
 
 The installed abliterated Qwen35 27B GGUF declares 65 blocks, including one
 optional NextN/MTP prediction block. The standard export has 64 blocks and
@@ -29,3 +29,14 @@ No dependency, model download or background service is added. Runtime pins
 are unchanged. Upgrade history retains r68 and every earlier supported stamp.
 D and E remain independent. Linux/Mac stay r51. Restart the editor normally
 to load this code; already-running workers retain their loaded version.
+
+Offline tool-choice grading also accepts the native Qwen XML function/parameter
+dialect alongside tagged JSON. XML parameter types come from the exposed tool
+schema. Duplicate keys/parameters, malformed envelopes, wrong choices and
+boolean-versus-number confusion remain failures. This parser only scores saved
+text; it never dispatches a tool or changes the live chat execution boundary.
+Twelve regression tests cover both dialects and invalid cases. The prior grader
+rejected three correct 27B baseline choices because of serialization alone.
+Saved outputs are rescored consistently, preserving original records, ledger
+entries, frozen cases and generated tokens. Smaller-model comparison scores
+are unchanged. Independent confirmation still precedes any model replacement.

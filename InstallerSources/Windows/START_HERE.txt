@@ -106,4 +106,4 @@ Windows r67: a worker cleanup failure halts evaluation instead of being scored a
 
 Windows r68: native presence penalties use a positive generated-token history. See Documentation/Weight_Sampler_r68.txt.
 
-Windows r69: capture excludes inactive NextN prediction blocks. See Documentation/Weight_MTP_r69.txt.
+Windows r69: capture excludes inactive prediction blocks; offline grading supports native Qwen tool dialects. See Documentation/Weight_MTP_r69.txt.
