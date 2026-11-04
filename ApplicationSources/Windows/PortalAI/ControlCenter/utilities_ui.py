@@ -44,7 +44,7 @@ def show_utilities(parent, root, colors):
             dialog.status.set('Opened separately.')
         except (OSError, ValueError, RuntimeError) as exc:
             dialog.status.set(str(exc))
-    for key, title in (('abliterator', 'PortalAI Abliterator'), ('projection', 'PortalAI Home Assistant Projection')):
+    for key, title in (('abliterator', 'PortalAI Abliterator'), ('projection', 'PortalAI Home Assistant Projection'), ('weightspace', 'PortalAI Weight-Space Editor')):
         if key == 'abliterator' and suite_utilities.edition(root) != 'Full':
             continue
         button = dialog.button(title, lambda key=key: perform(lambda: suite_utilities.launch(root, key)))
@@ -52,6 +52,9 @@ def show_utilities(parent, root, colors):
         if key == 'abliterator' and detected != 'Windows':
             button.configure(state='disabled')
             dialog.label('Abliterator currently has a Windows package only.', muted=True)
+        if key == 'weightspace' and detected != 'Windows':
+            button.configure(state='disabled')
+            dialog.label('Weight-space native editing currently supports the bundled Windows backend.', muted=True)
     for edition in suite_utilities.editions(root):
         dialog.label(edition + ' installers', bold=True)
         for system in suite_utilities.PLATFORMS:

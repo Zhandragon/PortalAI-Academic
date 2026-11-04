@@ -19,6 +19,20 @@ def put(root, name, data=b'fixture'):
 
 
 class UtilityTests(unittest.TestCase):
+    def test_weightspace_historical_upgrade_creates_only_its_public_entrypoints(self):
+        put(self.root,'Runtime/BootstrapPython/pythonw.exe')
+        put(self.root,'Tools/WeightSpace/launcher/launch.py',b'# tested launcher')
+        put(self.root,'Tools/WeightSpace/launcher/Start Weight-Space Editor.cmd',b'@echo off')
+        put(self.root,'Agent/academic_policy.py',b'# Academic is supported')
+        cmd,home=suite.utility_command(self.root,'weightspace','Windows')
+        self.assertEqual(home,self.base/'Utilities/PortalAI Weight-Space Editor')
+        self.assertEqual((home/'launch.py').read_bytes(),b'# tested launcher')
+        self.assertEqual(cmd[-2:],['--root',str(self.root.resolve())])
+        self.assertFalse((self.root/'Accounts').exists())
+        (home/'launch.py').write_bytes(b'# customized entrypoint')
+        suite.utility_command(self.root,'weightspace','Windows')
+        self.assertEqual((home/'launch.py').read_bytes(),b'# customized entrypoint')
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.base=Path(self.temp.name)
         self.root=self.base/'PortalAI Windows';self.root.mkdir()

@@ -9,7 +9,9 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r63 (2026-11-03):** Adds per-account encryption and password choices, shared account-free startup, and verified conversion with crash recovery. No new dependencies or models. [Repair and validation](Documentation/OPTIONAL-PRIVACY-r63.md). Existing processes load the fix after restart. Linux/Mac remain r51.
+**Windows r64 (2026-11-04):** Adds a portable weight-space editing utility, accessible from Utilities, and repairs installer upgrade history. Experimental candidates are separate files; no intelligence improvement or production weight replacement is claimed by this utility release. [Method, limitations and source](Documentation/WEIGHT-SPACE-r64.md). Linux/Mac remain r51.
+
+
 
 
 
@@ -153,7 +155,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.03-Desktop-r63/PortalAI-Academic-Universal-Setup-2026.11.03-Desktop-r63.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r64/PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r64.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

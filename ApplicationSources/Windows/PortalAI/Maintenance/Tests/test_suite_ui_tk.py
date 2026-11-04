@@ -50,6 +50,7 @@ class SuiteTkTests(unittest.TestCase):
                 label=b.cget('text')
                 if label=='Close':continue
                 topic=('suite_abliterator' if label=='PortalAI Abliterator' else
+                       'suite_weightspace' if label=='PortalAI Weight-Space Editor' else
                        'suite_projection' if label=='PortalAI Home Assistant Projection' else 'suite_installers')
                 self.open_button_help(d,b,topic)
             launch.assert_not_called();reveal.assert_not_called();d.close()

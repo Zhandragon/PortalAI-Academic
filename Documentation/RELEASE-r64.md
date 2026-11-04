@@ -1,0 +1,13 @@
+# Windows r64: portable weight-space utility
+
+PortalAI's Utilities panel now opens a portable editor for user-selected compatible GGUF models: inspect tensors, evaluate discovery tasks, locate possible failure sites, create a separate sparse subtraction candidate, and compare results. The utility preserves original models and reserves at least 80 GiB free. It uses the existing portable runtime and stores work on the same drive. Native evaluation currently supports the pinned Windows NVIDIA backend; incompatible model layouts are refused.
+
+The direct edit re-encodes affected quantization blocks and records the actual perturbation. Natural success/failure contrasts are hypotheses; causal controls and independent tests are required before claiming improvement. **This utility release does not replace production weights or claim improved general intelligence.** The six installed standard/abliterated Qwen variants are being studied separately.
+
+Installer upgrades now use matching embedded and sidecar compatibility contracts. The previous embedded contract had remained at r51. All 23 supported prior release stamps passed synthetic upgrade planning; legacy fingerprints are retained, and existing private-data preservation rules remain in force. Older application-only updates can create a missing Utilities launcher on first launch without overwriting customized entry points.
+
+**Validation:** D and E each completed 1,163 checks with one unavailable symlink fixture skipped. Both extracted editions completed the same coverage: six native edit checks initially failed because the validation harness omitted the separately pinned runtime's OpenMP DLL; supplying that unchanged dependency made all 14 affected-suite checks pass. Initial failures and follow-up evidence are retained. Each edition passed 45 installer checks with one platform-specific skip, seven embedded source/runtime checks, payload/source hashes, suite routing and 23 upgrade-history fixtures. Academic's real compiled launcher passed prepare-only validation. Six production model hashes on each drive still match their pre-campaign values. Full fresh-recipient installation and other physical hardware were not tested.
+
+Added application payload: **3,223,547 bytes** versus r63. No model or full training-runtime downloads. Candidate experiments separately require about one model-sized copy. D/E remain independent installations above the 80 GiB floor. Linux/Mac remain r51. Restart PortalAI normally to load the new Utilities entry.
+
+[Guide and source map](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-SPACE-r64.md) · [Validation](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-SPACE-VALIDATION-r64.json).

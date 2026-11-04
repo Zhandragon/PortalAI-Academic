@@ -6,7 +6,7 @@ Documentation and help are already inside PortalAI. Open **Help** to browse or s
 
 Latest capability update: [tested Windows r60](CAPABILITY-INTELLIGENCE-r60.md), superseding the implementation-only patch and including the earlier [static audit repairs](STATIC-AUDIT-20261101.txt).
 
-Current Windows package: [r63 optional account privacy](OPTIONAL-PRIVACY-r63.md), [validation](OPTIONAL-PRIVACY-VALIDATION-r63.json), [installer verification](WINDOWS-INSTALLER-r63.json). Includes earlier context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r64 weight-space utility](WEIGHT-SPACE-r64.md), [validation](WEIGHT-SPACE-VALIDATION-r64.json), [installer verification](WINDOWS-INSTALLER-r64.json). Includes earlier privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

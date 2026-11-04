@@ -1,0 +1,80 @@
+PortalAI Weight-Space Editor — Windows r64
+
+Open Controls > Utilities > PortalAI Weight-Space Editor. The independent
+entrypoints live in Utilities/PortalAI Weight-Space Editor on the same drive.
+Both Full and Academic editions include the utility. Academic's application
+model-selection policy remains intact.
+
+Choose a GGUF model, inspect compatible dense MLP tensors, evaluate a discovery
+task set, and locate failure-related activation sites. The resulting recipes are
+explicit hypotheses. Create candidate writes a separate model copy. Compare
+candidate evaluates both originals and candidates with identical task prompts,
+per-item seeds and sampling. No tool calls from benchmark output are executed.
+The utility never silently replaces or activates a live model.
+
+The mathematical edit is W[:,j] - dose * direction * coefficient[j] for at most
+64 selected columns at each of one or two MLP down projections. Directions must
+belong to the exact chosen model checksum. Final normalization, embeddings and
+output heads cannot be edited. Doses are bounded to 0..6; the intended and actual
+matrix norm changes are bounded to 15%. GGUF blocks outside the selected columns'
+quantization blocks remain byte-identical. Requantization can change neighboring
+values inside a block; the evidence receipt records actual perturbation and
+rounding error. Zero-dose output is byte-identical to the original.
+
+This is a quantized adaptation of Takehi et al.'s method:
+https://rikiyat.github.io/blog/weight-space-programming/
+https://github.com/RikiyaT/lm_understand-logs/tree/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math
+
+Method fidelity requires natural failures, activation evidence, site and dose
+controls, an orthogonal norm-matched random control, a frozen candidate, unseen
+paired confirmation, and separate broad final benchmarks. Activation correlation
+alone is not a causal explanation, and lower reference loss is not demonstrated
+intelligence. The published BF16/vLLM experiment is not numerically identical to
+native GGUF execution. This utility does not supply a separate Astra editor or
+guarantee improvement. See its Method & task format guide for task/recipe schemas.
+
+Native generation/capture currently uses the verified Windows NVIDIA llama.cpp
+backend. Input format is GGUF with supported dense MLP tensor layouts. Unknown
+formats, importance-matrix-dependent encoders and incompatible native libraries
+fail explicitly. CPU block editing supports the documented GGUF quantizations;
+it never expands the entire model into a full-precision training copy.
+
+Storage and lifecycle:
+- Reuses BootstrapPython and the existing NumPy/Jinja2/SymPy package layer under
+  Voice/Qwen3-TTS. An installation without that optional package layer must add
+  it through the existing installer before native editing/evaluation is usable.
+- Small bundled additions: GGUF reader and math grading packages with licenses.
+  No additional model weights, training runtime, automatic service or downloads.
+- Each candidate requires one model-sized working copy and at least 80 GiB free
+  afterwards. Work stays on its portable drive. D and E are independent.
+- The GUI remains a small Tk process; work runs in an owned, bounded child Job.
+  Stop/Close terminates only that worker. Interrupted candidate files stay
+  marked .partial; uncertain operations do not automatically replay.
+- Per-model campaign accounting caps discovery plus confirmation at 50 forward
+  passes and explicit CPU edit actions at 300. A new campaign preserves earlier
+  evidence. Final independent benchmark runs are separately identified.
+- These independent utility task/results files are local research artifacts,
+  not part of an account's encrypted workspace.
+
+Installer upgrades:
+The new Windows package retains every older compatibility version and legacy
+fingerprint and adds r63 as its direct predecessor. Account formats, preferences,
+conversations, generated files and model component pins do not migrate for this
+utility. Older update engines publish only application files; the reviewed
+launcher templates inside Tools create missing sibling Utilities entrypoints on
+first launch. Existing customized entrypoints are preserved.
+
+Original implementation sources:
+Agent/suite_utilities.py
+ControlCenter/utilities_ui.py
+ControlCenter/help_catalog.py
+Tools/WeightSpace/{ui,utility_worker,native_probe,native_forward,quantized_edit,
+  diagnosis,evaluation,math_grade,experiment,run_owned}.py
+Maintenance/Tests/test_weightspace.py
+
+Research is separate from utility correctness. The installed-model study uses
+the actual 1.7B Q8_0, 4B Q4_K_M and 27B Q4_K_M standard/abliterated pairs. Production
+weights remain unchanged unless a candidate clears independent confirmation,
+broad math/coding/tool/instruction checks and the processing-time gate. The
+research report, rather than this utility's software tests, establishes any model
+quality result.

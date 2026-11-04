@@ -2,7 +2,7 @@
 
 Usage: python tools/source_inventory.py
 The inventory covers the three ApplicationSources trees. Vendored dependencies
-are listed separately and are not claimed as original PortalAI code. A missing
+are excluded and are not claimed as original PortalAI code. A missing
 module docstring is a navigation gap, not proof that a feature is undocumented.
 """
 import ast
@@ -25,7 +25,7 @@ def inventory():
         if path.suffix.lower() not in SUFFIXES or not path.is_file():
             continue
         parts = Path(name).parts
-        if any(p.lower() in {'vendor','dependencies','node_modules','licenses','artifactassets'} for p in parts):
+        if any(p.lower() in {'vendor','dependencies','node_modules','licenses','artifactassets','grader-packages','reader-packages','native-headers','published'} for p in parts):
             continue
         text = path.read_text(encoding='utf-8-sig')
         row = {'path':name,'platform':parts[1],

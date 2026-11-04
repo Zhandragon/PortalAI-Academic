@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PortalAI Weight-Space Editor</title>
+<style>body{max-width:860px;margin:40px auto;padding:0 24px;background:#111719;color:#eee7da;font:17px/1.6 system-ui}h1,h2{color:#d4b571}a{color:#43c7bd}pre{background:#1b2528;padding:18px;overflow:auto}</style>
+<h1>PortalAI Weight-Space Editor</h1>
+<p>This portable research utility creates a separate GGUF candidate by subtracting a measured direction from selected MLP output columns. It never replaces a live model automatically. It uses the installed Python and native llama.cpp runtime, not a new training environment.</p>
+<h2>Workflow</h2><ol>
+<li>Choose your model and <b>Inspect model</b>. The editor checks supported dense MLP tensors. Native evaluation currently supports the verified Windows NVIDIA backend.</li>
+<li>Prepare a discovery task file with known answers. <b>Evaluate original</b> saves natural model completions, scores, seeds and timing. Do not select edits using your final benchmark questions.</li>
+<li><b>Locate failure-related sites</b> takes a saved discovery report with at least four successes and four failures. It captures native residual and MLP activations and proposes three single-site recipes. These correlations are hypotheses: differences can reflect problem difficulty or subject, rather than a causal defect.</li>
+<li>Inspect the localization evidence. Test individual sites, multiple doses including zero, and a norm-matched orthogonal random direction. <b>Create candidate</b> materializes a model-specific recipe into a new GGUF. Untouched quantization blocks remain byte-identical. Quantization can change neighboring weights inside edited blocks; the receipt reports that error.</li>
+<li><b>Compare candidate</b> uses identical prompts, seeds and sampling on both models. Examine rescues, regressions, cutoff rates and speed. Freeze a candidate before independent paired confirmation, then run separate broad math, coding, tool-use and instruction-following tests. A small local win is not proof of improved general intelligence.</li>
+</ol>
+<h2>Task files</h2><p>A JSON list contains 1–256 uniquely identified cases per pass. Supported graders: <code>math</code> (published boxed-answer equivalence), <code>coding</code> (restricted pure Python functions), <code>tool</code> (expected tool calls, never executed), <code>exact</code>, and <code>json</code>.</p>
+<pre>[
+  {"id":"example-1", "kind":"math", "domain":"math",
+   "prompt":"What is 17 times 23? Put the final answer in \\boxed{}.", "answer":"391"},
+  {"id":"example-2", "kind":"coding", "domain":"coding",
+   "prompt":"Write Python solve(xs): return a new reversed list. No imports or mutation. Return only code.",
+   "checks":[[[[1,2,3]],[3,2,1]],[[[]],[]]]}
+]</pre>
+<p>The examples above are smoke checks only. Coding accepts bounded pure functions with a restricted AST and builtins; it is not a general OS sandbox. Tool cases supply <code>tools</code> in the model's usual function schema and <code>calls</code> as expected objects containing <code>name</code> and <code>arguments</code>.</p>
+<h2>Recipe format</h2><p>A recipe contains <code>method: "sparse-projection-subtraction-v1"</code>, the exact <code>base_sha256</code>, a <code>dose</code> between 0 and 6, and one or two sites. Each site specifies <code>tensor</code>, a unit-length output <code>direction</code>, up to 64 unique <code>columns</code>, and their projection <code>coefficients</code>. For each selected column j, the edit is W[:,j] − dose × direction × coefficient[j]. Embeddings, output heads, normalization and whole-matrix rescaling are excluded.</p>
+<h2>Storage and interruption</h2><p>Working files stay in the utility's <code>work</code> directory. Candidate creation needs one model-sized copy plus a small margin and always reserves 80 GiB of free space. Original weights are immutable. Stop closes only the owned worker; interrupted candidates retain a <code>.partial</code> extension for review. Nothing resumes or replays an uncertain operation automatically. Review and remove discarded candidate copies when no process has them open.</p>
+<h2>Method and limits</h2><p>This is an adaptation of <a href="https://rikiyat.github.io/blog/weight-space-programming/">Takehi et al.'s weight-space programming method</a> to actual portable quantized models. Native GGUF execution and block requantization differ from the paper's BF16/vLLM experiment. The utility does not reproduce the authors' editor model, supply missing abilities by itself, or guarantee an improvement. Its numerical and lifecycle tests are separate from evidence about any model's intelligence.</p>
+<p>Dependencies: PortalAI's existing BootstrapPython, NumPy/Jinja2/SymPy package layer under Voice/Qwen3-TTS, and the pinned native backend. The small bundled GGUF reader and math graders include their original license files. No reference model or substitute full-precision weights are downloaded.</p>
+</html>

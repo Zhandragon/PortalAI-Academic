@@ -1,2 +1,2 @@
 """Verified Windows PortalAI distribution version."""
-RELEASE_VERSION = '2026.11.03-Desktop-r63'
+RELEASE_VERSION = '2026.11.04-Desktop-r64'

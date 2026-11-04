@@ -20,6 +20,7 @@ ACTION_TOPICS = {'Startup': 'startup',
  'Recover account registry': 'account_registry_recovery',
  'PortalAI Abliterator': 'suite_abliterator',
  'PortalAI Home Assistant Projection': 'suite_projection',
+ 'PortalAI Weight-Space Editor': 'suite_weightspace',
  'Locate Windows Installer': 'suite_installers',
  'Locate Mac Installer': 'suite_installers',
  'Locate Linux Installer': 'suite_installers',
@@ -46,6 +47,21 @@ ACTION_TOPICS = {'Startup': 'startup',
  'Vision Asset Checksums': 'vision_integrity'}
 
 TOPICS = {
+ 'suite_weightspace': {
+     'title': 'PortalAI Weight-Space Editor', 'category': 'Diagnostics and maintenance',
+     'aliases': ['weight editing', 'Takehi', 'weight-space', 'sparse subtraction', 'model improvement'],
+     'body': 'Open Controls → Utilities → PortalAI Weight-Space Editor. Choose a GGUF model, inspect its compatible '
+             'MLP weight tensors, then choose a model-specific edit recipe to create a separate candidate. Recipes '
+             'subtract a measured direction from at most 64 columns at each of one or two MLP sites. '
+             'The original model is never overwritten.\n\n'
+             'Choose a task file and Compare candidate to evaluate both models with identical prompts, seeds and '
+             'sampling. Use distinct discovery and confirmation tasks. A small test win does not establish broader '
+             'intelligence: inspect math, coding, tool use, instruction following, failures and latency before adoption. '
+             'The Takehi method requires natural failure diagnosis and causal controls; subtraction alone is not a replication.\n\n'
+             'All work stays beside the utility on the portable drive. A new candidate needs approximately one model-sized '
+             'copy while preserving at least 80 GiB free. No model downloads or background startup are performed. '
+             'Native evaluation currently uses the verified Windows NVIDIA backend. Stop cancels only this utility’s worker. '
+             'Interrupted candidates remain marked partial; they are never installed automatically.'},
  'account_registry_recovery': {
      'title': 'Recover account registry', 'category': 'Diagnostics and maintenance',
      'aliases': ['recover account registry', 'missing accounts', 'damaged registry', 'administrator recovery'],

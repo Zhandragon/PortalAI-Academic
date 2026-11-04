@@ -732,6 +732,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_web_smoke_profile.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_smoke_profile.py) | The live web harness uses private, revocation-aware fixtures and reports. |
 | [Maintenance/Tests/test_web_tls.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_tls.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_web_worker_windows.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_worker_windows.py) | Real hidden worker, browser and owned-job tests in a disposable workspace. |
+| [Maintenance/Tests/test_weightspace.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace.py) | Direct edit invariants, admission, evidence gates and durable pass accounting. |
 | [Maintenance/Tests/test_window_icons.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py) | Read back real native icon pixels and exercise Tk wrapper lifetimes. |
 | [Maintenance/Tests/test_window_minimize.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_minimize.py) | Native minimize with the real drop hook; current tray callback routing. |
 | [Maintenance/Tests/test_windows_demucs.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_windows_demucs.py) | Offline Windows model/decode/epoch boundaries; synthetic data only. |
@@ -747,6 +748,13 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/tk_fixture_cleanup.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/tk_fixture_cleanup.py) | Release a synthetic Tcl interpreter on its creating thread after writers join. |
 | [Maintenance/Tests/workspace_desktop_fixture.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_desktop_fixture.py) | A disposable owned window for actual mouse/key/window acceptance. |
 | [Maintenance/Tests/workspace_mcp_fixture.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/workspace_mcp_fixture.py) | Synthetic stdio MCP server used by smoke_workspace; no production services. |
+
+## PortalAI Weight-Space Editor
+
+| Source | Overview |
+| --- | --- |
+| [ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/Start Weight-Space Editor.cmd](../ApplicationSources/Windows/Utilities/PortalAI%20Weight-Space%20Editor/Start%20Weight-Space%20Editor.cmd) | Source script; inspect its comments and entry points. |
+| [ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/launch.py](../ApplicationSources/Windows/Utilities/PortalAI%20Weight-Space%20Editor/launch.py) | Locate the independent PortalAI installation on this portable drive. |
 
 ## SDK
 
@@ -803,6 +811,23 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/AccessibilitySnapshot.cs](../ApplicationSources/Windows/PortalAI/Tools/AccessibilitySnapshot.cs) | Source script; inspect its comments and entry points. |
 | [Tools/ExecutableRecovery.cs](../ApplicationSources/Windows/PortalAI/Tools/ExecutableRecovery.cs) | Source script; inspect its comments and entry points. |
 | [Tools/VoiceEchoCapture.cpp](../ApplicationSources/Windows/PortalAI/Tools/VoiceEchoCapture.cpp) | Source script; inspect its comments and entry points. |
+| [Tools/WeightSpace/README.html](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/README.html) | Source script; inspect its comments and entry points. |
+| [Tools/WeightSpace/code_check.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/code_check.py) | Restricted pure-function check in a parent-owned, memory/time-limited process. |
+| [Tools/WeightSpace/diagnosis.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/diagnosis.py) | Natural outcome localization for an editor to investigate, not auto-promotion. |
+| [Tools/WeightSpace/evaluation.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py) | Explicit, deterministic task graders; tool choices are never executed. |
+| [Tools/WeightSpace/experiment.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/experiment.py) | Durable experiment accounting and paired evidence; no automatic promotion. |
+| [Tools/WeightSpace/launcher/Start Weight-Space Editor.cmd](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/launcher/Start%20Weight-Space%20Editor.cmd) | Source script; inspect its comments and entry points. |
+| [Tools/WeightSpace/launcher/launch.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/launcher/launch.py) | Locate the independent PortalAI installation on this portable drive. |
+| [Tools/WeightSpace/math_grade.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/math_grade.py) | Published math answer extraction with an external Windows process deadline. |
+| [Tools/WeightSpace/native_forward.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_forward.py) | Quantized forward tool: native sampling, Jinja template and bounded captures. |
+| [Tools/WeightSpace/native_probe.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_probe.py) | Bounded native GGUF activation/loss probe, pinned to installed llama.cpp ABI. |
+| [Tools/WeightSpace/quantized_edit.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/quantized_edit.py) | Sparse direct subtraction in GGUF, preserving untouched quantization blocks. |
+| [Tools/WeightSpace/research_guard.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/research_guard.py) | Manual, portable GPU pause for this experiment; no production policy changes. |
+| [Tools/WeightSpace/run_owned.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/run_owned.py) | Gate a native worker behind a bounded Windows Job; no inherited account keys. |
+| [Tools/WeightSpace/sparse_edit.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/sparse_edit.py) | Experimental sparse projection edits; originals are never written. |
+| [Tools/WeightSpace/ui.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/ui.py) | Lightweight standalone Tk utility; work runs in owned background processes. |
+| [Tools/WeightSpace/utility_worker.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/utility_worker.py) | Portable worker for model inspection, direct edits and paired task evaluation. |
+| [Tools/WeightSpace/verify_native_abi.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/verify_native_abi.py) | Compile field offsets from the exact pinned header using bundled clang. |
 | [Tools/abliterator_installer_core.py](../ApplicationSources/Windows/PortalAI/Tools/abliterator_installer_core.py) | Clean-install engine. No account creation, pairing, elevation or process control. |
 | [Tools/activate_windows_kicad.py](../ApplicationSources/Windows/PortalAI/Tools/activate_windows_kicad.py) | Activate only the verified, tested Windows 9.0.2 portable extraction. |
 | [Tools/activity_probe.py](../ApplicationSources/Windows/PortalAI/Tools/activity_probe.py) | Read-only host/self-process telemetry check; starts no compute workload. |

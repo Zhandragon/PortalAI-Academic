@@ -1,0 +1,7 @@
+[console_scripts]
+gguf-convert-endian=gguf.scripts.gguf_convert_endian:main
+gguf-dump=gguf.scripts.gguf_dump:main
+gguf-editor-gui=gguf.scripts.gguf_editor_gui:main
+gguf-new-metadata=gguf.scripts.gguf_new_metadata:main
+gguf-set-metadata=gguf.scripts.gguf_set_metadata:main
+

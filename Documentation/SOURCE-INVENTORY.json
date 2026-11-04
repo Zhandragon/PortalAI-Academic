@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 948
+    "Windows": 968
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -50684,8 +50684,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/suite_utilities.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "1a23f54f5d33bd1917437f1f557073f97a3c496271fb51b0fd9eecaba3fe12cd",
-      "lines": 211,
+      "sha256": "e5000b694f0dea3464ac4a5c686d34d5654c2ea535044127ad396270f9bd9965",
+      "lines": 247,
       "overview": "Public suite discovery and independent utility launchers. No account access.",
       "symbols": [
         {
@@ -50719,48 +50719,53 @@
           "kind": "FunctionDef"
         },
         {
+          "name": "ensure_weightspace_entry",
+          "line": 85,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "installer_folder",
-          "line": 79,
+          "line": 115,
           "kind": "FunctionDef"
         },
         {
           "name": "clean_environment",
-          "line": 107,
+          "line": 143,
           "kind": "FunctionDef"
         },
         {
           "name": "spawn",
-          "line": 112,
+          "line": 148,
           "kind": "FunctionDef"
         },
         {
           "name": "launch",
-          "line": 122,
+          "line": 158,
           "kind": "FunctionDef"
         },
         {
           "name": "reveal",
-          "line": 127,
+          "line": 163,
           "kind": "FunctionDef"
         },
         {
           "name": "request_after_exit",
-          "line": 137,
+          "line": 173,
           "kind": "FunctionDef"
         },
         {
           "name": "launch_after_exit",
-          "line": 147,
+          "line": 183,
           "kind": "FunctionDef"
         },
         {
           "name": "wait_parent",
-          "line": 161,
+          "line": 197,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 188,
+          "line": 224,
           "kind": "FunctionDef"
         }
       ]
@@ -53580,23 +53585,23 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "0e9ff9da4f721470f2ae5f4982e80025f6104600504ef930bfb204b65cd94a87",
-      "lines": 945,
+      "sha256": "6232909f0beed3df93187ad5f3abbbf57e2c914f95d88d63f47b9efe6d6209a9",
+      "lines": 961,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 913,
+          "line": 929,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 916,
+          "line": 932,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 925,
+          "line": 941,
           "kind": "FunctionDef"
         }
       ]
@@ -56044,7 +56049,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "d12dae650f059270921786c1946fa3dd6cb820aab3e3ceb4dc636a00219621f3",
+      "sha256": "24b61b28e75cf91a364cd42c47d76e0183cbe7d0e8a9537330f7951ef76138e0",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -56728,8 +56733,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/utilities_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "6b55f6cdd7161e246a4b7c0766c1ebc8f94448f84ffdb63715a434503635ddd6",
-      "lines": 83,
+      "sha256": "315ff1da8479eea4745ae7fd392acf52523cf2e7494856baadbf2c0f8189ab9a",
+      "lines": 86,
       "overview": "Launcher-owned Utilities subpanel; utilities retain independent processes.",
       "symbols": [
         {
@@ -56744,7 +56749,7 @@
         },
         {
           "name": "add_login_utilities",
-          "line": 66,
+          "line": 69,
           "kind": "FunctionDef"
         }
       ]
@@ -62957,8 +62962,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_suite_ui_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "63dc6ba4c634b50633e744b75c3cb5b85dfd74de99985594df8709248d243a3a",
-      "lines": 156,
+      "sha256": "96210e64dfc23ee62b1955fcdeae28ef7b245364de441e69fd3e3bdf87290bdd",
+      "lines": 157,
       "overview": "Real Tk controls; maintenance actions use mocks or disposable roots.",
       "symbols": [
         {
@@ -62972,8 +62977,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_suite_utilities.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "4e2723a542f4052925796fdfee02f8d32e022e05b6e735cbb00a140909799b65",
-      "lines": 167,
+      "sha256": "6c75fa8afe8bcd2a68ab392fab38a130d7ee4f68e428eadb035cc3a4c08093d0",
+      "lines": 181,
       "overview": "",
       "symbols": [
         {
@@ -62988,7 +62993,7 @@
         },
         {
           "name": "ResetBoundaryTests",
-          "line": 99,
+          "line": 113,
           "kind": "ClassDef"
         }
       ]
@@ -63574,6 +63579,21 @@
         {
           "name": "HiddenWebWorker",
           "line": 45,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "e86250a708c593a4d987ea2dd3f724f4d9b3c0b04eacda815e4aaef69e8d9a1b",
+      "lines": 112,
+      "overview": "Direct edit invariants, admission, evidence gates and durable pass accounting.",
+      "symbols": [
+        {
+          "name": "WeightSpaceTests",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -64762,6 +64782,393 @@
       "component": "Tools",
       "sha256": "5a19068669e4fbfc72b2c9e3f5d47085206956c04d1099d39a9f24cdc9254ff2",
       "lines": 103
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/README.html",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "4f0903698033d38f059cfb683d8aa8daeb9614cddd805071dfc699e4eba663dc",
+      "lines": 25
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/code_check.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "f65936385017471fbaa5e316c6314b86354ac3471090665eb59a9d2f1e6df43a",
+      "lines": 32,
+      "overview": "Restricted pure-function check in a parent-owned, memory/time-limited process.",
+      "symbols": [
+        {
+          "name": "main",
+          "line": 7,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/diagnosis.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "2cdcd89bd9561066c23f45bb394d2149a97216583f0a0a73250ac969918ab313",
+      "lines": 59,
+      "overview": "Natural outcome localization for an editor to investigate, not auto-promotion.",
+      "symbols": [
+        {
+          "name": "contrast",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "propose",
+          "line": 21,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "b065a4149c3075e62fadd82e62f4062c0b556122e83e4fdbf16bd089c5b9d876",
+      "lines": 58,
+      "overview": "Explicit, deterministic task graders; tool choices are never executed.",
+      "symbols": [
+        {
+          "name": "bounded_grader",
+          "line": 8,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "final_text",
+          "line": 21,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "grade",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_cases",
+          "line": 47,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/experiment.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "3e45c7767bb6dbbac40f0caee770e74e2c1de8f1741b247c5efd1d64944a4fe3",
+      "lines": 70,
+      "overview": "Durable experiment accounting and paired evidence; no automatic promotion.",
+      "symbols": [
+        {
+          "name": "sha",
+          "line": 6,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "atomic_json",
+          "line": 9,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "space",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Ledger",
+          "line": 20,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "paired_summary",
+          "line": 53,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "promotion_gate",
+          "line": 63,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/launcher/Start Weight-Space Editor.cmd",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "cbbe10d1dd5ebfd65f61e89e5d4f52fe3022ca1145ebd48b62e5eb4fa97304b7",
+      "lines": 2
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/launcher/launch.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "01b32e44838e800b5f3e4db1229ce79d3b88da02beb747c07fcc02181618e956",
+      "lines": 10,
+      "overview": "Locate the independent PortalAI installation on this portable drive.",
+      "symbols": []
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/math_grade.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "3634936c214e596511ea566ec860a8579fb7e26ce9ae32aaef91c97b08d28125",
+      "lines": 26,
+      "overview": "Published math answer extraction with an external Windows process deadline.",
+      "symbols": [
+        {
+          "name": "load",
+          "line": 12,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_forward.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "cbb15034b40af742aea2902cfc415053e3856d1097f65028357147d8565bb4d7",
+      "lines": 134,
+      "overview": "Quantized forward tool: native sampling, Jinja template and bounded captures.",
+      "symbols": [
+        {
+          "name": "metadata",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "render",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "item_seed",
+          "line": 27,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Forward",
+          "line": 30,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_probe.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "1011ff59885ec2c6304353aa43cd7ed75eda5b4bca64fb795f265afb2c9f9f4b",
+      "lines": 194,
+      "overview": "Bounded native GGUF activation/loss probe, pinned to installed llama.cpp ABI.",
+      "symbols": [
+        {
+          "name": "ModelParams",
+          "line": 17,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ContextParams",
+          "line": 20,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Batch",
+          "line": 23,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "SamplerChainParams",
+          "line": 26,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "validate_abi",
+          "line": 29,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "NativeProbe",
+          "line": 40,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/quantized_edit.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "d70529d20aafd3817f8a0147694005d89c548155a46b3232f64a0b2c9ba3cf95",
+      "lines": 140,
+      "overview": "Sparse direct subtraction in GGUF, preserving untouched quantization blocks.",
+      "symbols": [
+        {
+          "name": "Quantizer",
+          "line": 18,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "inventory",
+          "line": 38,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "checked_site",
+          "line": 46,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_recipe",
+          "line": 60,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "row_bytes",
+          "line": 69,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "projection",
+          "line": 72,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "materialize",
+          "line": 91,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/research_guard.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "527ea4071d54158136b6bae38a1d2b2e979f5ea6c996c5bdf4bddd9faaf8edb2",
+      "lines": 38,
+      "overview": "Manual, portable GPU pause for this experiment; no production policy changes.",
+      "symbols": [
+        {
+          "name": "ResearchPaused",
+          "line": 14,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "gpu_paused",
+          "line": 18,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "require_gpu_unpaused",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "model_digest",
+          "line": 27,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/run_owned.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "a7c4957cebd084bdeff03f34c8b89d07f6812c2590dbbd3da1062792db93e655",
+      "lines": 32,
+      "overview": "Gate a native worker behind a bounded Windows Job; no inherited account keys.",
+      "symbols": [
+        {
+          "name": "run",
+          "line": 9,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/sparse_edit.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "9590e370b64766621320cb3dafc178edc1a989430750c05b50710ffc8e9f7882",
+      "lines": 106,
+      "overview": "Experimental sparse projection edits; originals are never written.",
+      "symbols": [
+        {
+          "name": "direction",
+          "line": 20,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "factors",
+          "line": 29,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "random_control",
+          "line": 49,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "save_adapter",
+          "line": 55,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "build",
+          "line": 69,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/ui.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "5f8485d06da1e58ae0675cb4d037cfc4805e291c233160e873dc08553afda922",
+      "lines": 138,
+      "overview": "Lightweight standalone Tk utility; work runs in owned background processes.",
+      "symbols": [
+        {
+          "name": "Editor",
+          "line": 12,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "main",
+          "line": 133,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/utility_worker.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "e4baccef57c9e5e4647eb8d605236c0b653650fdf66069b030e47ff694b55685",
+      "lines": 97,
+      "overview": "Portable worker for model inspection, direct edits and paired task evaluation.",
+      "symbols": [
+        {
+          "name": "campaign_ledger",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 16,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/verify_native_abi.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "321e94429ee84046e69712c518a0d846af0e1ad385c4c07400105dcc62868771",
+      "lines": 36,
+      "overview": "Compile field offsets from the exact pinned header using bundled clang.",
+      "symbols": []
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Tools/abliterator_installer_core.py",
@@ -69673,6 +70080,22 @@
           "kind": "FunctionDef"
         }
       ]
+    },
+    {
+      "path": "ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/Start Weight-Space Editor.cmd",
+      "platform": "Windows",
+      "component": "PortalAI Weight-Space Editor",
+      "sha256": "cbbe10d1dd5ebfd65f61e89e5d4f52fe3022ca1145ebd48b62e5eb4fa97304b7",
+      "lines": 2
+    },
+    {
+      "path": "ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/launch.py",
+      "platform": "Windows",
+      "component": "PortalAI Weight-Space Editor",
+      "sha256": "01b32e44838e800b5f3e4db1229ce79d3b88da02beb747c07fcc02181618e956",
+      "lines": 10,
+      "overview": "Locate the independent PortalAI installation on this portable drive.",
+      "symbols": []
     }
   ]
 }

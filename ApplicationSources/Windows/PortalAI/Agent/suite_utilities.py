@@ -55,8 +55,14 @@ def utility_command(root, kind, os_name=None):
     os_name = os_name or current_platform()
     if os_name not in PLATFORMS:
         raise ValueError('Unsupported operating system')
-    folder = {'abliterator': 'Portable Abliterator', 'projection': 'PortalAI-Projection'}[kind]
+    if kind == 'weightspace' and os_name == 'Windows':
+        ensure_weightspace_entry(root)
+    folder = {'abliterator': 'Portable Abliterator', 'projection': 'PortalAI-Projection', 'weightspace': 'PortalAI Weight-Space Editor'}[kind]
     for home in utility_roots(root, folder):
+        if kind == 'weightspace' and os_name == 'Windows':
+            runtime, script = Path(root) / 'Runtime/BootstrapPython/pythonw.exe', home / 'launch.py'
+            if runtime.is_file() and script.is_file():
+                return [str(runtime), '-B', '-I', str(script), '--root', str(Path(root).resolve())], home
         if kind == 'projection' and os_name == 'Windows':
             runtime, script = home / 'Runtime/Python/pythonw.exe', home / 'app/projection_ui.py'
             if runtime.is_file() and script.is_file():
@@ -72,8 +78,38 @@ def utility_command(root, kind, os_name=None):
             path = home / name
             if path.is_file():
                 return ([str(path)] if os_name == 'Windows' else ['/bin/bash' if os_name == 'Mac' else '/bin/sh', str(path)]), home
-    title = 'PortalAI Abliterator' if kind == 'abliterator' else 'PortalAI Home Assistant Projection'
+    title = {'abliterator':'PortalAI Abliterator','projection':'PortalAI Home Assistant Projection','weightspace':'PortalAI Weight-Space Editor'}[kind]
     raise FileNotFoundError(title + ' is not installed for ' + os_name + '. Select it in the suite installer when a compatible package is available.')
+
+
+def ensure_weightspace_entry(root):
+    """Older upgrade engines update only application files; materialize new public shortcuts.
+
+    The payload carries these templates inside Tools, so historical upgrades need
+    no account migration or changed parent-directory update permissions. Existing
+    launchers are left unchanged; substantive code always loads from this root.
+    """
+    import hashlib
+    root = Path(root).resolve()
+    source = root / 'Tools/WeightSpace/launcher'
+    if not source.is_dir():
+        return
+    home = root.parent / 'Utilities/PortalAI Weight-Space Editor'
+    if any(p.is_symlink() for p in (home, home.parent)):
+        raise RuntimeError('Utility destination must not be a linked directory.')
+    home.mkdir(parents=True, exist_ok=True)
+    for name in ('launch.py', 'Start Weight-Space Editor.cmd'):
+        src, dst = source / name, home / name
+        if dst.exists():
+            continue
+        data = src.read_bytes()
+        try:
+            with dst.open('xb') as stream:
+                stream.write(data); stream.flush(); os.fsync(stream.fileno())
+        except FileExistsError:
+            continue
+        if hashlib.sha256(dst.read_bytes()).digest() != hashlib.sha256(data).digest():
+            raise RuntimeError('Utility launcher readback failed.')
 
 
 def installer_folder(root, target_edition, target_os):
