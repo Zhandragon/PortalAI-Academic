@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T17:48:31Z",
+  "updated_at_utc": "2026-11-04T18:52:52Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -2185,10 +2185,17 @@
       },
       "natural_discovery_counts": {
         "001-natural-discovery": {
-          "completed": 5,
+          "completed": 24,
           "planned": 24,
-          "correct": 4,
-          "correct_with_natural_stop": 4,
+          "correct": 21,
+          "correct_with_natural_stop": 21,
+          "reply_budget_exhaustions": 2
+        },
+        "001b-natural-discovery": {
+          "completed": 3,
+          "planned": 32,
+          "correct": 3,
+          "correct_with_natural_stop": 3,
           "reply_budget_exhaustions": 0
         }
       },
@@ -2196,9 +2203,34 @@
         {
           "id": "001-natural-discovery",
           "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "001b-natural-discovery",
+          "phase": "discovery",
           "status": "running"
         }
       ],
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_4302",
+            "record_sha256": "84d6fbf79400fb6835ff8951331a978c7fb7f2afa49a850163cb6dcfd01f6490",
+            "classification": "scalar answer-target/format mismatch",
+            "observation": "The final boxed answer gives the correct component totals, 3000 pizzas and 1800 hot dogs. The supplied benchmark target is their combined total, 4800. The frozen scalar-answer grader marks the response incorrect. This does not establish an arithmetic error in the component calculations.",
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false,
+            "sampling_implementation": {
+              "version": "native-generated-history-v2",
+              "presence_penalty": 1.5,
+              "presence_history_tokens": 32768,
+              "prompt_in_penalty_history": false
+            }
+          }
+        ]
+      },
       "superseded_run": {
         "completed_cases": 36,
         "official_correct": 33,

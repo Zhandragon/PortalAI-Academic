@@ -17,7 +17,7 @@ experiment when a user explicitly wants to try a recorded tradeoff.
 | 4-standard | 22/30 | 21/30 | 23/30 | Edit rejected; original retained |
 | 4-abliterated | 18/24 | 13/24 | 20/24 | Edit rejected; original retained |
 | 27-standard | 53/56 discovery only | Not evaluated | Not evaluated | No supported outcome contrast; no edit evaluated |
-| 27-abliterated | 4/5 discovery only | Not evaluated | Not evaluated | In progress |
+| 27-abliterated | 24/27 discovery only | Not evaluated | Not evaluated | In progress |
 
 Counts are correct answers on each model's frozen discovery cases. The case sets differ, so these rows do not rank the models against one another.
 
