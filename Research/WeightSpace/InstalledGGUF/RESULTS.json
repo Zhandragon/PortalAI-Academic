@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T11:12:26Z",
+  "updated_at_utc": "2026-11-04T12:07:43Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -26,6 +26,15 @@
           "reply_budget_exhaustions": 0,
           "finish_reason_recorded": 28,
           "generated_tokens": 159317
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 24,
+          "planned": 24,
+          "correct": 18,
+          "correct_with_natural_stop": 18,
+          "reply_budget_exhaustions": 1
         }
       },
       "accounted_passes": [
@@ -470,6 +479,15 @@
           "reply_budget_exhaustions": 0,
           "finish_reason_recorded": 28,
           "generated_tokens": 132775
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 24,
+          "planned": 24,
+          "correct": 18,
+          "correct_with_natural_stop": 18,
+          "reply_budget_exhaustions": 0
         }
       },
       "accounted_passes": [
@@ -941,6 +959,22 @@
           "generated_tokens": 0
         }
       },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 24,
+          "planned": 24,
+          "correct": 21,
+          "correct_with_natural_stop": 21,
+          "reply_budget_exhaustions": 0
+        },
+        "001b-natural-discovery": {
+          "completed": 32,
+          "planned": 32,
+          "correct": 28,
+          "correct_with_natural_stop": 28,
+          "reply_budget_exhaustions": 0
+        }
+      },
       "accounted_passes": [
         {
           "id": "001-natural-discovery",
@@ -1224,6 +1258,15 @@
           "reply_budget_exhaustions": 0,
           "finish_reason_recorded": 24,
           "generated_tokens": 159370
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 24,
+          "planned": 24,
+          "correct": 20,
+          "correct_with_natural_stop": 20,
+          "reply_budget_exhaustions": 0
         }
       },
       "accounted_passes": [
@@ -1694,9 +1737,30 @@
           "generated_tokens": 0
         }
       },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 24,
+          "planned": 24,
+          "correct": 23,
+          "correct_with_natural_stop": 21,
+          "reply_budget_exhaustions": 2
+        },
+        "001b-natural-discovery": {
+          "completed": 11,
+          "planned": 32,
+          "correct": 11,
+          "correct_with_natural_stop": 11,
+          "reply_budget_exhaustions": 0
+        }
+      },
       "accounted_passes": [
         {
           "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "001b-natural-discovery",
           "phase": "discovery",
           "status": "running"
         }

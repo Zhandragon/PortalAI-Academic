@@ -1,5 +1,5 @@
 """Read-only progress for the portable installed-GGUF campaign."""
-import json, re, shutil, sqlite3, time
+import hashlib, json, re, shutil, sqlite3, time
 from pathlib import Path
 LAB=Path(__file__).resolve().parent
 
@@ -20,7 +20,16 @@ def status():
                  'interrupted_passes':sum(r[2]=='interrupted' for r in runs)}
             if row['phase'].startswith('001'):
                 cases=folder/row['phase']
-                row['completed_cases']=sum(p.name!='request.json' for p in cases.glob('*.json'))
+                saved={p.stem:p for p in cases.glob('*.json') if re.fullmatch(r'[a-f0-9]{20}\.json',p.name)}
+                row['completed_cases']=len(saved)
+                request=cases/'request.json'
+                if request.is_file():
+                    ids=json.loads(request.read_text())['ids']
+                    pending=[key for key in ids if hashlib.sha256(key.encode()).hexdigest()[:20] not in saved]
+                    row['total_cases']=len(ids)
+                    row['next_uncheckpointed_case']=pending[0] if pending else None
+                if saved:
+                    row['last_case_saved_utc']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(max(p.stat().st_mtime for p in saved.values())))
             elif row['phase'].startswith('gen-screen-'):
                 arm=row['phase'].split('-')[2];screen=folder/'004-generation-screen'
                 row['completed_cases']=sum(bool(re.fullmatch(r'[a-f0-9]{20}\.json',p.name)) for p in (screen/arm).glob('*.json'))
