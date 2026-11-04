@@ -91,8 +91,10 @@ class Forward(NativeProbe):
             sampler=self.llama_sampler_chain_init(params)
             if not sampler:raise RuntimeError('Cannot allocate sampler')
             stages=[]
-            # Presence penalty applies to generated tokens only, matching vLLM.
-            if presence_penalty:stages.append(self.llama_sampler_init_penalties(self.n_vocab,-1,1.,0.,presence_penalty))
+            # Only sampled output enters this history (not the prompt). The pinned
+            # native API clamps negative history to zero, disabling all penalties;
+            # a positive reply-sized window retains the entire generated history.
+            if presence_penalty:stages.append(self.llama_sampler_init_penalties(self.n_vocab,max_tokens,1.,0.,presence_penalty))
             stages.extend([self.llama_sampler_init_temp(temperature),self.llama_sampler_init_top_k(top_k),self.llama_sampler_init_top_p(top_p,1),self.llama_sampler_init_dist(seed)])
             for stage in stages:
                 if not stage:raise RuntimeError('Cannot allocate sampling stage')
@@ -112,6 +114,8 @@ class Forward(NativeProbe):
                     if generated and any(phase+'/'+name not in self.aggregates for name in self.names):raise RuntimeError('Missing requested '+phase+' activations')
             return {'text':b''.join(pieces).decode('utf-8',errors='replace'),'token_ids':generated,'prompt_tokens':len(tokens),
                     'tokens':len(generated),'finish':finish,'seconds':time.monotonic()-start,
+                    'sampling_implementation':{'version':'native-generated-history-v2','presence_penalty':presence_penalty,
+                        'presence_history_tokens':max_tokens if presence_penalty else 0,'prompt_in_penalty_history':False},
                     'activations':{k:(v[0]/v[1]).astype(np.float32) for k,v in self.aggregates.items()},
                     'capture_counts':{k:v[1] for k,v in self.aggregates.items()}}
         finally:

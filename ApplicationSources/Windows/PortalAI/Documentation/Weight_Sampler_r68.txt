@@ -1,0 +1,30 @@
+PortalAI Windows r68: native presence-penalty correction
+
+The Weight-Space Editor's pinned llama.cpp runtime clamps negative penalty
+history to zero. Passing -1 therefore disabled the requested presence penalty.
+The repair uses a positive history covering the whole generated reply. Prompt
+tokens do not enter it. Saved generations identify native-generated-history-v2
+and record the effective history length and requested presence penalty.
+
+Four CPU-only tests use the actual pinned native DLL: the negative-history
+behavior, positive presence penalty without frequency effects, the real
+Forward.generate wiring, and unchanged zero-penalty behavior. The generate
+regression failed before repair and passed afterward on both D and E.
+
+Earlier 27B research requested 1.5 but actually ran with zero. Its original
+records and ledgers are archived unchanged and marked superseded. Corrected
+tests use the same predefined cases and seeds. The 1.7B/4B comparisons request
+zero and are unaffected. No edited model has yet passed the improvement gate.
+See Research/WeightSpace/InstalledGGUF/SAMPLER-CORRECTION.json on GitHub.
+
+Original model files and account choices are unchanged. Optional edit profiles
+remain experimental; selection and reversion are explicit in Settings > Chat
+models. A prepared profile needs a complete model-sized copy. The two-copy
+cache and 80 GiB free-space floor remain. Normal chat-server sampling is not
+changed by this native research/editor repair.
+
+No model, dependency, service or duplicate runtime is added. The r67 optional
+NVIDIA component and its pins are inherited unchanged. Upgrade history keeps
+r67 and all earlier supported Windows stamps. Linux/Mac remain r51. Restart
+the editor normally to load the repair; an already-running worker retains its
+loaded code until it exits.

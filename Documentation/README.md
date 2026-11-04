@@ -6,7 +6,7 @@ Documentation and help are already inside PortalAI. Open **Help** to browse or s
 
 Latest capability update: [tested Windows r60](CAPABILITY-INTELLIGENCE-r60.md), superseding the implementation-only patch and including the earlier [static audit repairs](STATIC-AUDIT-20261101.txt).
 
-Current Windows package: [r67 bounded code grading](WEIGHT-GRADING-r67.md), [validation](WEIGHT-GRADING-VALIDATION-r67.json), [installer verification](WINDOWS-INSTALLER-r67.json). Includes earlier privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r68 native sampling repair](WEIGHT-SAMPLER-r68.md), [validation](WEIGHT-SAMPLER-VALIDATION-r68.json), [installer verification](WINDOWS-INSTALLER-r68.json). Includes earlier privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

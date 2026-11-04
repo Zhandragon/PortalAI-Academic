@@ -1,0 +1,88 @@
+{
+  "version": "2026.11.04-Desktop-r68",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r68-suite.zip",
+  "bytes": 624054785,
+  "sha256": "8c698c52a82a0ccb5d6fd17b33139ff14b220ba8d51a7ddd637b5248ac97fa20",
+  "previous_sha256": "a1b655bf317fe80914e1bf147cc005fd5bafe6cfe809a20dd5cf0501e7cab429",
+  "changed_members": [
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/Tools/WeightSpace/native_forward.py"
+  ],
+  "added_members": [
+    "PortalAI/Documentation/Weight_Sampler_r68.txt",
+    "PortalAI/Maintenance/Tests/test_weightspace_sampling.py"
+  ],
+  "payload_members": 5438,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "added_installer_component": null,
+  "inherited_native_component": "windows-cuda-inference",
+  "native_runtime_already_installed_on_D_E": true,
+  "new_model_weights": false,
+  "added_original_helper": "Tools/WeightSpace",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "native_storage_preflight_includes_component": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 274374158148,
+    "download_bytes": 234759855909,
+    "required_bytes": 513416281438,
+    "files": 330471
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "7dc260368f18934b087c9c9cfd1372040adf765f3ad2ff6556c9d371cdd256bd"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381994676,
+      "sha256": "a60bfb62661fa8f25e33c036898ec0cf3e2376bdc3952bf35d8dfc83d1b18e27"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139098076,
+      "sha256": "c40011a761274ce0753cb05cbbd9ebd261e672f1538b8caa4c118600886870a2"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 7087,
+      "sha256": "27047200538aeb9fb080b420543352996149f7b87ca72f529bb6d62d62c5069a"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190614,
+      "sha256": "c7e72e256d4c02913164e544f4720ca86be640b5061657625e1a8a3732637b24"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "f93a9cd220ef5108d450889b1cad382e03ca4a3f5fcc27ada8ca6329ef279849"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1560,
+      "sha256": "139a8b53edfc45608ed2f59ff1a63089d0d1592861a24da93cf49ab4a52664e8"
+    }
+  ]
+}

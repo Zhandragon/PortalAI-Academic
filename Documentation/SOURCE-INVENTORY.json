@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 972
+    "Windows": 973
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -56089,7 +56089,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "93a498ac845a1739465700c72755edcb38408a8800bd0c33414e5b90f968d2db",
+      "sha256": "44cc9824f027001287c98126c6613cd6e62046a03b7a1118272e54d476449166",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -63674,6 +63674,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_sampling.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "95fe97852cbfd13a4d32c4354506f94f2675db3992afae2fd34e288dfa1aa5bd",
+      "lines": 141,
+      "overview": "Exercise native presence penalties without loading a model or GPU backend.",
+      "symbols": [
+        {
+          "name": "TokenData",
+          "line": 14,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "TokenArray",
+          "line": 18,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "NativeSamplingTests",
+          "line": 24,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -65035,8 +65060,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_forward.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "cbb15034b40af742aea2902cfc415053e3856d1097f65028357147d8565bb4d7",
-      "lines": 134,
+      "sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+      "lines": 138,
       "overview": "Quantized forward tool: native sampling, Jinja template and bounded captures.",
       "symbols": [
         {

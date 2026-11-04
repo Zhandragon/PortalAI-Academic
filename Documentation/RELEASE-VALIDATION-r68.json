@@ -1,0 +1,372 @@
+{
+  "version": "2026.11.04-Desktop-r68",
+  "edition": "Academic",
+  "passed": true,
+  "installed_drives": {
+    "D": {
+      "focused_checks": {
+        "passed": true,
+        "tests": 92,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes": {
+        "Tools/WeightSpace/native_forward.py": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+        "Maintenance/Tests/test_weightspace_sampling.py": "95fe97852cbfd13a4d32c4354506f94f2675db3992afae2fd34e288dfa1aa5bd",
+        "ControlCenter/release_version.py": "44cc9824f027001287c98126c6613cd6e62046a03b7a1118272e54d476449166",
+        "Documentation/Weight_Sampler_r68.txt": "6c32a3e67919468439d1be2cdbe1c7e9c0ef8170a32c60d8a8998cb6cfeb89b6"
+      },
+      "free_bytes": 114697031680,
+      "independent_installation": true
+    },
+    "E": {
+      "focused_checks": {
+        "passed": true,
+        "tests": 92,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes": {
+        "Tools/WeightSpace/native_forward.py": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+        "Maintenance/Tests/test_weightspace_sampling.py": "95fe97852cbfd13a4d32c4354506f94f2675db3992afae2fd34e288dfa1aa5bd",
+        "ControlCenter/release_version.py": "44cc9824f027001287c98126c6613cd6e62046a03b7a1118272e54d476449166",
+        "Documentation/Weight_Sampler_r68.txt": "6c32a3e67919468439d1be2cdbe1c7e9c0ef8170a32c60d8a8998cb6cfeb89b6"
+      },
+      "free_bytes": 189761257472,
+      "independent_installation": true
+    }
+  },
+  "packaged_application_checks": {
+    "passed": true,
+    "tests": 92,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "native_runtime_extracted_from_verified_component": true,
+    "native_abi_hashes_verified": true,
+    "source_python_parsed": 1762,
+    "full_recipient_install": false,
+    "scope": "Focused grading, editor, profiles, startup and model-switch regressions with packaged native DLLs; Python package fixtures still copied from D. r65 full suite evidence remains historical."
+  },
+  "installer_checks": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_resources": [
+    {
+      "name": "python-bootstrap.zip",
+      "passed": true,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "bytes": 11439094
+    },
+    {
+      "name": "installer_core.py",
+      "passed": true,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "bytes": 39062
+    },
+    {
+      "name": "engine_cli.py",
+      "passed": true,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "bytes": 4572
+    },
+    {
+      "name": "installer_storage.py",
+      "passed": true,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "bytes": 4593
+    },
+    {
+      "name": "portable_update.py",
+      "passed": true,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "bytes": 17915
+    },
+    {
+      "name": "suite_installer.py",
+      "passed": true,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "bytes": 27664
+    },
+    {
+      "name": "abliterator_installer_core.py",
+      "passed": true,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "bytes": 29697
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r68_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "upgrade_history": {
+    "passed": true,
+    "tested_versions": [
+      {
+        "from": "2026.10.25-Aoostar-r43",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r44",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.24-r17",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Standardized-r1",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r45",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.26-Aoostar-r46",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r47",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r48",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r49",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.28-Desktop-r50",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.29-Desktop-r51",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r52",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r53",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r54",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r55",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r56",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r57",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r58",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r59",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r60",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r61",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r62",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.03-Desktop-r63",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r64",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r65",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r66",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r67",
+        "to": "2026.11.04-Desktop-r68",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      }
+    ],
+    "legacy_fingerprints_retained": 1,
+    "embedded_matches_sidecar": true,
+    "real_user_installation_modified": false
+  },
+  "native_runtime_pins": {
+    "edition": "Academic",
+    "passed": true,
+    "libraries": [
+      {
+        "library": "llama.dll",
+        "expected": "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6",
+        "packaged": [
+          "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml.dll",
+        "expected": "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9",
+        "packaged": [
+          "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml-base.dll",
+        "expected": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed",
+        "packaged": [
+          "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "native_component": {
+    "passed": true,
+    "prior_component_pins_unchanged": true,
+    "optional_component_selected": true,
+    "minimum_plan_excludes_cuda": true,
+    "package_dependencies_in_closure": true,
+    "native_members_verified": 55,
+    "symbols": {
+      "ggml-base.dll": [
+        "ggml_quantize_chunk",
+        "ggml_nelements",
+        "ggml_backend_tensor_get"
+      ],
+      "ggml.dll": [
+        "ggml_backend_load",
+        "ggml_backend_load_all_from_path"
+      ],
+      "llama.dll": [
+        "llama_model_default_params",
+        "llama_context_default_params",
+        "llama_model_load_from_file",
+        "llama_decode",
+        "llama_set_adapters_lora",
+        "llama_sampler_sample"
+      ]
+    },
+    "abi_layout_verified": true,
+    "gpu_or_model_loaded": false,
+    "complete_fresh_install": false
+  },
+  "source_matches_payload": true,
+  "payload_growth_bytes_vs_r67": 8151,
+  "existing_component_pins_unchanged": true,
+  "production_defaults_changed": false,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_downloaded_models": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "deprecated_C_installation_excluded": true,
+  "scope": "Native presence-penalty generated-history repair. Existing runtimes and component pins, original weights, profile format, GUI and normal chat-server sampling unchanged.",
+  "prior_evidence": "r65 completed full 1233-check suites on both SSDs and extracted editions, with actual original/edit/original native inference on D and E. This follow-up ran 92 focused checks on each installation and extracted edition, including actual native sampling without model/GPU loading; the separate research campaign is ongoing.",
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "8c698c52a82a0ccb5d6fd17b33139ff14b220ba8d51a7ddd637b5248ac97fa20",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}
