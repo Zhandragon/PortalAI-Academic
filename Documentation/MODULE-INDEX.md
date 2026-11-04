@@ -13,6 +13,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/academic_policy.py](../ApplicationSources/Windows/PortalAI/Agent/academic_policy.py) | Policy compiled into the Academic edition; no preference or environment opt-out. |
 | [Agent/account_connections.py](../ApplicationSources/Windows/PortalAI/Agent/account_connections.py) | Profile-bound connection bundle. Secrets never form model/tool output. |
 | [Agent/account_import.py](../ApplicationSources/Windows/PortalAI/Agent/account_import.py) | Explicit OpenClaw credential migration. No discovery, logging, or effects. |
+| [Agent/account_privacy.py](../ApplicationSources/Windows/PortalAI/Agent/account_privacy.py) | Transactional per-profile privacy conversion, only after verified shutdown. |
 | [Agent/account_runtime.py](../ApplicationSources/Windows/PortalAI/Agent/account_runtime.py) | Public dependency preflight; never authenticates or opens a private profile. |
 | [Agent/account_services.py](../ApplicationSources/Windows/PortalAI/Agent/account_services.py) | Bounded authenticated GitHub and Moltbook operations; no arbitrary URLs. |
 | [Agent/account_setup.py](../ApplicationSources/Windows/PortalAI/Agent/account_setup.py) | User-supplied setup data creates normal mission and schedule records. |
@@ -116,6 +117,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/nice_voice.py](../ApplicationSources/Windows/PortalAI/Agent/nice_voice.py) | Expressive Nice voice using the existing SSD-local Qwen TTS runtime. |
 | [Agent/piper_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/piper_bridge.py) | Bounded CPU speech lifecycle; Windows job owns only this worker tree. |
 | [Agent/piper_worker.py](../ApplicationSources/Windows/PortalAI/Agent/piper_worker.py) | Short-lived CPU speech worker using only the SSD's pinned package layer. |
+| [Agent/plain_profile_workspace.py](../ApplicationSources/Windows/PortalAI/Agent/plain_profile_workspace.py) | Explicit plaintext profiles with verified, incremental plaintext recovery. |
 | [Agent/platform_runtime.py](../ApplicationSources/Windows/PortalAI/Agent/platform_runtime.py) | Resolve bundled platform runtimes without falling back to host Python. |
 | [Agent/portable_fs.py](../ApplicationSources/Windows/PortalAI/Agent/portable_fs.py) | Canonical application paths with Windows long-path I/O, without registry edits. |
 | [Agent/portable_permissions.py](../ApplicationSources/Windows/PortalAI/Agent/portable_permissions.py) | Portable read/execute access for public, allowlisted Windows package trees. |
@@ -194,6 +196,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/account_gate.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_gate.py) | Guarded GUI integration; importing this module never initializes accounts. |
 | [ControlCenter/account_permissions.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_permissions.py) | Trusted-session authorization for shared settings and host mission controls. |
 | [ControlCenter/account_presentation.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_presentation.py) | Account sheets inside the existing launcher, with no secondary Tk windows. |
+| [ControlCenter/account_privacy_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_privacy_ui.py) | Small privacy controls; explicit descriptions match actual storage behavior. |
 | [ControlCenter/account_reset_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_reset_ui.py) | Explicit staged Start fresh UI. No reset executes at import or startup. |
 | [ControlCenter/account_setup_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_setup_ui.py) | Import ordinary user setup data through the authenticated Accounts UI. |
 | [ControlCenter/account_switch.py](../ApplicationSources/Windows/PortalAI/ControlCenter/account_switch.py) | In-memory account handoff; credentials and keys never enter argv or files. |
@@ -604,11 +607,13 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_navigation_activity.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_navigation_activity.py) | Navigation, telemetry and popup regressions using synthetic state only. |
 | [Maintenance/Tests/test_nice_prompt_integration.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_prompt_integration.py) | Nice receives current operating guidance without any account/model access. |
 | [Maintenance/Tests/test_nice_voice.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_voice.py) | Voice choice and integrity regressions for Nice's English male preset. |
+| [Maintenance/Tests/test_optional_privacy_accounts.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_optional_privacy_accounts.py) | Synthetic profiles only. Password policy and storage policy are independent. |
 | [Maintenance/Tests/test_page_scroll_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_page_scroll_tk.py) | Real Tk page scrolling: full thumbs must never reveal blank canvas space. |
 | [Maintenance/Tests/test_persistence_priority_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_persistence_priority_tk.py) | Exercise real expanding sheets and the schedule toggle with offline records. |
 | [Maintenance/Tests/test_persistence_readability_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_persistence_readability_tk.py) | Readable blank/populated persistence sheets with disposable offline records. |
 | [Maintenance/Tests/test_persistence_supervisor.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_persistence_supervisor.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_personal_model_policy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_personal_model_policy.py) | Real disposable accounts, encrypted restart/relocation, and hardware fixtures. |
+| [Maintenance/Tests/test_plain_profiles.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plain_profiles.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_plannotate_tool.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plannotate_tool.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_platform_metadata.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_platform_metadata.py) | Installed metadata must use the selected OS and not equate files with GPU validation. |
 | [Maintenance/Tests/test_portable_capabilities.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_capabilities.py) | Storage, account, authorization, interruption and recovery boundaries for r58. |
@@ -619,6 +624,8 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_portable_pip_runner.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_pip_runner.py) | The shim changes only installed RECORD path spelling, then restores pip. |
 | [Maintenance/Tests/test_portable_profile_paths.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_profile_paths.py) | Windows path-length portability with real encrypted synthetic workspaces. |
 | [Maintenance/Tests/test_portable_update.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_update.py) | Real file transactions on disposable old/current fixtures, without owner accounts. |
+| [Maintenance/Tests/test_privacy_conversion.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_conversion.py) | No module overview; see source and symbol inventory. |
+| [Maintenance/Tests/test_privacy_ui_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_ui_tk.py) | Disposable UI fixtures: no production account authentication or mutations. |
 | [Maintenance/Tests/test_profile_capture_scopes.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_capture_scopes.py) | Synthetic privacy-scope checks; never inventory or migrate production data. |
 | [Maintenance/Tests/test_profile_diagnostics.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_diagnostics.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_profile_drive_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_drive_recovery.py) | Abrupt process loss and removable-storage I/O failures on synthetic profiles. |

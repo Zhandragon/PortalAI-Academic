@@ -53,7 +53,7 @@ def show_change_user(parent, gate, colors, *, lock_application, on_ready, exit_a
     selected=tk.StringVar(dialog.win,value=next(iter(names),''))
     dialog.label('Username');dialog.picker(selected,names)
     password=dialog.entry('Password',secret=True,submit=lambda:sign_in.invoke())
-    dialog.label('After sign-in is accepted, PortalAI stops current jobs, saves and seals this account, then opens the selected account. Guest does not require a password.')
+    dialog.label('After sign-in is accepted, PortalAI stops current jobs, saves and closes this account, then opens the selected account. Leave the password blank for Guest or a passwordless account.')
     state={'candidate':None,'committing':False}
     def leave():
         if dialog.busy:return
@@ -69,7 +69,7 @@ def show_change_user(parent, gate, colors, *, lock_application, on_ready, exit_a
         gate.on_shutdown_status=previous
         state['candidate']=None
         dialog.busy=True
-        dialog.status.set('Current account sealed. Opening the selected account…')
+        dialog.status.set('Current account saved. Opening the selected account…')
         on_ready(ticket)
     def commit(candidate):
         state['candidate']=candidate
@@ -85,7 +85,7 @@ def show_change_user(parent, gate, colors, *, lock_application, on_ready, exit_a
         except Exception:
             dialog.status.set('Account change is locked. Retry to finish sealing, or close PortalAI.')
             return
-        dialog.operation_label='Saving and sealing the current account…'
+        dialog.operation_label='Saving and closing the current account…'
         dialog.run(lambda:seal_for_switch(gate,candidate),ready,lifecycle=True)
     def sign():
         if state['candidate'] is not None:

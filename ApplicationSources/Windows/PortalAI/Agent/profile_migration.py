@@ -373,13 +373,15 @@ class LegacyMigration:
             if row['bytes'] > 32*1024**2: raise ValueError('Migration plan exceeds recovery limit')
             key = self.session.profile_key
             from profile_workspace import _crypto, MAGIC
-            Cipher, algorithms, modes, _ = _crypto()
             data = self.store.blob_path(manifest, row).read_bytes()
-            if not data.startswith(MAGIC): raise ValueError('Invalid recovery plan format')
-            offset = len(MAGIC)
-            decryptor = Cipher(algorithms.AES(key), modes.GCM(data[offset:offset+12], data[-16:])).decryptor()
-            decryptor.authenticate_additional_data(self.store._aad(plan_path))
-            plain = decryptor.update(data[offset+12:-16]) + decryptor.finalize()
+            if self.store.encrypted:
+                Cipher, algorithms, modes, _ = _crypto()
+                if not data.startswith(MAGIC): raise ValueError('Invalid recovery plan format')
+                offset = len(MAGIC)
+                decryptor = Cipher(algorithms.AES(key), modes.GCM(data[offset:offset+12], data[-16:])).decryptor()
+                decryptor.authenticate_additional_data(self.store._aad(plan_path))
+                plain = decryptor.update(data[offset+12:-16]) + decryptor.finalize()
+            else:plain=data
             if hashlib.sha256(plain).hexdigest() != row['sha256']: raise ValueError('Recovery plan hash mismatch')
             plan = json.loads(plain)
             if hashlib.sha256(_encoded(plan['files'])).hexdigest() != state['digest']:

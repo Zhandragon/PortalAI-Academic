@@ -1,0 +1,150 @@
+{
+  "version": "2026.11.03-Desktop-r63",
+  "edition": "Academic",
+  "passed": true,
+  "installed_drives": {
+    "D": {
+      "independent_full_installation": true,
+      "application_checks": {
+        "passed": true,
+        "tests": 1120,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes_verified": 22,
+      "account_data_changed": false,
+      "free_bytes": 175046803456
+    },
+    "E": {
+      "independent_full_installation": true,
+      "application_checks": {
+        "passed": true,
+        "tests": 1120,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes_verified": 22,
+      "account_data_changed": false,
+      "free_bytes": 199284326400
+    }
+  },
+  "packaged_application_checks": {
+    "passed": true,
+    "tests": 1120,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1638,
+    "full_recipient_install": false,
+    "initial_run": {
+      "passed": false,
+      "tests": 1120,
+      "skipped": 1,
+      "failures": [],
+      "errors": [
+        "test_profile_media.ProfileMedia.test_ace_current_installed_source_compiles_without_importing_models"
+      ]
+    },
+    "followup": {
+      "passed": true,
+      "tests": 1,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "external_fixture": {
+      "path": "Music/ACE-Step-1.5/acestep/api_server.py",
+      "sha256": "bd7d8c295dd4a8ca1b281bd70a7698328c507e5b4fa1f63e41e07894552a8237",
+      "reason": "Separately installed ACE-Step component omitted from initial extraction fixture; supplied unchanged installed source, reran the single failed test."
+    }
+  },
+  "installer_checks": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_resources": [
+    {
+      "bytes": 11439094,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip",
+      "passed": true
+    },
+    {
+      "bytes": 39062,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py",
+      "passed": true
+    },
+    {
+      "bytes": 4572,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py",
+      "passed": true
+    },
+    {
+      "bytes": 4593,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py",
+      "passed": true
+    },
+    {
+      "bytes": 17915,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py",
+      "passed": true
+    },
+    {
+      "bytes": 27664,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py",
+      "passed": true
+    },
+    {
+      "bytes": 29697,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py",
+      "passed": true
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r63_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "source_matches_payload": true,
+  "payload_growth_bytes_vs_r62": 95134,
+  "existing_component_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_models": false,
+  "production_accounts_converted": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "deprecated_C_installation_excluded": true,
+  "visual_inspection": "Native disposable privacy dialog inspected in the PortalAI theme; narrow/theme/account-free UI checks passed. No owner credentials or account data used.",
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "175e30d352eb6bdbaea0e8bd135e66efd148ed460f9680ba317f9a559e786ac2",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

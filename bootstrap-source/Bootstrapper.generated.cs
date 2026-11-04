@@ -15,21 +15,21 @@ internal sealed class Item {
     internal Item(string name, long bytes, string hash) { Name=name; Bytes=bytes; Hash=hash; }
 }
 internal static class Bootstrap {
-    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.01-Desktop-r62";
-    internal const string Archive = "PortalAI-Academic-Windows-Installer-2026.11.01-Desktop-r62-suite.zip";
-    internal const string ArchiveHash = "7ca01bb72c2d93bb0154b1c5e8b8409c1eb8509a51052a3562a8ee3bc6795aea";
-    internal const string Owner = "PortalAI-Academic-bootstrap-20261101-Desktop-r62-Windows";
-    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-2026.11.01-Desktop-r62-suite.zip", 623314462L, "7ca01bb72c2d93bb0154b1c5e8b8409c1eb8509a51052a3562a8ee3bc6795aea") };
-    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1312L, "1bbe6e2b96233cf6eeeca6cf6973d0faf3370fd8137b9ff11551201dcf11d4a6"),
-new Item("payload.zip", 381241649L, "b83517d08f9f5a1ec47bc79c1230214fd91181452e5be61d65730988320dbdda"),
+    internal const string Source = "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.03-Desktop-r63";
+    internal const string Archive = "PortalAI-Academic-Windows-Installer-2026.11.03-Desktop-r63-suite.zip";
+    internal const string ArchiveHash = "175e30d352eb6bdbaea0e8bd135e66efd148ed460f9680ba317f9a559e786ac2";
+    internal const string Owner = "PortalAI-Academic-bootstrap-20261103-Desktop-r63-Windows";
+    internal static readonly Item[] Parts = new Item[] { new Item("PortalAI-Academic-Windows-Installer-2026.11.03-Desktop-r63-suite.zip", 623341533L, "175e30d352eb6bdbaea0e8bd135e66efd148ed460f9680ba317f9a559e786ac2") };
+    internal static readonly Item[] Files = new Item[] { new Item("PACKAGE_SHA256.json", 1312L, "07c75c958e0f4db82b6b333fac15a879c1a7ef2cc63137d501a0455f0e77563f"),
+new Item("payload.zip", 381269849L, "f20f8ee3adb6d8a6f4830ee7f5f33b85032fdfbbd7903d31570002305d701127"),
 new Item("PortalAI-Academic-Install.exe", 11603456L, "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"),
 new Item("qemu-w64-setup-20260811.exe", 206615928L, "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"),
-new Item("release.json", 139025470L, "7dc1962de257f64c2ae872863fde3025016c253aea679d815e3e1c9031d62f19"),
+new Item("release.json", 139027907L, "f848a982f053699b9ee86046f2d7ad4a681479e05c87ea92486e2b82bcd48017"),
 new Item("sox-14.4.2-win32.zip", 2651143L, "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"),
-new Item("START_HERE.txt", 6196L, "6a298d3deee6b6dfe2c89b773db55f305490dfc152914dd02cb9a935b2e7ca0d"),
-new Item("storage-plan.json", 190024L, "b0f43a0096b2efb3d860fdb46c3f3c75a3975f65f7f320f336a21f3d65a3a4c3"),
-new Item("suite-catalog.json", 4338L, "75f001ea6e89eef4e30bb29fcb7b130ac91903b7d743da31c764eec280241f02"),
-new Item("upgrade.json", 1380L, "d8007820fd51c07d92ce7ec919e56e5c8a83af959e68cd9adab7d1f8afde3af9") };
+new Item("START_HERE.txt", 6349L, "988c0146b801c1d4295d401418d196eb783c2e4c7fa06dcc921b7acd354f28ab"),
+new Item("storage-plan.json", 190024L, "034f21524b6b40b0acaa5f028d95ddc0720bcbf1c02743cf6d35119f10825d04"),
+new Item("suite-catalog.json", 4338L, "f0ac961032d811703a244f48bb5b22196051be2646e87f6a32a2c39efe131ea9"),
+new Item("upgrade.json", 1410L, "bea15a5e2b653dc4270cf61e859c3ded5cfb1066308f3f7ced9ab0483f19e4ec") };
     internal static string Digest(string path) {
         using (var hash = SHA256.Create()) using (var stream = File.OpenRead(path))
             return BitConverter.ToString(hash.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -55,7 +55,7 @@ new Item("upgrade.json", 1380L, "d8007820fd51c07d92ce7ec919e56e5c8a83af959e68cd9
         if (Directory.Exists(target) && Directory.GetFileSystemEntries(target).Length > 0 &&
             (!File.Exists(marker) || File.ReadAllText(marker) != Owner))
             throw new IOException("Choose a new, empty setup folder. This folder contains unrelated files.");
-        report(0, StoragePreflight.Check(target, includeInstall ? 513586240453L : 1987969820L, includeInstall ? 330250L : 14L, 0));
+        report(0, StoragePreflight.Check(target, includeInstall ? 513586453309L : 1988054782L, includeInstall ? 330258L : 14L, 0));
         Directory.CreateDirectory(target);
         if (!File.Exists(marker)) using (var writer = new StreamWriter(new FileStream(marker, FileMode.CreateNew))) writer.Write(Owner);
         using (var gate = new FileStream(Path.Combine(target, ".bootstrap.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {

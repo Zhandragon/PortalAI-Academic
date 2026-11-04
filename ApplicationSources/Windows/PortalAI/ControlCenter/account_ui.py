@@ -117,17 +117,20 @@ class AccountController:
             if username != 'Guest':
                 raise AccountUIError('Guest access cannot open a named private account.')
             return self.backend.login_guest()
-        if not password:
+        row=next((r for r in self.status().get('users',[]) if r['username'].casefold()==username.casefold()),{})
+        if not password and row.get('password_required',True):
             raise AccountUIError('Enter this account\'s password.')
         return self.backend.login(username, password)
 
-    def bootstrap(self, username, password, confirmation):
+    def bootstrap(self, username, password, confirmation, *, encrypted=True, password_required=True):
         if self.status()['state'] != 'fresh':
             raise AccountUIError('Initial setup is allowed only on verified fresh storage.')
-        self._matching(password, confirmation)
+        if password_required:self._matching(password, confirmation)
+        elif password or confirmation:raise AccountUIError('Clear the password fields when password protection is off.')
         if not username.strip():
             raise AccountUIError('Choose an administrator username.')
-        return self.backend.bootstrap(username.strip(), password, pending_users=())
+        options={} if encrypted and password_required else {'encrypted':encrypted,'password_required':password_required}
+        return self.backend.bootstrap(username.strip(), password, pending_users=(),**options)
 
     def bootstrap_reviewed(self, username, password, confirmation):
         self._matching(password, confirmation)
@@ -160,25 +163,29 @@ class AccountController:
         self._matching(new, confirmation)
         return self.backend.change_password(session, current, new)
 
-    def create_user(self, session, username, password, confirmation, admin_password, *, pending=False):
+    def create_user(self, session, username, password, confirmation, admin_password, *, pending=False, encrypted=True, password_required=True):
         self._admin(session)
-        if not username.strip() or not admin_password:
+        if not username.strip() or (not admin_password and _value(session,'password_required',True)):
             raise AccountUIError('Enter the username and current administrator password.')
-        if not pending:
+        if pending and not password_required:raise AccountUIError('A passwordless account is available immediately; it cannot be pending.')
+        if not pending and password_required:
             self._matching(password, confirmation)
+        elif not password_required and (password or confirmation):raise AccountUIError('Clear the password fields when password protection is off.')
+        options={} if encrypted and password_required else {'encrypted':encrypted,'password_required':password_required}
         return self.backend.create_user(session, username.strip(), None if pending else password,
-                                        role='user', admin_password=admin_password)
+                                        role='user', admin_password=admin_password,**options)
 
     def promote(self, session, target, admin_password, target_password):
         self._admin(session)
-        if not target or not admin_password or not target_password:
+        row=next((r for r in self.backend.list_users(session) if _user_id(r)==target),{})
+        if not target or (not admin_password and _value(session,'password_required',True)) or (not target_password and row.get('password_required',True)):
             raise AccountUIError('Select the account and enter both current passwords.')
         return self.backend.promote(session, target, admin_password=admin_password, target_password=target_password)
 
     def enroll_pending(self, session, target, password, confirmation, admin_password, *, temporary_password=False):
         self._admin(session)
         self._matching(password, confirmation)
-        if not admin_password:
+        if not admin_password and _value(session,'password_required',True):
             raise AccountUIError('Enter the current administrator password.')
         rows = self.backend.list_users(session)
         row = next((row for row in rows if _user_id(row) == target), None)
@@ -193,7 +200,7 @@ class AccountController:
     def reset_member(self, session, target, password, confirmation, admin_password, typed_confirmation, *, temporary_password=False):
         self._admin(session)
         self._matching(password, confirmation)
-        if not admin_password:
+        if not admin_password and _value(session,'password_required',True):
             raise AccountUIError('Enter your current administrator password.')
         row = next((row for row in self.backend.list_users(session) if _user_id(row) == target), None)
         if (row is None or target == _value(session, 'user_id') or row.get('role') == 'guest' or
@@ -223,7 +230,7 @@ class AccountController:
 
     def review_start_fresh(self, session, admin_password, confirmation):
         self._admin(session)
-        if confirmation != 'RESET ALL PRIVATE PROFILES' or not admin_password:
+        if confirmation != 'RESET ALL PRIVATE PROFILES' or (not admin_password and _value(session,'password_required',True)):
             raise AccountUIError('Enter the administrator password and type RESET ALL PRIVATE PROFILES to review this action.')
         check = self.backend.login(_value(session, 'username'), admin_password)
         try:
@@ -318,6 +325,7 @@ class _Dialog:
         self.buttons = []
         self.rounded_controls = []
         self.secrets = []
+        self.variable_traces = []
         self.surface.on_close = self.close
         if not hasattr(self.parent, '_portalai_account_dialogs'):
             self.parent._portalai_account_dialogs = []
@@ -377,6 +385,7 @@ class _Dialog:
                              palette=self.colors, font=('Segoe UI', 10), cursor='xterm')
         self.rounded_controls.append(entry)
         entry.pack(fill='x', pady=(0, 8))
+        variable._entry_widget = entry
         if submit is not None:
             def on_enter(_event):
                 dialogs=[dialog for dialog in self.parent._portalai_account_dialogs if not dialog.closed]
@@ -418,6 +427,9 @@ class _Dialog:
         if self.busy:
             self.status.set('Wait for the current account operation to finish.')
             return
+        for variable,token in self.variable_traces:
+            variable.trace_remove('write',token)
+        self.variable_traces.clear()
         for variable in self.secrets:
             variable.set('')
         self.closed = True
@@ -428,6 +440,9 @@ class _Dialog:
             self.parent.protocol('WM_DELETE_WINDOW',self._startup_protocol)
         self.surface.destroy()
         self.parent._portalai_account_dialogs.remove(self)
+
+    def watch(self,variable,callback):
+        self.variable_traces.append((variable,variable.trace_add('write',callback)))
 
     def run(self, operation, success, *, lifecycle=False):
         if self.busy:
@@ -530,6 +545,12 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
             dialog.run(lambda:controller.activate(authenticated_session,prepare_session),complete)
         dialog.win.after(80,resume)
         dialog.button('Close PortalAI',dialog.close)
+    elif status.get('auto_profile') and status['state']=='locked':
+        dialog.label('Opening shared workspace',bold=True)
+        dialog.label('Account-free mode · unencrypted storage',muted=True)
+        dialog.operation_label='Opening shared workspace…'
+        dialog.win.after(80,lambda:dialog.run(lambda:controller.activate(controller.backend.login_without_account(),prepare_session),complete))
+        dialog.button('Close PortalAI',dialog.close)
     elif reviewed_setup is not None:
         resuming = reviewed_setup['mode'] == 'resume'
         dialog.label('Finish initial account setup' if resuming else 'Create your administrator account', bold=True)
@@ -551,6 +572,9 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
     elif status['state'] == 'recovery_required':
         dialog.label('Account recovery is required. This installation will remain locked.',muted=True)
         dialog.label(str(status.get('reason') or 'Restore the verified account registry and encrypted data using the recovery workflow.'),muted=True)
+        if (controller.root/'Private/privacy-change.json').exists():
+            from account_privacy_ui import recover_privacy
+            dialog.button('Recover privacy change…',lambda:recover_privacy(dialog,controller))
         if callable(recover_reset) and (controller.root/'Private/Reset/transaction.json').exists():
             dialog.label('An interrupted Start fresh transaction needs an explicit choice. Rollback uses the previous administrator password before commit. Finish uses the new administrator password after commit. Recovery verifies every retained encrypted file.',muted=True)
             username = dialog.entry('Recovery administrator username')
@@ -563,18 +587,22 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
             dialog.button('Perform authenticated reset recovery', recover)
         dialog.button('Close PortalAI', dialog.close)
     elif status['state'] == 'fresh':
-        dialog.label('Choose the initial administrator username and password for this fresh installation. Guest will have separate, shared history.',muted=True)
+        dialog.label('Choose an account with your preferred protection, or use a shared unencrypted workspace without an account.',muted=True)
         username = dialog.entry('Administrator username')
         password = dialog.entry('Administrator password', secret=True)
         confirmation = dialog.entry('Confirm password', secret=True)
+        from account_privacy_ui import privacy_fields
+        privacy=privacy_fields(dialog,password,confirmation,administrator=True)
         def create():
             name = username.get().strip()
             values = name, password.get(), confirmation.get()
+            options=privacy()
             def operation():
-                controller.bootstrap(*values)
+                controller.bootstrap(*values,**options)
                 return controller.activate(controller.login(name, values[1]), prepare_session)
             dialog.run(operation, complete)
         dialog.button('Create initial administrator', create)
+        dialog.button('Use without an account',lambda:dialog.run(lambda:controller.activate(controller.backend.bootstrap_without_account(),prepare_session),complete))
     else:
         users = status.get('users', [])
         names = [row['username'] for row in users]
@@ -582,13 +610,19 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
         dialog.label('Username')
         picker = dialog.picker(selected,names)
         password = dialog.entry('Password', secret=True, submit=lambda: sign_in.invoke())
+        def selected_password_policy(*_):
+            row=next((r for r in users if r['username']==selected.get()),{})
+            required=row.get('password_required',row.get('role')!='guest')
+            if not required:password.set('')
+            password._entry_widget.configure(state='normal' if required else 'disabled')
+        dialog.watch(selected,selected_password_policy);selected_password_policy()
         login_actions=tk.Frame(dialog.body,bg=dialog.bg)
         login_actions.pack(fill='x',pady=(0,10))
         recovery_actions=tk.Frame(login_actions,bg=dialog.bg)
         reset_actions=tk.Frame(login_actions,bg=dialog.bg)
         recovery_actions.pack(side='left',anchor='n')
         reset_actions.pack(side='right',anchor='n')
-        dialog.label('Guest is passwordless and shared: anyone selecting Guest can see its saved history. Pending accounts need an administrator to set their password.',muted=True)
+        dialog.label('Passwordless accounts and Guest can be opened by anyone using this installation. Leave the password blank for them. Pending accounts need administrator enrollment.',muted=True)
         dialog.label('Accounts do not isolate full host tools or protect against someone who controls this computer or its filesystem.',muted=True)
         def login():
             username, secret = selected.get(), password.get()
@@ -601,7 +635,7 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
         recover_button=dialog.button('Recover account registry…', recover_registry)
         from utilities_ui import utility_button_help
         utility_button_help(dialog, recover_button, 'account_registry_recovery')
-        if status['state']=='locked':
+        if status['state']=='locked' and recovery_actions is not None:
             recover_button.pack_forget();recover_button.pack(in_=recovery_actions,anchor='w',pady=3)
     if authenticated_session is None:
         from utilities_ui import add_login_utilities
@@ -626,7 +660,7 @@ def show_login(parent, controller, colors, *, prepare_session, recover_reset=Non
 
 def show_accounts(parent, controller, session, colors, *, lock_application=None, stop_and_seal=None,
                   exit_application=None, on_session_changed=None, export_history=None, export_outputs=None,
-                  export_both=None, change_user=None, start_fresh_adapter=None, page=False):
+                  export_both=None, change_user=None, start_fresh_adapter=None, privacy_settings=None, page=False):
     """Same authenticated actions in a main page or an internal management sheet."""
     if page:
         from accounts_page import AccountsPage
@@ -636,8 +670,10 @@ def show_accounts(parent, controller, session, colors, *, lock_application=None,
     role = str(_value(session, 'role', 'unknown'))
     from accounts_page import AccountIdentity
     dialog.identity=AccountIdentity(dialog.body,username,role,colors)
+    if _value(session,'anonymous',False):dialog.identity.set_account('Shared workspace','account-free')
     dialog.identity.pack(fill='x',pady=(0,10))
-    dialog.label('Change current user verifies the next sign-in before saving and sealing this account. Export Data saves a verified copy of the selected data.')
+    if callable(privacy_settings):dialog.button('Privacy and sign-in…',privacy_settings,enabled=role=='admin')
+    dialog.label('Change current user verifies the next sign-in before saving and closing this account. Export Data saves a verified copy of the selected data.')
 
     def export(callback):
         # The factory runs on Tk's thread so it can request an explicit export
@@ -677,6 +713,8 @@ def show_accounts(parent, controller, session, colors, *, lock_application=None,
 
     def change_password():
         child = form('Change password')
+        if _value(session,'anonymous',False) or (_value(session,'encrypted',True) and not _value(session,'password_required',True)):
+            child.label('An administrator must use Privacy and sign-in to leave account-free mode or protect a previously public encryption key. That workflow saves the workspace and rotates its key.');return
         current = child.entry('Current password', secret=True)
         new = child.entry('New password', secret=True)
         confirm = child.entry('Confirm new password', secret=True)
@@ -706,13 +744,16 @@ def show_accounts(parent, controller, session, colors, *, lock_application=None,
         admin_password = child.entry('Your administrator password', secret=True)
         new = child.entry('New account password', secret=True)
         confirm = child.entry('Confirm account password', secret=True)
+        from account_privacy_ui import privacy_fields
+        privacy=privacy_fields(child,new,confirm)
         pending = tk.BooleanVar(master=child.win, value=False)
         tk.Checkbutton(child.body, text='Leave pending until administrator enrollment', variable=pending,
                        bg=child.bg, fg=child.fg, selectcolor=child.colors.get('panel2', child.bg)).pack(anchor='w')
         def apply():
             args = name.get(), new.get(), confirm.get(), admin_password.get()
             is_pending = pending.get()
-            child.run(lambda: controller.create_user(session, *args, pending=is_pending),
+            options=privacy()
+            child.run(lambda: controller.create_user(session, *args, pending=is_pending,**options),
                       lambda result: changed(child, _completed('Account created.', result)))
         child.button('Create account', apply)
         child.status_line()

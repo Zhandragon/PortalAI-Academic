@@ -1,0 +1,102 @@
+{
+  "version": "2026.11.03-Desktop-r63",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.03-Desktop-r63-suite.zip",
+  "bytes": 623341533,
+  "sha256": "175e30d352eb6bdbaea0e8bd135e66efd148ed460f9680ba317f9a559e786ac2",
+  "previous_sha256": "7ca01bb72c2d93bb0154b1c5e8b8409c1eb8509a51052a3562a8ee3bc6795aea",
+  "changed_members": [
+    "PortalAI/Agent/account_connections.py",
+    "PortalAI/Agent/admin_profile_access.py",
+    "PortalAI/Agent/local_accounts.py",
+    "PortalAI/Agent/profile_migration.py",
+    "PortalAI/Agent/profile_reset.py",
+    "PortalAI/Agent/profile_runtime.py",
+    "PortalAI/Agent/profile_workspace.py",
+    "PortalAI/ControlCenter/account_gate.py",
+    "PortalAI/ControlCenter/account_switch.py",
+    "PortalAI/ControlCenter/account_ui.py",
+    "PortalAI/ControlCenter/help_catalog.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/Maintenance/Imports/distribution-version.json",
+    "PortalAI/Maintenance/Tests/test_profile_gui_paths.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/account_privacy.py",
+    "PortalAI/Agent/plain_profile_workspace.py",
+    "PortalAI/ControlCenter/account_privacy_ui.py",
+    "PortalAI/Documentation/Optional_Privacy_r63.md",
+    "PortalAI/Maintenance/Tests/test_optional_privacy_accounts.py",
+    "PortalAI/Maintenance/Tests/test_plain_profiles.py",
+    "PortalAI/Maintenance/Tests/test_privacy_conversion.py",
+    "PortalAI/Maintenance/Tests/test_privacy_ui_tk.py"
+  ],
+  "payload_members": 5266,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_original_helper": null,
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273202893035,
+    "download_bytes": 234114349863,
+    "required_bytes": 511598398527,
+    "files": 330244
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "07c75c958e0f4db82b6b333fac15a879c1a7ef2cc63137d501a0455f0e77563f"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381269849,
+      "sha256": "f20f8ee3adb6d8a6f4830ee7f5f33b85032fdfbbd7903d31570002305d701127"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139027907,
+      "sha256": "f848a982f053699b9ee86046f2d7ad4a681479e05c87ea92486e2b82bcd48017"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 6349,
+      "sha256": "988c0146b801c1d4295d401418d196eb783c2e4c7fa06dcc921b7acd354f28ab"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "034f21524b6b40b0acaa5f028d95ddc0720bcbf1c02743cf6d35119f10825d04"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "f0ac961032d811703a244f48bb5b22196051be2646e87f6a32a2c39efe131ea9"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1410,
+      "sha256": "bea15a5e2b653dc4270cf61e859c3ded5cfb1066308f3f7ced9ab0483f19e4ec"
+    }
+  ]
+}

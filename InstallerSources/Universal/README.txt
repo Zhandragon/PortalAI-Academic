@@ -1,4 +1,4 @@
-PortalAI Universal — Academic — 2026.11.01-Desktop-r62
+PortalAI Universal — Academic — 2026.11.03-Desktop-r63
 
 This fourth distribution prepares Windows, Linux and Mac packages together on
 one drive. Run Prepare Universal.cmd on Windows, Prepare Universal.command on

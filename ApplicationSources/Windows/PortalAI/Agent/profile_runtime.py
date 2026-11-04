@@ -112,10 +112,10 @@ class ProfileRuntime:
         except (OSError, ValueError, TypeError):
             raise RuntimeError('Account runtime marker is corrupt. Explicit verified recovery is required.') from None
 
-    def _write_marker(self, uid, epoch, state, role):
+    def _write_marker(self, uid, epoch, state, role, encrypted=True):
         _contained(self.root, self.marker)
         atomic_json(self.marker, {'version': 1, 'user_id': uid, 'epoch': epoch, 'state': state,
-                                  'role': role, 'controller_pid': os.getpid()})
+                                  'role': role, 'controller_pid': os.getpid(),'encrypted':bool(encrypted)})
 
     def _clean_legacy(self):
         if callable(self.legacy_check):
@@ -149,6 +149,9 @@ class ProfileRuntime:
         users = self.root/'Private/Users'
         _contained(self.root, users)
         residual = set()
+        status=getattr(self.backend,'status',None)
+        rows=status().get('users',[]) if callable(status) else []
+        plain={r['user_id'] for r in rows if r.get('encrypted') is False}
         if users.exists():
             for directory in users.iterdir():
                 _contained(self.root, directory)
@@ -165,7 +168,7 @@ class ProfileRuntime:
                         if files:
                             has_files = True
                             break
-                if pending or has_files:
+                if pending or (has_files and directory.name not in plain):
                     residual.add(directory.name)
         if marker and marker['state'] != 'closed':
             residual.add(marker['user_id'])
@@ -173,6 +176,8 @@ class ProfileRuntime:
 
     def prepare(self, session):
         with self._mutex:
+            if (self.root/'Private/privacy-change.json').exists():
+                raise RuntimeError('Finish the privacy change recovery before opening a workspace')
             self._validate(session)
             self._progress('authenticate-ready', 'Account authenticated; checking workspace recovery...')
             self._acquire()
@@ -203,20 +208,20 @@ class ProfileRuntime:
                 try:
                     workspace = ProfileWorkspace(self.root, owner, on_progress=self.on_progress)
                     epoch = prior['epoch'] if prior and prior['user_id'] == uid else uuid.uuid4().hex
-                    self._write_marker(uid, epoch, 'closing', owner.role)
+                    self._write_marker(uid, epoch, 'closing', owner.role,getattr(owner,'encrypted',True))
                     if (workspace.base/'seal-pending.json').exists():
                         workspace.seal(writers_stopped=True)
                     if (workspace.base/'restore-pending.json').exists():
                         workspace.recover_for_seal(writers_stopped=True)
                     elif (not (workspace.base/'hydration.enc').exists() and
-                          not workspace.inventory() and (workspace.vault/'current.enc').exists()):
+                          not workspace.inventory() and workspace.pointer.exists()):
                         workspace.recover_for_seal(writers_stopped=True)
                     self._harvest(owner)
                     self._clean_legacy()
                     receipt = workspace.seal(writers_stopped=True)
-                    if receipt.get('sealed') is not True or workspace.inventory():
+                    if not workspace.closed_verified(receipt):
                         raise RuntimeError('Previous profile sealing failed verification.')
-                    self._write_marker(uid, epoch, 'closed', owner.role)
+                    self._write_marker(uid, epoch, 'closed', owner.role,getattr(owner,'encrypted',True))
                     completed = True
                 finally:
                     if completed:
@@ -226,14 +231,14 @@ class ProfileRuntime:
             self._recovery_authorizer = None
             self._clean_legacy()
             workspace = ProfileWorkspace(self.root, session, on_progress=self.on_progress)
-            if not (workspace.vault/'current.enc').exists():
+            if not workspace.pointer.exists():
                 if workspace.vault.exists() and any(workspace.vault.iterdir()):
                     raise RuntimeError('Profile snapshot pointer is missing; existing encrypted data requires recovery.')
-                if workspace.inventory():
+                if workspace.encrypted and workspace.inventory():
                     raise RuntimeError('Unexpected profile plaintext remains before opening.')
                 workspace.snapshot()  # Establish a verified empty initial profile.
             epoch = uuid.uuid4().hex
-            self._write_marker(session.user_id, epoch, 'opening', session.role)
+            self._write_marker(session.user_id, epoch, 'opening', session.role,getattr(session,'encrypted',True))
             # Hold the session/lock even if restore fails: only verified recovery
             # may remove partially restored plaintext or authorize another user.
             self.session = session
@@ -241,9 +246,9 @@ class ProfileRuntime:
             receipt = workspace.restore(lazy=True) if self.lazy_restore else workspace.restore()
             if receipt.get('ready') is not True or receipt.get('user_id') != session.user_id:
                 raise RuntimeError('Profile restore did not verify the requested identity.')
-            self._write_marker(session.user_id, epoch, 'open', session.role)
+            self._write_marker(session.user_id, epoch, 'open', session.role,getattr(session,'encrypted',True))
             os.environ[UID_ENV], os.environ[EPOCH_ENV] = session.user_id, epoch
-            if self.lazy_restore:
+            if self.lazy_restore and workspace.encrypted:
                 from profile_hydration import HydrationBroker
                 try:
                     self._hydration = HydrationBroker(self.root, (session.user_id, epoch),
@@ -262,7 +267,7 @@ class ProfileRuntime:
                     # Remove path authority even if rewriting the recovery
                     # marker fails. The session/key and process lock stay held.
                     os.environ.pop(UID_ENV, None); os.environ.pop(EPOCH_ENV, None)
-                    self._write_marker(session.user_id, epoch, 'opening', session.role)
+                    self._write_marker(session.user_id, epoch, 'opening', session.role,getattr(session,'encrypted',True))
                     raise
             from account_connections import unlock_session
             unlock_session(self.root, session)
@@ -293,18 +298,18 @@ class ProfileRuntime:
             self._stop(session, prior)  # Recheck; a caller's old boolean is insufficient.
             self._harvest(session)
             self._clean_legacy()
-            self._write_marker(session.user_id, self.epoch, 'closing', session.role)
+            self._write_marker(session.user_id, self.epoch, 'closing', session.role,getattr(session,'encrypted',True))
             workspace = ProfileWorkspace(self.root, session)
             if (workspace.base/'restore-pending.json').exists():
                 workspace.recover_for_seal(writers_stopped=True)
             result = workspace.seal(writers_stopped=True)
-            if result.get('sealed') is not True or workspace.inventory():
+            if not workspace.closed_verified(result):
                 raise RuntimeError('Profile sealing did not verify an empty plaintext workspace.')
-            self._write_marker(session.user_id, self.epoch, 'closed', session.role)
+            self._write_marker(session.user_id, self.epoch, 'closed', session.role,getattr(session,'encrypted',True))
             for name in (UID_ENV, EPOCH_ENV):
                 os.environ.pop(name, None)
             self.backend.logout(session)
             self.session = None
             self.epoch = None
             self.release_closed()
-            return {'stopped': True, 'sealed': True, 'user_id': session.user_id, 'generation': result['generation']}
+            return {'stopped': True, 'sealed': True, 'encrypted':workspace.encrypted,'user_id': session.user_id, 'generation': result['generation']}

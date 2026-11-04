@@ -1,7 +1,7 @@
 {
-  "version": "2026.11.01-Desktop-r62",
+  "version": "2026.11.03-Desktop-r63",
   "edition": "Academic",
   "platform": "Windows",
-  "previous_receipt_version": "2026.11.01-Desktop-r61",
-  "reconciliation": "r62 profile-image evidence, cached HTML discovery, placeholder checks and image download naming"
+  "previous_receipt_version": "2026.11.01-Desktop-r62",
+  "reconciliation": "r63 optional per-account encryption/passwords, account-free mode and verified privacy conversion"
 }

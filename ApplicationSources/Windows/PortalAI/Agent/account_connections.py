@@ -20,6 +20,7 @@ from runtime_policy import atomic_json
 ENV = 'PORTALAI_CONNECTION_UNLOCK'
 INPUT_FLAG = 'PORTALAI_CONNECTION_INPUT'
 RELATIVE = 'Data/Accounts/connections.enc'
+PLAINTEXT_RELATIVE = 'Data/Accounts/connections.json'
 _controller_key = None
 
 
@@ -98,21 +99,40 @@ def _aad(context):
     return b'PortalAI/connections/v1/' + context[0].encode()
 
 
+def _encrypted(root,context):
+    from profile_paths import _contained
+    path=_contained(Path(root).resolve(),Path(root).resolve()/'Private/active-session.json')
+    if context is None:return True
+    if path.stat().st_size>16384:raise ProfileLocked('Invalid active workspace metadata')
+    value=json.loads(path.read_text(encoding='utf-8'))
+    if (value.get('user_id'),value.get('epoch'))!=context or value.get('state')!='open':
+        raise ProfileLocked('Connection workspace changed')
+    mode=value.get('encrypted',True)
+    if type(mode) is not bool:raise ProfileLocked('Invalid workspace storage mode')
+    return mode
+
+
 def read(root, *, key=None):
     context = capture(root)
-    path = private_path(root, RELATIVE, context=context)
+    encrypted=_encrypted(root,context)
+    path = private_path(root, RELATIVE if encrypted else PLAINTEXT_RELATIVE, context=context)
     if not path.exists():return {'version': 1, 'profiles': {}, 'secrets': {}, 'setups': {}}
     if path.stat().st_size > 512*1024:raise ValueError('Connection bundle exceeds its limit')
     try:
-        from mission_accounts import activate
-        activate(root)
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
         if key is None:key = current_key(root,context)
+        if not isinstance(key,bytes) or len(key)!=32:raise PermissionError('Connections are not unlocked')
         envelope = json.loads(path.read_text(encoding='utf-8'))
         if envelope['version'] != 1:raise ValueError()
-        raw = AESGCM(key).decrypt(base64.b64decode(envelope['nonce'],validate=True),
-                                  base64.b64decode(envelope['ciphertext'],validate=True), _aad(context))
-        data = json.loads(raw)
+        if encrypted:
+            from mission_accounts import activate
+            activate(root)
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            raw = AESGCM(key).decrypt(base64.b64decode(envelope['nonce'],validate=True),
+                                      base64.b64decode(envelope['ciphertext'],validate=True), _aad(context))
+            data = json.loads(raw)
+        else:
+            if envelope.get('format')!='portalai-plaintext-connections-v1' or envelope.get('user_id')!=context[0]:raise ValueError()
+            data=envelope['data']
         if data.get('version') != 1 or any(not isinstance(data.get(k),dict) for k in ('profiles','secrets','setups')):
             raise ValueError()
         if capture(root) != context:raise ProfileLocked('The connection login ended')
@@ -124,6 +144,14 @@ def read(root, *, key=None):
 def write(root, session, data):
     require_session(root,session)
     key, context = session_key(root, session)
+    if not getattr(session,'encrypted',True):
+        if _encrypted(root,context):raise ProfileLocked('Workspace storage mode does not match this session')
+        raw=json.dumps(data,ensure_ascii=True,separators=(',',':')).encode()
+        if len(raw)>256*1024:raise ValueError('Connection bundle exceeds its limit')
+        if session_key(root,session)[1]!=context:raise ProfileLocked('Connection login ended')
+        atomic_json(private_path(root,PLAINTEXT_RELATIVE,context=context),{'version':1,'format':'portalai-plaintext-connections-v1','user_id':context[0],'data':data})
+        if read(root,key=key)!=data:raise RuntimeError('Plaintext connection save verification failed')
+        return
     from mission_accounts import activate
     activate(root)
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM

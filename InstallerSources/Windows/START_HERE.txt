@@ -1,24 +1,24 @@
-PortalAI 2026.11.01-Desktop-r62 - Academic-Windows
+PortalAI 2026.11.03-Desktop-r63 - Academic-Windows
 Progress assistance defaults on: Chat Preferences > Tools & limits provides independent opt-outs.
 See Documentation/Task_Progress_r51.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r62 - Academic-Windows
+PortalAI 2026.11.03-Desktop-r63 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Stall_Recovery_r50.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r62 - Academic-Windows
+PortalAI 2026.11.03-Desktop-r63 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Navigation_r49.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r62 - Academic-Windows
+PortalAI 2026.11.03-Desktop-r63 - Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Web_Research_r48.txt in the installed application for tested limits.
 
-PortalAI 2026.11.01-Desktop-r62 — Academic-Windows
+PortalAI 2026.11.03-Desktop-r63 — Academic-Windows
 Coding tools: Chat Preferences > Tools & limits > Focus tools on coding and maintenance.
 See Documentation/Coding_Maintenance_r47.txt in the installed application for tested limits.
 
-PortalAI suite 2026.11.01-Desktop-r62 — Academic-Windows
+PortalAI suite 2026.11.03-Desktop-r63 — Academic-Windows
 
 Choose applications, optional installer copies and native utilities in setup.
 Utilities remain independent programs. Academic exposes Academic installers only.
@@ -30,7 +30,7 @@ No accounts or connections are created by suite setup.
 
 Baseline platform requirements follow:
 
-PortalAI 2026.11.01-Desktop-r62 — Academic Windows
+PortalAI 2026.11.03-Desktop-r63 — Academic Windows
 
 Unified public application and companion source from the reviewed D/E versions.
 Includes native-controls registration, web-search evidence, tracked refresh,
@@ -93,3 +93,5 @@ Windows r60: result verification, external code projects and guarded undo, memor
 Windows r61: idle shutdown cancels background document monitoring and retries failed Workspace resource cleanup. See Documentation/Idle_Shutdown_r61.md.
 
 Windows r62: profile image evidence, cached HTML discovery, placeholder checks and correct image download naming. See Documentation/Profile_Images_r62.md.
+
+Windows r63: optional per-account encryption/passwords, shared account-free startup and verified conversion. See Documentation/Optional_Privacy_r63.md.

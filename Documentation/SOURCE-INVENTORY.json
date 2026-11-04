@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 941
+    "Windows": 948
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -335,7 +335,9 @@
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_native_history.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_native_video.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_persistence_supervisor.py",
+    "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plain_profiles.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plannotate_tool.py",
+    "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_conversion.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_diagnostics.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_exports.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_routing_audit.py",
@@ -44830,73 +44832,78 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/account_connections.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "a2ee97129de88a5fbe4430f492f675e310262da69f6626cba516b8cdcd5d573c",
-      "lines": 174,
+      "sha256": "bba187ba95d78954e90fc287ac22958e7d9da448baf4ee4705053f15a8fa2a68",
+      "lines": 202,
       "overview": "Profile-bound connection bundle. Secrets never form model/tool output.",
       "symbols": [
         {
           "name": "clear_session",
-          "line": 26,
+          "line": 27,
           "kind": "FunctionDef"
         },
         {
           "name": "session_key",
-          "line": 33,
+          "line": 34,
           "kind": "FunctionDef"
         },
         {
           "name": "unlock_session",
-          "line": 43,
+          "line": 44,
           "kind": "FunctionDef"
         },
         {
           "name": "current_key",
-          "line": 51,
+          "line": 52,
           "kind": "FunctionDef"
         },
         {
           "name": "unlocked",
-          "line": 57,
+          "line": 58,
           "kind": "FunctionDef"
         },
         {
           "name": "start_account_process",
-          "line": 62,
+          "line": 63,
           "kind": "FunctionDef"
         },
         {
           "name": "receive_worker_input",
-          "line": 83,
+          "line": 84,
           "kind": "FunctionDef"
         },
         {
           "name": "_aad",
-          "line": 96,
+          "line": 97,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_encrypted",
+          "line": 102,
           "kind": "FunctionDef"
         },
         {
           "name": "read",
-          "line": 101,
+          "line": 115,
           "kind": "FunctionDef"
         },
         {
           "name": "write",
-          "line": 124,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "require_session",
-          "line": 142,
+          "line": 170,
           "kind": "FunctionDef"
         },
         {
           "name": "secret",
-          "line": 152,
+          "line": 180,
           "kind": "FunctionDef"
         },
         {
           "name": "redact",
-          "line": 159,
+          "line": 187,
           "kind": "FunctionDef"
         }
       ]
@@ -44928,6 +44935,36 @@
           "name": "collect",
           "line": 66,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/account_privacy.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "8b18a49421bb0f583c268a8d7d52736dec7d492f9b7207de8de46db71e2ea8c9",
+      "lines": 325,
+      "overview": "Transactional per-profile privacy conversion, only after verified shutdown.",
+      "symbols": [
+        {
+          "name": "_tree",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_signature",
+          "line": 33,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_copy",
+          "line": 35,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "PrivacyChange",
+          "line": 42,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -45095,8 +45132,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/admin_profile_access.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "8a6e2288c75a411d3c0f84d6f8c3695a84e4cc5030c0b373052532d72a69d938",
-      "lines": 140,
+      "sha256": "0eed9ca100a4c4049ebabf22a7a64f4de58cd3bfa7e9d1e636c4a887a37a02da",
+      "lines": 154,
       "overview": "Administrator read/export of a sealed profile without opening its workspace.",
       "symbols": [
         {
@@ -45106,22 +45143,22 @@
         },
         {
           "name": "_stream_file",
-          "line": 44,
+          "line": 49,
           "kind": "FunctionDef"
         },
         {
           "name": "inspect_profile",
-          "line": 71,
+          "line": 85,
           "kind": "FunctionDef"
         },
         {
           "name": "preview_text",
-          "line": 80,
+          "line": 94,
           "kind": "FunctionDef"
         },
         {
           "name": "export_profile",
-          "line": 93,
+          "line": 107,
           "kind": "FunctionDef"
         }
       ]
@@ -46820,8 +46857,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/local_accounts.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "b4122e10d8c560292bf2e44b1fed9caa5890175dd5b76dffca0d6b7d8143ec99",
-      "lines": 819,
+      "sha256": "25a64374fa792601f9085a9d4569ef7893d2d8e7222e12a977133284ac004c75",
+      "lines": 889,
       "overview": "Portable local identities, password-wrapped profile keys and locked sessions.",
       "symbols": [
         {
@@ -46896,32 +46933,32 @@
         },
         {
           "name": "_slot_aad",
-          "line": 138,
+          "line": 141,
           "kind": "FunctionDef"
         },
         {
           "name": "_fingerprint",
-          "line": 143,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "_identity_fingerprint",
           "line": 147,
           "kind": "FunctionDef"
         },
         {
+          "name": "_identity_fingerprint",
+          "line": 151,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "_credential_mac",
-          "line": 154,
+          "line": 158,
           "kind": "FunctionDef"
         },
         {
           "name": "Session",
-          "line": 158,
+          "line": 162,
           "kind": "ClassDef"
         },
         {
           "name": "LocalAccounts",
-          "line": 207,
+          "line": 217,
           "kind": "ClassDef"
         }
       ]
@@ -48886,6 +48923,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/plain_profile_workspace.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "2d2fcfe3ad4c66cc8ba6d0ed4a73e474bf886afb10136fb55b9a824c0d8605dd",
+      "lines": 163,
+      "overview": "Explicit plaintext profiles with verified, incremental plaintext recovery.",
+      "symbols": [
+        {
+          "name": "PlainProfileWorkspace",
+          "line": 12,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Agent/platform_runtime.py",
       "platform": "Windows",
       "component": "Agent",
@@ -49113,8 +49165,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_migration.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "e4f0922c8493c4f1c8d469adfc25a7136c44d8b5ccf1428fbd21f9d22d006cfe",
-      "lines": 478,
+      "sha256": "fb0e80e9e02cb2892bf75d6f4f60cb6957cb1e0cfcf46d6354abc0f633ca0246",
+      "lines": 480,
       "overview": "Reviewed, verified migration of legacy private files into one owner profile.",
       "symbols": [
         {
@@ -49154,7 +49206,7 @@
         },
         {
           "name": "SessionHarvest",
-          "line": 438,
+          "line": 440,
           "kind": "ClassDef"
         }
       ]
@@ -49228,8 +49280,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_reset.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "2989fdb0e7589814fd5c6da20f4438200c082858e7a14f2af17bf811350d63a4",
-      "lines": 475,
+      "sha256": "b5ecb18d974824f30d1fd140d17845bd6efa46bb63dec0043cf449bff6141e24",
+      "lines": 477,
       "overview": "Explicit, recoverable reset of sealed local profiles; never called on startup.",
       "symbols": [
         {
@@ -49248,8 +49300,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_runtime.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "b14ec08b2ca2a16ed8b39d3c5880c6431162ad9e19914676921ba1b3ba387788",
-      "lines": 310,
+      "sha256": "46e425341d9f9f036e4a22eae99a6c07a22ae5e19cf8c6564f2cffb8905235a0",
+      "lines": 315,
       "overview": "One process-owned login, verified workspace recovery, and stop-before-seal.",
       "symbols": [
         {
@@ -49393,8 +49445,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/profile_workspace.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "71e3ffdbd60daa71a41b8464aa3acf8ea12b43baa70ee2f4c58f6b2566856ff6",
-      "lines": 731,
+      "sha256": "bdb62d60d90ee7f868ca6d023fd2d998c9fc3c7645388a8f73e76e9bf915029c",
+      "lines": 745,
       "overview": "Verified encrypted profile snapshots, independent of model/runtime directories.",
       "symbols": [
         {
@@ -52088,8 +52140,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_gate.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "4278060743a415531e97c9e53e665be9126aea44d15fc40068ccf35be9234d44",
-      "lines": 210,
+      "sha256": "36f7d056abbc7d1891b9671ee03c4b74f64b2488c076d4eb14d6eeaed87d6fb1",
+      "lines": 214,
       "overview": "Guarded GUI integration; importing this module never initializes accounts.",
       "symbols": [
         {
@@ -52160,6 +52212,31 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_privacy_ui.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "dc6c842606f6679cee8acf1ea0c1f4c8f535d3d00b3b985a8b30129d09955aea",
+      "lines": 121,
+      "overview": "Small privacy controls; explicit descriptions match actual storage behavior.",
+      "symbols": [
+        {
+          "name": "privacy_fields",
+          "line": 4,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "show_privacy",
+          "line": 35,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "recover_privacy",
+          "line": 107,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_reset_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
@@ -52203,7 +52280,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_switch.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "6fd749d72263ea6b863ab3bf8916547f69a33179d4c41389eb36630a46da0b04",
+      "sha256": "84f4d3049b1c5f8d55ef6bc3377e78052be7deb8033a81074505c87040937745",
       "lines": 99,
       "overview": "In-memory account handoff; credentials and keys never enter argv or files.",
       "symbols": [
@@ -52258,8 +52335,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/account_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a3141547ffa3baf0c86569644a5e540165cdee14c09fd802828d40656832aabd",
-      "lines": 834,
+      "sha256": "cea6320bf5ad5691ef24ea42793a0bcb8c5777549e240924278347e9b5ac418a",
+      "lines": 875,
       "overview": "Themed local-account gates; intentionally not activated by importing this module.",
       "symbols": [
         {
@@ -52309,27 +52386,27 @@
         },
         {
           "name": "ProgressMailbox",
-          "line": 274,
+          "line": 281,
           "kind": "ClassDef"
         },
         {
           "name": "_Dialog",
-          "line": 290,
+          "line": 297,
           "kind": "ClassDef"
         },
         {
           "name": "show_login",
-          "line": 489,
+          "line": 504,
           "kind": "FunctionDef"
         },
         {
           "name": "show_accounts",
-          "line": 627,
+          "line": 661,
           "kind": "FunctionDef"
         },
         {
           "name": "account_link",
-          "line": 825,
+          "line": 866,
           "kind": "FunctionDef"
         }
       ]
@@ -53503,23 +53580,23 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "4527b4a9095cd876c36979628b9bd244f06e7f7763fb0d51443f908ea25d5870",
-      "lines": 932,
+      "sha256": "0e9ff9da4f721470f2ae5f4982e80025f6104600504ef930bfb204b65cd94a87",
+      "lines": 945,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 900,
+          "line": 913,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 903,
+          "line": 916,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 912,
+          "line": 925,
           "kind": "FunctionDef"
         }
       ]
@@ -55967,7 +56044,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "439e6f1a5a42f152dc6be63198efbc0d6e0ef54f84c41a547f281aae33851bd9",
+      "sha256": "d12dae650f059270921786c1946fa3dd6cb820aab3e3ceb4dc636a00219621f3",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -61322,6 +61399,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_optional_privacy_accounts.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "66f6af60d59ec0bd54112cf94e182a12fe5491537b61467d49db53e74528b89e",
+      "lines": 102,
+      "overview": "Synthetic profiles only. Password policy and storage policy are independent.",
+      "symbols": [
+        {
+          "name": "OptionalPrivacyAccounts",
+          "line": 11,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_page_scroll_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -61402,6 +61494,21 @@
         {
           "name": "MediaPreferenceTests",
           "line": 233,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_plain_profiles.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "a0c37ecbd9756c8d1e9d1bf5baf0cb6269bd17763d9f187045608de8b3b2988c",
+      "lines": 121,
+      "overview": "",
+      "symbols": [
+        {
+          "name": "PlainProfiles",
+          "line": 12,
           "kind": "ClassDef"
         }
       ]
@@ -61627,6 +61734,36 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_conversion.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "86c6c4eb54b68d598c54bab583d7be60576d61fbc3bae5ab45e0842100f05d5a",
+      "lines": 172,
+      "overview": "",
+      "symbols": [
+        {
+          "name": "PrivacyConversion",
+          "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_ui_tk.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "2b6cdebbd50628c3ed4fe4a1b3cd8ffec918035627222801e0600176701edad0",
+      "lines": 61,
+      "overview": "Disposable UI fixtures: no production account authentication or mutations.",
+      "symbols": [
+        {
+          "name": "PrivacyUI",
+          "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_capture_scopes.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -61715,8 +61852,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_profile_gui_paths.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "e802c99f55945246fad9e8959bfab249296fe3619eb51c31060821dc15ef28d0",
-      "lines": 226,
+      "sha256": "e9ac8ed9bc93f9c0401035a60acd88fcb5ebd9ce01c11da0ecf99bc99998d8c5",
+      "lines": 232,
       "overview": "Per-login GUI paths and stale-worker fences; every file lives in a temp bundle.",
       "symbols": [
         {

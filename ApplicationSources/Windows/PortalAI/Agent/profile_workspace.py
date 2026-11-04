@@ -83,6 +83,20 @@ def _atomic_bytes(path, data):
 
 
 class ProfileWorkspace:
+    def __new__(cls,root,session,**kwargs):
+        if cls is ProfileWorkspace and getattr(session,'encrypted',True) is False:
+            from plain_profile_workspace import PlainProfileWorkspace
+            return object.__new__(PlainProfileWorkspace)
+        return object.__new__(cls)
+
+    encrypted = True
+
+    @property
+    def pointer(self): return self.vault/'current.enc'
+
+    def closed_verified(self,receipt):
+        return receipt.get('sealed') is True and not self.inventory()
+
     def __init__(self, root, session, *, on_progress=None):
         self.root = Path(root).resolve()
         self.session = session

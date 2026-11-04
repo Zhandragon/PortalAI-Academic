@@ -37,7 +37,7 @@ _KDF_N = 131072
 _MAX_REGISTRY = 1024 * 1024
 _MAX_USERS = 64
 _PROFILE_ROOTS = ("Private/Users", "Private/Accounts")
-_LIFECYCLE_EVIDENCE = ("Private/active-session.json", "Private/migration-pending.json", "Private/migration-complete.json")
+_LIFECYCLE_EVIDENCE = ("Private/active-session.json", "Private/migration-pending.json", "Private/migration-complete.json", "Private/privacy-change.json", "Private/PrivacyChange")
 
 
 class RecoveryRequired(RuntimeError):
@@ -132,12 +132,16 @@ def _kdf(password, salt):
 
 
 def _public(slot):
-    return {key: slot[key] for key in ("user_id", "username", "role", "pending", "temporary_password")}
+    return {**{key: slot[key] for key in ("user_id", "username", "role", "pending", "temporary_password")},
+            'encrypted': slot.get('encrypted', True),
+            'password_required': slot.get('password_required', slot['role'] != 'guest'),
+            'anonymous': slot.get('anonymous', False)}
 
 
 def _slot_aad(instance, slot, purpose):
     return b"PortalAI-local-accounts-v1:" + _json({"instance": instance, "purpose": purpose,
-        **{key: slot[key] for key in ("user_id", "username", "role", "epoch", "pending", "temporary_password")}})
+        **{key: slot[key] for key in ("user_id", "username", "role", "epoch", "pending", "temporary_password")},
+        **{key: slot[key] for key in ('encrypted', 'password_required', 'anonymous') if key in slot}})
 
 
 def _fingerprint(slot):
@@ -148,7 +152,7 @@ def _identity_fingerprint(slot):
     # Only administrators change identity/role/enrollment. Password envelopes and
     # their epoch may be rewrapped by a user holding the existing profile key.
     return hashlib.sha256(_json({key: slot[key] for key in
-        ("user_id", "username", "role", "pending", "created_at")})).hexdigest()
+        ("user_id", "username", "role", "pending", "created_at", "encrypted", "anonymous") if key in slot})).hexdigest()
 
 
 def _credential_mac(slot, dek):
@@ -179,6 +183,12 @@ class Session:
     def role(self): return self._user["role"]
     @property
     def temporary_password(self): return self._user["temporary_password"]
+    @property
+    def encrypted(self): return self._user['encrypted']
+    @property
+    def password_required(self): return self._user['password_required']
+    @property
+    def anonymous(self): return self._user['anonymous']
     @property
     def recovery_warning(self):
         store = self._store()
@@ -328,6 +338,8 @@ class LocalAccounts:
 
     def _read(self, *, allow_reset=False, _document=None):
         try:
+            if self._safe('Private/privacy-change.json').exists() and not getattr(self,'_privacy_transaction',False):
+                raise RecoveryRequired('An interrupted privacy change requires authenticated recovery')
             if not allow_reset and self._safe("Private/Reset/transaction.json").exists():
                 raise RecoveryRequired("An interrupted profile reset requires explicit authenticated recovery")
             path = self._safe("Private/Accounts/registry.json")
@@ -364,6 +376,11 @@ class LocalAccounts:
                 if any(type(slot[key]) is not bool for key in ("pending", "temporary_password")):
                     raise RecoveryRequired("Account enrollment state is invalid")
                 _decode(slot["credential_mac"], 32)
+                for field in ('encrypted','password_required','anonymous'):
+                    if field in slot and type(slot[field]) is not bool:
+                        raise RecoveryRequired('Invalid account privacy policy')
+                if slot.get('anonymous') and (slot.get('encrypted',True) or slot.get('password_required',True) or slot['pending']):
+                    raise RecoveryRequired('Shared account-free workspace must be unencrypted and passwordless')
                 if slot["role"] == "guest":
                     guests += 1
                     if name != "guest" or slot["pending"] or slot["temporary_password"] or "password" in slot or "master_access" in slot:
@@ -372,9 +389,18 @@ class LocalAccounts:
                 elif name == "guest" or "public_dek" in slot:
                     raise RecoveryRequired("Guest name/key is reserved")
                 elif slot["pending"]:
-                    if slot["role"] != "user" or "password" in slot or "master_access" in slot:
+                    if slot["role"] != "user" or "password" in slot or "master_access" in slot or 'open_dek' in slot or not slot.get('password_required',True):
                         raise RecoveryRequired("Pending user has unexpected credentials")
+                elif slot.get('password_required') is False:
+                    if 'password' in slot or slot['temporary_password']:
+                        raise RecoveryRequired('Passwordless account has unexpected credentials')
+                    _decode(slot['open_dek'],32)
+                    if slot['role']=='admin':
+                        admins+=1
+                        if 'master_access' not in slot:raise RecoveryRequired('Admin key wrapping is missing')
+                    elif 'master_access' in slot:raise RecoveryRequired('Non-admin has unexpected master-key access')
                 else:
+                    if 'open_dek' in slot:raise RecoveryRequired('Password-protected account exposes a key')
                     password = slot["password"]
                     if password.get("kdf") != {"name": "scrypt", "n": _KDF_N, "r": 8, "p": 1, "length": 32}:
                         raise RecoveryRequired("Unsupported account password KDF")
@@ -386,6 +412,10 @@ class LocalAccounts:
                         raise RecoveryRequired("Non-admin has unexpected master-key access")
             if guests != 1 or admins < 1 or not isinstance(data.get("registry"), dict):
                 raise RecoveryRequired("Account registry has no valid Guest/admin structure")
+            if 'auto_profile' in data:
+                chosen=slots.get(data['auto_profile'])
+                if not chosen or not chosen.get('anonymous') or chosen.get('password_required',True):
+                    raise RecoveryRequired('Invalid account-free startup selection')
             return data
         except RecoveryRequired:
             raise
@@ -453,6 +483,8 @@ class LocalAccounts:
         """Explicit admin-password recovery; never silently fall back or reset keys."""
         username = _name(username)
         with self._lock():
+            if self._safe('Private/privacy-change.json').exists():
+                raise RecoveryRequired('Finish the authenticated privacy change recovery before registry recovery')
             packet = self._read_recovery(eligible=True); data = packet['registry']
             slot = next((item for item in data['slots'].values() if item['username'].casefold()==username.casefold()),None)
             if slot is None or slot['role'] != 'admin': raise AuthorizationError('Recovery requires an administrator from the current encrypted copy')
@@ -490,6 +522,8 @@ class LocalAccounts:
 
     def status(self):
         try:
+            if self._safe('Private/privacy-change.json').exists() and not getattr(self,'_privacy_transaction',False):
+                raise RecoveryRequired('An interrupted privacy change requires authenticated recovery')
             if self._safe("Private/Reset/transaction.json").exists():
                 raise RecoveryRequired("An interrupted profile reset requires explicit authenticated recovery")
             if not self.registry_path.exists() and not self.marker_path.exists():
@@ -501,17 +535,30 @@ class LocalAccounts:
             with self._lock(): data = self._read()
             warning = '' if self._recovery_current(data) else 'Current encrypted registry recovery needs administrator verification.'
             return {"state": "locked", "reason": "Login required; no session is persisted", "recovery_warning":warning,
-                    "users": [_public(slot) for slot in data["slots"].values()]}
+                    "users": [_public(slot) for slot in data["slots"].values()],
+                    'auto_profile':data.get('auto_profile')}
         except (OSError, ValueError, RuntimeError) as exc:
             return {"state": "recovery_required", "reason": str(exc), "users": []}
 
     def _new_slot(self, instance, username, role, dek, master, password=None, *,
-                  uid=None, epoch=1, temporary=False):
+                  uid=None, epoch=1, temporary=False, encrypted=True, password_required=True, anonymous=False):
+        if any(type(v) is not bool for v in (encrypted,password_required,anonymous)):
+            raise ValueError('Privacy options must be booleans')
+        if anonymous and (encrypted or password_required or role=='guest'):
+            raise ValueError('Account-free workspace must be unencrypted and passwordless')
+        if not password_required and (password not in (None,'') or temporary):
+            raise ValueError('Passwordless mode cannot also set a password')
         slot = {"user_id": uid or uuid.uuid4().hex, "username": _name(username), "role": role,
-                "epoch": epoch, "pending": password is None and role != "guest",
+                "epoch": epoch, "pending": password is None and role != "guest" and password_required,
                 "temporary_password": bool(temporary), "created_at": self.clock()}
+        # Omit default policy fields for byte-compatible legacy AAD and tests.
+        if not encrypted or not password_required or anonymous:
+            slot.update(encrypted=encrypted,password_required=password_required,anonymous=anonymous)
         if role == "guest":
             slot["public_dek"] = _encode(dek)
+        elif not password_required:
+            slot['open_dek']=_encode(dek)
+            if role=='admin':slot['master_access']=_seal(dek,master,_slot_aad(instance,slot,'master'))
         elif password is not None:
             password = _password(password, temporary)
             salt = secrets.token_bytes(16); key = _kdf(password, salt)
@@ -548,8 +595,9 @@ class LocalAccounts:
         except Exception:
             raise RecoveryRequired("Encrypted account registry authentication failed; recover a verified copy") from None
 
-    def _initialize(self, owner, password, pending_users, temporary_password, inventory_digest):
-        owner = _name(owner); _password(password, temporary_password)
+    def _initialize(self, owner, password, pending_users, temporary_password, inventory_digest, *, encrypted=True, password_required=True, anonymous=False):
+        owner = _name(owner)
+        if password_required:_password(password, temporary_password)
         pending_users = tuple(_name(name) for name in pending_users)
         names = [owner.casefold(), "guest", *(name.casefold() for name in pending_users)]
         if len(set(names)) != len(names) or len(names) > _MAX_USERS:
@@ -573,17 +621,23 @@ class LocalAccounts:
             for name, role, secret, temporary in ((owner, "admin", password, temporary_password), ("Guest", "guest", None, False),
                                                   *((name, "user", None, False) for name in pending_users)):
                 dek = secrets.token_bytes(32)
-                slot = self._new_slot(instance, name, role, dek, master, secret, temporary=temporary)
+                options={'encrypted':encrypted,'password_required':password_required,'anonymous':anonymous} if role=='admin' else {}
+                slot = self._new_slot(instance, name, role, dek, master, secret, temporary=temporary,**options)
                 uid = slot["user_id"]; data["slots"][uid] = slot
                 private["users"][uid] = {"wrapped_dek": _seal(master, dek, b"PortalAI-profile-key:" + instance.encode() + b":" + uid.encode())}
-                if role == "admin": private["owner_id"] = uid
+                if role == "admin":
+                    private["owner_id"] = uid
+                    if anonymous:data['auto_profile']=uid
             # Marker first: interruption cannot masquerade as a fresh installation.
             self._atomic(self.marker_path, {"version": 1, "instance_id": instance})
             self._save(data, private, master)
         return self.login(owner, password)
 
-    def bootstrap(self, owner, password, *, pending_users=(), temporary_password=False):
-        return self._initialize(owner, password, pending_users, temporary_password, None)
+    def bootstrap(self, owner, password, *, pending_users=(), temporary_password=False, encrypted=True, password_required=True, anonymous=False):
+        return self._initialize(owner, password, pending_users, temporary_password, None,encrypted=encrypted,password_required=password_required,anonymous=anonymous)
+
+    def bootstrap_without_account(self):
+        return self.bootstrap('Shared workspace','',encrypted=False,password_required=False,anonymous=True)
 
     def initialize_existing(self, owner, password, expected_inventory_digest, *, pending_users=(), temporary_password=False):
         """Explicit migration entry point; never offered by a missing-registry login UI."""
@@ -593,6 +647,11 @@ class LocalAccounts:
         try:
             if slot["pending"] or slot["role"] == "guest" or not isinstance(password, str) or len(password) > 1024:
                 raise ValueError()
+            if slot.get('password_required') is False:
+                if password:raise ValueError()
+                dek=_decode(slot['open_dek'],32)
+                if not hmac.compare_digest(_credential_mac(slot,dek),_decode(slot['credential_mac'],32)):raise ValueError()
+                return dek
             saved = slot["password"]; key = _kdf(password, _decode(saved["salt"], 16))
             aad = _slot_aad(data["instance_id"], slot, "password")
             if not hmac.compare_digest(hmac.digest(key, aad, "sha256"), _decode(saved["verifier"], 32)):
@@ -634,6 +693,13 @@ class LocalAccounts:
 
     def login(self, username, password):
         return self._login(username, password)
+
+    def login_without_account(self):
+        with self._lock():
+            data=self._read();slot=data['slots'].get(data.get('auto_profile'))
+            if slot is None or not slot.get('anonymous'):raise AuthenticationError('Account-free startup is not enabled')
+            name=slot['username']
+        return self._login(name,'')
 
     def login_guest(self):
         with self._lock():
@@ -701,18 +767,18 @@ class LocalAccounts:
                         b"PortalAI-profile-key:" + data["instance_id"].encode() + b":" + target_user_id.encode())
             return self._session(slot, dek, parent=admin)
 
-    def create_user(self, admin, username, password=None, *, role="user", admin_password):
+    def create_user(self, admin, username, password=None, *, role="user", admin_password, encrypted=True, password_required=True, anonymous=False):
         username = _name(username)
         if role not in {"user", "admin"} or username.casefold() == "guest":
             raise ValueError("New users must be user/admin; Guest is reserved")
-        if password is not None: _password(password)
-        if role == "admin" and password is None: raise ValueError("New administrators need a password")
+        if password_required and password is not None: _password(password)
+        if role == "admin" and password_required and password is None: raise ValueError("New administrators need a password")
         with self._lock():
             data = self._read(); private = self._admin(admin, data, admin_password)
             if len(data["slots"]) >= _MAX_USERS or any(row["username"].casefold() == username.casefold() for row in data["slots"].values()):
                 raise ValueError("Account limit reached or username already exists")
             master = bytes(admin._master); dek = secrets.token_bytes(32)
-            slot = self._new_slot(data["instance_id"], username, role, dek, master, password)
+            slot = self._new_slot(data["instance_id"], username, role, dek, master, password,encrypted=encrypted,password_required=password_required,anonymous=anonymous)
             uid = slot["user_id"]; data["slots"][uid] = slot
             private["users"][uid] = {"wrapped_dek": _seal(master, dek, b"PortalAI-profile-key:" + data["instance_id"].encode() + b":" + uid.encode())}
             data["revision"] += 1; self._save(data, private, master)
@@ -723,12 +789,14 @@ class LocalAccounts:
         if self.recovery_warning: result['recovery_warning'] = self.recovery_warning
         return result
 
-    def _replace_password(self, data, private, slot, dek, master, password, role=None, *, temporary_password=False):
+    def _replace_password(self, data, private, slot, dek, master, password, role=None, *, temporary_password=False, password_required=True):
         updated = self._new_slot(data["instance_id"], slot["username"], role or slot["role"], dek, master,
                                  password, uid=slot["user_id"], epoch=slot["epoch"] + 1,
-                                 temporary=temporary_password)
+                                 temporary=temporary_password,encrypted=slot.get('encrypted',True),password_required=password_required)
         updated["created_at"] = slot["created_at"]
         data["slots"][slot["user_id"]] = updated
+        if slot.get('anonymous') and data.get('auto_profile')==slot['user_id']:
+            data.pop('auto_profile')
         data["revision"] += 1; self._save(data, private, master)
         for session in list(self._sessions.values()):
             if session.user_id == slot["user_id"]: self.logout(session)
@@ -743,7 +811,7 @@ class LocalAccounts:
                 raise ValueError("Only an enrolled standard user can be promoted")
             dek = self._unlock(data, slot, target_password)
             updated = self._replace_password(data, private, slot, dek, bytes(admin._master), target_password, "admin",
-                                             temporary_password=slot["temporary_password"])
+                                             temporary_password=slot["temporary_password"],password_required=slot.get('password_required',True))
             return self._result(updated)
 
     def change_password(self, session, old_password, new_password):
@@ -752,6 +820,8 @@ class LocalAccounts:
             data = self._read(); slot = self._validate(session, data)
             if slot["role"] == "guest" or session._parent is not None:
                 raise AuthorizationError("Guest/delegated sessions cannot change a password")
+            if slot.get('anonymous') or (slot.get('encrypted',True) and slot.get('password_required') is False):
+                raise AuthorizationError('Use administrator Privacy and sign-in to leave account-free mode or protect a previously public encryption key')
             dek = self._unlock(data, slot, old_password)
             if not hmac.compare_digest(dek, bytes(session._dek)): raise AuthenticationError("Password verification failed")
             # A user can authenticate a new credential envelope with the same DEK.
@@ -761,7 +831,7 @@ class LocalAccounts:
                 if not self._recovery_current(data):
                     raise RecoveryRequired('An administrator must repair the current registry recovery copy before another password change')
                 updated = self._new_slot(data["instance_id"], slot["username"], slot["role"], dek, None,
-                                         new_password, uid=slot["user_id"], epoch=slot["epoch"] + 1)
+                                         new_password, uid=slot["user_id"], epoch=slot["epoch"] + 1,encrypted=slot.get('encrypted',True))
                 updated["created_at"] = slot["created_at"]
                 updated["credential_mac"] = _encode(_credential_mac(updated, dek))
                 data["slots"][slot["user_id"]] = updated

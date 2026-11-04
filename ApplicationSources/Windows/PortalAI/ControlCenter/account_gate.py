@@ -101,7 +101,7 @@ class GUIAccountGate:
         from profile_migration import SessionHarvest
         self._status('Preserving session diagnostics in this account…')
         result = SessionHarvest(self.root, session).run(writers_stopped=True)
-        self._status('Encrypting and verifying account files; larger workspaces can take several minutes…')
+        self._status(('Encrypting' if getattr(session,'encrypted',True) else 'Saving')+' and verifying account files; larger workspaces can take several minutes…')
         return result
 
     def _status(self, message):
@@ -186,9 +186,11 @@ class GUIAccountGate:
         from account_ui import account_link
         from profile_exports import export_factory
         from account_reset_ui import show_start_fresh
+        from account_privacy_ui import show_privacy
         return account_link(parent, self.controller, lambda: self.session, self.colors,
                             lock_application=lock_application, stop_and_seal=self.close,
                             exit_application=exit_application, on_session_changed=self.replace_session,
+                            privacy_settings=lambda:show_privacy(self,lock_application=lock_application,exit_application=exit_application),
                             export_history=export_factory(self.root, 'history'),
                             export_outputs=export_factory(self.root, 'outputs'),
                             start_fresh_adapter=lambda: show_start_fresh(self.app, self, self.colors,
@@ -198,11 +200,13 @@ class GUIAccountGate:
         from account_ui import show_accounts
         from profile_exports import export_factory
         from account_reset_ui import show_start_fresh
+        from account_privacy_ui import show_privacy
         panel = show_accounts(parent,self.controller,self.session,self.colors,page=True,
             lock_application=lock_application,stop_and_seal=self.close,
             exit_application=exit_application,on_session_changed=self.replace_session,
             export_history=export_factory(self.root,'history'),export_outputs=export_factory(self.root,'outputs'),
             export_both=export_factory(self.root,'both'),change_user=change_user,
+            privacy_settings=lambda:show_privacy(self,lock_application=lock_application,exit_application=exit_application),
             start_fresh_adapter=lambda:show_start_fresh(self.app,self,self.colors,
                 lock_application=lock_application,exit_application=exit_application))
         from account_setup_ui import show_setup

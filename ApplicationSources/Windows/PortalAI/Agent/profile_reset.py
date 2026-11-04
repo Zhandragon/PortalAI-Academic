@@ -168,14 +168,16 @@ class ResetCoordinator:
             manifest = workspace.verify(generation)
             from profile_workspace import _crypto, MAGIC
             from profile_migration import SessionHarvest
-            AESGCM = _crypto()[3]
+            AESGCM = _crypto()[3] if workspace.encrypted else None
             for row in manifest['files']:
                 if not re.fullmatch(r'Data/ProfileMigration/harvest-[a-f0-9]{32}\.json', row['path']): continue
                 if row['bytes'] > _MAX_JOURNAL: raise ValueError('oversized saved harvest plan')
                 blob = workspace.blob_path(manifest, row)
                 data = blob.read_bytes(); offset = len(MAGIC)
-                if not data.startswith(MAGIC) or len(data) != row['bytes'] + offset + 28: raise ValueError('invalid saved plan')
-                plain = AESGCM(workspace._key()).decrypt(data[offset:offset+12], data[offset+12:], workspace._aad(row['path']))
+                if workspace.encrypted:
+                    if not data.startswith(MAGIC) or len(data) != row['bytes'] + offset + 28: raise ValueError('invalid saved plan')
+                    plain = AESGCM(workspace._key()).decrypt(data[offset:offset+12], data[offset+12:], workspace._aad(row['path']))
+                else:plain=data
                 if hashlib.sha256(plain).hexdigest() != row['sha256']: raise ValueError('saved plan mismatch')
                 plan = json.loads(plain)
                 if plan.get('digest') != receipt.get('digest'): continue
@@ -209,18 +211,18 @@ class ResetCoordinator:
                 _contained(self.root, folder); _uid(folder.name)
                 if not folder.is_dir() or folder.name not in data["slots"]:
                     raise RecoveryRequired("Unknown private profile requires review")
-                if any(path.name not in {"Workspace", "Vault", "workspace.lock", "harvest-last.json"} for path in folder.iterdir()):
+                if any(path.name not in {"Workspace", "Vault", "PlainRecovery", "plain-closed.json", "workspace.lock", "harvest-last.json"} for path in folder.iterdir()):
                     raise RecoveryRequired("Profile recovery/unknown files must be resolved before reset")
                 delegated = self.accounts.profile_session(admin, folder.name)
                 try:
                     workspace = ProfileWorkspace(self.root, delegated)
-                    if workspace.inventory(): raise RuntimeError("Seal every profile's plaintext workspace before reset")
+                    if workspace.encrypted and workspace.inventory(): raise RuntimeError("Seal every encrypted profile's plaintext workspace before reset")
                     self._harvest_receipt(workspace)
                     if workspace.vault.exists():
-                        if (workspace.vault / "current.enc").exists(): workspace.verify()
+                        if workspace.pointer.exists(): workspace.verify()
                         for generation in workspace.vault.iterdir():
                             _contained(self.root, generation)
-                            if generation.name == "current.enc": continue
+                            if generation.name == workspace.pointer.name: continue
                             if not generation.is_dir(): raise RecoveryRequired("Unknown vault file requires review")
                             _uid(generation.name); workspace.verify(generation.name)
                 finally: self.accounts.logout(delegated)

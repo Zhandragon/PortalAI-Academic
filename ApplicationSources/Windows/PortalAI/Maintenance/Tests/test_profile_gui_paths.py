@@ -119,10 +119,16 @@ class ProfileGUIPathsTests(unittest.TestCase):
 
     def test_tool_file_and_environment_routes_stay_with_captured_login(self):
         workspace = self.login()
+        (self.root/'Agent').mkdir()
+        (self.root/'Agent/hardware_profiles.json').write_bytes((ROOT/'Agent/hardware_profiles.json').read_bytes())
         with patch.object(chat, 'bootstrap_python', return_value=str(self.root/'fixture-python')):
             runtime = chat.ToolRuntime(self.root, {})
         bind_account(runtime)
-        runtime.write_file('Outputs/tool.txt', 'one account')
+        # This routing fixture uses a callable Mock, not a real registry Session.
+        # Authentication is covered by test_account_permissions; retain the real
+        # captured-profile checks and tracked-file writer beneath that boundary.
+        with patch('account_permissions.require_user',return_value=runtime._account_session):
+            runtime.write_file('Outputs/tool.txt', 'one account')
         self.assertEqual((workspace/'Outputs/tool.txt').read_text(), 'one account')
         env = runtime._effort_env({'PORTALAI_PROFILE_ID': OTHER, 'PORTALAI_PROFILE_EPOCH': 'b'*32})
         self.assertEqual(env['PORTALAI_PROFILE_ID'], UID)

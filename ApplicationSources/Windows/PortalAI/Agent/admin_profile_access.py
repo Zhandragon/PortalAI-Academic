@@ -26,10 +26,15 @@ def _sealed(accounts, admin, target_user_id):
     try:
         store = ProfileWorkspace(accounts.root,delegated)
         with store.transaction():
-            if store.inventory() or any((store.base/name).exists() for name in
+            active=accounts.root/'Private/active-session.json'
+            if not store.encrypted and active.exists():
+                marker=json.loads(active.read_text())
+                if marker.get('user_id')==target_user_id and marker.get('state')!='closed':raise RuntimeError('Close this workspace before administrator export')
+            if (store.encrypted and store.inventory()) or any((store.base/name).exists() for name in
                     ('seal-pending.json','restore-pending.json','restore-inflight.enc','harvest-pending.json','hydration.enc')):
                 raise RuntimeError('Recover and seal this profile before administrator inspection or export')
-            pointer = store.vault/'current.enc'
+            if not store.encrypted:store.snapshot()
+            pointer = store.pointer
             if not pointer.exists():
                 if store.vault.exists() and any(store.vault.iterdir()):
                     raise RuntimeError('Encrypted profile pointer is missing; recovery is required')
@@ -44,6 +49,15 @@ def _sealed(accounts, admin, target_user_id):
 def _stream_file(store, manifest, row, destination):
     """Decrypt bounded chunks into a caller-selected stream, then verify GCM/hash."""
     source = store.blob_path(manifest, row)
+    if not getattr(store,'encrypted',True):
+        info=source.stat()
+        if info.st_nlink!=1 or info.st_size!=row['bytes']:raise ValueError('Invalid plaintext profile entry')
+        total=0;hasher=hashlib.sha256()
+        with source.open('rb') as stream:
+            while chunk:=stream.read(CHUNK):
+                store._key();destination.write(chunk);total+=len(chunk);hasher.update(chunk)
+        if (total,hasher.hexdigest())!=(row['bytes'],row['sha256']):raise ValueError('Plaintext export changed during read')
+        return
     info = source.stat(); overhead = len(MAGIC)+28
     if info.st_nlink != 1 or info.st_size != row['bytes']+overhead:
         raise ValueError('Encrypted profile entry size or ownership is invalid')
@@ -73,7 +87,7 @@ def inspect_profile(accounts, admin, target_user_id):
     with _sealed(accounts,admin,target_user_id) as (store,manifest,delegated):
         rows = [{key:row[key] for key in ('path','bytes','sha256')} for row in manifest['files']]
         return {'verified_manifest':True,'user_id':delegated.user_id,'username':delegated.username,
-                'generation':manifest['generation'],'state':'sealed snapshot','files':rows,
+                'generation':manifest['generation'],'state':'sealed snapshot' if store.encrypted else 'plaintext snapshot','encrypted':store.encrypted,'files':rows,
                 'bytes':sum(row['bytes'] for row in rows)}
 
 

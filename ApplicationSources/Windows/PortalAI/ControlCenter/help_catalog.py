@@ -590,6 +590,10 @@ TOPICS = {
                           'username',
                           'login',
                           'password',
+                          'encryption',
+                          'privacy and sign-in',
+                          'account-free',
+                          'passwordless',
                           'log out',
                           'change current user',
                           'export data',
@@ -602,7 +606,9 @@ TOPICS = {
                       'administrator-only: it retains authentication, the sealed inventory review, export '
                       'choice and typed reset phrase, and now requires an additional final confirmation before '
                       'deleting reviewed private data. Models and packages remain installed. Ordinary Exit '
-                      'still seals the current account and closes PortalAI.',
+                      'still verifies saving and closes PortalAI. Privacy and sign-in lets an administrator '
+                      'choose per-account encryption, password requirements or account-free shared startup. '
+                      'See User files and profile privacy for protection limits and conversion recovery.',
               'category': 'Getting started'},
  'control_log': {'title': 'Control Log',
                  'aliases': ['control log', 'control center activity log'],
@@ -819,18 +825,25 @@ TOPICS = {
                                 'seal are required before safely ejecting an active installation. Physical '
                                 'storage reliability and recipient hardware checks remain separate from '
                                 'package verification.'},
- 'user_files': {'title': 'User files and encrypted profiles',
+ 'user_files': {'title': 'User files and profile privacy',
                 'category': 'Home Assistant and recovery',
                 'aliases': ['user files', 'user folder', 'vault', 'encrypted profiles'],
                 'body': 'Signed-in files belong under Private/Users/<account ID>/Workspace. User Folder '
                         'contains personal files, Outputs holds generated results and Data holds chat/history '
-                        'and other account state. The sibling Vault contains authenticated encrypted '
-                        'generations.\n'
+                        'and other account state. Encrypted profiles use the sibling Vault; unencrypted '
+                        'profiles keep readable Workspace files and incremental PlainRecovery copies.\n'
                         '\n'
                         'Lazy folders may not be materialized until PortalAI opens the requested content; '
                         'browsing an empty folder does not prove data is missing. Export through Accounts when '
-                        'you need a portable readable copy. Exit waits for sealing. An active plaintext '
-                        'workspace is application privacy, not operating-system isolation.'},
+                        'you need a portable readable copy. Exit waits for verified saving in either mode. '
+                        'Accounts → Privacy and sign-in lets an administrator choose encryption and password '
+                        'requirements independently for each account, or select account-free shared startup. '
+                        'New installations can also choose Use without an account. A password on unencrypted '
+                        'storage locks only the interface; saved files and service credentials remain readable. '
+                        'Passwordless encryption stores the unlock key on the SSD. A passwordless administrator '
+                        'can access other accounts. Conversion closes PortalAI, verifies data and historical '
+                        'recovery files, and keeps at least 80 GiB free. External backups keep their original '
+                        'protection. This is application privacy, not operating-system isolation.'},
  'demucs': {'title': 'Demucs and music understanding',
             'category': 'Images, video and audio',
             'aliases': ['demucs', 'music understanding', 'moss', 'clap', 'separate vocals'],
