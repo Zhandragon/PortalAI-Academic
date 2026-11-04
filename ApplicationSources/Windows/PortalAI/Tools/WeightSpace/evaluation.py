@@ -27,7 +27,13 @@ def grade(case,text):
         source=HERE/'published/mathqa.py';pin=json.loads((source.parent/'provenance.json').read_text())
         return bounded_grader('math_grade.py',{'source':str(source),'sha256':pin['sha256'],'text':text,'gold':case['answer']})
     if kind=='coding':
-        result=bounded_grader('code_check.py',{'source':content,'checks':case['checks']},5)
+        try:
+            result=bounded_grader('code_check.py',{'source':content,'checks':case['checks']},5)
+        except subprocess.TimeoutExpired:
+            # The owned grader has already stopped its worker in finally.
+            # A non-terminating model answer is wrong; infrastructure errors still raise.
+            result={'passed':False,'timed_out':True,
+                    'reason':'Model program exceeded the five-second code execution budget; owned worker stopped.'}
         return {'correct':bool(result['passed']),'detail':result}
     if kind=='tool':
         raw=re.findall(r'<tool_call>\s*(.*?)\s*</tool_call>',content,re.S)

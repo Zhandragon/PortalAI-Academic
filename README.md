@@ -9,7 +9,9 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r65 (2026-11-04):** Adds reversible exact weight-edit profiles, per-account selection and Original weights restoration. Originals stay intact; all experimental profiles remain optional. [Controls, storage and limitations](Documentation/WEIGHT-PROFILES-r65.md). Linux/Mac remain r51.
+**Windows r66 (2026-11-04):** Keeps coding comparisons running after a generated program times out. Reversible optional edit profiles and original weights remain available. [Details](Documentation/WEIGHT-GRADING-r66.md). Linux/Mac remain r51.
+
+
 
 
 
@@ -157,7 +159,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r65.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r66/PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r66.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

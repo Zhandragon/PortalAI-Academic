@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 971
+    "Windows": 972
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -56089,7 +56089,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "a6e53ad356eab33ba12c5b31dd94ea16f6f31d0bae92b69357523e9dbf2dfb64",
+      "sha256": "eab38a05db535aaaae1388162aa85d528ddf8bf278a3f38212bd2a47c10e90a8",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -63659,6 +63659,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_grading.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "df87c83a0291f3fb28b52b494e3b5b89d44f2ca388ff08c3a817a00c2826b4d9",
+      "lines": 30,
+      "overview": "A non-terminating model answer must not abort independent comparisons.",
+      "symbols": [
+        {
+          "name": "WeightSpaceGradingTests",
+          "line": 9,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -64919,8 +64934,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "b065a4149c3075e62fadd82e62f4062c0b556122e83e4fdbf16bd089c5b9d876",
-      "lines": 58,
+      "sha256": "25e091521f0828c49e38b98bb9b4f8007347f64b39c18bac171d16605f55ff4a",
+      "lines": 64,
       "overview": "Explicit, deterministic task graders; tool choices are never executed.",
       "symbols": [
         {
@@ -64940,7 +64955,7 @@
         },
         {
           "name": "read_cases",
-          "line": 47,
+          "line": 53,
           "kind": "FunctionDef"
         }
       ]

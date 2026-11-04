@@ -1,0 +1,84 @@
+{
+  "version": "2026.11.04-Desktop-r66",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r66-suite.zip",
+  "bytes": 624044816,
+  "sha256": "a42706ab1922b8bc2a7aff70c93ad329f1fb502f98f384683ff24c6c97976f05",
+  "previous_sha256": "8bf5ade8d5a10d55b2b6d1b76c1f619d9be7d7ede6339c14aa6cec07f0f8aa67",
+  "changed_members": [
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/Tools/WeightSpace/evaluation.py"
+  ],
+  "added_members": [
+    "PortalAI/Documentation/Weight_Grading_r66.txt",
+    "PortalAI/Maintenance/Tests/test_weightspace_grading.py"
+  ],
+  "payload_members": 5434,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_original_helper": "Tools/WeightSpace",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273206164682,
+    "download_bytes": 234114349863,
+    "required_bytes": 511602532131,
+    "files": 330412
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "4590a5e230f63de1c5d0d6d88b269ba478a420c28c144af60c1b1a765a62ecb3"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381989360,
+      "sha256": "6489c53d4232bc5ca3f0a3a2a62b844a95d90015186f3f38d842bdbe36dd984c"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139080824,
+      "sha256": "33a6b22f2d42d38aa3c819ebcf08e5e04414b4ae015ccc3cdc5f7aa18e8a37ac"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 6818,
+      "sha256": "3df2c4fed4744695dd49e46c70546799dba6b9078ab2d8109c4a244921392a07"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "8402ba4baf371f8fec49a5438aedf19843ca74b83b0461b2f0381fb6fdcf07db"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "0e59ef4481dd49770e2718964358a95db100b5403458dd04ba145c44e5aa61bd"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1500,
+      "sha256": "3344061f2103d952b64842ad5eb2edf14081c8e16f9fd3450f8970a2de52334e"
+    }
+  ]
+}

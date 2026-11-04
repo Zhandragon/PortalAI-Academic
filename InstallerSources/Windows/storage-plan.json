@@ -1,7 +1,7 @@
 {
-  "release": "PortalAI-2026.11.04-Desktop-r65-suite-Academic-Windows",
-  "payload_bytes": 679209487,
-  "payload_files": 5432,
+  "release": "PortalAI-2026.11.04-Desktop-r66-suite-Academic-Windows",
+  "payload_bytes": 679212889,
+  "payload_files": 5434,
   "bootstrap_bytes": 22640669,
   "components": [
     {
