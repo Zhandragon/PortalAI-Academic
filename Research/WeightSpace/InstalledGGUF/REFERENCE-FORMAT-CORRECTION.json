@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checked_utc": "2026-11-04T20:19:04.834165+00:00",
+  "issue": "Qwen35 templates already open <think>; the previous diagnostic target would have duplicated it.",
+  "repair": "Continue an already-open thinking marker from the saved model prompt; add the marker only when the template has not supplied it.",
+  "reference_format": "boxed-template-aware-v2",
+  "source_before_sha256": "a3eaf6ddba4efd1449f32b7465a7e177ce7e0ed5501d463294d79499727687c7",
+  "source_after_sha256": "6d3394eb1ceecdfb6a1c4a1f7954d623ea981f28e416f290075add2983fdd646",
+  "regression_source_sha256": "64ef021537f0201a00519d4cffb9dacc6df5fad54c55529748812fe881188543",
+  "saved_template_records_checked": {
+    "1.7-standard": 24,
+    "1.7-abliterated": 24,
+    "4-standard": 56,
+    "4-abliterated": 24,
+    "27-standard": 56,
+    "27-abliterated": 46
+  },
+  "completed_1_7_and_4B_targets_byte_identical": true,
+  "corrected_before_any_27B_reference_loss_pass": true,
+  "natural_generations_and_grades_changed": false,
+  "sampling_changed": false,
+  "selection_and_promotion_rules_changed": false,
+  "GPU_loaded": false,
+  "stdlib_unit_tests_passed": 5,
+  "prior_public_source_commits": {
+    "Full": "c8f84f77323a5fa99e84bfc15a0bfb89f316d1a7",
+    "Academic": "3237b52bdabb4fb2aabb189996b3f0c12c2b9f74"
+  }
+}

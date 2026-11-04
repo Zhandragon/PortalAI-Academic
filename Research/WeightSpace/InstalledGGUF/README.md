@@ -17,7 +17,7 @@ experiment when a user explicitly wants to try a recorded tradeoff.
 | 4-standard | 22/30 | 21/30 | 23/30 | Edit rejected; original retained |
 | 4-abliterated | 18/24 | 13/24 | 20/24 | Edit rejected; original retained |
 | 27-standard | 53/56 discovery only | Not evaluated | Not evaluated | No supported outcome contrast; no edit evaluated |
-| 27-abliterated | 24/27 discovery only | Not evaluated | Not evaluated | In progress |
+| 27-abliterated | 41/46 discovery only | Not evaluated | Not evaluated | In progress |
 
 Counts are correct answers on each model's frozen discovery cases. The case sets differ, so these rows do not rank the models against one another.
 
@@ -36,6 +36,16 @@ and superseded for protocol conclusions. See [SAMPLER-CORRECTION.json](SAMPLER-C
 for exact counts, source evidence and the verified repair. Corrected 27B runs
 restart from the frozen cases with a positive generated-token history. The 1.7B and 4B comparisons
 request zero penalty and are unaffected. No original models were replaced.
+
+**27B reference-template correction (2026-11-04):** its saved chat prompts
+already open the thinking block. The diagnostic reference now continues that
+block instead of duplicating the opening marker. This was corrected before
+any 27B reference-loss pass. Five CPU regression tests and checks against
+saved prompts establish that the completed 1.7B/4B reference text is unchanged.
+Natural generations, grades, sampling and selection rules are unchanged.
+See [the correction receipt](REFERENCE-FORMAT-CORRECTION.json) and the
+[standalone regression tests](test_reference_completion.py). This is a repair
+to the research reference builder, not a change to deployed chat behavior.
 
 ## Method and boundaries
 

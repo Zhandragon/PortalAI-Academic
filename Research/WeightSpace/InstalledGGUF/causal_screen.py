@@ -18,6 +18,11 @@ from sparse_edit import save_adapter
 from service_manager import acquire_gpu_lease,release_gpu_lease
 from diagnosis import propose
 
+def reference_completion(prompt,solution,answer):
+    """Continue the thinking prefix supplied by this model's actual template."""
+    opening='' if prompt.rstrip().endswith('<think>') else '<think>\n'
+    return opening+solution+'\n</think>\n\\boxed{'+str(answer)+'}<|im_end|>'
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);args=parser.parse_args()
     spec=json.loads((LAB/'protocol.json').read_text())['models'][args.model]
@@ -62,15 +67,15 @@ def main():
             texts=[]
             for identifier in ids:
                 row=practice[identifier];saved=recordmap[identifier];solution=row.get('solution') or str(row['answer'])
-                target='<think>\n'+solution+'\n</think>\n\\boxed{'+str(row['answer'])+'}<|im_end|>'
+                target=reference_completion(saved['prompt'],solution,row['answer'])
                 prompt_tokens=engine.tokenize(saved['prompt']);tokens=engine.tokenize(saved['prompt']+target)
                 if len(tokens)>32768:raise ValueError('Reference solution exceeds published teacher-forcing text cap')
                 texts.append({'id':identifier,'tokens':tokens,'loss_from':len(prompt_tokens),'natural_correct':saved['grading']['correct'],'reference_type':'worked_solution' if row.get('solution') else 'answer_only'})
             total=sum(len(t['tokens']) for t in texts)
             if total>524288:raise ValueError('Teacher-forced pass exceeds published aggregate token cap')
-            atomic_json(out/'cases.json',{'ids':ids,'tokens':total,'reference_types':{t['id']:t['reference_type'] for t in texts},'target':'Worked solution where available, otherwise answer only, with explicit thinking/final formatting. Diagnostic loss only, not answer accuracy or natural reasoning likelihood.','good_ids':loc['good_ids'],'bad_ids':loc['bad_ids']})
+            atomic_json(out/'cases.json',{'ids':ids,'tokens':total,'reference_types':{t['id']:t['reference_type'] for t in texts},'target':'Worked solution where available, otherwise answer only. Continue an already-open thinking marker supplied by the actual chat template, or add it when absent. Diagnostic loss only, not answer accuracy or natural reasoning likelihood.','good_ids':loc['good_ids'],'bad_ids':loc['bad_ids']})
             def evaluate(identifier,adapter=None,dose=0):
-                request={'base_sha256':fingerprint,'ids':ids,'reference_format':'boxed-v1','adapter_sha256':sha(adapter) if adapter else None,'dose':dose,'type':'teacher_forced','total_tokens':total}
+                request={'base_sha256':fingerprint,'ids':ids,'reference_format':'boxed-template-aware-v2','adapter_sha256':sha(adapter) if adapter else None,'dose':dose,'type':'teacher_forced','total_tokens':total}
                 if not ledger.begin(identifier,'discovery',request):return json.loads((out/(identifier+'.json')).read_text())
                 start=time.monotonic()
                 try:
