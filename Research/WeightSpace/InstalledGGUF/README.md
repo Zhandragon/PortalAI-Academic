@@ -53,7 +53,7 @@ be reproduced; stable per-item seeds are explicit in the native source.
 
 ## Reproduction
 
-Install the r66 Windows utility and its existing portable runtime. Copy this
+Install the r67 Windows utility and its existing portable runtime. Copy this
 folder to `PortalAI Windows/Maintenance/Research/Takehi-PortalAI-20261103` in a
 fresh workspace; never overlay a live experiment. The scripts deliberately
 derive the installed portable root from that location. Use BootstrapPython.

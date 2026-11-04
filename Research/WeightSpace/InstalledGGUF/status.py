@@ -1,5 +1,5 @@
 """Read-only progress for the portable installed-GGUF campaign."""
-import json, shutil, sqlite3, time
+import json, re, shutil, sqlite3, time
 from pathlib import Path
 LAB=Path(__file__).resolve().parent
 
@@ -21,6 +21,10 @@ def status():
             if row['phase'].startswith('001'):
                 cases=folder/row['phase']
                 row['completed_cases']=sum(p.name!='request.json' for p in cases.glob('*.json'))
+            elif row['phase'].startswith('gen-screen-'):
+                arm=row['phase'].split('-')[2];screen=folder/'004-generation-screen'
+                row['completed_cases']=sum(bool(re.fullmatch(r'[a-f0-9]{20}\.json',p.name)) for p in (screen/arm).glob('*.json'))
+                row['total_cases']=len(json.loads((screen/'cases.json').read_text()))
             if not running and (folder/'004-generation-screen/feasibility-resume.json').is_file():
                 row['phase']='feasible edit prepared; baseline retained; GPU comparison pending'
         admission=folder/'EXTENDED-STATUS.json'
