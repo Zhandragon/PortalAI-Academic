@@ -8,6 +8,21 @@ The [selected recipes and edit receipts](Profiles/) are individually readable
 JSON; [optional profile downloads](OPTIONAL-PROFILES.md) avoid repeating the
 experiment when a user explicitly wants to try a recorded tradeoff.
 
+## Recorded outcomes
+
+| Installed model | Original | Edited | Random control | Decision |
+| --- | ---: | ---: | ---: | --- |
+| 1.7-standard | 18/28 | 18/28 | 19/28 | Edit rejected; original retained |
+| 1.7-abliterated | 20/28 | 18/28 | 20/28 | Edit rejected; original retained |
+| 4-standard | 22/30 | 21/30 | 23/30 | Edit rejected; original retained |
+| 4-abliterated | 18/24 | 13/24 | 20/24 | Edit rejected; original retained |
+| 27-standard | 53/56 discovery only | Not evaluated | Not evaluated | No supported outcome contrast; no edit evaluated |
+| 27-abliterated | 4/5 discovery only | Not evaluated | Not evaluated | In progress |
+
+Counts are correct answers on each model's frozen discovery cases. The case sets differ, so these rows do not rank the models against one another.
+
+**The campaign is not yet complete.** No original model has been replaced. Discovery results alone cannot establish a general improvement.
+
 [Completion diagnostics](COMPLETION-DIAGNOSTICS.json) separately report token
 limits, correct answers with a natural stop, output lengths and repetitive
 tails. They are post-hoc descriptions of completed comparisons, not new
@@ -18,8 +33,8 @@ loop. The read-only analyzer is published alongside these results.
 negative penalty history to zero. Earlier 27B discovery therefore used no
 presence penalty despite requesting 1.5. Those records are archived unchanged
 and superseded for protocol conclusions. See [SAMPLER-CORRECTION.json](SAMPLER-CORRECTION.json)
-for exact counts, source evidence and the verified repair. Both 27B runs must
-restart with a positive generated-token history. The 1.7B and 4B comparisons
+for exact counts, source evidence and the verified repair. Corrected 27B runs
+restart from the frozen cases with a positive generated-token history. The 1.7B and 4B comparisons
 request zero penalty and are unaffected. No original models were replaced.
 
 ## Method and boundaries
@@ -127,7 +142,7 @@ does not justify calling an edit broadly more intelligent.
 The pinned manifest lists MATH-500, GSM8K, AMC23, Minerva, OlympiadBench,
 MMLU-Pro, IFEval and an explicitly restricted MBPP adaptation. GPQA-Diamond
 is gated and has not been downloaded; no complete Takehi benchmark claim is
-made. Final execution and additional task fixtures remain pending unless a
-candidate qualifies. Do not infer final benchmark scores from downloaded data
+made. Final execution and additional task fixtures are conditional on a
+candidate qualifying; they are not run for rejected candidates. Do not infer final benchmark scores from downloaded data
 or from discovery. Full raw results are retained on the research SSD; this
 folder publishes code, provenance and compact summaries without full weights.

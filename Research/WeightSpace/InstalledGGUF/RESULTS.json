@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T16:09:49Z",
+  "updated_at_utc": "2026-11-04T17:48:31Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -2043,7 +2043,7 @@
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",
-      "status": "in progress",
+      "status": "discovery complete without supported contrast",
       "production_original_replaced": false,
       "completed_case_counts": {
         "baseline": {
@@ -2070,10 +2070,17 @@
       },
       "natural_discovery_counts": {
         "001-natural-discovery": {
-          "completed": 23,
+          "completed": 24,
           "planned": 24,
-          "correct": 22,
-          "correct_with_natural_stop": 22,
+          "correct": 23,
+          "correct_with_natural_stop": 23,
+          "reply_budget_exhaustions": 1
+        },
+        "001b-natural-discovery": {
+          "completed": 32,
+          "planned": 32,
+          "correct": 30,
+          "correct_with_natural_stop": 30,
           "reply_budget_exhaustions": 1
         }
       },
@@ -2081,9 +2088,41 @@
         {
           "id": "001-natural-discovery",
           "phase": "discovery",
-          "status": "running"
+          "status": "complete"
+        },
+        {
+          "id": "001b-natural-discovery",
+          "phase": "discovery",
+          "status": "complete"
         }
       ],
+      "admission": {
+        "good": 53,
+        "bad": 3,
+        "qualified": false,
+        "reason": "No supported natural-failure contrast; retain the original."
+      },
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_1337",
+            "record_sha256": "2d50a166881f99b0bef25bfb52f7f8b5278c3e1772a0705431df6b5a0543f3ca",
+            "classification": "answer-key unit ambiguity",
+            "observation": "The question asks for shoes, while the supplied answer key is 27 pairs. The response correctly derives 27 pairs and converts them to 54 individual shoes. The literal shoes interpretation supports 54. The frozen official grade remains incorrect; this is not a clear arithmetic failure.",
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false,
+            "sampling_implementation": {
+              "version": "native-generated-history-v2",
+              "presence_penalty": 1.5,
+              "presence_history_tokens": 32768,
+              "prompt_in_penalty_history": false
+            },
+            "sensitivity_note": "If this item enters an original/edit/control comparison, report a separate post-hoc comparison excluding it. Do not rewrite official scores or use this note to retune an edit."
+          }
+        ]
+      },
       "superseded_run": {
         "completed_cases": 56,
         "official_correct": 54,
@@ -2119,8 +2158,47 @@
     },
     "27-abliterated": {
       "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
-      "status": "not started",
+      "status": "in progress",
       "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 5,
+          "planned": 24,
+          "correct": 4,
+          "correct_with_natural_stop": 4,
+          "reply_budget_exhaustions": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ],
       "superseded_run": {
         "completed_cases": 36,
         "official_correct": 33,
