@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-11-04T22:42:35Z",
+  "storage_tests": {
+    "tests": 9,
+    "passed": true,
+    "evidence": "Observed successful bundled-Python unittest output in this task; implementation unchanged since that run."
+  },
+  "worker_tests": {
+    "tests": 5,
+    "passed": true,
+    "log_sha256": "3650451404486ede191aa471b1dff304c91c4f31c139fb59c0d60429a38f88c0",
+    "compact_records_preserve_text_counts_and_token_digest": true
+  },
+  "total_tests": 14,
+  "gpu_inference_used": false,
+  "real_confirmation_cases_evaluated": 0,
+  "initial_test_cleanup_errors": "Two test-only SQLite query connections were left open; explicitly closed and all five integration tests passed on rerun. Production worker already closes its connections.",
+  "checkpoint_guarantees_tested": [
+    "committed case survives missing JSON mirror",
+    "completed case is never overwritten or regenerated",
+    "changed frozen identity/request rejected",
+    "database payload corruption detected",
+    "conflicting mirror preserved",
+    "worker yields at a completed-case boundary",
+    "scientific restart remains accounted",
+    "dead owner is reconciled under exclusive lock",
+    "manual GPU pause prevents starting",
+    "second worker cannot acquire phase lock"
+  ],
+  "source_hashes": {
+    "confirmation_store.py": "8ade454b0a690c7590c74465f18eb6ec260e4615bd65f9e40b5ed17d942ee24d",
+    "test_confirmation_store.py": "9022db32c2a451a817fd58f3f56a817c92b3d62120cd3929c332514cdb229706",
+    "checkpointed_confirmation.py": "c73864d6d3e9c41186c75c0870942379fe2ca3b0c9d703c86cfef5f594956aca",
+    "test_checkpointed_confirmation.py": "4b929ba7b80343d74a57dde40b1feabae8e4882d675d0204780750a67a717a98",
+    "run_checkpointed_confirmation.py": "e65185f1f1cb802ecc41b0f104bf13dc7b1dc2ffa3eb24a268b3b7472c89c407"
+  },
+  "physical_power_loss_or_drive_removal_tested": false,
+  "coordinator_cli_help_verified_without_inference": true,
+  "record_storage": "Raw output, scores, times, finish reasons and sampler provenance remain; token sequence arrays are replaced by a digest before checkpointing and JSON export."
+}

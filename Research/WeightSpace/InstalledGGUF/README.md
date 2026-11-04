@@ -17,9 +17,11 @@ experiment when a user explicitly wants to try a recorded tradeoff.
 | 4-standard | 22/30 | 21/30 | 23/30 | Edit rejected; original retained |
 | 4-abliterated | 18/24 | 13/24 | 20/24 | Edit rejected; original retained |
 | 27-standard | 53/56 discovery only | Not evaluated | Not evaluated | No supported outcome contrast; no edit evaluated |
-| 27-abliterated | 41/46 discovery only | Not evaluated | Not evaluated | In progress |
+| 27-abliterated | 21/30 | 26/30 | 25/30 | Eligible for independent confirmation; not a replacement |
 
 Counts are correct answers on each model's frozen discovery cases. The case sets differ, so these rows do not rank the models against one another.
+
+Two 27B math cases need interpretation: the shoe question mixes shoes and pairs, and the restaurant grader expects a combined total while the original correctly lists both components. Official scores and selection rules are preserved. `interpretation_sensitivity` in RESULTS.json reports a separate sensitivity analysis excluding these cases; score changes on them must not be described as established reasoning improvements.
 
 **The campaign is not yet complete.** No original model has been replaced. Discovery results alone cannot establish a general improvement.
 
@@ -46,6 +48,31 @@ Natural generations, grades, sampling and selection rules are unchanged.
 See [the correction receipt](REFERENCE-FORMAT-CORRECTION.json) and the
 [standalone regression tests](test_reference_completion.py). This is a repair
 to the research reference builder, not a change to deployed chat behavior.
+
+**27B capture correction (2026-11-04):** the GGUF declares 65 blocks,
+including one optional NextN/MTP prediction block that the main decoder does
+not execute. Requesting that inactive block interrupted localization. The
+editor now uses 64 active layers. A real probe reproduced exactly the four
+missing inactive-block sites, then verified all 256 main-layer captures and
+the unchanged original model hash. Prompt rendering, generation and sampling
+code are byte-identical to r68. The failed ledger entry and empty output
+folder are retained; [explicit reconciliation](resume_mtp_localization.py)
+accounts a new pass and reuses the same 56 natural answers with hash checks.
+See [MTP-CAPTURE-CORRECTION.json](MTP-CAPTURE-CORRECTION.json). Missing active
+sites still fail explicitly rather than being ignored.
+
+**Native tool-format grading correction (2026-11-04):** the Qwen35
+template emits XML-style function/parameter calls. The JSON-only offline
+grader incorrectly rejected three correct 27B baseline choices. The grader
+now accepts both native dialects, using exposed schemas for XML argument
+types, and rejects malformed/duplicate fields and boolean-number confusion.
+It only scores text; it never executes a tool or changes live chat dispatch.
+Twelve regressions cover both formats and invalid cases, within 31 passing
+checks on each SSD. [The correction receipt](TOOL-FORMAT-CORRECTION.json)
+and [regrading source](regrade_tool_outputs.py) preserve the original records,
+grades and ledger, then rescore the same frozen outputs without new inference.
+All four smaller-model scores remain unchanged. Completed comparisons cannot
+be published until this consistent regrading has been applied to all arms.
 
 ## Method and boundaries
 
@@ -119,7 +146,25 @@ For each model ID in protocol.json, run `discovery.py --model ID`, then
 `Tools/WeightSpace/run_owned.py` with absolute script/log paths. The start gate,
 shared GPU lease and Windows job are mandatory; the worker will not run by
 direct invocation. Review each stage before starting conditional confirmation.
-Use `confirm_candidate.py --model ID` only after discovery eligibility.
+Use `checkpointed_confirmation.py --model ID` through the owned-worker launcher
+only after discovery eligibility. It freezes source/data/model/recipe identities
+before parsing the confirmation pool, commits each completed case in a FULL-
+synchronous SQLite transaction, and exports checksummed JSON mirrors. Workers
+yield at completed-case boundaries after five hours; `--resume` verifies the
+same frozen requests and skips completed cases. Each restarted scientific pass
+remains accounted against the original budget. The manual GPU-pause marker is
+never cleared automatically. Fourteen CPU-only store and fake-engine worker
+checks cover interruption, duplicate prevention, identity drift, conflicts,
+exclusive ownership and pause handling; no real held-out inference was used
+for those checks. See `CONFIRMATION-CHECKPOINT-VALIDATION.json`. Physical power
+loss and flash-drive removal are not claimed tested. The earlier
+`confirm_candidate.py` remains available as the uncheckpointed reference runner.
+`run_checkpointed_confirmation.py --model ID` coordinates normal checkpoint
+boundaries through bounded owned workers; it stops on an error or manual pause.
+Raw answers, grades, timings, counts and sampler provenance remain recorded;
+token arrays are represented by their SHA-256 to avoid duplicating large arrays
+in both the checkpoint database and JSON mirrors. The 80 GiB reserve remains,
+with an additional 64 MiB allowance before each confirmation response.
 
 `run_remaining.py` and `resume_generation.py` are continuation tools for the
 recorded campaign. They require its saved case hashes/checkpoint and must not

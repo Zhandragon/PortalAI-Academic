@@ -92,7 +92,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "168e621bcb61e43110ba7e5ad836a214d91a32fe3290ae673e98f586483dfa0a",
+              "record_sha256": "7ec19d6c7d984204828892c24559ec36779e6c9fd4cca8e5bc8b73de93e3287f",
               "correct": true,
               "finish": "stop",
               "tokens": 209,
@@ -100,7 +100,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "661b5f512b06a7bf505359a733a933903dadb089f7bfedea927db3eb6cab0b22",
+              "record_sha256": "128c146b166763c1f28b7e868c8116f62d00d8a149cb37761d447f974228ba7e",
               "correct": false,
               "finish": "stop",
               "tokens": 318,
@@ -188,7 +188,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "806e071e0b570db24f108a60826f5f541b839fab0594e041208784eeca6b6eb9",
+              "record_sha256": "3125c3d3b9cda16694d5ae9cbf6052380fa7ee42c9ac17629de76e18a1cc469e",
               "correct": true,
               "finish": "stop",
               "tokens": 296,
@@ -327,7 +327,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "16899a9bb71bfc30e23de39817c59210e74e55913b7d17c29acf068e0caaf3b0",
+              "record_sha256": "ebb2bcde4a00c1e021363b30d61a10c8ea12752b471675b03a6f201455d6c1eb",
               "correct": true,
               "finish": "stop",
               "tokens": 304,
@@ -335,7 +335,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "3c064538158dba75cbe9ba870dab8657d6f81451e465e96833cdee7449a4b73f",
+              "record_sha256": "f8930d4f4a52e3cf8232419e6de6ffff9b4a21f749e4bd3eae9e6046543a7c9a",
               "correct": false,
               "finish": "stop",
               "tokens": 227,
@@ -423,7 +423,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "2d6d7cde9824d4268587564153504e25ccb788ab0e21a4cc53fb6a7890b281ef",
+              "record_sha256": "f1dcf89b4e722c76ce137b839fc4b7976baa3aa9df5d723748be8a310f213d9b",
               "correct": false,
               "finish": "stop",
               "tokens": 325,
@@ -562,7 +562,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "858931074fa347b436238c58484449f5386216c49223e461973c0058ac64a3fd",
+              "record_sha256": "c775b514c8e244c78c48ccc78cf1b25f0c07e8ad797f71524850d806fdb04cc9",
               "correct": true,
               "finish": "stop",
               "tokens": 186,
@@ -570,7 +570,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "71fb886009e4fe2956e1375e1d6a43a1cee043ff13ae4be588e81b27a47b6f3f",
+              "record_sha256": "a0892819b5aa009ed719650210f10d3e735c8ecc67b110b7e1a659aee8065262",
               "correct": false,
               "finish": "stop",
               "tokens": 326,
@@ -658,7 +658,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "5d0383ee6fe2daeb478c57b5a1440f808786b9512913fc8ab6ef54594350d2bc",
+              "record_sha256": "8620c2e2a63ef719702a9a2f54ff743749fe7cddf965e7ec4aa670ce630971f3",
               "correct": true,
               "finish": "stop",
               "tokens": 327,
@@ -802,7 +802,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "caa221549701b4aa2a2f876bec93136411abac479a51b99700d5d54fe2563c54",
+              "record_sha256": "b8caee9a4d4ffe8cfc1ce848bbde050b115b19da9627a3e1676634307e51fc5b",
               "correct": true,
               "finish": "stop",
               "tokens": 245,
@@ -810,7 +810,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "42cfdd3b2f3374b3e9592dfdd8e597dc3970a0d5674d8fb285712039a819af24",
+              "record_sha256": "75a887cf01312bea7f9ad05dec5b5805f8977058aa543c03c21ad7f3df0cdfbd",
               "correct": false,
               "finish": "stop",
               "tokens": 215,
@@ -898,7 +898,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "845af057a40f793c965271c8c92755952ee056c7e8bbd847424d473bdbdf66a5",
+              "record_sha256": "83369e645396147f249525071588a86d53b063ed0e36c51bfa5ae69f561514ef",
               "correct": true,
               "finish": "stop",
               "tokens": 484,
@@ -1037,7 +1037,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "1f81df7ca83d26ab4a7bd8b41b0cc3efbe6c9615e01512b94d96924354b6facb",
+              "record_sha256": "481b763541896cb311a94fc4ec9039913624ba8203a3c04d94d56a705d9f89b7",
               "correct": true,
               "finish": "stop",
               "tokens": 232,
@@ -1045,7 +1045,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "ee3683c8ab8fda8302267a5e65300d67d5c937d925a99549201a85721bc5c6d3",
+              "record_sha256": "f386939ee8acb9b3efc9ab39740c3ee4a091fe1529b30d0e2e488d2710ed37d4",
               "correct": false,
               "finish": "stop",
               "tokens": 228,
@@ -1133,7 +1133,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "569f7bd63c23d6cc461fda1adffba134cfee4ae98d48664f9b720d4f74351425",
+              "record_sha256": "3d454328b18afea357d609d0538259ae34cfe09842a094c9d2f97604fdb5e4f3",
               "correct": true,
               "finish": "stop",
               "tokens": 413,
@@ -1272,7 +1272,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "e8d9dc7cfeefa9342ab9d64aded5f22ca722c648772358fa68e1f24b7ec776a0",
+              "record_sha256": "5b29755c1d91756007442d0eaff026c93fee6e7ab2712e71bb23e4e79ad5af36",
               "correct": true,
               "finish": "stop",
               "tokens": 244,
@@ -1280,7 +1280,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "ced0b3e021da097e35d214edbe3874a3816374f41977f3678168a86d783d283e",
+              "record_sha256": "108a9d6892d0a59b5388e1d133fe40ef5988a5663a1ea42f343094baad4ffcd7",
               "correct": false,
               "finish": "stop",
               "tokens": 224,
@@ -1368,7 +1368,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "4274c10a0b3585498f317647255d474dc9f36d698b2db130840678f852c61f15",
+              "record_sha256": "08cc77a14312198d086d50dcc1305c63f532caaf1bf968d177d07ce4e58ee3b4",
               "correct": true,
               "finish": "stop",
               "tokens": 387,
@@ -1528,7 +1528,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "34f7aaf73b47530e209f9fdbe577f8714998c15952f49d87b19f0a16fc17eb23",
+              "record_sha256": "f6a7eab363a1041354365bc404897ae68089a43eef49f893bfe9da946dd2b915",
               "correct": true,
               "finish": "stop",
               "tokens": 209,
@@ -1536,7 +1536,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "c134b3ee2d8cb446d648df9db4e64d2384dd42fe907cc573b466490874b0369c",
+              "record_sha256": "01240e83a45340d057fc95ebd4cdba482e6f5ff1089a9cd37900be24867635d5",
               "correct": true,
               "finish": "stop",
               "tokens": 638,
@@ -1640,7 +1640,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "a43516b7298b89fb341396b6d9f51d9e19d240203c94c685d03ad94c44bd0b94",
+              "record_sha256": "0bb962661b9975b9f9b26acd6e5eb15e14a589753aa642ce7de52c2af4ab23e4",
               "correct": true,
               "finish": "stop",
               "tokens": 275,
@@ -1779,7 +1779,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "cd6db5a8fc92ecf51d5f44a42177cd759d0f0388fb4831b351d43eb590453438",
+              "record_sha256": "f889dadcf26be935212eb55cc7654bff953fb21a2b9abb9e7f2633022e4d9095",
               "correct": true,
               "finish": "stop",
               "tokens": 270,
@@ -1787,7 +1787,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "e95e022d94c42577e6601976d0372f1a6c486966607ebffc4c9ba811edd6f452",
+              "record_sha256": "6b71c2492e08df35872837189a793524279a0b91fe383dd75a245000dcb45f35",
               "correct": false,
               "finish": "stop",
               "tokens": 585,
@@ -1891,7 +1891,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "0cb5d714ef91c326e10c6cf058e926d78e42d262ef3103abe9dc51fb943febdc",
+              "record_sha256": "a2d90e9a59ff362c5ea9417e4542d231fa2a89f5358cbe79ec35ed694445560f",
               "correct": true,
               "finish": "stop",
               "tokens": 304,
@@ -2030,7 +2030,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "85934e759bc33973b4b6fbd65d032e7b7344b66ed2d004e8f06f2a05cc18bd60",
+              "record_sha256": "7e1e84c903f602f52592a492328b908c0bbe64530379c027865f3fd0bfe6378b",
               "correct": true,
               "finish": "stop",
               "tokens": 224,
@@ -2038,7 +2038,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "a6011912eca02178a2cb0afce25f4ea3f84900a6f93c94ea530ee4804ab20771",
+              "record_sha256": "e533e6d05b8728388be9e4cf271886fbe0b8e1c0398895088dc9daad3f3a20c9",
               "correct": true,
               "finish": "stop",
               "tokens": 1486,
@@ -2142,7 +2142,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "90b88339f2687f50b8ec164fcd5d742e973437a0963c83b5331177f07cb9c264",
+              "record_sha256": "616d0abd41ff1a8540c83e4a2cd92b9aa9f875548c5183edfb1720028a9eb7b4",
               "correct": true,
               "finish": "stop",
               "tokens": 243,
@@ -2291,7 +2291,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "1ae0094d780ce274c3fbf4ef0ff772347705e9cc61b8f97230b364b4626e8e9f",
+              "record_sha256": "aaba9d0e9ae07225a297f121035a30f470a2ddeb926288f642f3879f2b3d88c7",
               "correct": true,
               "finish": "stop",
               "tokens": 374,
@@ -2299,7 +2299,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "363453b99f3924243541b1ab97522869beed4eb0d1942b98a05c675909d065d5",
+              "record_sha256": "aab96a096b5e02e55eefbdb9dc0f678630c28be9c30bbcc6486f56c49f5ff30e",
               "correct": false,
               "finish": "stop",
               "tokens": 424,
@@ -2371,7 +2371,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "66dce37e0af209fee8012711a0f5ab4976181f34011298529fb1bb2fcc5db636",
+              "record_sha256": "f77b96b54f3dc4b896003bf2196ca9332e012e4839d6cd141a6f628e5f02106d",
               "correct": true,
               "finish": "stop",
               "tokens": 306,
@@ -2494,7 +2494,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "8a6d6ae69a71ad54da85312627450e682394145e83c0515cf6f3f963e0e86171",
+              "record_sha256": "5ebff56f603a1718e2dd9cf65fd541dfcd6193c5a902ff203d9357b027258a64",
               "correct": true,
               "finish": "stop",
               "tokens": 222,
@@ -2502,7 +2502,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "4d97714e28af03837bf53a2d609b7bc407cad8322df8fd329d4077fd867697e1",
+              "record_sha256": "fc6d86309b82e34a56ad1e55c92b28f7ede414c269701b95ddc5933e00ff3380",
               "correct": false,
               "finish": "length",
               "tokens": 32768,
@@ -2574,7 +2574,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "ecfa33f9c4e20cfa93f6d1feb455faf951c2f538bf7b9f521d05bc808c499bea",
+              "record_sha256": "3c7a3462ddcc309981bdf5a64f73b152f62fe4e72ca21b19d3c7c5ceb7b3e21a",
               "correct": false,
               "finish": "length",
               "tokens": 32768,
@@ -2697,7 +2697,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t2": {
-              "record_sha256": "e09a9680bd2a1f09221354b4ffffd43be96f1976cdd75523ce39d3a60f4a354c",
+              "record_sha256": "f82a1b95aa218e3e6549b40042143eaf6b1b3489502857f2db55a2db46833829",
               "correct": true,
               "finish": "stop",
               "tokens": 265,
@@ -2705,7 +2705,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t1": {
-              "record_sha256": "3e6d2349e19fa7e24967cf71f8ee9bd13a4b849fd14ef57d5663aa47e3786622",
+              "record_sha256": "8c579088679cb45c9775a64a59d1931e9fb515ae454b3342df9fcbbb3eb94745",
               "correct": false,
               "finish": "stop",
               "tokens": 437,
@@ -2777,7 +2777,7 @@
               "repetitive_tail": false
             },
             "discovery-broad-t3": {
-              "record_sha256": "b5826c6b01fc7e336c2362831633f9a0d34c57ab8a3d515cd85c68ad930931fa",
+              "record_sha256": "f174b65d91b85f48d1f684d6c9db61e27be052691972bcf0cefbf657b80c9c64",
               "correct": true,
               "finish": "stop",
               "tokens": 362,
@@ -2824,7 +2824,783 @@
       "status": "Comparison incomplete; not analyzed"
     },
     "27-abliterated": {
-      "status": "Comparison incomplete; not analyzed"
+      "status": "Completed comparison analyzed",
+      "arms": {
+        "baseline": {
+          "cases": 30,
+          "correct": 21,
+          "correct_with_natural_stop": 21,
+          "reply_limit_hits": 3,
+          "repetitive_tails": 1,
+          "total_generated_tokens": 167628,
+          "median_generated_tokens": 667.5,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "889dee57006c0d1ef71fcef47ef6183f04478ad450c1ef4904e52ec49ac04438",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 65,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "ac95921accd21928fca91aa9e8107f8625a066a22479538bfb94de882f79da0b",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1541,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "c17d7f495e731f485918b4a477782d848e3758d047da1f6a61f08e19a936140e",
+              "correct": false,
+              "finish": "length",
+              "tokens": 32768,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "8101aaf2cae9fad3241ad9c5682bd0511b9f2bfdb3038b71e0b6618ec3a146c7",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 5325,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "89c14d0d869d1e756c8c78be53a166d3ea9f1064b2788db115a4e89752467f1b",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 55,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "4af1fa729f31cb9c8abd8c725a53ae5d6b5a4fceb3166c1859bfe4801044151e",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 233,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "69c1fea75476ac7df2c9cc61b45a442f1ca080f0ddbc7281c7ffb6a2214c8c59",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 70,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "e09bf6ff66a23e80a5636ca03abd89d84444384d1d9f4249741d7c00242fb372",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 49,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "8a6300070b0146e02e838413c9c875304def13e5e34ec568b8b8da916f6db282",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 289,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "05cca4db8d82adebf200d8a65a7b09a4a1ab365599a4c6185fd7914234c80a63",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 478,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2007-II-14": {
+              "record_sha256": "285aaec0a1b93147d48e5dac9abc574346e0690824b70900492a76b06a477e7a",
+              "correct": false,
+              "finish": "length",
+              "tokens": 32768,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_4302": {
+              "record_sha256": "08425a9c80ef66e89dba62a47659e5c9979b8b1a5932ae058f3fa4d5ebce8529",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 380,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "40708d267051b239baf77766c0267b9814c5072142e1938200281af6bb811692",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 78,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "7cdba92a262321e50b3564e0efe61bf9e69977e3a02e7ee073ca7dc141044307",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 383,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "3a8c34186b3c0043017fdb757918231ffe4c83760c68638554ec646f4ff789d3",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 10703,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "9faf97ffcc356cfe929505fc3c6b6f11aed956f31917990419da5ccb4963f747",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 3320,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "821b466fa2d0774aa210190a3f1b82ee6e59863baf509a0bfb3a67b92c21f232",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2573,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "8b8c3eef3aff8f4bc4f5cda03be92148d935ece19eb7d77c51e4e631c4efe738",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 74,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2020-I-7": {
+              "record_sha256": "360fe8df35002c861c6be0e1b1a79fe494e67895f27d8770fd90f2a52cd4527b",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 5392,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "a87c8fc04635cee0edc2d04bf2198c9a5d16862d0c24e2b38f2d7fcbb9252bbc",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 451,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "math_train_geometry_449": {
+              "record_sha256": "0a0c1456e38ebf8ae501450d258c7fbae93b74340426fb84753e91bcb92b551f",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 22255,
+              "repeated_tail_fraction": 0.02030456852791878,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "0918db0a21b3c3b75eaa9ea0d0d7c5994e93619273604e9ef52d7e5f82892bf1",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2256,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "3719c02a7c2e685883555a5d541bd7dae6a88ce20a997d368aabe378c6ab2838",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 148,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "35a74cd79796d460afb27e04e019d81e9e0b754f29e852bf006c3f4690e2044e",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3738,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "837168c52896273e5877a7eb7c86728731e0ae39dbfd598dca709d7f6d6e1897",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 4880,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "447e1b713febf5c738983f9ad3ab407125f694576ef051d73514f7ea4323ca60",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 191,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "24ba01c9c1d5a3543fed06364833f85e3cdbc50107dab439c590693abcc6eed3",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 131,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "54fcb3991a6a5adbdc87bb2f1c2d6ce5fe3e72b868d9d9ad641b0011110d1f33",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 857,
+              "repeated_tail_fraction": 0.18274111675126903,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "7aa4f496b5d316b852ba13f1f27b8edd2125fe9e62bc38202962534990039df7",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3409,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "0751d0687ffb62b4bc257d24fa1355bb008bc3e9e761d2269a2d6ff7fed990e9",
+              "correct": false,
+              "finish": "length",
+              "tokens": 32768,
+              "repeated_tail_fraction": 0.9949238578680203,
+              "repetitive_tail": true
+            }
+          }
+        },
+        "candidate": {
+          "cases": 30,
+          "correct": 26,
+          "correct_with_natural_stop": 26,
+          "reply_limit_hits": 1,
+          "repetitive_tails": 0,
+          "total_generated_tokens": 158565,
+          "median_generated_tokens": 538.5,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "088cdff9b61cde43940f5081cf5db0ca2240dcfc29e1c86a432a6126128bd7ba",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 66,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "ec7fdee1ad3d9f381617186a89a4251e40daa407d9ae690c5a67e386a8b85be9",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2323,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "961ede7874bca1fe5ea64528b19c0857e7d764482d08214e495a7369a29c8886",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 32012,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "48a1e121ad3a002a71d9062881ca27c6c669cddd80a15b2a8a63a90930236961",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6317,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "d386e44545756143088b360bce32ba11711118581fcf8d9c60c7807cf7757d83",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 58,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "0bf08e57054e80afa4a2bed685296dc8f5cd718f39fd8c95f76f546bc347f577",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 233,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "42479403fdcd2070e687fa5c73a8b89f3d4602dd4920cc7f212fa73895880961",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 70,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "a092fcdb4b15158b27e18dcf472040f6c067e77afaec98c1a2f07e8aa6c65638",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 21,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "b819dfcdd0d1e0e7c4c7aa25b72035e2545e99519abdb6393a65153a8aea0cef",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 352,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "fd7a34d5463db3787c0ad97dfd67a3a32b41be13d9fa5372763cc5bc0a3384eb",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 446,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2007-II-14": {
+              "record_sha256": "eda1239b5353f20ff4f062219238ed6b7f9273445233ecb150600bf494ef39d8",
+              "correct": false,
+              "finish": "length",
+              "tokens": 32768,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_4302": {
+              "record_sha256": "a4cee67ebd9dd7ebf9c7893efae80eaf2c22303459d3036092f124eaa01daeee",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 326,
+              "repeated_tail_fraction": 0.017964071856287425,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "88eca1da5c526665b496b4dc624ae0aad9a381b7c1f5afa792f413c7a2c9b8cd",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 78,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "c7960aeb96b5b44f485cb6e664f22bcf65e2d28a10dc704f45d9d66b0739fd31",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 314,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "96f6a1a21c543cbef04f1c7fd1abe3f9431a30548d71f1a1806144e2f9333a09",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 12606,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "aa0055cae49426d8c73294c10cc928d2727fbe726ead65b81353a8c30211f98a",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 8470,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "44bc98e06e8992c38b7e0603c59c3c5abd1797efb881b86087cd16e69581a84f",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 4967,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "4057475a468db297193d56211aea8d11a06182089280661607aa7f64d6ef7458",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 74,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2020-I-7": {
+              "record_sha256": "4f7e3fdb77c759da40402cf87b875aaf8485761f8a945030f68afcd856a98ad8",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2011,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "f30629e7079bcb3de3fbfd7f68ec9a05cba78bbe2f261142b796628e8c1fd277",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 599,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "math_train_geometry_449": {
+              "record_sha256": "e83d62bb2e5c8fbe98e1fc86a4b483174b7b8a8bc9457187da18509596a817d1",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 20338,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "6dac1c32acff26450b081f32df21f84166d468166220424ee8f9346c1eacf600",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3415,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "fa68cb6dadea4eb5600a06136d498229dd911ed9331c80977c73d568d73fa1e4",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 74,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "e618c32bf351241c181860895200038fe83ae2b82e9aac69c5b9872d30d43450",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2690,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "10bdcff00a0c48527a28548b6a9536b836cbadfd37319bbdf137e0b132d03552",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 829,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "be753fbc0e00559ab0985bda91853cc1183dc0a745ef6b7439668ec0b4c13f0f",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 188,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "d416627348aca487390d7d0c01b66e8f9e45068ce10cc7b85a90c18d6e4ceaa6",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 131,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "3d763944404117edbce78efe081189f2fefa7256290dbbf3b03e12523a356fb3",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 478,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "6384008c2780f19f85178adf100d4cdf4438f9579b675b77e0381a21ae0bb1f6",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3999,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "64aed0df1ff08fa12a57c37f623ca7a5da90cbebed0ba9d57bbe9c3a5cc2b6eb",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 22312,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            }
+          }
+        },
+        "random": {
+          "cases": 30,
+          "correct": 25,
+          "correct_with_natural_stop": 25,
+          "reply_limit_hits": 0,
+          "repetitive_tails": 0,
+          "total_generated_tokens": 114469,
+          "median_generated_tokens": 857.5,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "f12f51c386b1ac5791d7c0af38516043d014248c0a778b4b2df7c39153db0a93",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 65,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "892659852e549de125e69e2d938d21c33aa8875e9685519a1218051da1abcad3",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 2359,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "843c991edd9760489c5a5ea4c6ec7e9efd74c260da5f2be2c794cf3782ec8d45",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 14290,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "d6f528972510eaee81597745aed76c5579028af7e47ebac14f5144e8a1deb634",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6318,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "36ed21861ff41f47df790d17a2535a3bf9e19be28ac4b71af9dfa4898e356b69",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 59,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "14033d718c4f70b531fc5a120cd92bf64fbab90177ba1bbae7928aff1b21677a",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 233,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "e0d680c71d583f2de7a4ddf7809bae639ccba15bd68967d4915f4190470fd74a",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 70,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "293e9b16de4c35e699b4a16b5cfdb19abbeb8e7146dc98d8527b0084100d41ab",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 49,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "fc7c0e7acd4b3c205b95a64013b71e831b5909ad95ba53169a21c67dfd3fdfff",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 244,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "dfb97ca1085c858ab43d283119f90abe9339877947bf3c401d465cd4c48f92a6",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 430,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2007-II-14": {
+              "record_sha256": "c009bfe2906aea14b025435911fa5514cb0613cfd91cb9f6e26d282129645e4d",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 25447,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_4302": {
+              "record_sha256": "549fb7faf6a60e0ea02af5441cbf31d083c4e7417c246d98f4b11af27fb4b278",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 362,
+              "repeated_tail_fraction": 0.016042780748663103,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "eee178d8a7d4753110d1ee41b1e3e010d48b7b783ec7e4c9693b918a1a501d1a",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 79,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "e7db24cd579064639bdc7be996b3a7f94bdf60e3a40c730bc319f4d6041f143b",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 212,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "ca6852b53e2add30f3ef92188397cdb46f82d0f0ca2148cbcab209c7c79eb7be",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8173,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "9a009ff4ab3533827e342c4dbbbae9b1a88fba02a9e6f37c9982683088018b84",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6427,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "1763098534c512e0edf5408460d1db6680773fa5d1c52c83df3c26d67e885bf4",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2649,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "158af19f395542f9c29af4de1ad10cc28ffcb14da4ea3a8bd6734350da2b1255",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 74,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2020-I-7": {
+              "record_sha256": "0843b9d9ed2a8359d5446214e1f1fb020829ab150f4a6a4013e3673267b29d23",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3651,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "7929d8c5936c31730644fd994e515a998c678436b675aa680aa54a9472b71b8e",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 1339,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "math_train_geometry_449": {
+              "record_sha256": "67150208a6546fcf589e3cf464e60e7f23a08c1e33056950452310a1e91e9022",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 23172,
+              "repeated_tail_fraction": 0.04568527918781726,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "5362104dbe80cff1f65cc989a26b7f7f027602df11a5d7eaedc87eebcbb32fea",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 5335,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "a4b100c04ca4f79e896e2688b61f8129b77fdd46f936c58c1c437947063e97a2",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 94,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "1cbe9e0728da6924dcda337166fa743f68f034d61a4e5c2a7fcd0e5abeb9d9e5",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3230,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "43dfa5bccc68e65f7fc6d338ee93f75c20605e12ce22f559fa2b86e2c310e856",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1106,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "ee31affddd8ba168d2e6496626d2c8810aaac2ae4af85d09134a5cf7772c93f6",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 198,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "4f6543425e7e78f62c8573372bddd66e4bc8c66384fffeb3b274fd58e1f479b2",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 131,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "53298d72835a016ff0aeda25219bc0e8d154cec8e69653763fccc7e60c556425",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 609,
+              "repeated_tail_fraction": 0.17258883248730963,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "2491a13658e02c8eb86930f01bab081461fb160923c076a023b0ba2dde136205",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2629,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "1cf6bd1f21ecfb63de250971761b058a782712dcefe616f92487999ffb9d366d",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 5435,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            }
+          }
+        }
+      },
+      "post_hoc_excluding_ambiguous_items": {
+        "excluded_ids": [
+          "gsm8k_train_1337"
+        ],
+        "frozen_grades_and_admission_unchanged": true,
+        "used_for_recipe_selection": false,
+        "arms": {
+          "baseline": {
+            "cases": 29,
+            "correct": 21
+          },
+          "candidate": {
+            "cases": 29,
+            "correct": 26
+          },
+          "random": {
+            "cases": 29,
+            "correct": 25
+          }
+        }
+      }
     }
   }
 }

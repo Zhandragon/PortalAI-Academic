@@ -1,0 +1,330 @@
+{
+  "reason": "The actual Qwen35 template emits XML-style function/parameter tool calls; the offline grader previously accepted only tagged JSON.",
+  "version": "qwen-tool-formats-v2",
+  "source_before_sha256": "421f1fb1780ea4d224a8fb820a3c3a0df9c9ab12ec7039114076225b28cf0861",
+  "source_after_sha256": {
+    "evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+    "tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7"
+  },
+  "regression_tests_before": "12 tests, 6 failures; includes native XML choices and malformed JSON handling.",
+  "D_E_tests": {
+    "D": {
+      "passed": true,
+      "tests": 31,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "E": {
+      "passed": true,
+      "tests": 31,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "observed_27_baseline_cases": [
+    {
+      "id": "discovery-broad-t1",
+      "original_record_sha256": "67762a9c8ac0e2c979966c7b2025714fec3f6fae0a90b19c6e2cb15a61d15374",
+      "generated_text_sha256": "eb5439d11bc30af0ddf55c7f0ba2bb27dcbbe05d23edde87c3288d7d353525c3",
+      "original_grade": {
+        "correct": false,
+        "reason": "Malformed tool call"
+      },
+      "corrected_grade": {
+        "correct": true,
+        "observed_calls": [
+          {
+            "name": "web_read",
+            "arguments": {
+              "url": "https://scholar.example/profile?id=123"
+            }
+          }
+        ],
+        "tools_executed": false,
+        "grader_version": "qwen-tool-formats-v2"
+      }
+    },
+    {
+      "id": "discovery-broad-t2",
+      "original_record_sha256": "b37a74d304d998dc66d91448c68598fa502f19ba7d70622a97fa59664e69cb07",
+      "generated_text_sha256": "668c26fff6d15e481cc786df13fb27cac3a926d3259eb053b60ef45a157d4dd8",
+      "original_grade": {
+        "correct": false,
+        "reason": "Malformed tool call"
+      },
+      "corrected_grade": {
+        "correct": true,
+        "observed_calls": [
+          {
+            "name": "read_file",
+            "arguments": {
+              "path": "project/src/search.py"
+            }
+          }
+        ],
+        "tools_executed": false,
+        "grader_version": "qwen-tool-formats-v2"
+      }
+    },
+    {
+      "id": "discovery-broad-t3",
+      "original_record_sha256": "d2976f3a33f8096766a593d71ff842dc9c521a8a0719af6eb2583c4f9c528742",
+      "generated_text_sha256": "6f815cff910ee0dd9cc3f3f7d998deee99e946f3775b744f666fbd27126d8f74",
+      "original_grade": {
+        "correct": false,
+        "reason": "Malformed tool call"
+      },
+      "corrected_grade": {
+        "correct": true,
+        "observed_calls": [
+          {
+            "name": "operation_status",
+            "arguments": {
+              "operation_id": "order-123"
+            }
+          }
+        ],
+        "tools_executed": false,
+        "grader_version": "qwen-tool-formats-v2"
+      }
+    }
+  ],
+  "smaller_comparisons": {
+    "1.7-standard": {
+      "counts": {
+        "baseline": 18,
+        "candidate": 18,
+        "random": 19
+      },
+      "unchanged": true,
+      "receipt_sha256": "4f3b363bbd6aa9b37e958d85ed1faa180a7412f6b061525f2db49880be029a64"
+    },
+    "1.7-abliterated": {
+      "counts": {
+        "baseline": 20,
+        "candidate": 18,
+        "random": 20
+      },
+      "unchanged": true,
+      "receipt_sha256": "ab2d669b450e32d526b73fc1168cd988f20e1220c946b21fe0206fd92a19b4e1"
+    },
+    "4-standard": {
+      "counts": {
+        "baseline": 22,
+        "candidate": 21,
+        "random": 23
+      },
+      "unchanged": true,
+      "receipt_sha256": "ffe231b1d95add74e4a5bc9679301d41d9cf1ddc52c5ccaac91c4f30c26baf16"
+    },
+    "4-abliterated": {
+      "counts": {
+        "baseline": 18,
+        "candidate": 13,
+        "random": 20
+      },
+      "unchanged": true,
+      "receipt_sha256": "93b0ece86f24f85a981271e6d15794e10c0632fb2da5a12b9fe502c13655e7da"
+    }
+  },
+  "generated_text_tokens_and_seeds_changed": false,
+  "frozen_cases_or_expected_choices_changed": false,
+  "tools_executed": false,
+  "live_chat_dispatch_changed": false,
+  "27_comparison_requires_rescore_after_all_generation_arms_finish": false,
+  "records_and_old_grades_retained": "Each completed model keeps a reviewed-grading-corrections/tool-formats-v2 archive and new accounted CPU ledger pass.",
+  "27_comparison_correction": {
+    "model": "27-abliterated",
+    "cases": 30,
+    "counts_before": {
+      "baseline": 18,
+      "candidate": 23,
+      "random": 22
+    },
+    "counts_after": {
+      "baseline": 21,
+      "candidate": 26,
+      "random": 25
+    },
+    "changed_correctness": [
+      {
+        "arm": "baseline",
+        "id": "discovery-broad-t2",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "baseline",
+        "id": "discovery-broad-t1",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "baseline",
+        "id": "discovery-broad-t3",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "candidate",
+        "id": "discovery-broad-t2",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "candidate",
+        "id": "discovery-broad-t1",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "candidate",
+        "id": "discovery-broad-t3",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "random",
+        "id": "discovery-broad-t2",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "random",
+        "id": "discovery-broad-t1",
+        "before": false,
+        "after": true
+      },
+      {
+        "arm": "random",
+        "id": "discovery-broad-t3",
+        "before": false,
+        "after": true
+      }
+    ],
+    "eligible_after": true,
+    "new_inference": false,
+    "tools_executed": false,
+    "applied": true,
+    "request": {
+      "reason": "Qwen35 native XML tool syntax was rejected by a JSON-only offline grader.",
+      "cases_sha256": "9cc09a0d896107ba8514babb4d87ed678dae4d7655cc741b8aad07a410d83a03",
+      "summary_before_sha256": "fce11bd32ecd0d91aeb3af4a516e4b1122042b841cd9fd0cd52391707a4c3afb",
+      "source_sha256": {
+        "evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+        "tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7"
+      },
+      "records_before": {
+        "004-generation-screen/baseline/12001b6adb3e9621aa78.json": "889dee57006c0d1ef71fcef47ef6183f04478ad450c1ef4904e52ec49ac04438",
+        "004-generation-screen/baseline/171a38f8097d37d2e955.json": "ac95921accd21928fca91aa9e8107f8625a066a22479538bfb94de882f79da0b",
+        "004-generation-screen/baseline/1d879a224df01d86f52d.json": "c17d7f495e731f485918b4a477782d848e3758d047da1f6a61f08e19a936140e",
+        "004-generation-screen/baseline/234b281267290a65bc8a.json": "8101aaf2cae9fad3241ad9c5682bd0511b9f2bfdb3038b71e0b6618ec3a146c7",
+        "004-generation-screen/baseline/275df1cee095a275cbe1.json": "89c14d0d869d1e756c8c78be53a166d3ea9f1064b2788db115a4e89752467f1b",
+        "004-generation-screen/baseline/33c013553478e9a94958.json": "4af1fa729f31cb9c8abd8c725a53ae5d6b5a4fceb3166c1859bfe4801044151e",
+        "004-generation-screen/baseline/3c087234ffb171fc981f.json": "69c1fea75476ac7df2c9cc61b45a442f1ca080f0ddbc7281c7ffb6a2214c8c59",
+        "004-generation-screen/baseline/55ff7f8e2ce19be0d929.json": "e09bf6ff66a23e80a5636ca03abd89d84444384d1d9f4249741d7c00242fb372",
+        "004-generation-screen/baseline/5fc3762348bea4dc26df.json": "8a6300070b0146e02e838413c9c875304def13e5e34ec568b8b8da916f6db282",
+        "004-generation-screen/baseline/65136274a23b100567f3.json": "05cca4db8d82adebf200d8a65a7b09a4a1ab365599a4c6185fd7914234c80a63",
+        "004-generation-screen/baseline/66eeff40f38cd95bfa4e.json": "285aaec0a1b93147d48e5dac9abc574346e0690824b70900492a76b06a477e7a",
+        "004-generation-screen/baseline/6c22eaa8b8b436432e8d.json": "08425a9c80ef66e89dba62a47659e5c9979b8b1a5932ae058f3fa4d5ebce8529",
+        "004-generation-screen/baseline/713ddaceea096e70a6a4.json": "b37a74d304d998dc66d91448c68598fa502f19ba7d70622a97fa59664e69cb07",
+        "004-generation-screen/baseline/74be3dc96eaba6c8238d.json": "67762a9c8ac0e2c979966c7b2025714fec3f6fae0a90b19c6e2cb15a61d15374",
+        "004-generation-screen/baseline/876c7c92d85af7086ee2.json": "3a8c34186b3c0043017fdb757918231ffe4c83760c68638554ec646f4ff789d3",
+        "004-generation-screen/baseline/8776c917eb96b0da5305.json": "9faf97ffcc356cfe929505fc3c6b6f11aed956f31917990419da5ccb4963f747",
+        "004-generation-screen/baseline/97fba339ad2b8d0be122.json": "821b466fa2d0774aa210190a3f1b82ee6e59863baf509a0bfb3a67b92c21f232",
+        "004-generation-screen/baseline/98c4670fb494e9e19a67.json": "8b8c3eef3aff8f4bc4f5cda03be92148d935ece19eb7d77c51e4e631c4efe738",
+        "004-generation-screen/baseline/a27336530330f9798783.json": "360fe8df35002c861c6be0e1b1a79fe494e67895f27d8770fd90f2a52cd4527b",
+        "004-generation-screen/baseline/a8d00fbdf72c1c0339f9.json": "a87c8fc04635cee0edc2d04bf2198c9a5d16862d0c24e2b38f2d7fcbb9252bbc",
+        "004-generation-screen/baseline/aa56572fc29d9df5c980.json": "0a0c1456e38ebf8ae501450d258c7fbae93b74340426fb84753e91bcb92b551f",
+        "004-generation-screen/baseline/c84f7cdd4322f8e4a3e9.json": "0918db0a21b3c3b75eaa9ea0d0d7c5994e93619273604e9ef52d7e5f82892bf1",
+        "004-generation-screen/baseline/c97b40a602f7fe625e60.json": "3719c02a7c2e685883555a5d541bd7dae6a88ce20a997d368aabe378c6ab2838",
+        "004-generation-screen/baseline/ceaedc6f278fcd720a13.json": "35a74cd79796d460afb27e04e019d81e9e0b754f29e852bf006c3f4690e2044e",
+        "004-generation-screen/baseline/db951035ee6685c0ca16.json": "837168c52896273e5877a7eb7c86728731e0ae39dbfd598dca709d7f6d6e1897",
+        "004-generation-screen/baseline/df56af4dc962d3bee6ff.json": "447e1b713febf5c738983f9ad3ab407125f694576ef051d73514f7ea4323ca60",
+        "004-generation-screen/baseline/e14426afea8c08eb7cfb.json": "d2976f3a33f8096766a593d71ff842dc9c521a8a0719af6eb2583c4f9c528742",
+        "004-generation-screen/baseline/ea922c9277d9c7b1a654.json": "54fcb3991a6a5adbdc87bb2f1c2d6ce5fe3e72b868d9d9ad641b0011110d1f33",
+        "004-generation-screen/baseline/f2b69629a06e25d81647.json": "7aa4f496b5d316b852ba13f1f27b8edd2125fe9e62bc38202962534990039df7",
+        "004-generation-screen/baseline/feda7734c396b2543993.json": "0751d0687ffb62b4bc257d24fa1355bb008bc3e9e761d2269a2d6ff7fed990e9",
+        "004-generation-screen/candidate/12001b6adb3e9621aa78.json": "088cdff9b61cde43940f5081cf5db0ca2240dcfc29e1c86a432a6126128bd7ba",
+        "004-generation-screen/candidate/171a38f8097d37d2e955.json": "ec7fdee1ad3d9f381617186a89a4251e40daa407d9ae690c5a67e386a8b85be9",
+        "004-generation-screen/candidate/1d879a224df01d86f52d.json": "961ede7874bca1fe5ea64528b19c0857e7d764482d08214e495a7369a29c8886",
+        "004-generation-screen/candidate/234b281267290a65bc8a.json": "48a1e121ad3a002a71d9062881ca27c6c669cddd80a15b2a8a63a90930236961",
+        "004-generation-screen/candidate/275df1cee095a275cbe1.json": "d386e44545756143088b360bce32ba11711118581fcf8d9c60c7807cf7757d83",
+        "004-generation-screen/candidate/33c013553478e9a94958.json": "0bf08e57054e80afa4a2bed685296dc8f5cd718f39fd8c95f76f546bc347f577",
+        "004-generation-screen/candidate/3c087234ffb171fc981f.json": "42479403fdcd2070e687fa5c73a8b89f3d4602dd4920cc7f212fa73895880961",
+        "004-generation-screen/candidate/55ff7f8e2ce19be0d929.json": "a092fcdb4b15158b27e18dcf472040f6c067e77afaec98c1a2f07e8aa6c65638",
+        "004-generation-screen/candidate/5fc3762348bea4dc26df.json": "b819dfcdd0d1e0e7c4c7aa25b72035e2545e99519abdb6393a65153a8aea0cef",
+        "004-generation-screen/candidate/65136274a23b100567f3.json": "fd7a34d5463db3787c0ad97dfd67a3a32b41be13d9fa5372763cc5bc0a3384eb",
+        "004-generation-screen/candidate/66eeff40f38cd95bfa4e.json": "eda1239b5353f20ff4f062219238ed6b7f9273445233ecb150600bf494ef39d8",
+        "004-generation-screen/candidate/6c22eaa8b8b436432e8d.json": "a4cee67ebd9dd7ebf9c7893efae80eaf2c22303459d3036092f124eaa01daeee",
+        "004-generation-screen/candidate/713ddaceea096e70a6a4.json": "5e1f4e4e6c405e55911cbce946c2713f66a8e4e10c46d6b55be93a894dadbcb9",
+        "004-generation-screen/candidate/74be3dc96eaba6c8238d.json": "7184e2a589c0f234de6736443bf3679dbc0928b9c90ebb1e5f74b117b3e20f5b",
+        "004-generation-screen/candidate/876c7c92d85af7086ee2.json": "96f6a1a21c543cbef04f1c7fd1abe3f9431a30548d71f1a1806144e2f9333a09",
+        "004-generation-screen/candidate/8776c917eb96b0da5305.json": "aa0055cae49426d8c73294c10cc928d2727fbe726ead65b81353a8c30211f98a",
+        "004-generation-screen/candidate/97fba339ad2b8d0be122.json": "44bc98e06e8992c38b7e0603c59c3c5abd1797efb881b86087cd16e69581a84f",
+        "004-generation-screen/candidate/98c4670fb494e9e19a67.json": "4057475a468db297193d56211aea8d11a06182089280661607aa7f64d6ef7458",
+        "004-generation-screen/candidate/a27336530330f9798783.json": "4f7e3fdb77c759da40402cf87b875aaf8485761f8a945030f68afcd856a98ad8",
+        "004-generation-screen/candidate/a8d00fbdf72c1c0339f9.json": "f30629e7079bcb3de3fbfd7f68ec9a05cba78bbe2f261142b796628e8c1fd277",
+        "004-generation-screen/candidate/aa56572fc29d9df5c980.json": "e83d62bb2e5c8fbe98e1fc86a4b483174b7b8a8bc9457187da18509596a817d1",
+        "004-generation-screen/candidate/c84f7cdd4322f8e4a3e9.json": "6dac1c32acff26450b081f32df21f84166d468166220424ee8f9346c1eacf600",
+        "004-generation-screen/candidate/c97b40a602f7fe625e60.json": "fa68cb6dadea4eb5600a06136d498229dd911ed9331c80977c73d568d73fa1e4",
+        "004-generation-screen/candidate/ceaedc6f278fcd720a13.json": "e618c32bf351241c181860895200038fe83ae2b82e9aac69c5b9872d30d43450",
+        "004-generation-screen/candidate/db951035ee6685c0ca16.json": "10bdcff00a0c48527a28548b6a9536b836cbadfd37319bbdf137e0b132d03552",
+        "004-generation-screen/candidate/df56af4dc962d3bee6ff.json": "be753fbc0e00559ab0985bda91853cc1183dc0a745ef6b7439668ec0b4c13f0f",
+        "004-generation-screen/candidate/e14426afea8c08eb7cfb.json": "75754e5c47e3e2e5b4db5d3625836d895859062fa8728a982e2d6ec56626b001",
+        "004-generation-screen/candidate/ea922c9277d9c7b1a654.json": "3d763944404117edbce78efe081189f2fefa7256290dbbf3b03e12523a356fb3",
+        "004-generation-screen/candidate/f2b69629a06e25d81647.json": "6384008c2780f19f85178adf100d4cdf4438f9579b675b77e0381a21ae0bb1f6",
+        "004-generation-screen/candidate/feda7734c396b2543993.json": "64aed0df1ff08fa12a57c37f623ca7a5da90cbebed0ba9d57bbe9c3a5cc2b6eb",
+        "004-generation-screen/random/12001b6adb3e9621aa78.json": "f12f51c386b1ac5791d7c0af38516043d014248c0a778b4b2df7c39153db0a93",
+        "004-generation-screen/random/171a38f8097d37d2e955.json": "892659852e549de125e69e2d938d21c33aa8875e9685519a1218051da1abcad3",
+        "004-generation-screen/random/1d879a224df01d86f52d.json": "843c991edd9760489c5a5ea4c6ec7e9efd74c260da5f2be2c794cf3782ec8d45",
+        "004-generation-screen/random/234b281267290a65bc8a.json": "d6f528972510eaee81597745aed76c5579028af7e47ebac14f5144e8a1deb634",
+        "004-generation-screen/random/275df1cee095a275cbe1.json": "36ed21861ff41f47df790d17a2535a3bf9e19be28ac4b71af9dfa4898e356b69",
+        "004-generation-screen/random/33c013553478e9a94958.json": "14033d718c4f70b531fc5a120cd92bf64fbab90177ba1bbae7928aff1b21677a",
+        "004-generation-screen/random/3c087234ffb171fc981f.json": "e0d680c71d583f2de7a4ddf7809bae639ccba15bd68967d4915f4190470fd74a",
+        "004-generation-screen/random/55ff7f8e2ce19be0d929.json": "293e9b16de4c35e699b4a16b5cfdb19abbeb8e7146dc98d8527b0084100d41ab",
+        "004-generation-screen/random/5fc3762348bea4dc26df.json": "fc7c0e7acd4b3c205b95a64013b71e831b5909ad95ba53169a21c67dfd3fdfff",
+        "004-generation-screen/random/65136274a23b100567f3.json": "dfb97ca1085c858ab43d283119f90abe9339877947bf3c401d465cd4c48f92a6",
+        "004-generation-screen/random/66eeff40f38cd95bfa4e.json": "c009bfe2906aea14b025435911fa5514cb0613cfd91cb9f6e26d282129645e4d",
+        "004-generation-screen/random/6c22eaa8b8b436432e8d.json": "549fb7faf6a60e0ea02af5441cbf31d083c4e7417c246d98f4b11af27fb4b278",
+        "004-generation-screen/random/713ddaceea096e70a6a4.json": "cb55e08bac97e236fa6dd85bd233b6b1b437e3f9af77a0395d3d2b7a747f399f",
+        "004-generation-screen/random/74be3dc96eaba6c8238d.json": "69bd8efa4c3aba63c4794918c21b6a4a0851ac9aa27319eb7e504bc3f3cfc012",
+        "004-generation-screen/random/876c7c92d85af7086ee2.json": "ca6852b53e2add30f3ef92188397cdb46f82d0f0ca2148cbcab209c7c79eb7be",
+        "004-generation-screen/random/8776c917eb96b0da5305.json": "9a009ff4ab3533827e342c4dbbbae9b1a88fba02a9e6f37c9982683088018b84",
+        "004-generation-screen/random/97fba339ad2b8d0be122.json": "1763098534c512e0edf5408460d1db6680773fa5d1c52c83df3c26d67e885bf4",
+        "004-generation-screen/random/98c4670fb494e9e19a67.json": "158af19f395542f9c29af4de1ad10cc28ffcb14da4ea3a8bd6734350da2b1255",
+        "004-generation-screen/random/a27336530330f9798783.json": "0843b9d9ed2a8359d5446214e1f1fb020829ab150f4a6a4013e3673267b29d23",
+        "004-generation-screen/random/a8d00fbdf72c1c0339f9.json": "7929d8c5936c31730644fd994e515a998c678436b675aa680aa54a9472b71b8e",
+        "004-generation-screen/random/aa56572fc29d9df5c980.json": "67150208a6546fcf589e3cf464e60e7f23a08c1e33056950452310a1e91e9022",
+        "004-generation-screen/random/c84f7cdd4322f8e4a3e9.json": "5362104dbe80cff1f65cc989a26b7f7f027602df11a5d7eaedc87eebcbb32fea",
+        "004-generation-screen/random/c97b40a602f7fe625e60.json": "a4b100c04ca4f79e896e2688b61f8129b77fdd46f936c58c1c437947063e97a2",
+        "004-generation-screen/random/ceaedc6f278fcd720a13.json": "1cbe9e0728da6924dcda337166fa743f68f034d61a4e5c2a7fcd0e5abeb9d9e5",
+        "004-generation-screen/random/db951035ee6685c0ca16.json": "43dfa5bccc68e65f7fc6d338ee93f75c20605e12ce22f559fa2b86e2c310e856",
+        "004-generation-screen/random/df56af4dc962d3bee6ff.json": "ee31affddd8ba168d2e6496626d2c8810aaac2ae4af85d09134a5cf7772c93f6",
+        "004-generation-screen/random/e14426afea8c08eb7cfb.json": "4648b1ede17f81b35983f4eef66c4a1ff92883dd49498a9d478cdd447ce6db58",
+        "004-generation-screen/random/ea922c9277d9c7b1a654.json": "53298d72835a016ff0aeda25219bc0e8d154cec8e69653763fccc7e60c556425",
+        "004-generation-screen/random/f2b69629a06e25d81647.json": "2491a13658e02c8eb86930f01bab081461fb160923c076a023b0ba2dde136205",
+        "004-generation-screen/random/feda7734c396b2543993.json": "1cf6bd1f21ecfb63de250971761b058a782712dcefe616f92487999ffb9d366d"
+      },
+      "same_frozen_cases_and_outputs": true,
+      "new_inference": false
+    },
+    "summary_after_sha256": "798e01fb564cc3e3427e3d468b314196cc733ca3162227f27cb86b9e48b076ac",
+    "corrected_record_hashes": {
+      "004-generation-screen/baseline/713ddaceea096e70a6a4.json": "40708d267051b239baf77766c0267b9814c5072142e1938200281af6bb811692",
+      "004-generation-screen/baseline/74be3dc96eaba6c8238d.json": "7cdba92a262321e50b3564e0efe61bf9e69977e3a02e7ee073ca7dc141044307",
+      "004-generation-screen/baseline/e14426afea8c08eb7cfb.json": "24ba01c9c1d5a3543fed06364833f85e3cdbc50107dab439c590693abcc6eed3",
+      "004-generation-screen/candidate/713ddaceea096e70a6a4.json": "88eca1da5c526665b496b4dc624ae0aad9a381b7c1f5afa792f413c7a2c9b8cd",
+      "004-generation-screen/candidate/74be3dc96eaba6c8238d.json": "c7960aeb96b5b44f485cb6e664f22bcf65e2d28a10dc704f45d9d66b0739fd31",
+      "004-generation-screen/candidate/e14426afea8c08eb7cfb.json": "d416627348aca487390d7d0c01b66e8f9e45068ce10cc7b85a90c18d6e4ceaa6",
+      "004-generation-screen/random/713ddaceea096e70a6a4.json": "eee178d8a7d4753110d1ee41b1e3e010d48b7b783ec7e4c9693b918a1a501d1a",
+      "004-generation-screen/random/74be3dc96eaba6c8238d.json": "e7db24cd579064639bdc7be996b3a7f94bdf60e3a40c730bc319f4d6041f143b",
+      "004-generation-screen/random/e14426afea8c08eb7cfb.json": "4f6543425e7e78f62c8573372bddd66e4bc8c66384fffeb3b274fd58e1f479b2"
+    },
+    "original_grades_and_ledger_retained": true,
+    "generation_content_unchanged": true,
+    "non_tool_record_hashes_unchanged": true
+  }
+}

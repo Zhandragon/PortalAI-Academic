@@ -1,0 +1,9 @@
+{
+  "files": {
+    "verify_27b_profile_roundtrip.py": "e3b737eecaee392a35b9a72af3a2b4d00bb1c4dbda0adf8acfd1f539f1ce35eb",
+    "27-abliterated-D.json": "f3e2492d4a681cb23f395f1c5aead5d7fdd79d585920cd44b39dd0a0a699d813",
+    "27-abliterated-E.json": "30bc5c9093272de119e0ee2b05ca6a4a7cee260bdda8fe8279d111c233c7af81",
+    "README.md": "8ba89949cd965a1bcc9db11ecbf161a2bf8b1be828ab11bc6e5480b3322c4911"
+  },
+  "source": "Exact local validation script and receipts; originals retained."
+}

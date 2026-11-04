@@ -1,0 +1,45 @@
+{
+  "before_sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+  "native_forward_sha256": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+  "scope": "GGUF metadata main decoder count only; total minus NextN/MTP",
+  "all_code_from_render_onward_byte_identical": true,
+  "generation_sampling_and_prompt_rendering_unchanged": true,
+  "natural_discovery_records_reused_unchanged": true,
+  "probe": {
+    "passed": true,
+    "model_sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+    "native_forward_sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+    "record_sha256": "f639e78bc804b54dc0c0e74ebfd6dce280aa2c26b5d659af232412f59a9572a5",
+    "declared_blocks": 65,
+    "nextn_predict_layers": 1,
+    "main_decoder_layers": 64,
+    "old_capture_missing": [
+      "answer/ffn_swiglu-64",
+      "answer/l_out-64",
+      "prompt/ffn_swiglu-64",
+      "prompt/l_out-64"
+    ],
+    "corrected_capture_entries": 256,
+    "answer_tokens_replayed_per_probe": 64,
+    "prompt_capture_count_per_site": 1,
+    "answer_capture_count_per_site": 64,
+    "context": 34816,
+    "batch": 128,
+    "weights_modified": false,
+    "original_hash_verified_after": true,
+    "seconds": 18.98399999999674
+  },
+  "backups": [
+    {
+      "source": "D:\\PortalAI Windows\\Tools\\WeightSpace\\native_forward.py",
+      "backup": "D:\\Backups\\PortalAI-Weight-MTP-r69\\before\\D\\Tools\\WeightSpace\\native_forward.py",
+      "sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777"
+    },
+    {
+      "source": "E:\\PortalAI Windows\\Tools\\WeightSpace\\native_forward.py",
+      "backup": "D:\\Backups\\PortalAI-Weight-MTP-r69\\before\\E\\Tools\\WeightSpace\\native_forward.py",
+      "sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777"
+    }
+  ],
+  "original_models_modified": false
+}
