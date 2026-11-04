@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "scope": "Six installed GGUFs: standard and abliterated Qwen 1.7B Q8_0, 4B Q4_K_M and 27B Q4_K_M. No downloaded substitute weights.",
+  "models": {
+    "1.7-standard": {
+      "filename": "Qwen3-1.7B-Q8_0.gguf",
+      "architecture": "qwen3",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 0.0
+      }
+    },
+    "1.7-abliterated": {
+      "filename": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+      "architecture": "qwen3",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 0.0
+      }
+    },
+    "4-standard": {
+      "filename": "Qwen3-4B-Q4_K_M.gguf",
+      "architecture": "qwen3",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 0.0
+      }
+    },
+    "4-abliterated": {
+      "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+      "architecture": "qwen3",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 0.0
+      }
+    },
+    "27-standard": {
+      "filename": "Qwen3.8-27B-Q4_K_M.gguf",
+      "architecture": "qwen35",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 1.5
+      }
+    },
+    "27-abliterated": {
+      "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "architecture": "qwen35",
+      "sampling": {
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "top_k": 20,
+        "max_tokens": 32768,
+        "thinking": true,
+        "presence_penalty": 1.5
+      }
+    }
+  },
+  "method": "Natural failures -> internal activation localization -> causal dose and site controls -> direct sparse weight subtraction -> native requantized evaluation -> frozen candidate -> unseen paired confirmation -> separate broad final evaluation.",
+  "budgets": {
+    "forward_passes_per_model": 50,
+    "cpu_editor_runs_per_model": 300,
+    "generation_samples_per_pass": 512,
+    "paired_samples_per_arm": 256,
+    "teacher_forced_texts": 1024,
+    "teacher_forced_tokens": 524288,
+    "generation_activation_tokens": 8192,
+    "activation_output_bytes": 6442450944
+  },
+  "storage_floor_bytes": 85899345920,
+  "max_working_candidate_copies": 1,
+  "forbidden": [
+    "gradient descent",
+    "autograd",
+    "optimizer",
+    "updating embeddings/final norm/output head",
+    "uniform whole-matrix scaling",
+    "selecting an edit using final benchmark outcomes"
+  ],
+  "acceptance": {
+    "confirmation_unique_problems": 1152,
+    "paired_95pct_lower_bound_must_exceed": 0,
+    "minimum_broad_gain": 0,
+    "max_domain_accuracy_regression": 0.02,
+    "max_latency_regression_ratio": 1.15,
+    "all_failures_and_cutoffs_reported": true,
+    "no_promotion_on_missing_tests": true
+  },
+  "deviations": [
+    "Actual quantized llama.cpp execution replaces original BF16 vLLM. Quantization perturbations measured explicitly.",
+    "This Codex session is the editor, not a claimed separate Astra run.",
+    "Exact original seed derivation and full agent harness were not released. Stable per-item seeds are pinned here.",
+    "Reference 0.8B experiment is out of scope and not retained."
+  ]
+}

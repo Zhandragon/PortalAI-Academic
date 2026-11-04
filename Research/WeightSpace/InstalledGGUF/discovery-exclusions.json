@@ -1,0 +1,21 @@
+{
+  "excluded_ids": [
+    "math_train_counting_and_probability_331",
+    "math_train_counting_and_probability_388",
+    "math_train_geometry_491",
+    "math_train_geometry_533",
+    "math_train_number_theory_577",
+    "math_train_number_theory_587",
+    "math_train_number_theory_640",
+    "aime_1986-13",
+    "aime_1987-11",
+    "aime_1987-14",
+    "aime_2003-I-8",
+    "aime_2006-I-6",
+    "aime_2006-II-14",
+    "aime_2012-I-14"
+  ],
+  "reason": "Exact normalized question duplicate of frozen confirmation item",
+  "initial_discovery_overlap": [],
+  "unique_confirmation_questions": 1152
+}

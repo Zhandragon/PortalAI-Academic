@@ -1,0 +1,953 @@
+{
+  "updated_at_utc": "2026-11-04T07:55:14Z",
+  "models": {
+    "1.7-standard": {
+      "filename": "Qwen3-1.7B-Q8_0.gguf",
+      "status": "discovery screen complete",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 28,
+          "correct": 18
+        },
+        "candidate": {
+          "count": 28,
+          "correct": 18
+        },
+        "random": {
+          "count": 28,
+          "correct": 19
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "002-localization",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "003-reference-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "004-zero-dose",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "005-candidate-site-1-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "006-candidate-site-1-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "007-candidate-site-1-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "008-candidate-site-1-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "009-candidate-site-1-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "010-candidate-site-1-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "011-candidate-site-1-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "012-candidate-site-2-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "013-candidate-site-2-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "014-candidate-site-2-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "015-candidate-site-2-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "016-candidate-site-2-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "017-candidate-site-2-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "018-candidate-site-2-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "019-candidate-site-3-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "020-candidate-site-3-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "021-candidate-site-3-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "022-candidate-site-3-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "023-candidate-site-3-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "024-candidate-site-3-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "025-candidate-site-3-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-candidate",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-candidate",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-random",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-random",
+          "phase": "discovery",
+          "status": "complete"
+        }
+      ],
+      "discovery": {
+        "paired": {
+          "n": 28,
+          "baseline_correct": 18,
+          "candidate_correct": 18,
+          "gain": 0.0,
+          "rescues": 3,
+          "regressions": 3,
+          "paired_standard_error": 0.0890870806374748,
+          "lower_95": -0.1746106780494506,
+          "upper_95": 0.1746106780494506
+        },
+        "random_control": {
+          "n": 28,
+          "baseline_correct": 18,
+          "candidate_correct": 19,
+          "gain": 0.03571428571428571,
+          "rescues": 2,
+          "regressions": 1,
+          "paired_standard_error": 0.06261799142087103,
+          "lower_95": -0.08701697747062151,
+          "upper_95": 0.15844554889919293
+        },
+        "domains": {
+          "coding": {
+            "n": 3,
+            "baseline_correct": 2,
+            "candidate_correct": 3,
+            "gain": 0.3333333333333333,
+            "rescues": 1,
+            "regressions": 0,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.3200000000000001,
+            "upper_95": 0.9866666666666668
+          },
+          "instruction": {
+            "n": 4,
+            "baseline_correct": 3,
+            "candidate_correct": 3,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "math": {
+            "n": 15,
+            "baseline_correct": 9,
+            "candidate_correct": 10,
+            "gain": 0.06666666666666667,
+            "rescues": 2,
+            "regressions": 1,
+            "paired_standard_error": 0.11818736805705578,
+            "lower_95": -0.16498057472516264,
+            "upper_95": 0.298313908058496
+          },
+          "reasoning": {
+            "n": 3,
+            "baseline_correct": 2,
+            "candidate_correct": 1,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          },
+          "tool_use": {
+            "n": 3,
+            "baseline_correct": 2,
+            "candidate_correct": 1,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          }
+        },
+        "eligible_for_independent_confirmation": false,
+        "latency_ratio": 0.7730465170104438,
+        "model_receipts": {
+          "candidate": {
+            "format_version": 1,
+            "base_model": "Qwen3-1.7B-Q8_0.gguf",
+            "base_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "candidate_sha256": "12affbfb7bcb9e1e527fa5d5a7e30c98ab91e8a040a3de220ee829188db6f9fd",
+            "candidate_bytes": 1834426016,
+            "recipe_sha256": "9d2f5a3ef37c6cdce362c903263d8014b11988d11f29ce9f07166c21aa764a97",
+            "sites": [
+              {
+                "tensor": "blk.15.ffn_down.weight",
+                "quantization": "Q8_0",
+                "selected_columns": [
+                  106,
+                  174,
+                  364,
+                  483,
+                  577,
+                  613,
+                  975,
+                  1043,
+                  1081,
+                  1242,
+                  1342,
+                  1513,
+                  1628,
+                  1679,
+                  1709,
+                  1759,
+                  1790,
+                  2150,
+                  2215,
+                  2232,
+                  2387,
+                  2388,
+                  2507,
+                  2517,
+                  2710,
+                  2777,
+                  2845,
+                  2997,
+                  3042,
+                  3045,
+                  3098,
+                  3274,
+                  3367,
+                  3418,
+                  3450,
+                  3466,
+                  3510,
+                  3557,
+                  3572,
+                  3621,
+                  3767,
+                  3848,
+                  3913,
+                  4167,
+                  4187,
+                  4356,
+                  4427,
+                  4675,
+                  4750,
+                  4876,
+                  4893,
+                  4964,
+                  5051,
+                  5076,
+                  5196,
+                  5221,
+                  5287,
+                  5315,
+                  5426,
+                  5501,
+                  5564,
+                  5579,
+                  5695,
+                  5989
+                ],
+                "changed_bytes": 226707,
+                "intended_relative_delta": 0.04972707318618968,
+                "actual_relative_delta": 0.04973444565102082,
+                "quantization_error_norm": 0.093887891308468,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          },
+          "random": {
+            "format_version": 1,
+            "base_model": "Qwen3-1.7B-Q8_0.gguf",
+            "base_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "candidate_sha256": "10c6f04275db4d79ce14c17d137afdfc8dde9489314585e49b6def6b5d8e73d2",
+            "candidate_bytes": 1834426016,
+            "recipe_sha256": "be9aa0ec4675b8b4abe04069a1c67b8869f36a8436770d95effd03b7f9cb6df9",
+            "sites": [
+              {
+                "tensor": "blk.15.ffn_down.weight",
+                "quantization": "Q8_0",
+                "selected_columns": [
+                  106,
+                  174,
+                  364,
+                  483,
+                  577,
+                  613,
+                  975,
+                  1043,
+                  1081,
+                  1242,
+                  1342,
+                  1513,
+                  1628,
+                  1679,
+                  1709,
+                  1759,
+                  1790,
+                  2150,
+                  2215,
+                  2232,
+                  2387,
+                  2388,
+                  2507,
+                  2517,
+                  2710,
+                  2777,
+                  2845,
+                  2997,
+                  3042,
+                  3045,
+                  3098,
+                  3274,
+                  3367,
+                  3418,
+                  3450,
+                  3466,
+                  3510,
+                  3557,
+                  3572,
+                  3621,
+                  3767,
+                  3848,
+                  3913,
+                  4167,
+                  4187,
+                  4356,
+                  4427,
+                  4675,
+                  4750,
+                  4876,
+                  4893,
+                  4964,
+                  5051,
+                  5076,
+                  5196,
+                  5221,
+                  5287,
+                  5315,
+                  5426,
+                  5501,
+                  5564,
+                  5579,
+                  5695,
+                  5989
+                ],
+                "changed_bytes": 238191,
+                "intended_relative_delta": 0.04972707207521879,
+                "actual_relative_delta": 0.049733340123138944,
+                "quantization_error_norm": 0.09436364794052512,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          }
+        },
+        "status": "Tested hypothesis did not pass the discovery screen. No production replacement.",
+        "production_model_changed": false
+      },
+      "interpretation": "18/28 original and edited; 3 rescues and 3 regressions. Random control 19/28. Not a general improvement. The reasoning-label regression includes extra explanation despite a correct IMPOSSIBLE conclusion; strict formatting failure is not necessarily a reasoning error."
+    },
+    "1.7-abliterated": {
+      "filename": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+      "status": "discovery screen complete",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 28,
+          "correct": 20
+        },
+        "candidate": {
+          "count": 28,
+          "correct": 18
+        },
+        "random": {
+          "count": 28,
+          "correct": 20
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "002-localization",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "003-reference-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "004-zero-dose",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "005-candidate-site-1-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "006-candidate-site-1-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "007-candidate-site-1-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "008-candidate-site-1-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "009-candidate-site-1-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "010-candidate-site-1-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "011-candidate-site-1-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "012-candidate-site-2-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "013-candidate-site-2-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "014-candidate-site-2-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "015-candidate-site-2-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "016-candidate-site-2-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "017-candidate-site-2-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "018-candidate-site-2-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "019-candidate-site-3-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "020-candidate-site-3-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "021-candidate-site-3-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "022-candidate-site-3-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "023-candidate-site-3-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "024-candidate-site-3-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "025-candidate-site-3-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-candidate",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-candidate",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-random",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-random",
+          "phase": "discovery",
+          "status": "interrupted"
+        },
+        {
+          "id": "gen-screen-random-resume-1",
+          "phase": "discovery",
+          "status": "complete"
+        }
+      ],
+      "discovery": {
+        "paired": {
+          "n": 28,
+          "baseline_correct": 20,
+          "candidate_correct": 18,
+          "gain": -0.07142857142857142,
+          "rescues": 1,
+          "regressions": 3,
+          "paired_standard_error": 0.07142857142857144,
+          "lower_95": -0.21142857142857144,
+          "upper_95": 0.06857142857142859
+        },
+        "random_control": {
+          "n": 28,
+          "baseline_correct": 20,
+          "candidate_correct": 20,
+          "gain": 0.0,
+          "rescues": 1,
+          "regressions": 1,
+          "paired_standard_error": 0.05143444998736397,
+          "lower_95": -0.10081152197523338,
+          "upper_95": 0.10081152197523338
+        },
+        "domains": {
+          "coding": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          },
+          "instruction": {
+            "n": 4,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.25,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.25,
+            "lower_95": -0.74,
+            "upper_95": 0.24
+          },
+          "math": {
+            "n": 15,
+            "baseline_correct": 9,
+            "candidate_correct": 10,
+            "gain": 0.06666666666666667,
+            "rescues": 1,
+            "regressions": 0,
+            "paired_standard_error": 0.06666666666666667,
+            "lower_95": -0.06399999999999999,
+            "upper_95": 0.1973333333333333
+          },
+          "reasoning": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          },
+          "tool_use": {
+            "n": 3,
+            "baseline_correct": 2,
+            "candidate_correct": 2,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          }
+        },
+        "eligible_for_independent_confirmation": false,
+        "latency_ratio": 1.112740704174739,
+        "latency_caveat": "Discovery timings may overlap CPU packaging; no final speed claim.",
+        "model_receipts": {
+          "candidate": {
+            "format_version": 1,
+            "base_model": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+            "base_sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "candidate_sha256": "75a36aa38de49a84fde8f7a2f86eada62c9f8d1ae72a292e181ead3e95b535f0",
+            "candidate_bytes": 1834426496,
+            "recipe_sha256": "0a1ba7c3e1b72e774166bc1bb9551cd1938f13e4e782d54b00ee57a900be8050",
+            "sites": [
+              {
+                "tensor": "blk.15.ffn_down.weight",
+                "quantization": "Q8_0",
+                "selected_columns": [
+                  106,
+                  174,
+                  195,
+                  355,
+                  364,
+                  441,
+                  451,
+                  483,
+                  503,
+                  577,
+                  712,
+                  847,
+                  1043,
+                  1081,
+                  1130,
+                  1242,
+                  1342,
+                  1573,
+                  1709,
+                  1782,
+                  1879,
+                  1937,
+                  2070,
+                  2150,
+                  2215,
+                  2232,
+                  2298,
+                  2388,
+                  2473,
+                  2710,
+                  2777,
+                  2816,
+                  2845,
+                  3042,
+                  3095,
+                  3098,
+                  3274,
+                  3418,
+                  3510,
+                  3557,
+                  3572,
+                  3621,
+                  3767,
+                  3821,
+                  3848,
+                  4167,
+                  4187,
+                  4236,
+                  4314,
+                  4374,
+                  4544,
+                  4690,
+                  4750,
+                  4876,
+                  4964,
+                  5051,
+                  5194,
+                  5196,
+                  5221,
+                  5287,
+                  5315,
+                  5464,
+                  5579,
+                  5695
+                ],
+                "changed_bytes": 241278,
+                "intended_scalar_positions": 131072,
+                "actual_changed_dequantized_values": 259107,
+                "intended_relative_delta": 0.04482200093640121,
+                "actual_relative_delta": 0.04483059500993834,
+                "quantization_error_norm": 0.0954373394524994,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 1720574976,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          },
+          "random": {
+            "format_version": 1,
+            "base_model": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+            "base_sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "candidate_sha256": "01475120674c1773ac7414a137cf66e3be6faa307cdbe8eca4a456bafac0d9d5",
+            "candidate_bytes": 1834426496,
+            "recipe_sha256": "3f549c889a9cb7dbb7178db632d7844bda11342cec44caa561da4e6f678d38a8",
+            "sites": [
+              {
+                "tensor": "blk.15.ffn_down.weight",
+                "quantization": "Q8_0",
+                "selected_columns": [
+                  106,
+                  174,
+                  195,
+                  355,
+                  364,
+                  441,
+                  451,
+                  483,
+                  503,
+                  577,
+                  712,
+                  847,
+                  1043,
+                  1081,
+                  1130,
+                  1242,
+                  1342,
+                  1573,
+                  1709,
+                  1782,
+                  1879,
+                  1937,
+                  2070,
+                  2150,
+                  2215,
+                  2232,
+                  2298,
+                  2388,
+                  2473,
+                  2710,
+                  2777,
+                  2816,
+                  2845,
+                  3042,
+                  3095,
+                  3098,
+                  3274,
+                  3418,
+                  3510,
+                  3557,
+                  3572,
+                  3621,
+                  3767,
+                  3821,
+                  3848,
+                  4167,
+                  4187,
+                  4236,
+                  4314,
+                  4374,
+                  4544,
+                  4690,
+                  4750,
+                  4876,
+                  4964,
+                  5051,
+                  5194,
+                  5196,
+                  5221,
+                  5287,
+                  5315,
+                  5464,
+                  5579,
+                  5695
+                ],
+                "changed_bytes": 248305,
+                "intended_scalar_positions": 131072,
+                "actual_changed_dequantized_values": 266008,
+                "intended_relative_delta": 0.044822002514300574,
+                "actual_relative_delta": 0.044830219147393935,
+                "quantization_error_norm": 0.09653943692985242,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 1720574976,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          }
+        },
+        "resumed_from_user_pause": true,
+        "resumed_pass_id": "gen-screen-random-resume-1",
+        "production_model_changed": false,
+        "status": "Tested hypothesis did not pass discovery. Original retained."
+      },
+      "optional_profile": {
+        "id": "c26dc82cd0ddea0984809cf9",
+        "label": "1.7-abliterated discovery experiment",
+        "base_name": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+        "base_sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+        "candidate_sha256": "75a36aa38de49a84fde8f7a2f86eada62c9f8d1ae72a292e181ead3e95b535f0",
+        "model_bytes": 1834426496,
+        "patch_bytes": 25783015,
+        "validation": "experimental",
+        "automatic_retry_eligible": false,
+        "original_modified": false
+      }
+    },
+    "4-standard": {
+      "filename": "Qwen3-4B-Q4_K_M.gguf",
+      "status": "in progress",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ]
+    },
+    "4-abliterated": {
+      "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+      "status": "not started",
+      "production_original_replaced": false
+    },
+    "27-standard": {
+      "filename": "Qwen3.8-27B-Q4_K_M.gguf",
+      "status": "not started",
+      "production_original_replaced": false
+    },
+    "27-abliterated": {
+      "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "status": "not started",
+      "production_original_replaced": false
+    }
+  },
+  "production_model_replacements": 0,
+  "discovery_screens_complete": false,
+  "campaign_complete": false,
+  "scope": "One natural-outcome-derived hypothesis per model, with site/dose comparisons. Completed discovery is not confirmation or general intelligence certification.",
+  "caveats": [
+    "Outcome groups are not paired by topic/difficulty; their contrast is confounded and does not establish a causal looping direction.",
+    "Reference-loss improvements select hypotheses only; actual quantized task accuracy can regress.",
+    "Native quantization and sampling differ from BF16/vLLM; this is a method adaptation.",
+    "Discovery timing can overlap CPU release work; no final speed improvement is claimed.",
+    "Candidate and norm-matched random controls are compared on the same frozen cases and seeds.",
+    "Final benchmark execution is conditional on independent confirmation. Missing final evidence prevents a replacement claim."
+  ]
+}

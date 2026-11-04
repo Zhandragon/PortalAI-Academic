@@ -1,0 +1,95 @@
+# Installed-GGUF weight-space campaign
+
+This is the current natural-failure campaign, separate from the older synthetic
+pilot in the parent directory. It uses only PortalAI's installed standard and
+abliterated 1.7B Q8, 4B Q4 and 27B Q4 files. The deployed original files remain
+unchanged. See [RESULTS.json](RESULTS.json) for dated progress and honest limits.
+
+## Method and boundaries
+
+1. Collect natural completions from 24 frozen practice problems, at the pinned
+   32,768-token reply budget. If fewer than four successes or failures occur,
+   gather a further 32 preselected discovery problems. No synthetic bad reasoning.
+2. Replay actual prompt/completion tokens through the native quantized graph.
+   Compare successful/unsuccessful activation means and rank internal MLP sites.
+   These groups are not matched by topic or difficulty: localization is a
+   hypothesis generator, not proof that a direction specifically causes loops.
+3. Select sparse 64-column MLP down-projection subtraction. Compare three sites,
+   zero-dose equivalence, five doses and norm-matched orthogonal random controls.
+   Diagnostic reference loss is measured on worked solutions where available,
+   otherwise on answer-only text; it is not task accuracy.
+4. Serialize the selected edit directly into a separate GGUF, requantizing only
+   affected blocks. Compare real original, edited and random-control generations
+   on selected natural cases plus frozen coding, tool and instruction checks.
+   Tool calls are inspected and never executed. Original files are never edited.
+5. A candidate must improve over both original and random control without a
+   discovery-domain regression to reach 1,152 unique, unseen paired confirmation
+   problems. Recipe and data hashes freeze before opening confirmation data.
+6. Only positive independent evidence can reach separate broad final benchmarks
+   and the latency gate. No new model is promoted on a missing or failed check.
+
+The [protocol](protocol.json) records limits and acceptance criteria. The
+[code actually used by the editor](../../../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/)
+contains native activation capture, direct quantized subtraction, accounting,
+grading, storage admission and owned workers. This campaign selects one
+hypothesis per model; it does not exhaust the permitted search budget.
+
+The reference is [Takehi et al.](https://rikiyat.github.io/blog/weight-space-programming/)
+and [their pinned experiment source](https://github.com/RikiyaT/lm_understand-logs/tree/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math).
+This run uses Codex as editor and actual quantized llama.cpp execution, rather
+than claiming identical Astra/BF16/vLLM execution or copying 0.8B edit vectors.
+It does not download unrelated model weights. Original unreleased seeds cannot
+be reproduced; stable per-item seeds are explicit in the native source.
+
+## Reproduction
+
+Install the r65 Windows utility and its existing portable runtime. Copy this
+folder to `PortalAI Windows/Maintenance/Research/Takehi-PortalAI-20261103` in a
+fresh workspace; never overlay a live experiment. The scripts deliberately
+derive the installed portable root from that location. Use BootstrapPython.
+The native probe currently requires the pinned Windows x64 NVIDIA runtime;
+this is not evidence of Radeon or other-platform benchmark execution.
+
+`prepare_practice.py --download` fetches only the three checksum-pinned public
+practice files. Alternatively use `--source-directory` with those existing
+files. Both paths reconstruct exactly the recorded practice bytes. Frozen
+splits and duplicate exclusions ship here; final benchmark questions are not
+inputs to direction, site or dose selection. `practice-sources.json` records
+upstream identity, sizes, checksums and canonical serialization.
+
+For each model ID in protocol.json, run `discovery.py --model ID`, then
+`causal_screen.py --model ID`, then `generation_screen.py --model ID`, using
+`Tools/WeightSpace/run_owned.py` with absolute script/log paths. The start gate,
+shared GPU lease and Windows job are mandatory; the worker will not run by
+direct invocation. Review each stage before starting conditional confirmation.
+Use `confirm_candidate.py --model ID` only after discovery eligibility.
+
+`run_remaining.py` and `resume_generation.py` are continuation tools for the
+recorded campaign. They require its saved case hashes/checkpoint and must not
+be used to invent missing evidence in a fresh run. The resume path skips
+completed cases, starts an interrupted inference from its original seed,
+records another accounted pass, and refuses automatic removal of a user pause.
+
+## Reversible profiles and storage
+
+The evaluated candidate can be exported to an exact compressed `.wsedit`
+profile. Keep the original; prepare a derived copy only when wanted. Choose
+the profile or Original weights under Settings > Chat models. A different
+model/variant retains its own original. Switching requires a model reload and
+never replays a completed or uncertain tool effect.
+
+The first profile is about 25 MB; the prepared GGUF still occupies the full
+model size. At most two prepared copies are retained, with replacement
+verification before eviction and an 80 GiB reserve even during staging.
+Current profiles are experimental, not automatic upgrades. A rescued task
+does not justify calling an edit broadly more intelligent.
+
+## Separate final evaluation
+
+The pinned manifest lists MATH-500, GSM8K, AMC23, Minerva, OlympiadBench,
+MMLU-Pro, IFEval and an explicitly restricted MBPP adaptation. GPQA-Diamond
+is gated and has not been downloaded; no complete Takehi benchmark claim is
+made. Final execution and additional task fixtures remain pending unless a
+candidate qualifies. Do not infer final benchmark scores from downloaded data
+or from discovery. Full raw results are retained on the research SSD; this
+folder publishes code, provenance and compact summaries without full weights.

@@ -1,0 +1,28 @@
+{
+  "repository": "RikiyaT/lm_understand-logs",
+  "commit": "4d09ba6d6a7e891dd8063974dfe81b3d78e3494f",
+  "sources": [
+    {
+      "name": "gsm8k_train.jsonl",
+      "bytes": 4554666,
+      "sha256": "06d0dd560a908c2c2883bfb7d27ab55a87b213ff0d625f5cd734836aeac9a3e5",
+      "url": "https://raw.githubusercontent.com/RikiyaT/lm_understand-logs/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math/practice/gsm8k_train.jsonl"
+    },
+    {
+      "name": "math_train.jsonl",
+      "bytes": 6775229,
+      "sha256": "abe7982b4d8c98394fe185fb152568a2c784a4157a75fe42b9c01857e71f0c6e",
+      "url": "https://raw.githubusercontent.com/RikiyaT/lm_understand-logs/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math/practice/math_train.jsonl"
+    },
+    {
+      "name": "aime.jsonl",
+      "bytes": 286731,
+      "sha256": "9f6f26b89e65c7123e6106a9dce51137783eb339547f974f2ab1413165122f56",
+      "url": "https://raw.githubusercontent.com/RikiyaT/lm_understand-logs/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math/practice/aime.jsonl"
+    }
+  ],
+  "combined_sha256": "a58dbb8bdd7dd0716d4efe0cbfa50932aa032f467785cc09c0f251ee3425f358",
+  "combined_bytes": 11632084,
+  "combined_newline": "\r\n",
+  "scope": "Practice questions only; no model download or final benchmark generation."
+}

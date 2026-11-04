@@ -1,0 +1,114 @@
+{
+  "datasets": {
+    "MATH-500": {
+      "repo": "HuggingFaceH4/MATH-500",
+      "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be",
+      "file": "test.jsonl",
+      "sha256": "35dc41080a3680858b27fa7e0533d2d547825316fc5dafe5d316f4ccc5a06132",
+      "samples_per_case": 4
+    },
+    "GSM8K": {
+      "repo": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "file": "main/test-00000-of-00001.parquet",
+      "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+      "samples_per_case": 2
+    },
+    "MBPP": {
+      "repo": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "file": "sanitized/test-00000-of-00001.parquet",
+      "sha256": "e9e9efa2c0d59ef5e55537a9d126b8f875d5ac010a8d75628d76824884e15850"
+    },
+    "IFEval": {
+      "repo": "google/IFEval",
+      "revision": "966cd89545d6b6acfd7638bc708b98261ca58e84",
+      "file": "ifeval_input_data.jsonl",
+      "sha256": "6a85310ca8ce15eff755aa08a3a4ff931c7e273e7515ebb3c492ea85fd8288f2",
+      "samples_per_case": 2
+    },
+    "AMC23": {
+      "repo": "math-ai/amc23",
+      "revision": "80815d37005feb82cd7f8fbc6901d5d3eff43057",
+      "file": "test-00000-of-00001.parquet",
+      "sha256": "b696e87ba47be4e879a60fd4ef1d4aa522ba78c5ae013c6aff5cc9788a397c5e",
+      "converted_file": "converted.json",
+      "converted_sha256": "d06b42a6c7f81262ac8214e432fa6506803859495144f9093390701f3a88a272",
+      "rows": 40,
+      "samples_per_case": 16
+    },
+    "Minerva": {
+      "repo": "math-ai/minervamath",
+      "revision": "ee46ddc498933b1977577953250ca5c66be64f96",
+      "file": "test.jsonl",
+      "sha256": "e04ec2bc1d8f80a0091b4b1989f1ffb366f3583f5bae381546a066d4ccc26e3d",
+      "converted_file": "test.jsonl",
+      "converted_sha256": "e04ec2bc1d8f80a0091b4b1989f1ffb366f3583f5bae381546a066d4ccc26e3d",
+      "rows": 272,
+      "samples_per_case": 4
+    },
+    "OlympiadBench": {
+      "repo": "math-ai/olympiadbench",
+      "revision": "4faaf1e6ec17d11a4218a9bf4c049ecaf954dd84",
+      "file": "test.parquet",
+      "sha256": "0d6dd8ef573dab3510ada86d2e050e7efe30768b27f3b92609753947462a85b6",
+      "converted_file": "converted.json",
+      "converted_sha256": "99914347a4b1221c9913680c933bac8e54bb0e4f1316010cecbac21b502c4627",
+      "rows": 674,
+      "samples_per_case": 4
+    },
+    "MMLU-Pro": {
+      "repo": "TIGER-Lab/MMLU-Pro",
+      "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+      "file": "data/test-00000-of-00001.parquet",
+      "sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+      "converted_file": "converted.json",
+      "converted_sha256": "39659946ed1aa6ce0d800fc2cc698e59541bae3147306c29097391655de4e7d2",
+      "rows": 12032,
+      "samples_per_case": 1
+    }
+  },
+  "evaluator": {
+    "repo": "google-research/google-research",
+    "commit": "83f1e7b59e762648c953de751d31f75720683622",
+    "files": [
+      {
+        "path": "instructions.py",
+        "sha256": "60e086f5342a03ce8e18b64bbcccf86308f523c08aa826707a562150a52f3edf",
+        "bytes": 55162,
+        "url": "https://raw.githubusercontent.com/google-research/google-research/83f1e7b59e762648c953de751d31f75720683622/instruction_following_eval/instructions.py"
+      },
+      {
+        "path": "instructions_registry.py",
+        "sha256": "ec92d72c264f6d906978613085db262356174300370a3fffe6fefd5969ce9cfc",
+        "bytes": 7240,
+        "url": "https://raw.githubusercontent.com/google-research/google-research/83f1e7b59e762648c953de751d31f75720683622/instruction_following_eval/instructions_registry.py"
+      },
+      {
+        "path": "instructions_util.py",
+        "sha256": "a73797261eee5bf447e279d82a2b700b1bdd3cb1193412dbab1270a85832bc6b",
+        "bytes": 19538,
+        "url": "https://raw.githubusercontent.com/google-research/google-research/83f1e7b59e762648c953de751d31f75720683622/instruction_following_eval/instructions_util.py"
+      },
+      {
+        "path": "evaluation_lib.py",
+        "sha256": "35decc06000718487f44d7deafa6d3f48a8ec0886281edf40162c0265b7d248c",
+        "bytes": 6984,
+        "url": "https://raw.githubusercontent.com/google-research/google-research/83f1e7b59e762648c953de751d31f75720683622/instruction_following_eval/evaluation_lib.py"
+      },
+      {
+        "path": "requirements.txt",
+        "sha256": "1b1716c9ac21b9cc2bd0d7354ed8f7b6982ccf35598529601a7c08508acec94a",
+        "bytes": 35,
+        "url": "https://raw.githubusercontent.com/google-research/google-research/83f1e7b59e762648c953de751d31f75720683622/instruction_following_eval/requirements.txt"
+      }
+    ]
+  },
+  "selection_rule": "Final benchmark questions and generations are excluded from direction/site/dose selection. Freeze candidate and edit hashes first. MBPP restricted pure-function subset is reported separately, not as full MBPP.",
+  "sampling": "Same pinned per-model settings as discovery; paired stable item seeds.",
+  "promotion_requires": "Independent 1152-problem paired confirmation plus broad domain evidence and latency gate; no replacement on missing or failed validation.",
+  "missing_benchmarks": {
+    "GPQA-Diamond": "Gated source; no authorized download obtained. A full Takehi benchmark claim requires it."
+  },
+  "mmlu_protocol": "Use a fixed seed to select 1,000 questions; publish the selection and prompt protocol before evaluation. Original paper exact selection/editor environment unavailable."
+}

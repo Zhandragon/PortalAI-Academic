@@ -1,10 +1,12 @@
 # Weight-space experiment: reasoning, coding, math and tools
 
-## Current quantized campaign (r64)
+## Current quantized campaign and reversible profiles (r65)
 
 **In progress; no new production weights accepted.** The r64 campaign uses only PortalAI's six actual installed GGUFs, natural practice failures, internal activation measurements, causal site/dose controls, directly serialized quantized subtraction, and independent confirmation before any deployment. The older pilot results below are historical and must not be read as results of this new campaign. Unrelated reference/BF16 downloads from the abandoned detour were removed; they are not required by the utility.
 
 The [portable editing utility and exact source map](../../Documentation/WEIGHT-SPACE-r64.md) are shipped independently of whether an experimental model wins. It opens from PortalAI's Utilities panel and never silently replaces production weights. The current campaign is a native quantized adaptation, not a bit-identical reproduction of the authors' BF16/Astra/vLLM environment. Do not infer overall intelligence gains from preliminary rescued cases.
+
+The current [campaign source, protocol, data pins and results](InstalledGGUF/README.md) are individually available. The [r65 reversible-profile guide](../../Documentation/WEIGHT-PROFILES-r65.md) explains prepare/select/revert, storage costs and experimental status.
 
 ## Historical pilot results
 

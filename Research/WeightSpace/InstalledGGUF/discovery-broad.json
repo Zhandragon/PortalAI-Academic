@@ -1,0 +1,582 @@
+[
+  {
+    "id": "discovery-broad-m1",
+    "prompt": "A price rises 20% and then falls 20%. It started at 150 dollars. What is the final price? Put your final answer in \\boxed{}.",
+    "domain": "math",
+    "kind": "math",
+    "answer": "144"
+  },
+  {
+    "id": "discovery-broad-m2",
+    "prompt": "Find the smallest positive integer n such that n is 2 modulo 3, 3 modulo 5, and 2 modulo 7. Put your final answer in \\boxed{}.",
+    "domain": "math",
+    "kind": "math",
+    "answer": "23"
+  },
+  {
+    "id": "discovery-broad-m3",
+    "prompt": "How many integers from 1 to 120 inclusive are divisible by 3 or 5 but not both? Put your final answer in \\boxed{}.",
+    "domain": "math",
+    "kind": "math",
+    "answer": "48"
+  },
+  {
+    "id": "discovery-broad-c1",
+    "prompt": "Write Python solve(xs): return a new list with duplicates removed, preserving first occurrence order. xs is a list of integers. Return only a Python code block. No imports.",
+    "domain": "coding",
+    "kind": "coding",
+    "checks": [
+      [
+        [
+          [
+            3,
+            1,
+            3,
+            2,
+            1
+          ]
+        ],
+        [
+          3,
+          1,
+          2
+        ]
+      ],
+      [
+        [
+          []
+        ],
+        []
+      ],
+      [
+        [
+          [
+            0,
+            -1,
+            0
+          ]
+        ],
+        [
+          0,
+          -1
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "discovery-broad-c2",
+    "prompt": "Write Python solve(intervals): merge overlapping closed integer intervals, including touching endpoints. Return sorted lists [start,end]; do not mutate the input. Return only code. No imports.",
+    "domain": "coding",
+    "kind": "coding",
+    "checks": [
+      [
+        [
+          [
+            [
+              5,
+              7
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            7
+          ]
+        ]
+      ],
+      [
+        [
+          []
+        ],
+        []
+      ],
+      [
+        [
+          [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        [
+          [
+            1,
+            10
+          ]
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "discovery-broad-c3",
+    "prompt": "Write Python solve(xs, target): return [i,j] with distinct indices i<j and xs[i]+xs[j]==target, or None. Tests have at most one matching pair. Return only code. No imports.",
+    "domain": "coding",
+    "kind": "coding",
+    "checks": [
+      [
+        [
+          [
+            3,
+            3
+          ],
+          6
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        [
+          [
+            1,
+            4,
+            8
+          ],
+          12
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      [
+        [
+          [],
+          1
+        ],
+        null
+      ],
+      [
+        [
+          [
+            1,
+            2
+          ],
+          6
+        ],
+        null
+      ]
+    ]
+  },
+  {
+    "id": "discovery-broad-t1",
+    "prompt": "Find a real photo of Alex Example. Observed GitHub page links to https://scholar.example/profile?id=123 . Its https://avatars.githubusercontent.com/u/123?s=64 avatar was already inspected and confirmed a default geometric identicon. Choose the next tool call.",
+    "domain": "tool_use",
+    "kind": "tool",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "web_read",
+          "description": "Read an exact observed public URL.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "web_download",
+          "description": "Download an observed image URL. Use purpose=person_photo for a real portrait.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "purpose"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "read_file",
+          "description": "Read a file before editing it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "operation_status",
+          "description": "Check an uncertain operation outcome without repeating it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "operation_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operation_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "calculator",
+          "description": "Evaluate an arithmetic expression.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "expression": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    ],
+    "calls": [
+      {
+        "name": "web_read",
+        "arguments": {
+          "url": "https://scholar.example/profile?id=123"
+        }
+      }
+    ]
+  },
+  {
+    "id": "discovery-broad-t2",
+    "prompt": "Fix the off-by-one bug in project/src/search.py. No file contents have been read yet. Choose the next tool call.",
+    "domain": "tool_use",
+    "kind": "tool",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "web_read",
+          "description": "Read an exact observed public URL.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "web_download",
+          "description": "Download an observed image URL. Use purpose=person_photo for a real portrait.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "purpose"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "read_file",
+          "description": "Read a file before editing it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "operation_status",
+          "description": "Check an uncertain operation outcome without repeating it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "operation_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operation_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "calculator",
+          "description": "Evaluate an arithmetic expression.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "expression": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    ],
+    "calls": [
+      {
+        "name": "read_file",
+        "arguments": {
+          "path": "project/src/search.py"
+        }
+      }
+    ]
+  },
+  {
+    "id": "discovery-broad-t3",
+    "prompt": "The previous purchase tool for operation order-123 timed out after submission. Its effect is unknown. Do not make a second purchase. Choose the next tool call.",
+    "domain": "tool_use",
+    "kind": "tool",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "web_read",
+          "description": "Read an exact observed public URL.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "web_download",
+          "description": "Download an observed image URL. Use purpose=person_photo for a real portrait.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "purpose"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "read_file",
+          "description": "Read a file before editing it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "operation_status",
+          "description": "Check an uncertain operation outcome without repeating it.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "operation_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operation_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "calculator",
+          "description": "Evaluate an arithmetic expression.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "expression": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    ],
+    "calls": [
+      {
+        "name": "operation_status",
+        "arguments": {
+          "operation_id": "order-123"
+        }
+      }
+    ]
+  },
+  {
+    "id": "discovery-broad-r1",
+    "prompt": "Three tasks each take one hour, must run sequentially, and must all finish in two hours. No task can be shortened or skipped. Is this possible?  Return only the correct label, with no explanation: IMPOSSIBLE or POSSIBLE.",
+    "domain": "reasoning",
+    "kind": "exact",
+    "answer": "IMPOSSIBLE"
+  },
+  {
+    "id": "discovery-broad-r2",
+    "prompt": "A says B is lying. B says both A and B are lying. Each person is either consistently truthful or consistently lying. Who is truthful?  Return only the correct label, with no explanation: A, B, or NEITHER.",
+    "domain": "reasoning",
+    "kind": "exact",
+    "answer": "A"
+  },
+  {
+    "id": "discovery-broad-r3",
+    "prompt": "A two-digit number is greater than 50, less than 70, divisible by 9 and even. Find it. Put your final answer in \\boxed{}.",
+    "domain": "reasoning",
+    "kind": "math",
+    "answer": "54"
+  },
+  {
+    "id": "discovery-instruction-0",
+    "kind": "json",
+    "domain": "instruction",
+    "prompt": "Return only JSON with keys name and count. Set name to PortalAI and count to the number of letters in NICE.",
+    "answer": {
+      "name": "PortalAI",
+      "count": 4
+    }
+  },
+  {
+    "id": "discovery-instruction-1",
+    "kind": "exact",
+    "domain": "instruction",
+    "prompt": "Return exactly three lines: Ready on line one, Set on line two, Go on line three. No punctuation.",
+    "answer": "Ready\nSet\nGo"
+  },
+  {
+    "id": "discovery-instruction-2",
+    "kind": "json",
+    "domain": "instruction",
+    "prompt": "Sort the numbers 9, 2, 6, 2 ascending. Return only a JSON array.",
+    "answer": [
+      2,
+      2,
+      6,
+      9
+    ]
+  },
+  {
+    "id": "discovery-instruction-3",
+    "kind": "exact",
+    "domain": "instruction",
+    "prompt": "Respond with exactly this sentence and nothing else: I will verify the result before declaring success.",
+    "answer": "I will verify the result before declaring success."
+  }
+]
