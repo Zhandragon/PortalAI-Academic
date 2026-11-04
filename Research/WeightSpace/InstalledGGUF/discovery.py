@@ -13,13 +13,10 @@ import research_guard
 research_guard.LAB=LAB
 
 def score(text,gold):
-    source=ENGINE/'published/mathqa.py'
-    request={'source':str(source),'sha256':sha(source),'text':text,'gold':gold}
-    try:
-        result=subprocess.run([sys.executable,'-B','-I',str(ENGINE/'math_grade.py')],input=json.dumps(request),capture_output=True,text=True,timeout=15,creationflags=subprocess.CREATE_NO_WINDOW)
-        if result.returncode:raise RuntimeError(result.stderr[-1000:])
-        return json.loads(result.stdout)
-    except subprocess.TimeoutExpired:return {'correct':False,'grading_error':'15-second external grading deadline exceeded'}
+    # Use the same pinned, owned grader as the actual candidate comparisons.
+    # A math-grader timeout is missing evidence, not a natural model failure.
+    from evaluation import grade
+    return grade({'kind':'math','answer':gold},text)
 
 def loop_signals(text):
     words=text.lower().split();tail=words[-200:];counts={}

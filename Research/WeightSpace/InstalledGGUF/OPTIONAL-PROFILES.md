@@ -2,11 +2,11 @@
 
 These are manually selectable tradeoffs, not accepted general upgrades. No original model is replaced or automatically deselected.
 
-| Model | Original | Edited | Optional download |
-|---|---:|---:|---|
-| 1.7-standard | 18/28 | 18/28 | [Profile ZIP](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Experimental-Edit-1.7-standard-r65.zip) - [SHA-256](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Experimental-Edit-1.7-standard-r65.zip.sha256) |
+| Model | Original correct | Edited correct | Reply limit reached: original / edit | Optional download |
+|---|---:|---:|---:|---|
+| 1.7-standard | 18/28 | 18/28 | 1 / 0 | [Profile ZIP](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Experimental-Edit-1.7-standard-r65.zip) - [SHA-256](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Experimental-Edit-1.7-standard-r65.zip.sha256) |
 
-The scores are from small discovery sets, not independent confirmation or broad intelligence certification. Each ZIP includes the domain tradeoffs, exact original/edited checksums, model license and revert instructions.
+The scores are from small discovery sets, not independent confirmation or broad intelligence certification. Reply-limit counts use the research budget of 32,768 generated tokens; they show unfinished generations, not a direct measure of everyday request speed or a proof that every long response loops. Each ZIP includes the domain tradeoffs, exact original/edited checksums, model license and revert instructions.
 
 Extract a chosen ZIP into **PortalAI Windows**, merging its LLM and Documentation folders. In Controls > Utilities > Weight-Space Editor, select the matching original model and profile, then **Prepare selected**. Choose it under Settings > Chat models > Weight edit profile and Save. Select **Original weights** and Save to revert on the next request.
 

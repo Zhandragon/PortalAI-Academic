@@ -44,6 +44,16 @@
     "bounded_infinite_program_seconds": 0.31300000000192085,
     "gpu_loaded": false
   },
+  "discovery_grader_failure_validation": {
+    "passed": true,
+    "real_correct_answer": true,
+    "real_incorrect_answer": true,
+    "timeout_propagated": true,
+    "worker_cleanup_failure_propagated": true,
+    "recorded_discovery_cases_without_prior_grading_error": 128,
+    "completed_scores_rewritten": false,
+    "GPU_used": false
+  },
   "quantized_feasibility_validation": {
     "passed": true,
     "checks": [
@@ -63,7 +73,7 @@
   },
   "production_weight_replacements": 0,
   "installed_source_files": {
-    "discovery.py": "7ae73bbde7bfd9c7f8097bcca45b0b31c73a86d086b118cd53c77c9d560b4eec",
+    "discovery.py": "a99e3a7c395171fd01912c5d0000658f740aecaa83e6c3a98b79550a403a5dd7",
     "extend_discovery.py": "9fcc5ac78422cc9448f47408f26eb075d6c96c488fec652359134baedae6fd42",
     "causal_screen.py": "a3eaf6ddba4efd1449f32b7465a7e177ce7e0ed5501d463294d79499727687c7",
     "generation_screen.py": "543c66d350747c1be93e31a17b5e5dbff4addd0449f889704049c23e1cbba7c2",
@@ -83,7 +93,7 @@
     "discovery-exclusions.json": "57041ab4853b6df22d5df9746ab4967a0a5b57041971a580ed34daa444c25599"
   },
   "published_files": {
-    "discovery.py": "7ae73bbde7bfd9c7f8097bcca45b0b31c73a86d086b118cd53c77c9d560b4eec",
+    "discovery.py": "a99e3a7c395171fd01912c5d0000658f740aecaa83e6c3a98b79550a403a5dd7",
     "extend_discovery.py": "9fcc5ac78422cc9448f47408f26eb075d6c96c488fec652359134baedae6fd42",
     "causal_screen.py": "a3eaf6ddba4efd1449f32b7465a7e177ce7e0ed5501d463294d79499727687c7",
     "generation_screen.py": "543c66d350747c1be93e31a17b5e5dbff4addd0449f889704049c23e1cbba7c2",

@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T09:55:34Z",
+  "updated_at_utc": "2026-11-04T10:07:52Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -8,15 +8,24 @@
       "completed_case_counts": {
         "baseline": {
           "count": 28,
-          "correct": 18
+          "correct": 18,
+          "reply_budget_exhaustions": 1,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 175706
         },
         "candidate": {
           "count": 28,
-          "correct": 18
+          "correct": 18,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 136709
         },
         "random": {
           "count": 28,
-          "correct": 19
+          "correct": 19,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 159317
         }
       },
       "accounted_passes": [
@@ -443,15 +452,24 @@
       "completed_case_counts": {
         "baseline": {
           "count": 28,
-          "correct": 20
+          "correct": 20,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 157019
         },
         "candidate": {
           "count": 28,
-          "correct": 18
+          "correct": 18,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 170014
         },
         "random": {
           "count": 28,
-          "correct": 20
+          "correct": 20,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 28,
+          "generated_tokens": 132775
         }
       },
       "accounted_passes": [
@@ -903,15 +921,24 @@
       "completed_case_counts": {
         "baseline": {
           "count": 30,
-          "correct": 22
+          "correct": 22,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 30,
+          "generated_tokens": 173730
         },
         "candidate": {
           "count": 0,
-          "correct": 0
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
         },
         "random": {
           "count": 0,
-          "correct": 0
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
         }
       },
       "accounted_passes": [
@@ -1179,15 +1206,24 @@
       "completed_case_counts": {
         "baseline": {
           "count": 24,
-          "correct": 18
+          "correct": 18,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 24,
+          "generated_tokens": 116952
         },
         "candidate": {
-          "count": 18,
-          "correct": 11
+          "count": 24,
+          "correct": 13,
+          "reply_budget_exhaustions": 9,
+          "finish_reason_recorded": 24,
+          "generated_tokens": 407702
         },
         "random": {
           "count": 0,
-          "correct": 0
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
         }
       },
       "accounted_passes": [
@@ -1334,9 +1370,31 @@
         {
           "id": "gen-screen-candidate",
           "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-random",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-random",
+          "phase": "discovery",
           "status": "running"
         }
-      ]
+      ],
+      "optional_profile": {
+        "id": "83bd39368829ddd8da6e6573",
+        "label": "4-abliterated discovery experiment",
+        "base_name": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+        "base_sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+        "candidate_sha256": "d965ca4b42dce751c467ccdb0e1453c41f59fb416774390b6385db223024f64d",
+        "model_bytes": 2497280704,
+        "patch_bytes": 40837748,
+        "validation": "experimental",
+        "automatic_retry_eligible": false,
+        "original_modified": false
+      }
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",
