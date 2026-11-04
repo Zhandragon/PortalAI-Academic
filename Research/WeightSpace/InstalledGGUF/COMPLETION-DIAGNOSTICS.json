@@ -1428,7 +1428,783 @@
       }
     },
     "4-standard": {
-      "status": "Comparison incomplete; not analyzed"
+      "status": "Completed comparison analyzed",
+      "arms": {
+        "baseline": {
+          "cases": 30,
+          "correct": 22,
+          "correct_with_natural_stop": 22,
+          "reply_limit_hits": 0,
+          "repetitive_tails": 0,
+          "total_generated_tokens": 173730,
+          "median_generated_tokens": 2738.5,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "3f05a74e9139978074298d61fae7d1ca3a0a16937032816990ef2084870ea7ad",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1733,
+              "repeated_tail_fraction": 0.116751269035533,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "d3bd4f1e3bc9f7cf745c9f4671a7d4421b30fd5bab9a941b385f4c464acc4896",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8204,
+              "repeated_tail_fraction": 0.116751269035533,
+              "repetitive_tail": false
+            },
+            "math_train_precalculus_441": {
+              "record_sha256": "3611c34ba6293f16354e6c1948c6bdd9ca454778ab3bfe1e345f9f2b77e46c3f",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 15512,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "e429f5cfbaab7ebe8f8798a5ed3e978dc0c23e73fd441456f05f33d94954fef1",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 9435,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "1b367d5cbcd8573bf278d2574f2f5a77fd93f64af41d591fde256413ddefda07",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 7128,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "83e5f7ca8ad55d30725795da0a748302d2695f0759e166ef9bd6b4638e236fb0",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 130,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "e70a73bdae93af13390ad8feef361e05d83f5f0585831be9cdd263e04fb0e0ee",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2854,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "d376d785709f3eb1f5d1bbf92c3a116a15f9c2dbe46d7bf1cc3e31aefcf384b1",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 242,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "ea9d15516c92a89ff2be57e5b3f7c8702b5e47aecc586d50d5b792bcbbbb05e1",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 93,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "e849f4ecd5f727b59321a5d7904a7686a831065055aec1ca9697973c0353a243",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1113,
+              "repeated_tail_fraction": 0.09137055837563451,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "197df8bb68264bcbbeb3350353e2fbf7a9533adbb407b29a8158abdd73c1ff74",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2845,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "34f7aaf73b47530e209f9fdbe577f8714998c15952f49d87b19f0a16fc17eb23",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 209,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "c134b3ee2d8cb446d648df9db4e64d2384dd42fe907cc573b466490874b0369c",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 638,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2003-II-6": {
+              "record_sha256": "0c0e20ccb2d6b7d6b7781aca79ce0d08eeb540150f8ac5968573f01756287a14",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 16060,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "5a7bd339c791bbac9c5c0740a1aee59e76db2db110af23d2020b3bc037cf4afa",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 13465,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "22b98536dd94fddec021b75a5fcb613c7fd2bebf003e112e379a4fd4ae07546d",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2632,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "471250ad10085d36b4ee9aedcffaa216b18812b8b0c05aca23f5bb0f8008c702",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8187,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "e9c38a66ae01fb58fb541f38c1ca061f6bb6bcb82a6be0e6bd47689eca316266",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 490,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "math_train_counting_and_probability_527": {
+              "record_sha256": "d280b486c409996c2350ef3bbaa73efd1016a8ad3b091610e2d49b5aaa5648ac",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 6378,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "8ca694b9bdd1df48f7f8513b488f4ce68e820ca060b0238788a40ba997b4451c",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 1747,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "b62c1c5c2c3d978c14e5e4c6eb86cea2b81973702177523be48e16e87bd78889",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6466,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "415d247a7519b5390c409df415bc3310cb9d900dde0725aab6295415e6d7f33c",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1656,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "32c4d7d97ba89826bc08f672dfc09772ee2057aa486cd688283eee6e633a9bb7",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 7500,
+              "repeated_tail_fraction": 0.08121827411167512,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "d0fc13dfed5d1af529ea7fab9eb89f3653275e30bb8beaa544d3a0660ff5dc5f",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 654,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "31404cb315772f8e98cf9a785b0c19717004686f10f15f8cf6c112888186dd34",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 749,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "a43516b7298b89fb341396b6d9f51d9e19d240203c94c685d03ad94c44bd0b94",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 275,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "073e42c4077cdd0965f4634c3090a80171d29d4b33e5b8a414905b6de7fe2959",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1491,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "7f898f6b577e426d06bb59144004f307ae89557dc3713c7327ee5f9f613b9236",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 7987,
+              "repeated_tail_fraction": 0.10152284263959391,
+              "repetitive_tail": false
+            },
+            "aime_2011-I-12": {
+              "record_sha256": "7f873a748c28e6d816c097db1d24b4ab23b532e90cd92e9435d139ecb6b908ac",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 30610,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "b7c597ce6278ec85f9522d33d17db179c2cc56e73de393fbb5562b951be40b15",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 17247,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            }
+          }
+        },
+        "candidate": {
+          "cases": 30,
+          "correct": 21,
+          "correct_with_natural_stop": 21,
+          "reply_limit_hits": 0,
+          "repetitive_tails": 0,
+          "total_generated_tokens": 188693,
+          "median_generated_tokens": 2705.0,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "e828efc7f92dee37d91e62fd843f399d503ff1090c216fbbd72f0f70b4b739bd",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1726,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "9801e927cb28a15b4c0bd5b8be2e7ec9dec9f766168651139b6015528ff250de",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 7312,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "math_train_precalculus_441": {
+              "record_sha256": "a11c3288371d655d2984499e03dce9e12c278df7bb3777b42c0fa1361d878753",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 18680,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "ea6e7671af4f10704f2961f01d8582545ce8026e4f747806a91d2b462faeae44",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 13404,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "4c7c31d6c9784c09c49fb06637305cf7027f6eae956ffe505f00eb4edf7ae6f5",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6182,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "73c8b78a3836f0e7463c2f73226cac08e744bdcb47a9e3d8bc1ac2169e121c6c",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 111,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "b3c34a689e8a89d08a3cc7ff363b2c92dcd3ee7d946aee5ad7e8e76b6757f681",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2477,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "9f8b16241eabcdd4ef9e60f24c646da782ebd2c96fe17c6f16b28462c2065d3c",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 296,
+              "repeated_tail_fraction": 0.04591836734693878,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "58afa9b9c6c9ac2892d77a1670296f2ce0c447f58a475bb6c940fb81735ded9c",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 109,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "7ddd9cf2dec8c786248973e6854a26c94dfaf1d5c2c2fd41870236788e73e0da",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 785,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "c96119ce9e20216facfcecf7df561c39dddfbf3b9951eed1887c303e8d11faaf",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2935,
+              "repeated_tail_fraction": 0.06091370558375635,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "cd6db5a8fc92ecf51d5f44a42177cd759d0f0388fb4831b351d43eb590453438",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 270,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "e95e022d94c42577e6601976d0372f1a6c486966607ebffc4c9ba811edd6f452",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 585,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "aime_2003-II-6": {
+              "record_sha256": "ebf38d545d1f5704d31c4c75a8f68ef26ca621f381ae054ef2aed398b47e1adb",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 27173,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "fafb2505c9b6f139ab4405571a560210bfe7a18c4dec0b6ab2a9d0d0acfd566f",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 9537,
+              "repeated_tail_fraction": 0.07614213197969544,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "55e8550f7ff3c613431e4d49ae765a6471213f215862c92eff285f767b91a95a",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2414,
+              "repeated_tail_fraction": 0.18781725888324874,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "700bb9db8aa3a8c541c9670b2dd7cada6a027b62c1dffb6eb97285daa986297a",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 4962,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "6747a980871f0576bc57d6893dd9fbb137aa71d2792302f305d6e11fab199d7b",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 439,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "math_train_counting_and_probability_527": {
+              "record_sha256": "29ee2a6549e16f176f893d4d285540dd18b5d6aab1c9a6c525e41f38c4e53e32",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 8386,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "0945e3e47c695049e1840254d079052693aaf89f4f994c1e38b723e183450d54",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 1272,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "01069ffd1f1442bebac460dbcd798c4d82d90941299268d6cdb6d33b092b2b75",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6910,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "855985f8cfcc48e6da84b9a3cb0671af636104f53e4806be4d73b2cf16e496d3",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2361,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "84ba3d3dfef82604cbf3840fb47109bd077d673187fa481b10b1c303e0915e20",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8150,
+              "repeated_tail_fraction": 0.06091370558375635,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "ad90c0801f0914568d13a5e8ff9c5158ccdd71e45871ec91679f08d49aa98a57",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 476,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "7361815a4556ede0d2e100b248f03a6f146a6d34ab2e54eeda8786d0c7bbf054",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 653,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "0cb5d714ef91c326e10c6cf058e926d78e42d262ef3103abe9dc51fb943febdc",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 304,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "ba493cae21e9e591bd71120988d5051fc2faa86341f1183caf9903c66c05e568",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2933,
+              "repeated_tail_fraction": 0.04568527918781726,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "939c91fb0a8b17ebfc392db65cbd7dd480bdd574fdacdd2929aa584e28e45913",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 9436,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2011-I-12": {
+              "record_sha256": "caaeaacf6213060c5cf1903d5a50071a70f7e6f3f7b173d47d9dc80ea9f355be",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 31129,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "b50cef91057873f303bd955ab21d2b112e42b2691decb324e6c044c73839c4ae",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 17286,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            }
+          }
+        },
+        "random": {
+          "cases": 30,
+          "correct": 23,
+          "correct_with_natural_stop": 23,
+          "reply_limit_hits": 0,
+          "repetitive_tails": 0,
+          "total_generated_tokens": 169062,
+          "median_generated_tokens": 2562.0,
+          "cases_with_diagnostics": {
+            "discovery-broad-r3": {
+              "record_sha256": "e5a740453b8d68b311b5b797ebe04c65317a32778945d9a55a0aef45d0c22243",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1942,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_1993-4": {
+              "record_sha256": "641f9a227d2743cf9cddbfd5c529035afd2273e5f7c437688ade184fef516c97",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8836,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "math_train_precalculus_441": {
+              "record_sha256": "6021668e9977a97aa33c53264bf583864a7d319af602c5488484e4f5dfa3c958",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 9040,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "aime_2010-I-8": {
+              "record_sha256": "529763a8fe00cd0c24efeb0f7bc0c2d7bfc6e6e6635cceb01fa7f63a18fa2ca6",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 9651,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1993-10": {
+              "record_sha256": "a111abeab8c69717802727bd347189a7bda883062983296439495efaf16090b3",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 12892,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-1": {
+              "record_sha256": "37ea8edbb264c3513011e6cf5a8ce6441f8fff245a5dcb95f60dd68e16484023",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 116,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m3": {
+              "record_sha256": "95d2655b63364900781f6f034a57c2975fe631a18e663d67f854b694a7902dc9",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3088,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-0": {
+              "record_sha256": "2fdac81b4cc22dab9fbf11e3277d04a533c14412afa43a1bd47962af4986bbfd",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 310,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-3": {
+              "record_sha256": "8decdab578a333ddc42f6e5d13cab2d05713fc85b5bb6e2bdf4c86da62256ab6",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 79,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r2": {
+              "record_sha256": "d54300ea211f42c1925752a1a450ca37f11a3d64b3ae5ee340eb40a7d48ec7d5",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 878,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m2": {
+              "record_sha256": "14d0a9c3a0d70c01d6afa6bc3b7534e9a98292645a5903feb20b2f0b6a8c39a0",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 2014,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t2": {
+              "record_sha256": "85934e759bc33973b4b6fbd65d032e7b7344b66ed2d004e8f06f2a05cc18bd60",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 224,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t1": {
+              "record_sha256": "a6011912eca02178a2cb0afce25f4ea3f84900a6f93c94ea530ee4804ab20771",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1486,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_2003-II-6": {
+              "record_sha256": "e9be91279f27f4cf827d934bab98cf0a01561865b5966acf76dc115f328dcc32",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 14216,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1983-12": {
+              "record_sha256": "c66d9f6bb69c09e532688cecfbfcd694fda34ea4d26ef4228258d27be8506ef4",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 8763,
+              "repeated_tail_fraction": 0.3756345177664975,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c2": {
+              "record_sha256": "b7462a22ebe6f9066c5c0d46ab53a5edf59a47f1cbf2fee61848ee87fea9539f",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 3176,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_1985-12": {
+              "record_sha256": "44bbdc2fe7d1a761cccd415c19726b184dc0422dd4aa4424f4855c3f809aa2c1",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 4937,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-instruction-2": {
+              "record_sha256": "b772e263c7a114ceecfc103a110a709ae78e4d2f7d88ee3226906c7607c92695",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 403,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "math_train_counting_and_probability_527": {
+              "record_sha256": "1a0f27d67308c605613bf18be9d8420536cdaece8e13e50a640f9697f1ac7412",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 13793,
+              "repeated_tail_fraction": 0.15228426395939088,
+              "repetitive_tail": false
+            },
+            "gsm8k_train_1337": {
+              "record_sha256": "6c15c297a02d616954f8dc90ca4bca9efc61e7a850776661fdd4d4e4710f6600",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 2036,
+              "repeated_tail_fraction": 0.030456852791878174,
+              "repetitive_tail": false
+            },
+            "aime_1990-15": {
+              "record_sha256": "467221e561cdc253f26730a9ca2ed34436f60aa72f902e25e5c68811d04d2ab4",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 6328,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-m1": {
+              "record_sha256": "4adad6e167b5d9e48aee1ab6898ce914c8659f2aa55007df5d03c89561bb523d",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1937,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_1988-13": {
+              "record_sha256": "b490611e4238ca556ff474fe59943dc39434aa5c64dded4708f621c84a3fbf9c",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 7314,
+              "repeated_tail_fraction": 0.015228426395939087,
+              "repetitive_tail": false
+            },
+            "discovery-broad-r1": {
+              "record_sha256": "0dbedebc90b0fdbf84d21ce899fcd3d3e0f1b20a127acff8647c59dd9b07a14d",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 421,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c1": {
+              "record_sha256": "e4830c43be374f14c796c596252924f8bfc5c949c6752662ad0ea7202d9cdb24",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 961,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-t3": {
+              "record_sha256": "90b88339f2687f50b8ec164fcd5d742e973437a0963c83b5331177f07cb9c264",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 243,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "discovery-broad-c3": {
+              "record_sha256": "7a9e8e2dbdb65c45fff7f27870945b8e156b67a7672d3913f8ff4bfd3fe00574",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 1825,
+              "repeated_tail_fraction": 0.04568527918781726,
+              "repetitive_tail": false
+            },
+            "aime_1991-8": {
+              "record_sha256": "3e6d687f6b579132893359920c25680cb014f6b63dcc2a7ab10fe1cf64b3b1d4",
+              "correct": true,
+              "finish": "stop",
+              "tokens": 9456,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2011-I-12": {
+              "record_sha256": "ac58f4eda8478323cc30e3e5a4bb824d71c23bc51d3df7576237762dbe8b55e7",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 24212,
+              "repeated_tail_fraction": 0.0,
+              "repetitive_tail": false
+            },
+            "aime_2022-I-6": {
+              "record_sha256": "513a91e832f47885c0c62e4adbbce7d49c19b27d2d98bba662ce6104e2d02358",
+              "correct": false,
+              "finish": "stop",
+              "tokens": 18485,
+              "repeated_tail_fraction": 0.07614213197969544,
+              "repetitive_tail": false
+            }
+          }
+        }
+      },
+      "post_hoc_excluding_ambiguous_items": {
+        "excluded_ids": [
+          "gsm8k_train_1337"
+        ],
+        "frozen_grades_and_admission_unchanged": true,
+        "used_for_recipe_selection": false,
+        "arms": {
+          "baseline": {
+            "cases": 29,
+            "correct": 22
+          },
+          "candidate": {
+            "cases": 29,
+            "correct": 21
+          },
+          "random": {
+            "cases": 29,
+            "correct": 23
+          }
+        }
+      }
     },
     "4-abliterated": {
       "status": "Completed comparison analyzed",

@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T14:43:08Z",
+  "updated_at_utc": "2026-11-04T15:56:07Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -934,7 +934,7 @@
     },
     "4-standard": {
       "filename": "Qwen3-4B-Q4_K_M.gguf",
-      "status": "in progress",
+      "status": "discovery screen complete",
       "production_original_replaced": false,
       "completed_case_counts": {
         "baseline": {
@@ -945,18 +945,18 @@
           "generated_tokens": 173730
         },
         "candidate": {
-          "count": 0,
-          "correct": 0,
+          "count": 30,
+          "correct": 21,
           "reply_budget_exhaustions": 0,
-          "finish_reason_recorded": 0,
-          "generated_tokens": 0
+          "finish_reason_recorded": 30,
+          "generated_tokens": 188693
         },
         "random": {
-          "count": 0,
-          "correct": 0,
+          "count": 30,
+          "correct": 23,
           "reply_budget_exhaustions": 0,
-          "finish_reason_recorded": 0,
-          "generated_tokens": 0
+          "finish_reason_recorded": 30,
+          "generated_tokens": 169062
         }
       },
       "natural_discovery_counts": {
@@ -1134,9 +1134,290 @@
         {
           "id": "gen-screen-candidate",
           "phase": "discovery",
-          "status": "running"
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-random-feasible",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-random",
+          "phase": "discovery",
+          "status": "complete"
         }
       ],
+      "discovery": {
+        "paired": {
+          "n": 30,
+          "baseline_correct": 22,
+          "candidate_correct": 21,
+          "gain": -0.03333333333333333,
+          "rescues": 0,
+          "regressions": 1,
+          "paired_standard_error": 0.03333333333333333,
+          "lower_95": -0.09866666666666665,
+          "upper_95": 0.031999999999999994
+        },
+        "random_control": {
+          "n": 30,
+          "baseline_correct": 22,
+          "candidate_correct": 23,
+          "gain": 0.03333333333333333,
+          "rescues": 1,
+          "regressions": 0,
+          "paired_standard_error": 0.03333333333333333,
+          "lower_95": -0.031999999999999994,
+          "upper_95": 0.09866666666666665
+        },
+        "domains": {
+          "coding": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 3,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "instruction": {
+            "n": 4,
+            "baseline_correct": 3,
+            "candidate_correct": 3,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "math": {
+            "n": 17,
+            "baseline_correct": 10,
+            "candidate_correct": 10,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "reasoning": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 3,
+            "gain": 0.0,
+            "rescues": 0,
+            "regressions": 0,
+            "paired_standard_error": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "tool_use": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          }
+        },
+        "eligible_for_independent_confirmation": false,
+        "feasibility_resume": true,
+        "feasibility_decision_sha256": "d757028c3a3aa5b80a2550859deaae82703ce826046f55de75c83a7fe376d4cd",
+        "latency_ratio": 1.1006136078003235,
+        "model_receipts": {
+          "candidate": {
+            "format_version": 1,
+            "base_model": "Qwen3-4B-Q4_K_M.gguf",
+            "base_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "candidate_sha256": "e08960fb208d15b3c210f9a95ed509d02d3ed594291d6b412e694d874a33d2ae",
+            "candidate_bytes": 2497280256,
+            "recipe_sha256": "1e1983890aab374bae0cbf2f7348ba8f7d611c50e841ae72b3fc6d78c0557986",
+            "sites": [
+              {
+                "tensor": "blk.1.ffn_down.weight",
+                "quantization": "Q6_K",
+                "selected_columns": [
+                  10,
+                  17,
+                  20,
+                  25,
+                  46,
+                  63,
+                  80,
+                  98,
+                  104,
+                  107,
+                  109,
+                  129,
+                  133,
+                  137,
+                  143,
+                  170,
+                  172,
+                  192,
+                  205,
+                  209,
+                  216,
+                  231,
+                  235,
+                  244,
+                  249,
+                  255,
+                  260,
+                  304,
+                  312,
+                  346,
+                  364,
+                  379,
+                  383,
+                  398,
+                  401,
+                  408,
+                  413,
+                  429,
+                  467,
+                  468,
+                  482,
+                  530,
+                  534,
+                  538,
+                  605,
+                  625,
+                  637,
+                  684,
+                  746,
+                  921,
+                  983,
+                  1017,
+                  1182,
+                  1188,
+                  1429,
+                  1432,
+                  1553,
+                  1598,
+                  1645,
+                  1833,
+                  3633,
+                  3653,
+                  5264,
+                  6318
+                ],
+                "changed_bytes": 281951,
+                "intended_scalar_positions": 163840,
+                "actual_changed_dequantized_values": 624505,
+                "intended_relative_delta": 0.05273122798394493,
+                "actual_relative_delta": 0.05284873447401967,
+                "quantization_error_norm": 0.1513375168182234,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 4022468096,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          },
+          "random": {
+            "format_version": 1,
+            "base_model": "Qwen3-4B-Q4_K_M.gguf",
+            "base_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "candidate_sha256": "cda2a6e39ee764964cb78babe4927b8f60389e6c94024b38662fe8cbd9a5099f",
+            "candidate_bytes": 2497280256,
+            "recipe_sha256": "2e0937656fcf65fb52cc12804f0a8ae758787e0af116ad33ec7e85e705c7736f",
+            "sites": [
+              {
+                "tensor": "blk.1.ffn_down.weight",
+                "quantization": "Q6_K",
+                "selected_columns": [
+                  10,
+                  17,
+                  20,
+                  25,
+                  46,
+                  63,
+                  80,
+                  98,
+                  104,
+                  107,
+                  109,
+                  129,
+                  133,
+                  137,
+                  143,
+                  170,
+                  172,
+                  192,
+                  205,
+                  209,
+                  216,
+                  231,
+                  235,
+                  244,
+                  249,
+                  255,
+                  260,
+                  304,
+                  312,
+                  346,
+                  364,
+                  379,
+                  383,
+                  398,
+                  401,
+                  408,
+                  413,
+                  429,
+                  467,
+                  468,
+                  482,
+                  530,
+                  534,
+                  538,
+                  605,
+                  625,
+                  637,
+                  684,
+                  746,
+                  921,
+                  983,
+                  1017,
+                  1182,
+                  1188,
+                  1429,
+                  1432,
+                  1553,
+                  1598,
+                  1645,
+                  1833,
+                  3633,
+                  3653,
+                  5264,
+                  6318
+                ],
+                "changed_bytes": 371615,
+                "intended_scalar_positions": 163840,
+                "actual_changed_dequantized_values": 822783,
+                "intended_relative_delta": 0.05273122672002551,
+                "actual_relative_delta": 0.05282674007098828,
+                "quantization_error_norm": 0.14441012430787287,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 4022468096,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          }
+        },
+        "status": "Tested hypothesis did not pass the discovery screen. No production replacement.",
+        "production_model_changed": false
+      },
       "quantized_admission_followup": {
         "prior_recipe_sha256": "25ac165c9b646c49a800df253def18403653d0b45fd9b49652e538b9aa47e49c",
         "prior_rejection": {
@@ -1256,6 +1537,18 @@
             "sensitivity_note": "Report comparison results excluding this ambiguous item as a separate post-hoc diagnostic if it appears in an original/edit/control screen. Do not rewrite the frozen official scores or use this note to retune the selected recipe."
           }
         ]
+      },
+      "optional_profile": {
+        "id": "55daa49f9e7097a9ea010f85",
+        "label": "4-standard discovery experiment",
+        "base_name": "Qwen3-4B-Q4_K_M.gguf",
+        "base_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+        "candidate_sha256": "e08960fb208d15b3c210f9a95ed509d02d3ed594291d6b412e694d874a33d2ae",
+        "model_bytes": 2497280256,
+        "patch_bytes": 39896471,
+        "validation": "experimental",
+        "automatic_retry_eligible": false,
+        "original_modified": false
       }
     },
     "4-abliterated": {
@@ -1737,8 +2030,47 @@
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",
-      "status": "not started",
+      "status": "in progress",
       "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        }
+      },
+      "natural_discovery_counts": {
+        "001-natural-discovery": {
+          "completed": 20,
+          "planned": 24,
+          "correct": 20,
+          "correct_with_natural_stop": 20,
+          "reply_budget_exhaustions": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ],
       "superseded_run": {
         "completed_cases": 56,
         "official_correct": 54,
