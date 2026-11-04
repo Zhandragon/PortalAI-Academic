@@ -11,9 +11,18 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 def metadata(path):
     reader=gguf.GGUFReader(str(path),'r')
     arch=reader.fields['general.architecture'].contents()
-    return {'architecture':arch,'layers':reader.fields[arch+'.block_count'].contents(),
+    total=reader.fields[arch+'.block_count'].contents()
+    nextn_field=reader.fields.get(arch+'.nextn_predict_layers')
+    nextn=nextn_field.contents() if nextn_field is not None else 0
+    # The pinned llama.cpp main decoder excludes optional NextN/MTP blocks.
+    # They remain present in GGUF but do not produce main-pass capture sites.
+    if any(isinstance(n,(bool,np.bool_)) or not isinstance(n,(int,np.integer)) for n in (total,nextn)) or not 0<=nextn<total:
+        raise ValueError('Invalid main decoder / NextN layer counts')
+    return {'architecture':arch,'layers':int(total-nextn),
+            'total_layers':int(total),'mtp_layers':int(nextn),
             'template':reader.fields['tokenizer.chat_template'].contents(),
             'training_context':reader.fields[arch+'.context_length'].contents()}
+
 
 def render(template,messages,*,thinking=True,tools=None):
     if not isinstance(template,str) or len(template)>1024**2:raise ValueError('Invalid model chat template')

@@ -735,6 +735,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_web_worker_windows.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_worker_windows.py) | Real hidden worker, browser and owned-job tests in a disposable workspace. |
 | [Maintenance/Tests/test_weight_edit_profiles.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weight_edit_profiles.py) | Exact profile round trips, original routing and bounded cache ownership. |
 | [Maintenance/Tests/test_weightspace.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace.py) | Direct edit invariants, admission, evidence gates and durable pass accounting. |
+| [Maintenance/Tests/test_weightspace_decoder_layers.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_decoder_layers.py) | The capture topology must follow the main decoder, excluding NextN blocks. |
 | [Maintenance/Tests/test_weightspace_grading.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_grading.py) | A non-terminating model answer must not abort independent comparisons. |
 | [Maintenance/Tests/test_weightspace_sampling.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_sampling.py) | Exercise native presence penalties without loading a model or GPU backend. |
 | [Maintenance/Tests/test_window_icons.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py) | Read back real native icon pixels and exercise Tk wrapper lifetimes. |

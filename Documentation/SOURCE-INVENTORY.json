@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 973
+    "Windows": 974
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -56089,7 +56089,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "44cc9824f027001287c98126c6613cd6e62046a03b7a1118272e54d476449166",
+      "sha256": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -63659,6 +63659,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_decoder_layers.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
+      "lines": 48,
+      "overview": "The capture topology must follow the main decoder, excluding NextN blocks.",
+      "symbols": [
+        {
+          "name": "DecoderLayerTests",
+          "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_grading.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -65060,8 +65075,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/native_forward.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
-      "lines": 138,
+      "sha256": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+      "lines": 147,
       "overview": "Quantized forward tool: native sampling, Jinja template and bounded captures.",
       "symbols": [
         {
@@ -65071,17 +65086,17 @@
         },
         {
           "name": "render",
-          "line": 18,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "item_seed",
           "line": 27,
           "kind": "FunctionDef"
         },
         {
+          "name": "item_seed",
+          "line": 36,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "Forward",
-          "line": 30,
+          "line": 39,
           "kind": "ClassDef"
         }
       ]

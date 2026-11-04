@@ -1,0 +1,33 @@
+# Main-decoder capture repair
+
+PortalAI Windows r69: main-decoder capture repair
+
+The installed abliterated Qwen35 27B GGUF declares 65 blocks, including one
+optional NextN/MTP prediction block. The standard export has 64 blocks and
+no NextN block. The pinned llama.cpp main forward graph executes
+64 layers. The Weight-Space Editor now subtracts NextN prediction layers from
+the capture layer count, and reports total, active and prediction counts.
+Invalid counts still fail explicitly; missing active-layer captures are not
+ignored. Ordinary models without NextN metadata retain their original count.
+
+The bug interrupted activation localization, not chat generation. The change
+is confined to metadata: prompt rendering, sampling and Forward methods are
+byte-identical to r68. A real native probe reproduced exactly four absent
+inactive-layer sites and captured all 256 expected active-layer aggregates.
+The original weight hash was verified afterward. New CPU regression tests
+failed before repair and pass on D and E, alongside actual native sampler tests.
+
+The interrupted research pass and ledger remain preserved. Its replacement
+uses a newly accounted pass and the same 56 saved natural answers, with input
+hash checks. No failed infrastructure pass is scored as a model mistake.
+See Research/WeightSpace/InstalledGGUF for the method and current results.
+
+Original weights remain intact. Optional profiles remain experimental and
+manually selected in Settings > Chat models > Weight edit profile. Choose
+Original weights to revert for the next request. Small patch files still need
+a full model-sized prepared copy. The two-copy cache and 80 GiB floor remain.
+
+No dependency, model download or background service is added. Runtime pins
+are unchanged. Upgrade history retains r68 and every earlier supported stamp.
+D and E remain independent. Linux/Mac stay r51. Restart the editor normally
+to load this code; already-running workers retain their loaded version.

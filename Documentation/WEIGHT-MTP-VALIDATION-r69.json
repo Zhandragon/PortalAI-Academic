@@ -1,0 +1,503 @@
+{
+  "version": "2026.11.04-Desktop-r69",
+  "edition": "Academic",
+  "passed": true,
+  "installed_drives": {
+    "D": {
+      "focused_checks": {
+        "passed": true,
+        "tests": 96,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes": {
+        "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+        "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
+        "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
+        "Documentation/Weight_MTP_r69.txt": "0dc1a31af94ae46ba341ab9178118835222f459f65e3ac65bb1580c15eb2353e"
+      },
+      "free_bytes": 104924676096,
+      "independent_installation": true
+    },
+    "E": {
+      "focused_checks": {
+        "passed": true,
+        "tests": 96,
+        "skipped": 1,
+        "failures": [],
+        "errors": []
+      },
+      "source_hashes": {
+        "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+        "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
+        "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
+        "Documentation/Weight_MTP_r69.txt": "0dc1a31af94ae46ba341ab9178118835222f459f65e3ac65bb1580c15eb2353e"
+      },
+      "free_bytes": 188431364096,
+      "independent_installation": true
+    }
+  },
+  "packaged_application_checks": {
+    "passed": true,
+    "tests": 96,
+    "skipped": 1,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "native_runtime_extracted_from_verified_component": true,
+    "native_abi_hashes_verified": true,
+    "source_python_parsed": 1763,
+    "full_recipient_install": false,
+    "scope": "Focused grading, editor, profiles, startup and model-switch regressions with packaged native DLLs; Python package fixtures still copied from D. r65 full suite evidence remains historical."
+  },
+  "installer_checks": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_resources": [
+    {
+      "name": "python-bootstrap.zip",
+      "bytes": 11439094,
+      "passed": true,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297"
+    },
+    {
+      "name": "installer_core.py",
+      "bytes": 39062,
+      "passed": true,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459"
+    },
+    {
+      "name": "engine_cli.py",
+      "bytes": 4572,
+      "passed": true,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788"
+    },
+    {
+      "name": "installer_storage.py",
+      "bytes": 4593,
+      "passed": true,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007"
+    },
+    {
+      "name": "portable_update.py",
+      "bytes": 17915,
+      "passed": true,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0"
+    },
+    {
+      "name": "suite_installer.py",
+      "bytes": 27664,
+      "passed": true,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475"
+    },
+    {
+      "name": "abliterator_installer_core.py",
+      "bytes": 29697,
+      "passed": true,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5"
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r69_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "upgrade_history": {
+    "passed": true,
+    "tested_versions": [
+      {
+        "from": "2026.10.25-Aoostar-r43",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r44",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.24-r17",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Standardized-r1",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r45",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.26-Aoostar-r46",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r47",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r48",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r49",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.28-Desktop-r50",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.29-Desktop-r51",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r52",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r53",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r54",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r55",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r56",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r57",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r58",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r59",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r60",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r61",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r62",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.03-Desktop-r63",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r64",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r65",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r66",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r67",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r68",
+        "to": "2026.11.04-Desktop-r69",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      }
+    ],
+    "legacy_fingerprints_retained": 1,
+    "embedded_matches_sidecar": true,
+    "real_user_installation_modified": false
+  },
+  "native_runtime_pins": {
+    "edition": "Academic",
+    "passed": true,
+    "libraries": [
+      {
+        "library": "llama.dll",
+        "expected": "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6",
+        "packaged": [
+          "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml.dll",
+        "expected": "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9",
+        "packaged": [
+          "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml-base.dll",
+        "expected": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed",
+        "packaged": [
+          "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "native_component": {
+    "passed": true,
+    "prior_component_pins_unchanged": true,
+    "optional_component_selected": true,
+    "minimum_plan_excludes_cuda": true,
+    "package_dependencies_in_closure": true,
+    "native_members_verified": 55,
+    "symbols": {
+      "ggml-base.dll": [
+        "ggml_quantize_chunk",
+        "ggml_nelements",
+        "ggml_backend_tensor_get"
+      ],
+      "ggml.dll": [
+        "ggml_backend_load",
+        "ggml_backend_load_all_from_path"
+      ],
+      "llama.dll": [
+        "llama_model_default_params",
+        "llama_context_default_params",
+        "llama_model_load_from_file",
+        "llama_decode",
+        "llama_set_adapters_lora",
+        "llama_sampler_sample"
+      ]
+    },
+    "abi_layout_verified": true,
+    "gpu_or_model_loaded": false,
+    "complete_fresh_install": false
+  },
+  "source_matches_payload": true,
+  "payload_growth_bytes_vs_r68": 4641,
+  "existing_component_pins_unchanged": true,
+  "production_defaults_changed": false,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_downloaded_models": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "deprecated_C_installation_excluded": true,
+  "scope": "Main-decoder metadata excludes inactive NextN prediction blocks. Prompt rendering, sampling and Forward methods are byte-identical to r68; runtime pins and original models are unchanged.",
+  "prior_evidence": "r65 completed full 1233-check suites on both SSDs and extracted editions, with actual original/edit/original native inference on D and E. This follow-up ran 96 focused checks on each installation and extracted edition. A real 27B probe reproduced the inactive-block failure and verified all active captures; the separately tracked research comparison is not part of these software checks.",
+  "documentation_correction": {
+    "passed": true,
+    "only_payload_member_changed": "PortalAI/Documentation/Weight_MTP_r69.txt",
+    "all_tested_code_bytes_unchanged": true,
+    "previous_payload_sha256": "5af784270d51d5c58c841298f5cb676114ae9ca14f7de130b87452929c519d14",
+    "payload_sha256": "9aec0440b9e0548f2a3600fb4792583dab447947b8575eac20f0152299569177",
+    "installed_topology": {
+      "passed": true,
+      "models": [
+        {
+          "drive": "D",
+          "model": "1.7-standard",
+          "architecture": "qwen3",
+          "layers": 28,
+          "total_layers": 28,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "D",
+          "model": "1.7-abliterated",
+          "architecture": "qwen3",
+          "layers": 28,
+          "total_layers": 28,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "D",
+          "model": "4-standard",
+          "architecture": "qwen3",
+          "layers": 36,
+          "total_layers": 36,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "D",
+          "model": "4-abliterated",
+          "architecture": "qwen3",
+          "layers": 36,
+          "total_layers": 36,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "D",
+          "model": "27-standard",
+          "architecture": "qwen35",
+          "layers": 64,
+          "total_layers": 64,
+          "mtp_layers": 0,
+          "training_context": 262144
+        },
+        {
+          "drive": "D",
+          "model": "27-abliterated",
+          "architecture": "qwen35",
+          "layers": 64,
+          "total_layers": 65,
+          "mtp_layers": 1,
+          "training_context": 262144
+        },
+        {
+          "drive": "E",
+          "model": "1.7-standard",
+          "architecture": "qwen3",
+          "layers": 28,
+          "total_layers": 28,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "E",
+          "model": "1.7-abliterated",
+          "architecture": "qwen3",
+          "layers": 28,
+          "total_layers": 28,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "E",
+          "model": "4-standard",
+          "architecture": "qwen3",
+          "layers": 36,
+          "total_layers": 36,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "E",
+          "model": "4-abliterated",
+          "architecture": "qwen3",
+          "layers": 36,
+          "total_layers": 36,
+          "mtp_layers": 0,
+          "training_context": 40960
+        },
+        {
+          "drive": "E",
+          "model": "27-standard",
+          "architecture": "qwen35",
+          "layers": 64,
+          "total_layers": 64,
+          "mtp_layers": 0,
+          "training_context": 262144
+        },
+        {
+          "drive": "E",
+          "model": "27-abliterated",
+          "architecture": "qwen35",
+          "layers": 64,
+          "total_layers": 65,
+          "mtp_layers": 1,
+          "training_context": 262144
+        }
+      ],
+      "gpu_loaded": false,
+      "weights_modified": false,
+      "D_E_metadata_identical": true,
+      "note": "Optional MTP count is read per file, not assumed from size or variant."
+    },
+    "existing_96_check_result_remains_applicable_to_identical_executable_bytes": true
+  },
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "c258560fd5007de16f5a51630a6fa1c89e4a87b8bfcc57fa4495bbede80a480c",
+    "network_download_tested": false,
+    "full_install_started": false
+  }
+}

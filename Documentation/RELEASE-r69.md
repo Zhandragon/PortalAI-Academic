@@ -1,0 +1,13 @@
+# Windows r69: main-decoder capture repair
+
+The Weight-Space Editor now counts the layers executed by the main decoder. The installed abliterated Qwen35 27B file declares 65 blocks, including one optional NextN/MTP prediction block that the pinned native runtime skips during ordinary inference. The standard 27B export already has 64 blocks and no NextN block. Requesting the abliterated file's inactive block interrupted localization. The repair subtracts the declared prediction blocks and rejects invalid metadata; it still fails if a requested active capture is missing.
+
+Only metadata handling changed. Prompt rendering, sampling and all Forward methods are byte-identical to r68. A real native probe reproduced exactly four missing inactive-block sites, then captured all 256 active-layer aggregates and reverified the original model hash. Four new CPU regressions failed before repair and pass afterward on D and E. The interrupted research ledger is preserved; its newly accounted replacement reuses the same 56 saved answers and checks their hashes. [Research and current results](https://github.com/Zhandragon/PortalAI-Academic/tree/main/Research/WeightSpace/InstalledGGUF).
+
+Original models remain intact. Optional profiles remain experimental and manually selected through Utilities > Weight-Space Editor and Settings > Chat models > Weight edit profile. Choose Original weights to revert for the next request. Small patches still need a complete prepared model copy. The two-copy cache and **80 GiB free-space floor** remain.
+
+**Software validation:** 96 focused checks on D, E and each extracted edition (one platform-related skip per run); 45 installer checks per edition (one skip); seven embedded source/runtime checks; 55 native-file checks; upgrade planning from all **28** supported prior stamps. The Academic compiled launcher passed prepare-only verification. All application sources match the packaged payloads. Python package fixtures came from D; a complete fresh-recipient installation and physical AMD/Linux/Mac acceptance were not tested.
+
+Added application content: **4,641 bytes** versus r68. No new dependencies, downloaded models, services or duplicate runtime. Existing component pins are unchanged. D and E have independent updated installations and installer kits. Linux/Mac remain r51. Restart the editor normally to load this repair.
+
+[Repair details](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-MTP-r69.md) Â· [Validation evidence](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-MTP-VALIDATION-r69.json).
