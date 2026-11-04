@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T15:56:07Z",
+  "updated_at_utc": "2026-11-04T16:09:49Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -1535,6 +1535,19 @@
             "official_grade_retained": true,
             "selection_or_admission_changed": false,
             "sensitivity_note": "Report comparison results excluding this ambiguous item as a separate post-hoc diagnostic if it appears in an original/edit/control screen. Do not rewrite the frozen official scores or use this note to retune the selected recipe."
+          },
+          {
+            "id": "discovery-broad-t1",
+            "classification": "photo-search tool-choice regression",
+            "record_sha256": {
+              "baseline": "c134b3ee2d8cb446d648df9db4e64d2384dd42fe907cc573b466490874b0369c",
+              "candidate": "e95e022d94c42577e6601976d0372f1a6c486966607ebffc4c9ba811edd6f452",
+              "random": "a6011912eca02178a2cb0afce25f4ea3f84900a6f93c94ea530ee4804ab20771"
+            },
+            "observation": "The prompt says the GitHub avatar is already confirmed to be a default identicon and provides a Scholar profile page. Original and random control choose web_read for that page. The edited model instead requests web_download of the page with purpose person_photo. This is a substantive wrong next action, not only a formatting mismatch.",
+            "tools_executed": false,
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false
           }
         ]
       },
@@ -2057,11 +2070,11 @@
       },
       "natural_discovery_counts": {
         "001-natural-discovery": {
-          "completed": 20,
+          "completed": 23,
           "planned": 24,
-          "correct": 20,
-          "correct_with_natural_stop": 20,
-          "reply_budget_exhaustions": 0
+          "correct": 22,
+          "correct_with_natural_stop": 22,
+          "reply_budget_exhaustions": 1
         }
       },
       "accounted_passes": [
