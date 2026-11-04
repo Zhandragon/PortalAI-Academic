@@ -3,7 +3,7 @@
   "files_per_platform": {
     "Linux": 822,
     "Mac": 797,
-    "Windows": 968
+    "Windows": 971
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -46332,8 +46332,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/effort_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "102a334db72a853deb305763447a462fc0b1d6ea52e33ae8f6880095b50af875",
-      "lines": 383,
+      "sha256": "8149aecce7fa9a06b4157a40d6b9f89db77f4ce5797fb23faea8f8b7d1155453",
+      "lines": 384,
       "overview": "Chat effort preferences and admission, without launching or reconfiguring models.",
       "symbols": [
         {
@@ -46378,47 +46378,47 @@
         },
         {
           "name": "_model_for",
-          "line": 140,
+          "line": 141,
           "kind": "FunctionDef"
         },
         {
           "name": "_plan",
-          "line": 177,
+          "line": 178,
           "kind": "FunctionDef"
         },
         {
           "name": "capabilities",
-          "line": 219,
+          "line": 220,
           "kind": "FunctionDef"
         },
         {
           "name": "require_chat_plan",
-          "line": 263,
+          "line": 264,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_preferences",
-          "line": 278,
+          "line": 279,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_effort",
-          "line": 304,
+          "line": 305,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_environment",
-          "line": 332,
+          "line": 333,
           "kind": "FunctionDef"
         },
         {
           "name": "image_steps",
-          "line": 350,
+          "line": 351,
           "kind": "FunctionDef"
         },
         {
           "name": "sd15_workflow_steps",
-          "line": 374,
+          "line": 375,
           "kind": "FunctionDef"
         }
       ]
@@ -48186,38 +48186,38 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/model_preferences.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "ef6799c1f1c40a5b027b8ab00f1ac4867654213915a418ed12939661206e9afd",
-      "lines": 127,
+      "sha256": "cd22ded242957fd645a935db2add961c8d8badafc12524c52e225d5fd509f6b0",
+      "lines": 132,
       "overview": "Portable, profile-scoped model choices; public assets/reserves stay shared.",
       "symbols": [
         {
           "name": "personal",
-          "line": 22,
+          "line": 23,
           "kind": "FunctionDef"
         },
         {
           "name": "media_variant",
-          "line": 33,
+          "line": 35,
           "kind": "FunctionDef"
         },
         {
           "name": "validate",
-          "line": 38,
+          "line": 40,
           "kind": "FunctionDef"
         },
         {
           "name": "merge",
-          "line": 60,
+          "line": 65,
           "kind": "FunctionDef"
         },
         {
           "name": "effective",
-          "line": 69,
+          "line": 74,
           "kind": "FunctionDef"
         },
         {
           "name": "save",
-          "line": 89,
+          "line": 94,
           "kind": "FunctionDef"
         }
       ]
@@ -49680,8 +49680,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/runtime_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "48da48bd7c572f1b07140424171b05c9a2ea2a658d0be54b6d9c5e350f720bc3",
-      "lines": 460,
+      "sha256": "d1ba50d245b803830452bd284427bc4e0f8d51cbf17cd8ca0f5ee93c9887fe24",
+      "lines": 463,
       "overview": "Portable hardware/model selection. Standard library only; no host installs.",
       "symbols": [
         {
@@ -49781,12 +49781,12 @@
         },
         {
           "name": "build_plan",
-          "line": 393,
+          "line": 396,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_plan",
-          "line": 414,
+          "line": 417,
           "kind": "FunctionDef"
         }
       ]
@@ -51865,6 +51865,46 @@
         {
           "name": "main",
           "line": 8,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/weight_edit_profiles.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "18905ec6931abc722778ac535aedd22f1ff2761faf8cb3c39c9812768ce53515",
+      "lines": 102,
+      "overview": "Read-only routing of explicitly selected, prepared weight-edit profiles.",
+      "symbols": [
+        {
+          "name": "home",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "safe_path",
+          "line": 14,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "identity",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_manifest",
+          "line": 28,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "catalog",
+          "line": 54,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "resolve_model",
+          "line": 77,
           "kind": "FunctionDef"
         }
       ]
@@ -56049,7 +56089,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "24b61b28e75cf91a364cd42c47d76e0183cbe7d0e8a9537330f7951ef76138e0",
+      "sha256": "a6e53ad356eab33ba12c5b31dd94ea16f6f31d0bae92b69357523e9dbf2dfb64",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -56313,8 +56353,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/settings_page.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "8cd23d894bbba7e3c3c2f2d0e0e8b7220a7a841ccd68c3b27d5b075dac6d15d2",
-      "lines": 470,
+      "sha256": "75338ae2385522bc4786a2e9650ba6327ac4825c6091a02bd31bdc6ecb755be0",
+      "lines": 498,
       "overview": "Visible themed settings, independent of the GUI's lifecycle buttons.",
       "symbols": [
         {
@@ -56324,37 +56364,42 @@
         },
         {
           "name": "model_inventory_note",
-          "line": 25,
+          "line": 26,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "weight_profile_choices",
+          "line": 31,
           "kind": "FunctionDef"
         },
         {
           "name": "save_settings",
-          "line": 30,
+          "line": 42,
           "kind": "FunctionDef"
         },
         {
           "name": "media_fit",
-          "line": 54,
+          "line": 71,
           "kind": "FunctionDef"
         },
         {
           "name": "SettingsPage",
-          "line": 94,
+          "line": 111,
           "kind": "ClassDef"
         },
         {
           "name": "validated_storage",
-          "line": 403,
+          "line": 431,
           "kind": "FunctionDef"
         },
         {
           "name": "save_storage_settings",
-          "line": 416,
+          "line": 444,
           "kind": "FunctionDef"
         },
         {
           "name": "StorageReservesPage",
-          "line": 423,
+          "line": 451,
           "kind": "ClassDef"
         }
       ]
@@ -62662,7 +62707,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_settings_surfaces_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "7a963c06f19e561d0595839dff09f81c200bde666b96f4fa0dbbac7fbbcf0e6f",
+      "sha256": "25010ce34ba5f6cd35ef9084967e178e0c4b7827f585fed7e5a09178140e9847",
       "lines": 237,
       "overview": "Real settings widgets with synthetic inventory and an in-memory chat store.",
       "symbols": [
@@ -62877,8 +62922,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_startup_settings.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "79b115315f34fe664385c14299bb071e857d757212390e95cab6c26368e2a424",
-      "lines": 196,
+      "sha256": "3db7e4fbcf696914418f6c8d90e7b1759d834f5acc0c5ad24a1a486719a395d4",
+      "lines": 201,
       "overview": "Settings/Startup integration with disposable files and owned lifecycle fixtures.",
       "symbols": [
         {
@@ -62888,7 +62933,7 @@
         },
         {
           "name": "SettingsStartupTkTests",
-          "line": 111,
+          "line": 116,
           "kind": "ClassDef"
         }
       ]
@@ -63579,6 +63624,21 @@
         {
           "name": "HiddenWebWorker",
           "line": 45,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weight_edit_profiles.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "532b614ac215b064dbc6dff30aedae21841225195a4f01cfe3d3ae51d9caf0c2",
+      "lines": 161,
+      "overview": "Exact profile round trips, original routing and bounded cache ownership.",
+      "symbols": [
+        {
+          "name": "WeightEditProfilesTests",
+          "line": 11,
           "kind": "ClassDef"
         }
       ]
@@ -64787,8 +64847,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/README.html",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "4f0903698033d38f059cfb683d8aa8daeb9614cddd805071dfc699e4eba663dc",
-      "lines": 25
+      "sha256": "d389e600e443e6b082006dd38b8c5f8136954c912b41df148527996134b816ca",
+      "lines": 28
     },
     {
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/code_check.py",
@@ -64821,6 +64881,36 @@
         {
           "name": "propose",
           "line": 21,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/edit_profiles.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "2c8b071daaf5fcd6551690d8e0474792b71ce3ee6d563170705418854dc4da01",
+      "lines": 125,
+      "overview": "Compact exact GGUF deltas and bounded prepared copies; originals stay immutable.",
+      "symbols": [
+        {
+          "name": "digest",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "export_profile",
+          "line": 12,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "clear_prepared",
+          "line": 64,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "prepare_profile",
+          "line": 81,
           "kind": "FunctionDef"
         }
       ]
@@ -65125,8 +65215,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/ui.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "5f8485d06da1e58ae0675cb4d037cfc4805e291c233160e873dc08553afda922",
-      "lines": 138,
+      "sha256": "d0d02ea405948e42edaaf3cdd33cb818a760c14c8826e1e56435d215a8bec8d7",
+      "lines": 165,
       "overview": "Lightweight standalone Tk utility; work runs in owned background processes.",
       "symbols": [
         {
@@ -65136,7 +65226,7 @@
         },
         {
           "name": "main",
-          "line": 133,
+          "line": 160,
           "kind": "FunctionDef"
         }
       ]
@@ -65145,8 +65235,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/utility_worker.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "e4baccef57c9e5e4647eb8d605236c0b653650fdf66069b030e47ff694b55685",
-      "lines": 97,
+      "sha256": "d8f10f595e053acfc1f10763874a5dc595e56e451d27b74ebc3a3336774fdc57",
+      "lines": 129,
       "overview": "Portable worker for model inspection, direct edits and paired task evaluation.",
       "symbols": [
         {

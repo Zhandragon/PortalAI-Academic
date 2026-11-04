@@ -1,0 +1,94 @@
+{
+  "version": "2026.11.04-Desktop-r65",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r65-suite.zip",
+  "bytes": 624043160,
+  "sha256": "8bf5ade8d5a10d55b2b6d1b76c1f619d9be7d7ede6339c14aa6cec07f0f8aa67",
+  "previous_sha256": "bfd4baab69fc70ffce249eef3fe97cf25fb8609ba469bc572fb2669058f3217d",
+  "changed_members": [
+    "PortalAI/Agent/effort_policy.py",
+    "PortalAI/Agent/model_preferences.py",
+    "PortalAI/Agent/runtime_policy.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/settings_page.py",
+    "PortalAI/Maintenance/Tests/test_settings_surfaces_tk.py",
+    "PortalAI/Maintenance/Tests/test_startup_settings.py",
+    "PortalAI/Tools/WeightSpace/README.html",
+    "PortalAI/Tools/WeightSpace/ui.py",
+    "PortalAI/Tools/WeightSpace/utility_worker.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/weight_edit_profiles.py",
+    "PortalAI/Documentation/Weight_Edit_Profiles_r65.txt",
+    "PortalAI/Maintenance/Tests/test_weight_edit_profiles.py",
+    "PortalAI/Tools/WeightSpace/edit_profiles.py"
+  ],
+  "payload_members": 5432,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "new_model_weights": false,
+  "added_original_helper": "Tools/WeightSpace",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 273206161280,
+    "download_bytes": 234114349863,
+    "required_bytes": 511602520539,
+    "files": 330410
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "26c9915bc44f2c6636a35acffcc8b9a806658c22f273b184dac8fc299c875d0a"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 381987464,
+      "sha256": "8abd9377959b3be1bf3cc7007f6e3b7bd050d79684f2f4a1bea3de0116916aac"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139080245,
+      "sha256": "bee907fe31135dd462f73f1e9faa6f56bf46934956cb434adff9d72b85f7e7f0"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 6655,
+      "sha256": "49063afa7ae28a6ce278cc145192c455260e6302d1cf0173d5d50a51e41e7e46"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190024,
+      "sha256": "3db7308af0bc5823d64d81c5523cca006d5e8576bf6e7e928043af285c7f6569"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "735295cc6da52ab1a41c7d1a52a06fade850e4f0ec3d28eb3d0ff11d6f1fdb0a"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1470,
+      "sha256": "7f6a835cd9e04202964d245b203a916df1e865e1838061fff708d606ae5dbe73"
+    }
+  ]
+}

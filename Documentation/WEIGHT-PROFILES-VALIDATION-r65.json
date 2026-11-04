@@ -1,0 +1,496 @@
+{
+  "version": "2026.11.04-Desktop-r65",
+  "edition": "Academic",
+  "passed": true,
+  "scope": "Reversible profile utility and routing; no general intelligence certification.",
+  "installed_drives": {
+    "D": {
+      "software_checks": {
+        "passed": true,
+        "tests": 1233,
+        "skipped": 2,
+        "failures": [],
+        "errors": []
+      },
+      "live_profile_checks": {
+        "drive": "D",
+        "profile_id": "ca93c33e1986b39d1265aaa4",
+        "passed": true,
+        "checks": [
+          {
+            "arm": "original",
+            "path": "D:\\PortalAI Windows\\LLM\\models\\Qwen3-1.7B-Q8_0.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 3.4530000000013388
+          },
+          {
+            "arm": "edited",
+            "path": "D:\\PortalAI Windows\\LLM\\WeightEdits\\Prepared\\ca93c33e1986b39d1265aaa4\\candidate.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 1.2189999999973224
+          },
+          {
+            "arm": "reverted",
+            "path": "D:\\PortalAI Windows\\LLM\\models\\Qwen3-1.7B-Q8_0.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 1.187000000005355
+          }
+        ],
+        "production_preferences_modified": false,
+        "live_gui_handoff_tested": false,
+        "scope": "Actual independent native engine loads and inference. GUI handoff/Stop guards covered separately by fixtures.",
+        "original_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+        "candidate_sha256": "12affbfb7bcb9e1e527fa5d5a7e30c98ab91e8a040a3de220ee829188db6f9fd",
+        "free_bytes": 152020795392
+      },
+      "original_models": {
+        "passed": true,
+        "models": [
+          {
+            "model": "1.7-standard",
+            "filename": "Qwen3-1.7B-Q8_0.gguf",
+            "bytes": 1834426016,
+            "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "1.7-abliterated",
+            "filename": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+            "bytes": 1834426496,
+            "sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "4-standard",
+            "filename": "Qwen3-4B-Q4_K_M.gguf",
+            "bytes": 2497280256,
+            "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "4-abliterated",
+            "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+            "bytes": 2497280704,
+            "sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "27-standard",
+            "filename": "Qwen3.8-27B-Q4_K_M.gguf",
+            "bytes": 18973870528,
+            "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "27-abliterated",
+            "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+            "bytes": 16810714944,
+            "sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+            "matches_before_campaign": true
+          }
+        ],
+        "production_model_changed": false
+      },
+      "source_hashes": {
+        "Agent/weight_edit_profiles.py": "18905ec6931abc722778ac535aedd22f1ff2761faf8cb3c39c9812768ce53515",
+        "Tools/WeightSpace/edit_profiles.py": "2c8b071daaf5fcd6551690d8e0474792b71ce3ee6d563170705418854dc4da01",
+        "Tools/WeightSpace/ui.py": "d0d02ea405948e42edaaf3cdd33cb818a760c14c8826e1e56435d215a8bec8d7",
+        "Tools/WeightSpace/utility_worker.py": "d8f10f595e053acfc1f10763874a5dc595e56e451d27b74ebc3a3336774fdc57",
+        "Tools/WeightSpace/README.html": "d389e600e443e6b082006dd38b8c5f8136954c912b41df148527996134b816ca",
+        "Agent/runtime_policy.py": "d1ba50d245b803830452bd284427bc4e0f8d51cbf17cd8ca0f5ee93c9887fe24",
+        "Agent/model_preferences.py": "171f6218cefb6976378c9e2c724b5148816e5c31fa065fc4cb92f28a0254d243",
+        "Agent/effort_policy.py": "8149aecce7fa9a06b4157a40d6b9f89db77f4ce5797fb23faea8f8b7d1155453",
+        "ControlCenter/settings_page.py": "4732025f0167327c98f991a4691a0f2794447409d98728d6a8d3d8e9b1187b04",
+        "ControlCenter/release_version.py": "a6e53ad356eab33ba12c5b31dd94ea16f6f31d0bae92b69357523e9dbf2dfb64",
+        "Maintenance/Tests/test_weight_edit_profiles.py": "532b614ac215b064dbc6dff30aedae21841225195a4f01cfe3d3ae51d9caf0c2",
+        "Maintenance/Tests/test_startup_settings.py": "7448d4bbd0b88f50495d2d6600f795116ac51a0d1a5d90f2657792f2d3bc9319",
+        "Maintenance/Tests/test_settings_surfaces_tk.py": "25010ce34ba5f6cd35ef9084967e178e0c4b7827f585fed7e5a09178140e9847",
+        "Documentation/Weight_Edit_Profiles_r65.txt": "235dd5a60506f363c58390894442cb4a96bf25603c4b15f5a07a5ab63e436249"
+      },
+      "independent_full_installation": true,
+      "free_bytes": 152020783104
+    },
+    "E": {
+      "software_checks": {
+        "passed": true,
+        "tests": 1233,
+        "skipped": 2,
+        "failures": [],
+        "errors": []
+      },
+      "live_profile_checks": {
+        "drive": "E",
+        "profile_id": "ca93c33e1986b39d1265aaa4",
+        "passed": true,
+        "checks": [
+          {
+            "arm": "original",
+            "path": "E:\\PortalAI Windows\\LLM\\models\\Qwen3-1.7B-Q8_0.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 3.5160000000032596
+          },
+          {
+            "arm": "edited",
+            "path": "E:\\PortalAI Windows\\LLM\\WeightEdits\\Prepared\\ca93c33e1986b39d1265aaa4\\candidate.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 1.3440000000045984
+          },
+          {
+            "arm": "reverted",
+            "path": "E:\\PortalAI Windows\\LLM\\models\\Qwen3-1.7B-Q8_0.gguf",
+            "text": "Ready.<|im_end|>",
+            "tokens": 3,
+            "seconds": 1.2960000000020955
+          }
+        ],
+        "production_preferences_modified": false,
+        "live_gui_handoff_tested": false,
+        "scope": "Actual independent native engine loads and inference. GUI handoff/Stop guards covered separately by fixtures.",
+        "original_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+        "candidate_sha256": "12affbfb7bcb9e1e527fa5d5a7e30c98ab91e8a040a3de220ee829188db6f9fd",
+        "free_bytes": 194917175296
+      },
+      "original_models": {
+        "passed": true,
+        "models": [
+          {
+            "model": "1.7-standard",
+            "filename": "Qwen3-1.7B-Q8_0.gguf",
+            "bytes": 1834426016,
+            "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "1.7-abliterated",
+            "filename": "Qwen3-1.7B-abliterated.Q8_0.gguf",
+            "bytes": 1834426496,
+            "sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "4-standard",
+            "filename": "Qwen3-4B-Q4_K_M.gguf",
+            "bytes": 2497280256,
+            "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "4-abliterated",
+            "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+            "bytes": 2497280704,
+            "sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "27-standard",
+            "filename": "Qwen3.8-27B-Q4_K_M.gguf",
+            "bytes": 18973870528,
+            "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+            "matches_before_campaign": true
+          },
+          {
+            "model": "27-abliterated",
+            "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+            "bytes": 16810714944,
+            "sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+            "matches_before_campaign": true
+          }
+        ],
+        "production_model_changed": false
+      },
+      "source_hashes": {
+        "Agent/weight_edit_profiles.py": "18905ec6931abc722778ac535aedd22f1ff2761faf8cb3c39c9812768ce53515",
+        "Tools/WeightSpace/edit_profiles.py": "2c8b071daaf5fcd6551690d8e0474792b71ce3ee6d563170705418854dc4da01",
+        "Tools/WeightSpace/ui.py": "d0d02ea405948e42edaaf3cdd33cb818a760c14c8826e1e56435d215a8bec8d7",
+        "Tools/WeightSpace/utility_worker.py": "d8f10f595e053acfc1f10763874a5dc595e56e451d27b74ebc3a3336774fdc57",
+        "Tools/WeightSpace/README.html": "d389e600e443e6b082006dd38b8c5f8136954c912b41df148527996134b816ca",
+        "Agent/runtime_policy.py": "d1ba50d245b803830452bd284427bc4e0f8d51cbf17cd8ca0f5ee93c9887fe24",
+        "Agent/model_preferences.py": "171f6218cefb6976378c9e2c724b5148816e5c31fa065fc4cb92f28a0254d243",
+        "Agent/effort_policy.py": "8149aecce7fa9a06b4157a40d6b9f89db77f4ce5797fb23faea8f8b7d1155453",
+        "ControlCenter/settings_page.py": "4732025f0167327c98f991a4691a0f2794447409d98728d6a8d3d8e9b1187b04",
+        "ControlCenter/release_version.py": "a6e53ad356eab33ba12c5b31dd94ea16f6f31d0bae92b69357523e9dbf2dfb64",
+        "Maintenance/Tests/test_weight_edit_profiles.py": "532b614ac215b064dbc6dff30aedae21841225195a4f01cfe3d3ae51d9caf0c2",
+        "Maintenance/Tests/test_startup_settings.py": "7448d4bbd0b88f50495d2d6600f795116ac51a0d1a5d90f2657792f2d3bc9319",
+        "Maintenance/Tests/test_settings_surfaces_tk.py": "25010ce34ba5f6cd35ef9084967e178e0c4b7827f585fed7e5a09178140e9847",
+        "Documentation/Weight_Edit_Profiles_r65.txt": "235dd5a60506f363c58390894442cb4a96bf25603c4b15f5a07a5ab63e436249"
+      },
+      "independent_full_installation": true,
+      "free_bytes": 194917175296
+    }
+  },
+  "packaged_application_checks": {
+    "passed": true,
+    "tests": 1233,
+    "skipped": 2,
+    "failures": [],
+    "errors": [],
+    "installer_allowlist_extraction_verified": true,
+    "source_python_parsed": 1760,
+    "full_recipient_install": false
+  },
+  "installer_checks": {
+    "passed": true,
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_private_missing_download_gives_actionable_instructions (test_universal.LaunchAndPrivateTests.test_private_missing_download_gives_actionable_instructions)",
+        "reason": "Public release downloads automatically"
+      }
+    ],
+    "suites": [
+      "test_archive_allowlist",
+      "test_installer_progress",
+      "test_storage_preflight",
+      "test_universal"
+    ]
+  },
+  "embedded_source_resources": [
+    {
+      "passed": true,
+      "sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "name": "python-bootstrap.zip",
+      "bytes": 11439094
+    },
+    {
+      "passed": true,
+      "sha256": "1b329b0b3ea3d38d365feb4f4bc367e7cb6fc2753c16046f89cb1c955bd0a459",
+      "name": "installer_core.py",
+      "bytes": 39062
+    },
+    {
+      "passed": true,
+      "sha256": "bfa5542653f72a7bdd8fb8bb8281887c3e43051c81e0e21bd3f18ec063be2788",
+      "name": "engine_cli.py",
+      "bytes": 4572
+    },
+    {
+      "passed": true,
+      "sha256": "d2e89097658364ed5c9505bf1b8e7f86b9c5f8c4f71846afb838da18bf985007",
+      "name": "installer_storage.py",
+      "bytes": 4593
+    },
+    {
+      "passed": true,
+      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
+      "name": "portable_update.py",
+      "bytes": 17915
+    },
+    {
+      "passed": true,
+      "sha256": "17410379017f461ae913ab369015bd7c0eaed2d4dc053d8ba5c2eec97f888475",
+      "name": "suite_installer.py",
+      "bytes": 27664
+    },
+    {
+      "passed": true,
+      "sha256": "dc81d6e265d36893e90564b1c2d8c14a6765df4f000dfed4e28272b0467fb3f5",
+      "name": "abliterator_installer_core.py",
+      "bytes": 29697
+    }
+  ],
+  "catalog": {
+    "passed": true,
+    "windows_r65_routes": 1,
+    "all_installer_choices_resolved_from_exact_sidecar": true,
+    "academic_choices_exclude_full": true
+  },
+  "upgrade_history": {
+    "passed": true,
+    "tested_versions": [
+      {
+        "from": "2026.10.25-Aoostar-r43",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r44",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.24-r17",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Standardized-r1",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.25-Aoostar-r45",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.26-Aoostar-r46",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r47",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r48",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.27-Desktop-r49",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.28-Desktop-r50",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.29-Desktop-r51",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r52",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.30-Desktop-r53",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r54",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r55",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r56",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r57",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r58",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.10.31-Desktop-r59",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r60",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r61",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.01-Desktop-r62",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.03-Desktop-r63",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      },
+      {
+        "from": "2026.11.04-Desktop-r64",
+        "to": "2026.11.04-Desktop-r65",
+        "action": "upgrade",
+        "private_fixture_unchanged": true
+      }
+    ],
+    "legacy_fingerprints_retained": 1,
+    "embedded_matches_sidecar": true,
+    "real_user_installation_modified": false
+  },
+  "source_matches_payload": true,
+  "payload_growth_bytes_vs_r64": 44698,
+  "existing_component_pins_unchanged": true,
+  "new_downloaded_models": false,
+  "production_defaults_changed": false,
+  "new_dependencies": false,
+  "production_account_preferences_changed": false,
+  "full_fresh_recipient_install_tested": false,
+  "linux_mac_updated": false,
+  "deprecated_C_installation_excluded": true,
+  "visual_inspection": "Native standalone D editor: all profile controls and selected real profile visible; missing-model preparation validation displayed; window closed normally. Minimum-size layout has automated coverage.",
+  "initial_D_run": {
+    "passed": false,
+    "tests": 1232,
+    "skipped": 2,
+    "failures": [],
+    "errors": [
+      "test_profile_hydration.HydrationTests.test_wrong_capability_origin_epoch_other_user_and_path_escape_are_rejected (kwargs={'token': 'incorrect'})"
+    ]
+  },
+  "initial_D_note": "One pre-existing wrong-capability HTTP fixture reported WinError 10053 under concurrent validation. The preserved initial run predates the final corrupt-sidecar test. The complete final D rerun passed all 1,233 checks.",
+  "download_launcher": {
+    "passed": true,
+    "mode": "real compiled --prepare-only with verified local download cache",
+    "files_verified": 10,
+    "archive_sha256": "8bf5ade8d5a10d55b2b6d1b76c1f619d9be7d7ede6339c14aa6cec07f0f8aa67",
+    "network_download_tested": false,
+    "full_install_started": false
+  },
+  "initial_Academic_run": {
+    "passed": false,
+    "tests": 1233,
+    "skipped": 2,
+    "failures": [
+      "test_nice_prompt_integration.NicePromptIntegrationTests.test_all_media_defaults_refresh_in_the_same_compact_or_full_chat",
+      "test_nice_prompt_integration.NicePromptIntegrationTests.test_prompt_rereads_independent_media_setting_without_probing"
+    ],
+    "errors": []
+  },
+  "Academic_overlay_correction": "The initial common-source overlay removed edition-specific model-preference and Settings enforcement. Those original guards were restored by a three-way source merge, a Full-only startup fixture was adapted to assert standard-only admission, and the new complete extracted package passed before publication."
+}

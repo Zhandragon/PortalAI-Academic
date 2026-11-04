@@ -387,6 +387,9 @@ def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dic
     if selection == 'auto':
         result['variant_reason'] = ('Saved ' + preferred + ' preference' if model_variant(result) == preferred
                                     else 'Standard fallback: no installed uncensored model fits current hardware')
+    if policy.get('weight_edit_profile','original')!='original':
+        from weight_edit_profiles import resolve_model
+        result=resolve_model(root,result,policy)
     return {"selected": result, "rejected": rejected}
 
 

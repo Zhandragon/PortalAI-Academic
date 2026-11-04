@@ -21,6 +21,38 @@ def main():
     research_guard.LAB=work
     from quantized_edit import inventory,materialize
     action=request['action'];model=Path(request['model']).resolve(strict=True)
+    if action=='save-profile':
+        from edit_profiles import export_profile
+        recipe_file=Path(request['recipe'])
+        if recipe_file.stat().st_size>8*1024**2:raise ValueError('Recipe exceeds 8 MiB')
+        recipe=json.loads(recipe_file.read_text(encoding='utf-8-sig'))
+        result=export_profile(ROOT,model,Path(request['candidate']),recipe,label=request['label'],
+                              progress=lambda done,total:print(json.dumps({'bytes':done,'total':total}),flush=True))
+        result['message']='Exact edit profile saved. Prepare it, then select it in PortalAI Settings → Chat models. Original weights remain the default.'
+        atomic_json(work/'profile-result.json',result);print(json.dumps(result),flush=True);return
+    if action in ('prepare-profile','clear-prepared'):
+        from edit_profiles import prepare_profile,clear_prepared
+        from service_manager import acquire_gpu_lease,release_gpu_lease,_qwen_lifecycle_mutex
+        from chat_model_switch import _owned_listener,_argv
+        lease=acquire_gpu_lease('weight-profile-cache',timeout=3)
+        try:
+            # Coordinate with chat loading and other GPU users before removing
+            # any derived cache. Unknown listener ownership fails closed.
+            with _qwen_lifecycle_mutex():
+                in_use=[]
+                for row in _owned_listener().get('listeners',[]):
+                    args=_argv(row.get('command_line',''))
+                    if '-m' not in args or args.index('-m')+1>=len(args):raise RuntimeError('Cannot identify the loaded model; cache left untouched')
+                    in_use.append(args[args.index('-m')+1])
+                if action=='prepare-profile':
+                    result=prepare_profile(ROOT,model,request['profile_id'],in_use=in_use,
+                                           progress=lambda done,total:print(json.dumps({'segments':done,'total':total}),flush=True))
+                    result['message']='Prepared. Select this profile in PortalAI Settings → Chat models, then Save. Choose Original weights there to revert on the next request.'
+                else:
+                    result={'removed':clear_prepared(ROOT,request['profile_id'],in_use=in_use),'original_modified':False,
+                            'message':'Prepared copy cleared; compact profile and original weights retained. Select Original weights in Settings, or prepare the profile again.'}
+        finally:release_gpu_lease(lease)
+        atomic_json(work/'profile-result.json',result);print(json.dumps(result),flush=True);return
     if action=='inspect':
         result=inventory(model);result['model_sha256']=sha(model)
         atomic_json(work/'inspection.json',result);print(json.dumps(result),flush=True);return

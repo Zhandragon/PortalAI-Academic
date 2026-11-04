@@ -1,0 +1,15 @@
+# Windows r65: reversible weight-edit profiles
+
+Keep original standard and uncensored weights intact, save an exact compact edit profile, and prepare a loadable copy in Utilities → Weight-Space Editor. Select it under Settings → Chat models → Weight edit profile. Choose Original weights to revert on the next request. Switching follows the existing owned, idle, Stop-aware model-loading path and requires a model reload.
+
+Profiles are tied to the exact base checksum, model size and variant. All current profiles are experimental; none is selected automatically and no completed or uncertain tool action is replayed. A prepared copy uses the full model size. The cache retains at most two copies, protects loaded copies, verifies a replacement before evicting an unused copy, and preserves **80 GiB free even while staging**. Interrupted or altered files remain available for review. The GUI reads small sidecars while file copying and hashing run in owned workers.
+
+The first 1.7B discovery profile occupies 25,783,118 bytes, compared with its 1,834,426,016-byte original. It tied the original at 18/28, with three rescues and three regressions, so it is not a general replacement. The broader six-model experiment remains in progress. This software release does not establish increased intelligence or change default weights. Optional experimental profile data is local; it is not bundled as a recommended model in these installers.
+
+**Validation:** D and E each completed 1,233 checks with two platform-related skips; both extracted editions passed the same suite. D's initial run reported a connection-aborted error in an existing local authentication-rejection fixture; its full rerun passed and the initial log is retained. Actual original/edit/original native model loads and inference passed independently on D and E; reverting reproduced the original response. The existing chat handoff and Stop paths have regression coverage; a live GUI conversation using the profile was not exercised. All six original model SHA-256 hashes still match on both drives.
+
+The initial Academic package failed two prompt/settings checks after a common-source overlay removed edition-specific rules. Those original rules were restored, its startup fixture now verifies standard-only admission, and the corrected package passed before publication. Each edition passed 45 installer checks (one platform-specific skip), seven embedded source/runtime checks, payload/source hashes and upgrade planning from all **24** supported prior version stamps. The Academic compiled launcher passed prepare-only verification. No full fresh-recipient installation or physical Linux/Mac/Radeon acceptance is claimed.
+
+Added application files: **44,698 bytes** versus r64. No new dependency tree or model download. D/E remain independent and above the storage reserve. Linux/Mac remain r51. Restart PortalAI normally to load the new controls.
+
+[Profile guide and source](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-PROFILES-r65.md) · [Validation](https://github.com/Zhandragon/PortalAI-Academic/blob/main/Documentation/WEIGHT-PROFILES-VALIDATION-r65.json).

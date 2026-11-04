@@ -2,7 +2,7 @@
 import argparse,json,os,queue,re,sys,threading,time,uuid
 from pathlib import Path
 import tkinter as tk
-from tkinter import filedialog,messagebox,ttk
+from tkinter import filedialog,messagebox,simpledialog,ttk
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 sys.path.insert(0,str(HERE))
 from run_owned import run
@@ -33,12 +33,20 @@ class Editor:
         actions=ttk.Frame(body);actions.grid(row=6,column=0,columnspan=3,sticky='ew',pady=(15,12));self.buttons=[]
         for title,action in [('Inspect model','inspect'),('Evaluate original','evaluate'),('Locate failure sites','diagnose'),('Create candidate','edit'),('Compare candidate','compare')]:
             button=ttk.Button(actions,text=title,command=self.start_diagnosis if action=='diagnose' else lambda a=action:self.start(a));button.pack(side='left',padx=(0,6));self.buttons.append(button)
+        self.profile=tk.StringVar();self.profile_ids={}
+        ttk.Label(body,text='Saved edit profile').grid(row=7,column=0,sticky='w')
+        self.profile_combo=ttk.Combobox(body,textvariable=self.profile,state='readonly',postcommand=self.refresh_profiles)
+        self.profile_combo.grid(row=7,column=1,columnspan=2,sticky='ew')
+        profiles=ttk.Frame(body);profiles.grid(row=8,column=0,columnspan=3,sticky='ew',pady=(8,10))
+        for title,action in [('Save candidate as profile','save-profile'),('Prepare selected','prepare-profile'),('Clear prepared copy','clear-prepared')]:
+            button=ttk.Button(profiles,text=title,command=lambda a=action:self.start(a));button.pack(side='left',padx=(0,6));self.buttons.append(button)
+        self.refresh_profiles()
         self.status=tk.StringVar(value='Ready. Original models stay unchanged; working files remain on this portable drive.')
-        ttk.Label(body,textvariable=self.status,wraplength=780).grid(row=7,column=0,columnspan=3,sticky='w',pady=(0,10))
-        body.rowconfigure(8,weight=1)
+        ttk.Label(body,textvariable=self.status,wraplength=650).grid(row=9,column=0,columnspan=3,sticky='w',pady=(0,10))
+        body.rowconfigure(10,weight=1)
         self.output=tk.Text(body,height=15,bg=PANEL,fg=FG,insertbackground=FG,relief='flat',wrap='word',font=('Consolas',10),state='disabled')
-        self.output.grid(row=8,column=0,columnspan=3,sticky='nsew')
-        footer=ttk.Frame(body);footer.grid(row=9,column=0,columnspan=3,sticky='ew',pady=(12,0))
+        self.output.grid(row=10,column=0,columnspan=3,sticky='nsew')
+        footer=ttk.Frame(body);footer.grid(row=11,column=0,columnspan=3,sticky='ew',pady=(12,0))
         self.stop=ttk.Button(footer,text='Stop',command=self.cancel.set,state='disabled');self.stop.pack(side='left')
         ttk.Button(footer,text='Open work folder',command=self.open_work).pack(side='left',padx=8)
         ttk.Button(footer,text='Method & task format',command=self.guide).pack(side='left')
@@ -60,10 +68,17 @@ class Editor:
         if self.busy:return
         request={'action':action,'model':self.model.get(),'campaign':self.campaign}
         if action=='diagnose':request['baseline_report']=self.baseline_report
-        for key in (('recipe',) if action=='edit' else ('cases','candidate') if action=='compare' else ('cases',) if action=='evaluate' else ()):
+        for key in (('recipe',) if action=='edit' else ('recipe','candidate') if action=='save-profile' else ('cases','candidate') if action=='compare' else ('cases',) if action=='evaluate' else ()):
             request[key]=getattr(self,key).get()
         if any(not Path(value).is_file() for key,value in request.items() if key not in ('action','campaign')):
             self.status.set('Choose all required existing files for this action.');return
+        if action in ('prepare-profile','clear-prepared'):
+            request['profile_id']=self.profile_ids.get(self.profile.get())
+            if not request['profile_id']:self.status.set('Choose a saved profile first.');return
+        if action=='save-profile':
+            label=simpledialog.askstring('Save weight-edit profile','Name this experimental profile:',parent=self.root,initialvalue=Path(self.recipe.get()).stem)
+            if label is None:return
+            request['label']=label
         work=self.home/'work'/(time.strftime('%Y%m%d-%H%M%S')+'-'+uuid.uuid4().hex[:8]);work.mkdir(parents=True)
         path=work/'request.json';path.write_text(json.dumps(request,indent=2),encoding='utf-8')
         self.current=work;self.busy=True;self.cancel.clear();self.last_log_size=-1;self.status.set('Working independently. You can keep using the interface or stop this run.')
@@ -89,8 +104,14 @@ class Editor:
             self.stop.configure(state='disabled')
             self.status.set('Completed. Review the saved evidence.' if kind=='finished' and value==0 else 'Stopped or failed. Original model unchanged. '+str(value))
             if self.current and kind=='finished' and value==0:
-                inspect=self.current/'inspection.json';report=self.current/'report.json'
-                if inspect.is_file():
+                inspect=self.current/'inspection.json';report=self.current/'report.json';profile_result=self.current/'profile-result.json'
+                if profile_result.is_file():
+                    result=json.loads(profile_result.read_text());self.refresh_profiles(result.get('id') or result.get('profile_id'))
+                    lines=[result['message'],'','Experimental profiles can improve some tasks and regress on others. No automatic retry or completed-tool replay is enabled.']
+                    if 'patch_bytes' in result:lines+=['',f"Compact patch: {result['patch_bytes']/1024**2:.2f} MiB",'Profile: '+result['label']]
+                    if 'candidate' in result:lines+=['','Prepared model: '+result['candidate']]
+                    self.show('\n'.join(lines))
+                elif inspect.is_file():
                     result=json.loads(inspect.read_text());sites=result['dense_mlp_sites'];eligible=sum(site['editable'] for site in sites)
                     lines=['Model inspection complete','',f"Architecture: {result['architecture']}",f'Compatible dense MLP sites: {eligible} of {len(sites)}',
                            'Model checksum: '+result['model_sha256'],'','Choose a discovery task set and evaluate the original before proposing any edits.','',
@@ -112,6 +133,12 @@ class Editor:
 
     def open_work(self):
         path=self.current or self.home;os.startfile(str(path))
+    def refresh_profiles(self,selected=None):
+        from weight_edit_profiles import catalog
+        selected=selected or self.profile_ids.get(self.profile.get())
+        self.profile_ids={('Prepared' if row['prepared'] else 'Not prepared')+' · '+row['label']+' · '+row['id']:row['id'] for row in catalog(ROOT)}
+        self.profile_combo.configure(values=list(self.profile_ids))
+        self.profile.set(next((label for label,identifier in self.profile_ids.items() if identifier==selected),next(iter(self.profile_ids),'')))
     def guide(self):
         os.startfile(str(HERE/'README.html'))
     def start_diagnosis(self):

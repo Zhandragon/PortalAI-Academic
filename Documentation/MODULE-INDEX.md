@@ -177,6 +177,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/web_tls.py](../ApplicationSources/Windows/PortalAI/Agent/web_tls.py) | Verified portable Mozilla roots, added to normal recipient TLS trust. |
 | [Agent/web_tools.py](../ApplicationSources/Windows/PortalAI/Agent/web_tools.py) | No module overview; see source and symbol inventory. |
 | [Agent/web_worker.py](../ApplicationSources/Windows/PortalAI/Agent/web_worker.py) | Private JSON-lines browser worker. EOF/Stop closes its entire owned job. |
+| [Agent/weight_edit_profiles.py](../ApplicationSources/Windows/PortalAI/Agent/weight_edit_profiles.py) | Read-only routing of explicitly selected, prepared weight-edit profiles. |
 | [Agent/windows_demucs.py](../ApplicationSources/Windows/PortalAI/Agent/windows_demucs.py) | Pinned offline Windows vocal separation; no Hub/cache model lookup. |
 | [Agent/windows_detached_image.py](../ApplicationSources/Windows/PortalAI/Agent/windows_detached_image.py) | Same-handle image evidence for a portable executable on a lost mount. |
 | [Agent/windows_portable_access.py](../ApplicationSources/Windows/PortalAI/Agent/windows_portable_access.py) | Read-only Windows access checks independent of machine-specific owner SIDs. |
@@ -732,6 +733,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_web_smoke_profile.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_smoke_profile.py) | The live web harness uses private, revocation-aware fixtures and reports. |
 | [Maintenance/Tests/test_web_tls.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_tls.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_web_worker_windows.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_worker_windows.py) | Real hidden worker, browser and owned-job tests in a disposable workspace. |
+| [Maintenance/Tests/test_weight_edit_profiles.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weight_edit_profiles.py) | Exact profile round trips, original routing and bounded cache ownership. |
 | [Maintenance/Tests/test_weightspace.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace.py) | Direct edit invariants, admission, evidence gates and durable pass accounting. |
 | [Maintenance/Tests/test_window_icons.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_icons.py) | Read back real native icon pixels and exercise Tk wrapper lifetimes. |
 | [Maintenance/Tests/test_window_minimize.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_window_minimize.py) | Native minimize with the real drop hook; current tray callback routing. |
@@ -814,6 +816,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/WeightSpace/README.html](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/README.html) | Source script; inspect its comments and entry points. |
 | [Tools/WeightSpace/code_check.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/code_check.py) | Restricted pure-function check in a parent-owned, memory/time-limited process. |
 | [Tools/WeightSpace/diagnosis.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/diagnosis.py) | Natural outcome localization for an editor to investigate, not auto-promotion. |
+| [Tools/WeightSpace/edit_profiles.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/edit_profiles.py) | Compact exact GGUF deltas and bounded prepared copies; originals stay immutable. |
 | [Tools/WeightSpace/evaluation.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py) | Explicit, deterministic task graders; tool choices are never executed. |
 | [Tools/WeightSpace/experiment.py](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/experiment.py) | Durable experiment accounting and paired evidence; no automatic promotion. |
 | [Tools/WeightSpace/launcher/Start Weight-Space Editor.cmd](../ApplicationSources/Windows/PortalAI/Tools/WeightSpace/launcher/Start%20Weight-Space%20Editor.cmd) | Source script; inspect its comments and entry points. |

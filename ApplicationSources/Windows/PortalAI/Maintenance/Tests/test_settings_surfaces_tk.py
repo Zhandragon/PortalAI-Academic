@@ -204,7 +204,7 @@ class SettingsSurfaceTests(unittest.TestCase):
         self.assertEqual(field.get(), '99999')
         self.assertEqual(checkpoint.get(), '0')
         self.assertEqual(ttk.Style(field).lookup(field.cget('style'),'fieldbackground'), DARK['panel2'])
-        self.assertEqual(len([w for w in widgets(self.panel._sheet_overlay) if isinstance(w,tk.Entry)]), 20)
+        self.assertEqual(len([w for w in widgets(self.panel._sheet_overlay) if isinstance(w,tk.Entry)]), 23)
         button(self.panel._sheet_overlay, 'Save settings').invoke()
         self.assertEqual(self.panel.settings['context_summary_max_tokens'], 4096)
         self.assertEqual(self.panel.settings['checkpoint_no_tool_limit'], 0)

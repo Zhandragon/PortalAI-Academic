@@ -1,8 +1,8 @@
 [
   {
     "path": "payload.zip",
-    "bytes": 381972916,
-    "sha256": "4f2bb685c83e6f7cd1d1cffcf95f10eca35c9513c0e843866d475b74a0e9e341"
+    "bytes": 381987464,
+    "sha256": "8abd9377959b3be1bf3cc7007f6e3b7bd050d79684f2f4a1bea3de0116916aac"
   },
   {
     "path": "PortalAI-Academic-Install.exe",
@@ -16,8 +16,8 @@
   },
   {
     "path": "release.json",
-    "bytes": 139078908,
-    "sha256": "87cce3d3723c8e9066f730ba3cd5e96ff24df96cbeed495473a6aaf1791f7414"
+    "bytes": 139080245,
+    "sha256": "bee907fe31135dd462f73f1e9faa6f56bf46934956cb434adff9d72b85f7e7f0"
   },
   {
     "path": "sox-14.4.2-win32.zip",
@@ -26,22 +26,22 @@
   },
   {
     "path": "START_HERE.txt",
-    "bytes": 6507,
-    "sha256": "e67cc699300e38fdf23f513a61f1687afcc4a0abcec23a75773dc8ec642b318c"
+    "bytes": 6655,
+    "sha256": "49063afa7ae28a6ce278cc145192c455260e6302d1cf0173d5d50a51e41e7e46"
   },
   {
     "path": "storage-plan.json",
     "bytes": 190024,
-    "sha256": "631d67ecdbae92da5c325f24b0297f226c87b9be174d698c4801910d8db67658"
+    "sha256": "3db7308af0bc5823d64d81c5523cca006d5e8576bf6e7e928043af285c7f6569"
   },
   {
     "path": "suite-catalog.json",
     "bytes": 4338,
-    "sha256": "23ea8926c96722dea83a2e7e43ce2e53f498149c3c68e9386b9b086e168318d9"
+    "sha256": "735295cc6da52ab1a41c7d1a52a06fade850e4f0ec3d28eb3d0ff11d6f1fdb0a"
   },
   {
     "path": "upgrade.json",
-    "bytes": 1440,
-    "sha256": "5bb31ddaff420ebe81e2e90a0c10032fb6cc30e22e7a647fe18487ae161d8340"
+    "bytes": 1470,
+    "sha256": "7f6a835cd9e04202964d245b203a916df1e865e1838061fff708d606ae5dbe73"
   }
 ]

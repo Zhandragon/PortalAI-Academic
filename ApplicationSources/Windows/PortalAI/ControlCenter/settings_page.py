@@ -19,12 +19,24 @@ def policy_values(policy):
             'context_tokens': str(policy.get('context_tokens', 8192)),
             'variant_preference': selected_variant(policy),
             'vision_routing': policy.get('vision_routing', 'off'),
+            'weight_edit_profile': policy.get('weight_edit_profile','original'),
             **{key: policy.get('media', {}).get(key, 'auto') for key in MEDIA_CHOICES}}
 
 
 def model_inventory_note(models):
     return '\n'.join(f"{'Installed' if model['installed'] else 'Not installed'}: {model['label']}"
                      + (f" ({model['bytes']/1024**3:.2f} GiB)" if model['installed'] else '') for model in models)
+
+
+def weight_profile_choices(root,selected='original'):
+    from weight_edit_profiles import catalog
+    result={'Original weights':'original'}
+    for row in catalog(root):
+        label=('Experimental' if row['prepared'] else 'Prepare first')+' · '+row['label']+' · '+row['id'][:12]
+        if label in result:label+=' · '+row['id'][12:]
+        result[label]=row['id']
+    if selected not in result.values():result['Unavailable profile · '+str(selected)]=selected
+    return result
 
 
 def save_settings(root, values, *, session=None, scope='all'):
@@ -41,7 +53,12 @@ def save_settings(root, values, *, session=None, scope='all'):
         if context not in (2048, 4096, 8192, 16384, 32768):raise ValueError('Unsupported context size')
         changes.update(selection=values['selection'], backend=values['backend'], context_tokens=context,
                        variant_preference=values.get('variant_preference', policy.get('variant_preference', 'standard')),
-                       vision_routing=values.get('vision_routing', policy.get('vision_routing', 'off')))
+                       vision_routing=values.get('vision_routing', policy.get('vision_routing', 'off')),
+                       weight_edit_profile=values.get('weight_edit_profile',policy.get('weight_edit_profile','original')))
+        if changes['weight_edit_profile']!='original':
+            from weight_edit_profiles import catalog
+            selected=next((r for r in catalog(root) if r['id']==changes['weight_edit_profile']),None)
+            if not selected or not selected['prepared']:raise ValueError('Prepare this edit profile in Utilities before selecting it. Original weights are always available.')
     if scope in ('all','media'):
         media={key:values.get(key,policy.get('media',{}).get(key,'auto')) for key in MEDIA_CHOICES}
         if any(media[k] not in choices for k,choices in MEDIA_CHOICES.items()):raise ValueError('Unknown media setting')
@@ -123,6 +140,8 @@ class SettingsPage(tk.Frame):
         self.selectors = {}
         self.media_labels = {}
         self.media_help = {}
+        self.weight_profile_ids=weight_profile_choices(root,policy.get('weight_edit_profile','original'))
+        weight_choice=next(k for k,v in self.weight_profile_ids.items() if v==policy.get('weight_edit_profile','original'))
         media_section = skin.section(media_page, 'Media defaults')
         from ui_extensions import ResponsiveGrid
         self.media_grid = ResponsiveGrid(media_section, bg=skin.colors['panel'], min_cell_width=390,
@@ -137,11 +156,13 @@ class SettingsPage(tk.Frame):
             (model_section, 'backend', 'Backend', policy.get('backend','auto'), ['auto','cuda','vulkan','cpu']),
             (model_section, 'context_tokens', 'Context limit', str(policy.get('context_tokens',8192)), ['2048','4096','8192','16384','32768']),
             (model_section, 'vision_routing', 'Automatic image vision', policy.get('vision_routing','off'), ['automatic','off']),
+            (model_section, 'weight_edit_profile', 'Weight edit profile', weight_choice, list(self.weight_profile_ids)),
         ):
             var = tk.StringVar(self, value=current); self.variables[key] = var
             self.selectors[key] = skin.row(section, title, lambda row, var=var, options=options: skin.combo(row, var, options))
         for key in ('selection', 'variant_preference'):
             self.selectors[key].bind('<<ComboboxSelected>>', lambda event, key=key: self._chat_choice_selected(key), add='+')
+        label(model_section, 'Weight profiles apply only to their exact matching model and variant. Create and prepare them in Utilities → Weight-Space Editor. Save to use a prepared profile on the next request; choose Original weights to revert. Experimental profiles can improve one task and worsen another. Switching reloads the model and never replays completed tools.', muted=True)
         label(model_section, 'The Qwen 3 VL 2B and 4B pairs appear in Models, Packages and the inventory below. They are image companions, so the text-model menu excludes them. Maintenance: Small Vision (2B / 4B) checks files and effort routing; Vision Asset Checksums verifies the pinned files without loading a model. Automatic image vision uses 2B for Fast and 4B for Balanced, falling back to 2B when needed. Academic always uses standard vision companions and keeps your text choice. Images still in conversation context require vision. Save to apply; memory and Stop checks remain.', muted=True)
         for key in MEDIA_DESCRIPTIONS:
             self._media_row(self.media_grid, key, policy.get('media',{}).get(key,'auto'))
@@ -231,6 +252,7 @@ class SettingsPage(tk.Frame):
         keys=CHAT_KEYS if scope=='chat' else MEDIA_CHOICES if scope=='media' else self.variables
         values={k:self.variables[k].get() for k in keys}
         if 'selection' in values:values['selection']=self.model_ids[values['selection']]
+        if 'weight_edit_profile' in values:values['weight_edit_profile']=self.weight_profile_ids[values['weight_edit_profile']]
         return values
 
     def _add_missing_selection(self, model_id):
@@ -275,6 +297,7 @@ class SettingsPage(tk.Frame):
         if self._syncing:return
         value = self.variables[key].get()
         if key == 'selection':value = self.model_ids.get(value, value)
+        if key == 'weight_edit_profile':value=self.weight_profile_ids.get(value,value)
         if value == self.saved_values[key]:self._dirty.discard(key)
         else:self._dirty.add(key)
         scope = 'chat' if key in CHAT_KEYS else 'media'
@@ -298,7 +321,8 @@ class SettingsPage(tk.Frame):
             note = model_inventory_note(models)
             if self.inventory_label.cget('text') != note:self.inventory_label.configure(text=note)
         choices = self._installed_choices if models is None else [(m['label'], m['id']) for m in models if m['installed'] and not m.get('vision_only')]
-        if current == self.saved_values and choices == self._installed_choices:return
+        profile_choices=weight_profile_choices(self.root_dir,current['weight_edit_profile'])
+        if current == self.saved_values and choices == self._installed_choices and profile_choices==self.weight_profile_ids:return
         before = dict(self.saved_values)
         drafts = self.values()
         chosen = drafts['selection']
@@ -312,10 +336,14 @@ class SettingsPage(tk.Frame):
             self._add_missing_selection(current['selection'])
             if tuple(self.selectors['selection'].cget('values')) != tuple(self.model_ids):
                 self.selectors['selection'].configure(values=list(self.model_ids))
+            if drafts['weight_edit_profile'] not in profile_choices.values():profile_choices['Unavailable profile · '+drafts['weight_edit_profile']]=drafts['weight_edit_profile']
+            self.weight_profile_ids=profile_choices
+            self.selectors['weight_edit_profile'].configure(values=list(profile_choices))
             for key, value in current.items():
                 selected_value = drafts[key] if key in self._dirty else value
                 if key == 'selection':
                     selected_value = next(label for label, model_id in self.model_ids.items() if model_id == (chosen if key in self._dirty else value))
+                if key == 'weight_edit_profile':selected_value=next(label for label,identifier in self.weight_profile_ids.items() if identifier==selected_value)
                 if self.variables[key].get() != selected_value:self.variables[key].set(selected_value)
             self.saved_values = current
             actual = self.values()
@@ -377,7 +405,7 @@ class SettingsPage(tk.Frame):
                 if scope=='media':text=media_fit(self.root_dir,values)
                 else:
                     policy=load_effective_policy(self.root_dir)
-                    policy.update(selection=values['selection'],backend=values['backend'],context_tokens=int(values['context_tokens']),variant_preference=values['variant_preference'])
+                    policy.update(selection=values['selection'],backend=values['backend'],context_tokens=int(values['context_tokens']),variant_preference=values['variant_preference'],weight_edit_profile=values['weight_edit_profile'])
                     p=build_plan(self.root_dir,policy=policy);m=p['model']
                     text=f"Current fit: {MODEL_LABELS.get(m['id'],m['id'])} · {p['backend']['backend']} · {m['context_tokens']} tokens · {m['gpu_layers']} GPU layers. Estimate only; running models retain their memory."
             except Exception as exc:text=f'Current fit unavailable: {exc}'

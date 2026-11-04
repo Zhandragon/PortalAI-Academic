@@ -24,15 +24,16 @@ from tk_fixture_cleanup import finish_tk_fixture
 
 class StartupModelTests(unittest.TestCase):
     def configure(self, scenario):
-        policy = {'selection': 'qwen4-q4', 'backend': 'cpu', 'context_tokens': 8192,
-                  'models': [{'id': 'qwen4-q4', 'automatic': False}],
-                  'variant_preference': 'standard', 'media': {'media_variant': 'standard'}}
+        policy = {'selection': 'qwen4-abliterated-q4', 'backend': 'cpu', 'context_tokens': 8192,
+                  'models': [{'id': 'qwen4-abliterated-q4', 'automatic': False}, {'id':'qwen4-q4','automatic':False}]}
         (scenario.root/'Agent/hardware_profiles.json').write_text(json.dumps(policy))
+        from academic_policy import enforce_policy
+        policy=enforce_policy(policy)
         scenario.model['id'] = 'qwen4-q4'
         scenario.model['label'] = '4B Standard'
         return policy
 
-    def test_startup_switches_existing_standard_to_selected_alternate(self):
+    def test_startup_enforces_standard_policy_before_loading(self):
         with Scenario() as s:
             policy = self.configure(s)
             with patch.object(effort_policy, 'capabilities', return_value={'profiles': {'balanced': s.plan}}):
@@ -40,6 +41,9 @@ class StartupModelTests(unittest.TestCase):
             self.assertTrue(result['changed'])
             self.assertEqual(result['model']['id'], policy['selection'])
             self.assertEqual(s.admit.call_args.kwargs['policy'], policy)
+            self.assertEqual(policy['selection'],'qwen4-q4')
+            self.assertEqual(policy['variant_preference'],'standard')
+            self.assertEqual(policy['media']['media_variant'],'standard')
             s.begin.assert_called_once(); s.idle.assert_called(); s.spawn.assert_called_once()
 
     def test_startup_reuses_only_the_matching_owned_healthy_model(self):
@@ -88,6 +92,7 @@ class StartupModelTests(unittest.TestCase):
         self.assertEqual(prepare.call_args.kwargs['requested_at'], 12)
 
     def test_linux_launcher_uses_same_model_and_stop_guard(self):
+        if sys.platform=='win32':self.skipTest('Linux process ownership requires a Linux host')
         import linux_lifecycle
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -167,7 +172,7 @@ class SettingsStartupTkTests(unittest.TestCase):
         policy = {**INVENTORY['policy'], 'backend':'vulkan', 'context_tokens':4096}
         with patch.object(settings_page, 'load_effective_policy', return_value=policy), patch.object(settings_page,'save_settings') as save:
             self.assertTrue(self.page.commit_for_startup())
-        self.assertEqual(save.call_args.args[1], {'selection':'fixture-small','backend':'vulkan','context_tokens':'4096','variant_preference':'standard','vision_routing':'off'})
+        self.assertEqual(save.call_args.args[1], {'selection':'fixture-small','backend':'vulkan','context_tokens':'4096','variant_preference':'standard','vision_routing':'off','weight_edit_profile':'original'})
 
     def test_missing_selection_stays_explicit_and_new_models_appear(self):
         policy = {**INVENTORY['policy'], 'selection':'missing'}
