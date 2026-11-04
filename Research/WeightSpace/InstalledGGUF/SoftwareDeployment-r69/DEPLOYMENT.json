@@ -1,0 +1,338 @@
+{
+  "verified_at_utc": "2026-11-04T23:57:30Z",
+  "software_deployment_complete": true,
+  "campaign_complete": false,
+  "original_models_replaced": false,
+  "independent_confirmation_required": true,
+  "final_benchmarks_run": false,
+  "campaign_source_commits": {
+    "Full": "4c10baeb05a917a5983d934fdb92ea0f36969ca8",
+    "Academic": "eb77ec30628e09d088dd3a048e33c4132730713b"
+  },
+  "release_urls": {
+    "Full": "https://github.com/Zhandragon/PortalAI/releases/tag/v2026.11.04-Desktop-r69",
+    "Academic": "https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.04-Desktop-r69"
+  },
+  "release_source_commits": {
+    "Full": "d76abef9f97fb32c2d6977839aad4814706e1cec",
+    "Academic": "3d3f883faaac69cf87aa23f8ac0cad53e046e81e"
+  },
+  "independent_ssd_identity": {
+    "passed": true,
+    "checked_at_utc": "2026-11-04T23:57:24Z",
+    "drives": {
+      "D": {
+        "independent_installation": true,
+        "checked_paths_resolve_within_each_portable_folder": true,
+        "originals": [
+          {
+            "model": "1.7-standard",
+            "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "bytes": 1834426016,
+            "original_preserved": true
+          },
+          {
+            "model": "1.7-abliterated",
+            "sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "bytes": 1834426496,
+            "original_preserved": true
+          },
+          {
+            "model": "4-standard",
+            "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "bytes": 2497280256,
+            "original_preserved": true
+          },
+          {
+            "model": "4-abliterated",
+            "sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "bytes": 2497280704,
+            "original_preserved": true
+          },
+          {
+            "model": "27-standard",
+            "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+            "bytes": 18973870528,
+            "original_preserved": true
+          },
+          {
+            "model": "27-abliterated",
+            "sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+            "bytes": 16810714944,
+            "original_preserved": true
+          }
+        ],
+        "installed_r69_source_matches": true,
+        "verified_local_release_assets": [
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Universal-Setup-2026.11.04-Desktop-r69.zip",
+            "sha256": "e1828e92c6a6cd3afde081db863c5211da9f8de84acdfc40ccbd2482e1c10ff8"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Universal-Setup-2026.11.04-Desktop-r69.zip.sha256",
+            "sha256": "ea9e86f72299a1ade261bf0b48bc3c8b70af0c759c76b591b14110ef24d53bba"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Windows-Installer-2026.11.04-Desktop-r69-suite.zip",
+            "sha256": "5ecc324f9649af0e007657d274c39a12f04a1ef02c699edf4eee23b5a3a6d219"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Windows-Installer-2026.11.04-Desktop-r69-suite.zip.sha256",
+            "sha256": "e5ad0b4569ed38c563e82577927d38644087eaa0c2ee3ab71828e30be4b50620"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Experimental-Edit-27-abliterated-r69.zip",
+            "sha256": "61287bf9854abf12007bad4431a3b83493250afe6091715ea5bdb1a7ce08cd32"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Experimental-Edit-27-abliterated-r69.zip.sha256",
+            "sha256": "36767bd9542c0440e5c0fb5413151f536b3c33316df1e7ebe17202754b509664"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r69.zip",
+            "sha256": "89513ff71f25636375464f4bfb744e35c43a41a6363c23a3abaf6d08b977a09a"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r69.zip.sha256",
+            "sha256": "86b84fbb625b1c858b6aef36880e364c86c5955a8651e1c743c024a37740ca87"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r69-suite.zip",
+            "sha256": "c0e8421f0e96b8cc39a1f487ddce1804a16b9152461ac9868699e71334103ccc"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r69-suite.zip.sha256",
+            "sha256": "d1b4533154fa41e6e8a29ecdae8ccdc029698f50e1d057deec4964c95f9e62d6"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Setup.exe",
+            "sha256": "dda24f012995552130f4dbd56fdbb3a7099d14b94c8fdb39a5aaea4c6133d61c"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Setup.exe.sha256",
+            "sha256": "b58981953396efefb53dfb9490c89ab060f35dc74a45719443be04f0b35af4e0"
+          }
+        ],
+        "profile_count": 5,
+        "compact_profile_bytes": 278508223,
+        "free_bytes": 87326072832,
+        "minimum_free_gib": 80
+      },
+      "E": {
+        "independent_installation": true,
+        "checked_paths_resolve_within_each_portable_folder": true,
+        "originals": [
+          {
+            "model": "1.7-standard",
+            "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+            "bytes": 1834426016,
+            "original_preserved": true
+          },
+          {
+            "model": "1.7-abliterated",
+            "sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+            "bytes": 1834426496,
+            "original_preserved": true
+          },
+          {
+            "model": "4-standard",
+            "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+            "bytes": 2497280256,
+            "original_preserved": true
+          },
+          {
+            "model": "4-abliterated",
+            "sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "bytes": 2497280704,
+            "original_preserved": true
+          },
+          {
+            "model": "27-standard",
+            "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+            "bytes": 18973870528,
+            "original_preserved": true
+          },
+          {
+            "model": "27-abliterated",
+            "sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+            "bytes": 16810714944,
+            "original_preserved": true
+          }
+        ],
+        "installed_r69_source_matches": true,
+        "verified_local_release_assets": [
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Universal-Setup-2026.11.04-Desktop-r69.zip",
+            "sha256": "e1828e92c6a6cd3afde081db863c5211da9f8de84acdfc40ccbd2482e1c10ff8"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Universal-Setup-2026.11.04-Desktop-r69.zip.sha256",
+            "sha256": "ea9e86f72299a1ade261bf0b48bc3c8b70af0c759c76b591b14110ef24d53bba"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Windows-Installer-2026.11.04-Desktop-r69-suite.zip",
+            "sha256": "5ecc324f9649af0e007657d274c39a12f04a1ef02c699edf4eee23b5a3a6d219"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Full-Windows-Installer-2026.11.04-Desktop-r69-suite.zip.sha256",
+            "sha256": "e5ad0b4569ed38c563e82577927d38644087eaa0c2ee3ab71828e30be4b50620"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Experimental-Edit-27-abliterated-r69.zip",
+            "sha256": "61287bf9854abf12007bad4431a3b83493250afe6091715ea5bdb1a7ce08cd32"
+          },
+          {
+            "edition": "Full",
+            "file": "PortalAI-Experimental-Edit-27-abliterated-r69.zip.sha256",
+            "sha256": "36767bd9542c0440e5c0fb5413151f536b3c33316df1e7ebe17202754b509664"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r69.zip",
+            "sha256": "89513ff71f25636375464f4bfb744e35c43a41a6363c23a3abaf6d08b977a09a"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r69.zip.sha256",
+            "sha256": "86b84fbb625b1c858b6aef36880e364c86c5955a8651e1c743c024a37740ca87"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r69-suite.zip",
+            "sha256": "c0e8421f0e96b8cc39a1f487ddce1804a16b9152461ac9868699e71334103ccc"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.04-Desktop-r69-suite.zip.sha256",
+            "sha256": "d1b4533154fa41e6e8a29ecdae8ccdc029698f50e1d057deec4964c95f9e62d6"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Setup.exe",
+            "sha256": "dda24f012995552130f4dbd56fdbb3a7099d14b94c8fdb39a5aaea4c6133d61c"
+          },
+          {
+            "edition": "Academic",
+            "file": "PortalAI-Academic-Windows-Setup.exe.sha256",
+            "sha256": "b58981953396efefb53dfb9490c89ab060f35dc74a45719443be04f0b35af4e0"
+          }
+        ],
+        "profile_count": 5,
+        "compact_profile_bytes": 278508223,
+        "free_bytes": 177768464384,
+        "minimum_free_gib": 80
+      }
+    },
+    "deprecated_C_installation_excluded": true,
+    "models_replaced": false
+  },
+  "software_tests": {
+    "version": "2026.11.04-Desktop-r69",
+    "passed": true,
+    "drives": {
+      "D": {
+        "focused_checks": {
+          "passed": true,
+          "tests": 108,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+          "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
+          "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
+          "Documentation/Weight_MTP_r69.txt": "34097c992fc022cfac13bd7bd750b2792ec3c7a3a9d4385263d75086956ec6f7",
+          "Tools/WeightSpace/evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+          "Tools/WeightSpace/tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7",
+          "Maintenance/Tests/test_weightspace_tool_formats.py": "80a7340e12d1b6d1a930eb9f7f8efd8de2c5ab87bea5fbc1297795d93fb6d0df"
+        },
+        "free_bytes": 104137887744,
+        "independent_installation": true
+      },
+      "E": {
+        "focused_checks": {
+          "passed": true,
+          "tests": 108,
+          "skipped": 1,
+          "failures": [],
+          "errors": []
+        },
+        "source_hashes": {
+          "Tools/WeightSpace/native_forward.py": "90e0295cbbeb6f0e77766d2553c13adeed49a3c5112beec603ac33e2ae78b854",
+          "Maintenance/Tests/test_weightspace_decoder_layers.py": "ddae15c0e06f4f9a2c3bf515059174e22ec543292e0c23063db1d81b3af965f1",
+          "ControlCenter/release_version.py": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
+          "Documentation/Weight_MTP_r69.txt": "34097c992fc022cfac13bd7bd750b2792ec3c7a3a9d4385263d75086956ec6f7",
+          "Tools/WeightSpace/evaluation.py": "84a716fc16a35daab17e938fcf414aa526bd8f169a6849776d4bf9acf6686daa",
+          "Tools/WeightSpace/tool_call_format.py": "6b0ab4a373bca5d64010509e50c03e1c4b684570e2fca5a135d8f574212715e7",
+          "Maintenance/Tests/test_weightspace_tool_formats.py": "80a7340e12d1b6d1a930eb9f7f8efd8de2c5ab87bea5fbc1297795d93fb6d0df"
+        },
+        "free_bytes": 179017543680,
+        "independent_installation": true
+      }
+    },
+    "model_study_complete": false,
+    "model_decisions": {
+      "1.7-standard": {
+        "decision": "discovery screen did not qualify",
+        "complete": true,
+        "summary_sha256": "edbffcfc527dc0caecf367ea5bc9f401e0925062faf7926d14290ac627d87c5e"
+      },
+      "1.7-abliterated": {
+        "decision": "discovery screen did not qualify",
+        "complete": true,
+        "summary_sha256": "0fdeb495087cede10661a5bbea3f365fd9b6d388055fac1a188a1b7226e1e38b"
+      },
+      "4-standard": {
+        "decision": "discovery screen did not qualify",
+        "complete": true,
+        "summary_sha256": "2b484f1ef095cc8d9cee58907248ce3d80e1ed2d4ec6d17653f4a089c2b37340"
+      },
+      "4-abliterated": {
+        "decision": "discovery screen did not qualify",
+        "complete": true,
+        "summary_sha256": "9278b899f4819bdb9628a8126ce10dcecc46d3715c96688082e8d7335f08b478"
+      },
+      "27-standard": {
+        "decision": "insufficient natural-failure contrast",
+        "complete": true,
+        "admission": {
+          "good": 53,
+          "bad": 3,
+          "qualified": false,
+          "reason": "No supported natural-failure contrast; retain the original."
+        }
+      },
+      "27-abliterated": {
+        "decision": "independent confirmation required; originals retained",
+        "complete": false,
+        "summary_sha256": "798e01fb564cc3e3427e3d468b314196cc733ca3162227f27cb86b9e48b076ac"
+      }
+    },
+    "independent_confirmation_or_final_benchmarks_run": false,
+    "reason": "Software validation is complete. An admitted model experiment still requires independent confirmation and conditional final benchmarks. Original weights and production selections are unchanged by this update."
+  },
+  "reason": "The learned 27B abliterated edit qualifies under the frozen official discovery rule. Its advantage over the random control disappears when two ambiguous items are excluded. Independent confirmation and conditional broad final tests remain required before any promotion.",
+  "limitations": [
+    "Quantized method adaptation, not a BF16/vLLM reproduction.",
+    "No established general intelligence gain or production replacement.",
+    "No fresh recipient full installation or physical AMD/Linux/macOS acceptance."
+  ]
+}
