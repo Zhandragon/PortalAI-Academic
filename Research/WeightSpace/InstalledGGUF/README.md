@@ -14,6 +14,14 @@ tails. They are post-hoc descriptions of completed comparisons, not new
 selection rules. Repetition is a heuristic and cannot detect every reasoning
 loop. The read-only analyzer is published alongside these results.
 
+**27B sampling correction (2026-11-04):** the pinned native API clamps a
+negative penalty history to zero. Earlier 27B discovery therefore used no
+presence penalty despite requesting 1.5. Those records are archived unchanged
+and superseded for protocol conclusions. See [SAMPLER-CORRECTION.json](SAMPLER-CORRECTION.json)
+for exact counts, source evidence and the verified repair. Both 27B runs must
+restart with a positive generated-token history. The 1.7B and 4B comparisons
+request zero penalty and are unaffected. No original models were replaced.
+
 ## Method and boundaries
 
 1. Collect natural completions from 24 frozen practice problems, at the pinned
@@ -65,7 +73,9 @@ be reproduced; stable per-item seeds are explicit in the native source.
 
 ## Reproduction
 
-Install the r67 Windows utility and its existing portable runtime. Copy this
+Use the corrected Windows utility with `native-generated-history-v2` sampling
+(r68 source/release), with its existing portable runtime. r67 and earlier native
+sampling code must not be used for the nonzero-presence-penalty protocol. Copy this
 folder to `PortalAI Windows/Maintenance/Research/Takehi-PortalAI-20261103` in a
 fresh workspace; never overlay a live experiment. The scripts deliberately
 derive the installed portable root from that location. Use BootstrapPython.

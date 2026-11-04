@@ -1,0 +1,82 @@
+{
+  "time_utc": "2026-11-04T14:40:59Z",
+  "issue": "Pinned native sampler clamps penalty_last_n=-1 to zero, disabling the requested presence penalty.",
+  "affected_models": [
+    "27-standard",
+    "27-abliterated"
+  ],
+  "declared_presence_penalty": 1.5,
+  "actual_presence_penalty": 0.0,
+  "unaffected_models": [
+    "1.7-standard",
+    "1.7-abliterated",
+    "4-standard",
+    "4-abliterated"
+  ],
+  "unaffected_reason": "Their requested presence penalty is zero; the penalty constructor is not called.",
+  "repair": "Use a positive max_tokens-sized generated-token history; prompt tokens are not accepted into it.",
+  "new_sampling_implementation": "native-generated-history-v2",
+  "native_forward_sha256": "d6e87a84586f5821b157abef494c634c4e96ff502f8315056e514bb746e39777",
+  "runtime_commit": "8e330954adb6e86c329c9d7e338f01f93ffe4b88",
+  "source_url": "https://github.com/ggml-org/llama.cpp/blob/8e330954adb6e86c329c9d7e338f01f93ffe4b88/src/llama-sampler.cpp",
+  "regression": "Actual DLL sampler; failed before repair and all four checks passed afterward on D and E; no model or GPU backend loaded.",
+  "superseded_runs": {
+    "27-standard": {
+      "completed_cases": 56,
+      "official_correct": 54,
+      "correct_natural_stop": 51,
+      "reply_limit_hits": 3,
+      "weight_edit_evaluated": false,
+      "archive": "superseded/presence-history-20261104/27-standard",
+      "records_valid_for_requested_protocol": false,
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_4302",
+            "record_sha256": "7fb61af1b20e8ccfafafadb8ce8ec5bd95fd58091e3e1cb3341b1e432f84626a",
+            "classification": "scalar answer-target/format mismatch",
+            "observation": "The response gives the correct component counts (3000 pizzas and 1800 hot dogs) in its final box; the benchmark target is their combined total, 4800. The published scalar-answer grader marks it incorrect. This is not evidence of incorrect component arithmetic.",
+            "official_grade_retained": true
+          },
+          {
+            "id": "gsm8k_train_1337",
+            "record_sha256": "b63f6070839b9386f11cc4ecfc1aae29227108e9611ec8f7e8e0aac7e40303d5",
+            "classification": "answer-key unit ambiguity",
+            "observation": "The question ends by asking for shoes. Its supplied answer key is 27, the number of pairs; the response derives 27 pairs and converts them to 54 individual shoes. The literal shoes interpretation supports 54. The official incorrect grade is retained for reproducibility, but this is not a clear arithmetic failure.",
+            "official_grade_retained": true,
+            "selection_or_admission_changed": false,
+            "sensitivity_note": "Report comparison results excluding this ambiguous item as a separate post-hoc diagnostic if it appears in an original/edit/control screen. Do not rewrite the frozen official scores or use this note to retune the selected recipe."
+          }
+        ]
+      }
+    },
+    "27-abliterated": {
+      "completed_cases": 36,
+      "official_correct": 33,
+      "correct_natural_stop": 33,
+      "reply_limit_hits": 2,
+      "weight_edit_evaluated": false,
+      "archive": "superseded/presence-history-20261104/27-abliterated",
+      "records_valid_for_requested_protocol": false,
+      "interpretation_notes": {
+        "discovery_only": true,
+        "scores_modified": false,
+        "notes": [
+          {
+            "id": "gsm8k_train_4302",
+            "record_sha256": "62ea0fef2fc8c8b2a6cd10488dc74056c2ed085b2d66788deda4c1a0f3d9df42",
+            "classification": "scalar answer-target/format mismatch",
+            "observation": "The response gives the correct component counts (3000 pizzas and 1800 hot dogs) in its final box; the benchmark target is their combined total, 4800. The published scalar-answer grader marks it incorrect. This is not evidence of incorrect component arithmetic.",
+            "official_grade_retained": true
+          }
+        ]
+      }
+    }
+  },
+  "archive_manifest_sha256": "283544cff02a99f5ee1c706dc0da6bad8513463f6be8dae686d0ad4dcae13c6a",
+  "originals_replaced": false,
+  "fresh_runs_required": true,
+  "budget_note": "Infrastructure-invalid runs are preserved separately. Corrected runs retain the same predefined cases, seeds, selection and promotion rules."
+}
