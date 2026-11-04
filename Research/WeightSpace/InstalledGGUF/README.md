@@ -4,6 +4,9 @@ This is the current natural-failure campaign, separate from the older synthetic
 pilot in the parent directory. It uses only PortalAI's installed standard and
 abliterated 1.7B Q8, 4B Q4 and 27B Q4 files. The deployed original files remain
 unchanged. See [RESULTS.json](RESULTS.json) for dated progress and honest limits.
+The [selected recipes and edit receipts](Profiles/) are individually readable
+JSON; [optional profile downloads](OPTIONAL-PROFILES.md) avoid repeating the
+experiment when a user explicitly wants to try a recorded tradeoff.
 
 ## Method and boundaries
 

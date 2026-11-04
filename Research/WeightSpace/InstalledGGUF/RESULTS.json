@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T08:05:23Z",
+  "updated_at_utc": "2026-11-04T08:25:50Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -917,6 +917,11 @@
       "accounted_passes": [
         {
           "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "001b-natural-discovery",
           "phase": "discovery",
           "status": "running"
         }
