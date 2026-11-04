@@ -34,23 +34,6 @@
     "gpu_models_loaded": 0
   },
   "production_weight_replacements": 0,
-  "installed_source_files": {
-    "discovery.py": "7ae73bbde7bfd9c7f8097bcca45b0b31c73a86d086b118cd53c77c9d560b4eec",
-    "extend_discovery.py": "9fcc5ac78422cc9448f47408f26eb075d6c96c488fec652359134baedae6fd42",
-    "causal_screen.py": "83c5a9c139433d1423c4771b6fb8505a81fa6bd268bd99e88c7feac161b5d0f6",
-    "generation_screen.py": "693f4f872b39f011fb46dbd6cebb726fb156d85f0daf3e92bd11dd989f40c744",
-    "confirm_candidate.py": "96299c07dfb61662bae204832b796260b45a27af267009b3e417e6fcfd5b7ae6",
-    "maintenance_wait.py": "c2794273ff4c3cf6078ed9b902d481426cd8be50fb0fd89b1bcb9b80d41ff89b",
-    "resume_generation.py": "5e008e68dd672276955b7107b7816529c1f71f2ab182552250243db12206cf9f",
-    "run_remaining.py": "2113a9e03766dc1aae1011376f711da995ea2daf9f46d99dbe27059d3f42e5f9",
-    "prepare_practice.py": "403912fb7a9703603262b804d6d9869ed11e7175d7eb027a126a3d6539f1e7b9",
-    "status.py": "e1770a45ab96934f2cfd939f179abfd2125ff3716831836823e7522ac12b42fe",
-    "practice-sources.json": "0d0570f464e5447dc49fef6aa8abc44b19eae382a9ba4e5be05dd6693b56365d",
-    "protocol.json": "43e56070ecb53e5320838024af24bb258a0db3239fbf37647431c2c3c6cd3df9",
-    "splits.json": "1a77bfd1f995e8cbf9bee4f68cf461ce5837e5df3f6a3ad0432781e3799f757a",
-    "discovery-broad.json": "787650c1eb84180d50706b7730ed66d1b8bcfd967f725b792c7d7bd63c1e5d11",
-    "discovery-exclusions.json": "57041ab4853b6df22d5df9746ab4967a0a5b57041971a580ed34daa444c25599"
-  },
   "published_files": {
     "discovery.py": "7ae73bbde7bfd9c7f8097bcca45b0b31c73a86d086b118cd53c77c9d560b4eec",
     "extend_discovery.py": "9fcc5ac78422cc9448f47408f26eb075d6c96c488fec652359134baedae6fd42",
@@ -68,5 +51,22 @@
     "discovery-broad.json": "787650c1eb84180d50706b7730ed66d1b8bcfd967f725b792c7d7bd63c1e5d11",
     "discovery-exclusions.json": "57041ab4853b6df22d5df9746ab4967a0a5b57041971a580ed34daa444c25599"
   },
-  "serialization_note": "Git normalizes line endings for some text files; installed and published byte checksums are recorded separately."
+  "serialization_note": "Git normalizes line endings for some text files; installed and published byte checksums are recorded separately.",
+  "installed_source_files": {
+    "discovery.py": "7ae73bbde7bfd9c7f8097bcca45b0b31c73a86d086b118cd53c77c9d560b4eec",
+    "extend_discovery.py": "9fcc5ac78422cc9448f47408f26eb075d6c96c488fec652359134baedae6fd42",
+    "causal_screen.py": "83c5a9c139433d1423c4771b6fb8505a81fa6bd268bd99e88c7feac161b5d0f6",
+    "generation_screen.py": "693f4f872b39f011fb46dbd6cebb726fb156d85f0daf3e92bd11dd989f40c744",
+    "confirm_candidate.py": "96299c07dfb61662bae204832b796260b45a27af267009b3e417e6fcfd5b7ae6",
+    "maintenance_wait.py": "c2794273ff4c3cf6078ed9b902d481426cd8be50fb0fd89b1bcb9b80d41ff89b",
+    "resume_generation.py": "5e008e68dd672276955b7107b7816529c1f71f2ab182552250243db12206cf9f",
+    "run_remaining.py": "2113a9e03766dc1aae1011376f711da995ea2daf9f46d99dbe27059d3f42e5f9",
+    "prepare_practice.py": "403912fb7a9703603262b804d6d9869ed11e7175d7eb027a126a3d6539f1e7b9",
+    "status.py": "e1770a45ab96934f2cfd939f179abfd2125ff3716831836823e7522ac12b42fe",
+    "practice-sources.json": "0d0570f464e5447dc49fef6aa8abc44b19eae382a9ba4e5be05dd6693b56365d",
+    "protocol.json": "43e56070ecb53e5320838024af24bb258a0db3239fbf37647431c2c3c6cd3df9",
+    "splits.json": "1a77bfd1f995e8cbf9bee4f68cf461ce5837e5df3f6a3ad0432781e3799f757a",
+    "discovery-broad.json": "787650c1eb84180d50706b7730ed66d1b8bcfd967f725b792c7d7bd63c1e5d11",
+    "discovery-exclusions.json": "57041ab4853b6df22d5df9746ab4967a0a5b57041971a580ed34daa444c25599"
+  }
 }
