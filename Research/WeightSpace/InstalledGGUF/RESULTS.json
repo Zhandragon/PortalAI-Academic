@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T10:07:52Z",
+  "updated_at_utc": "2026-11-04T10:28:48Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -1201,7 +1201,7 @@
     },
     "4-abliterated": {
       "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
-      "status": "in progress",
+      "status": "discovery screen complete",
       "production_original_replaced": false,
       "completed_case_counts": {
         "baseline": {
@@ -1219,11 +1219,11 @@
           "generated_tokens": 407702
         },
         "random": {
-          "count": 0,
-          "correct": 0,
+          "count": 24,
+          "correct": 20,
           "reply_budget_exhaustions": 0,
-          "finish_reason_recorded": 0,
-          "generated_tokens": 0
+          "finish_reason_recorded": 24,
+          "generated_tokens": 159370
         }
       },
       "accounted_passes": [
@@ -1380,9 +1380,280 @@
         {
           "id": "gen-screen-random",
           "phase": "discovery",
-          "status": "running"
+          "status": "complete"
         }
       ],
+      "discovery": {
+        "paired": {
+          "n": 24,
+          "baseline_correct": 18,
+          "candidate_correct": 13,
+          "gain": -0.20833333333333334,
+          "rescues": 2,
+          "regressions": 7,
+          "paired_standard_error": 0.12007193898409804,
+          "lower_95": -0.44367433374216547,
+          "upper_95": 0.027007667075498815
+        },
+        "random_control": {
+          "n": 24,
+          "baseline_correct": 18,
+          "candidate_correct": 20,
+          "gain": 0.08333333333333333,
+          "rescues": 3,
+          "regressions": 1,
+          "paired_standard_error": 0.08333333333333333,
+          "lower_95": -0.08,
+          "upper_95": 0.24666666666666665
+        },
+        "domains": {
+          "coding": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          },
+          "instruction": {
+            "n": 4,
+            "baseline_correct": 3,
+            "candidate_correct": 2,
+            "gain": -0.25,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.25,
+            "lower_95": -0.74,
+            "upper_95": 0.24
+          },
+          "math": {
+            "n": 11,
+            "baseline_correct": 7,
+            "candidate_correct": 7,
+            "gain": 0.0,
+            "rescues": 2,
+            "regressions": 2,
+            "paired_standard_error": 0.19069251784911845,
+            "lower_95": -0.37375733498427216,
+            "upper_95": 0.37375733498427216
+          },
+          "reasoning": {
+            "n": 3,
+            "baseline_correct": 3,
+            "candidate_correct": 1,
+            "gain": -0.6666666666666666,
+            "rescues": 0,
+            "regressions": 2,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -1.32,
+            "upper_95": -0.013333333333333197
+          },
+          "tool_use": {
+            "n": 3,
+            "baseline_correct": 2,
+            "candidate_correct": 1,
+            "gain": -0.3333333333333333,
+            "rescues": 0,
+            "regressions": 1,
+            "paired_standard_error": 0.33333333333333337,
+            "lower_95": -0.9866666666666668,
+            "upper_95": 0.3200000000000001
+          }
+        },
+        "eligible_for_independent_confirmation": false,
+        "feasibility_resume": false,
+        "feasibility_decision_sha256": null,
+        "latency_ratio": 4.078697073766538,
+        "model_receipts": {
+          "candidate": {
+            "format_version": 1,
+            "base_model": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+            "base_sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "candidate_sha256": "d965ca4b42dce751c467ccdb0e1453c41f59fb416774390b6385db223024f64d",
+            "candidate_bytes": 2497280704,
+            "recipe_sha256": "d7044b77f2c173086e3145452e4ae1224cecf83adbc0830d97835087fa2a6801",
+            "sites": [
+              {
+                "tensor": "blk.35.ffn_down.weight",
+                "quantization": "Q6_K",
+                "selected_columns": [
+                  0,
+                  3,
+                  10,
+                  12,
+                  14,
+                  17,
+                  18,
+                  20,
+                  29,
+                  30,
+                  32,
+                  35,
+                  36,
+                  40,
+                  49,
+                  51,
+                  52,
+                  57,
+                  62,
+                  82,
+                  92,
+                  97,
+                  122,
+                  125,
+                  156,
+                  162,
+                  166,
+                  169,
+                  181,
+                  203,
+                  211,
+                  229,
+                  249,
+                  250,
+                  284,
+                  288,
+                  289,
+                  297,
+                  302,
+                  363,
+                  374,
+                  423,
+                  432,
+                  441,
+                  443,
+                  453,
+                  465,
+                  509,
+                  552,
+                  644,
+                  677,
+                  704,
+                  716,
+                  929,
+                  935,
+                  1082,
+                  1099,
+                  1212,
+                  1553,
+                  1593,
+                  2290,
+                  2503,
+                  3021,
+                  3345
+                ],
+                "changed_bytes": 378915,
+                "intended_scalar_positions": 163840,
+                "actual_changed_dequantized_values": 256312,
+                "intended_relative_delta": 0.03768182509623902,
+                "actual_relative_delta": 0.03770602911810499,
+                "quantization_error_norm": 0.17920470758485382,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 4022468096,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          },
+          "random": {
+            "format_version": 1,
+            "base_model": "Qwen3-4B-abliterated.Q4_K_M.gguf",
+            "base_sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+            "candidate_sha256": "1fd14734b9178a309b7c8bcc46815b804958b8cce0f62b812d329614a082f89d",
+            "candidate_bytes": 2497280704,
+            "recipe_sha256": "f7741bf6c0c179bfb772ecf2e65f1215aa5b5faabd2c09f33b8de39d07baa17f",
+            "sites": [
+              {
+                "tensor": "blk.35.ffn_down.weight",
+                "quantization": "Q6_K",
+                "selected_columns": [
+                  0,
+                  3,
+                  10,
+                  12,
+                  14,
+                  17,
+                  18,
+                  20,
+                  29,
+                  30,
+                  32,
+                  35,
+                  36,
+                  40,
+                  49,
+                  51,
+                  52,
+                  57,
+                  62,
+                  82,
+                  92,
+                  97,
+                  122,
+                  125,
+                  156,
+                  162,
+                  166,
+                  169,
+                  181,
+                  203,
+                  211,
+                  229,
+                  249,
+                  250,
+                  284,
+                  288,
+                  289,
+                  297,
+                  302,
+                  363,
+                  374,
+                  423,
+                  432,
+                  441,
+                  443,
+                  453,
+                  465,
+                  509,
+                  552,
+                  644,
+                  677,
+                  704,
+                  716,
+                  929,
+                  935,
+                  1082,
+                  1099,
+                  1212,
+                  1553,
+                  1593,
+                  2290,
+                  2503,
+                  3021,
+                  3345
+                ],
+                "changed_bytes": 430786,
+                "intended_scalar_positions": 163840,
+                "actual_changed_dequantized_values": 324365,
+                "intended_relative_delta": 0.03768182356120349,
+                "actual_relative_delta": 0.03771547559052154,
+                "quantization_error_norm": 0.18765884803439117,
+                "unchanged_blocks_copied_verbatim": true
+              }
+            ],
+            "model_scalar_values": 4022468096,
+            "production_model_changed": false,
+            "validation": "unvalidated candidate",
+            "native_quantizer_sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+          }
+        },
+        "status": "Tested hypothesis did not pass the discovery screen. No production replacement.",
+        "production_model_changed": false
+      },
       "optional_profile": {
         "id": "83bd39368829ddd8da6e6573",
         "label": "4-abliterated discovery experiment",
@@ -1398,8 +1669,38 @@
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",
-      "status": "not started",
-      "production_original_replaced": false
+      "status": "in progress",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0,
+          "reply_budget_exhaustions": 0,
+          "finish_reason_recorded": 0,
+          "generated_tokens": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ]
     },
     "27-abliterated": {
       "filename": "Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
