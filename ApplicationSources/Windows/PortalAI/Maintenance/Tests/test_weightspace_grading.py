@@ -16,6 +16,16 @@ class WeightSpaceGradingTests(unittest.TestCase):
         self.assertFalse(result['correct']);self.assertTrue(result['detail']['timed_out'])
         self.assertEqual(len(workers),1);self.assertIsNotNone(workers[0].poll())
         self.assertTrue(evaluation.grade({'kind':'coding','checks':[[[],1]]},'def solve():\n    return 1')['correct'])
+    def test_cleanup_timeout_halts_evaluation(self):
+        from unittest.mock import Mock
+        worker=Mock()
+        worker.communicate.side_effect=subprocess.TimeoutExpired('code fixture',5)
+        worker.wait.side_effect=subprocess.TimeoutExpired('code fixture',10)
+        with patch.object(evaluation.subprocess,'Popen',return_value=worker),patch.object(evaluation,'WorkerJob') as owned:
+            with self.assertRaisesRegex(RuntimeError,'did not stop'):
+                evaluation.grade({'kind':'coding','checks':[]},'def solve(): return 1')
+        owned.return_value.close.assert_called_once()
+        worker.wait.assert_called_once_with(timeout=10)
     def test_infrastructure_errors_remain_errors(self):
         for error in (RuntimeError('grader failed'),ValueError('invalid response'),OSError('launch failed')):
             with self.subTest(error=type(error).__name__),patch.object(evaluation,'bounded_grader',side_effect=error):

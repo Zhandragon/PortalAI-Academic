@@ -1,0 +1,19 @@
+# Bounded evaluation and verified cleanup
+
+PortalAI Windows r67: code deadlines and worker cleanup
+
+A generated program that exceeds its five-second execution budget is graded
+as incorrect only after the owned worker has stopped. If termination cannot
+be confirmed within the separate cleanup deadline, evaluation raises an
+infrastructure error and halts. It does not claim a model score or successful
+cleanup. Launch errors, malformed grader output and non-code timeouts also
+remain errors. This completes the bounded coding evaluation repair in r66.
+
+Original weights, optional edit profiles, model routing and account choices
+are unchanged. Select profiles or Original weights as described in
+Weight_Edit_Profiles_r65.txt. Preparing a profile uses a complete model-sized
+copy; the two-copy cache and 80 GiB free-space floor remain in force.
+
+No dependency, runtime, model download or background service is added.
+Windows upgrade history retains r66 and all earlier supported versions.
+Linux/Mac remain r51. Restart PortalAI normally to load the code repair.

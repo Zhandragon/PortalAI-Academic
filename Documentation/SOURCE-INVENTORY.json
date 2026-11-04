@@ -56089,7 +56089,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "eab38a05db535aaaae1388162aa85d528ddf8bf278a3f38212bd2a47c10e90a8",
+      "sha256": "93a498ac845a1739465700c72755edcb38408a8800bd0c33414e5b90f968d2db",
       "lines": 2,
       "overview": "Verified Windows PortalAI distribution version.",
       "symbols": []
@@ -63662,8 +63662,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_weightspace_grading.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "df87c83a0291f3fb28b52b494e3b5b89d44f2ca388ff08c3a817a00c2826b4d9",
-      "lines": 30,
+      "sha256": "f816d56f0756d0c1805fdefdd61e7c40f013c6962920972f30d9b7fd244ba65d",
+      "lines": 40,
       "overview": "A non-terminating model answer must not abort independent comparisons.",
       "symbols": [
         {
@@ -64934,8 +64934,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/WeightSpace/evaluation.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "25e091521f0828c49e38b98bb9b4f8007347f64b39c18bac171d16605f55ff4a",
-      "lines": 64,
+      "sha256": "421f1fb1780ea4d224a8fb820a3c3a0df9c9ab12ec7039114076225b28cf0861",
+      "lines": 66,
       "overview": "Explicit, deterministic task graders; tool choices are never executed.",
       "symbols": [
         {
@@ -64945,17 +64945,17 @@
         },
         {
           "name": "final_text",
-          "line": 21,
+          "line": 23,
           "kind": "FunctionDef"
         },
         {
           "name": "grade",
-          "line": 24,
+          "line": 26,
           "kind": "FunctionDef"
         },
         {
           "name": "read_cases",
-          "line": 53,
+          "line": 55,
           "kind": "FunctionDef"
         }
       ]

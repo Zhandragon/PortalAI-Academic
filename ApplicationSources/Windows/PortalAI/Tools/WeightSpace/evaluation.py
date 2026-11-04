@@ -16,7 +16,9 @@ def bounded_grader(script,payload,timeout=15):
     finally:
         if job:job.close()
         elif proc.poll() is None:proc.kill()
-        proc.wait(timeout=10)
+        try:proc.wait(timeout=10)
+        except subprocess.TimeoutExpired as exc:
+            raise RuntimeError('Owned grader did not stop after termination; evaluation halted.') from exc
 
 def final_text(text):
     return text.rsplit('</think>',1)[-1].replace('<|im_end|>','').replace('<|endoftext|>','').strip()
