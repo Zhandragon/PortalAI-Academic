@@ -41,6 +41,46 @@
       "download_sha256": "10073eee5290ff7bc6e411c9454dc14f5921a294cd5da534629f8b5ca1cc0bac",
       "download_bytes": 25790440,
       "checksum_download": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r65/PortalAI-Experimental-Edit-1.7-standard-r65.zip.sha256"
+    },
+    {
+      "model": "4-standard",
+      "profile_id": "55daa49f9e7097a9ea010f85",
+      "label": "4-standard discovery experiment",
+      "bytes": 39896471,
+      "sha256": "cc94a352fc8400e1c4c02f87f43bda906a64ee976bcc18f871053a814fba16f4",
+      "original": 22,
+      "edited": 21,
+      "cases": 30,
+      "domain_tradeoffs": {
+        "coding": 0.0,
+        "instruction": 0.0,
+        "math": 0.0,
+        "reasoning": 0.0,
+        "tool_use": -0.3333333333333333
+      },
+      "generation_telemetry": {
+        "baseline": {
+          "reply_budget_exhaustions": 0,
+          "generated_tokens": 173730,
+          "cases": 30
+        },
+        "candidate": {
+          "reply_budget_exhaustions": 0,
+          "generated_tokens": 188693,
+          "cases": 30
+        },
+        "random": {
+          "reply_budget_exhaustions": 0,
+          "generated_tokens": 169062,
+          "cases": 30
+        }
+      },
+      "status": "experimental; manual selection only",
+      "broad_improvement_established": false,
+      "download": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r68/PortalAI-Experimental-Edit-4-standard-r68.zip",
+      "download_sha256": "ae9dae2544c5bb6f8a1b0340149a64af3c5177e6ffbefbc04479bc1bbd577876",
+      "download_bytes": 39903976,
+      "checksum_download": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r68/PortalAI-Experimental-Edit-4-standard-r68.zip.sha256"
     }
   ]
 }
