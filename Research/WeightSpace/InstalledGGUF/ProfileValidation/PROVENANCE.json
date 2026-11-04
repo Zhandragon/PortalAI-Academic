@@ -1,0 +1,9 @@
+{
+  "files": {
+    "verify_4b_profile_roundtrip.py": "d42284f20143d7b06e9d898a70d732239ddc2e7fce804986302ef8a0e999615c",
+    "4-standard-D.json": "bc934f16f37eb52fd3dc533c934d6dcddb61bb69ed2f0caf89aac805ee804a8d",
+    "4-standard-E.json": "77f20bc790d4bc927e368b9706ef658458fca33941414bb3262056db3ad32c91",
+    "README.md": "abcc398c8f5b84c9858c85f0710c6ef80794d27f06e7b317dae6866572dd0b21"
+  },
+  "source": "Exact local validation script and receipts; originals retained."
+}

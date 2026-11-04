@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "drive": "E",
+  "profile_id": "55daa49f9e7097a9ea010f85",
+  "model": "4-standard",
+  "patch_sha256": "cc94a352fc8400e1c4c02f87f43bda906a64ee976bcc18f871053a814fba16f4",
+  "original_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+  "reconstructed_candidate_sha256": "e08960fb208d15b3c210f9a95ed509d02d3ed594291d6b412e694d874a33d2ae",
+  "original_unchanged": true,
+  "selection_and_revert_resolve_correctly": true,
+  "disposable_prepared_copy_removed_after_verification": true,
+  "live_profile_preferences_or_prepared_cache_changed": false,
+  "gpu_or_model_inference_used": false,
+  "free_bytes": 188432175104
+}
