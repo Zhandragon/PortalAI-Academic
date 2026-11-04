@@ -36,6 +36,9 @@ The [protocol](protocol.json) records limits and acceptance criteria. The
 contains native activation capture, direct quantized subtraction, accounting,
 grading, storage admission and owned workers. This campaign selects one
 hypothesis per model; it does not exhaust the permitted search budget.
+`research_grading.py` records a model program that exceeds its bounded code
+execution time as incorrect. It preserves infrastructure errors and other
+grader failures for review. Existing successfully graded records are unchanged.
 
 The reference is [Takehi et al.](https://rikiyat.github.io/blog/weight-space-programming/)
 and [their pinned experiment source](https://github.com/RikiyaT/lm_understand-logs/tree/4d09ba6d6a7e891dd8063974dfe81b3d78e3494f/exp8_math).

@@ -55,7 +55,7 @@ def resume(model_name,info):
     research_guard.require_gpu_unpaused();space(LAB)
     from service_manager import acquire_gpu_lease,release_gpu_lease
     from native_forward import Forward,metadata,render,item_seed
-    from evaluation import grade
+    from research_grading import grade
     out=info['out'];arms=info['arms'];pending=[case for case in info['cases'] if case['id'] not in arms['random']]
     ledger=Ledger(info['folder']/'ledger.sqlite');lease=None;identifier='gen-screen-random-resume-'+str(info['resume_number'])
     request={'original_request':info['request'],'checkpoint_sha256':sha(info['checkpoint']),'completed_ids':sorted(arms['random']),
