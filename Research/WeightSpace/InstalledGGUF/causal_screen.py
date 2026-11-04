@@ -22,6 +22,11 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);args=parser.parse_args()
     spec=json.loads((LAB/'protocol.json').read_text())['models'][args.model]
     model=ROOT/'LLM/models'/spec['filename'];folder=LAB/'experiments'/args.model
+    status=folder/'EXTENDED-STATUS.json'
+    if status.is_file() and json.loads(status.read_text()).get('qualified') is False:
+        if (folder/'002-localization/localization.json').exists():raise RuntimeError('Conflicting localization admission evidence')
+        print(json.dumps({'model':args.model,'causal_screen_not_admitted':True,'reason':'Insufficient natural success/failure contrast; retain the original.'}),flush=True)
+        return
     from extend_discovery import records as read_records
     records=read_records(folder)
     ledger=Ledger(folder/'ledger.sqlite');fingerprint=sha(model)

@@ -45,7 +45,8 @@ def main():
                 value.update(id=identifier,source=row['source'],prompt=prompt,grading=score(value['text'],row['answer']),**loop_signals(value['text']))
                 atomic_json(out/(hashlib.sha256(identifier.encode()).hexdigest()[:20]+'.json'),value)
                 print(json.dumps({'id':identifier,'correct':value['grading']['correct'],'tokens':value['tokens']}),flush=True)
-        ledger.end('001b-natural-discovery',{'results':len(ids),'base_unchanged':sha(model)==fingerprint})
+        if sha(model)!=fingerprint:raise RuntimeError('Original changed during extended discovery; results require review')
+        ledger.end('001b-natural-discovery',{'results':len(ids),'base_unchanged':True})
         combined=records(folder);good=sum(r['grading']['correct'] and r['finish']=='stop' for r in combined);bad=sum(not r['grading']['correct'] for r in combined)
         if min(good,bad)<4:
             atomic_json(folder/'EXTENDED-STATUS.json',{'good':good,'bad':bad,'qualified':False,'reason':'No supported natural-failure contrast; retain the original.'});return

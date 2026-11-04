@@ -20,6 +20,14 @@ def model_plan(name):
         if result.get('production_model_changed') is not False:
             raise RuntimeError('Unexpected completed-screen evidence: '+name)
         return {'model':name,'action':'skip completed screen','summary':str(summary)}
+    extended=folder/'EXTENDED-STATUS.json'
+    causal=folder/'003-causal-screen/summary.json'
+    if extended.is_file() and json.loads(extended.read_text()).get('qualified') is False:
+        if (folder/'002-localization/localization.json').exists():raise RuntimeError('Conflicting localization admission evidence')
+        return {'model':name,'action':'skip completed screen','reason':'No supported natural failure contrast; original retained.'}
+    if causal.is_file() and json.loads(causal.read_text()).get('selected_for_generation','missing') is None:
+        if (folder/'selected-recipe.json').exists():raise RuntimeError('Conflicting recipe admission evidence')
+        return {'model':name,'action':'skip completed screen','reason':'No eligible site/dose; original retained.'}
     if not folder.exists() or not any(folder.iterdir()):
         return {'model':name,'action':'run discovery, causal, generation'}
     if name=='1.7-abliterated':
