@@ -1,0 +1,359 @@
+{
+  "id": "windows-cuda-inference",
+  "label": "NVIDIA chat and Weight-Space Editor runtime (CUDA 12.4)",
+  "required": false,
+  "depends_on": [
+    "core-runtime",
+    "media-qwen-tts"
+  ],
+  "artifacts": [
+    {
+      "id": "llamacpp-cuda-dependencies-b10935",
+      "format": "zip",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10935/cudart-llama-bin-win-cuda-12.4-x64.zip",
+      "bytes": 391443627,
+      "sha256": "8c79a9b226de4b3cacfd1f83d24f962d0773be79f1e7b75c6af4ded7e32ae1d6",
+      "members": [
+        {
+          "member": "cublas64_12.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/cublas64_12.dll",
+          "bytes": 100033536,
+          "sha256": "e40202fe4223c1cd2d2dce7beec59e1ed61c7801bd827309183be9b50e358f4c"
+        },
+        {
+          "member": "cublasLt64_12.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/cublasLt64_12.dll",
+          "bytes": 473551360,
+          "sha256": "2a896460bef60ed57ef32b0875812f355a6984e671d638bb632f5e8c1d7a831f"
+        },
+        {
+          "member": "cudart64_12.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/cudart64_12.dll",
+          "bytes": 553984,
+          "sha256": "d28e42265da7462162a54da6b7a99ea4fa2caf8139d862bb500db875d0b32dfc"
+        }
+      ]
+    },
+    {
+      "id": "llamacpp-cuda-engine-b10935",
+      "format": "zip",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10935/llama-b10935-bin-win-cuda-12.4-x64.zip",
+      "bytes": 254062419,
+      "sha256": "b7db6f29abbddb03a1bed8436f91648cc15ab1d66b125211aabd12ad3cd37ee2",
+      "members": [
+        {
+          "member": "ggml-cuda.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cuda.dll",
+          "bytes": 547113984,
+          "sha256": "a7ec3e05990376f56e3e3318d49afd3a5c4a1027d7636bead004742545b41fb4"
+        },
+        {
+          "member": "llama-quantize-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-quantize-impl.dll",
+          "bytes": 137216,
+          "sha256": "df1a22080a44fcd860720a00ff977830ef5efe169462531e19b8f5af9fd1c17b"
+        },
+        {
+          "member": "llama-tokenize.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-tokenize.exe",
+          "bytes": 58368,
+          "sha256": "3b82591348138b475771fc566dc00853b1ea787c4aefb746f14909874f3db1ce"
+        },
+        {
+          "member": "llama-cli-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-cli-impl.dll",
+          "bytes": 3296768,
+          "sha256": "91fce76c17c9341adb7f47253068a8009f2c96aa30120c72ff8f311e55ed7af3"
+        },
+        {
+          "member": "ggml-cpu-cascadelake.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-cascadelake.dll",
+          "bytes": 1434112,
+          "sha256": "4e6f935fadbf1c48c0c7776694ee6785976eb90e44c7b11bcd1e990bfc351ecc"
+        },
+        {
+          "member": "llama-mtmd-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-mtmd-cli.exe",
+          "bytes": 90112,
+          "sha256": "c0370f83af9a011832be11227dac35c253369e950b9493ca4e07aa3a02f401c5"
+        },
+        {
+          "member": "llama-completion-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-completion-impl.dll",
+          "bytes": 133632,
+          "sha256": "8de6407588e0ceb356fdc2f6b6ed29ad16fffd2e3b1b0efbe75c3ab51d31458a"
+        },
+        {
+          "member": "llama-bench.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-bench.exe",
+          "bytes": 9216,
+          "sha256": "5e3c9f90b3c0c7c68facb9ccbb28ff4ddd6bbb000e71d19e33f75f3ea0df8a99"
+        },
+        {
+          "member": "llama-llava-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-llava-cli.exe",
+          "bytes": 27136,
+          "sha256": "03e49cf75adf72ec29667c3a26b8a15e6e3a8fda6a046f534d21cc239b9e62b0"
+        },
+        {
+          "member": "ggml-cpu-sapphirerapids.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-sapphirerapids.dll",
+          "bytes": 1711616,
+          "sha256": "70713d2ee80731eba282d4e16f396fe3e84b5380dcb30b49f2e4f368f5667403"
+        },
+        {
+          "member": "llama-fit-params-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-fit-params-impl.dll",
+          "bytes": 41472,
+          "sha256": "ffdd86d79b1e01db8f16ce67eb95e927a0c69eca835f64c001e27323e3fae74c"
+        },
+        {
+          "member": "llama-bench-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-bench-impl.dll",
+          "bytes": 397824,
+          "sha256": "e613803b2908eb2b634700a10447ba7ed11f01dc69043a7fb6926a1a7eb2cd66"
+        },
+        {
+          "member": "libomp.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/libomp.dll",
+          "bytes": 768000,
+          "sha256": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c"
+        },
+        {
+          "member": "mtmd.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/mtmd.dll",
+          "bytes": 1772032,
+          "sha256": "3699776fe436473571e529611be659f9191dd0a79954e9fabb7fbe98218a370b"
+        },
+        {
+          "member": "ggml-cpu-sse42.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-sse42.dll",
+          "bytes": 932352,
+          "sha256": "024fd44669343ddc02921fa526497f54e33f9bc082d281511a3981780f611d62"
+        },
+        {
+          "member": "llama.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama.exe",
+          "bytes": 103936,
+          "sha256": "7ebb9b43c04185b351bc040b223811e39ca0897fe0e3c5be85a18b32cdcf4460"
+        },
+        {
+          "member": "llama-perplexity.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-perplexity.exe",
+          "bytes": 9216,
+          "sha256": "ea3f7592dc4596916304570fc725f4825fb36f917905315b3d8d72c031b71db8"
+        },
+        {
+          "member": "llama-common.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-common.dll",
+          "bytes": 7771648,
+          "sha256": "da27b670d9676deb444113dc40a2a06c41ee7060b9cf78cf3967fae0a1e9d21d"
+        },
+        {
+          "member": "llama-server.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-server.exe",
+          "bytes": 9216,
+          "sha256": "3e17f28f693dfcbca90d4aa7f04cf9eb389300aa228b28b69d00271d3c4bd451"
+        },
+        {
+          "member": "ggml-cpu-sandybridge.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-sandybridge.dll",
+          "bytes": 1107968,
+          "sha256": "41b95efd5a4df2ec885d034df3e843f4d46beeac8e8d0f032d34b862d27278f6"
+        },
+        {
+          "member": "ggml-cpu-alderlake.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-alderlake.dll",
+          "bytes": 1230336,
+          "sha256": "ba2a2de817d34e944a68cdaa4875c7f3df81a3356348c83cd8a71c1ce9a6fe6b"
+        },
+        {
+          "member": "ggml-cpu-ivybridge.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-ivybridge.dll",
+          "bytes": 1127424,
+          "sha256": "435c1f60041fab19ef9a7e148baaf2cf834ab7ad24e7b913fe3ef067fd561b5c"
+        },
+        {
+          "member": "llama-batched-bench.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-batched-bench.exe",
+          "bytes": 9216,
+          "sha256": "de7bcefbcc5f8bcf0235d7a00b3b3d58181af181c0c3a73ca0d0ac5c9f0dd5b2"
+        },
+        {
+          "member": "ggml-cpu-piledriver.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-piledriver.dll",
+          "bytes": 1131520,
+          "sha256": "febe132cdfe738f29f7ae2b91f4c1e75fd073ccee4055306971031ee0bd38aeb"
+        },
+        {
+          "member": "ggml-cpu-cooperlake.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-cooperlake.dll",
+          "bytes": 1434624,
+          "sha256": "06e3f6c1e0beb12c3033a21affe150d38d4b74f4a24812f89f57977518e87f23"
+        },
+        {
+          "member": "llama-minicpmv-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-minicpmv-cli.exe",
+          "bytes": 27136,
+          "sha256": "03e49cf75adf72ec29667c3a26b8a15e6e3a8fda6a046f534d21cc239b9e62b0"
+        },
+        {
+          "member": "llama-perplexity-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-perplexity-impl.dll",
+          "bytes": 194048,
+          "sha256": "2aa018d58f876b1f48956fc8cc465942e4aa8157a599cbccebdab51fca8a983e"
+        },
+        {
+          "member": "llama-results.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-results.exe",
+          "bytes": 46080,
+          "sha256": "bd96f51963a759dc235a00fba9e293532e9e071185000082575370ec54bc86a1"
+        },
+        {
+          "member": "llama-batched-bench-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-batched-bench-impl.dll",
+          "bytes": 61440,
+          "sha256": "b28691ecc005a9fa42dd88f028f79d904f264fe4317f5116c5ed61cfb4dcded3"
+        },
+        {
+          "member": "ggml-base.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-base.dll",
+          "bytes": 796160,
+          "sha256": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+        },
+        {
+          "member": "llama-gguf-split.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-gguf-split.exe",
+          "bytes": 60416,
+          "sha256": "cb029ffad4ad60d5102d2ba5d08036d59c6d0d4adbdde23b10bb8af18a5434a9"
+        },
+        {
+          "member": "ggml-cpu-x64.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-x64.dll",
+          "bytes": 924160,
+          "sha256": "cf7b2164d148c81789730b8234a0842f5494e0b864ab679998348f00d34c3fac"
+        },
+        {
+          "member": "ggml.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml.dll",
+          "bytes": 79872,
+          "sha256": "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9"
+        },
+        {
+          "member": "llama-fit-params.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-fit-params.exe",
+          "bytes": 9216,
+          "sha256": "2b06eb7353e34be0feb06e5f8cf2e7fd9163af7ee78032632a1bf34283ebca13"
+        },
+        {
+          "member": "llama-mtmd-debug.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-mtmd-debug.exe",
+          "bytes": 55296,
+          "sha256": "62906e0518809ca245c8cef2415abf743aabf64855c4b3d29a6e6dd7cc31a6cd"
+        },
+        {
+          "member": "llama-qwen2vl-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-qwen2vl-cli.exe",
+          "bytes": 27136,
+          "sha256": "03e49cf75adf72ec29667c3a26b8a15e6e3a8fda6a046f534d21cc239b9e62b0"
+        },
+        {
+          "member": "llama-completion.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-completion.exe",
+          "bytes": 9216,
+          "sha256": "1d8478ce9cbf025432c3a837425125b85c76c95504128b7b139530584da62630"
+        },
+        {
+          "member": "LICENSE-LLVM-OpenMP",
+          "dest": "PortalAI Windows/LLM/llamacpp/LICENSE-LLVM-OpenMP",
+          "bytes": 19741,
+          "sha256": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4"
+        },
+        {
+          "member": "ggml-rpc-server.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-rpc-server.exe",
+          "bytes": 101376,
+          "sha256": "a9ff9d74489a04c2f4657d4853b06659ad170a89707f33e1eef45592cd697916"
+        },
+        {
+          "member": "llama-quantize.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-quantize.exe",
+          "bytes": 9216,
+          "sha256": "ee7303bea7a0cc96801220ee57cc5b45591a884c8f1e4c6aa6925e6a5ac438cf"
+        },
+        {
+          "member": "ggml-cpu-zen4.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-zen4.dll",
+          "bytes": 1441280,
+          "sha256": "9f59e2018df8bcb3f6c2f327544b72d81f899dbd560e100d80b34fd0154375ba"
+        },
+        {
+          "member": "ggml-rpc.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-rpc.dll",
+          "bytes": 168448,
+          "sha256": "644f1e5ceafdccf8585d8f94ea0120b6d2f00b1a899389c4cf7bb2c445bcccc4"
+        },
+        {
+          "member": "ggml-cpu-skylakex.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-skylakex.dll",
+          "bytes": 1441792,
+          "sha256": "c066b72fbb0c9e2a5267e25b72df837568ca77a58b96b9888ffb1ebb6e7eff0c"
+        },
+        {
+          "member": "llama-gemma3-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-gemma3-cli.exe",
+          "bytes": 27136,
+          "sha256": "03e49cf75adf72ec29667c3a26b8a15e6e3a8fda6a046f534d21cc239b9e62b0"
+        },
+        {
+          "member": "ggml-cpu-haswell.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-haswell.dll",
+          "bytes": 1235968,
+          "sha256": "6236e18994ba0717e2e9c585cd503dbc86f2a33b21a4e2eaa530b9402d1bc53a"
+        },
+        {
+          "member": "llama-server-impl.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-server-impl.dll",
+          "bytes": 8904192,
+          "sha256": "a66744997e5b80bd09628db6649536c23a066f1a4d32e12bd4bb3f24b7acd447"
+        },
+        {
+          "member": "ggml-cpu-icelake.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-icelake.dll",
+          "bytes": 1440768,
+          "sha256": "f3aa026401d000d23bcbd3580cfd703e5e13435d2c888d95263cdffa3ceba207"
+        },
+        {
+          "member": "llama-tts.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-tts.exe",
+          "bytes": 41472,
+          "sha256": "036a63d71084014958f86e200f345bec060e5188191492eb5c3a49db4a66b881"
+        },
+        {
+          "member": "llama-imatrix.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-imatrix.exe",
+          "bytes": 255488,
+          "sha256": "7c4dfa8fc3b860194b0d05ceb63ed16001197651c776c200957b2e3517d6d4a7"
+        },
+        {
+          "member": "llama.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama.dll",
+          "bytes": 3149312,
+          "sha256": "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6"
+        },
+        {
+          "member": "ggml-cpu-cannonlake.dll",
+          "dest": "PortalAI Windows/LLM/llamacpp/ggml-cpu-cannonlake.dll",
+          "bytes": 1448448,
+          "sha256": "e66e22611790de523cf388f62410f77dd69dfe367f442bee72349441a3203c35"
+        },
+        {
+          "member": "llama-cli.exe",
+          "dest": "PortalAI Windows/LLM/llamacpp/llama-cli.exe",
+          "bytes": 9216,
+          "sha256": "2aa638f8964c5e79085b9cca7f62cb065396c0b26b7cbac4e3dfbddc7e4de831"
+        }
+      ]
+    }
+  ]
+}

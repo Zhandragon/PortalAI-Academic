@@ -1,7 +1,7 @@
 {
   "release": "PortalAI-2026.11.04-Desktop-r67-suite-Academic-Windows",
-  "payload_bytes": 679214733,
-  "payload_files": 5435,
+  "payload_bytes": 679216351,
+  "payload_files": 5436,
   "bootstrap_bytes": 22640669,
   "components": [
     {
@@ -5787,6 +5787,27 @@
         {
           "sha256": "de2a49866988ea272c43dc2a43ee2662c25725a717ca5b9059ea420a97f53fe8",
           "bytes": 931145888
+        }
+      ]
+    },
+    {
+      "id": "windows-cuda-inference",
+      "label": "NVIDIA chat and Weight-Space Editor runtime (CUDA 12.4)",
+      "required": false,
+      "depends_on": [
+        "core-runtime",
+        "media-qwen-tts"
+      ],
+      "installed_bytes": 1167981853,
+      "files": 55,
+      "downloads": [
+        {
+          "sha256": "8c79a9b226de4b3cacfd1f83d24f962d0773be79f1e7b75c6af4ded7e32ae1d6",
+          "bytes": 391443627
+        },
+        {
+          "sha256": "b7db6f29abbddb03a1bed8436f91648cc15ab1d66b125211aabd12ad3cd37ee2",
+          "bytes": 254062419
         }
       ]
     }

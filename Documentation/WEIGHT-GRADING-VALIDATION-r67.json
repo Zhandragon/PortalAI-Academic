@@ -15,9 +15,10 @@
         "Tools/WeightSpace/evaluation.py": "421f1fb1780ea4d224a8fb820a3c3a0df9c9ab12ec7039114076225b28cf0861",
         "Maintenance/Tests/test_weightspace_grading.py": "f816d56f0756d0c1805fdefdd61e7c40f013c6962920972f30d9b7fd244ba65d",
         "ControlCenter/release_version.py": "93a498ac845a1739465700c72755edcb38408a8800bd0c33414e5b90f968d2db",
-        "Documentation/Weight_Grading_r67.txt": "dc73c2104c1c1ebc9d57681bb423131f341af7fa1fc09cac6217cccdd6ac153f"
+        "Documentation/Weight_Grading_r67.txt": "dc73c2104c1c1ebc9d57681bb423131f341af7fa1fc09cac6217cccdd6ac153f",
+        "Documentation/Weight_Space_Runtime_r67.txt": "c9a1fd284c68f314003cb35ee964fdc549c9544287e0689f7e6d77f3893038f8"
       },
-      "free_bytes": 135423561728,
+      "free_bytes": 123818819584,
       "independent_installation": true
     },
     "E": {
@@ -32,9 +33,10 @@
         "Tools/WeightSpace/evaluation.py": "421f1fb1780ea4d224a8fb820a3c3a0df9c9ab12ec7039114076225b28cf0861",
         "Maintenance/Tests/test_weightspace_grading.py": "f816d56f0756d0c1805fdefdd61e7c40f013c6962920972f30d9b7fd244ba65d",
         "ControlCenter/release_version.py": "93a498ac845a1739465700c72755edcb38408a8800bd0c33414e5b90f968d2db",
-        "Documentation/Weight_Grading_r67.txt": "dc73c2104c1c1ebc9d57681bb423131f341af7fa1fc09cac6217cccdd6ac153f"
+        "Documentation/Weight_Grading_r67.txt": "dc73c2104c1c1ebc9d57681bb423131f341af7fa1fc09cac6217cccdd6ac153f",
+        "Documentation/Weight_Space_Runtime_r67.txt": "c9a1fd284c68f314003cb35ee964fdc549c9544287e0689f7e6d77f3893038f8"
       },
-      "free_bytes": 192341807104,
+      "free_bytes": 191092809728,
       "independent_installation": true
     }
   },
@@ -45,9 +47,11 @@
     "failures": [],
     "errors": [],
     "installer_allowlist_extraction_verified": true,
+    "native_runtime_extracted_from_verified_component": true,
+    "native_abi_hashes_verified": true,
     "source_python_parsed": 1761,
     "full_recipient_install": false,
-    "scope": "Focused grading, editor, profiles, startup and model-switch regressions; r65 full suite evidence remains historical."
+    "scope": "Focused grading, editor, profiles, startup and model-switch regressions with packaged native DLLs; Python package fixtures still copied from D. r65 full suite evidence remains historical."
   },
   "installer_checks": {
     "passed": true,
@@ -281,8 +285,78 @@
     "embedded_matches_sidecar": true,
     "real_user_installation_modified": false
   },
+  "native_runtime_pins": {
+    "edition": "Academic",
+    "passed": true,
+    "libraries": [
+      {
+        "library": "llama.dll",
+        "expected": "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6",
+        "packaged": [
+          "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml.dll",
+        "expected": "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9",
+        "packaged": [
+          "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9"
+        ],
+        "passed": true
+      },
+      {
+        "library": "ggml-base.dll",
+        "expected": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed",
+        "packaged": [
+          "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "native_component": {
+    "passed": true,
+    "prior_component_pins_unchanged": true,
+    "optional_component_selected": true,
+    "minimum_plan_excludes_cuda": true,
+    "package_dependencies_in_closure": true,
+    "native_members_verified": 55,
+    "symbols": {
+      "ggml-base.dll": [
+        "ggml_quantize_chunk",
+        "ggml_nelements",
+        "ggml_backend_tensor_get"
+      ],
+      "ggml.dll": [
+        "ggml_backend_load",
+        "ggml_backend_load_all_from_path"
+      ],
+      "llama.dll": [
+        "llama_model_default_params",
+        "llama_context_default_params",
+        "llama_model_load_from_file",
+        "llama_decode",
+        "llama_set_adapters_lora",
+        "llama_sampler_sample"
+      ]
+    },
+    "abi_layout_verified": true,
+    "gpu_or_model_loaded": false,
+    "complete_fresh_install": false
+  },
+  "native_storage_selection": {
+    "passed": true,
+    "unknown_component_rejected": true,
+    "native_component_recognized": true,
+    "fresh_full_install_refused_for_insufficient_space": true,
+    "actual_compiled_storage_checker": true,
+    "installation_started": false,
+    "edition": "Academic",
+    "message": "Disk space at D:\\Backups\\PortalAI-Weight-Grading-Release-r67\\Academic: required 162.75 GiB; available 115.32 GiB. Includes installed files, retained downloads, filesystem allocation and working space. Need 47.43 GiB more. Choose another destination, free space, or select fewer optional components."
+  },
   "source_matches_payload": true,
-  "payload_growth_bytes_vs_r66": 1844,
+  "payload_growth_bytes_vs_r66": 3462,
   "existing_component_pins_unchanged": true,
   "production_defaults_changed": false,
   "new_dependencies": false,
@@ -291,13 +365,13 @@
   "full_fresh_recipient_install_tested": false,
   "linux_mac_updated": false,
   "deprecated_C_installation_excluded": true,
-  "scope": "Cleanup failure distinction only; original weights, profile format, GUI and model loading unchanged.",
+  "scope": "Cleanup failure distinction and previously missing optional NVIDIA installer component. Existing D/E runtimes, original weights, profile format, GUI and model loading unchanged.",
   "prior_evidence": "r65 completed full 1233-check suites on both SSDs and extracted editions, with actual original/edit/original native inference on D and E. This follow-up ran 88 focused checks on each installation and extracted edition; it does not claim a new full-suite or live GPU rerun.",
   "download_launcher": {
     "passed": true,
     "mode": "real compiled --prepare-only with verified local download cache",
     "files_verified": 10,
-    "archive_sha256": "f882eedc01c7f96f9572c9dc69792846c479add18fe8ff7c2914624edac99818",
+    "archive_sha256": "a1b655bf317fe80914e1bf147cc005fd5bafe6cfe809a20dd5cf0501e7cab429",
     "network_download_tested": false,
     "full_install_started": false
   }

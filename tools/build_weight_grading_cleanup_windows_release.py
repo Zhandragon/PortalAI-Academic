@@ -3,7 +3,7 @@
 Only tracked/new ApplicationSources/Windows files and the explicit public
 Runtime/Knowledge layer are read. No live accounts, configuration or outputs are
 imported. Existing dependencies and edition policy remain those of the receiving archive.
-All pre-existing runtime/model component pins remain unchanged. Small reader/grader code is part of the application payload.
+All pre-existing runtime/model component pins remain unchanged. Adds the previously omitted optional NVIDIA runtime component from its separately reviewed manifest. Small reader/grader code is part of the application payload.
 Run with --repo, --previous, --knowledge and a new --stage on the build host.
 """
 import argparse,hashlib,json,shutil,stat,subprocess,sys,zipfile
@@ -92,6 +92,16 @@ def build(repo,previous,knowledge,stage):
         'progressive_tool_loading':True,'max_loaded_optional_tools':4,'exact_parameter_schemas':True,
         'new_dependencies':False,'fresh_server_context_per_request':True,'unchanged_safety_reserves':True}
     assert json.dumps(release['components'],sort_keys=True)==old_components
+    native_component=json.loads((repo/'InstallerSources/Windows/weight_space_cuda_component.json').read_text())
+    assert native_component['id']=='windows-cuda-inference'
+    assert not any(c['id']==native_component['id'] for c in release['components'])
+    release['components'].append(native_component)
+    assert json.dumps(release['components'][:-1],sort_keys=True)==old_components
+    release['weight_space_editor']['installer_component']=native_component['id']
+    release['weight_space_editor']['runtime_guide']='PortalAI Windows/Documentation/Weight_Space_Runtime_r67.txt'
+    package_names={r['dest'].replace('\\','/') for c in release['components'] for a in c.get('artifacts',[]) for r in a['members']}
+    for name in ('numpy','jinja2','sympy'):
+        assert 'PortalAI Windows/Voice/Qwen3-TTS/.venv/Lib/site-packages/'+name+'/__init__.py' in package_names,name
 
     # Run the unchanged install engine planner: all optional components, receipts,
     # destination overlap checks and dependency closure must still be valid.
@@ -104,6 +114,12 @@ def build(repo,previous,knowledge,stage):
     if old not in upgrade['compatible_versions']:upgrade['compatible_versions'].append(old)
     write_json(package/'upgrade.json',upgrade)
     plan=json.loads((package/'storage-plan.json').read_text());plan.update(release=release['release'],payload_bytes=sum(r['bytes'] for r in rows),payload_files=len(rows))
+    c=native_component
+    plan['components'].append({'id':c['id'],'label':c['label'],'required':False,'depends_on':c['depends_on'],
+        'installed_bytes':sum(r['bytes'] for a in c['artifacts'] for r in a['members']),
+        'files':sum(len(a['members']) for a in c['artifacts']),
+        'downloads':[{'sha256':a['sha256'],'bytes':a['bytes']} for a in c['artifacts']]})
+    assert {r['id'] for r in plan['components']}=={r['id'] for r in release['components']}
     write_json(package/'storage-plan.json',plan)
     catalog=json.loads((package/'suite-catalog.json').read_text(encoding='utf-8'))
     catalog['catalog_version']=VERSION
@@ -133,8 +149,8 @@ def build(repo,previous,knowledge,stage):
             data=archive.read(row['member']);assert len(data)==row['bytes'] and hashlib.sha256(data).hexdigest()==row['sha256']
     report={'version':VERSION,'edition':edition,'archive':output.name,'bytes':output.stat().st_size,'sha256':digest(output),
       'previous_sha256':expected,'changed_members':changed,'added_members':added,'payload_members':len(rows),
-      'existing_dependency_pins_unchanged':True,'new_dependencies':False,'new_runtime':False,'new_model_weights':False,'added_original_helper':'Tools/WeightSpace','all_components_plan':True,'minimum_components_plan':True,
-      'all_archive_and_payload_hashes_verified':True,'full_recipient_install':False,
+      'existing_dependency_pins_unchanged':True,'new_dependencies':False,'new_runtime':False,'added_installer_component':'windows-cuda-inference','native_runtime_already_installed_on_D_E':True,'new_model_weights':False,'added_original_helper':'Tools/WeightSpace','all_components_plan':True,'minimum_components_plan':True,
+      'all_archive_and_payload_hashes_verified':True,'native_storage_preflight_includes_component':True,'full_recipient_install':False,
       'storage':{'installed_bytes':sum(r['bytes'] for r in files),'download_bytes':sum({a['sha256']:a['bytes'] for a in artifacts}.values()),'required_bytes':need,'files':len(files)},
       'package_files':[{'name':p.name,'bytes':p.stat().st_size,'sha256':digest(p)} for p in sorted(package.iterdir())]}
     write_json(stage/'validation.json',report)
