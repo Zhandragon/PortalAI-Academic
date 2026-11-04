@@ -20,6 +20,15 @@ class AlgebraTests(unittest.TestCase):
         with patch.object(benchmark,'require_gpu_unpaused',side_effect=guard.ResearchPaused('paused')), patch.object(benchmark,'acquire_gpu_lease') as lease:
             with self.assertRaises(guard.ResearchPaused):benchmark.run(SimpleNamespace())
             lease.assert_not_called()
+    def test_invalid_case_selection_never_starts_native_server(self):
+        args=SimpleNamespace(tokens=3072,split='selection',case_ids=['not-a-case'])
+        with patch.object(benchmark,'require_gpu_unpaused'),patch.object(benchmark,'acquire_gpu_lease') as lease:
+            with self.assertRaisesRegex(ValueError,'Unknown case'):benchmark.run(args)
+            lease.assert_not_called()
+    def test_excessive_budget_never_starts_native_server(self):
+        with patch.object(benchmark,'require_gpu_unpaused'),patch.object(benchmark,'acquire_gpu_lease') as lease:
+            with self.assertRaisesRegex(ValueError,'budget'):benchmark.run(SimpleNamespace(tokens=8192))
+            lease.assert_not_called()
     def test_hashing_matches_sha_and_stops_at_chunk_boundary(self):
         with tempfile.TemporaryDirectory(dir=LAB) as folder:
             root=Path(folder);source=root/'model-fixture';source.write_bytes(b'a'*(8*1024**2+13))

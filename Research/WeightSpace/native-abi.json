@@ -1,0 +1,89 @@
+{
+  "commit": "8e330954adb6e86c329c9d7e338f01f93ffe4b88",
+  "header_sha256": "fedb52ea9291c9900e637ed6ffec339919dd27c3dadc2c8cf216c552e0488dda",
+  "compiler": "Runtime\\AMDPython\\packages\\_rocm_sdk_core\\lib\\llvm\\bin\\clang.exe",
+  "structures": {
+    "ModelParams": {
+      "size": 80,
+      "offsets": {
+        "devices": 0,
+        "tensor_buft_overrides": 8,
+        "n_gpu_layers": 16,
+        "split_mode": 20,
+        "load_mode": 24,
+        "lazy_mode": 28,
+        "main_gpu": 32,
+        "tensor_split": 40,
+        "progress_callback": 48,
+        "progress_callback_user_data": 56,
+        "kv_overrides": 64,
+        "vocab_only": 72,
+        "check_tensors": 73,
+        "use_extra_bufts": 74,
+        "no_host": 75,
+        "no_alloc": 76,
+        "load_mtp": 77
+      }
+    },
+    "ContextParams": {
+      "size": 160,
+      "offsets": {
+        "n_ctx": 0,
+        "n_batch": 4,
+        "n_ubatch": 8,
+        "n_seq_max": 12,
+        "n_rs_seq": 16,
+        "n_outputs_max": 20,
+        "n_outputs_max_per_seq": 24,
+        "n_threads": 28,
+        "n_threads_batch": 32,
+        "ctx_type": 36,
+        "rope_scaling_type": 40,
+        "pooling_type": 44,
+        "attention_type": 48,
+        "flash_attn_type": 52,
+        "rope_freq_base": 56,
+        "rope_freq_scale": 60,
+        "yarn_ext_factor": 64,
+        "yarn_attn_factor": 68,
+        "yarn_beta_fast": 72,
+        "yarn_beta_slow": 76,
+        "yarn_orig_ctx": 80,
+        "defrag_thold": 84,
+        "cb_eval": 88,
+        "cb_eval_user_data": 96,
+        "type_k": 104,
+        "type_v": 108,
+        "abort_callback": 112,
+        "abort_callback_data": 120,
+        "embeddings": 128,
+        "offload_kqv": 129,
+        "no_perf": 130,
+        "op_offload": 131,
+        "swa_full": 132,
+        "kv_unified": 133,
+        "samplers": 136,
+        "n_samplers": 144,
+        "ctx_other": 152
+      }
+    },
+    "Batch": {
+      "size": 56,
+      "offsets": {
+        "n_tokens": 0,
+        "token": 8,
+        "embd": 16,
+        "pos": 24,
+        "n_seq_id": 32,
+        "seq_id": 40,
+        "logits": 48
+      }
+    }
+  },
+  "libraries": {
+    "llama.dll": "b578b493e7b125cd2cf0b521b7f45a3b3bf575fc7bff9e65037001c7427616b6",
+    "ggml.dll": "370289b0c520879cf787f97603c0233fe688d14d23b63ff56633b75ec5d89ba9",
+    "ggml-base.dll": "fb7475e880434936cf24e5bfe4afa6a5082cdfc048d0b706383253a2595ee5ed"
+  },
+  "tensor_type_offset": 0
+}

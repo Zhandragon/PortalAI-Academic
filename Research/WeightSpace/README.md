@@ -1,21 +1,41 @@
 # Weight-space experiment: reasoning, coding, math and tools
 
-**Status: experimental preparation, not an installed model improvement. No model
-weights have been changed, no candidate has been accepted, and no quality gain has
-been established.** After the user stopped the interfering antivirus shields,
-native inference resumed and all 48 selection cases on the four 1.7B/4B variants
-completed. GPU experiments are now manually paused while the user plays a game;
-the two 27B variants remain pending. Existing originals and the production model
-selection remain unchanged.
+**Status: native weight-edit experiments, with no production edit accepted.**
+All six installed standard/abliterated variants completed their native selection
+baselines and causal calibration. Sparse experimental adapters were actually
+loaded and evaluated; original GGUF files and the production model selection
+remain unchanged. No broad intelligence gain has been established. The user
+freed VRAM and GPU work resumed; the former game-session pause is no longer active.
 
 Native strict passes were **9/12 standard 1.7B, 10/12 abliterated 1.7B,
-10/12 standard 4B, and 8/12 abliterated 4B**. These are tiny selection diagnostics,
+10/12 standard 4B, 8/12 abliterated 4B, and 12/12 for each 27B variant**.
+These are tiny selection diagnostics,
 not general model rankings. Review separates correct mathematics with formatting
 errors from actual coding and tool-selection failures. One standard 4B coding
 response exhausted its 3,072-token allowance; the advisory repetition detector
-flagged none. Repeated self-checking still warrants a matched larger-budget
-follow-up; neither a cutoff nor a negative detector proves whether a loop exists.
-See [native results and reviewed limitations](NATIVE-PILOT-RESULTS.json).
+flagged none. Three subsequent 6,144-token follow-ups completed that coding case
+correctly in about 17–22 seconds; the original cutoff does not establish
+unavoidable nontermination. Neither a cutoff nor a negative detector proves
+whether a loop exists.
+See [native results and reviewed limitations](NATIVE-PILOT-RESULTS.json) and
+[actual edit evaluations and decisions](NATIVE-EDIT-RESULTS.json).
+
+The calibration used four hand-authored productive/repetitive continuation
+pairs, three separate layers per model, candidate and norm-matched random edits,
+and doses 0, 0.5, 1 and 2: **1,152 adapter/continuation evaluations**. Zero-dose
+equivalence passed for all six models. Only the two 1.7B variants passed the
+frozen calibration gates; each then received 12 held-out tasks under unchanged,
+candidate and random-control conditions. No edits passed production acceptance.
+The synthetic direction is a calibration probe, not a proven natural looping
+mechanism. Viewed pilot holdouts must not become tuning data for later claims.
+
+Both 1.7B candidates scored **11/12**, equal to their respective baselines, with
+one rescued case and one regression each. The standard edit broke bracket-type
+nesting; the abliterated edit omitted the numeric final answer despite computing
+it correctly. The random controls scored 10/12 and 11/12, respectively. These
+tradeoffs do not justify replacing either installed model. Fourteen offline
+checks passed independently on each drive, and E's own native runtime passed
+the capture-on/off numerical smoke check without any logit difference.
 
 A valid 12-case direct Torch pilot on the standard 1.7B weights completed:
 **9 strict passes, no observed repetition loops and no cutoffs**. The three
@@ -54,10 +74,25 @@ layers nor their edit vectors can be copied across models.
   matched productive/repetitive cases are the minimum. It records residual
   outputs and MLP-writer contrasts without gradients. Tensor names and shapes
   were verified for all four supported files, without GPU allocation.
-  Actual activation capture and numerical comparison remain unvalidated.
-  **27B activation capture is not implemented:** its hybrid architecture and
-  memory needs require a compatible quantized activation backend. Native 27B
-  baselines are supported, subject to available VRAM.
+  This optional Torch capture path remains separately unvalidated. The new native
+  probe below supplies actual quantized activation capture for all six variants,
+  including both 27B models, without a Transformers upgrade.
+- `native_probe.py` / `verify_native_abi.py`: bounded llama.cpp C-API callbacks,
+  pinned to the installed b10935 build and library hashes. Portable clang verifies
+  every ctypes structure offset against the pinned headers. CUDA must load from
+  the portable runtime; silent CPU fallback is refused. Callbacks retain at most
+  32 rows per requested residual/MLP tensor and teacher-forced batches are bounded.
+  Capture on/off produced identical tested logits for the 1.7B and 27B standard
+  smoke cases. `native_probe_smoke.py` reproduces those numerical checks.
+- `native_calibration.py` / `calibration_pairs.json`: per-model residual contrasts,
+  64-column down-projection interventions, and matched controls. The existing
+  GPU lease, native model tokenizer and owned worker lifetime are retained.
+  Every scaled perturbation is capped at 15% of that matrix's Frobenius norm.
+- `prepare_task_controls.py` freezes candidate/site/dose using calibration only.
+  `run_task_controls.py` compares unchanged/candidate/random generations on the
+  same held-out tasks and sampling seed. `run_loop_followup.py` checks the observed
+  standard 4B selection cutoff with a 6,144-token budget and three seeds.
+  `summarize_native_edits.py` rebuilds the bounded reports from preserved results.
 - `probe_baseline.py` / `run_owned_probe.py`: an optional direct Torch diagnostic
   using the same installed GGUF tensors, a job-owned start gate, bounded lifetime,
   and the pinned model generation configuration (including both end tokens).
@@ -71,18 +106,17 @@ layers nor their edit vectors can be copied across models.
   a norm-matched orthogonal random control. Originals are opened read-only.
   The adapter equation is `delta_W = -dose * outer(u, mask * (u @ W))`.
   This is a quantized-runtime adaptation, **not a bit-identical recreation of the
-  authors' BF16 overwrite**. Native adapter loading and behavioral effects have
-  not yet been validated.
+  authors' BF16 overwrite**. Native loading and behavioral effects have now been
+  measured; working adapter loading is not evidence that an edit is beneficial.
 - `research_guard.py`: a manual experiment-only pause shared by the native and
   Torch runners. Any `GPU-PAUSED.json` marker blocks startup, including an empty or
   malformed file. Hashing, loading and case boundaries check for a new pause.
   Native requests already in flight finish before the next check; this is not an
   immediate process termination mechanism. The guard never resumes automatically.
 - `fetch_native_headers.py`: downloads a bounded set of upstream C-API headers
-  and graph definitions pinned to the installed native build, for preparation
-  of a quantized activation backend. Downloading these files does not implement
-  or validate native activation capture.
-- `test_lab.py`: twelve offline checks covering algebra, unchanged columns,
+  and graph definitions pinned to the installed native build. Header provenance
+  and the independently compiled ABI report accompany the native probe.
+- `test_lab.py`: fourteen offline checks covering algebra, unchanged columns,
   equivalent matrix application, control norm/orthogonality, invalid inputs,
   adapter round-trip, data separation, loop detection, restricted code grading,
   host-I/O rejection, termination of an infinite loop, pause admission and
@@ -148,8 +182,9 @@ models into a new output directory; there is no automatic retry or auto-resume.
    Only measured useful edits are eligible for D/E installation and installer
    integration. No automatic promotion or overwrite is implemented here.
 
-The prepared files are approximately tens of megabytes, primarily the shared
-tokenizer. A two-site float32 rank-one adapter would contain roughly 64–176 KiB
-of tensor data depending on model dimensions, plus metadata; this is an estimate,
-not a validated deployed adapter size. The native runner preserves an 80 GiB
-free-space floor. D and E hold independent copies of the preparation.
+The portable research files occupy tens of megabytes, primarily the shared
+tokenizer. A tested single-site 27B adapter occupies about 88 KiB, including
+metadata. Experimental adapters/captures use only a few additional megabytes;
+no extra full-model copy or runtime was downloaded. The native runner preserves
+an 80 GiB free-space floor. D and E hold independent source/dependency/evidence
+copies; rejected adapters stay outside production and installer payloads.

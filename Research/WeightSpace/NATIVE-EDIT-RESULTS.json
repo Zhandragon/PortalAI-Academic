@@ -1,0 +1,456 @@
+{
+  "status": "bounded_native_edit_experiment_completed_no_edits_promoted",
+  "production_models_changed": false,
+  "accepted_edits": 0,
+  "broad_intelligence_gain_established": false,
+  "selection_baseline_cases": 72,
+  "adapter_teacher_forced_evaluations": 1152,
+  "heldout_generated_cases": 72,
+  "models": [
+    {
+      "model": "1.7-standard",
+      "base_model_sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        9,
+        15,
+        21
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 2,
+      "calibration_report_sha256": "e37e9b307369d0ee4b7c4005bda258cfb3bcfda6c232ccc3d7113d607390964b",
+      "adapter_bytes": 198528,
+      "production_accepted": false,
+      "selected_layer": 21,
+      "selected_dose": 2.0,
+      "heldout": {
+        "baseline": {
+          "cases": 12,
+          "passed": 11,
+          "cutoffs": 0,
+          "seconds": 51.798,
+          "by_case": {
+            "hm1": true,
+            "hm2": true,
+            "hm3": true,
+            "hc1": true,
+            "hc2": false,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": true,
+            "hr3": true
+          },
+          "raw_results_sha256": "a76c5d5a652ff4429ed9e2b3e6312c7e14296eb3383d1892e3e5b68cc19bacf3",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        },
+        "candidate": {
+          "cases": 12,
+          "passed": 11,
+          "cutoffs": 0,
+          "seconds": 50.157000000000004,
+          "by_case": {
+            "hm1": true,
+            "hm2": true,
+            "hm3": true,
+            "hc1": false,
+            "hc2": true,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": true,
+            "hr3": true
+          },
+          "raw_results_sha256": "49681130c042ff76174b8d12af5c1b11d7752d489d356bf5b0ea446ebb9d972a",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        },
+        "random-control": {
+          "cases": 12,
+          "passed": 10,
+          "cutoffs": 1,
+          "seconds": 61.499,
+          "by_case": {
+            "hm1": true,
+            "hm2": true,
+            "hm3": true,
+            "hc1": false,
+            "hc2": true,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": false,
+            "hr3": true
+          },
+          "raw_results_sha256": "05ba7977473ad0cbd4332aba7f7cec02f4b9916fd06899681ec0faa45f4f8e4e",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        }
+      },
+      "plan_sha256": "7f887bec485de33fea9895ae3ea8ea3e49add8fe2fa720d75e2bba56465f33ec",
+      "heldout_used_for_selection": false,
+      "rescued_cases": [
+        "hc2"
+      ],
+      "regressed_cases": [
+        "hc1"
+      ],
+      "reviewed_change": "The standard candidate repairs missing-positive input mutation but regresses bracket nesting: a balance counter accepts ([)] instead of checking matching types.",
+      "decision": "Do not deploy: this tiny one-seed pilot does not establish a robust net gain; any regressions must be resolved on new data."
+    },
+    {
+      "model": "1.7-abliterated",
+      "base_model_sha256": "e75ff8310f03905a255b114e1c5d9225a40bc3021def4d4055b220e903b3019f",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        9,
+        15,
+        21
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 2,
+      "calibration_report_sha256": "58b6f1bc203ac85d53776ef3588a2cbddd44d12003ab13040397c2cafedb1986",
+      "adapter_bytes": 198528,
+      "production_accepted": false,
+      "selected_layer": 21,
+      "selected_dose": 2.0,
+      "heldout": {
+        "baseline": {
+          "cases": 12,
+          "passed": 11,
+          "cutoffs": 0,
+          "seconds": 42.171,
+          "by_case": {
+            "hm1": true,
+            "hm2": true,
+            "hm3": true,
+            "hc1": false,
+            "hc2": true,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": true,
+            "hr3": true
+          },
+          "raw_results_sha256": "5c4a12fc15680453457d6f42ecab8b079f0ff48d5c2a8695095bb94e4e0e5672",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        },
+        "candidate": {
+          "cases": 12,
+          "passed": 11,
+          "cutoffs": 0,
+          "seconds": 33.342999999999996,
+          "by_case": {
+            "hm1": true,
+            "hm2": false,
+            "hm3": true,
+            "hc1": true,
+            "hc2": true,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": true,
+            "hr3": true
+          },
+          "raw_results_sha256": "2568017a99d127a82b429cb4c86423e78aa87cc37ed92569139ddfd5848bb370",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        },
+        "random-control": {
+          "cases": 12,
+          "passed": 11,
+          "cutoffs": 1,
+          "seconds": 51.515,
+          "by_case": {
+            "hm1": true,
+            "hm2": true,
+            "hm3": true,
+            "hc1": true,
+            "hc2": true,
+            "hc3": true,
+            "ht1": true,
+            "ht2": true,
+            "ht3": true,
+            "hr1": true,
+            "hr2": false,
+            "hr3": true
+          },
+          "raw_results_sha256": "c9c77b1ad517c3834d88266d4c5945d83d94671bac4bca75255421640d8b9f94",
+          "sampling": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "seed": 20261103
+          }
+        }
+      },
+      "plan_sha256": "4bafdb5b4e7690566bebec9066b1910ac04c16c1bd6ed843810439bce1c9c903",
+      "heldout_used_for_selection": false,
+      "rescued_cases": [
+        "hc1"
+      ],
+      "regressed_cases": [
+        "hm2"
+      ],
+      "reviewed_change": "The abliterated candidate repairs bracket nesting but delivers FINAL: number on the divisor-count problem despite reasoning to 24. This is an answer-delivery regression, not incorrect arithmetic.",
+      "decision": "Do not deploy: this tiny one-seed pilot does not establish a robust net gain; any regressions must be resolved on new data."
+    },
+    {
+      "model": "4-standard",
+      "base_model_sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        12,
+        19,
+        27
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 0,
+      "calibration_report_sha256": "18b620ee12b4563e215e5688d91caf85776d28c3d9502244ac721b2e4f6e5783",
+      "adapter_bytes": 296832,
+      "production_accepted": false,
+      "decision": "Rejected at calibration: no dose passed the frozen candidate-versus-random and productive-loss gates."
+    },
+    {
+      "model": "4-abliterated",
+      "base_model_sha256": "655eb731037f42b66ada10ecc36681e1f46450f7010b32978ca4a9359a5e1302",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        12,
+        19,
+        27
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 0,
+      "calibration_report_sha256": "4e743c4be32813095998af9eb2eae95f90526cb58a127ec18a8df8eef6a383ab",
+      "adapter_bytes": 296832,
+      "production_accepted": false,
+      "decision": "Rejected at calibration: no dose passed the frozen candidate-versus-random and productive-loss gates."
+    },
+    {
+      "model": "27-standard",
+      "base_model_sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        22,
+        35,
+        48
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 0,
+      "calibration_report_sha256": "c35ef0ea1b3a139edae5b83f62b26406385c0d13ce9391262684fac1c6076182",
+      "adapter_bytes": 542592,
+      "production_accepted": false,
+      "decision": "Rejected at calibration: no dose passed the frozen candidate-versus-random and productive-loss gates."
+    },
+    {
+      "model": "27-abliterated",
+      "base_model_sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+      "calibration_source": "four hand-authored counterfactual pairs; synthetic, not sampled natural failures",
+      "sites": [
+        22,
+        35,
+        48
+      ],
+      "adapter_evaluations": 192,
+      "zero_scale_checks_passed": true,
+      "calibration_candidates_eligible": 0,
+      "calibration_report_sha256": "1ff151e835289ab251ab967779cad63060d86177ffa0393ee95ef09ef56fca9e",
+      "adapter_bytes": 542592,
+      "production_accepted": false,
+      "decision": "Rejected at calibration: no dose passed the frozen candidate-versus-random and productive-loss gates."
+    }
+  ],
+  "larger_budget_followup": {
+    "model": "4-standard",
+    "case_ids": [
+      "c2"
+    ],
+    "split": "selection",
+    "seeds": [
+      20261103,
+      20261104,
+      20261105
+    ],
+    "max_tokens": 6144,
+    "adapter": null,
+    "purpose": "Larger-budget follow-up of the original standard 4B interval-merging cutoff; not an intelligence benchmark or held-out evaluation.",
+    "results": [
+      {
+        "seed": 20261103,
+        "id": "c2",
+        "passed": true,
+        "seconds": 22.125,
+        "finish_reason": "stop",
+        "usage": {
+          "completion_tokens": 3417,
+          "prompt_tokens": 70,
+          "total_tokens": 3487,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "repetition_suspected": false,
+        "grading": {
+          "passed": true,
+          "checks": 3
+        }
+      },
+      {
+        "seed": 20261104,
+        "id": "c2",
+        "passed": true,
+        "seconds": 19.75,
+        "finish_reason": "stop",
+        "usage": {
+          "completion_tokens": 3050,
+          "prompt_tokens": 70,
+          "total_tokens": 3120,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "repetition_suspected": false,
+        "grading": {
+          "passed": true,
+          "checks": 3
+        }
+      },
+      {
+        "seed": 20261105,
+        "id": "c2",
+        "passed": true,
+        "seconds": 16.547,
+        "finish_reason": "stop",
+        "usage": {
+          "completion_tokens": 2575,
+          "prompt_tokens": 70,
+          "total_tokens": 2645,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "repetition_suspected": false,
+        "grading": {
+          "passed": true,
+          "checks": 3
+        }
+      }
+    ],
+    "production_weights_changed": false,
+    "interpretation": "All three larger-budget selection follow-ups completed correctly. The original 3,072-token cutoff is not evidence of unavoidable nontermination. Prompt, model and sampling settings match, with three stated seeds; one-case fresh server ordering differs from the original multi-case run, so this does not isolate budget as the only causal variable."
+  },
+  "native_smoke_checks": [
+    {
+      "model": "1.7-standard",
+      "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+      "tokens": 75,
+      "baseline_loss": 3.4809009716910553,
+      "callback_loss": 3.4809009716910553,
+      "max_logit_difference": 0.0,
+      "sites": {
+        "ffn_swiglu-10": [
+          6144
+        ],
+        "l_out-10": [
+          2048
+        ]
+      },
+      "seconds": 6.984000000000378,
+      "original_weights_modified": false
+    },
+    {
+      "model": "27-standard",
+      "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+      "tokens": 76,
+      "baseline_loss": 3.0318121326592387,
+      "callback_loss": 3.0318121326592387,
+      "max_logit_difference": 0.0,
+      "sites": {
+        "ffn_swiglu-10": [
+          17408
+        ],
+        "l_out-10": [
+          5120
+        ]
+      },
+      "seconds": 8.343999999999141,
+      "original_weights_modified": false
+    }
+  ],
+  "native_abi_sha256": "4d1822d705f5fea46d929bfc8c30bef8a36e41b6fdc11a9bf7d1543eabdc77ee",
+  "limitations": [
+    "This adapts sparse rank-one weight interventions to the installed quantized llama.cpp models; it is not a bit-identical reproduction of the authors BF16 overwrite.",
+    "Synthetic teacher-forced pairs are an instrumentation/calibration probe, not a validated natural looping direction.",
+    "The same small held-out set was used across model variants; it is held out from direction/site/dose selection, not a fresh external benchmark.",
+    "One seed and twelve simple held-out tasks per variant are insufficient for statistical claims, broad intelligence improvement, or production promotion.",
+    "No GSM8K, MATH-500, IFEval, large coding benchmark or full PortalAI tool workflow has been evaluated in this run.",
+    "A failed candidate is retained only as research evidence; the original model remains selected in PortalAI.",
+    "Generation timing excludes model load and is descriptive; concurrent disk/network release work and run order prevent controlled speed claims."
+  ],
+  "portable_validation": {
+    "offline_checks_passed_per_drive": 14,
+    "independent_E_native_capture_smoke": {
+      "model": "1.7-standard",
+      "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+      "tokens": 75,
+      "baseline_loss": 3.4809009716910553,
+      "callback_loss": 3.4809009716910553,
+      "max_logit_difference": 0.0,
+      "sites": {
+        "ffn_swiglu-10": [
+          6144
+        ],
+        "l_out-10": [
+          2048
+        ]
+      },
+      "seconds": 3.875,
+      "original_weights_modified": false
+    },
+    "E_tested_with_own_interpreter_models_and_runtime": true
+  }
+}

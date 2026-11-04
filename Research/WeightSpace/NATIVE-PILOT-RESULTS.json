@@ -1,15 +1,12 @@
 {
-  "status": "four_native_models_completed_gpu_work_manually_paused",
+  "status": "all_six_native_selection_baselines_completed",
   "native_runtime": true,
   "production_models_changed": false,
   "accepted_edits": 0,
   "quality_gains_established": false,
   "cases_per_model": 12,
-  "completed_case_results": 48,
-  "pending_models": [
-    "27-standard",
-    "27-abliterated"
-  ],
+  "completed_case_results": 72,
+  "pending_models": [],
   "split": "selection",
   "models": [
     {
@@ -186,6 +183,64 @@
         }
       ],
       "raw_results_sha256": "eff266ba09c4b2d74cf1d1cbf7115b12316f14d85c6082c98cb845f95a864c89"
+    },
+    {
+      "model": "27-standard",
+      "base_model_sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+      "cases": 12,
+      "strict_passed": 12,
+      "areas": {
+        "math": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 3,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 0,
+      "median_seconds_per_case": 6.797000000000001,
+      "failure_review": [],
+      "raw_results_sha256": "9383be6400da5a8f946b053aa7bf55bf7a56eab9addbca9f90f70dcf6bcb31e1"
+    },
+    {
+      "model": "27-abliterated",
+      "base_model_sha256": "935796865642fdc705f0f24459db3163c9f7f434f7e53650574d5c52d9b70813",
+      "cases": 12,
+      "strict_passed": 12,
+      "areas": {
+        "math": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "coding": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "tool_use": {
+          "strict_passed": 3,
+          "cases": 3
+        },
+        "reasoning": {
+          "strict_passed": 3,
+          "cases": 3
+        }
+      },
+      "detector_repetition_flags": 0,
+      "output_token_cutoffs": 0,
+      "median_seconds_per_case": 6.2505,
+      "failure_review": [],
+      "raw_results_sha256": "fa5548244b55938afc5d3b32ea60bfc12c3c238bef2cc06ee38d2087e163b49b"
     }
   ],
   "case_file_sha256": "a482b518c3a0b92819c072ae950123b7481da65908ad2e227e7d0c4c8aeb1409",
@@ -201,13 +256,13 @@
   "context_tokens": 8192,
   "limitations": [
     "Tiny synthetic selection set, one seed per case: not general model rankings or broad capability scores.",
-    "No candidate adapter, causal intervention, activation capture, or held-out comparison has run.",
     "Correct answers in an unexpected format are reported separately; strict original grades are preserved.",
     "A negative n-gram flag does not rule out repetitive reasoning. A length cutoff alone does not establish a loop.",
     "The r1 instruction permits a justification, while its strict grader expects only the label on that line. Clarify the protocol before expanding the dataset.",
     "Tool calls were graded but never executed. This does not measure the full production harness.",
     "Latency is descriptive only; a game started during the session. Do not treat these as controlled throughput comparisons.",
     "Native testing resumed after the user stopped antivirus shields. Assistant did not change antivirus settings.",
-    "GPU work was stopped before 27B model loading to preserve the user game session. Completed results remain intact."
+    "This report describes unchanged selection baselines. Later native capture, causal calibration and held-out controls are recorded separately in NATIVE-EDIT-RESULTS.json.",
+    "The two 27B variants completed after the user freed VRAM. Their 12/12 pilot scores have a ceiling effect and do not establish general reliability."
   ]
 }

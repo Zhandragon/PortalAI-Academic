@@ -64,9 +64,8 @@
     "Only twelve selection cases on one dequantized BF16 probe; not a general benchmark or six-model comparison.",
     "No loop-suppression direction was fitted: this valid pilot did not produce a repetition case.",
     "The initial probe run omitted generation EOS IDs, was invalidated, and is excluded from all counts and direction fitting.",
-    "Native server comparison remains interrupted pending review of the disappearing executable; restored from independently pinned E copy.",
-    "Qwen3 1.7B/4B tensor mapping verified, but activation collection remains unvalidated. The 27B qwen35 activation backend is not implemented.",
-    "No candidate was applied, validated, promoted or distributed as a model improvement."
+    "This historical direct-Torch pilot is superseded for deployment conclusions by native baseline and native-edit reports. Native capture now supports all six installed variants; no candidate is accepted."
   ],
-  "results_file_sha256": "47bc459c54221c80b55b36ed8cff521920c864246a959ed3b23b85865e784abe"
+  "results_file_sha256": "47bc459c54221c80b55b36ed8cff521920c864246a959ed3b23b85865e784abe",
+  "historical_report": true
 }

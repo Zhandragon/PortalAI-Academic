@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "split": "selection",
+  "source": "Hand-authored counterfactual calibration pairs informed by observed repeated reconsideration. Not naturally sampled success/failure pairs and not evidence of a useful direction.",
+  "pairs": [
+    {
+      "id": "cal-copying",
+      "prompt": "Write a Python function to merge overlapping closed intervals without changing the input. Return only the final code.",
+      "productive": "Sorting creates a new outer list, but its inner intervals still refer to the original objects. I must copy each interval when inserting it into the result. The result can then be extended without mutating the input. The merge condition is start <= previous_end, because equal endpoints overlap. An empty input produces an empty result. For [1,3] and [3,5], the result is [1,5]. For [1,3] and [4,5], the intervals stay separate. These checks establish the boundary condition and ownership of the result objects. I can now implement the loop with fresh result lists and return the merged output.",
+      "repetitive": "Sorting creates a new list, so perhaps the original intervals are unchanged. But wait, the inner intervals still refer to the original objects. I should copy them. The result should not change the input. But is sorting a copy enough? Sorting creates a new outer list, and the inner intervals remain references. So I should copy them. But let me reconsider whether those references change the input. If the result changes an inner list, the input changes too. So copying is necessary. But the sorted list is already new. I should reconsider this distinction once more before deciding whether a copy is needed."
+    },
+    {
+      "id": "cal-percent",
+      "prompt": "A quantity is multiplied by 1.2 and then by 0.8. Explain its ratio to its original value.",
+      "productive": "The two changes multiply rather than add. The first factor is 1.2 and the second factor is 0.8, giving a combined factor of 0.96. For an initial quantity of 100, the intermediate quantity is 120 and the final quantity is 96. The second reduction uses the increased quantity as its base. That explains why equal percentage increases and decreases do not cancel. As an independent check, (1+x)(1-x) equals 1-x squared; substituting x equal to 0.2 gives 0.96. Both calculations agree, so the final ratio is 0.96 and the overall decrease is four percent.",
+      "repetitive": "The increase and decrease are both twenty percent, so perhaps they cancel. But the bases differ, so the factors should multiply. The result appears to be 0.96. Let me reconsider whether equal percentages should cancel. The increase changes the base, and the decrease uses that changed base. Therefore they do not cancel. But I should check once more whether the order changes this. Multiplication commutes, so the factors still give 0.96. Yet equal percentages sound symmetric. I should revisit that symmetry and consider the bases again before settling on the result, even though the factors have already been calculated."
+    },
+    {
+      "id": "cal-evidence",
+      "prompt": "A profile avatar was confirmed to be a default geometric identicon. An observed link leads to the person's scholarly profile. What should the next research action be?",
+      "productive": "The inspected avatar is negative evidence for that particular image, so downloading a larger variant would not address the request for a real portrait. The scholarly profile is an observed, relevant source. I should read that exact URL and inspect its associated image links. A portrait candidate still needs a source association and a check for placeholder indicators. I should preserve the rejected avatar evidence so later turns do not repeat that route. The next action is a bounded read of the linked profile, not a download based on an imagined image URL. If that source has no portrait, a different relevant source can then be considered.",
+      "repetitive": "The avatar is a geometric identicon, but perhaps a larger version would reveal more information. Yet it was already confirmed to be a default icon. I should consider whether its resolution caused confusion. A larger download might clarify it, although the evidence says it is not a portrait. The linked scholarly profile may have a photograph. Before opening it, perhaps I should examine the same avatar once again. It might be a placeholder, and it was confirmed as one, but a higher resolution might still help. I need to reconsider whether to repeat the download or inspect the known profile link."
+    },
+    {
+      "id": "cal-schedule",
+      "prompt": "Four sequential tasks each take two hours. Can they all finish in six hours if none can overlap or be shortened?",
+      "productive": "The sequential constraint means the durations add directly. Four tasks at two hours each require eight hours. The available time is six hours, leaving a two-hour deficit. Starting at time zero gives finish times two, four, six, and eight; the fourth task misses the deadline. Reordering cannot change the total because every task has the same fixed duration and overlap is forbidden. The impossibility follows from a lower bound on total required time, not from a particular ordering. I should state that the schedule is impossible under these constraints and explain the eight-hour minimum without proposing an unauthorized change to the requirements.",
+      "repetitive": "Four tasks at two hours each seem to require eight hours. But perhaps a different ordering would fit six hours. They cannot overlap, so the total remains eight. I should reconsider whether starting earlier could help, but the stated window is six hours. Reordering still gives eight hours. Maybe the deadline could be interpreted differently, although the tasks cannot be shortened or overlapped. I need to think again about the sequential requirement. Each task takes two hours, and there are four tasks, which gives eight hours. Perhaps another ordering would solve the problem, but I have already found that ordering does not change the sum."
+    }
+  ]
+}
