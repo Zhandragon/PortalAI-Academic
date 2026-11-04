@@ -25,6 +25,10 @@ experiment when a user explicitly wants to try a recorded tradeoff.
    affected blocks. Compare real original, edited and random-control generations
    on selected natural cases plus frozen coding, tool and instruction checks.
    Tool calls are inspected and never executed. Original files are never edited.
+   CPU preflight ranks the existing diagnostic-loss grid and admits only edits
+   whose intended and actual quantized matrix change stay within the editor's
+   unchanged 15% norm bound, for both candidate and random control. It does not
+   use generated candidate answers or final benchmark results to select a dose.
 5. A candidate must improve over both original and random control without a
    discovery-domain regression to reach 1,152 unique, unseen paired confirmation
    problems. Recipe and data hashes freeze before opening confirmation data.
@@ -49,7 +53,7 @@ be reproduced; stable per-item seeds are explicit in the native source.
 
 ## Reproduction
 
-Install the r65 Windows utility and its existing portable runtime. Copy this
+Install the r66 Windows utility and its existing portable runtime. Copy this
 folder to `PortalAI Windows/Maintenance/Research/Takehi-PortalAI-20261103` in a
 fresh workspace; never overlay a live experiment. The scripts deliberately
 derive the installed portable root from that location. Use BootstrapPython.
@@ -75,6 +79,12 @@ recorded campaign. They require its saved case hashes/checkpoint and must not
 be used to invent missing evidence in a fresh run. The resume path skips
 completed cases, starts an interrupted inference from its original seed,
 records another accounted pass, and refuses automatic removal of a user pause.
+The 4B standard model's first dose was rejected during serialization because
+it exceeded the norm bound. `prepare_feasible_resume.py` retains its rejected
+partial and original recipe, verifies every completed baseline case, and
+selects the best already-scored feasible dose. The generation script's
+`--resume-feasibility` mode verifies that checkpoint and evaluates only the new edit
+and control. The initial interruption remains in the experiment ledger.
 
 ## Reversible profiles and storage
 

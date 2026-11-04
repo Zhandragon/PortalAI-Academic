@@ -91,9 +91,10 @@ def main():
                     delta={key:result['losses'][key]-base['losses'][key] for key in ids}
                     row={'recipe':adapter['recipe'].name,'control':adapter['control'],'tensor':adapter['tensor'],'dose':dose,'mean_delta':float(np.mean(list(delta.values()))),'good_delta':float(np.mean([delta[k] for k in loc['good_ids']])),'bad_delta':float(np.mean([delta[k] for k in loc['bad_ids']]))}
                     results.append(row)
-            candidates=[r for r in results if not r['control'] and r['good_delta']<=.01]
-            best=min(candidates,key=lambda r:r['mean_delta']) if candidates else None
+            from edit_feasibility import choose
+            best,feasibility=choose(model,localization,results,out,ledger)
             report={'baseline_reference_nll':base['mean_reference_nll'],'dose_results':results,'selected_for_generation':best,
+                    'quantized_feasibility':feasibility,'selection_rule':'Lowest existing discovery loss among site/dose pairs whose candidate and random control both satisfy the unchanged 15% matrix-norm bound.',
                     'meaning':'Loss screen selects a hypothesis for native quantized generation; no task accuracy or intelligence improvement established.','production_model_changed':False}
             atomic_json(out/'summary.json',report)
             if best:

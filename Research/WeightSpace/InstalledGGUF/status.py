@@ -21,6 +21,14 @@ def status():
             if row['phase'].startswith('001'):
                 cases=folder/row['phase']
                 row['completed_cases']=sum(p.name!='request.json' for p in cases.glob('*.json'))
+            if not running and (folder/'004-generation-screen/feasibility-resume.json').is_file():
+                row['phase']='feasible edit prepared; baseline retained; GPU comparison pending'
+        admission=folder/'EXTENDED-STATUS.json'
+        causal=folder/'003-causal-screen/summary.json'
+        if admission.is_file() and json.loads(admission.read_text()).get('qualified') is False:
+            row['phase']='complete without supported natural contrast'
+        elif causal.is_file() and json.loads(causal.read_text()).get('selected_for_generation','missing') is None:
+            row['phase']='complete without feasible site/dose'
         summary=folder/'004-generation-screen/summary.json'
         if summary.is_file():
             data=json.loads(summary.read_text());paired=data['paired'];control=data['random_control']

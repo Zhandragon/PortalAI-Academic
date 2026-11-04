@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T08:32:58Z",
+  "updated_at_utc": "2026-11-04T08:53:23Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -902,8 +902,8 @@
       "production_original_replaced": false,
       "completed_case_counts": {
         "baseline": {
-          "count": 0,
-          "correct": 0
+          "count": 30,
+          "correct": 22
         },
         "candidate": {
           "count": 0,
@@ -923,14 +923,280 @@
         {
           "id": "001b-natural-discovery",
           "phase": "discovery",
-          "status": "running"
+          "status": "complete"
+        },
+        {
+          "id": "002-localization",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "003-reference-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "004-zero-dose",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "005-candidate-site-1-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "006-candidate-site-1-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "007-candidate-site-1-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "008-candidate-site-1-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "009-candidate-site-1-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "010-candidate-site-1-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "011-candidate-site-1-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "012-candidate-site-2-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "013-candidate-site-2-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "014-candidate-site-2-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "015-candidate-site-2-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "016-candidate-site-2-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "017-candidate-site-2-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "018-candidate-site-2-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "019-candidate-site-3-dose-0.5",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "020-candidate-site-3-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "021-candidate-site-3-dose-2.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "022-candidate-site-3-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "023-candidate-site-3-dose-6.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "024-candidate-site-3-random-dose-1.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "025-candidate-site-3-random-dose-4.0",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "gen-screen-baseline",
+          "phase": "discovery",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-materialize-candidate",
+          "phase": "cpu",
+          "status": "interrupted"
+        },
+        {
+          "id": "cpu-feasibility-reviewed-0",
+          "phase": "cpu",
+          "status": "complete"
+        },
+        {
+          "id": "cpu-feasibility-reviewed-1",
+          "phase": "cpu",
+          "status": "complete"
         }
-      ]
+      ],
+      "quantized_admission_followup": {
+        "prior_recipe_sha256": "25ac165c9b646c49a800df253def18403653d0b45fd9b49652e538b9aa47e49c",
+        "prior_rejection": {
+          "error": "ValueError('Direct edit exceeded the 15% per-matrix norm ceiling')"
+        },
+        "checks": [
+          {
+            "rank": 0,
+            "discovery_loss_result": {
+              "recipe": "candidate-site-2.json",
+              "control": false,
+              "tensor": "blk.1.ffn_down.weight",
+              "dose": 4.0,
+              "mean_delta": -0.160178347681819,
+              "good_delta": -0.16572772273389158,
+              "bad_delta": -0.15383620476516463
+            },
+            "candidate": {
+              "admitted": false,
+              "sites": [
+                {
+                  "tensor": "blk.1.ffn_down.weight",
+                  "dose": 4.0,
+                  "intended_relative_delta": 0.21092491481634768,
+                  "actual_relative_delta": 0.2109992397549198,
+                  "within_bound": false
+                }
+              ],
+              "matrix_norm_ceiling": 0.15,
+              "GPU_loaded": false,
+              "model_copy_created": false
+            },
+            "random_control": {
+              "admitted": false,
+              "sites": [
+                {
+                  "tensor": "blk.1.ffn_down.weight",
+                  "dose": 4.0,
+                  "intended_relative_delta": 0.21092490694332716,
+                  "actual_relative_delta": 0.21105835272883347,
+                  "within_bound": false
+                }
+              ],
+              "matrix_norm_ceiling": 0.15,
+              "GPU_loaded": false,
+              "model_copy_created": false
+            },
+            "admitted": false
+          },
+          {
+            "rank": 1,
+            "discovery_loss_result": {
+              "recipe": "candidate-site-2.json",
+              "control": false,
+              "tensor": "blk.1.ffn_down.weight",
+              "dose": 1.0,
+              "mean_delta": -0.11278573760163312,
+              "good_delta": -0.2323506965781844,
+              "bad_delta": 0.023859929800139783
+            },
+            "candidate": {
+              "admitted": true,
+              "sites": [
+                {
+                  "tensor": "blk.1.ffn_down.weight",
+                  "dose": 1.0,
+                  "intended_relative_delta": 0.05273122798394493,
+                  "actual_relative_delta": 0.05284873447401967,
+                  "within_bound": true
+                }
+              ],
+              "matrix_norm_ceiling": 0.15,
+              "GPU_loaded": false,
+              "model_copy_created": false
+            },
+            "random_control": {
+              "admitted": true,
+              "sites": [
+                {
+                  "tensor": "blk.1.ffn_down.weight",
+                  "dose": 1.0,
+                  "intended_relative_delta": 0.05273122672002551,
+                  "actual_relative_delta": 0.05282674007098828,
+                  "within_bound": true
+                }
+              ],
+              "matrix_norm_ceiling": 0.15,
+              "GPU_loaded": false,
+              "model_copy_created": false
+            },
+            "admitted": true
+          }
+        ],
+        "selected": {
+          "recipe": "candidate-site-2.json",
+          "control": false,
+          "tensor": "blk.1.ffn_down.weight",
+          "dose": 1.0,
+          "mean_delta": -0.11278573760163312,
+          "good_delta": -0.2323506965781844,
+          "bad_delta": 0.023859929800139783
+        },
+        "selection_data": "Existing discovery loss only; no candidate answer or final benchmark was used.",
+        "matrix_norm_ceiling": 0.15
+      }
     },
     "4-abliterated": {
       "filename": "Qwen3-4B-abliterated.Q4_K_M.gguf",
-      "status": "not started",
-      "production_original_replaced": false
+      "status": "in progress",
+      "production_original_replaced": false,
+      "completed_case_counts": {
+        "baseline": {
+          "count": 0,
+          "correct": 0
+        },
+        "candidate": {
+          "count": 0,
+          "correct": 0
+        },
+        "random": {
+          "count": 0,
+          "correct": 0
+        }
+      },
+      "accounted_passes": [
+        {
+          "id": "001-natural-discovery",
+          "phase": "discovery",
+          "status": "running"
+        }
+      ]
     },
     "27-standard": {
       "filename": "Qwen3.8-27B-Q4_K_M.gguf",

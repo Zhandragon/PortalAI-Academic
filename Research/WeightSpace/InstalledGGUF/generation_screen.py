@@ -13,6 +13,33 @@ from research_grading import grade
 from experiment import Ledger,atomic_json,sha,space,paired_summary
 from service_manager import acquire_gpu_lease,release_gpu_lease
 
+def verify_feasibility_resume(folder,model,cases):
+    """Accept only the checksummed, reviewed norm rejection with a complete baseline."""
+    out=folder/'004-generation-screen';saved=json.loads((out/'feasibility-resume.json').read_text())
+    assert saved['model']==folder.name=='4-standard'
+    assert saved['base_sha256']==sha(model)
+    assert saved['selected_recipe_sha256']==sha(folder/'selected-recipe.json')
+    assert saved['random_recipe_sha256']==sha(out/'random-recipe.json')
+    assert saved['cases_sha256']==sha(out/'cases.json') and json.loads((out/'cases.json').read_text())==cases
+    assert saved['baseline_request_sha256']==sha(out/'baseline/request.json')
+    assert not (out/'summary.json').exists() and not (out/'candidate').exists() and not (out/'random').exists()
+    original={}
+    for name,expected in saved['baseline_records'].items():
+        path=out/'baseline'/name
+        assert path.name==hashlib.sha256(expected['id'].encode()).hexdigest()[:20]+'.json' and sha(path)==expected['sha256']
+        value=json.loads(path.read_text());assert value['id']==expected['id'] and type(value['grading']['correct']) is bool
+        original[value['id']]=value
+    assert set(original)=={case['id'] for case in cases}
+    rejected=out/saved['rejected_partial']['path']
+    assert rejected.resolve().parent==(out/'rejected-candidate-dose4').resolve()
+    assert sha(rejected)==saved['rejected_partial']['sha256']
+    ledger=Ledger(folder/'ledger.sqlite')
+    try:
+        assert ledger.db.execute("SELECT status FROM runs WHERE id='gen-screen-baseline'").fetchone()==('complete',)
+        assert not ledger.db.execute("SELECT id FROM runs WHERE id IN ('gen-screen-candidate','gen-screen-random')").fetchall()
+    finally:ledger.close()
+    return original
+
 def broad_cases():
     frozen=LAB/'discovery-broad.json'
     if frozen.is_file():return json.loads(frozen.read_text(encoding='utf-8'))
@@ -38,7 +65,7 @@ def broad_cases():
     return output
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);parser.add_argument('--resume-feasibility',action='store_true');args=parser.parse_args()
     spec=json.loads((LAB/'protocol.json').read_text())['models'][args.model];folder=LAB/'experiments'/args.model
     model=ROOT/'LLM/models'/spec['filename'];chosen=folder/'selected-recipe.json'
     if not chosen.exists():print('No eligible recipe');return
@@ -48,23 +75,28 @@ def main():
     ids=loc['bad_ids']+loc['good_ids'][:len(loc['bad_ids'])]
     with (LAB/'practice.jsonl').open(encoding='utf-8') as stream:practice={r['id']:r for r in map(json.loads,stream) if r['id'] in ids}
     cases=[{'id':identifier,'domain':'math','kind':'math','prompt':practice[identifier]['problem']+'\nPlease reason step by step, and put your final answer within \\boxed{}.', 'answer':practice[identifier]['answer']} for identifier in ids]+broad_cases()
-    out=folder/'004-generation-screen';out.mkdir(exist_ok=False);atomic_json(out/'cases.json',cases)
+    out=folder/'004-generation-screen';resumed_baseline=None
+    if args.resume_feasibility:resumed_baseline=verify_feasibility_resume(folder,model,cases)
+    else:out.mkdir(exist_ok=False);atomic_json(out/'cases.json',cases)
     from extend_discovery import records as read_records
     original_records={r['id']:r for r in read_records(folder)}
     ledger=Ledger(folder/'ledger.sqlite');lease=None;results={};timings={};receipts={}
-    rng=np.random.default_rng(2026110301);random_recipe=json.loads(json.dumps(recipe))
-    # Same selected columns, coefficients and delta norm; orthogonal direction.
-    for site in random_recipe['sites']:
-        u=np.asarray(site['direction'],dtype=np.float32);v=rng.normal(size=len(u)).astype(np.float32);v-=u*float(v@u);v/=np.linalg.norm(v);site['direction']=v.tolist()
-    random_recipe['control']='orthogonal norm-matched direction'
-    atomic_json(out/'random-recipe.json',random_recipe)
+    from edit_feasibility import random_control
+    random_recipe=random_control(recipe)
+    if args.resume_feasibility:assert json.loads((out/'random-recipe.json').read_text())==random_recipe
+    else:atomic_json(out/'random-recipe.json',random_recipe)
     try:
         lease=acquire_gpu_lease('weight-space-generation-'+args.model,timeout=3)
         for arm,current_recipe in [('baseline',None),('candidate',recipe),('random',random_recipe)]:
             research_guard.require_gpu_unpaused();space(LAB)
+            if arm=='baseline' and resumed_baseline is not None:
+                results[arm]={k:v['grading']['correct'] for k,v in resumed_baseline.items()}
+                timings[arm]={k:v['seconds'] for k,v in resumed_baseline.items()}
+                print(json.dumps({'baseline_reused':len(results[arm]),'checkpoint_verified':True}),flush=True)
+                continue
             arm_dir=out/arm;arm_dir.mkdir();path=model
             if current_recipe is not None:
-                path=arm_dir/'candidate.gguf';cpu_id='cpu-materialize-'+arm
+                path=arm_dir/'candidate.gguf';cpu_id='cpu-materialize-'+arm+('-feasible' if args.resume_feasibility else '')
                 ledger.begin(cpu_id,'cpu',{'recipe':current_recipe,'base_sha256':fingerprint})
                 try:receipts[arm]=materialize(model,current_recipe,path);ledger.end(cpu_id,receipts[arm])
                 except BaseException as exc:ledger.end(cpu_id,{'error':repr(exc)},False);raise
@@ -106,6 +138,7 @@ def main():
         paired=paired_summary(results['baseline'],results['candidate']);control=paired_summary(results['baseline'],results['random'])
         qualified=paired['gain']>0 and sum(results['candidate'].values())>sum(results['random'].values()) and all(row['gain']>=0 for row in by_domain.values())
         summary={'paired':paired,'random_control':control,'domains':by_domain,'eligible_for_independent_confirmation':qualified,
+                 'feasibility_resume':args.resume_feasibility,'feasibility_decision_sha256':sha(out/'feasibility-decision.json') if args.resume_feasibility else None,
                  'latency_ratio':sum(timings['candidate'].values())/sum(timings['baseline'].values()),'model_receipts':receipts,
                  'status':'Promising discovery result; independent confirmation and separate final benchmarks still required.' if qualified else 'Tested hypothesis did not pass the discovery screen. No production replacement.',
                  'production_model_changed':False}
