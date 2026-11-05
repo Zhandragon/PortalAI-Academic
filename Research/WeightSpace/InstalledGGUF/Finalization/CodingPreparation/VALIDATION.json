@@ -1,0 +1,21 @@
+{
+  "prepared_at_utc": "2026-11-05T01:58:03Z",
+  "adapter_cpu_tests_passed": 10,
+  "raw_test_rows_reviewed": 257,
+  "selected_reference_programs_passed": 129,
+  "excluded_rows_with_reasons": 128,
+  "model_generations_run": 0,
+  "confirmation_source_and_data_pins_unchanged": true,
+  "source_sha256": {
+    "mbpp_adapter.py": "2c5f9eec70903ed6efe1f4647482e662eaa21231f094b09b807b45bfa5561764",
+    "test_mbpp_adapter.py": "56b9f791aecbebe60e87aed7cf14eb2e7f6f8d031881451d7b80046aa42e2d33",
+    "prepare_mbpp_subset.py": "7521ad0c76b6979e66e45a2bb5eef0d76f1f4263d31fd2fb991f4de75fb06d72",
+    "portable-subset.json": "5543588edac7921b6e6fb31f59f0eecfcf1c5f78cde9ff651cfd1bf38a4bb036",
+    "review_confirmation_crash_20261105.py": "4b31481a03112b846d582264740d101c81d9c34a3069ee6f0c1bebcc41dc66d7",
+    "CRASH-REVIEW.json": "02cd4f9b51114708c3118f0cbd39e8f089249fa72799c6bb02b2d80591b1ab3b",
+    "publish_coding_preparation_20261105.py": "e38c0d44a1753ca30c1110975fe5d81ced5e0c78e30e0e3482f030a84881a227"
+  },
+  "final_benchmark_executor_implemented": false,
+  "final_benchmark_plan_frozen": false,
+  "original_models_replaced": false
+}
