@@ -12,12 +12,12 @@ experiment when a user explicitly wants to try a recorded tradeoff.
 
 | Installed model | Original | Edited | Random control | Decision |
 | --- | ---: | ---: | ---: | --- |
-| 1.7-standard | 18/28 | 18/28 | 19/28 | Edit rejected; original retained |
-| 1.7-abliterated | 20/28 | 18/28 | 20/28 | Edit rejected; original retained |
-| 4-standard | 22/30 | 21/30 | 23/30 | Edit rejected; original retained |
-| 4-abliterated | 18/24 | 13/24 | 20/24 | Edit rejected; original retained |
+| 1.7-standard | 18/28 | 18/28 | 19/28 | Discovery did not qualify; original retained |
+| 1.7-abliterated | 20/28 | 18/28 | 20/28 | Discovery did not qualify; original retained |
+| 4-standard | 22/30 | 21/30 | 23/30 | Discovery did not qualify; original retained |
+| 4-abliterated | 18/24 | 13/24 | 20/24 | Discovery did not qualify; original retained |
 | 27-standard | 53/56 discovery only | Not evaluated | Not evaluated | No supported outcome contrast; no edit evaluated |
-| 27-abliterated | 21/30 | 26/30 | 25/30 | Eligible for independent confirmation; not a replacement |
+| 27-abliterated | 21/30 | 26/30 | 25/30 | Independent confirmation or its audit remains pending |
 
 Counts are correct answers on each model's frozen discovery cases. The case sets differ, so these rows do not rank the models against one another.
 
@@ -165,6 +165,21 @@ Raw answers, grades, timings, counts and sampler provenance remain recorded;
 token arrays are represented by their SHA-256 to avoid duplicating large arrays
 in both the checkpoint database and JSON mirrors. The 80 GiB reserve remains,
 with an additional 64 MiB allowance before each confirmation response.
+
+Completed confirmation is checked by `audit_confirmation.py`: it validates the
+frozen source/data/model identities, case-request hashes, database integrity and
+every JSON mirror, then recomputes paired scores, cutoffs and elapsed-time totals.
+This is a provenance and bookkeeping audit, not a second independent mathematical
+assessment of the answers. `campaign_verdict.py` refuses to finalize partial or
+unaudited confirmation. A positive result still requires separate broad final
+benchmarks; neither script selects or promotes a model.
+
+Additional final evaluators are prepared in `final_evaluation.py` and
+`final_grade_worker.py`. Pinned upstream IFEval runs in an owned, 512 MiB,
+single-thread CPU worker; choice answers use an explicit last-boxed-letter rule.
+`prepare_ifeval_runtime.py` reuses existing portable packages and prepares only
+the required English tokenizer data. These CPU checks do not imply that final
+model benchmarks have been run. See [finalization source and validation](Finalization/README.md).
 
 `run_remaining.py` and `resume_generation.py` are continuation tools for the
 recorded campaign. They require its saved case hashes/checkpoint and must not

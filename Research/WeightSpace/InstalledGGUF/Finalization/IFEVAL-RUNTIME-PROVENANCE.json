@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "source_repository": "nltk/nltk_data",
+  "revision": "550b6625bcef1f2abff2ff770a5a0d272c9c6b2a",
+  "source_url": "https://raw.githubusercontent.com/nltk/nltk_data/550b6625bcef1f2abff2ff770a5a0d272c9c6b2a/packages/tokenizers/punkt_tab.zip",
+  "archive_sha256": "e57f64187974277726a3417ca6f181ec5403676c717672eef6a748a7b20e0106",
+  "archive_bytes": 4319076,
+  "english_files": {
+    "nltk_data\\tokenizers\\punkt_tab\\english\\abbrev_types.txt": {
+      "bytes": 619,
+      "sha256": "92a3e070f43d9b4c5534758ca40ad7343b04e7e29bfe0c2eb658a39445a4f779"
+    },
+    "nltk_data\\tokenizers\\punkt_tab\\english\\collocations.tab": {
+      "bytes": 594,
+      "sha256": "8e2da1225e4dd2cc9dba261ee231ccb134859e21b46006e7f472c5ee269af0cf"
+    },
+    "nltk_data\\tokenizers\\punkt_tab\\english\\ortho_context.tab": {
+      "bytes": 236303,
+      "sha256": "4bbcca25ed3d3f06c02402abf8419b9f033b8adc06e7b482eca4e45f81a5dc4c"
+    },
+    "nltk_data\\tokenizers\\punkt_tab\\english\\sent_starters.txt": {
+      "bytes": 241,
+      "sha256": "f3f8535483e1dba487241b764945168123bca3209a9645e59acd1225dc76edac"
+    }
+  },
+  "nltk_version": "3.10.3",
+  "existing_portable_modules": {
+    "nltk": {
+      "relative_file": "Utilities\\Portable Abliterator\\runtime\\Lib\\site-packages\\nltk\\__init__.py",
+      "sha256": "5f53940d5b9fd8c14e6a2cbd5197323e8497c702860044e0928aac4e6231a4ca"
+    },
+    "langdetect": {
+      "relative_file": "Utilities\\Portable Abliterator\\runtime\\Lib\\site-packages\\langdetect\\__init__.py",
+      "sha256": "f8f59dfca3807c33856e0d15be145796c2140508681ee884fe3b38cda4933bc9"
+    },
+    "immutabledict": {
+      "relative_file": "Utilities\\Portable Abliterator\\runtime\\Lib\\site-packages\\immutabledict\\__init__.py",
+      "sha256": "7ac43f32fc5a4403600263055dca00f644a41238cf5d50e8040acbd8391d472b"
+    },
+    "absl": {
+      "relative_file": "Utilities\\Portable Abliterator\\runtime\\Lib\\site-packages\\absl\\__init__.py",
+      "sha256": "365139cde92f2033ae9747d470132a93c2f5e469251fed2fd4ff9dc75391d44d"
+    }
+  },
+  "new_python_packages_installed": false,
+  "host_data_used": false,
+  "new_llm_weights_downloaded": false,
+  "tests": [
+    "English sentence tokenization",
+    "English word tokenization"
+  ]
+}

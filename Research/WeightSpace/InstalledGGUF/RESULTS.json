@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-11-04T23:52:50Z",
+  "updated_at_utc": "2026-11-05T00:41:01Z",
   "models": {
     "1.7-standard": {
       "filename": "Qwen3-1.7B-Q8_0.gguf",
@@ -4188,6 +4188,44 @@
     }
   },
   "campaign_complete": false,
+  "model_decisions": {
+    "1.7-standard": {
+      "complete": true,
+      "stage": "discovery_rejected",
+      "decision": "Discovery did not qualify; original retained",
+      "promotion_allowed": false
+    },
+    "1.7-abliterated": {
+      "complete": true,
+      "stage": "discovery_rejected",
+      "decision": "Discovery did not qualify; original retained",
+      "promotion_allowed": false
+    },
+    "4-standard": {
+      "complete": true,
+      "stage": "discovery_rejected",
+      "decision": "Discovery did not qualify; original retained",
+      "promotion_allowed": false
+    },
+    "4-abliterated": {
+      "complete": true,
+      "stage": "discovery_rejected",
+      "decision": "Discovery did not qualify; original retained",
+      "promotion_allowed": false
+    },
+    "27-standard": {
+      "complete": true,
+      "stage": "no_admitted_edit",
+      "decision": "No supported edit was admitted; original retained",
+      "promotion_allowed": false
+    },
+    "27-abliterated": {
+      "complete": false,
+      "stage": "confirmation_pending",
+      "decision": "Independent confirmation or its audit remains pending",
+      "promotion_allowed": false
+    }
+  },
   "scope": "One natural-outcome-derived hypothesis per model, with site/dose comparisons. Completed discovery is not confirmation or general intelligence certification.",
   "caveats": [
     "Outcome groups are not paired by topic/difficulty; their contrast is confounded and does not establish a causal looping direction.",

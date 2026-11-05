@@ -1,0 +1,29 @@
+{
+  "recorded_at_utc": "2026-11-05T00:41:01Z",
+  "passed": true,
+  "observed_bundled_python_unittest_results": {
+    "test_campaign_verdict.py": 10,
+    "test_confirmation_audit.py": 6,
+    "test_final_evaluation.py": 4
+  },
+  "total_tests": 20,
+  "failures_after_fix": 0,
+  "source_sha256": {
+    "campaign_verdict.py": "3de8e4d5bcb14052f30afa1990220d89b1ce1467a0ddce8c38f3d09c058d0d49",
+    "test_campaign_verdict.py": "eec20419b6cae522ae512a2936f3f0e2ee4db98937f05a26009d8def2af101be",
+    "audit_confirmation.py": "1caf8085652e288254cea3a69648b537e1613329f0853199ec9698eac8ea78c3",
+    "test_confirmation_audit.py": "74622ce9b218732c8020e58c4da705b7bd3828ce2d1fe94a9329240dbd3cfffe",
+    "prepare_ifeval_runtime.py": "7fb5441d18c164104e2b04d41615093e5ec077404ee9e767fc8c30b0142f83d2",
+    "final_grade_worker.py": "9fa3cb8e12a14f81e04c45450c4916f44c82376fc31d81a652c4dabc7dd88f36",
+    "final_evaluation.py": "098d6da208934b8ecec46f86d9bb8841603e46b34b291f12191fa6c9a2c15584",
+    "test_final_evaluation.py": "e36e17b7c9aae95a9d840e4470dbb5972aa396a6c727f6603c8ab5a8190f7fc6"
+  },
+  "frozen_confirmation_source_and_data_pins_preserved": true,
+  "final_evaluator_limit_bytes": 536870912,
+  "final_evaluator_threads": 1,
+  "fixed_during_validation": "NLTK imports initially exceeded the process cap through OpenBLAS thread buffers. Single-thread numerical-library settings fixed all three failing IFEval tests without raising the cap.",
+  "validation_scope": "Synthetic CPU cases, real pinned upstream IFEval, and actual pending-campaign publication. No held-out final model generations or completed confirmation audit has been run yet.",
+  "real_confirmation_audited": false,
+  "real_final_benchmarks_run": false,
+  "production_model_changed": false
+}
