@@ -1,0 +1,96 @@
+{
+  "prepared_at_utc": "2026-11-05T03:00:55Z",
+  "cpu_tests": {
+    "test_final_case_plan.py": 9,
+    "test_final_metrics.py": 10
+  },
+  "total_cpu_tests_passed": 19,
+  "all_parquet_conversions_checked_against_pinned_source": true,
+  "case_plan_sha256": "8141ada9af639ad8ff22c9654f0c1e6de09fdfa96d50633c31c93fbab4bf6dcc",
+  "unique_cases_per_dataset": {
+    "MATH-500": 500,
+    "GSM8K": 1319,
+    "AMC23": 40,
+    "Minerva": 272,
+    "OlympiadBench": 674,
+    "MMLU-Pro": 992,
+    "IFEval": 541,
+    "MBPP": 129
+  },
+  "planned_requests_per_arm": 11265,
+  "overlap_exclusions": [
+    {
+      "id": "final-MMLU-Pro:8481",
+      "dataset": "MMLU-Pro",
+      "matched_id": "math_train_algebra_527",
+      "reason": "exact normalized overlap with practice/discovery pool"
+    },
+    {
+      "id": "final-MMLU-Pro:7953",
+      "dataset": "MMLU-Pro",
+      "matched_id": "math_train_algebra_1168",
+      "reason": "exact normalized overlap with practice/discovery pool"
+    },
+    {
+      "id": "final-MMLU-Pro:9628",
+      "dataset": "MMLU-Pro",
+      "matched_id": "final-MMLU-Pro:10164",
+      "reason": "exact normalized duplicate within final datasets"
+    },
+    {
+      "id": "final-MMLU-Pro:8721",
+      "dataset": "MMLU-Pro",
+      "matched_id": "math_train_counting_and_probability_4",
+      "reason": "exact normalized overlap with practice/discovery pool"
+    },
+    {
+      "id": "final-MMLU-Pro:8399",
+      "dataset": "MMLU-Pro",
+      "matched_id": "math_train_counting_and_probability_542",
+      "reason": "exact normalized overlap with practice/discovery pool"
+    },
+    {
+      "id": "final-MMLU-Pro:1504",
+      "dataset": "MMLU-Pro",
+      "matched_id": "final-MMLU-Pro:1503",
+      "reason": "exact normalized duplicate within final datasets"
+    },
+    {
+      "id": "final-MMLU-Pro:1604",
+      "dataset": "MMLU-Pro",
+      "matched_id": "final-MMLU-Pro:1603",
+      "reason": "exact normalized duplicate within final datasets"
+    },
+    {
+      "id": "final-MMLU-Pro:675",
+      "dataset": "MMLU-Pro",
+      "matched_id": "final-MMLU-Pro:354",
+      "reason": "exact normalized duplicate within final datasets"
+    }
+  ],
+  "source_sha256": {
+    "final_case_plan.py": "a503ec1e3ffc398aa5e482e02fc4dc7e428863299310b2b47ae01619d8781625",
+    "test_final_case_plan.py": "9f9f48f53ba4151b541725690dfb98fe9e2734f2c82ef14868e199f281d55b4d",
+    "prepare_final_case_plan.py": "5a676ebddef6b1ee5d5598af7c3c0700a65cdafa585ac28e79a25680cde89e03",
+    "final_metrics.py": "4c0072fd3fd5598c78cf7a5da688b02be5316ca472892a6512858cbeb554e0fa",
+    "test_final_metrics.py": "db2c9535310b57a8a8aab2188a82bb41f6a25e1395c73cddfa8b5f5f803cd60a",
+    "prepared-case-plan.json": "8141ada9af639ad8ff22c9654f0c1e6de09fdfa96d50633c31c93fbab4bf6dcc",
+    "save_live_confirmation_checkpoint.py": "9c3f7cafa18ff7036ac4dc7a4024c78814b58223e389b545c01708830e1bc235",
+    "publish_final_case_preparation_20261105.py": "f02421e2db59f3a7f61cf400dd3ab074a7272995db45ba5708aa0b53b0e871fc"
+  },
+  "source_bytes": 5899177,
+  "confirmation_inputs_changed": false,
+  "model_generations_run": 0,
+  "final_executor_implemented": false,
+  "final_execution_plan_frozen": false,
+  "missing_required_domains": [
+    "tools"
+  ],
+  "live_checkpoint_verified_on_D_and_E": true,
+  "live_checkpoint_counts": {
+    "baseline": 399,
+    "candidate": 0
+  },
+  "checkpoint_source_initial_fix": "ZipInfo normalizes Windows separators. Normalize archive member names before comparing read-back bytes; the initial in-memory validation failed before either SSD snapshot was written.",
+  "original_models_replaced": false
+}
