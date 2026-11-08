@@ -9,7 +9,7 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r72 (2026-11-07):** Logic-audit repairs for model admission, workflows, file edits, privacy and updates. Existing settings, models and edition policies are preserved. [Details](Documentation/RELEASE-r72.md). Linux/Mac remain r51.
+**r73 (2026-11-08):** Repaired science schemas and Chat routing, explicit scientific output file cards, and shorter reasoning checkpoints. [Release and validation](Documentation/RELEASE-r73.md) · [Real Nice science examples](Documentation/science-examples/README.md). Native platform limits remain.
 
 
 
@@ -32,7 +32,7 @@
 
 **Qwen voice runtime repair (2026-10-30):** One active SSD-local Qwen package layer, corrected repair/status references, and a Windows checkpoint-loading crash fix. [Changes and validation](Documentation/QWEN-RUNTIME-CONSOLIDATION-20261030.txt). Updated Windows source is individually browsable; historical release archives are unchanged.
 
-**Workspace integration patch (2026-10-29):** Schema-constrained mission/extraction JSON, an authenticated application API with Python/TypeScript SDKs, and interactive versioned HTML/SVG/chart artifacts. [Guide and source links](Documentation/INTEGRATION.md). [Read-only Python distribution audit](Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md); no runtime or NumPy merging. Source patch; historical r51 archives unchanged.
+**Workspace integration patch (2026-10-29):** Schema-constrained mission/extraction JSON, an authenticated application API with Python/TypeScript SDKs, and interactive versioned HTML/SVG/chart artifacts. [Guide and source links](Documentation/INTEGRATION.md). [Read-only Python distribution audit](Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md); no runtime or NumPy merging. Included in r73; historical r51 archives remain unchanged.
 
 **Truly local, hardware-scaled, OS-agnostic intelligence—on a 1TB portable flash drive.**
 
@@ -47,7 +47,7 @@ Keep the AI workspace, selected models and saved projects together in a local di
 
 The Academic edition keeps PortalAI's main interface and supported workflows, with standard/censored chat, vision and media enforced. Variant controls remain visible but inert, excluded model and LoRA assets are not downloaded, and an Academic instruction appendix is applied to the chat and mission harnesses.
 
-**[Purchase the Full version here — $49 once](https://payhip.com/b/Kw54p).** Full adds working standard/uncensored model choices, supported abliterated chat/vision options, the Full-only abliterated Swift coding specialist and supported alternate media models. The purchase includes Windows, Mac, Linux and Universal online setup kits; large models and runtime components download separately. [Explore the PortalAI site and guides](https://payhip.com/PortalAI).
+**[Purchase the Full version here — $25 once](https://payhip.com/b/Kw54p).** Full adds working standard/uncensored model choices, supported abliterated chat/vision options, the Full-only abliterated Swift coding specialist and supported alternate media models. The purchase includes Windows, Mac, Linux and Universal online setup kits; large models and runtime components download separately. [Explore the PortalAI site and guides](https://payhip.com/PortalAI).
 
 Academic remains standard-only: the abliterated coding model is excluded from its download manifest, and coding-specialist routing is forced off. Academic does not gain Full features through this purchase link.
 
@@ -153,7 +153,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.07-Desktop-r72/PortalAI-Academic-Universal-Setup-2026.11.07-Desktop-r72.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.08-Desktop-r73/PortalAI-Academic-Universal-Setup-2026.11.08-Desktop-r73.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 
@@ -174,7 +174,7 @@ Current Windows r72 interface, captured November 8, 2026. Click any image to ins
 
 [Full feature tour and science examples](Documentation/FEATURE-TOUR.md) · [Capture notes](Documentation/assets/README.md)
 
-Screenshots show real r72 widgets in an isolated preview. Chat text and voice activity are illustrative; no inference or microphone recording occurred. The mission is an unexecuted draft. Platform features depend on installed components; Mac/Linux currently remain r51.
+Screenshots show real r72 widgets in an isolated preview. Chat text and voice activity are illustrative; no inference or microphone recording occurred. The mission is an unexecuted draft. Platform features depend on installed components. The science examples linked below are actual Nice runs, distinct from the illustrative chat/voice preview.
 
 ## Built-in help and documentation
 
@@ -280,4 +280,4 @@ Projection UI 20261022-r1: minimize to the dark emblem; click to reopen. Right-c
 
 ## Workspace capabilities
 
-[Local document knowledge, MCP connections, reusable workflows and Windows computer control](Documentation/WORKSPACE.md) are individually published in ApplicationSources. [Code and runtime bloat audit](Documentation/BLOAT-AUDIT-20261029.md). This is a later source/runtime patch; historical r51 installer archives are unchanged.
+[Local document knowledge, MCP connections, reusable workflows and Windows computer control](Documentation/WORKSPACE.md) are individually published in ApplicationSources. [Code and runtime bloat audit](Documentation/BLOAT-AUDIT-20261029.md). This source/runtime patch is included in r73; historical r51 installer archives remain unchanged.

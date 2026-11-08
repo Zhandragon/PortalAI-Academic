@@ -35,6 +35,19 @@ def summary_response(p, finish='length', content='PARTIAL_SUMMARY_MUST_NOT_BECOM
 
 
 class SummaryRecoveryTests(unittest.TestCase):
+    def test_reasoning_summary_has_a_short_explicit_target_and_output_headroom(self):
+        p = fixture(); seen = []
+        with patch.object(p, '_single_completion', return_value='- Confirmed: saved result.\n- Unresolved: interpretation.\n- Next: answer.') as summarize, \
+             patch.object(p, 'stream_completion', side_effect=responses(p, [('length', '', RAW, []), ('stop', 'Completed.', '', [])], seen)):
+            p._completion_with_continuation(p.session['messages'][:], 4000, {})
+        args, kwargs = summarize.call_args
+        cap = kwargs['max_tokens']
+        self.assertLessEqual(cap, 1000)
+        self.assertIn(f'at most {max(24, cap // 4)} words', args[0][0]['content'])
+        self.assertEqual(p._continuation_remaining, 1)
+        self.assertNotIn('continuation_summary_failure', p.session['messages'][-1])
+        p.tool_runtime.execute.assert_not_called()
+
     def test_length_summary_is_rejected_by_parser(self):
         p = fixture()
         with summary_response(p):

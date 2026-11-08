@@ -1,0 +1,1 @@
+Load science and execute exactly {"operation":"electrical.dc","input":{"elements":[{"type":"V","name":"V1","n1":"in","n2":"0","value":10},{"type":"R","name":"R1","n1":"in","n2":"out","value":1000},{"type":"R","name":"R2","n1":"out","n2":"0","value":1000}]}}. Report only the tool-returned voltages and currents. Do not call chat_checkpoint or invent files.

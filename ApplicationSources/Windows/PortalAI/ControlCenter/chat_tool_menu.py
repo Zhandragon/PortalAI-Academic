@@ -45,11 +45,11 @@ def compact_menu(rows):
 
 CORE = frozenset(('chat_history', 'chat_checkpoint'))
 INDEX = (
-    'Load full schemas and matching workflow guidance for the NEXT model turn; call alone. '
+    'Load schemas and workflow guidance for the NEXT turn; call alone. '
     'Select up to four tools; each call REPLACES the previous selection. No tool execution or permission grant. '
     'Plain conversation needs no lookup. Capabilities: files read_file/write_file/edit_file/list_dir/file_inspect; '
     'code project/source_map/source_search/inspect_environment/shell; output checks verify; web research web; '
-    'images generate_image; audio/video/music media_tool, available_tools; math/science/CAD science; '
+    'images generate_image; audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
     'documents knowledge; JSON structured; HTML/SVG/charts artifact; connections mcp; '
     'saved jobs workflow; evidence-linked plans task; user task guides skill; mission agents agents; desktop computer. Empty tools unloads optional tools.'
 )
@@ -158,7 +158,8 @@ def guidance(panel, rows):
                  'Never guess URL variants after a 404, substitute generated images or bypass TLS/site challenges. '
                  'Host bounds elapsed time and progress; search limits do not block other requested work.')
     if 'science' in names:
-        text += ('\nScience workflow: get exact operation schemas with help/biology.help/science.extensions; '
+        text += ('\nScience: help/biology.help/science.extensions give input schemas; '
+                 'physics.world_schema gives physics.world fields (directly in input, no scene wrapper). '
                  'state inputs, units and assumptions, calculate, verify, then cite output files. '
                  'Never guess keys after errors or treat screening scores as safety/function certification. '
                  'Honor requested precision. Success:true or _portableai.terminal_result:true ends that operation; do not rerun it.')

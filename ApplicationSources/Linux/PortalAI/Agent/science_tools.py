@@ -67,10 +67,13 @@ def _rel_or_abs(root: Path, p: Path) -> str:
 
 
 def _json_safe(x: Any, depth: int = 0) -> Any:
-    if depth > 6:
-        return str(x)
     if x is None or isinstance(x, (str, bool, int)):
         return x
+    # Physics schemas and examples legitimately nest beyond six levels. Keep
+    # primitive types intact, including on main's second serialization pass.
+    # Retain a finite container-depth bound for arbitrary scientific results.
+    if depth > 16:
+        return str(x)
     if isinstance(x, float):
         if math.isnan(x) or math.isinf(x):
             return str(x)
@@ -698,6 +701,7 @@ def op_help(root: Path, packages: Path, inp: dict, started: float):
     }
     if str(root) not in sys.path: sys.path.insert(0,str(root))
     from Scientific.biology_tool import HELP
+    ops.update(CORE_CHAT_HELP)
     ops.update(HELP)
     return _result("help","PortableAI Science Workbench operations.",data=ops,started=started)
 
@@ -723,8 +727,22 @@ def op_selftest(root: Path, packages: Path, inp: dict, started: float):
     return _result("selftest","All mandatory Science Workbench self-tests passed.",data=checks,started=started)
 
 
+CORE_CHAT_HELP = {
+    'cad.model': 'CPU CAD, dimensions in mm. name; operations:[{kind:box,size:[x,y,z],at:[x,y,z],mode:add|cut|intersect}]. Also cylinder(radius,height), sphere(radius), tube(outer_radius,inner_radius,height), plate(size:[width,depth],thickness,holes:[{at:[x,y],diameter}]). First operation must add. formats:[step,stl]; optional output_dir. Returns STEP/STL files; open in a CAD/mesh viewer.',
+    'chem.describe': 'smiles:string. Molecular formula, mass and computed descriptors; not measured activity or safety.',
+    'chem.render': 'smiles:string; optional name,width:800,height:500,output_dir. Exports a 2D molecule SVG and computed descriptors.',
+    'chem.conformer': 'smiles:string; optional name,seed,minimize:true,max_iters:500,output_dir. Exports an estimated 3D conformer SDF, not an experimentally determined structure.',
+    'genome.analyze': 'sequence:string. Length/alphabet and, for ACGTN DNA, GC percentage and reverse complement. GC denominator excludes N.',
+    'genome.translate': 'sequence:string; optional table:1,to_stop:false,cds:false. Translates using the selected genetic code.',
+    'genome.align': 'seq_a:string,seq_b:string; optional mode:global|local,match:2,mismatch:-1,gap_open:-5,gap_extend:-0.5. Pairwise alignment, score and identity statistics.',
+    'electrical.dc': 'elements:[{type:R|I|V,name,n1,n2,value}]. Node "0" is ground; SI ohms, amps, volts. Ideal linear DC nodal analysis. V is n1 minus n2; I flows n1 to n2. Returns node voltages and voltage-source currents.',
+    'electrical.rc': 'resistance_ohm:number,capacitance_f:number. Ideal RC time constant and cutoff frequency.',
+}
+
+
 def dispatch(root: Path, packages: Path, req: dict):
-    started=time.perf_counter(); op=str(req.get("operation") or "help").strip().lower().replace("-","_"); inp=req.get("input") or {}
+    started=time.perf_counter(); op=str(req.get("operation") or "help").strip().lower().replace("-","_"); inp=req.get("input", {})
+    if inp is None: inp = {}
     if not isinstance(inp,dict): raise ValueError("input must be a JSON object")
     # New biology routes share one implementation across native chat and CLI.
     if str(root) not in sys.path: sys.path.insert(0,str(root))
@@ -734,6 +752,19 @@ def dispatch(root: Path, packages: Path, req: dict):
         _activate()
         value=biology_run(op,inp,root)
         return _result(op,'Science operation completed.',data=value,files=value.get('files',[]),started=started)
+    if op in CORE_CHAT_HELP:
+        # Expose existing CPU operations through the structured Chat tool.
+        # GPU operations keep their existing leased CLI route.
+        from scientific_tool_bridge import _activate
+        from profile_tool_hydration import prepare_tool_files
+        from Scientific.science_core import run_operation
+        _activate()
+        prepare_tool_files(root, 'science', operation=op)
+        value = run_operation(op, inp, root)
+        files = list(value.get('files', []))
+        if value.get('file') and value['file'] not in files:
+            files.append(value['file'])
+        return _result(op, 'Science operation completed.', data=value, files=files, started=started)
     funcs={"status":op_status,"help":op_help,"calc":op_calc,"solve":op_solve,"calculus":op_calculus,"units":op_units,"uncertainty":op_uncertainty,"stats":op_stats,"plot":op_plot,"bio":op_bio,"chem":op_chem,"numerics":op_numerics,"linear":op_linear,"linear_algebra":op_linear,"physics":op_physics,"run":op_run,"selftest":op_selftest}
     if op not in funcs: raise ValueError(f"unknown operation: {op}")
     from profile_tool_hydration import prepare_tool_files

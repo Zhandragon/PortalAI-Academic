@@ -24,13 +24,16 @@ def validate(p):
         if '$ref' in s:s=spec['$defs'][s['$ref'].split('/')[-1]]
         t=s['type']
         if t=='object':
-            if not isinstance(v,dict) or set(v)-set(s['properties']):raise ValueError(path+': unknown fields or not an object')
+            if not isinstance(v,dict):raise ValueError(path+': expected an object')
+            unknown = set(v)-set(s['properties'])
+            if unknown:raise ValueError(path+': unknown fields '+repr(sorted(map(str,unknown)))[:240]+'; use physics.world_schema and place scene fields directly in input')
             return {k:walk(v.get(k,copy.deepcopy(q['default'])),q,path+'.'+k) for k,q in s['properties'].items()}
         if t=='array':
-            if not isinstance(v,list) or not s.get('minItems',0)<=len(v)<=s['maxItems']:raise ValueError(path+': array size out of bounds')
-            return [walk(x,s['items'],path+'[]') for x in v]
+            if not isinstance(v,list):raise ValueError(path+': expected an array')
+            if not s.get('minItems',0)<=len(v)<=s['maxItems']:raise ValueError(f"{path}: array length must be {s.get('minItems',0)}..{s['maxItems']}; got {len(v)}")
+            return [walk(x,s['items'],f'{path}[{i}]') for i,x in enumerate(v)]
         if t in ('number','integer'):
-            if isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or not s['minimum']<=v<=s['maximum'] or (t=='integer' and int(v)!=v):raise ValueError(path+': number out of bounds')
+            if isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or not s['minimum']<=v<=s['maximum'] or (t=='integer' and int(v)!=v):raise ValueError(f"{path}: expected finite {t} in [{s['minimum']}, {s['maximum']}]; got {repr(v)[:80]}")
         elif not isinstance(v,str) or len(v)>s.get('maxLength',1000) or ('pattern' in s and not re.fullmatch(s['pattern'],v)) or ('enum' in s and v not in s['enum']):raise ValueError(path+': invalid string')
         return v
     p=copy.deepcopy(p)

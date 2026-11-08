@@ -1,0 +1,15 @@
+{
+  "biology/assembly.fasta": "ab3b176ceebc478cc804ad156693e5d9bc553c6591e37054cb8f495a9bb85f6b",
+  "biology/assembly.gb": "e1e6cfb95cfcc24becc14309d54bce452b6a2b287cec0a3e00cdcb615dbd0ee3",
+  "biology/assembly.svg": "e8cba260ce96b591d95bc7eab6d1f8629990ab1b9b825f03621eab41202ba21a",
+  "biology-prompt.txt": "7d1ec91f18ad511550065128c3ac6164e7f3012362e6dc4fce963a10334ae867",
+  "cad/demo-plate.step": "0270ba5ca24da1c2c1341fef607ee73cdf92f26d83a5fc5a94c6e2199370668d",
+  "cad/demo-plate.stl": "a801fd02a221701ff28c9bf8f45be19bf5e2ef284e7863dc6dcb45a0e2dd62ac",
+  "cad-prompt.txt": "c029f5ec2704b4e0938348565cd4333b400b4c0f6c749d0d97737c2500ebfe32",
+  "chemistry/caffeine-demo.svg": "bbb4640c5c4ddc9429231014190f1496632c44cafe57e38782818b25dfd55ded",
+  "chemistry-prompt.txt": "49ff658b0ed08cf8c4b582f1b55b583c4f1fc84e1a061d5157584776a12b6b24",
+  "circuit-prompt.txt": "ba029cfa977d08ea71664196e2370f53ffd602a6c7339e806295651cc78c3717",
+  "physics/scene.json": "e2bb61d54a96b53e8d959a5c40ee43d47fcc4293b1b7e8cbb8954deacf91dbbc",
+  "physics-corrected-prompt.txt": "6f43bbcd85540b944d2b84f607da29148e94f3f24002f9c037cba358cf9f4a28",
+  "README.md": "ddd7c089186ccae66337ba3b11e86ef505ae804a9159495a853ec83a0a2176b8"
+}

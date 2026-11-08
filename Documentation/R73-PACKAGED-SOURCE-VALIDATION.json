@@ -1,0 +1,38 @@
+[
+  {
+    "edition": "Full",
+    "platform": "Linux",
+    "source_python_files_exact": 849,
+    "internal_import_targets_present": 66,
+    "python_syntax_valid": true,
+    "edition_policy_preserved": true,
+    "physical_native_execution": false
+  },
+  {
+    "edition": "Full",
+    "platform": "Mac",
+    "source_python_files_exact": 828,
+    "internal_import_targets_present": 66,
+    "python_syntax_valid": true,
+    "edition_policy_preserved": true,
+    "physical_native_execution": false
+  },
+  {
+    "edition": "Academic",
+    "platform": "Linux",
+    "source_python_files_exact": 841,
+    "internal_import_targets_present": 67,
+    "python_syntax_valid": true,
+    "edition_policy_preserved": true,
+    "physical_native_execution": false
+  },
+  {
+    "edition": "Academic",
+    "platform": "Mac",
+    "source_python_files_exact": 820,
+    "internal_import_targets_present": 67,
+    "python_syntax_valid": true,
+    "edition_policy_preserved": true,
+    "physical_native_execution": false
+  }
+]
