@@ -1,0 +1,27 @@
+LOCUS       assembly                 240 bp    DNA     linear   UNK 01-JAN-1980
+DEFINITION  PortalAI in-silico assembly; experimental validation required.
+ACCESSION   assembly
+VERSION     assembly
+KEYWORDS    .
+SOURCE      .
+  ORGANISM  .
+            .
+FEATURES             Location/Qualifiers
+     misc_feature    1..110
+                     /label="fragment_A"
+                     /note="arbitrary synthetic teaching fragment"
+                     /note="fragments.fasta"
+     misc_feature    complement(76..180)
+                     /label="fragment_B"
+                     /note="arbitrary synthetic teaching fragment"
+                     /note="fragments.fasta"
+     misc_feature    146..240
+                     /label="fragment_C"
+                     /note="arbitrary synthetic teaching fragment"
+                     /note="fragments.fasta"
+ORIGIN
+        1 gtcgtatata aggttaggta tgctttcatt atttataaga gtcagtagtc aagacgtgct
+       61 gattaccctg tgacagtgtg accacctata taacggcgtc ctcaagaacg gaatgtagag
+      121 tcaaagttag atcaggtgca cgtgataggc tttgcctaca aacaataact atactagtat
+      181 cttgtaccca gcaaatggag tatggcgcac atccgagaat ggtttgaaga tcaggtttaa
+//

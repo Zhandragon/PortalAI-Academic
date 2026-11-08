@@ -1,0 +1,53 @@
+{
+  "order": [
+    "fragment_A",
+    "fragment_B",
+    "fragment_C"
+  ],
+  "strands": [
+    1,
+    -1,
+    1
+  ],
+  "overlaps": [
+    35,
+    35
+  ],
+  "input_bp": 310,
+  "output_bp": 240,
+  "duplicate_overlap_bp_removed": 70,
+  "matches_held_out_reference": true,
+  "mafft": "7.526",
+  "mafft_command": [
+    "mafft",
+    "--nuc",
+    "--auto",
+    "--thread",
+    "2",
+    "--addfragments",
+    "oriented-fragments.fasta",
+    "--keeplength",
+    "assembly.fasta"
+  ],
+  "aligned_positions": [
+    {
+      "name": "fragment_A",
+      "strand": 1,
+      "start": 0,
+      "end": 110
+    },
+    {
+      "name": "fragment_B",
+      "strand": -1,
+      "start": 75,
+      "end": 180
+    },
+    {
+      "name": "fragment_C",
+      "strand": 1,
+      "start": 145,
+      "end": 240
+    }
+  ],
+  "provenance": "Executed reproducible Python workflow using unmodified PortalAI biology.assemble plus official MAFFT. Not a new autonomous Nice chat run; exact-overlap discovery is in this example script, not a new GUI feature."
+}

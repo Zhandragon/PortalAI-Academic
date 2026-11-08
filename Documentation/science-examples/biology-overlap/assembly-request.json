@@ -1,0 +1,31 @@
+{
+  "method": "overlap",
+  "circular": false,
+  "overlaps": [
+    35,
+    35
+  ],
+  "parts": [
+    {
+      "name": "fragment_A",
+      "sequence": "GTCGTATATAAGGTTAGGTATGCTTTCATTATTTATAAGAGTCAGTAGTCAAGACGTGCTGATTACCCTGTGACAGTGTGACCACCTATATAACGGCGTCCTCAAGAACG",
+      "strand": 1,
+      "role": "arbitrary synthetic teaching fragment",
+      "source": "fragments.fasta"
+    },
+    {
+      "name": "fragment_B",
+      "sequence": "ATACTAGTATAGTTATTGTTTGTAGGCAAAGCCTATCACGTGCACCTGATCTAACTTTGACTCTACATTCCGTTCTTGAGGACGCCGTTATATAGGTGGTCACAC",
+      "strand": -1,
+      "role": "arbitrary synthetic teaching fragment",
+      "source": "fragments.fasta"
+    },
+    {
+      "name": "fragment_C",
+      "sequence": "TAGGCTTTGCCTACAAACAATAACTATACTAGTATCTTGTACCCAGCAAATGGAGTATGGCGCACATCCGAGAATGGTTTGAAGATCAGGTTTAA",
+      "strand": 1,
+      "role": "arbitrary synthetic teaching fragment",
+      "source": "fragments.fasta"
+    }
+  ]
+}

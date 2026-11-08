@@ -1,0 +1,58 @@
+{
+  "length_bp": 240,
+  "sequence": "GTCGTATATAAGGTTAGGTATGCTTTCATTATTTATAAGAGTCAGTAGTCAAGACGTGCTGATTACCCTGTGACAGTGTGACCACCTATATAACGGCGTCCTCAAGAACGGAATGTAGAGTCAAAGTTAGATCAGGTGCACGTGATAGGCTTTGCCTACAAACAATAACTATACTAGTATCTTGTACCCAGCAAATGGAGTATGGCGCACATCCGAGAATGGTTTGAAGATCAGGTTTAA",
+  "sha256": "f45255ff09a0c7db214876ec224c9320a22e52dcebd73f4066f977270aae1a37",
+  "topology": "linear",
+  "method": "overlap",
+  "features": [
+    {
+      "name": "fragment_A",
+      "role": "arbitrary synthetic teaching fragment",
+      "start": 0,
+      "end": 110,
+      "strand": 1,
+      "source": "fragments.fasta"
+    },
+    {
+      "name": "fragment_B",
+      "role": "arbitrary synthetic teaching fragment",
+      "start": 75,
+      "end": 180,
+      "strand": -1,
+      "source": "fragments.fasta"
+    },
+    {
+      "name": "fragment_C",
+      "role": "arbitrary synthetic teaching fragment",
+      "start": 145,
+      "end": 240,
+      "strand": 1,
+      "source": "fragments.fasta"
+    }
+  ],
+  "junctions": [
+    {
+      "start": 75,
+      "sequence": "GTGTGACCACCTATATAACGGCGTCCTCAAGAACG",
+      "kind": "exact overlap"
+    },
+    {
+      "start": 145,
+      "sequence": "TAGGCTTTGCCTACAAACAATAACTATACTAGTAT",
+      "kind": "exact overlap"
+    }
+  ],
+  "restriction_sites": [
+    {
+      "enzyme": "SpeI",
+      "start": 172,
+      "strand": 1
+    }
+  ],
+  "coordinates": "0-based, half-open; end > length wraps the origin",
+  "limitations": [
+    "Annotated joins require user-supplied junction chemistry.",
+    "RFC10 eight-base scars are not frame-preserving protein fusion junctions.",
+    "Sequence compatibility does not establish expression, vector replication or experimental success."
+  ]
+}

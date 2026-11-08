@@ -43,3 +43,7 @@ Science images use real local deterministic tool output. `science-sequence-curre
 The four science-*-nice.png images supersede the earlier science showcase composites. They show actual opened outputs and the native circuit tool return. See [exact prompts and provenance](../science-examples/README.md). Other GUI images remain real r72 preview widgets with the previously disclosed illustrative data.
 
 The `gui-previews/` directory contains the Nov 8 interface tour captures. See [GUI-PREVIEWS](../GUI-PREVIEWS.md) for fixture, edition and real-output provenance. Screenshots preserve the actual capture; they are not repainted UI mockups.
+
+## Updated overlap and CAD reports
+
+`science-biology-overlap.png` is a scientific figure generated from the saved real MAFFT alignment and overlap-assembly exports, with explicit script-run provenance. It replaces the featured concatenation map, not the retained historical evidence. `science-cad-exports.png` renders the original Nice-generated STEP and STL; no geometry is invented. These are output visualizations, not screenshots of built-in GUI panels. [Reproduction and validation](../science-examples/README.md).

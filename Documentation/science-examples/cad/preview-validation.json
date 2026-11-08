@@ -1,0 +1,23 @@
+{
+  "step_valid": true,
+  "step_volume_mm3": 5748.672587712807,
+  "step_render_triangles": 520,
+  "stl_triangles": 520,
+  "stl_bounds_mm": [
+    [
+      -20.0,
+      -15.0,
+      0.0
+    ],
+    [
+      20.0,
+      15.0,
+      5.0
+    ]
+  ],
+  "files": {
+    "demo-plate.step": "0270ba5ca24da1c2c1341fef607ee73cdf92f26d83a5fc5a94c6e2199370668d",
+    "demo-plate.stl": "a801fd02a221701ff28c9bf8f45be19bf5e2ef284e7863dc6dcb45a0e2dd62ac"
+  },
+  "interpretation": "Actual plate spans z=0..5 mm, and STEP volume equals 40*30*5 - pi*4^2*5. The cylindrical cut is a through-hole."
+}
