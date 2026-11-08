@@ -34,7 +34,12 @@
 
 **Workspace integration patch (2026-10-29):** Schema-constrained mission/extraction JSON, an authenticated application API with Python/TypeScript SDKs, and interactive versioned HTML/SVG/chart artifacts. [Guide and source links](Documentation/INTEGRATION.md). [Read-only Python distribution audit](Documentation/PYTHON-DISTRIBUTION-AUDIT-20261029.md); no runtime or NumPy merging. Source patch; historical r51 archives unchanged.
 
-**Welcome to PortalAI:** a portable workspace for local chat, tools, science, images, video, speech and music.
+**Truly local, hardware-scaled, OS-agnostic intelligence—on a 1TB portable flash drive.**
+
+Keep the AI workspace, selected models and saved projects together in a local directory. Carry it on a suitably fast 1TB USB drive or external SSD, and use the installer for the host operating system. Capacity depends on your model selection; the complete optional catalog is not promised to fit. Windows, Mac, Linux and Universal setup options are available. Each OS still needs its own compatible runtime and native filesystem; this is not one executable that runs everywhere. [Drive preparation](Documentation/INSTALLATION.md#drive-format-and-preparation).
+
+**Welcome to PortalAI:** local chat, tools, science, images, video, speech and music—with dynamic VRAM handling, persistent missions, encrypted user vaults, built-in Help, dark mode and Nice’s compact hands-free interface. [Explore the current feature tour](Documentation/FEATURE-TOUR.md).
+
 
 <p align="center"><a href="https://github.com/sponsors/Zhandragon"><img src="Documentation/assets/sponsor-button.svg" width="252" height="48" alt="Sponsor on GitHub" /></a><br/><sub>Support continued PortalAI development · <a href="Documentation/DONATIONS.md">Donation options</a></sub></p>
 
@@ -42,9 +47,10 @@
 
 The Academic edition keeps PortalAI's main interface and supported workflows, with standard/censored chat, vision and media enforced. Variant controls remain visible but inert, excluded model and LoRA assets are not downloaded, and an Academic instruction appendix is applied to the chat and mission harnesses.
 
-**Unrestricted distribution — by special request and approval only.**
+**[Purchase the Full version here — $49 once](https://payhip.com/b/Kw54p).** Full adds working standard/uncensored model choices, supported abliterated chat/vision options, the Full-only abliterated Swift coding specialist and supported alternate media models. The purchase includes Windows, Mac, Linux and Universal online setup kits; large models and runtime components download separately. [Explore the PortalAI site and guides](https://payhip.com/PortalAI).
 
-The unrestricted version of PortalAI is currently private to prevent misuse. To request access to the abliterated/uncensored PortalAI distribution repository, please contact genesislung@gmail.com
+Academic remains standard-only: the abliterated coding model is excluded from its download manifest, and coding-specialist routing is forced off. Academic does not gain Full features through this purchase link.
+
 
 > **Platform testing disclaimer:** Only Windows has been thoroughly tested. Linux has received partial validation; macOS and other operating systems have not been thoroughly tested. Installation may fail or other errors may occur on these platforms. Please [report problems to the maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including your operating system version and the error message. Packaging checks are not fresh end-to-end inference tests on all three operating systems.
 
@@ -153,43 +159,22 @@ The original Academic restrictions and platform requirements are described in [t
 
 ## A look inside
 
-**Welcome to PortalAI.** The Control Center brings navigation, chat, runtime information and settings into one interface.
+Current Windows r72 interface, captured November 8, 2026. Click any image to inspect it.
 
-
-[![PortalAI welcome panel with the original gold wordmark, blue portal emblem and navigation tabs](Documentation/assets/welcome-panel.jpg)](Documentation/assets/welcome-panel.jpg)
-
-**Chat.** The full chat workspace includes conversation history, attachments, effort controls and the original gold window borders.
-
-[![PortalAI Chat in the complete Control Center window, showing an illustrative classroom conversation](Documentation/assets/chat-panel.jpg)](Documentation/assets/chat-panel.jpg)
-
-**Compact chat bar.** A nonintrusive view keeps chat controls nearby while you work in other applications. Use **View > Full UI** to return to the Control Center.
-
-[![PortalAI compact chat bar with its original branding, border, attachment field and chat controls](Documentation/assets/compact-chat-bar.jpg)](Documentation/assets/compact-chat-bar.jpg)
-
-**Context-aware right-click help.** Menus adapt to the control or panel you click, combining relevant actions with a direct link to its built-in help topic. The settings example below offers hardware-fit checks, settings actions and **Help: Settings · chat and media**.
-
-[![The original Chat model right-click menu showing settings actions and context-sensitive help](Documentation/assets/context-help-menu.jpg)](Documentation/assets/context-help-menu.jpg)
-
-**Minimize to the Windows tray.** Use **Controls > Minimize to tray** or the title-bar tray button to hide the Control Center while work continues. The notification icon remains available (Windows may place it under the overflow chevron). Click it to restore the window, or right-click for navigation, help, theme and lifecycle actions. **Minimizing does not sign out, seal the workspace or stop jobs**; use **Exit PortalAI** for normal shutdown. If the tray icon cannot be created, PortalAI falls back to the taskbar. This notification-area behavior is Windows-specific.
-
-| Minimize control and its help | Notification-icon menu |
+| Chat and voice | Models and workspace |
 | --- | --- |
-| [![Minimize to tray with its focused Tray icon help menu](Documentation/assets/tray-controls.jpg)](Documentation/assets/tray-controls.jpg) | <a href="Documentation/assets/tray-menu.jpg"><img src="Documentation/assets/tray-menu.jpg" width="230" alt="PortalAI notification-icon menu with restore, navigation, help and lifecycle actions" /></a> |
+| ![Current chat workspace](Documentation/assets/chat-current.png) | ![Current model settings](Documentation/assets/settings-current.png) |
+| Nice’s chat workspace, with an illustrative conversation. | Academic settings: standard models; Full-only coding specialist stays off. |
+| ![Nice hands-free voice interface](Documentation/assets/handsfree-current.png) | ![Persistent mission draft](Documentation/assets/persistence-current.png) |
+| Hands-free voice controls and visible activity. | Save objectives with access limits and action budgets. |
+| ![Maintenance menu](Documentation/assets/maintenance-current.png) | ![Built-in searchable Help](Documentation/assets/help-current.png) |
+| Diagnostics, storage reserves and repair controls. | The in-app Help browser, with 67 topics. |
+| ![Dark mode](Documentation/assets/dark-mode-current.png) | ![Compact voice toolbar](Documentation/assets/compact-voice-current.png) |
+| A quieter palette for the same workspace. | Collapse the interface while keeping Nice close. |
 
-**Runtime and Packages.** Runtime brings CPU, RAM, GPU and VRAM activity, owned-process information and reported model stages into one read-only panel. Packages provides a searchable, paginated capability inventory and installation status. Academic restrictions still apply even when the diagnostic catalog mentions an unavailable component. Intentionally omitted models are labeled **EXCLUDED**.
+[Full feature tour and science examples](Documentation/FEATURE-TOUR.md) · [Capture notes](Documentation/assets/README.md)
 
-| Runtime monitoring | Package inventory |
-| --- | --- |
-| [![Runtime panel with illustrative CPU, RAM, GPU and VRAM telemetry](Documentation/assets/runtime-panel.jpg)](Documentation/assets/runtime-panel.jpg) | [![Packages panel showing capability descriptions and installation status in the isolated preview](Documentation/assets/packages-panel.jpg)](Documentation/assets/packages-panel.jpg) |
-
-**Hardware scaling with manual control.** Automatic selection fits eligible installed models to available RAM/VRAM and selects a compatible backend. Settings also lets you choose a model, backend, context limit and supported media defaults explicitly. **Check hardware fit** previews the choice. Manual overrides still have to pass hardware and memory admission checks. Backend, context and media changes use **Save settings**; **Controls > Startup** applies chat settings when active work permits. The Academic chat, vision and media variant remains fixed to standard.
-
-| Chat model and memory | Media defaults |
-| --- | --- |
-| [![Academic chat settings in the complete Control Center window, showing the standard variant, backend, context limit and vision routing](Documentation/assets/chat-model-settings.jpg)](Documentation/assets/chat-model-settings.jpg) | [![Academic media settings in the complete Control Center window, with standard mode enforced](Documentation/assets/media-defaults.jpg)](Documentation/assets/media-defaults.jpg) |
-| Choose model, memory and backend preferences while the Academic variant stays fixed to standard. | Review the defaults for supported media workflows and their hardware requirements. |
-
-<sub>Windows screenshots of the Academic build's real widgets in Light mode, captured in an isolated preview. Chat and Runtime telemetry are illustrative; package status reflects the preview's incomplete runtime inventory. The original tray menu is opened by a capture-only shortcut. Available workflows depend on the operating system and installed components. Click a panel to view it at full size. See the <a href="Documentation/assets/README.md">artwork notes</a> for capture details.</sub>
+Screenshots show real r72 widgets in an isolated preview. Chat text and voice activity are illustrative; no inference or microphone recording occurred. The mission is an unexecuted draft. Platform features depend on installed components; Mac/Linux currently remain r51.
 
 ## Built-in help and documentation
 

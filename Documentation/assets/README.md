@@ -30,3 +30,10 @@ The additional Runtime, Packages, context-help and tray captures retain the same
 The welcome, chat-model settings, media settings, context-help and Packages images were refreshed from the current Academic r2 payload. Intentionally omitted models now display EXCLUDED. The other captures retain the same unchanged Academic interface from r1. The refreshed welcome panel uses the sample installation label `X:\PortalAI` instead of the capture machine's local path.
 
 The welcome image was refreshed on October 21, 2026 from the 20261021-r1 Academic application source. It shows the approved access-request notice below the feature tagline. The same isolated capture harness, Light theme, original widgets and black backdrop were used; no personal account or runtime services were loaded.
+
+
+## November 8, 2026: current r72 gallery
+
+Files ending `-current.png` replace the older images in the README and feature tour. The current edition's actual Windows r72 GUI was rendered in an isolated fixture. Account access, network, worker processes and microphone operations were inert. The chat conversation and voice activity are illustrative; the persistence screen shows an unexecuted mission draft. No personal profiles or histories were read, and installed applications and published installers were unchanged. Academic settings were captured from Academic source and show the coding specialist disabled. Neutral Maintenance, Help, persistence and compact layouts are shared between the editions.
+
+Science images use real local deterministic tool output. `science-sequence-current.png` is a separately styled rendering of `genome.analyze` and `genome.align` results on seeded random DNA strings, explicitly labeled as such. `science-physics-current.png` captures the original exported interactive viewer from a CPU `physics.coupled_demo` run. It is an approximate educational example, not engineering validation. Images were captured through the browser/native screenshot APIs and saved without visual edits.
