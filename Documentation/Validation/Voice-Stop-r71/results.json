@@ -1,0 +1,93 @@
+{
+  "version": "2026.11.07-Desktop-r71",
+  "passed": true,
+  "tests": {
+    "D-runtime-tests": {
+      "passed": true,
+      "tests": 100,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "E-runtime-tests": {
+      "passed": true,
+      "tests": 100,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "D-shutdown-final-tests": {
+      "passed": true,
+      "tests": 25,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "E-shutdown-final-tests": {
+      "passed": true,
+      "tests": 25,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "Academic-final-tests": {
+      "passed": true,
+      "tests": 70,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "upgrade-final-tests": {
+      "passed": true,
+      "tests": 51,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "D_live_voice_stop": true,
+  "E_live_voice_stop": true,
+  "original_models_retained": true,
+  "original_entire_gui_exit_reproduced": false,
+  "old_audio_close_race_reproduced": true,
+  "live_probes": {
+    "D": {
+      "passed": true,
+      "gui_survived": true,
+      "actual_windows_aec_closed": true,
+      "actual_stop_helper_passed": true,
+      "owned_worker_terminated": true,
+      "restoration_cancelled_by_stop": true,
+      "ticks": 244,
+      "largest_tick_gap_seconds": 0.03200000000651926,
+      "production_accounts_opened": false,
+      "model_loaded": false
+    },
+    "E": {
+      "passed": true,
+      "gui_survived": true,
+      "actual_windows_aec_closed": true,
+      "actual_stop_helper_passed": true,
+      "owned_worker_terminated": true,
+      "restoration_cancelled_by_stop": true,
+      "ticks": 240,
+      "largest_tick_gap_seconds": 0.03200000000651926,
+      "production_accounts_opened": false,
+      "model_loaded": false
+    }
+  },
+  "broad_source_checks": {
+    "passed": 313,
+    "skipped": 2,
+    "asset_presence_check_rerun_on_installed_D_and_E": "passed; the source checkout intentionally lacks protein model weights"
+  },
+  "limitations": [
+    "The original entire-window disappearance has no conclusive crash signature.",
+    "Live probes used actual Windows audio and Stop All with a disposable worker and delayed restoration, without new LLM/TTS inference.",
+    "No complete new-recipient model/runtime download install was performed.",
+    "Linux/Mac release packages and unrelated historical test fixtures were not changed."
+  ],
+  "minimum_free_gib": 50,
+  "new_dependencies": false,
+  "paused_weight_research_untouched": true
+}

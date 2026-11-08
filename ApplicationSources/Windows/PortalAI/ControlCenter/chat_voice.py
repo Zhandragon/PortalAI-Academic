@@ -140,8 +140,12 @@ class VoiceIO:
         total, available = memory_info()
         return {'ram_total_bytes': total, 'ram_available_bytes': available, 'gpus': []}
 
-    def cancel(self):
+    def request_cancel(self):
+        """Revoke voice immediately; blocking worker cleanup belongs off Tk."""
         self.cancelled.set()
+
+    def cancel(self):
+        self.request_cancel()
         prepared=self._prepared_voice;self._prepared_voice=None
         if prepared:prepared.close()
 

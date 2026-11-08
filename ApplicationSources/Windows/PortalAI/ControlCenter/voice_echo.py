@@ -16,6 +16,7 @@ class EchoCapture:
         from mission_supervisor import WorkerJob
         from runtime_policy import portable_env
         self.root=Path(root);self.check=check;self.closed=threading.Event();self.ready=threading.Event();self.condition=threading.Condition()
+        self._close_lock=threading.Lock();self._close_done=False
         self.chunks=deque(maxlen=12);self.error='';self.proc=self.job=None
         helper=self.root/'Tools/voice_echo_capture.exe';manifest=json.loads(helper.with_suffix('.json').read_text())
         if helper.stat().st_size!=manifest['bytes'] or hashlib.sha256(helper.read_bytes()).hexdigest()!=manifest['sha256']:raise RuntimeError('Echo capture helper failed integrity validation')
@@ -57,12 +58,17 @@ class EchoCapture:
         with self.condition:self.chunks.clear()
     def close(self):
         self.closed.set()
-        if self.job:self.job.close();self.job=None
-        if self.proc:
-            if self.proc.poll() is None:self.proc.kill()
-            self.proc.wait(timeout=5)
-            reader=getattr(self,'reader',None)
-            if reader and reader is not threading.current_thread():reader.join(2)
-            for pipe in (self.proc.stdin,self.proc.stdout,self.proc.stderr):
-                if pipe and not pipe.closed:pipe.close()
         with self.condition:self.condition.notify_all()
+        # The capture loop's finally and cancellation fallback may arrive together.
+        # Serialize the complete teardown so an OS job handle or pipe closes once.
+        with self._close_lock:
+            if self._close_done:return
+            if self.job:self.job.close();self.job=None
+            if self.proc:
+                if self.proc.poll() is None:self.proc.kill()
+                self.proc.wait(timeout=5)
+                reader=getattr(self,'reader',None)
+                if reader and reader is not threading.current_thread():reader.join(2)
+                for pipe in (self.proc.stdin,self.proc.stdout,self.proc.stderr):
+                    if pipe and not pipe.closed:pipe.close()
+            self._close_done=True

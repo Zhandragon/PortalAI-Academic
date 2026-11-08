@@ -12,7 +12,7 @@ import sys
 import time
 from pathlib import Path
 
-VERSION = "2026.10.16"
+VERSION = "2026.11.07-r71"
 CREATE_NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000 if os.name == "nt" else 0)
 
 
@@ -43,7 +43,9 @@ def cim_processes() -> list[dict]:
     if os.name != "nt":
         return []
     ps = (
-        "$x=Get-CimInstance Win32_Process | Select-Object ProcessId,Name,ExecutablePath,CommandLine;"
+        "$ErrorActionPreference='Stop';"
+        "$x=Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId,Name,ExecutablePath,CommandLine,"
+        "@{Name='StartTicks';Expression={if($_.CreationDate){$_.CreationDate.ToFileTimeUtc().ToString()}else{''}}};"
         "$x|ConvertTo-Json -Compress"
     )
     try:
@@ -57,13 +59,35 @@ def cim_processes() -> list[dict]:
         raise RuntimeError("Cannot inspect process ownership") from exc
 
 
-def kill(pid: int) -> tuple[bool,str]:
+def kill(pid: int, root: Path, row: dict) -> tuple[bool,str]:
     if pid <= 0 or pid == os.getpid(): return False, "refused current/invalid PID"
     try:
-        cp=run(["taskkill","/PID",str(pid),"/T","/F"],30)
-        return cp.returncode==0,(cp.stdout or cp.stderr or "").strip()
+        from profile_shutdown import _windows_stop
+        start=int(row.get('StartTicks') or 0)
+        if not start: return False, 'Process creation identity unavailable; preserved'
+        _windows_stop({'pid':pid, 'start':start, 'executable':row['ExecutablePath']}, root)
+        return True, 'Stopped verified process handle; no unverified tree termination'
     except Exception as exc:
         return False,f"{type(exc).__name__}: {exc}"
+
+
+def protected_pids(rows: dict) -> set[int]:
+    """Stop components must preserve every GUI and its launch ancestors."""
+    from profile_shutdown import _argv
+    protected={os.getpid()}
+    for pid,row in rows.items():
+        if any(Path(arg).name.lower() in ('portableai_gui.py','control_center_bootstrap.py')
+               for arg in _argv(str(row.get('CommandLine') or ''))):
+            protected.add(pid)
+    for pid in list(protected):
+        seen=set()
+        while pid in rows and pid not in seen:
+            seen.add(pid); parent=int(rows[pid].get('ParentProcessId') or 0)
+            if not parent or parent not in rows: break
+            # A reused PID cannot be the parent of an older process.
+            if int(rows[parent].get('StartTicks') or 0)>int(rows[pid].get('StartTicks') or 0):break
+            protected.add(parent);pid=parent
+    return protected
 
 
 def owned_process(root: Path, row: dict) -> bool:
@@ -119,7 +143,7 @@ def portable_process_pids(root: Path) -> tuple[set[int], list[dict]]:
         "portableai_lifecycle_watcher","start_portableai_controller","start_qwen_hidden",
         "start_portableai_native","qwen_vram_watchdog.py","abort_watchdog.py","voice_abort_watchdog.py",
         "agent\\ai_tools.py","agent/ai_tools.py","scientific_tool_bridge.py","science_core.py","web_tools.py",
-        "voice_worker.py","piper_worker.py","sdcpp_worker.py","sd-cli.exe","comfy_amd_entry.py","sfx_bridge.py","mmaudio_bridge.py","video_understanding_bridge.py",
+        "voice_worker.py","piper_worker.py","voice_echo_capture.exe","ffplay.exe","sdcpp_worker.py","sd-cli.exe","comfy_amd_entry.py","sfx_bridge.py","mmaudio_bridge.py","video_understanding_bridge.py",
         "music_understanding_bridge.py","science_activity_",
         "music_cpu_entry.py","radeon_edit_entry.py","audio_inpaint_amd_entry.py",
         "musicunderstanding\\runtime_driver.py","musicunderstanding/runtime_driver.py",
@@ -128,10 +152,12 @@ def portable_process_pids(root: Path) -> tuple[set[int], list[dict]]:
         "mission_supervisor.py", "mission_runner.py", "vm_runner.py", "qemu-system-x86_64.exe",
     )
     pids=set(); rows=[]
-    for p in cim_processes():
+    processes=cim_processes()
+    protected=protected_pids({int(row.get('ProcessId') or 0):row for row in processes})
+    for p in processes:
         try: pid=int(p.get("ProcessId") or 0)
         except Exception: continue
-        if not pid or pid==os.getpid(): continue
+        if not pid or pid in protected: continue
         cmd=str(p.get("CommandLine") or "")
         exe=str(p.get("ExecutablePath") or "")
         low=os.path.normcase(cmd).lower()
@@ -221,12 +247,16 @@ def main()->int:
             pids.add(pid)
     # Recheck current identity immediately before terminating any candidate PID.
     current={int(x.get("ProcessId") or 0):x for x in cim_processes()}
+    protected=protected_pids(by_pid)|protected_pids(current)
     for pid in sorted(pids):
+        if pid in protected:
+            attempts.append({'pid':pid,'killed':False,'detail':'GUI/controller ancestor preserved'});continue
         row=current.get(pid,{})
-        if not owned_process(root,row) or row.get("CommandLine")!=by_pid.get(pid,{}).get("CommandLine"):
+        if (not owned_process(root,row) or row.get("CommandLine")!=by_pid.get(pid,{}).get("CommandLine")
+                or row.get('StartTicks')!=by_pid.get(pid,{}).get('StartTicks')):
             attempts.append({"pid":pid,"killed":False,"detail":"Process exited or identity changed; skipped"});continue
         if any(x in str(row.get("CommandLine") or "").lower() for x in ("portableai_gui.py","control_center_bootstrap.py","stop_portableai.py")):continue
-        ok,detail=kill(pid);attempts.append({"pid":pid,"killed":ok,"detail":detail[-1000:]})
+        ok,detail=kill(pid,root,row);attempts.append({"pid":pid,"killed":ok,"detail":detail[-1000:]})
     remaining_owned=[];deadline=time.monotonic()+12
     while True:
         remaining_owned,remaining_rows=portable_process_pids(root)

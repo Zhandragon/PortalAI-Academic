@@ -2927,12 +2927,14 @@ def main(authenticated=None):
         try:
             if native_chat_panel is not None and hasattr(native_chat_panel, "release_audio_capture"):
                 native_chat_panel.release_audio_capture()
-                log("Chat microphone capture released cleanly before process cleanup.")
+                log("Chat microphone cancellation requested; the stop worker waits for audio cleanup.")
         except Exception as exc:
             log(f"Microphone release warning: {exc}")
 
     def stop_components():
         """Cancel chat, pause missions and stop owned workers."""
+        import profile_diagnostics
+        profile_diagnostics.record('[component stop] Requested; GUI remains open.')
         startup_gate.cancel()
         control_progress.set('Stopping owned components; pending Startup is cancelled.')
         if native_chat_panel is not None:
@@ -2941,7 +2943,6 @@ def main(authenticated=None):
             # a late duration result must never restart a stopped preview.
             native_chat_panel._stop_embedded_media()
         _release_chat_audio_before_process_cleanup()
-        _stop_legacy_openwebui_quiet()
         script=root/"Launchers"/"Stop_PortableAI.py"; py=Path(bootstrap_python(root))
         if not script.exists() or not py.exists():
             detail=f"Missing stop dependency:\n{script if not script.exists() else py}"; log(detail); return
@@ -2951,6 +2952,9 @@ def main(authenticated=None):
         log("Stopping all PortalAI-managed components, including active on-demand workers...")
         def _job():
             try:
+                if native_chat_panel is not None:
+                    native_chat_panel.wait_audio_release()
+                _stop_legacy_openwebui_quiet()
                 flags=getattr(subprocess,"CREATE_NO_WINDOW",0) if os.name=="nt" else 0
                 cp=subprocess.run([str(py),str(script),"--root",str(root),"--include-opengui"],cwd=str(root),capture_output=True,text=True,errors="replace",timeout=120,creationflags=flags)
                 detail=((cp.stdout or "")+("\n"+cp.stderr if cp.stderr else "")).strip()
@@ -3620,6 +3624,8 @@ def main(authenticated=None):
                         log(message); last_ui_state['tool_event'] = message
                     continue
                 if kind=="stop_result":
+                    import profile_diagnostics
+                    profile_diagnostics.record('[component stop] Finished: '+('success' if data.get('ok') else 'failed'))
                     control_progress.set('Stopped.' if data.get('ok') else 'Stop failed; check the Control Log.')
                     if bool(data.get("ok")):
                         control_loaded.set('Current chat: stopped.')

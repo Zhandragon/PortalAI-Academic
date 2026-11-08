@@ -319,6 +319,7 @@ class WindowsWaveInStream:
         self.winmm = ctypes.WinDLL("winmm", use_last_error=True)
         self.handle = ctypes.c_void_p()
         self.closed = True
+        self._io_lock = threading.RLock()
         self.chunk_seconds = max(0.04, min(0.50, float(chunk_seconds)))
 
         class WAVEFORMATEX(ctypes.Structure):
@@ -428,15 +429,17 @@ class WindowsWaveInStream:
             return b""
         deadline = time.monotonic() + max(0.02, float(timeout))
         while not self.closed and time.monotonic() < deadline:
-            for hdr in self.headers:
-                if int(hdr.dwFlags) & self.WHDR_DONE:
-                    n = int(hdr.dwBytesRecorded)
-                    data = self.ctypes.string_at(hdr.lpData, n) if n > 0 else b""
-                    hdr.dwBytesRecorded = 0
-                    rc = int(self.winmm.waveInAddBuffer(self.handle, self.ctypes.byref(hdr), self.ctypes.sizeof(hdr)))
-                    if rc != 0 and not self.closed:
-                        raise RuntimeError(self.error_text(rc))
-                    return data
+            with self._io_lock:
+                if self.closed:return b''
+                for hdr in self.headers:
+                    if int(hdr.dwFlags) & self.WHDR_DONE:
+                        n = int(hdr.dwBytesRecorded)
+                        data = self.ctypes.string_at(hdr.lpData, n) if n > 0 else b""
+                        hdr.dwBytesRecorded = 0
+                        rc = int(self.winmm.waveInAddBuffer(self.handle, self.ctypes.byref(hdr), self.ctypes.sizeof(hdr)))
+                        if rc != 0 and not self.closed:
+                            raise RuntimeError(self.error_text(rc))
+                        return data
             time.sleep(0.005)
         return b""
 
@@ -459,6 +462,10 @@ class WindowsWaveInStream:
                 break
 
     def close(self) -> None:
+        with self._io_lock:
+            self._close_locked()
+
+    def _close_locked(self) -> None:
         if getattr(self, "closed", True):
             return
         self.closed = True
@@ -5814,6 +5821,10 @@ class NativeChat:
         self._check_login()
         if self.conversation_active.is_set():
             return
+        cleanup = getattr(self, '_conversation_cleanup', None)
+        if cleanup is not None and cleanup.is_alive():
+            self._notice('Hands-free mode', 'The previous microphone is still closing. Try again shortly.')
+            return
         if self.conversation_thread is not None and self.conversation_thread.is_alive():
             self._notice('Hands-free mode', 'The previous voice interaction is still stopping. Try again shortly.')
             return
@@ -5851,23 +5862,27 @@ class NativeChat:
         t.start()
 
     def stop_conversation_mode(self):
-        """Stop hands-free capture without tearing a USB audio endpoint out from under its reader.
-
-        The capture thread owns the microphone handle. Clearing the event first lets
-        its current read finish and lets the thread close the handle in its finally
-        block. Only if that graceful path stalls do we force-close the handle/process.
-        """
+        """Revoke capture on Tk, then join/close audio on a tracked cleanup worker."""
         voice = getattr(self, '_conversation_io', None)
-        if voice is not None: voice.cancel()
+        if voice is not None: voice.request_cancel()
+        self.conversation_active.clear()
         request = getattr(self, '_conversation_request', None)
         if request is not None:
             request.failed = True
             request.done.set()
-        if not self.conversation_active.is_set() and self.conversation_capture_stream is None and self.conversation_capture_proc is None:
-            return
-        self.conversation_active.clear()
-
+        self.ev.put(("conversation_stopped", voice))
+        cleanup = getattr(self, '_conversation_cleanup', None)
+        if cleanup is not None and cleanup.is_alive(): return
         thread = self.conversation_thread
+        if (thread is None or not thread.is_alive()) and self.conversation_capture_stream is None and self.conversation_capture_proc is None:
+            return
+        cleanup = self._thread(target=self._finish_conversation_stop, args=(voice, thread),
+                               name='PortalAI-voice-cleanup', daemon=True)
+        self._conversation_cleanup = cleanup
+        cleanup.start()
+
+    def _finish_conversation_stop(self, voice, thread):
+        if voice is not None: voice.cancel()
         if thread is not None and thread is not threading.current_thread() and thread.is_alive():
             thread.join(timeout=1.25)
 
@@ -5893,7 +5908,12 @@ class NativeChat:
         with self.conversation_capture_lock:
             self.conversation_capture_stream = None
             self.conversation_capture_proc = None
-        self.ev.put(("conversation_stopped", voice))
+
+    def wait_audio_release(self, timeout=8):
+        """Used by the component-stop worker, never Tk's event thread."""
+        cleanup = getattr(self, '_conversation_cleanup', None)
+        if cleanup is not None and cleanup is not threading.current_thread():
+            cleanup.join(timeout=timeout)
 
     def _open_ffmpeg_pcm(self, device: str) -> subprocess.Popen:
         ff = self.root / "Tools" / "ffmpeg" / "bin" / "ffmpeg.exe"
@@ -6911,7 +6931,7 @@ class NativeChat:
         if getattr(self, '_mic_voice', None) is not None:
             self._mic_voice.cancel()
         if getattr(self, '_conversation_io', None) is not None:
-            self._conversation_io.cancel()
+            self._conversation_io.request_cancel()
         if self.conversation_active.is_set() or self.conversation_capture_stream is not None or self.conversation_capture_proc is not None:
             self.stop_conversation_mode()
 
@@ -6962,7 +6982,6 @@ class NativeChat:
         if picker is not None:
             picker['cancel'].set()
             self._attachment_picker_pending = None
-        self._writer_jobs.close()
         timer = getattr(self, '_pai128e_timer', None)
         if isinstance(timer, dict):
             timer['active'] = False
@@ -6992,6 +7011,9 @@ class NativeChat:
         for action in actions:
             try: action()
             except Exception as exc: errors.append(type(exc).__name__)
+        # Cancellation can register its own audio teardown worker. Close writer
+        # admission afterwards so verified logout also waits for that cleanup.
+        self._writer_jobs.close()
         if getattr(self.tool_runtime, '_workspace_cleanup_errors', None):
             errors.append('Workspace resource cleanup')
         if errors:
