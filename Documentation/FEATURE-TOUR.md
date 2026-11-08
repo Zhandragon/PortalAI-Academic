@@ -2,6 +2,8 @@
 
 PortalAI keeps the harness, selected models and projects in a local directory. A suitably fast 1TB USB drive or external SSD can carry a selected installation. Choose models to fit the drive and host; each operating system uses its own runtime and supported filesystem. Internet is needed for setup and optional online tools. Supported installed local workflows can run offline.
 
+[Explore the main tabs, subtabs, account controls and context menus](GUI-PREVIEWS.md).
+
 ## Talk to Nice, then get back to work
 
 Hands-free conversation exposes voice activity, microphone mute and an explicit end control. Compact mode keeps chat available while other applications occupy the screen.
@@ -28,7 +30,7 @@ Persistent missions retain objectives, access settings, review history and bound
 
 ## Understand and maintain the installation
 
-The Help menu provides 67 searchable operating topics. Maintenance brings diagnostics, storage audits, reserves, duplicate scans and repair controls into one place. The [web guides](https://payhip.com/PortalAI/help-maintenance) mirror the Full r72 help; Academic edition restrictions still apply.
+The Help menu provides 67 searchable operating topics. Maintenance brings diagnostics, storage audits, reserves, duplicate scans and repair controls into one place. The [web guides](https://payhip.com/PortalAI/help) mirror the Full r72 help; Academic edition restrictions still apply.
 
 ![Maintenance controls](assets/maintenance-current.png)
 
@@ -41,6 +43,10 @@ Local accounts use password-derived keys and authenticated encryption for stored
 ![Dark-mode chat](assets/dark-mode-current.png)
 
 ## Science, through Nice
+
+![Generated files inside the real Chat window](assets/gui-previews/chat-science-output-cards.png)
+
+The card preview replays exact files from the recorded Nice runs. Click Open to reach the output viewers shown below.
 
 These examples were executed through Nice in the Windows Chat interface. They are generated output files, not extra built-in PortalAI tabs. We supplied explicit parameters, corrected an invalid physics input, and verified the actual tool returns and files. [Exact prompts, outputs and provenance](science-examples/README.md).
 
@@ -60,7 +66,7 @@ Ask Nice to load the science tool, run an operation and return its outputs. In r
 
 ![Nice displaying the actual electrical.dc solver result](assets/science-circuit-nice.png)
 
-**Circuits:** Nice called `electrical.dc` for a 10 V source and two 1 kΩ resistors. The actual solver returned a 5 V midpoint and −0.005 A source current under its sign convention. Supported ideal DC circuits and RC responses are calculations, not a schematic editor or hardware measurement.
+**Circuits:** The request supplied an ideal 10 V source, R1 = 1 kΩ from input to output and R2 = 1 kΩ from output to ground, with no output load, and asked for node voltages and current. Nice called `electrical.dc` for a 10 V source and two 1 kΩ resistors. The actual solver returned a 5 V midpoint and −0.005 A source current under its sign convention. Supported ideal DC circuits and RC responses are calculations, not a schematic editor or hardware measurement.
 
 **3D modeling:** Nice generated actual STEP and STL files using `cad.model`: a nominal 40 × 30 × 5 mm plate with a radius-4 mm cylindrical cut. Supported primitive add/cut/intersect operations create editable/exportable geometry. Inspect dimensions and tolerances in a CAD viewer before manufacturing; the reported bounds include kernel tolerances.
 
@@ -75,10 +81,12 @@ On Windows, Controls > Minimize to tray hides the window while work continues. T
 ## Explore by task
 
 - [Chat & Voice](https://payhip.com/PortalAI/chat-voice)
-- [Models & Runtime](https://payhip.com/PortalAI/models-runtime)
+- [Models](https://payhip.com/PortalAI/models-runtime)
 - [Media Studio](https://payhip.com/PortalAI/media-studio)
-- [Science Lab](https://payhip.com/PortalAI/science)
+- [Science examples in Chat](https://payhip.com/PortalAI/chat-voice)
 - [Workspace and persistence](https://payhip.com/PortalAI/workspace)
-- [Help & Maintenance](https://payhip.com/PortalAI/help-maintenance)
+- [Help](https://payhip.com/PortalAI/help)
 
 These web guides describe Full r72 on Windows. OS-specific availability and Academic restrictions remain in effect. [Capture provenance](assets/README.md).
+
+[The full 138-base DNA sequence, exact circuit problem and additional science/engineering capabilities](science-examples/README.md).

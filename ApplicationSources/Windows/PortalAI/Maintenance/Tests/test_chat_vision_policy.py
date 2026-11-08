@@ -84,14 +84,13 @@ class VisionPolicyTests(unittest.TestCase):
         (self.root / row['projector']).unlink()
         self.assertEqual(self.plan()['selection'], 'qwen-vl2-q4')
 
-    def test_uncensored_never_silently_uses_standard_vision(self):
+    def test_academic_forces_standard_vision_even_with_uncensored_preferences(self):
         self.policy.update(selection='qwen4-abliterated-q4', variant_preference='uncensored')
-        self.assertEqual(self.plan()['selection'], 'qwen-vl4-abliterated-q4')
+        self.assertEqual(self.plan()['selection'], 'qwen-vl4-q4')
         for m in self.policy['models']:
             if m.get('projector') and m['variant']=='uncensored':
                 (self.root / m['path']).unlink()
-        with self.assertRaisesRegex(RuntimeError, 'matching vision'):
-            self.plan()
+        self.assertEqual(self.plan()['selection'], 'qwen-vl4-q4')
 
     def test_off_refuses_text_pin_and_explicit_vision_remains_pinned(self):
         self.policy['vision_routing'] = 'off'

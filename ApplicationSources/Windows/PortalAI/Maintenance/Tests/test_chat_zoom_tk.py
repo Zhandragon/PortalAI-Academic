@@ -183,7 +183,7 @@ class ChatZoomTkTests(unittest.TestCase):
         panel = NativeChat.__new__(NativeChat)
         panel.chat, panel.app, panel.host = self.chat, self.app, self.app
         panel.COL = {**COLORS, 'cyan': '#3e91a2'}
-        panel._resolve_private_reference = lambda value: Path(value)
+        panel._resolve_private_reference = lambda value, **_kwargs: Path(value)
         self.app.geometry('480x700+3500+3500')
         panel.render_media_card({'path': 'synthetic_image_name_that_should_not_force_the_controls_outside_the_chat_window.png'})
         self.pump(.25)

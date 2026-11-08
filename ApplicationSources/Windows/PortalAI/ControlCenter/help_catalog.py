@@ -241,7 +241,12 @@ TOPICS = {
           'aliases': ['chat', 'portableai chat', 'send', 'qwen'],
           'body': 'Chat is the primary frontend. The current conversation remains raw in Data\\Chat\\Sessions '
                   'while context management, persistent memory, and tool calls are added only when needed. '
-                  'Right-click the transcript for quick actions such as Copy, Edit last, Branch, and Help.',
+                  'Right-click the transcript for quick actions such as Copy, Edit last, Branch, and Help.\n\n'
+                  'Follow-ups: while Nice is working, type a message and use Queue (or Enter). It runs after the current reply. '
+                  'Send now stops the current request and waits for its worker to finish cleanup before starting the next queued message. '
+                  'Edit next returns the first queued message to the composer; Send puts the edited message back first. Remove next drops that pending message. '
+                  'Stop or a failed request pauses the queue; use Send now to resume deliberately. Queued messages are held in memory for the current chat only, '
+                  'and are cleared when changing chats/accounts or closing PortalAI. They enter saved history only when sent. Finish attaching files before queuing.',
           'category': 'Chat, history and vision'},
  'history': {'title': 'History',
              'aliases': ['history', 'rename', 'delete', 'new chat'],

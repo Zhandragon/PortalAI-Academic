@@ -32,7 +32,9 @@ if os.name == 'nt':
 
         def __fspath__(self):
             text = str(self)
-            if not self.is_absolute() or len(text.encode('utf-16-le')) < 480:
+            # Python 3.13 WindowsPath.is_absolute() calls os.fspath(self).
+            # Inspect the parsed components here to avoid recursive __fspath__.
+            if not (self.drive and self.root) or len(text.encode('utf-16-le')) < 480:
                 return text
             if text.startswith('\\\\'):
                 return '\\\\?\\UNC\\' + text[2:]

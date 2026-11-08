@@ -18,7 +18,7 @@ class HandoffEffortSmokeTests(unittest.TestCase):
         controls = smoke.headless_effort(panel, 'fast', 12345.0)
         plan = {'profile': 'fast', 'model': {'id': 'qwen4-q4'}, 'max_tool_rounds': 4,
                 'completion_options': {'max_tokens': 1024, 'chat_template_kwargs': {'enable_thinking': False}}}
-        with patch('chat_model_switch.prepare_chat', return_value=plan) as prepare:
+        with patch('chat_model_switch.prepare_request', return_value=plan) as prepare:
             self.assertTrue(controls.prepare_request(threading.Event()))
         self.assertEqual(prepare.call_args.kwargs['requested_at'], 12345.0)
         self.assertFalse(prepare.call_args.kwargs['unlock_slow'])
@@ -31,7 +31,7 @@ class HandoffEffortSmokeTests(unittest.TestCase):
         panel = SimpleNamespace(root=ROOT, session={'messages': []}, ev=Mock(), tool_runtime=Mock())
         controls = smoke.headless_effort(panel, 'fast', 12345.0)
         cancel = threading.Event(); cancel.set()
-        with patch('chat_model_switch.prepare_chat') as prepare:
+        with patch('chat_model_switch.prepare_request') as prepare:
             self.assertFalse(controls.prepare_request(cancel))
         prepare.assert_not_called()
         panel.tool_runtime.set_request_effort.assert_not_called()

@@ -41,3 +41,5 @@ Science images use real local deterministic tool output. `science-sequence-curre
 ## r73 actual Nice science outputs
 
 The four science-*-nice.png images supersede the earlier science showcase composites. They show actual opened outputs and the native circuit tool return. See [exact prompts and provenance](../science-examples/README.md). Other GUI images remain real r72 preview widgets with the previously disclosed illustrative data.
+
+The `gui-previews/` directory contains the Nov 8 interface tour captures. See [GUI-PREVIEWS](../GUI-PREVIEWS.md) for fixture, edition and real-output provenance. Screenshots preserve the actual capture; they are not repainted UI mockups.

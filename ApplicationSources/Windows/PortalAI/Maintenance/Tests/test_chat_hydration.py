@@ -197,7 +197,7 @@ class ChatHydrationTests(unittest.TestCase):
         dialog.assert_not_called()
 
     def test_picker_rejects_late_completion_after_close_chat_switch_or_revocation(self):
-        for change in ('close', 'chat', 'revoke', 'busy'):
+        for change in ('close', 'chat', 'revoke'):
             with self.subTest(change=change):
                 p = self.panel()
                 with patch.object(hydration, 'materialize'), patch.object(chat.filedialog, 'askopenfilenames') as dialog:
@@ -206,10 +206,19 @@ class ChatHydrationTests(unittest.TestCase):
                     if change == 'close': p._closing = True
                     elif change == 'chat': p.session = {'id': 'different-chat'}
                     elif change == 'revoke': self.revoke()
-                    else: p.busy = True
                     p._finish_attachment_picker(data)
                 dialog.assert_not_called()
                 self.marker.write_text(json.dumps({'user_id': UID, 'epoch': EPOCH, 'state': 'open'}))
+
+    def test_picker_accepts_followup_attachment_during_inference(self):
+        p = self.panel()
+        p.busy = True
+        with patch.object(hydration, 'materialize'), patch.object(chat.filedialog, 'askopenfilenames', return_value=[str(self.root/'example.txt')]):
+            p.add_attachments()
+            _, data = p.ev.get(timeout=3)
+            p._finish_attachment_picker(data)
+        p.store.copy_attachment.assert_called_once()
+        self.assertEqual(len(p.pending_attachments), 1)
 
     def test_picker_revoke_during_dialog_prevents_copy(self):
         p = self.panel()

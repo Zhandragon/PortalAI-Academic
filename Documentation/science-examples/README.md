@@ -9,3 +9,30 @@ Open `world.html` from a new physics run in a browser. The supplied `physics/sce
 Physics was run and paused in its actual browser viewer, then reset to show the initial arrangement. It uses bounded educational approximations. The biology labels describe supplied segments, not inferred biological function. Chemistry is computed structure depiction. Circuit values solve an ideal model. Native CAD viewing and physical Mac/Linux execution were not part of these captures.
 
 To reproduce: sign in to an administrator account, open Chat, supply one prompt, inspect the science tool return, and open its returned output. Install the relevant optional packages first. Model choices may require correction; actual output files are the evidence. The initial Mac distribution omits the optional science runtime.
+
+## Start in Chat, then open the outputs
+
+![Real output-file cards replayed in the native Chat interface](../assets/gui-previews/chat-science-output-cards.png)
+
+This capture replays the exact previously generated public files through PortalAI's real Chat card renderer; it is not a new inference run. Click **Open** on a card to open its file in a compatible viewer. The opened-output screenshots in the feature tour show those separate viewers, not hidden science dashboard tabs.
+
+## What the DNA example assembled
+
+Nice received three arbitrary synthetic teaching segments: A and B forward, and C in reverse-complement orientation. `plasmid.assemble` joined them as a linear annotated sequence. These labels do not assert biological function or a laboratory-validated construct. The resulting 138-base FASTA is:
+
+```fasta
+>assembly
+ACGTTGCAATGCCGTAACGTTAGCGATCGTACGATCGATGCTAGCTAGCGGCTAACCGTTAGGCTAACCGATGCTAGGCTAACCGTTAGGCCGTAACCGGTTAATCGGCATGCCTAACGGTTGCATCGATCCGGTTAA
+```
+
+See the included exact prompt, FASTA, GenBank and SVG files for the inputs, orientation and output bytes.
+
+## What the voltage-divider example solved
+
+The supplied problem was: connect an ideal **10 V** source between input and ground, **R1 = 1 kΩ** from input to output, and **R2 = 1 kΩ** from output to ground, with **no output load**. Find the output voltage and current.
+
+Nice called `electrical.dc` with those components. The solver returned **5 V at the output**. The series current is **10 V / (1 kΩ + 1 kΩ) = 5 mA**; the source reports **−0.005 A** because it delivers current under the solver's sign convention. This is an ideal DC calculation, not a measured circuit or a schematic-editor screenshot.
+
+## …and more
+
+Depending on edition, platform and installed optional packages, the science tools also cover table analysis and plotting, sequence translation/alignment/reference annotation, genome specificity, protein-interface analysis, chemical screening, binding fits and docking, scientific-paper context, CAD modeling and STEP/STL exports, print preparation and slicing, mechanical integrity estimates, SPICE/board calculations and projectile motion with drag. Outputs and assumptions need review; package presence alone does not validate a scientific conclusion.

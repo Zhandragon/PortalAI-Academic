@@ -1,12 +1,12 @@
 #!/bin/bash
 # PortalAI Academic online installer. Requires no host Python.
 set -euo pipefail
-SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.08-Desktop-r73'
-ARCHIVE='PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r73-suite.tar.gz'
-ARCHIVE_HASH='75a34cba61da12e9bd8dccd5d4e1616317b1c9918c5a4f9f5752df35d471a5be'
-TOP='PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r73-suite'
+SOURCE='https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.08-Desktop-r74'
+ARCHIVE='PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r74-suite.tar.gz'
+ARCHIVE_HASH='ba9229db45f865d9fb32ab8876e9abfcaacd902e10175bb4dce51265a31d7ac8'
+TOP='PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r74-suite'
 PLATFORM='Linux'
-OWNER='PortalAI-Academic-bootstrap-20261108-Desktop-r73-Linux'
+OWNER='PortalAI-Academic-bootstrap-20261108-Desktop-r74-Linux'
 PREPARE_ONLY=0
 SETUP=''
 while [ "$#" -gt 0 ]; do
@@ -76,9 +76,9 @@ printf '%s\n' "$SPACE" | awk -v base="$BASE_KIB" -v floor="$MIN_FREE_KIB" -v out
 
 }
 if [ "$PREPARE_ONLY" -eq 1 ]; then
-    check_setup_space "$SETUP" 1562278 0 0 0
+    check_setup_space "$SETUP" 1562299 0 0 0
 else
-    check_setup_space "$SETUP" 17604206 52428800 104857600 10
+    check_setup_space "$SETUP" 17604227 52428800 104857600 10
 fi
 mkdir -p "$SETUP"
 SETUP=$(cd "$SETUP" && pwd -P)
@@ -113,13 +113,13 @@ while IFS='|' read -r name size expected; do
         TEMP=''
     fi
 done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r73-suite.tar.gz|532240725|75a34cba61da12e9bd8dccd5d4e1616317b1c9918c5a4f9f5752df35d471a5be
+PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r74-suite.tar.gz|532248986|ba9229db45f865d9fb32ab8876e9abfcaacd902e10175bb4dce51265a31d7ac8
 ACADEMIC_PARTS
 if [ ! -f "$CACHE/$ARCHIVE" ] || [ "$(digest "$CACHE/$ARCHIVE")" != "$ARCHIVE_HASH" ]; then
     echo 'Reconstructing the installer archive...'
     TEMP=$(mktemp "$CACHE/.assemble.XXXXXXXX")
     while IFS='|' read -r name size expected; do cat "$CACHE/$name" >> "$TEMP"; done <<'ACADEMIC_PARTS'
-PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r73-suite.tar.gz|532240725|75a34cba61da12e9bd8dccd5d4e1616317b1c9918c5a4f9f5752df35d471a5be
+PortalAI-Academic-Linux-Installer-2026.11.08-Desktop-r74-suite.tar.gz|532248986|ba9229db45f865d9fb32ab8876e9abfcaacd902e10175bb4dce51265a31d7ac8
 ACADEMIC_PARTS
     if [ "$(digest "$TEMP")" != "$ARCHIVE_HASH" ]; then echo 'Reconstructed archive checksum failed.' >&2; exit 1; fi
     mv -f "$TEMP" "$CACHE/$ARCHIVE"
@@ -141,15 +141,15 @@ while IFS='|' read -r name size expected; do
 done <<'ACADEMIC_FILES'
 ACADEMIC_EDITION.txt|1721|de6f4dbbd0eb64cc87ab7a0b22a41dacbb9491aefb9a35cbf655f1259b24855a
 install.sh|6209|2acb40fdce2a695c7d02fa7e0af0a4502b231fc1ad502ca9afc1e1d76cb576c7
-manifest.json|33013|f50450b344979a862393c0b262435e9a006b3c90e97a0d7c8599c35ae05d5531
-payload.tar.gz|467642282|0dc88fad6afc441fae0a69295e2cf331f73bf94de580c7ca49bfa678e4fc0a53
+manifest.json|30476|5273a494e6ff9ab602122f52aa1a79460c2fb39a7e86a39b28c9a2526cdb42fc
+payload.tar.gz|467657400|b935d0ff9524a34a99caf5153a95fed35e0d4e119230a8ddc6986f63a4d5ce0e
 python-runtime.tar.gz|67038113|1f929539c96625b1dfb0ac90717ce627a02579709baf9304fa51c44af7f2d5e4
-README.txt|4528|cd5fa5cdfb0c4be3ad03f2b8b031b646fe4bc75f9aac8769e7c43d0823da4508
-SHA256SUMS|950|35b45673d49ba37ed8b4fda3f949f7da122c7cd4897bc21bb575ea00ad8ed88b
-storage-plan.json|837|ed8013864964012fc019a469334bb89ff548900fabbe0a7d4e1b77d37e330734
+README.txt|4667|b174a92d70bfd9130788290139474f6cc369fec30da315affbc00ac39150ddd1
+SHA256SUMS|950|89858c8a47fa78f11c3f837f865ba2e2feda52cbe11fa4fd7b50fcd963a1377a
+storage-plan.json|837|268f6c711991c3852fbeab9f25f1d7a0b06f58d996688c5c167c84744131528b
 storage-preflight.sh|1697|44136581cdad9dc8638e3d690694c41ca2097c2bfad0a535293e85f8faff4e67
-suite-catalog.json|4338|2fe250c7137496201b2303f690ce218cde1b4d1fd9e5df2692420bfd298e5bb0
-upgrade.json|1076|a104861e549c8ce30d25aeaa82479041114eadf9a0343cd1437b0f7d71c027c1
+suite-catalog.json|4338|fa6105c539d1dafd71acf9ae62fffeb41eade9c35b9eca5822531200fe31d819
+upgrade.json|1106|5940064d574cf02c3e3936e4227f82229fd1eca7c8129df2f3ccb4f483a9c0b7
 Utilities/PortalAI-HomeAssistant-0.5.12-recovery-0.1.0.zip|679400|811641c9b9d932ed235cc1d8a4f6070ac6aee63f2155a6f45dd22d11fd04b79d
 ACADEMIC_FILES
 echo 'The complete Academic installer has been downloaded and verified.'

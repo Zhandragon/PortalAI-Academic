@@ -49,8 +49,8 @@ def headless_effort(panel, level, started_at):
             return value
         def prepare(*args, **kwargs):
             kwargs['requested_at'] = started_at
-            return value.prepare_chat(*args, **kwargs)
-        return SimpleNamespace(prepare_chat=prepare)
+            return value.prepare_request(*args, **kwargs)
+        return SimpleNamespace(prepare_request=prepare, finish_request=value.finish_request)
     controls._module = module
     return controls
 

@@ -1609,6 +1609,10 @@ class NativeChat:
         self.cancel_event = threading.Event()
         self.active_http = ActiveHTTP()
         self.busy = False
+        from chat_followups import FollowupQueue
+        self._followups = FollowupQueue()
+        self._active_request_worker = None
+        self._attachment_imports = 0
         self.mic_proc: subprocess.Popen | None = None  # legacy FFmpeg capture only
         self.mic_stream: WindowsWaveInStream | None = None
         self.mic_thread: threading.Thread | None = None
@@ -1864,7 +1868,19 @@ class NativeChat:
         self.prompt.bind("<<Paste>>", lambda _e: self.app.after_idle(self._resize_prompt), add="+")
         self.prompt.bind("<<Cut>>", lambda _e: self.app.after_idle(self._resize_prompt), add="+")
 
+        self.followup_row = ResponsiveFlow(composer, bg=self.COL["panel"], hgap=5, vgap=3)
+        self.followup_label = tk.Label(self.followup_row, bg=self.COL['panel'], fg=self.COL['muted'],
+                                       font=(ui_font(self.host), 8), anchor='w', wraplength=340)
+        self.followup_row.add(self.followup_label)
+        self.followup_buttons = []
+        for caption, action in [('Send now', self.send_queued_now), ('Edit next', self.edit_queued_followup),
+                                ('Remove next', self.remove_queued_followup)]:
+            button = ElegantButton(self.followup_row, text=caption, command=action,
+                bg=self.COL['panel2'], fg=self.COL['text'], relief='flat', bd=0, padx=7, pady=4)
+            self.followup_buttons.append(button)
+            self.followup_row.add(button)
         actions = ResponsiveFlow(composer, bg=self.COL["panel"], hgap=3, vgap=3)
+        self._composer_actions = actions
         actions.pack(fill="x", padx=4, pady=(0, 4))
         self.effort = ChatEffortControls(self, actions)
         actions.add(self.effort.widget)
@@ -1929,6 +1945,7 @@ class NativeChat:
                            fg=self.COL['text'], activeforeground=self.COL['text'], disabledforeground=self.COL['muted'])
             if any(str(button.cget(key)) != str(value) for key, value in options.items()):
                 button.configure(**options)
+        self._refresh_followup_controls()
 
     def _resize_prompt(self, _event=None, *, reset=False):
         """Resize the composer between 1 and 7 visible lines without stealing chat space."""
@@ -2001,8 +2018,9 @@ class NativeChat:
             self.drop_target = None
 
     def _dropped_files(self, paths):
-        if self.busy or not self.session:
+        if getattr(self, '_closing', False) or not self.session:
             return
+        self._check_login()
         # Large audio/video files must not be copied on Tk's main thread.
         sid = str(self.session["id"])
         sources = [str(Path(raw)) for raw in paths]
@@ -2024,7 +2042,13 @@ class NativeChat:
                     errors.append(f"{raw}: {exc}")
             self.ev.put(("drop_attachments_done", {"sid": sid, "attachments": added, "errors": errors}))
 
-        self._thread(target=worker, name="PortableAIAttachmentCopy", daemon=True).start()
+        self._attachment_imports = getattr(self, '_attachment_imports', 0) + 1
+        try:
+            self._thread(target=worker, name="PortableAIAttachmentCopy", daemon=True).start()
+        except Exception:
+            self._attachment_imports -= 1
+            self.update_attachment_label()
+            raise
 
     # PORTABLEAI_STOP_THEME_SYNC_v15_134c
     _portableai_stop_widget_attr_v15_134c = 'stop_btn'
@@ -3490,8 +3514,8 @@ class NativeChat:
             self.render_history(); self.update_token_label(); self.refresh_sessions_labels_only(); self.busy=True; self.cancel_event.clear()
             self._refresh_action_buttons()
             if getattr(self, 'effort', None) is not None: self.effort.set_busy(True)
-            self.stop_btn.configure(state="normal"); self.send_btn.configure(state="disabled"); self.session_list.configure(state="disabled"); self._set_llm_dot("busy"); self.model_lbl.configure(text="regenerating edited turn…",fg=self.COL["gold"])
-            self._thread(target=self.agent_worker,args=(self.session["id"],),name="PortableAIEditRegenerate",daemon=True).start(); return "break"
+            self.stop_btn.configure(state="normal"); self._refresh_followup_controls(); self.session_list.configure(state="disabled"); self._set_llm_dot("busy"); self.model_lbl.configure(text="regenerating edited turn…",fg=self.COL["gold"])
+            self._start_request_worker(target=self.agent_worker,args=(self.session["id"],),name="PortableAIEditRegenerate",daemon=True); return "break"
         ElegantButton(bar,text="Cancel",command=cancel,bg=self.COL["panel2"],fg=self.COL["text"],relief="flat",bd=0,padx=12,pady=6).pack(side="right")
         ElegantButton(bar,text="Save & regenerate",command=save_and_regenerate,bg=self.COL["gold"],fg="#ffffff",relief="flat",bd=0,padx=14,pady=6).pack(side="right",padx=(0,6))
         editor.bind("<Escape>",cancel); editor.bind("<Control-Return>",save_and_regenerate)
@@ -3592,9 +3616,9 @@ class NativeChat:
         self.busy = True; self.cancel_event.clear()
         self._refresh_action_buttons()
         if getattr(self, 'effort', None) is not None: self.effort.set_busy(True)
-        self.stop_btn.configure(state="normal"); self.send_btn.configure(state="disabled"); self.session_list.configure(state="disabled")
+        self.stop_btn.configure(state="normal"); self._refresh_followup_controls(); self.session_list.configure(state="disabled")
         self._set_llm_dot("busy"); self.model_lbl.configure(text="regenerating…", fg=self.COL["gold"])
-        self._thread(target=self.agent_worker, args=(self.session["id"],), name="PortableAIRegenerate", daemon=True).start()
+        self._start_request_worker(target=self.agent_worker, args=(self.session["id"],), name="PortableAIRegenerate", daemon=True)
 
     def _cancel_history_render(self):
         self._history_render_generation = int(getattr(self, '_history_render_generation', 0)) + 1
@@ -4513,7 +4537,7 @@ class NativeChat:
             return
         self.busy = True; self.cancel_event.clear()
         self._refresh_action_buttons()
-        self.stop_btn.configure(state="normal"); self.send_btn.configure(state="disabled"); self.session_list.configure(state="disabled")
+        self.stop_btn.configure(state="normal"); self._refresh_followup_controls(); self.session_list.configure(state="disabled")
         def worker():
             try:
                 changed = self.compact_context_if_needed(force=True)
@@ -4521,7 +4545,7 @@ class NativeChat:
                     self.ev.put(("context_warning", "The working context is already compact; original messages and tool results remain saved."))
             finally:
                 self.ev.put(("done", None))
-        self._thread(target=worker, name="PortableAIContextCompact", daemon=True).start()
+        self._start_request_worker(target=worker, name="PortableAIContextCompact", daemon=True)
 
     def reset_context_summary(self):
         if not self.session or self.busy:
@@ -4582,7 +4606,7 @@ class NativeChat:
             self._check_login()
             native.notice('Use the Attach a file field on the native Chat page, then Add uploaded attachment. Files are verified before the existing attachment admission.')
             return
-        if not self.session or self.busy or getattr(self, '_closing', False) or getattr(self, '_attachment_picker_pending', None):
+        if not self.session or getattr(self, '_closing', False) or getattr(self, '_attachment_picker_pending', None):
             return
         self._check_login()
         request = {'sid': str(self.session['id']), 'cancel': threading.Event()}
@@ -4619,7 +4643,7 @@ class NativeChat:
         self._attachment_picker_pending = None
         if getattr(self, '_closing', False) or request['cancel'].is_set(): return
         self.update_attachment_label()
-        if self.busy or not self.session or str(self.session['id']) != request['sid']: return
+        if not self.session or str(self.session['id']) != request['sid']: return
         try:
             self._check_login()
         except Exception:
@@ -4630,7 +4654,7 @@ class NativeChat:
         paths = filedialog.askopenfilenames(title="Attach files")
         # Native dialogs run a nested UI loop: logout or chat switching can
         # happen before the selected files are returned.
-        if getattr(self, '_closing', False) or request['cancel'].is_set() or self.busy or not self.session or str(self.session['id']) != request['sid']: return
+        if getattr(self, '_closing', False) or request['cancel'].is_set() or not self.session or str(self.session['id']) != request['sid']: return
         try:
             self._check_login()
         except Exception:
@@ -5551,42 +5575,196 @@ class NativeChat:
             return None
 
     # ---------- submit / stop ----------
-    def submit(self, event=None, *, remote_text=None, remote_admission=None):
+    def _followup_state(self):
+        from chat_followups import FollowupQueue
+        state = getattr(self, '_followups', None)
+        if state is None:
+            self._followups = state = FollowupQueue()
+        state.bind((id(getattr(self, 'store', None)), str((getattr(self, 'session', None) or {}).get('id') or '')))
+        return state
+
+    def _refresh_followup_controls(self):
+        state = self._followup_state()
+        entry = state.peek()
+        row = getattr(self, 'followup_row', None)
+        if row is not None:
+            if entry is None:
+                row.pack_forget()
+            else:
+                label = ' '.join(entry.text.split())[:72] or '(attachment)'
+                prefix = 'Paused' if state.paused else 'Queued'
+                self.followup_label.configure(text=f'{prefix} ({len(state.items)}) · {label}',
+                                               bg=self.COL['panel'], fg=self.COL['muted'])
+                row.configure(bg=self.COL['panel'])
+                for item in getattr(self, 'followup_buttons', ()):
+                    item.configure(bg=self.COL['panel2'], fg=self.COL['text'])
+                row.pack(fill='x', padx=4, pady=(0, 4), before=self._composer_actions)
+        button = getattr(self, 'send_btn', None)
+        if button is not None:
+            ready = (not getattr(self, '_closing', False) and bool(getattr(self, 'session', None))
+                     and getattr(self, '_session_load_request', None) is None
+                     and not getattr(self, '_history_render_pending', False))
+            button.configure(state='normal' if ready else 'disabled',
+                             text='Queue' if getattr(self, 'busy', False) else 'Send')
+
+    def _queue_followup(self, text):
+        state = self._followup_state()
+        try:
+            state.add(text, self.pending_attachments,
+                      recover_coding=getattr(self, '_coding_stall_next_request', False) is True)
+        except ValueError as exc:
+            self._notice('Follow-up queue', str(exc))
+            return 'break'
+        self._coding_stall_next_request = False
+        self.pending_attachments = []
+        self.prompt.delete('1.0', 'end')
+        self._resize_prompt(reset=True)
+        self.update_attachment_label()
+        # A typed follow-up takes over from continuous listening, without
+        # cancelling the inference that is already producing its answer.
+        voice = getattr(self, 'conversation_active', None)
+        if voice is not None and voice.is_set():
+            self.stop_conversation_mode()
+        self._refresh_followup_controls()
+        if not self.busy and not state.paused:
+            self.app.after_idle(self._drain_followups)
+        return 'break'
+
+    def send_queued_now(self):
+        if getattr(self, '_closing', False): return
+        self._check_login()
+        state = self._followup_state()
+        if not state.peek(): return
+        state.send_now()
+        if self.busy:
+            self.stop_generation(_keep_followups=True)
+        else:
+            self._drain_followups()
+        self._refresh_followup_controls()
+
+    def edit_queued_followup(self):
+        if getattr(self, '_closing', False): return
+        self._check_login()
+        state = self._followup_state()
+        entry = state.peek()
+        if entry is None: return
+        if self.prompt.get('1.0', 'end').strip() or self.pending_attachments:
+            self._notice('Edit queued message', 'Send or clear the current draft first. It has not been replaced.')
+            return
+        state.take_for_edit()
+        self.prompt.insert('1.0', entry.text)
+        self.pending_attachments = [dict(a) for a in entry.attachments]
+        self._coding_stall_next_request = entry.recover_coding
+        self.update_attachment_label()
+        self._resize_prompt()
+        self._refresh_followup_controls()
+        self.prompt.focus_set()
+
+    def remove_queued_followup(self):
+        if getattr(self, '_closing', False): return
+        self._check_login()
+        state = self._followup_state()
+        entry = state.peek()
+        if entry is not None: state.commit(entry)
+        self._refresh_followup_controls()
+
+    def _drain_followups(self):
+        if getattr(self, '_closing', False) or self.busy:
+            return
+        if (getattr(self, '_session_load_request', None) is not None
+                or getattr(self, '_history_render_pending', False)):
+            self.app.after(25, self._drain_followups)
+            return
+        state = self._followup_state()
+        entry = state.peek()
+        if entry is None or state.paused: return
+        worker = getattr(self, '_active_request_worker', None)
+        if worker is not None and worker.is_alive():
+            self.app.after(25, self._drain_followups)
+            return
+        try:
+            self._check_login()
+            self.submit(_followup=entry)
+        except Exception as exc:
+            state.pause()
+            self._refresh_followup_controls()
+            self._notice('Queued message not started',
+                         'The queue is paused. Review the saved conversation before retrying. '+str(exc), kind='error')
+
+    def _start_request_worker(self, **kwargs):
+        try:
+            worker = self._thread(**kwargs)
+            self._active_request_worker = worker
+            worker.start()
+        except Exception:
+            self._active_request_worker = None
+            self._followup_state().pause()
+            self.ev.put(('error', 'The request was saved, but its worker could not start. Review it before retrying.'))
+            self.ev.put(('done', None))
+            raise
+
+    def submit(self, event=None, *, remote_text=None, remote_admission=None, _followup=None):
         if (getattr(self, '_session_load_request', None) is not None
                 or getattr(self, '_history_render_pending', False)):
             return 'break'
         self._memory_paused_by_stop = False
         if getattr(self, '_closing', False): return 'break'
         self._check_login()
-        if self.busy or not self.session:
+        if not self.session:
             return "break"
+        if self.busy and (remote_text is not None or _followup is not None):
+            return 'break'
+        if _followup is None and (getattr(self, '_attachment_picker_pending', None)
+                                  or getattr(self, '_attachment_imports', 0)):
+            self._notice('Adding attachments', 'Wait for the files to finish attaching. Your draft is still here.')
+            return 'break'
+        text = (_followup.text if _followup is not None else
+                self.prompt.get('1.0', 'end').strip() if remote_text is None else remote_text.strip())
+        attachments = ([dict(a) for a in _followup.attachments] if _followup is not None
+                       else list(self.pending_attachments))
+        if not text and not attachments:
+            return 'break'
+        state = self._followup_state()
+        if _followup is not None and state.peek() is not _followup:
+            return 'break'
+        if remote_text is None and _followup is None and (self.busy or state.editing or (state.peek() and not state.paused)):
+            return self._queue_followup(text)
         voice_turn = getattr(self, '_conversation_request', None)
         voice_active = getattr(self, 'conversation_active', None)
         if voice_active is not None and voice_active.is_set() and (voice_turn is None or voice_turn.done.is_set()):
             self.stop_conversation_mode()
-        text = self.prompt.get("1.0", "end").strip() if remote_text is None else remote_text.strip()
-        if not text and not self.pending_attachments:
-            return "break"
-        recover_coding = getattr(self, '_coding_stall_next_request', False) is True
+        recover_coding = (_followup.recover_coding if _followup is not None else
+                          getattr(self, '_coding_stall_next_request', False) is True)
         self._request_tool_scope = 'maintenance' if recover_coding or self.settings.get('maintenance_mode', False) else 'all'
-        attachments = list(self.pending_attachments)
-        self.pending_attachments = []
-        self.update_attachment_label()
         # The semantic HA composer must never overwrite the desktop draft,
         # selection, caret or layout, including on admission/persistence failure.
-        if remote_text is None:
-            self.prompt.delete("1.0", "end")
-            self._resize_prompt(reset=True)
         msg = {"role": "user", "content": text, "attachments": attachments, "created": time.time()}
         if recover_coding:
             msg['coding_stall_recovery'] = True
-        self._coding_stall_next_request = False
+        previous_title = self.session.get('title')
+        previous_auto_title = self.session.get('auto_title_pending')
         self.session["messages"].append(msg)
         if self.session.get("title") == "New chat":
             title = (text.strip().splitlines()[0] if text.strip() else (attachments[0]["name"] if attachments else "New chat"))
             self.session["title"] = title[:70]
             self.session["auto_title_pending"] = bool(self.settings.get("auto_title_chats", True))
-        self.store.save_session(self.session)
+        try:
+            self.store.save_session(self.session)
+        except Exception:
+            self.session['messages'].remove(msg)
+            self.session['title'] = previous_title
+            if previous_auto_title is None: self.session.pop('auto_title_pending', None)
+            else: self.session['auto_title_pending'] = previous_auto_title
+            raise
+        if _followup is not None:
+            state.commit(_followup)
+        else:
+            self._coding_stall_next_request = False
+            self.pending_attachments = []
+            self.update_attachment_label()
+            if remote_text is None:
+                self.prompt.delete('1.0', 'end')
+                self._resize_prompt(reset=True)
         self.header("You")
         self.chat_insert((text or "(attachment)") + "\n")
         for a in attachments:
@@ -5598,7 +5776,7 @@ class NativeChat:
         if getattr(self, 'effort', None) is not None:
             self.effort.set_busy(True)
         self.stop_btn.configure(state="normal")
-        self.send_btn.configure(state="disabled")
+        self._refresh_followup_controls()
         self.session_list.configure(state="disabled")
         self._set_llm_dot("busy"); self.model_lbl.configure(text="generating…", fg=self.COL["gold"])
         sid = self.session["id"]
@@ -5609,17 +5787,20 @@ class NativeChat:
             finally:
                 if remote_admission is not None: remote_admission.worker_finished()
         try:
-            self._thread(target=run, name="PortableAINativeChatAgent", daemon=True).start()
+            self._start_request_worker(target=run, name="PortableAINativeChatAgent", daemon=True)
         except Exception:
+            state.pause()
             if remote_admission is not None:
                 remote_admission.refuse()
-                self.ev.put(('done', None))
             raise
         self.refresh_sessions_labels_only()
         self.update_token_label()
         return "break" if remote_text is None else True
 
-    def stop_generation(self):
+    def stop_generation(self, *, _keep_followups=False):
+        if not _keep_followups:
+            self._followup_state().pause()
+        self._refresh_followup_controls()
         self._history_delete_request = None
         if getattr(self, 'mic_stream', None) is not None or getattr(self, 'mic_proc', None) is not None:
             self.release_audio_capture()
@@ -6772,7 +6953,16 @@ class NativeChat:
                     if voice_turn is not None: voice_turn.failed = True
                     self.chat_insert("\n" + str(data) + "\n", "error")
                 elif kind == "done":
+                    # The final event is emitted just before the worker exits.
+                    # Keep cancellation set until all of its cleanup has finished.
+                    worker = getattr(self, '_active_request_worker', None)
+                    if worker is not None and worker.is_alive():
+                        self.ev.put(('done', data))
+                        break
+                    self._active_request_worker = None
                     was_cancelled = self.cancel_event.is_set()
+                    queue_ready = self._followup_state().completed(
+                        cancelled=was_cancelled, failed=bool(getattr(self, '_request_attention', False)))
                     voice_turn = getattr(self, '_conversation_request', None)
                     if voice_turn is not None:
                         voice_turn.finish(self.session, was_cancelled)
@@ -6788,8 +6978,13 @@ class NativeChat:
                         self.effort.set_busy(False)
                     self.finish_trace_block(self._live_thinking_block,"cancelled" if was_cancelled else "done"); self.finish_trace_block(self._live_tool_block,"cancelled" if was_cancelled else "done")
                     self._live_thinking_block=None; self._live_tool_block=None
-                    self.refresh_sessions_labels_only(); self.refresh_status(); self.update_token_label(); self._maybe_schedule_auto_title(); self._schedule_model_probe(force=True)
-                    self._schedule_memory_maintenance(30000)
+                    self.refresh_sessions_labels_only(); self.refresh_status(); self.update_token_label(); self._schedule_model_probe(force=True)
+                    self._refresh_followup_controls()
+                    if queue_ready:
+                        self.app.after_idle(self._drain_followups)
+                    else:
+                        self._maybe_schedule_auto_title()
+                        self._schedule_memory_maintenance(30000)
                     try:
                         from command_palette import notify
                         latest = next((r for r in reversed(self.session.get('messages', [])) if r.get('role') == 'assistant'), {})
@@ -6828,6 +7023,7 @@ class NativeChat:
                 elif kind == 'history_search_ready':
                     self._finish_history_search(data)
                 elif kind == "drop_attachments_done":
+                    self._attachment_imports = max(0, getattr(self, "_attachment_imports", 0) - 1)
                     sid = str(data.get("sid") or "")
                     added = list(data.get("attachments") or [])
                     errors = list(data.get("errors") or [])
@@ -6982,6 +7178,7 @@ class NativeChat:
 
     def shutdown(self):
         self._closing = True
+        self._followup_state().clear()
         from command_palette import close as close_command_palette
         close_command_palette(self)
         rebuild_cancel = getattr(self, '_memory_rebuild_cancel', None)
