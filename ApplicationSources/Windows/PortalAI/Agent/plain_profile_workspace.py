@@ -101,7 +101,6 @@ class PlainProfileWorkspace(ProfileWorkspace):
         unchanged={r['path']:previous[r['path']] for r in rows if r['path'] in previous and all(previous[r['path']][k]==r[k] for k in ('path','bytes','sha256'))}
         needed=sum(r['bytes'] for r in rows if r['path'] not in unchanged)+max(1024**2,len(rows)*1024)
         if (self.root/'Agent/hardware_profiles.json').exists():
-            if shutil.disk_usage(self.root).free-needed<80*1024**3:raise RuntimeError('Keep at least 80 GiB free before making plaintext recovery copies')
             require_space(self.root,needed,for_outputs=True)
         generation=uuid.uuid4().hex;folder=_contained(self.root,self.vault/generation);folder.mkdir(parents=True)
         value={'format':'portalai-plaintext-v1','version':1,'user_id':self.uid,'generation':generation,'files':[]}

@@ -1,0 +1,86 @@
+{
+  "version": "2026.11.07-Desktop-r72",
+  "passed": true,
+  "functional_fix_groups": 7,
+  "syntax_files": 917,
+  "tests": {
+    "Full": {
+      "passed": true,
+      "tests": 146,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "Academic": {
+      "passed": true,
+      "tests": 133,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "D": {
+      "errors": [],
+      "skipped": 0,
+      "failures": [],
+      "passed": true,
+      "tests": 87,
+      "composition": "83 passing installed checks plus 4 installer checks after restoring the missing public test fixture; original failed-import report retained."
+    },
+    "E": {
+      "passed": true,
+      "tests": 87,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "D_checks_passed": true,
+  "E_checks_passed": true,
+  "original_models_retained": true,
+  "new_dependencies": false,
+  "minimum_free_gib": 50,
+  "paused_weight_research_untouched": true,
+  "manual_review": [
+    "Agent/coding_model_route.py",
+    "Agent/chat_model_switch.py",
+    "Agent/model_preferences.py",
+    "Agent/weight_edit_profiles.py",
+    "Agent/code_projects.py",
+    "Agent/workspace_store.py",
+    "Agent/knowledge_base.py",
+    "Agent/workflows.py",
+    "Agent/mission_recovery.py",
+    "Agent/mission_runner.py (result/checkpoint handling)",
+    "Agent/mission_schedule.py (durable scheduling)",
+    "Agent/account_privacy.py",
+    "Agent/plain_profile_workspace.py",
+    "Agent/profile_workspace.py (inventory and closure)",
+    "Agent/profile_runtime.py (residual profiles)",
+    "Agent/mcp_client.py (grants/receipts/dispatch)",
+    "Agent/skill_packs.py (pack execution)",
+    "Agent/structured_generation.py (transport and output)",
+    "Agent/runtime_policy.py (storage and model admission)",
+    "Agent/retrieval_quality.py",
+    "ControlCenter/writer_jobs.py",
+    "ControlCenter/record_refresh.py",
+    "ControlCenter/chat_history_delete.py",
+    "ControlCenter/voice_echo.py",
+    "ControlCenter/voice_pcm_player.py",
+    "ControlCenter/lifecycle_control.py",
+    "ControlCenter/native_chat.py (science, dispatch, context)",
+    "ControlCenter/PortableAI_GUI.py (theme/lifecycle)",
+    "ControlCenter/application_api_runtime.py (request lifecycle)",
+    "ControlCenter/capability_tools.py (workflow dispatch)",
+    "ControlCenter/memory_resolution.py",
+    "ControlCenter/result_verification.py",
+    "Installer/Windows/portable_update.py",
+    "Installer/Windows/installer_core.py (upgrade dispatch)"
+  ],
+  "limitations": [
+    "Syntax/name scans are heuristics, not whole-program proof.",
+    "Manual review prioritized critical paths; it did not read every line of every module.",
+    "No GPU/model benchmark or full fresh dependency download.",
+    "Two disposable Tk test roots emitted an after-callback teardown warning; no test or application process failed."
+  ],
+  "static_unresolved_names": []
+}

@@ -61,6 +61,12 @@ def resolve(value,environment):
     return value
 
 
+def _next_cursor(steps, cursor, target=None):
+    if target is None:return cursor+1
+    if target=='end':return len(steps)
+    return next(i for i,step in enumerate(steps) if step['id']==target)
+
+
 class Workflows(Workspace):
     def __init__(self,root,check=None,execute=None):
         super().__init__(root,'Workflows',check);self.executor=execute
@@ -120,12 +126,12 @@ class Workflows(Workspace):
                         if self.executor is None:raise RuntimeError('Workflow execution requires the authenticated tool runtime')
                         result=self.executor(kind,step,args,rid+':'+sid)
                         if isinstance(result,str) and result.lstrip().startswith('ERROR:'):raise RuntimeError(result[:2000])
-                        if isinstance(result,dict) and result.get('isError'):raise RuntimeError('Tool returned an error: '+str(result)[:2000])
+                        if isinstance(result,dict) and (result.get('isError') or
+                                (kind=='tool' and (result.get('success') is False or result.get('ok') is False))):
+                            raise RuntimeError('Tool returned an error: '+str(result)[:2000])
                     if len(encoded(result))>16000:raise ValueError('Step result exceeds 16 KiB; narrow the requested output')
                     self.check();row['results'][sid]=result;row['pending']=None
-                    if kind=='condition':row['cursor']=len(steps) if target=='end' else next(i for i,s in enumerate(steps) if s['id']==target)
-                    elif 'next' in step:row['cursor']=len(steps) if step['next']=='end' else next(i for i,s in enumerate(steps) if s['id']==step['next'])
-                    else:row['cursor']+=1
+                    row['cursor']=_next_cursor(steps,row['cursor'],target if kind=='condition' else step.get('next'))
                     row['state']='ready';self._save(row)
                 except Exception as exc:
                     row['state']='review' if effect else 'paused';row['error']=str(exc)[:2000]
@@ -144,9 +150,12 @@ class Workflows(Workspace):
         with self.lock(identifier(rid)):
             row=self.run(rid)
             if not row.get('pending'):raise ValueError('No uncertain step to review')
+            steps=row['template']['steps'];step=steps[row['cursor']]
+            if row['pending']['step']!=step['id']:raise ValueError('Pending workflow step identity mismatch')
             if decision=='confirmed':
                 if len(encoded(result))>16000:raise ValueError('Reviewed result exceeds 16 KiB')
-                row['results'][row['pending']['step']]=result;row['cursor']+=1
+                row['results'][row['pending']['step']]=result
+                row['cursor']=_next_cursor(steps,row['cursor'],step.get('next'))
             elif decision!='allow_retry':raise ValueError('Choose confirmed or allow_retry')
             row.setdefault('reviews',[]).append({'pending':row['pending'],'decision':decision,'at':time.time()})
             row['pending']=None;row['state']='ready';self._save(row)

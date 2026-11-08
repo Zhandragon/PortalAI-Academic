@@ -15,7 +15,7 @@ from pathlib import Path
 from local_accounts import LocalAccounts,RecoveryRequired,_uid,_seal,_open,_slot_aad,_json,_password
 from profile_paths import _contained
 from profile_workspace import ProfileWorkspace,digest,_fsync_dir,MAGIC,MAX_MANIFEST
-from runtime_policy import atomic_json
+from runtime_policy import atomic_json,require_space
 
 ACCOUNT_FILES=('registry.json','initialized.json','registry-recovery.json')
 
@@ -206,7 +206,8 @@ class PrivacyChange:
                 manifest=source.verify();old_rows=_tree(self.root,source.base)
                 logical=sum(r['bytes'] for r in manifest['files']);stored=sum(r['bytes'] for r in old_rows)
                 needed=3*(logical+stored)+32*1024**2
-                if shutil.disk_usage(self.root).free-needed<80*1024**3:raise RuntimeError('Privacy conversion needs extra verified copies while retaining at least 80 GiB free')
+                if (self.root/'Agent/hardware_profiles.json').is_file():require_space(self.root,needed,for_outputs=True)
+                elif shutil.disk_usage(self.root).free-needed<80*1024**3:raise RuntimeError('Privacy conversion needs extra verified copies while retaining at least 80 GiB free')
                 state={'version':1,'transaction':uuid.uuid4().hex,'target':target,'administrator':actor.username,
                        'old_registry_sha256':digest(accounts.registry_path),'old_tree_sha256':_signature(old_rows),
                        'encrypted':encrypted,'password_required':password_required,'phase':'building'}

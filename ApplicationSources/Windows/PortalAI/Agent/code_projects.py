@@ -306,7 +306,7 @@ def atomic_write(path, data):
 def write_tracked(runtime, path, text, before):
     from capability_tools import guard
     check = guard(runtime); journal = Edits(runtime.root, check)
-    data = str(text).replace('\n', os.linesep).encode('utf-8')
+    data = str(text).replace('\r\n', '\n').replace('\n', os.linesep).encode('utf-8')
     from runtime_policy import require_space
     require_space(runtime.root,len(data)+len(before or b'')+4*1024**2,for_outputs=True)
     with journal.lock():

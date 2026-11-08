@@ -159,6 +159,13 @@ def _spawn(root, command):
         return subprocess.Popen(argv, creationflags=flags, **kwargs)
 
 
+def _full_gpu_plan(plan):
+    model = plan.get('model') or {}
+    backend = plan.get('backend') or {}
+    return (backend.get('backend') != 'cpu' and
+            int(model.get('gpu_layers', 0)) >= int(model.get('layers', 64)))
+
+
 def _result(profile, plan, changed):
     from chat_budgets import generation_options
     # Reusing an admitted model must not freeze an older inference budget or
@@ -261,11 +268,12 @@ def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_
             guard()
             current = _owned_listener()
             saved_plan = _saved_admitted_plan(root, profile, permission)
-            if (saved_plan and current['open'] and service._qwen_health_ready() and
+            if (saved_plan and (not _require_full_gpu or _full_gpu_plan(saved_plan)) and
+                current['open'] and service._qwen_health_ready() and
                 (not require_vision or saved_plan['model'].get('projector')) and
                 _matches(current, saved_plan['model'], saved_plan['context_tokens'], saved_plan['command'])):
                 return _result(profile, saved_plan, False)
-            if current['open'] and service._qwen_health_ready() and _matches(
+            if (not _require_full_gpu or _full_gpu_plan(preview)) and current['open'] and service._qwen_health_ready() and _matches(
                     current, preview.get('model', {}), preview.get('context_tokens', 8192), preview.get('command')):
                 return _result(profile, preview, False)
             if current['open']:
@@ -288,8 +296,7 @@ def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_
         guard(state)
         # Do not admit a large model using advisory total memory from the UI.
         plan = require_chat_plan(profile, root=root, session_unlocked=unlock_slow, **policy_args)
-        if _require_full_gpu and (plan.get('backend', {}).get('backend') == 'cpu' or
-                int(plan['model'].get('gpu_layers', 0)) < int(plan['model'].get('layers', 64))):
+        if _require_full_gpu and not _full_gpu_plan(plan):
             raise RuntimeError('Available GPU memory cannot fully fit the coding specialist')
         if require_vision and not plan['model'].get('projector'):
             raise RuntimeError('Available memory cannot fit a vision model for this attached image. '

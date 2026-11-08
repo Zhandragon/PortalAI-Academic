@@ -2200,15 +2200,6 @@ def main(authenticated=None):
         except Exception:
             pass
 
-        try:
-            exit_menu.configure(
-                bg=COLORS["panel"], fg=COLORS["text"],
-                activebackground=COLORS["accent"], activeforeground=COLORS["text"],
-                bd=1,
-            )
-        except Exception:
-            pass
-
         _refresh_tab_buttons()
         try:
             if native_chat_panel is not None:

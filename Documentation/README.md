@@ -6,7 +6,7 @@ Documentation and help are already inside PortalAI. Open **Help** to browse or s
 
 Latest capability update: [tested Windows r60](CAPABILITY-INTELLIGENCE-r60.md), superseding the implementation-only patch and including the earlier [static audit repairs](STATIC-AUDIT-20261101.txt).
 
-Current Windows package: [r71 voice stop and component cleanup](RELEASE-r71.md), [installer verification](WINDOWS-INSTALLER-r71.json). Includes earlier coding routing, privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current Windows package: [r72 logic-audit repairs](RELEASE-r72.md), [installer verification](WINDOWS-INSTALLER-r72.json). Includes earlier coding routing, privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
 
 | Topic | Guide |
 | --- | --- |

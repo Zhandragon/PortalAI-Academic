@@ -174,6 +174,46 @@ def plan(source,target,manifest):
             'source':str(source),'edition':manifest['edition'],'platform':manifest['platform'],'files':rows,
             'backup_bytes':backup_bytes,'install_bytes':install_bytes,'private_data_changed':False}
 
+def _verify_plain_closed(target,user):
+    """Read-only verification; plaintext mode does not require account unlock."""
+    base='Private/Users/'+user
+    def bounded(name,limit=4096):
+        p=path(target,base+'/'+name)
+        if not p.is_file() or p.stat().st_size>limit:raise UpdateError('Plaintext closure metadata is missing or oversized')
+        return read_json(p)
+    receipt=bounded('plain-closed.json');pointer=bounded('PlainRecovery/current.json')
+    generation=receipt.get('generation')
+    if (receipt.get('user_id')!=user or receipt.get('encrypted') is not False or
+        not isinstance(generation,str) or not re.fullmatch('[a-f0-9]{32}',generation) or
+        pointer.get('user_id')!=user or pointer.get('format')!='portalai-plaintext-v1' or pointer.get('generation')!=generation):
+        raise UpdateError('Plaintext closure identity differs; close the profile in PortalAI first')
+    manifest=bounded('PlainRecovery/'+generation+'/manifest.json',32*1024**2)
+    if (manifest.get('format')!='portalai-plaintext-v1' or manifest.get('user_id')!=user or
+        manifest.get('generation')!=generation or not isinstance(manifest.get('files'),list)):
+        raise UpdateError('Invalid plaintext recovery manifest')
+    expected={};folded=set()
+    for row in manifest['files']:
+        name='/'.join(relative(row['path']));key=name.casefold()
+        bg=row.get('blob_generation',generation);blob=row.get('blob')
+        if (key in folded or type(row.get('bytes')) is not int or row['bytes']<0 or
+            not re.fullmatch('[a-f0-9]{64}',row.get('sha256','')) or
+            not isinstance(bg,str) or not re.fullmatch('[a-f0-9]{32}',bg) or
+            not isinstance(blob,str) or not re.fullmatch(r'[a-f0-9]{32}\.data',blob)):
+            raise UpdateError('Invalid plaintext recovery entry')
+        folded.add(key);expected[name]=(row['bytes'],row['sha256'])
+        backup=path(target,base+'/PlainRecovery/'+bg+'/'+blob)
+        if not backup.is_file() or (backup.stat().st_size,sha(backup))!=expected[name]:raise UpdateError('Plaintext recovery checksum failed')
+    actual={};workspace=path(target,base+'/Workspace')
+    def failed(error):raise error
+    for folder,dirs,files in os.walk(workspace,followlinks=False,onerror=failed):
+        for name in dirs+files:path(target,(Path(folder)/name).relative_to(target).as_posix())
+        for name in files:
+            p=Path(folder)/name
+            if not p.is_file():raise UpdateError('Nonregular plaintext workspace entry')
+            actual[p.relative_to(workspace).as_posix()]=(p.stat().st_size,sha(p))
+    if actual!=expected:raise UpdateError('Plaintext workspace changed since closure; save and close it in PortalAI first')
+
+
 @contextlib.contextmanager
 def closed_guard(target,source):
     # Import the verified new guard code, never execute an untrusted version stamp.
@@ -188,13 +228,23 @@ def closed_guard(target,source):
             if marker is None and users.exists() and any(users.iterdir()):
                 raise UpdateError('Account closure cannot be verified. Open PortalAI and exit normally before updating.')
             if not profile_shutdown.verify_stopped(target)['stopped']:raise UpdateError('Close PortalAI and its owned components before updating')
-            if users.exists():
+            if users.exists() and any(users.iterdir()):
+                from local_accounts import LocalAccounts
+                slots=LocalAccounts(target)._read()['slots']
+                def failed(error):raise error
                 for user in users.iterdir():
+                    checked=path(target,'Private/Users/'+user.name)
+                    if not checked.is_dir() or user.name not in slots:raise UpdateError('Unknown profile storage requires recovery')
+                    for name in ('seal-pending.json','restore-pending.json','restore-inflight.enc','harvest-pending.json','hydration.enc'):
+                        if path(target,'Private/Users/'+user.name+'/'+name).exists():raise UpdateError('Pending profile recovery must finish before updating')
                     workspace=path(target,'Private/Users/'+user.name+'/Workspace')
                     if workspace.exists():
-                        for base,dirs,files in os.walk(workspace,followlinks=False):
-                            if files:raise UpdateError('An account workspace still has unsealed files; recover it in PortalAI first')
-                            for d in dirs:path(target,(Path(base)/d).relative_to(target).as_posix())
+                        if slots[user.name].get('encrypted',True) is False:
+                            _verify_plain_closed(target,user.name)
+                        else:
+                            for base,dirs,files in os.walk(workspace,followlinks=False,onerror=failed):
+                                if files:raise UpdateError('An account workspace still has unsealed files; recover it in PortalAI first')
+                                for d in dirs:path(target,(Path(base)/d).relative_to(target).as_posix())
             yield
     finally:sys.path[:]=saved
 

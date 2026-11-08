@@ -2,32 +2,32 @@
   "format": 3,
   "packages": {
     "Windows": {
-      "archive": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r71-suite.zip",
-      "bytes": 624075296,
-      "sha256": "f705a19c0a637acb89756dc1e975d71b79574f5e696b0e2106dd42a7633f25a5",
+      "archive": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r72-suite.zip",
+      "bytes": 624082892,
+      "sha256": "450d0fd505ba5faae719cecfb1b00a4f6ec29d02d2c7c772245486b7728dfeec",
       "path": "",
       "parts": [
         {
-          "name": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r71-suite.zip",
-          "bytes": 624075296,
-          "sha256": "f705a19c0a637acb89756dc1e975d71b79574f5e696b0e2106dd42a7633f25a5"
+          "name": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r72-suite.zip",
+          "bytes": 624082892,
+          "sha256": "450d0fd505ba5faae719cecfb1b00a4f6ec29d02d2c7c772245486b7728dfeec"
         }
       ],
       "files": [
         {
           "name": "PACKAGE_SHA256.json",
           "bytes": 1312,
-          "sha256": "143a1a0424a34d8f83006130e72c4984774b5a1d89b8eb6a5f902ab18e516c7c"
+          "sha256": "9a6efb90e60983ceb9edb4460c06219a6d045dbc846c0a164929d0dd6dab8f71"
         },
         {
           "name": "payload.zip",
-          "bytes": 382014953,
-          "sha256": "a731d343f41ee2081de6bed9a062b27c228ff689ca5764e04ab2d1d45b8b1e83"
+          "bytes": 382022300,
+          "sha256": "c1d86e93f8c786151ca24c1b5a2c92419befe7a85763063cc67eec66f8108250"
         },
         {
           "name": "PortalAI-Academic-Install.exe",
-          "bytes": 11603456,
-          "sha256": "16c7520796a58b5f0ab0e598cac5f214fe04db3fe743669b96daaad189961af9"
+          "bytes": 11607040,
+          "sha256": "041c42d828658da40e2fe2c9642a37ccd8cec3fe48f522ddc676c6467e86f140"
         },
         {
           "name": "qemu-w64-setup-20260811.exe",
@@ -36,8 +36,8 @@
         },
         {
           "name": "release.json",
-          "bytes": 139101059,
-          "sha256": "3a3ebd9839e1b7f9c066ceb6b191418f30c02a086717b13ab2f6d83a6b865b15"
+          "bytes": 139102365,
+          "sha256": "4efccd3d4d4d1c923d13ec71949c11e7b5c4216af3d746d6cfbd48fc7135a5c2"
         },
         {
           "name": "sox-14.4.2-win32.zip",
@@ -46,32 +46,32 @@
         },
         {
           "name": "START_HERE.txt",
-          "bytes": 7622,
-          "sha256": "b271090329fecd6c09cab880535dfacf31d969310b6a3dbf6c1f60c05eab6eb3"
+          "bytes": 7808,
+          "sha256": "8af9f4e4f70f5346f4bd76d4c9db72ee369c170e1eae97ef6ff132977f6b4860"
         },
         {
           "name": "storage-plan.json",
           "bytes": 190614,
-          "sha256": "4826074a7ac6ee1061a90f42de04c17d79d20a82b4d311733322b00c922e161e"
+          "sha256": "e2c69016c929eb4dec50a82662bb828ceb649b2699208df66be6687f682a8130"
         },
         {
           "name": "suite-catalog.json",
           "bytes": 4338,
-          "sha256": "723af714683b20ac0d943cb5ef12ce491e301b4ff9b039f3031a082e72eaab2d"
+          "sha256": "bb7c992c7d59005cda63a22791dcb622b321861c0d07bb8e601dfc738fb7731f"
         },
         {
           "name": "upgrade.json",
-          "bytes": 1650,
-          "sha256": "f0fcc2a94ce1af96e1c554396548b28f28837c9ee44693b7445f0f095a8a55d7"
+          "bytes": 1680,
+          "sha256": "052cd8be1eb08dd6692079f2fce9833e12fdb2676872d2ad19258cf571f74a04"
         }
       ],
       "storage_preflight": {
-        "bootstrap_bytes": 1990342667,
+        "bootstrap_bytes": 1990370312,
         "bootstrap_files": 14,
-        "install_bytes": 515406716076,
-        "install_files": 330494
+        "install_bytes": 515406781396,
+        "install_files": 330498
       },
-      "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.07-Desktop-r71"
+      "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.07-Desktop-r72"
     },
     "Linux": {
       "archive": "PortalAI-Academic-Linux-Installer-2026.10.29-Desktop-r51-suite.tar.gz",
@@ -256,6 +256,6 @@
     }
   },
   "source_base_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51",
-  "release": "v2026.11.07-Desktop-r71",
+  "release": "v2026.11.07-Desktop-r72",
   "distribution": "GitHub release assets; old Git-tracked parts retained for existing launchers"
 }
