@@ -1,1 +1,3 @@
 Unified r45 receiving validation: all three rebuilt launchers passed prepare-only against exact cached release archives. Windows verified 9 extracted files; Linux 1399; Mac 2022. Linux/Mac launchers ran under Git Bash on Windows; native installation is unvalidated. See Documentation/UNIFIED-r45-VALIDATION.json.
+
+r73 (2026-11-08): all three launchers pin the new r73 bundled archives and every outer file. Windows --prepare-only passed with a verified cached archive. Linux and Mac --prepare-only passed under Ubuntu WSL with cached archives; executable Mac ZIP modes and shell syntax passed. These are preparation checks, not physical Mac/Linux application installations. Historical checksum entries and older release assets remain available.
