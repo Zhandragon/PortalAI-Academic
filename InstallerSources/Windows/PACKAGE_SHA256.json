@@ -1,13 +1,13 @@
 [
   {
     "path": "payload.zip",
-    "bytes": 382001149,
-    "sha256": "0754a5b5f82ed927ff89493fb0f23e49001df6d074e8362c1263d63a70814b8a"
+    "bytes": 382010007,
+    "sha256": "459615740eb0c235b9feba23c4f0905e45b93ddebdabf64d462251481b1ae165"
   },
   {
     "path": "PortalAI-Academic-Install.exe",
     "bytes": 11603456,
-    "sha256": "70ba5107d292e3458249a2d3fabc0055abdc79e865217ce7fa822a93172e9fcd"
+    "sha256": "16c7520796a58b5f0ab0e598cac5f214fe04db3fe743669b96daaad189961af9"
   },
   {
     "path": "qemu-w64-setup-20260811.exe",
@@ -16,8 +16,8 @@
   },
   {
     "path": "release.json",
-    "bytes": 139099223,
-    "sha256": "5f63edbbde4c8db9289bbf6851f0815de6a7aefd86c2e12ee8fa5cb497c5e85b"
+    "bytes": 139100304,
+    "sha256": "341b59833e18ea7784cb9f0d3db0243f80e3d4f7f094c39d2c0eef28056f91e8"
   },
   {
     "path": "sox-14.4.2-win32.zip",
@@ -26,22 +26,22 @@
   },
   {
     "path": "START_HERE.txt",
-    "bytes": 7236,
-    "sha256": "e4350e9459907bf3f9a5e9e3f1587e4dcbac443c67f548322c9a0de05b5caf29"
+    "bytes": 7429,
+    "sha256": "af53575baf1cf48a0f23d20f52b239cbfa6147211f5ae949a816702fa623ad85"
   },
   {
     "path": "storage-plan.json",
     "bytes": 190614,
-    "sha256": "2de68915d520086f524e4e774ccc67049bf6d4b116a9611d0c3cf37e1c704a6a"
+    "sha256": "73a959664918e4b87a5d7d08a56fbabd43f7a6546ecfff9baa8cdaef119aec76"
   },
   {
     "path": "suite-catalog.json",
     "bytes": 4338,
-    "sha256": "bcf329bfe73ce12d58d0fd207d7ab494a19d94fc1ea5f524502cce77d61ec9d7"
+    "sha256": "922735e5422f54e59e10d17e5510bd8e98f111f0c2dd64dd1325393426741499"
   },
   {
     "path": "upgrade.json",
-    "bytes": 1590,
-    "sha256": "f6e5c3910879c1c1adde59e78ea89697400707a1bc06f146d74a1e16cb86698c"
+    "bytes": 1620,
+    "sha256": "71b7e305558a60d065a2442a48f2bdbfd7619e34b5ed9d62276541306fccc468"
   }
 ]

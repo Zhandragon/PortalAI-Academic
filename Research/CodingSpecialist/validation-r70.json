@@ -1,0 +1,104 @@
+{
+  "version": "2026.11.07-Desktop-r70",
+  "passed": true,
+  "tests": {
+    "Full-final-tests": {
+      "passed": true,
+      "tests": 168,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    },
+    "Academic-tests": {
+      "passed": true,
+      "tests": 118,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    },
+    "Academic-policy-tests": {
+      "passed": true,
+      "tests": 37,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    },
+    "E-tests": {
+      "passed": true,
+      "tests": 122,
+      "skipped": 1,
+      "failures": [],
+      "errors": []
+    },
+    "D-runtime-final-tests": {
+      "passed": true,
+      "tests": 33,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "E-runtime-final-tests": {
+      "passed": true,
+      "tests": 33,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    },
+    "upgrade-source-tests": {
+      "passed": true,
+      "tests": 25,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "D_handoff": true,
+  "E_handoff": true,
+  "comparison": {
+    "original": {
+      "passed": 1,
+      "tokens": 21601,
+      "seconds": 582.5779999999941,
+      "cutoffs": 5
+    },
+    "swift": {
+      "passed": 5,
+      "tokens": 11989,
+      "seconds": 340.84200000001874,
+      "cutoffs": 1
+    },
+    "token_reduction_percent": 44.497939910189345,
+    "time_reduction_percent": 41.494186186223615,
+    "speedup": 1.7092318434933547
+  },
+  "original_models_retained": true,
+  "old_weight_study_paused": true,
+  "minimum_free_gib": 50,
+  "limitations": [
+    "Six coding tasks, one seed per model; no broad benchmark or universal guarantee.",
+    "Inference timing excludes model loading and return switching.",
+    "One Swift task still exhausted the reply budget.",
+    "Full-size fresh recipient installs were not performed."
+  ],
+  "upgrade_readiness": {
+    "D": {
+      "version": "2026.11.07-Desktop-r70",
+      "receipt_matches_stamp": true,
+      "public_update_read_only_plan_passed": true,
+      "reviewed_files": 25,
+      "temporary_hardlinks_removed": 2875,
+      "original_file_ids_sizes_preserved": true,
+      "temporary_test_folders_and_evidence_retained": true
+    },
+    "E": {
+      "version": "2026.11.07-Desktop-r70",
+      "receipt_matches_stamp": true,
+      "public_update_read_only_plan_passed": true,
+      "reviewed_files": 25,
+      "temporary_hardlinks_removed": 2875,
+      "original_file_ids_sizes_preserved": true,
+      "temporary_test_folders_and_evidence_retained": true
+    }
+  },
+  "temporary_fixture_cleanup": "Recursive folder removal was rejected by automatic approval review. Narrower nonrecursive cleanup removed only 5750 verified temporary hard links; original file IDs and sizes were preserved. Test folders and evidence retained."
+}

@@ -204,7 +204,8 @@ def prepare_startup(root, *, requested_at=None, on_status=None):
 
 
 def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_at=None, on_status=None,
-                 require_vision=False, _policy=None):
+                 require_vision=False, _policy=None, _expected_policy=None, _expected_model=None,
+                 _require_full_gpu=False):
     """Never replay a tool; this is called once before a chat request starts."""
     from effort_policy import capabilities, check_chat_permission, require_chat_plan
     root = Path(root).resolve()
@@ -220,8 +221,20 @@ def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_
         if _policy is not None:
             from runtime_policy import load_effective_policy
             from effort_policy import chat_policy_signature
-            if chat_policy_signature(load_effective_policy(root)) != chat_policy_signature(_policy):
-                raise PreparationCancelled('Chat settings changed during Startup; retry Startup with the new settings')
+            expected = _policy if _expected_policy is None else _expected_policy
+            if chat_policy_signature(load_effective_policy(root)) != chat_policy_signature(expected):
+                raise PreparationCancelled('Chat settings changed during model preparation; retry with the new settings')
+        if _expected_model is not None and state is None:
+            identity = _owned_listener()
+            wanted = Path(_expected_model).resolve()
+            try:
+                matches = identity['open'] and all(Path(_argv(row['command_line'])[
+                    _argv(row['command_line']).index('-m') + 1]).resolve() == wanted
+                    for row in identity['listeners'])
+            except (KeyError, ValueError, IndexError):
+                matches = False
+            if not matches:
+                raise PreparationCancelled('The routed model was stopped or replaced; return switch cancelled')
     guard()
     permission = check_chat_permission(profile, root=root, session_unlocked=unlock_slow, **policy_args)
     require_space(root, for_outputs=True)
@@ -275,6 +288,9 @@ def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_
         guard(state)
         # Do not admit a large model using advisory total memory from the UI.
         plan = require_chat_plan(profile, root=root, session_unlocked=unlock_slow, **policy_args)
+        if _require_full_gpu and (plan.get('backend', {}).get('backend') == 'cpu' or
+                int(plan['model'].get('gpu_layers', 0)) < int(plan['model'].get('layers', 64))):
+            raise RuntimeError('Available GPU memory cannot fully fit the coding specialist')
         if require_vision and not plan['model'].get('projector'):
             raise RuntimeError('Available memory cannot fit a vision model for this attached image. '
                                'Free memory or use a vision-capable computer; the attachment was preserved.')
@@ -339,3 +355,57 @@ def prepare_chat(root, profile, unlock_slow=False, cancel_event=None, requested_
         raise
     finally:
         service.release_gpu_lease(lease)
+
+
+def prepare_request(root, profile, *, messages=None, **kwargs):
+    """Route once, before inference/tools; keep a return ticket in worker memory."""
+    from coding_model_route import route_policy
+    from runtime_policy import load_effective_policy
+    from effort_policy import capabilities
+    baseline = load_effective_policy(Path(root))
+    routed = route_policy(root, baseline, profile, messages)
+    if routed is None:
+        return prepare_chat(root, profile, **kwargs)
+    notify = kwargs.get('on_status') or (lambda message: None)
+    # Automatic specialization must not silently start a 27B CPU/offloaded job.
+    try:
+        preview = capabilities(root, session_unlocked=kwargs.get('unlock_slow', False),
+                               policy=routed, require_vision=kwargs.get('require_vision', False))['profiles'][profile]
+    except (OSError, ValueError, RuntimeError) as exc:
+        notify('Coding specialist fit check unavailable; using your saved model: ' + str(exc)[:200])
+        return prepare_chat(root, profile, **kwargs)
+    model = preview.get('model') or {}
+    if (not preview.get('can_apply', preview.get('available', True)) or
+            preview.get('backend', {}).get('backend') == 'cpu' or
+            int(model.get('gpu_layers', 0)) < int(model.get('layers', 64))):
+        notify('Coding specialist cannot fit on the available GPU; using your saved chat model.')
+        return prepare_chat(root, profile, **kwargs)
+    started = kwargs.get('requested_at') or time.time()
+    notify('Coding task detected. Switching to Swift 1.5; chat and completed tool results are retained…')
+    try:
+        result = prepare_chat(root, profile, _policy=routed, _expected_policy=baseline,
+                              _require_full_gpu=True, **kwargs)
+    except PreparationCancelled:
+        raise
+    except (RuntimeError, OSError, TimeoutError) as exc:
+        notify('Coding specialist unavailable; returning to your saved model: ' + str(exc)[:250])
+        return prepare_chat(root, profile, _policy=baseline, **kwargs)
+    result['coding_route'] = {'baseline': baseline, 'requested_at': started,
+                              'unlock_slow': kwargs.get('unlock_slow', False),
+                              'require_vision': kwargs.get('require_vision', False)}
+    return result
+
+
+def finish_request(root, result, *, cancel_event=None, on_status=None):
+    """Called under the foreground lease after all tool rounds. Stop never restarts."""
+    ticket = (result or {}).get('coding_route')
+    if not ticket or (cancel_event is not None and cancel_event.is_set()):
+        return None
+    model = result['model']
+    notify = on_status or (lambda message: None)
+    notify('Coding request finished. Returning to your saved general model…')
+    return prepare_chat(root, result['profile'], cancel_event=cancel_event,
+                        requested_at=ticket['requested_at'], on_status=notify,
+                        unlock_slow=ticket['unlock_slow'], require_vision=ticket['require_vision'],
+                        _policy=ticket['baseline'],
+                        _expected_model=model.get('absolute_path') or str(Path(root)/model['path']))

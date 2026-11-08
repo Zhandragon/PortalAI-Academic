@@ -15,11 +15,13 @@ class PortableUpdate(unittest.TestCase):
         self.put(self.target,u.BOOT,'# old bootstrap\n')
         self.put(self.target,'Agent/profile_workspace.py','# account-capable fixture\n')
         self.put(self.target,'Agent/config.json','{"owner":"preserve"}')
+        self.put(self.target,'Agent/storage_reserve.json','{"minimum_free_gib":50}')
         self.put(self.target,'Private/Users/test/Vault/blob.enc','opaque-owner-content')
         self.put(self.source,u.STAMP,"RELEASE_VERSION = '2026.10.25-Portable-r44'\n")
         self.put(self.source,u.BOOT,"# guard Maintenance/Updates/PENDING.json\n")
         self.put(self.source,'Agent/profile_workspace.py','# new account-capable fixture\n')
         self.put(self.source,'Agent/config.json','{"default":true}')
+        self.put(self.source,'Agent/storage_reserve.json','{"minimum_free_gib":80}')
         self.put(self.source,'Agent/new.py','# new public module\n')
         self.manifest={'schema':1,'kind':'portalai-public-update','version':'2026.10.25-Portable-r44',
             'edition':'Full','platform':'Windows','compatible_versions':['2026.10.25-Aoostar-r43'],
@@ -35,6 +37,7 @@ class PortableUpdate(unittest.TestCase):
     def test_upgrade_preserves_owner_data_and_settings(self):
         self.assertTrue(self.apply()['verified'])
         self.assertEqual((self.target/'Agent/config.json').read_text(),'{"owner":"preserve"}')
+        self.assertEqual((self.target/'Agent/storage_reserve.json').read_text(),'{"minimum_free_gib":50}')
         self.assertEqual((self.target/'Private/Users/test/Vault/blob.enc').read_text(),'opaque-owner-content')
         self.assertEqual(u.version(self.target),self.manifest['version'])
         self.assertFalse((self.target/u.PENDING).exists())

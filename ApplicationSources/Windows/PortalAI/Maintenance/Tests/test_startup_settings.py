@@ -172,7 +172,7 @@ class SettingsStartupTkTests(unittest.TestCase):
         policy = {**INVENTORY['policy'], 'backend':'vulkan', 'context_tokens':4096}
         with patch.object(settings_page, 'load_effective_policy', return_value=policy), patch.object(settings_page,'save_settings') as save:
             self.assertTrue(self.page.commit_for_startup())
-        self.assertEqual(save.call_args.args[1], {'selection':'fixture-small','backend':'vulkan','context_tokens':'4096','variant_preference':'standard','vision_routing':'off','weight_edit_profile':'original'})
+        self.assertEqual(save.call_args.args[1], {'selection':'fixture-small','backend':'vulkan','context_tokens':'4096','variant_preference':'standard','vision_routing':'off','weight_edit_profile':'original','coding_routing':'off'})
 
     def test_missing_selection_stays_explicit_and_new_models_appear(self):
         policy = {**INVENTORY['policy'], 'selection':'missing'}

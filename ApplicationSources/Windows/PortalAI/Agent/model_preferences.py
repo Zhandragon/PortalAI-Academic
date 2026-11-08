@@ -9,7 +9,7 @@ from pathlib import Path
 from profile_paths import capture, private_path, ProfileLocked
 
 RELATIVE = 'Data/Settings/model_policy.json'
-CHAT_KEYS = ('selection', 'backend', 'context_tokens', 'variant_preference', 'vision_routing', 'weight_edit_profile')
+CHAT_KEYS = ('selection', 'backend', 'context_tokens', 'variant_preference', 'vision_routing', 'weight_edit_profile', 'coding_routing')
 MEDIA_CHOICES = {'media_variant': ('auto', 'standard', 'uncensored'),
                  'image_profile': ('auto', 'sd15', 'klein4', 'flux'),
                  'speech_model': ('auto', 'base', 'large-v3-turbo'),
@@ -28,6 +28,7 @@ def personal(policy):
             'context_tokens': policy.get('context_tokens', 8192),
             'variant_preference': policy.get('variant_preference', 'standard'),
             'vision_routing': policy.get('vision_routing', 'off'),
+            'coding_routing': policy.get('coding_routing', 'off'),
             'weight_edit_profile': policy.get('weight_edit_profile', 'original'),
             'media': {key: policy.get('media', {}).get(key, 'auto') for key in MEDIA_CHOICES}}
 
@@ -52,6 +53,8 @@ def validate(saved):
         raise ValueError('Unknown model variant preference')
     if saved.get('vision_routing', 'off') not in ('automatic', 'off'):
         raise ValueError('Unknown image vision setting')
+    if saved.get('coding_routing', 'off') not in ('automatic', 'off'):
+        raise ValueError('Unknown coding routing setting')
     edit=saved.get('weight_edit_profile','original')
     if not isinstance(edit,str) or (edit!='original' and not re.fullmatch(r'[0-9a-f]{24}',edit)):
         raise ValueError('Unknown weight-edit profile')

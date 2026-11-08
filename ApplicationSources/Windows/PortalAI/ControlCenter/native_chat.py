@@ -5458,6 +5458,13 @@ class NativeChat:
             self._coding_stall = None
             self._task_progress = None
             try:
+                effort = getattr(self, 'effort', None)
+                if foreground is not None and effort is not None and not self.cancel_event.is_set():
+                    try:
+                        effort.finish_request(self.cancel_event)
+                    except Exception as exc:
+                        self.ev.put(('progress', 'General-model return deferred: ' + str(exc)[:250] +
+                                     '. Your next request will use the saved model choice.'))
                 if foreground is not None:foreground.close()
             finally:self.ev.put(("done", None))
 

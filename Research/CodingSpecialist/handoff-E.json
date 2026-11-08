@@ -1,0 +1,223 @@
+{
+  "general": {
+    "profile": "deep",
+    "model": {
+      "id": "qwen27-q4",
+      "path": "LLM/models/Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "projector": "LLM/models/mmproj-Qwen3.8-27B-BF16.gguf",
+      "layers": 64,
+      "priority": 100,
+      "cpu_auto": false,
+      "buffer_base_gib": 2,
+      "buffer_per_8192_gib": 0.25,
+      "variant": "abliterated",
+      "automatic": false,
+      "automatic_uncensored": true,
+      "absolute_path": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "absolute_projector": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\mmproj-Qwen3.8-27B-BF16.gguf",
+      "gpu_layers": 65,
+      "context_tokens": 32768,
+      "estimated_ram_bytes": 4152371776,
+      "estimated_gpu_bytes": 20031940416,
+      "label": "Qwen3.8-27B-Abliterated-Q4_K_M"
+    },
+    "changed": true,
+    "completion_options": {
+      "max_tokens": 8192,
+      "chat_template_kwargs": {
+        "enable_thinking": true,
+        "reasoning_effort": "xhigh"
+      }
+    },
+    "max_tool_rounds": 24
+  },
+  "general_reply": "READY",
+  "specialist": {
+    "profile": "deep",
+    "model": {
+      "source_revision": "0e35abf5d32233d3b574ed1b8951264221b8872d",
+      "gguf_revision": "ded51b02bf1efb330c9c032f810e881f1c3dd2f7",
+      "coding_specialist": true,
+      "buffer_base_gib": 2,
+      "layers": 64,
+      "variant": "abliterated",
+      "path": "LLM/models/Swift-1.5-Qwen3.8-27B-Abliterated.Q4_K_M.gguf",
+      "priority": 90,
+      "automatic": false,
+      "source_model": "grimlee/Swift-1.5-Qwen3.8-27B-Abliterated",
+      "id": "swift27-abliterated-q4",
+      "cpu_auto": false,
+      "projector": "LLM/models/Swift-1.5-Qwen3.8-27B-Abliterated.mmproj-f16.gguf",
+      "coding_route_validated": true,
+      "buffer_per_8192_gib": 0.5,
+      "label": "Swift 1.5 27B Abliterated Q4_K_M coding",
+      "max_context_tokens": 32768,
+      "automatic_uncensored": false,
+      "absolute_path": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\Swift-1.5-Qwen3.8-27B-Abliterated.Q4_K_M.gguf",
+      "absolute_projector": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\Swift-1.5-Qwen3.8-27B-Abliterated.mmproj-f16.gguf",
+      "gpu_layers": 65,
+      "context_tokens": 32768,
+      "estimated_ram_bytes": 5222574848,
+      "estimated_gpu_bytes": 21105682944
+    },
+    "changed": true,
+    "completion_options": {
+      "max_tokens": 8192,
+      "chat_template_kwargs": {
+        "enable_thinking": true,
+        "reasoning_effort": "xhigh"
+      }
+    },
+    "max_tool_rounds": 24,
+    "coding_route": {
+      "baseline": {
+        "version": 1,
+        "selection": "qwen27-q4",
+        "backend": "cuda",
+        "context_tokens": 32768,
+        "media": {
+          "image_profile": "auto",
+          "speech_model": "auto",
+          "voice_engine": "auto",
+          "media_variant": "auto"
+        },
+        "storage": {
+          "minimum_free_gib": 50,
+          "minimum_free_fraction": 0,
+          "output_reserve_gib": 0
+        },
+        "models": [
+          {
+            "id": "qwen27-q4",
+            "path": "LLM/models/Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+            "projector": "LLM/models/mmproj-Qwen3.8-27B-BF16.gguf",
+            "layers": 64,
+            "priority": 100,
+            "cpu_auto": false,
+            "buffer_base_gib": 2,
+            "buffer_per_8192_gib": 0.25,
+            "variant": "abliterated",
+            "automatic": false,
+            "automatic_uncensored": true
+          },
+          {
+            "source_revision": "0e35abf5d32233d3b574ed1b8951264221b8872d",
+            "gguf_revision": "ded51b02bf1efb330c9c032f810e881f1c3dd2f7",
+            "coding_specialist": true,
+            "buffer_base_gib": 2,
+            "layers": 64,
+            "variant": "abliterated",
+            "path": "LLM/models/Swift-1.5-Qwen3.8-27B-Abliterated.Q4_K_M.gguf",
+            "priority": 90,
+            "automatic": false,
+            "source_model": "grimlee/Swift-1.5-Qwen3.8-27B-Abliterated",
+            "id": "swift27-abliterated-q4",
+            "cpu_auto": false,
+            "projector": "LLM/models/Swift-1.5-Qwen3.8-27B-Abliterated.mmproj-f16.gguf",
+            "coding_route_validated": true,
+            "buffer_per_8192_gib": 0.5,
+            "label": "Swift 1.5 27B Abliterated Q4_K_M coding",
+            "max_context_tokens": 32768,
+            "automatic_uncensored": false
+          }
+        ],
+        "variant_preference": "uncensored",
+        "vision_routing": "automatic",
+        "coding_routing": "automatic",
+        "weight_edit_profile": "original"
+      },
+      "requested_at": 1794102019.9382515,
+      "unlock_slow": false,
+      "require_vision": false
+    }
+  },
+  "specialist_reply": "READY",
+  "tool_protocol": {
+    "passed": true,
+    "tool_called": "read_file",
+    "tool_calls_executed": 0,
+    "fixture_reply": "The bug is on line 2: `add` returns `a - b` (subtraction) instead of the sum. Here's the corrected function:\n\n```python\ndef add(a, b):\n    return a + b\n```"
+  },
+  "returned": {
+    "profile": "deep",
+    "model": {
+      "id": "qwen27-q4",
+      "path": "LLM/models/Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "projector": "LLM/models/mmproj-Qwen3.8-27B-BF16.gguf",
+      "layers": 64,
+      "priority": 100,
+      "cpu_auto": false,
+      "buffer_base_gib": 2,
+      "buffer_per_8192_gib": 0.25,
+      "variant": "abliterated",
+      "automatic": false,
+      "automatic_uncensored": true,
+      "absolute_path": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\Qwen3.8-27B-Abliterated-Q4_K_M.gguf",
+      "absolute_projector": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture\\LLM\\models\\mmproj-Qwen3.8-27B-BF16.gguf",
+      "gpu_layers": 65,
+      "context_tokens": 32768,
+      "estimated_ram_bytes": 4152371776,
+      "estimated_gpu_bytes": 20031940416,
+      "label": "Qwen3.8-27B-Abliterated-Q4_K_M"
+    },
+    "changed": true,
+    "completion_options": {
+      "max_tokens": 8192,
+      "chat_template_kwargs": {
+        "enable_thinking": true,
+        "reasoning_effort": "xhigh"
+      }
+    },
+    "max_tool_rounds": 24
+  },
+  "returned_reply": "READY",
+  "passed": true,
+  "root": "E:\\PortalAI Windows\\Maintenance\\Validation\\Coding-Specialist-20261107\\handoff-fixture",
+  "events": [
+    {
+      "at": 1794101958.6466975,
+      "message": "Checking chat effort and waiting for available model memory\u2026"
+    },
+    {
+      "at": 1794101959.2667716,
+      "message": "Reclaiming the current model memory for Deep effort\u2026"
+    },
+    {
+      "at": 1794101960.9784653,
+      "message": "Loading qwen27-q4 (Deep)\u2026"
+    },
+    {
+      "at": 1794102019.9382515,
+      "message": "Coding task detected. Switching to Swift 1.5; chat and completed tool results are retained\u2026"
+    },
+    {
+      "at": 1794102020.2050507,
+      "message": "Checking chat effort and waiting for available model memory\u2026"
+    },
+    {
+      "at": 1794102020.4714246,
+      "message": "Reclaiming the current model memory for Deep effort\u2026"
+    },
+    {
+      "at": 1794102023.0186424,
+      "message": "Loading swift27-abliterated-q4 (Deep)\u2026"
+    },
+    {
+      "at": 1794102085.4584558,
+      "message": "Coding request finished. Returning to your saved general model\u2026"
+    },
+    {
+      "at": 1794102085.809573,
+      "message": "Checking chat effort and waiting for available model memory\u2026"
+    },
+    {
+      "at": 1794102086.1086557,
+      "message": "Reclaiming the current model memory for Deep effort\u2026"
+    },
+    {
+      "at": 1794102088.6839094,
+      "message": "Loading qwen27-q4 (Deep)\u2026"
+    }
+  ],
+  "production_accounts_accessed": false
+}

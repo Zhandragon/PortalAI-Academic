@@ -1,0 +1,17 @@
+{
+  "original": {
+    "passed": 1,
+    "tokens": 21601,
+    "seconds": 582.5779999999941,
+    "cutoffs": 5
+  },
+  "swift": {
+    "passed": 5,
+    "tokens": 11989,
+    "seconds": 340.84200000001874,
+    "cutoffs": 1
+  },
+  "token_reduction_percent": 44.497939910189345,
+  "time_reduction_percent": 41.494186186223615,
+  "speedup": 1.7092318434933547
+}

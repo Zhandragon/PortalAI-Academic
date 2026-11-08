@@ -114,7 +114,7 @@ class ChatEffortUITests(unittest.TestCase):
                   'completion_options': {'max_tokens': 1024,
                       'chat_template_kwargs': {'enable_thinking': False}, 'tools': []}}
         prepare = Mock(return_value=result)
-        control._module.return_value = SimpleNamespace(prepare_chat=prepare)
+        control._module.return_value = SimpleNamespace(prepare_request=prepare)
         self.assertTrue(control.prepare_request(cancel))
         self.assertEqual(prepare.call_args.args, (ROOT, 'fast'))
         self.assertIs(prepare.call_args.kwargs['cancel_event'], cancel)
@@ -130,7 +130,7 @@ class ChatEffortUITests(unittest.TestCase):
         def prepare(*args, **kwargs):
             cancel.set()
             return {'completion_options': {'max_tokens': 8192}}
-        control._module.return_value = SimpleNamespace(prepare_chat=prepare)
+        control._module.return_value = SimpleNamespace(prepare_request=prepare)
         self.assertFalse(control.prepare_request(cancel))
         self.assertEqual(control.active_options, {})
         self.assertIsNone(control.active_plan)
@@ -149,7 +149,7 @@ class ChatEffortUITests(unittest.TestCase):
         control.panel.session = {'messages': [{'role': 'user', 'content': 'Inspect this',
             'attachments': [{'path': 'Data/Chat/test.png', 'mime': 'image/png'}]}]}
         prepare = Mock(side_effect=RuntimeError('No matching vision model'))
-        control._module.return_value = SimpleNamespace(prepare_chat=prepare)
+        control._module.return_value = SimpleNamespace(prepare_request=prepare)
         with self.assertRaisesRegex(RuntimeError, 'matching vision'):
             control.prepare_request(threading.Event())
         self.assertTrue(prepare.call_args.kwargs['require_vision'])

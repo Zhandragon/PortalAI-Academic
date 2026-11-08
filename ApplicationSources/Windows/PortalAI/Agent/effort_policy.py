@@ -132,6 +132,7 @@ def chat_policy_signature(cfg):
             'vision_runtime_revision': runtime.SMALL_VISION_RUNTIME_REVISION,
             'variant_preference': cfg.get('variant_preference', 'standard'),
             'vision_routing': cfg.get('vision_routing', 'off'),
+            'coding_routing': cfg.get('coding_routing', 'off'),
             'weight_edit_profile': cfg.get('weight_edit_profile','original'),
             'profile_id': cfg.get('_profile_id'),
             'context_tokens': int(cfg.get('context_tokens', 8192)),

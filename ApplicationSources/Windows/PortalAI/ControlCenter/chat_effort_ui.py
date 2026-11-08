@@ -36,6 +36,8 @@ def model_label(model):
         model = model.get('id') or model.get('path') or model.get('model') or ''
     value = str(model or '')
     low = value.lower()
+    if 'swift27' in low or 'swift-1.5' in low:
+        return 'Swift 1.5 27B Coding'
     if 'qwen-vl2' in low or 'qwen3vl-2b' in low or 'qwen3-vl-2b' in low:
         return '2B Vision Abliterated' if 'abliterated' in low else '2B Vision'
     if 'qwen-vl4' in low or 'qwen3vl-4b' in low or 'qwen3-vl-4b' in low:
@@ -344,11 +346,13 @@ class ChatEffortControls:
         unlocked = self.session_unlocked
         tools = self.tools_profile
         self.active_options = {}
+        self.active_plan = None
         if cancel_event.is_set():
             return False
         vision = requires_vision(getattr(self.panel, 'session', None))
-        result = self._module('chat_model_switch').prepare_chat(
+        result = self._module('chat_model_switch').prepare_request(
             self.panel.root, profile, unlock_slow=unlocked, cancel_event=cancel_event,
+            messages=(getattr(self.panel, 'session', None) or {}).get('messages', []),
             requested_at=time.time(), require_vision=vision,
             on_status=lambda message: self.panel.ev.put(('connection_status', str(message))))
         if cancel_event.is_set():
@@ -361,6 +365,21 @@ class ChatEffortControls:
         self.panel._model_context_checked = 0.0
         self.panel.ev.put(('effort_applied', result))
         return True
+
+    def finish_request(self, cancel_event):
+        result = self.active_plan
+        if not (result or {}).get('coding_route'):
+            return
+        self.panel._check_login()
+        restored = self._module('chat_model_switch').finish_request(
+            self.panel.root, result, cancel_event=cancel_event,
+            on_status=lambda message: self.panel.ev.put(('connection_status', str(message))))
+        if restored is not None:
+            self.active_plan = restored
+            self.active_options = completion_options(restored)
+            self.panel._model_context_limit = None
+            self.panel._model_context_checked = 0.0
+            self.panel.ev.put(('effort_applied', restored))
 
     def set_busy(self, busy):
         self.scale.configure(state='disabled' if busy else 'normal')

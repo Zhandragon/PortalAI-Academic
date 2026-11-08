@@ -20,6 +20,7 @@ PROTECTED=('Private','Data','Outputs','User Folder','Cache','PortableCache','Log
  'OpenWebUI/data','OpenWebUI/.runtime','Music/ACE-Step-1.5/.cache',
  'Music/ACE-Step-1.5/gradio_outputs','Maintenance/Updates')
 PREFERENCES={'Agent/config.json','Agent/hardware_profiles.json','Agent/instance-settings.json',
+ 'Agent/storage_reserve.json',
  'Agent/model_policy.json','Agent/media_policy.json'}
 STAMP='ControlCenter/release_version.py'
 BOOT='ControlCenter/control_center_bootstrap.py'

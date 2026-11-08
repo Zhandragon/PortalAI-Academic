@@ -10,6 +10,8 @@ TIERS = {
 
 
 def tier_for_model(selection):
+    if selection == 'swift27-abliterated-q4':
+        return 'deep'
     return next((tier for tier, variants in TIERS.items()
                  if any(selection in ids for ids in variants.values())), None)
 

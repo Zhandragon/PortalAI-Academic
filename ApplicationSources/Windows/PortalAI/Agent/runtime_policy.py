@@ -64,6 +64,12 @@ def portable_path(root: Path, relative: str) -> Path:
 
 def load_policy(root: Path = ROOT) -> dict:
     policy = json.loads((root / "Agent/hardware_profiles.json").read_text(encoding="utf-8"))
+    # Upgrades preserve personal/shared model preferences. Register the optional
+    # specialist from its public catalog only when both assets are installed.
+    catalog = root / 'Agent/coding_model_catalog.json'
+    if catalog.is_file():
+        from coding_model_route import register_installed
+        register_installed(root, policy, catalog)
     if sys.platform == "darwin":
         path = root / "Maintenance/Imports/macos-storage-policy.json"
         try:

@@ -1,0 +1,42 @@
+{
+  "tasks": [
+    [
+      "merge_intervals",
+      "Implement merge_intervals(intervals): merge closed integer intervals that overlap or touch at an endpoint. Return sorted [start,end] lists. Do not mutate input. Reject an interval with start > end with ValueError.",
+      "assert f([])==[]\nassert f([[1,3],[2,6],[8,10],[10,12]])==[[1,6],[8,12]]\nassert f([[-5,-2],[-3,0],[4,4]])==[[-5,0],[4,4]]\nx=[[5,7],[1,2]]; assert f(x)==[[1,2],[5,7]] and x==[[5,7],[1,2]]\ntry: f([[4,1]])\nexcept ValueError: pass\nelse: raise AssertionError('invalid interval')"
+    ],
+    [
+      "toposort",
+      "Implement toposort(nodes, edges). Nodes are unique strings; edges are (source,target) pairs. Return lexicographically smallest topological ordering. Include isolated nodes; ignore duplicate edges. Raise ValueError for a cycle or an edge referencing an unknown node.",
+      "assert f(['b','a','c'],[])==['a','b','c']\nassert f(['a','b','c','d'],[('a','c'),('b','c'),('a','c')])==['a','b','c','d']\nassert f([],[])==[]\nfor nodes,edges in [(['a','b'],[('a','b'),('b','a')]),(['a'],[('a','z')]),(['a'],[('a','a')])]:\n try: f(nodes,edges)\n except ValueError: pass\n else: raise AssertionError('must reject')"
+    ],
+    [
+      "json_pointer",
+      "Implement json_pointer(doc, pointer) for RFC6901 JSON pointers. Empty pointer returns doc. Nonempty pointer must start /. Decode ~1 to slash and ~0 to tilde, rejecting other ~ escapes with ValueError. Dict keys are literal strings. List indices must be nonnegative decimal without leading zeros (except 0); reject - or out of range with ValueError. Missing dict keys and traversal through scalars raise ValueError.",
+      "d={'a/b':{'~key':[10,20]},'':5,'~1':42}; assert f(d,'') is d\nassert f(d,'/a~1b/~0key/1')==20\nassert f(d,'/')==5\nassert f(d,'/~01')==42\nfor p in ['bad','/~2','/missing','/a~1b/~0key/01','/a~1b/~0key/-1','/a~1b/~0key/2','/a~1b/~0key/-','/a~1b/~0key/0/x']:\n try: f(d,p)\n except ValueError: pass\n else: raise AssertionError(p)"
+    ],
+    [
+      "shortest_path",
+      "Implement shortest_path(n, edges, source, target) for a directed graph with vertices 0..n-1 and nonnegative numeric weights. Return shortest distance, or None when unreachable. Reject negative weights with ValueError even in unreachable components. Duplicate edges are allowed; zero weights allowed. Use an efficient priority queue approach.",
+      "assert f(4,[(0,1,9),(0,2,1),(2,1,1),(1,3,2)],0,3)==4\nassert f(3,[(0,1,0),(0,1,5),(1,2,0)],0,2)==0\nassert f(3,[],0,2) is None\nassert f(1,[],0,0)==0\ntry: f(4,[(2,3,-1)],0,1)\nexcept ValueError: pass\nelse: raise AssertionError('negative')"
+    ],
+    [
+      "split_quoted",
+      "Implement split_quoted(line) for one CSV-like row: comma delimiters, double-quoted fields may contain commas, doubled double-quotes inside quoted fields mean a literal quote. Unquoted fields cannot contain quotes; nothing except comma or end may follow a closing quote. Preserve whitespace. Empty line is one empty field. Reject malformed quoting with ValueError. Do not use the csv module.",
+      "assert f('')==['']\nassert f('a,,b,')==['a','','b','']\nassert f('\"a,b\",\"he said \"\"hi\"\"\", c')==['a,b','he said \"hi\"',' c']\nassert f('\"\"')==['']\nfor s in ['\"abc','a\"b','\"a\"x','\"a\" ']:\n try: f(s)\n except ValueError: pass\n else: raise AssertionError(s)"
+    ],
+    [
+      "longest_unique",
+      "Fix and implement longest_unique(text): return the length of the longest substring without repeated Unicode characters in O(n) time. A previous implementation moved its left boundary backwards on repeated characters outside the current window. Handle empty strings, repeated characters and non-ASCII correctly.",
+      "assert f('')==0\nassert f('abba')==2\nassert f('tmmzuxt')==5\nassert f('abcabcbb')==3\nassert f('bbbbb')==1\nassert f('pwwkew')==3\nassert f('\u4f60\u597d\u4e16\u754c\u4f60')==4\nassert f('a'*100000)==1"
+    ]
+  ],
+  "seed": 46,
+  "temperature": 0.6,
+  "top_p": 0.95,
+  "top_k": 20,
+  "max_tokens": 4096,
+  "context": 8192,
+  "thinking": true,
+  "reasoning_effort": "xhigh"
+}

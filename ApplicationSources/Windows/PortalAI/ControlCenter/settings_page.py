@@ -19,6 +19,7 @@ def policy_values(policy):
             'context_tokens': str(policy.get('context_tokens', 8192)),
             'variant_preference': selected_variant(policy),
             'vision_routing': policy.get('vision_routing', 'off'),
+            'coding_routing': policy.get('coding_routing', 'off'),
             'weight_edit_profile': policy.get('weight_edit_profile','original'),
             **{key: policy.get('media', {}).get(key, 'auto') for key in MEDIA_CHOICES}}
 
@@ -54,6 +55,7 @@ def save_settings(root, values, *, session=None, scope='all'):
         changes.update(selection=values['selection'], backend=values['backend'], context_tokens=context,
                        variant_preference=values.get('variant_preference', policy.get('variant_preference', 'standard')),
                        vision_routing=values.get('vision_routing', policy.get('vision_routing', 'off')),
+                       coding_routing=values.get('coding_routing', policy.get('coding_routing', 'off')),
                        weight_edit_profile=values.get('weight_edit_profile',policy.get('weight_edit_profile','original')))
         if changes['weight_edit_profile']!='original':
             from weight_edit_profiles import catalog
@@ -156,10 +158,12 @@ class SettingsPage(tk.Frame):
             (model_section, 'backend', 'Backend', policy.get('backend','auto'), ['auto','cuda','vulkan','cpu']),
             (model_section, 'context_tokens', 'Context limit', str(policy.get('context_tokens',8192)), ['2048','4096','8192','16384','32768']),
             (model_section, 'vision_routing', 'Automatic image vision', policy.get('vision_routing','off'), ['automatic','off']),
+            (model_section, 'coding_routing', 'Coding specialist (Full edition)', 'off', ['off']),
             (model_section, 'weight_edit_profile', 'Weight edit profile', weight_choice, list(self.weight_profile_ids)),
         ):
             var = tk.StringVar(self, value=current); self.variables[key] = var
             self.selectors[key] = skin.row(section, title, lambda row, var=var, options=options: skin.combo(row, var, options))
+        label(model_section, 'The current Swift coding specialist is abliterated and belongs to the Full edition. Academic retains its standard-only model policy.', muted=True)
         for key in ('selection', 'variant_preference'):
             self.selectors[key].bind('<<ComboboxSelected>>', lambda event, key=key: self._chat_choice_selected(key), add='+')
         label(model_section, 'Weight profiles apply only to their exact matching model and variant. Create and prepare them in Utilities → Weight-Space Editor. Save to use a prepared profile on the next request; choose Original weights to revert. Experimental profiles can improve one task and worsen another. Switching reloads the model and never replays completed tools.', muted=True)
@@ -435,8 +439,9 @@ def validated_storage(root, policy, values):
         if key not in values: continue
         number = float(values[key])
         limit = 50 if key == 'minimum_free_percent' else maximum
-        if not math.isfinite(number) or not 1 <= number <= limit:
-            raise ValueError(f'{key.replace("_", " ")} must be between 1 and {limit:g}.')
+        lower = 1 if key == 'minimum_free_gib' else 0
+        if not math.isfinite(number) or not lower <= number <= limit:
+            raise ValueError(f'{key.replace("_", " ")} must be between {lower} and {limit:g}.')
         storage['minimum_free_fraction' if key == 'minimum_free_percent' else key] = number/100 if key == 'minimum_free_percent' else number
     return storage
 

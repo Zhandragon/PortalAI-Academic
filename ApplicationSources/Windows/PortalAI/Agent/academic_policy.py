@@ -61,6 +61,7 @@ def standard_selection(selection):
 def enforce_policy(policy):
     result = copy.deepcopy(policy)
     result['variant_preference'] = 'standard'
+    result['coding_routing'] = 'off'  # The available Swift specialist is abliterated.
     result.setdefault('media', {})['media_variant'] = 'standard'
     result['selection'] = standard_selection(result.get('selection', 'auto'))
     if 'models' in result:

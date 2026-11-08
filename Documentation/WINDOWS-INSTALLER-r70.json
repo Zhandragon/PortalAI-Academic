@@ -1,0 +1,103 @@
+{
+  "version": "2026.11.07-Desktop-r70",
+  "edition": "Academic",
+  "archive": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r70-suite.zip",
+  "bytes": 624068564,
+  "sha256": "0ee0d9c8ff4d289e8a0c66876c857d2855da011f4b0da8e18602798f6f8351fb",
+  "previous_sha256": "c0e8421f0e96b8cc39a1f487ddce1804a16b9152461ac9868699e71334103ccc",
+  "changed_members": [
+    "PortalAI/Agent/academic_policy.py",
+    "PortalAI/Agent/chat_model_switch.py",
+    "PortalAI/Agent/chat_selection.py",
+    "PortalAI/Agent/effort_policy.py",
+    "PortalAI/Agent/model_preferences.py",
+    "PortalAI/Agent/runtime_policy.py",
+    "PortalAI/ControlCenter/bundle_inventory.py",
+    "PortalAI/ControlCenter/chat_effort_ui.py",
+    "PortalAI/ControlCenter/native_chat.py",
+    "PortalAI/ControlCenter/release_version.py",
+    "PortalAI/ControlCenter/settings_page.py",
+    "PortalAI/Installer/Windows/portable_update.py",
+    "PortalAI/Maintenance/Tests/test_chat_effort_ui.py",
+    "PortalAI/Maintenance/Tests/test_portable_update.py",
+    "PortalAI/Maintenance/Tests/test_startup_settings.py",
+    "PortalAI/Tools/portable_update.py"
+  ],
+  "added_members": [
+    "PortalAI/Agent/coding_model_route.py",
+    "PortalAI/Documentation/Coding_Specialist.md",
+    "PortalAI/Maintenance/Tests/test_coding_model_route.py"
+  ],
+  "payload_members": 5445,
+  "existing_dependency_pins_unchanged": true,
+  "new_dependencies": false,
+  "new_runtime": false,
+  "added_installer_component": null,
+  "inherited_native_component": "windows-cuda-inference",
+  "native_runtime_already_installed_on_D_E": true,
+  "new_model_weights": false,
+  "added_original_helper": "Agent/coding_model_route.py",
+  "all_components_plan": true,
+  "minimum_components_plan": true,
+  "all_archive_and_payload_hashes_verified": true,
+  "native_storage_preflight_includes_component": true,
+  "full_recipient_install": false,
+  "storage": {
+    "installed_bytes": 274374198851,
+    "download_bytes": 234759855909,
+    "required_bytes": 513416350806,
+    "files": 330478
+  },
+  "package_files": [
+    {
+      "name": "PACKAGE_SHA256.json",
+      "bytes": 1312,
+      "sha256": "c61049d3a1fc0f920424cc24181229c9f72a539aef3e50339900b401dbad9f78"
+    },
+    {
+      "name": "payload.zip",
+      "bytes": 382010007,
+      "sha256": "459615740eb0c235b9feba23c4f0905e45b93ddebdabf64d462251481b1ae165"
+    },
+    {
+      "name": "PortalAI-Academic-Install.exe",
+      "bytes": 11603456,
+      "sha256": "16c7520796a58b5f0ab0e598cac5f214fe04db3fe743669b96daaad189961af9"
+    },
+    {
+      "name": "qemu-w64-setup-20260811.exe",
+      "bytes": 206615928,
+      "sha256": "f98a8aeb5f7faea9765b6dee28316c266cd179d80354a2fed8e50176f9a2e59f"
+    },
+    {
+      "name": "release.json",
+      "bytes": 139100304,
+      "sha256": "341b59833e18ea7784cb9f0d3db0243f80e3d4f7f094c39d2c0eef28056f91e8"
+    },
+    {
+      "name": "sox-14.4.2-win32.zip",
+      "bytes": 2651143,
+      "sha256": "8072cc147cf1a3b3713b8b97d6844bb9389e211ab9e1101e432193fad6ae6662"
+    },
+    {
+      "name": "START_HERE.txt",
+      "bytes": 7429,
+      "sha256": "af53575baf1cf48a0f23d20f52b239cbfa6147211f5ae949a816702fa623ad85"
+    },
+    {
+      "name": "storage-plan.json",
+      "bytes": 190614,
+      "sha256": "73a959664918e4b87a5d7d08a56fbabd43f7a6546ecfff9baa8cdaef119aec76"
+    },
+    {
+      "name": "suite-catalog.json",
+      "bytes": 4338,
+      "sha256": "922735e5422f54e59e10d17e5510bd8e98f111f0c2dd64dd1325393426741499"
+    },
+    {
+      "name": "upgrade.json",
+      "bytes": 1620,
+      "sha256": "71b7e305558a60d065a2442a48f2bdbfd7619e34b5ed9d62276541306fccc468"
+    }
+  ]
+}

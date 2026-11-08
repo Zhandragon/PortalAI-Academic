@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "Agent"))
 from runtime_policy import load_policy, portable_path, runtime_candidates, storage_budget
 
 MODEL_LABELS = {"qwen1.7-abliterated-q8": "Qwen 3 · 1.7B Abliterated · Q8_0 · text",
+                "swift27-abliterated-q4": "Swift 1.5 · 27B Abliterated · Q4_K_M · coding + vision",
                 "qwen27-standard-q4": "Qwen 3.8 · 27B Standard · Q4_K_M · vision",
                 "qwen27-q4": "Qwen 3.8 · 27B Abliterated · Q4_K_M · vision",
                 "qwen27-q5": "Qwen 3.8 · 27B Abliterated · Q5_K_M · vision",

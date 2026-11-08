@@ -9,33 +9,7 @@
 
 <h1 align="center">PortalAI</h1>
 
-**Windows r69 (2026-11-04):** Repairs 27B activation capture and offline native tool-format grading. Original models remain unchanged. [Details](Documentation/WEIGHT-MTP-r69.md). Linux/Mac remain r51.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+**Windows r70 (2026-11-07):** Optional Swift coding specialist in Full, guarded model handoff and return, and upgrade preservation of storage reserves. Academic retains standard-only model policy. [Details](Documentation/RELEASE-r70.md). Linux/Mac remain r51.
 
 <p align="center"><sub>(Academic)</sub></p>
 
@@ -167,7 +141,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.04-Desktop-r69/PortalAI-Academic-Universal-Setup-2026.11.04-Desktop-r69.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.07-Desktop-r70/PortalAI-Academic-Universal-Setup-2026.11.07-Desktop-r70.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 
