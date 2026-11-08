@@ -51,6 +51,8 @@ The Academic edition keeps PortalAI's main interface and supported workflows, wi
 
 Academic remains standard-only: the abliterated coding model is excluded from its download manifest, and coding-specialist routing is forced off. Academic does not gain Full features through this purchase link.
 
+**[Try Full free for three days](https://payhip.com/b/ZeB0k).** The separate Full evaluation offers Windows, Mac, Linux and Universal online kits. Its 72-hour timer starts on first app launch and includes time closed. This does not change Academic's edition restrictions or add a trial limit to Academic.
+
 
 > **Platform testing disclaimer:** Only Windows has been thoroughly tested. Linux has received partial validation; macOS and other operating systems have not been thoroughly tested. Installation may fail or other errors may occur on these platforms. Please [report problems to the maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues), including your operating system version and the error message. Packaging checks are not fresh end-to-end inference tests on all three operating systems.
 
