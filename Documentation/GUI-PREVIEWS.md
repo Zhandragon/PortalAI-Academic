@@ -58,7 +58,9 @@ Runtime shows host activity and resource use. Models controls model-service choi
 
 ![Packages capability inventory](assets/gui-previews/packages.png)
 
-![Package weight inventory](assets/gui-previews/package-weights.png)
+![Package weight inventory with examples](assets/gui-previews/package-weights.png)
+
+This Full-edition capture shows selected real filenames and sizes from an installed model/adapter inventory, including paired high/low-noise video adapters. The capture fixture copies inventory text only. These are examples, not a promise of preinstalled downloads; base-model and workflow compatibility still apply. Academic retains its separate model policy.
 
 ## Settings
 
@@ -78,13 +80,19 @@ Choose chat/media policy, supported backends and web/agent preferences. Hardware
 
 ![Schedule controls](assets/gui-previews/persistence-schedules.png)
 
-Missions retain objectives, budgets and review state. Schedules must be enabled explicitly. Saved drafts in these captures were not executed. Ongoing work needs PortalAI running, the host awake and the drive connected.
+The mission examples are documentation review, workspace readiness and a research reading list. The selected documentation mission has a 12-action budget and Observe access with no shell commands. The daily project check-in schedule repeats every 1,440 minutes for at most seven runs; a second readiness example repeats hourly. All shown records are saved and paused in a disposable fixture, with zero executed actions/runs.
+
+Missions retain objectives, budgets and review state. Schedules must be enabled explicitly. Ongoing work needs PortalAI running, the host awake and the drive connected.
 
 ## Maintenance, Help and tray controls
 
 ![Maintenance](assets/maintenance-current.png)
 
-![In-app Help](assets/help-current.png)
+![In-app Help documentation](assets/gui-previews/help-documentation.png)
+
+![Actual right-click Help navigation](assets/gui-previews/help-right-click.png)
+
+Right-click controls to reveal related actions and the available Help entry. The storefront uses normal documentation links. Its two Help preview buttons describe these two ways to find help; they are not additional desktop GUI subtabs.
 
 ![Actual Windows tray menu](assets/gui-previews/tray-menu.png)
 
