@@ -43,6 +43,13 @@
       "skipped": 0,
       "failures": [],
       "errors": []
+    },
+    "warning-thread-test": {
+      "passed": true,
+      "tests": 15,
+      "skipped": 0,
+      "failures": [],
+      "errors": []
     }
   },
   "D_live_voice_stop": true,

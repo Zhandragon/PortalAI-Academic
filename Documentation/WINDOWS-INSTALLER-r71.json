@@ -2,8 +2,8 @@
   "version": "2026.11.07-Desktop-r71",
   "edition": "Academic",
   "archive": "PortalAI-Academic-Windows-Installer-2026.11.07-Desktop-r71-suite.zip",
-  "bytes": 624075099,
-  "sha256": "70bd623ae3ff9bf0a98cec5449f333d52fa7567f0bca5c322a21fbaada4700c3",
+  "bytes": 624075296,
+  "sha256": "f705a19c0a637acb89756dc1e975d71b79574f5e696b0e2106dd42a7633f25a5",
   "previous_sha256": "0ee0d9c8ff4d289e8a0c66876c857d2855da011f4b0da8e18602798f6f8351fb",
   "changed_members": [
     "PortalAI/ControlCenter/PortableAI_GUI.py",
@@ -33,21 +33,21 @@
   "native_storage_preflight_includes_component": true,
   "full_recipient_install": false,
   "storage": {
-    "installed_bytes": 274374212521,
+    "installed_bytes": 274374213264,
     "download_bytes": 234759855909,
-    "required_bytes": 513416372666,
+    "required_bytes": 513416373409,
     "files": 330480
   },
   "package_files": [
     {
       "name": "PACKAGE_SHA256.json",
       "bytes": 1312,
-      "sha256": "2809ec8e3fbc364c17fa842c1d377d7ce40b8561b2f6b981f01dde533b126470"
+      "sha256": "143a1a0424a34d8f83006130e72c4984774b5a1d89b8eb6a5f902ab18e516c7c"
     },
     {
       "name": "payload.zip",
-      "bytes": 382014746,
-      "sha256": "d74e0baabbe7fb779a3bf97e67823f4db2df1eba499d9074324bb16cf31a96b5"
+      "bytes": 382014953,
+      "sha256": "a731d343f41ee2081de6bed9a062b27c228ff689ca5764e04ab2d1d45b8b1e83"
     },
     {
       "name": "PortalAI-Academic-Install.exe",
@@ -62,7 +62,7 @@
     {
       "name": "release.json",
       "bytes": 139101059,
-      "sha256": "fae8dbc24526effd1639316c0b8e39d108e432ebca147fd4ca6cc63d8e43014e"
+      "sha256": "3a3ebd9839e1b7f9c066ceb6b191418f30c02a086717b13ab2f6d83a6b865b15"
     },
     {
       "name": "sox-14.4.2-win32.zip",
@@ -77,7 +77,7 @@
     {
       "name": "storage-plan.json",
       "bytes": 190614,
-      "sha256": "23a47a0546bf9f582e7a418dd7a6479d3e525caea1fb7262dde360edf1b36980"
+      "sha256": "4826074a7ac6ee1061a90f42de04c17d79d20a82b4d311733322b00c922e161e"
     },
     {
       "name": "suite-catalog.json",
@@ -91,8 +91,8 @@
     }
   ],
   "final_source_refresh": [
-    "PortalAI/ControlCenter/native_chat.py",
-    "PortalAI/Maintenance/Tests/test_voice_stop_races.py"
+    "PortalAI/ControlCenter/PortableAI_GUI.py",
+    "PortalAI/Maintenance/Tests/test_shutdown_lifecycle_tk.py"
   ],
   "source_payload_matches": true
 }

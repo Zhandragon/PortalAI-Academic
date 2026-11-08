@@ -29,7 +29,7 @@ def gui_callbacks(context):
     names = {'begin_exit_portableai', 'retry_account_shutdown', 'lock_account_application',
              'minimize_to_tray', 'restore_from_tray', 'pump', '_menu_item',
              '_show_launcher_context', '_show_full_launcher_menu', 'show_tray_context_menu',
-             'stop_components'}
+             'stop_components', '_stop_legacy_openwebui_quiet'}
     class BindFixture(ast.NodeTransformer):
         def visit_Nonlocal(self, node):
             return ast.copy_location(ast.Global(names=node.names), node)
@@ -107,6 +107,16 @@ class ShutdownLifecycleTests(unittest.TestCase):
         self.app.update()
         c['native_chat_panel']._stop_embedded_media.assert_called_once()
         self.assertFalse(late_playback)
+
+    def test_legacy_stop_worker_queues_warning_without_calling_tk(self):
+        c=self.context();root=Path(self.tmp.name)
+        for name in ('Tools/openwebui_legacy.py','Runtime/BootstrapPython/python.exe'):
+            p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.touch()
+        c.update(Path=Path,hidden_run=Mock(side_effect=RuntimeError('synthetic stop failure')))
+        worker=threading.Thread(target=c['_stop_legacy_openwebui_quiet']);worker.start();worker.join(2)
+        self.assertFalse(worker.is_alive());c['log'].assert_not_called()
+        kind,message=c['event_q'].get_nowait()
+        self.assertEqual(kind,'log');self.assertIn('synthetic stop failure',message)
 
     def test_delayed_shutdown_stays_visible_and_locked_tray_actions_do_not_run_tools(self):
         c = self.context(); done = threading.Event(); entered = threading.Event()

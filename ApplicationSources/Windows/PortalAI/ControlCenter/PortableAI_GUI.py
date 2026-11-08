@@ -2889,7 +2889,7 @@ def main(authenticated=None):
         try:
             hidden_run([str(py),str(helper),"--root",str(root),"stop"],timeout=12,cwd=root)
         except Exception as exc:
-            log(f"Legacy OpenWebUI stop warning: {exc}")
+            event_q.put(('log', f"Legacy OpenWebUI stop warning: {exc}"))
 
     def launch_legacy_opengui():
         if account_gate is not None:

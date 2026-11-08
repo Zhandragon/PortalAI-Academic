@@ -13,6 +13,8 @@
 
 
 
+
+
 <p align="center"><sub>(Academic)</sub></p>
 
 <p align="center"><strong>Local AI for guided learning and classroom exploration.</strong></p>
