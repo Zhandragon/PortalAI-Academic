@@ -9,7 +9,7 @@
 
 <h1 align="center">PortalAI</h1>
 
-**r74 (2026-11-08):** Queue follow-up messages while Nice is working, edit/remove the next message, or stop and send next. Includes the r73 science and summary repairs. [Release and validation](Documentation/RELEASE-r74.md) · [GUI preview gallery](Documentation/GUI-PREVIEWS.md) · [Real Nice science examples](Documentation/science-examples/README.md).
+**r75 (2026-11-09):** Optional model checkboxes with publisher/license review, plus validated compatible custom GGUF imports. Existing follow-up sending and science fixes are retained. [Release and validation](Documentation/RELEASE-r75.md) · [License review](Documentation/DEPENDENCY-LICENSE-REVIEW-20261109.txt) · [GUI previews](Documentation/GUI-PREVIEWS.md).
 
 
 
@@ -155,7 +155,7 @@ The original Academic restrictions and platform requirements are described in [t
 
 ### Universal setup and updates
 
-[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.08-Desktop-r74/PortalAI-Academic-Universal-Setup-2026.11.08-Desktop-r74.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
+[Download the universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Universal-Setup-2026.11.09-Desktop-r75.zip) to prepare all three OS installers on one drive. Academic downloads and verifies all three archives automatically. Each OS still completes its own native installation.
 
 **Already installed?** Windows offers **Update existing**. Linux and Mac complete installers accept an existing destination plus `--upgrade`. Exit PortalAI normally first. [Read the upgrade and recovery instructions](Documentation/UNIFIED-20261025-r45.md#updating-an-existing-installation).
 

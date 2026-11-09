@@ -123,9 +123,9 @@ portal_stage 4 'Checking runtime'
 portal_stage 5 'Installing runtime components'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/install_linux_clean.py" --install-core
 
-# Academic installs one standard chat model; no alternate downloads.
-portal_stage 6 'Downloading and verifying models'
-"$PYTHON" -B -I "$STAGE/PortalAI/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
+# Academic offers standard models only, after explicit license/source review.
+portal_stage 6 'Choose optional, suggested/supported models'
+"$PYTHON" -B "$STAGE/PortalAI/Tools/choose_optional_models.py"
 
 portal_stage 8 'Creating verified recovery backups'
 "$PYTHON" -B -I "$STAGE/PortalAI/Tools/repair_executables.py" --seed-fresh-native-install

@@ -49,6 +49,8 @@ def main():
         stop = FileCancellation(request['cancel_file'])
         mode = request.get('mode','install')
         selected = request['selected']
+        model_consent = request.get('model_consent')
+        custom_model = request.get('custom_model')
         report = {}
         if request.get('suite'):
             token = sys.stdin.readline(4097).strip()
@@ -67,7 +69,9 @@ def main():
             planned = suite.plan(catalog, optional, edition, 'Windows', edition)
             suite.space_check(destination, planned['working_bytes'] + (core.plan(manifest, ordinary)[3] if install_primary else 0))
             if install_primary:
-                report['application'] = core.install(request['package'], request['destination'], ordinary, stop, progress, events, mode=mode)
+                report['application'] = core.install(request['package'], request['destination'], ordinary, stop, progress, events, mode=mode, model_consent=model_consent, custom_model=custom_model)
+            elif custom_model:
+                raise ValueError('Select the primary application to install a custom model')
             def suite_progress(label, done, total):
                 events(kind='progress', phase='suite', message=label, done=done, total=total)
             report['suite'] = suite.execute(catalog, optional, edition, 'Windows', request['package'], destination,
@@ -75,7 +79,7 @@ def main():
                                            core=core, primary_components=ordinary)
             token = None
         else:
-            report = core.install(request['package'], request['destination'], selected, stop, progress, events, mode=mode)
+            report = core.install(request['package'], request['destination'], selected, stop, progress, events, mode=mode, model_consent=model_consent, custom_model=custom_model)
         emit(kind='complete', message='Installation verified. Open PortalAI normally. Existing accounts and settings are preserved during upgrades.', report=report)
         return 0
     except core.Cancelled as exc:

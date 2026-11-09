@@ -1,0 +1,52 @@
+PortalAI dependency license/terms review — 2026-11-09
+
+Result: concrete restrictions and unresolved distribution obligations were found. This is an engineering evidence review, not a legal opinion or a certificate of complete compliance. A permission checkbox or separate download does not relicense a dependency.
+
+Scope: 831 unique pinned Windows artifact hashes; 572 Python name/version groups checked against PyPI metadata; 479 fully matched to published PyPI artifact digests; 318 packaged notice/metadata records across Windows, Linux and Mac Full payloads; 59 pinned publisher model-card revisions (58 retrieved); 62 source files with upstream download references; companion utility metadata and source reviewed. The r75 change preserves the r74 dependency artifact pins, so this baseline remains relevant. Not every native binary was reverse-engineered or matched to complete build source, and native platform execution was not performed.
+
+High — restricted use — Apple DFN5B-CLIP inside MMAudio
+The exact download catalog includes Apple DFN5B-CLIP. Its publisher license permits noncommercial scientific research and academic development, and excludes commercial exploitation, product development, and use in a commercial product/service. Personal or hobby use is not automatically research. This is stricter than a generic noncommercial label.
+Action: The new installer leaves this group unchecked and displays the research-only restriction and publisher license before download. Do not market this particular dependency as a generally licensed consumer or commercial feature. A compatible replacement or explicit permission needs separate review.
+Sources: https://huggingface.co/apple/DFN5B-CLIP-ViT-H-14-384/blob/main/LICENSE
+
+High — restricted use — MusicGen, MMAudio, FLUX variants and Swift
+MusicGen and MMAudio weights declare CC BY-NC 4.0. Certain FLUX derivatives inherit noncommercial and use/output-handling conditions. Swift has its own revenue-based commercial conditions. Separate download delivery does not change any of these usage conditions.
+Action: Named choices are now optional, suggested/supported examples with explicit review. Keep commercial-friendly defaults separate. Evaluate exact variants and intended use; a custom URL is not a license workaround.
+Sources: https://huggingface.co/facebook/musicgen-small https://huggingface.co/hkchengrex/MMAudio https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9B/blob/main/LICENSE.md https://huggingface.co/ukisai/Swift-1.5-Qwen3.8-27b/blob/main/LICENSE
+
+High — distribution review — PortalAI GPLv3 and storefront terms
+PortalAI itself is distributed with GPLv3, independently of QEMU or other dependencies. Selling GPL software is permitted, but recipients retain GPL rights. A checkout term that restricts redistribution or modification cannot simply override those rights. Moving dependencies to a later download does not resolve this issue for PortalAI code.
+Action: Keep corresponding source available to recipients and clearly preserve included open-source license rights. The previously discussed Payhip checkout exception/override remains unconfirmed; no support message was sent. This review does not certify compatibility of the platform checkout contract.
+Sources: https://www.gnu.org/licenses/gpl-3.0.html https://www.gnu.org/licenses/gpl-faq.en.html
+
+High — source completeness — GPL / LGPL / AGPL dependencies
+The inventory contains pLannotate and DIAMOND (GPL), ComfyUI and its documentation (GPL), Piper runtime (GPL), Gmsh, Primer3, InSpice, and LGPL libraries such as CasADi, BioTraj, GEOS/Shapely, frozendict, lameenc and soxr. Optional download sources include PrusaSlicer (AGPL), KiCad, FFmpeg, SoX and QEMU. Linux browser support includes many copyleft system libraries. Commercial use is not generally prohibited by these licenses; redistribution and source/relinking obligations are the concern.
+Action: For every binary actually redistributed from your GitHub/releases, map the exact binary to complete corresponding source and build information, preserve notices, and satisfy the applicable source/relinking mechanism. A LICENSE file or a generic upstream homepage alone does not establish full compliance. Direct upstream downloads and files mirrored by you must be tracked separately. No complete binary-to-source proof exists from this scan alone.
+Sources: https://github.com/mmcguffi/pLannotate https://github.com/OHF-Voice/piper1-gpl https://gmsh.info/ https://github.com/prusa3d/PrusaSlicer/blob/master/LICENSE https://www.kicad.org/about/licenses/ https://ffmpeg.org/legal.html https://www.gnu.org/licenses/gpl-faq.en.html
+
+Medium — vendor conditions — NVIDIA CUDA/cuDNN and AMD ROCm wheels
+The catalog uses NVIDIA proprietary runtime wheels and vendor-specific PyTorch/ROCm builds. NVIDIA permits distribution only for designated redistributables and under its SDK conditions; the entire toolkit is not automatically redistributable. Vendor wheels cannot be cleared solely from ordinary PyPI metadata.
+Action: Retain the actual vendor EULAs and third-party notices, verify the exact redistributable file list and distribution terms, and review compatibility with the way binaries are packaged. 93 of 572 Python name/version groups were not fully matched to a PyPI digest, mostly vendor builds; they remain explicit review items, not presumed violations.
+Sources: https://docs.nvidia.com/cuda/eula/index.html https://docs.nvidia.com/deeplearning/cudnn/backend/latest/reference/eula.html https://github.com/ROCm/ROCm
+
+Medium — bundled weights/notices — Small embedding and OCR weights already in the core
+The Windows core payload includes all-MiniLM-L6-v2 ONNX weights and three RapidOCR ONNX models. The embedding manifest/card declares Apache-2.0. These are separate from the large chat/media downloads. The embedding folder contains a model card and manifest but no model-specific LICENSE file; the RapidOCR dist-info inventory also has no standalone license file under that name.
+Action: Avoid saying the bundled app contains no weights. Verify and retain full publisher license/attribution material for these exact small models and their provenance. The Payhip ZIP itself is unbundled, but its shared application archive is still a distribution from your GitHub.
+Sources: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 https://github.com/RapidAI/RapidOCR https://github.com/PaddlePaddle/PaddleOCR
+
+Medium — incomplete provenance — Model mirrors, voice cards, LoRAs and helper weights
+58 of 59 pinned publisher README revisions were retrieved. The pinned nerualdreming FLUX encoder has no README at the referenced revision. Other examples have undeclared/custom licenses, and Piper voice cards describe dataset/parent-voice provenance separately from the engine. The MuseTalk group includes separately licensed pose, face parsing, synchronization and VAE assets. A mirror card or dataset license is not proof that every uploader can grant all downstream rights.
+Action: Review exact upstream lineage and per-file licenses. Do not label a mixed collection as universally MIT or commercially licensed. Preserve notices and publisher acceptance procedures. Missing metadata is unresolved evidence, not automatic permission.
+Sources: https://huggingface.co/nerualdreming/flux2-klein-4b-uncensored-text-encoder https://huggingface.co/rhasspy/piper-voices https://huggingface.co/TMElyralab/MuseTalk https://huggingface.co/ByteDance/LatentSync
+
+Medium — data and service terms — Scientific databases and online lookup services
+The source supports pLannotate database downloads and biological/literature web lookups. Software licenses do not automatically cover redistributed database content, source-specific annotations, API terms, rate limits or downloaded papers. This scan inventories source references but does not establish complete rights for every data record or customer-provided resource.
+Action: Keep per-database attribution/terms with the data, distinguish local tools from online services, and review terms before mirroring new datasets or advertising unrestricted commercial reuse.
+Sources: https://github.com/mmcguffi/pLannotate https://www.ncbi.nlm.nih.gov/home/about/policies/
+
+Low — preserve notices — 7-Zip and permissive libraries
+7-Zip permits commercial use but combines LGPL, BSD and an unRAR restriction. Its license is present in the inspected payload. The broad keyword scan flagged NumPy, SciPy, pandas, Matplotlib and OpenCV notices because they contain third-party/historical license text; that does not mean those packages are noncommercial or AGPL as a whole. pygit2 has a linking exception.
+Action: Retain component notices and applicable exceptions. Do not turn a keyword hit into a claim that a library forbids selling PortalAI.
+Sources: https://www.7-zip.org/license.txt https://numpy.org/doc/stable/license.html https://scipy.org/faq/
+
+Evidence files: pinned-artifacts.json, python-package-licenses.json, packaged-notices.json, publisher-model-cards.json, pinned-publisher-cards.json, source-download-references.json, utility-and-source-package-metadata.json. Missing/unknown metadata remains visible. Existing installed assets were not removed or changed by this scan.

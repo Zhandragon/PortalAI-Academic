@@ -28,6 +28,8 @@ def build(bootstrap, output):
                     f'/resource:{bootstrap},python-bootstrap.zip',
                     f'/resource:{HERE / "installer_core.py"},installer_core.py',
                     f'/resource:{HERE / "engine_cli.py"},engine_cli.py',
+                    f'/resource:{HERE / "model_choices.py"},model_choices.py',
+                    f'/resource:{HERE / "custom_models.py"},custom_models.py',
                     f'/resource:{HERE / "installer_storage.py"},installer_storage.py',
                     f'/resource:{HERE / "portable_update.py"},portable_update.py',
                     f'/resource:{HERE / "suite_installer.py"},suite_installer.py',

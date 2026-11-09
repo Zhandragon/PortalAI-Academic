@@ -70,6 +70,8 @@ def load_policy(root: Path = ROOT) -> dict:
     if catalog.is_file():
         from coding_model_route import register_installed
         register_installed(root, policy, catalog)
+    from custom_models import register_installed as register_custom
+    register_custom(root, policy)
     if sys.platform == "darwin":
         path = root / "Maintenance/Imports/macos-storage-policy.json"
         try:
@@ -353,6 +355,8 @@ def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dic
         if not path.is_file() or (projector and not projector.is_file()):
             rejected.append({"id": model["id"], "reason": "model or projector not installed"})
             continue
+        from custom_models import verify_selected
+        verify_selected(path, model)
         weights = path.stat().st_size
         context = min(requested_context, int(model.get("max_context_tokens", 32768)))
         contexts = [context]

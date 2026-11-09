@@ -47,7 +47,7 @@ def inventory(root, *, policy=None):
         if state == 'INSTALLED' and projector is not None:
             state, _ = file_state(projector)
         installed = state == 'INSTALLED'
-        models.append({**model, "label": MODEL_LABELS.get(model["id"], model["id"]),
+        models.append({**model, "label": MODEL_LABELS.get(model["id"], model.get("label", model["id"])),
                        "installed": installed, "state": state, "bytes": size})
     states = {k: file_state(p)[0] for k, p in runtime_candidates(root, platform.system()).items()}
     return {"policy": policy, "models": models, "storage": storage_budget(root),

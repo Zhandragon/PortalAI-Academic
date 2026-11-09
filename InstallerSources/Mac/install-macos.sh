@@ -139,9 +139,9 @@ portal_stage 6 'Installing and checking runtime components'
 "$PYTHON" -B "$ROOT/Tools/import_macos_layers.py"
 "$PYTHON" -B "$ROOT/Tools/macos_installer_smoke.py"
 
-# Academic installs one standard chat model; no alternate downloads.
-portal_stage 7 'Downloading and verifying models'
-"$PYTHON" -B "$ROOT/Tools/import_foundation_assets.py" --install --only qwen1.7-q8
+# Academic offers standard models only, after explicit license/source review.
+portal_stage 7 'Choose optional, suggested/supported models'
+"$PYTHON" -B "$ROOT/Tools/choose_optional_models.py"
 
 # The fresh wheelhouses and pip resolution reports are installer scratch only.
 rm -rf -- "$ROOT/Cache/macos-gui-wheelhouse" "$ROOT/Cache/macos-accounts-wheelhouse" \
@@ -203,5 +203,5 @@ rmdir "$STAGE"
 STAGE=""
 portal_stage 10 'Installation complete'
 echo "PortalAI Academic Mac installed at: $DEST"
-echo "Open $DEST/PortalAI.app. The standard Qwen 1.7B chat model was installed. Academic mode is permanent."
+echo "Open $DEST/PortalAI.app. Only selected standard models were downloaded and verified. Academic mode is permanent."
 echo "This build is unsigned and not notarized. On first launch, Control-click PortalAI.app and choose Open."

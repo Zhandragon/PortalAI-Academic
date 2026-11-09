@@ -1,0 +1,36 @@
+Optional, suggested/supported models
+
+PortalAI is the harness. Model weights and adapters have separate publishers and
+licenses. Named examples describe compatibility, not an included entitlement.
+
+The Windows installer leaves model groups unchecked. Choose the groups you want;
+before installation, review their licenses, restrictions and exact upstream
+sources. Shared model dependencies also require review. No models are needed to
+install the harness, but Chat and model-based workflows need compatible assets.
+
+Native Linux/macOS installers offer standard small chat examples and (Full only)
+abliterated variants after runtime setup. Their support remains experimental.
+Download only the choices you authorize. Existing accounts and unselected model
+files are preserved by an explicit version-reviewed update.
+
+Custom chat models: provide a direct HTTPS GGUF URL, publisher SHA-256, exact byte
+size, display name, license URL and variant. This can be a different compatible
+model, not merely another mirror. Currently admitted: single-file dense Qwen3
+text GGUF v3 with an embedded chat template and supported F16/BF16, Q4/Q5/Q8 or
+K quantization. File pins, header bounds, architecture and tensor extents are
+checked before publication. No repository code executes. Unsupported formats,
+split models, projectors and arbitrary media replacements are rejected.
+
+Select the custom model by name in Settings. It is excluded from Automatic;
+memory admission, backend loading, Stop and account boundaries still apply.
+A valid file is not a guarantee of good answers or reliable tool use. The custom
+file is checked again before its first use and after modification. Original
+suggested-model paths are not overwritten. Academic rejects uncensored variants
+and known excluded model digests; a standard label is not a content guarantee.
+
+MusicGen/MMAudio weights are noncommercial. Certain FLUX variants/derivatives
+carry noncommercial and output-handling conditions. Swift has its own commercial
+revenue threshold. Base models, encoders, VAEs and LoRAs may each have terms.
+Follow publisher access controls and obtain any required separate permission;
+an alternative URL or personal use of the harness does not change a license.
+These notes are product documentation, not a legal clearance of any proposed use.

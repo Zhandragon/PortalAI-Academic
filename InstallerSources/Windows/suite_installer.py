@@ -379,7 +379,10 @@ def execute(catalog, selected, edition, platform, package, destination, *, prima
             manifest = core.read_manifest(pkg)
             check(manifest.get('upgrade', {}).get('edition') == asset['edition'], 'Downloaded application edition mismatch')
             ids = {c['id'] for c in manifest['components']}
-            components = [x for x in primary_components if x in ids]
+            # Consent applies to the exact primary-edition assets. The other
+            # edition gets its harness only; its installer can review models.
+            model_ids = {c['id'] for c in manifest['components'] if c.get('model_choice')}
+            components = [x for x in primary_components if x in ids and x not in model_ids]
             core.install(pkg, work/'installed', components, stop, progress)
             publish_tree(work/'installed/PortalAI Windows', destination/('PortalAI ' + asset['edition'] + ' Windows'))
         else:

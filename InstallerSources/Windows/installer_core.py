@@ -129,6 +129,30 @@ class HTTPSOnly(urllib.request.HTTPRedirectHandler):
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
+def download_ssl_context():
+    """Use trusted Windows roots, not its cache of intermediate certificates.
+
+    The CA store can contain an expired intermediate with the same key as a
+    current server-supplied intermediate. OpenSSL can select the stale copy.
+    ROOT is the Windows trust-anchor store; normal chain, expiry and hostname
+    verification still apply, using Python's secure context defaults.
+    """
+    if os.name != 'nt':
+        return ssl.create_default_context()
+    roots = [ssl.DER_cert_to_PEM_cert(cert)
+             for cert, encoding, trust in ssl.enum_certificates('ROOT')
+             if encoding == 'x509_asn' and
+             (trust is True or ssl.Purpose.SERVER_AUTH.oid in trust)]
+    if not roots:
+        raise InstallError('Windows has no trusted HTTPS root certificates. Update Windows certificates and retry.')
+    context = ssl.create_default_context(cadata='\n'.join(roots))
+    # Preserve administrator-provided OpenSSL CA files/directories, if present.
+    paths = ssl.get_default_verify_paths()
+    if paths.cafile or paths.capath:
+        context.load_verify_locations(cafile=paths.cafile, capath=paths.capath)
+    return context
+
+
 def fetch(item, cache, stop, progress, opener=None):
     try:
         return _fetch_one(item, cache, stop, progress, opener)
@@ -180,7 +204,8 @@ def _fetch_one(item, cache, stop, progress, opener=None):
             headers['Range'] = f'bytes={offset}-'
         progress('Downloading ' + item['id'] + ' from ' + item['url'], offset, item['bytes'])
         request = urllib.request.Request(item['url'], headers=headers)
-        opener = opener or urllib.request.build_opener(HTTPSOnly())
+        opener = opener or urllib.request.build_opener(
+            HTTPSOnly(), urllib.request.HTTPSHandler(context=download_ssl_context()))
         with opener.open(request, timeout=30) as response:
             status = response.status
             if status == 206:
@@ -569,7 +594,7 @@ class InstallationProgress:
                     overall_done=min(self.total,self.completed+self.done),overall_total=self.total)
 
 
-def _install_new(package, destination, selected, stop=None, progress=None, events=None):
+def _install_new(package, destination, selected, stop=None, progress=None, events=None, *, model_consent=None, custom_model=None):
     """Build a new directory beside the requested final path, then publish it."""
     stop = stop or threading.Event()
     progress = progress or (lambda *_: None)
@@ -577,6 +602,11 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
     checked_path(package.parent, package.name)
     manifest_path = package / 'release.json'
     manifest = read_manifest(package)
+    from model_choices import validate_consent, with_custom_model
+    chosen = plan(manifest, selected)[0]
+    validate_consent(manifest, chosen, selected, model_consent)
+    manifest, custom_id = with_custom_model(manifest, custom_model)
+    selected = list(selected) + ([custom_id] if custom_id else [])
     chosen, artifacts, expected_files, need = plan(manifest, selected)
     meter=InstallationProgress(events,artifacts,expected_files)
     meter.start("preparing","Checking selected files and disk space")
@@ -609,7 +639,11 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
         meter.start('download',artifact['id'],artifact['bytes'])
         def download_progress(label,done,total):
             progress(label,done,total);meter.advance(label,done,total)
-        downloaded.append((artifact, download_artifact(artifact, package, cache, stop, download_progress)))
+        downloaded_file = download_artifact(artifact, package, cache, stop, download_progress)
+        if artifact.get('custom_gguf'):
+            from custom_models import inspect_gguf
+            inspect_gguf(downloaded_file)
+        downloaded.append((artifact, downloaded_file))
         meter.finish()
     # Downloads are now on disk; recheck the remaining extraction requirement.
     check_space(work_parent, expected_files, [])
@@ -744,10 +778,10 @@ def inspect_update(package,target):
         contract=_update_metadata(manifest,source,manifest['payload']['members'])
         return update.plan(source,target,contract)
 
-def install(package,destination,selected,stop=None,progress=None,events=None,mode='install'):
+def install(package,destination,selected,stop=None,progress=None,events=None,mode='install', *, model_consent=None, custom_model=None):
     if mode=='install':
         # Existing users are offered an explicit version-reviewed Upgrade action.
-        return _install_new(package,destination,selected,stop,progress,events)
+        return _install_new(package,destination,selected,stop,progress,events,model_consent=model_consent,custom_model=custom_model)
     if mode!='upgrade':raise InstallError('Unknown installer mode')
     import portable_update as update
     stop=stop or threading.Event();progress=progress or (lambda *_:None)
@@ -758,8 +792,10 @@ def install(package,destination,selected,stop=None,progress=None,events=None,mod
     progress('Preparing verified update from '+str(preview['from_version'])+' to '+preview['to_version'],0,0)
     # Reuse the clean engine's verified runtime downloads and extraction. Optional
     # installed assets absent from this selection remain in the existing root.
-    _install_new(package,stage,selected,stop,progress,events)
-    manifest=read_manifest(package);_,_,rows,_=plan(manifest,selected)
+    _install_new(package,stage,selected,stop,progress,events,model_consent=model_consent,custom_model=custom_model)
+    from model_choices import with_custom_model
+    manifest, custom_id=with_custom_model(read_manifest(package),custom_model)
+    _,_,rows,_=plan(manifest,list(selected)+([custom_id] if custom_id else []))
     source=stage/'PortalAI Windows';contract=_update_metadata(manifest,source,rows,target)
     result=update.apply(source,target,contract,stop,progress)
     result['staging_retained']=str(stage)

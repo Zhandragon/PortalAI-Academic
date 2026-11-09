@@ -64,6 +64,8 @@ def portable_path(root: Path, relative: str) -> Path:
 
 def load_policy(root: Path = ROOT) -> dict:
     policy = json.loads((root / "Agent/hardware_profiles.json").read_text(encoding="utf-8"))
+    from custom_models import register_installed as register_custom
+    register_custom(root, policy)
     if sys.platform == "darwin":
         path = root / "Maintenance/Imports/macos-storage-policy.json"
         try:
@@ -345,6 +347,8 @@ def select_model(root: Path, hardware: dict, backend: dict, policy: dict) -> dic
         if not path.is_file() or (projector and not projector.is_file()):
             rejected.append({"id": model["id"], "reason": "model or projector not installed"})
             continue
+        from custom_models import verify_selected
+        verify_selected(path, model)
         weights = path.stat().st_size
         context = min(requested_context, int(model.get("max_context_tokens", 32768)))
         contexts = [context]

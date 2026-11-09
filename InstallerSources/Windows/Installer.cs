@@ -29,7 +29,7 @@ internal static class Program {
                 using (Stream input = entry.Open()) using (FileStream output = new FileStream(path, FileMode.CreateNew)) input.CopyTo(output);
             }
         }
-        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "installer_storage.py", "portable_update.py", "suite_installer.py", "abliterator_installer_core.py" }) {
+        foreach (string name in new [] { "installer_core.py", "engine_cli.py", "installer_storage.py", "portable_update.py", "suite_installer.py", "abliterator_installer_core.py", "model_choices.py", "custom_models.py" }) {
             using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
             using (FileStream output = new FileStream(Path.Combine(root, name), FileMode.CreateNew)) input.CopyTo(output);
         }
@@ -63,7 +63,66 @@ internal static class Program {
 
 internal sealed class ComponentChoice {
     internal string Id, Label; internal bool Required; internal long DownloadBytes, WorkingBytes;
-    public override string ToString() { return Label + (Required ? " (required)" : ""); }
+    internal Dictionary<string,object> Review;
+    internal string[] Dependencies=new string[0];
+    public override string ToString() { return Label + (Review!=null ? " — optional, suggested/supported · "+Convert.ToString(Review["license"]) : Required ? " (required)" : ""); }
+}
+
+internal sealed class ModelReviewForm : Form {
+    readonly ListBox list=new ListBox(); readonly TextBox details=new TextBox();
+    internal readonly Dictionary<string,string> Consent=new Dictionary<string,string>();
+    internal ModelReviewForm(List<ComponentChoice> models) {
+        Text="Optional, suggested/supported model downloads";Size=new Size(850,730);MinimumSize=new Size(720,620);StartPosition=FormStartPosition.CenterParent;
+        BackColor=ColorTranslator.FromHtml("#EEE7DC");ForeColor=ColorTranslator.FromHtml("#202224");Font=new Font("Segoe UI",10F);
+        var layout=new TableLayoutPanel { Dock=DockStyle.Fill,Padding=new Padding(20),RowCount=5,ColumnCount=1 };
+        foreach(int h in new[]{95,120,0,60,45})layout.RowStyles.Add(h==0 ? new RowStyle(SizeType.Percent,100) : new RowStyle(SizeType.Absolute,h));
+        layout.Controls.Add(new Label { Dock=DockStyle.Fill,Text="Choose your models. Review their terms.\r\n\r\nYour purchase covers PortalAI's harness. These are optional, suggested/supported examples from separate publishers. A compatible model is not automatically licensed for every use. Shared model dependencies are included in this review." });
+        list.Dock=DockStyle.Fill;list.HorizontalScrollbar=true;foreach(var m in models)list.Items.Add(m);layout.Controls.Add(list);
+        details.Dock=DockStyle.Fill;details.Multiline=true;details.ReadOnly=true;details.ScrollBars=ScrollBars.Both;details.WordWrap=true;details.BackColor=ColorTranslator.FromHtml("#F8F3EA");layout.Controls.Add(details);
+        var acknowledge=new CheckBox { Dock=DockStyle.Fill,Text="I have reviewed the licenses and restrictions for all selected downloads, including dependencies, and am authorized to use them." };layout.Controls.Add(acknowledge);
+        var bar=new FlowLayoutPanel { Dock=DockStyle.Fill,FlowDirection=FlowDirection.RightToLeft };
+        var accept=new Button { Text="Use these selections",Width=165,Height=34,Enabled=false };
+        var cancel=new Button { Text="Back",Width=90,Height=34,DialogResult=DialogResult.Cancel };
+        var publisher=new Button { Text="Open publisher / license",Width=195,Height=34 };
+        publisher.Click+=delegate { if(list.SelectedItem==null)return;string url=Convert.ToString(((ComponentChoice)list.SelectedItem).Review["license_url"]);Uri uri;if(Uri.TryCreate(url,UriKind.Absolute,out uri)&&uri.Scheme=="https"&&!String.IsNullOrEmpty(uri.Host))Process.Start(new ProcessStartInfo(url){UseShellExecute=true}); };
+        acknowledge.CheckedChanged+=delegate { accept.Enabled=acknowledge.Checked; };
+        accept.Click+=delegate { foreach(var m in models)Consent[m.Id]=Convert.ToString(m.Review["review_digest"]);DialogResult=DialogResult.OK;Close(); };
+        list.SelectedIndexChanged+=delegate { var m=list.SelectedItem as ComponentChoice;if(m==null)return;var r=m.Review;var text=new StringBuilder();text.AppendLine(m.Label).AppendLine().AppendLine("License: "+Convert.ToString(r["license"])).AppendLine().AppendLine(Convert.ToString(r["restrictions"])).AppendLine().AppendLine("Publisher / license: "+Convert.ToString(r["license_url"])).AppendLine().AppendLine("Exact download sources:");foreach(object url in (System.Collections.IEnumerable)r["sources"])text.AppendLine(Convert.ToString(url));details.Text=text.ToString(); };
+        bar.Controls.AddRange(new Control[]{accept,cancel,publisher});layout.Controls.Add(bar);Controls.Add(layout);CancelButton=cancel;if(list.Items.Count>0)list.SelectedIndex=0;
+    }
+}
+
+internal sealed class CustomModelForm : Form {
+    internal Dictionary<string,object> Request;
+    readonly Dictionary<string,TextBox> fields=new Dictionary<string,TextBox>();
+    internal CustomModelForm(bool academic,Dictionary<string,object> previous=null) {
+        Text="Use your own compatible chat model";Size=new Size(830,780);MinimumSize=new Size(740,740);StartPosition=FormStartPosition.CenterParent;
+        Font=new Font("Segoe UI",10F);BackColor=ColorTranslator.FromHtml("#EEE7DC");
+        var layout=new TableLayoutPanel { Dock=DockStyle.Fill,Padding=new Padding(22),ColumnCount=1,RowCount=11 };
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,135));
+        layout.Controls.Add(new Label { Dock=DockStyle.Fill,Text="Bring a different compatible model\r\n\r\nSupported here: a single-file, dense Qwen3 GGUF chat model with an embedded chat template. This installs alongside the suggested examples; uncheck those examples if you want only your model. It does not substitute arbitrary image, audio, vision or adapter files. Select your installed custom model in PortalAI Settings.\r\n\r\nUse the publisher's direct .gguf download URL and exact SHA-256 and byte size. No repository code is executed." });
+        foreach(string key in new[]{"label","url","sha256","bytes","license_url"}) {
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute,67));
+            var row=new TableLayoutPanel { Dock=DockStyle.Fill,RowCount=2,ColumnCount=1 };
+            string caption=key=="label" ? "Display name" : key=="url" ? "Direct HTTPS model download URL" : key=="sha256" ? "Publisher SHA-256 (64 hexadecimal characters)" : key=="bytes" ? "Exact file size in bytes" : "Publisher license / model-card URL";
+            row.Controls.Add(new Label { Text=caption,AutoSize=true });var box=new TextBox { Dock=DockStyle.Fill };fields[key]=box;if(previous!=null&&previous.ContainsKey(key))box.Text=Convert.ToString(previous[key]);row.Controls.Add(box);layout.Controls.Add(row);
+        }
+        var variant=new ComboBox { Dock=DockStyle.Fill,DropDownStyle=ComboBoxStyle.DropDownList };variant.Items.Add("standard");if(!academic)variant.Items.Add("uncensored");variant.SelectedItem=previous==null ? "standard" : Convert.ToString(previous["variant"]);
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));layout.Controls.Add(new Label { Text="Model variant (Academic accepts standard models only)",Dock=DockStyle.Fill });
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,36));layout.Controls.Add(variant);
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,58));var ack=new CheckBox { Dock=DockStyle.Fill,Text="I reviewed this model's license and source and am authorized to download and use it. Compatibility checks do not grant license rights." };layout.Controls.Add(ack);
+        layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));layout.Controls.Add(new Label { Dock=DockStyle.Fill,Text="Before installation: byte size, SHA-256, GGUF metadata, architecture, template and tensor bounds are checked. Model quality and tool-use behavior still depend on the model. Gated downloads must be obtained through the publisher's authorized process." });
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,44));var bar=new FlowLayoutPanel { Dock=DockStyle.Fill,FlowDirection=FlowDirection.RightToLeft };
+        var use=new Button { Text="Use this model",Width=140,Height=34,Enabled=false };var cancel=new Button { Text="Cancel",Width=90,Height=34,DialogResult=DialogResult.Cancel };
+        var remove=new Button { Text="No custom model",Width=150,Height=34 };remove.Click+=delegate { Request=null;DialogResult=DialogResult.OK;Close(); };
+        ack.CheckedChanged+=delegate { use.Enabled=ack.Checked; };
+        use.Click+=delegate {
+            long bytes;Uri url,license;string pin=fields["sha256"].Text.Trim().ToLowerInvariant();
+            if(!Uri.TryCreate(fields["url"].Text.Trim(),UriKind.Absolute,out url)||url.Scheme!="https"||url.UserInfo.Length>0||url.Fragment.Length>0||!url.AbsolutePath.EndsWith(".gguf",StringComparison.OrdinalIgnoreCase)||!Uri.TryCreate(fields["license_url"].Text.Trim(),UriKind.Absolute,out license)||license.Scheme!="https"||license.UserInfo.Length>0||license.Fragment.Length>0||!System.Text.RegularExpressions.Regex.IsMatch(pin,"^[0-9a-f]{64}$")||!Int64.TryParse(fields["bytes"].Text.Trim(),out bytes)||bytes<1024||bytes>549755813888L||String.IsNullOrWhiteSpace(fields["label"].Text)||fields["label"].Text.Length>100) { MessageBox.Show(this,"Enter a direct HTTPS GGUF URL, a license URL, a short display name, an exact byte size and its 64-character SHA-256.","Check model details");return; }
+            Request=new Dictionary<string,object>();foreach(var f in fields)Request[f.Key]=f.Value.Text.Trim();Request["bytes"]=bytes;Request["sha256"]=pin;Request["variant"]=Convert.ToString(variant.SelectedItem);Request["accepted"]=true;DialogResult=DialogResult.OK;Close();
+        };
+        bar.Controls.AddRange(new Control[]{use,cancel,remove});layout.Controls.Add(bar);Controls.Add(layout);CancelButton=cancel;
+    }
 }
 internal static class PortalPaint {
     internal static System.Drawing.Drawing2D.GraphicsPath Round(RectangleF r, float radius) {
@@ -118,11 +177,14 @@ internal sealed class InstallerForm : Form {
     readonly Label selectionSize=new Label { Dock=DockStyle.Fill, AutoEllipsis=true };
     string pendingToken="", primaryEdition;
     readonly PortalButton upgrade=new PortalButton(); string upgradeTarget;
+    readonly PortalButton custom=new PortalButton();
+    Dictionary<string,string> modelConsent=new Dictionary<string,string>();
+    Dictionary<string,object> customModel;
     string cancellation,lastStep; bool loading=true,dark=true; volatile bool pauseRequested;
     Color gold=Color.FromArgb(176,134,58); Point? drag;
     internal InstallerForm(bool smoke) {
         Text="PortalAI suite installer"; Name="PortalAIInstaller";
-        Size=new Size(900,830);MinimumSize=new Size(780,690);StartPosition=FormStartPosition.CenterScreen;
+        Size=new Size(1060,960);MinimumSize=new Size(850,790);StartPosition=FormStartPosition.CenterScreen;
         FormBorderStyle=FormBorderStyle.None;Padding=new Padding(8);DoubleBuffered=true;
         Font=new Font("Segoe UI",9F);Icon=Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         var layout=new TableLayoutPanel { Dock=DockStyle.Fill,Padding=new Padding(12),RowCount=8,ColumnCount=1 };
@@ -142,8 +204,8 @@ internal sealed class InstallerForm : Form {
         title.MouseDown+=delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left && WindowState==FormWindowState.Normal)drag=new Point(Cursor.Position.X-Left,Cursor.Position.Y-Top); };
         title.MouseMove+=delegate { if(drag.HasValue && Control.MouseButtons==MouseButtons.Left)Location=new Point(Cursor.Position.X-drag.Value.X,Cursor.Position.Y-drag.Value.Y); };
         title.MouseUp+=delegate { drag=null; };
-        Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nChoose optional components below. Existing installation files will not be overwritten." };
-        choices.Name="Components";choices.Dock=DockStyle.Fill;choices.CheckOnClick=true;choices.BorderStyle=BorderStyle.None;choices.IntegralHeight=false;
+        Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nModels are optional, suggested/supported examples. Review their separate licenses before downloading. You can also use your own compatible chat model." };
+        choices.Name="Components";choices.Dock=DockStyle.Fill;choices.CheckOnClick=true;choices.BorderStyle=BorderStyle.None;choices.IntegralHeight=false;choices.HorizontalScrollbar=true;
         choices.ItemCheck+=delegate(object sender,ItemCheckEventArgs e) { if(!loading && ((ComponentChoice)choices.Items[e.Index]).Required)e.NewValue=CheckState.Checked; if(!loading)BeginInvoke((Action)UpdateSelectionSize); };
         var progress=new TableLayoutPanel { Dock=DockStyle.Fill,RowCount=5,ColumnCount=1,Padding=new Padding(0,10,0,4) };
         foreach(int height in new[]{25,17,24,25,17})progress.RowStyles.Add(new RowStyle(SizeType.Absolute,height));
@@ -162,7 +224,8 @@ internal sealed class InstallerForm : Form {
                 upgradeTarget=picker.SelectedPath;install.Enabled=true;install.PerformClick();
             }
         };
-        buttons.Controls.AddRange(new Control[]{close,pause,upgrade,install});
+        custom.Text="Your model link";custom.Width=135;custom.Click+=delegate { using(var dialog=new CustomModelForm(primaryEdition=="Academic",customModel)) { if(dialog.ShowDialog(this)==DialogResult.OK) { customModel=dialog.Request;custom.Text=customModel==null ? "Your model link" : "Edit model link";Append(customModel==null ? "No custom model selected." : "Custom model selected: "+Convert.ToString(customModel["label"])+". File validation runs before installation."); } } };
+        buttons.Controls.AddRange(new Control[]{close,pause,upgrade,install,custom});
         var credentials=new TableLayoutPanel { Dock=DockStyle.Fill, RowCount=2,ColumnCount=1 };
         credentials.Controls.Add(selectionSize);
         var auth=new FlowLayoutPanel { Dock=DockStyle.Fill };auth.Controls.Add(new Label { Text="Private downloads: optional GitHub token", AutoSize=true, Padding=new Padding(0,5,0,0) });auth.Controls.Add(githubToken);credentials.Controls.Add(auth);
@@ -172,18 +235,21 @@ internal sealed class InstallerForm : Form {
         primaryEdition=Convert.ToString(((Dictionary<string,object>)release["upgrade"])["edition"]);
         title.Text="PortalAI "+primaryEdition;
         choices.Items.Add(new ComponentChoice { Id="primary:"+primaryEdition, Label="Install PortalAI "+primaryEdition+" for Windows" },true);
-        LoadSuiteChoices();
-        foreach(object row in (System.Collections.IEnumerable)release["components"]) {
+        foreach(bool modelsFirst in new[]{true,false}) foreach(object row in (System.Collections.IEnumerable)release["components"]) {
             var data=(Dictionary<string,object>)row;
+            if(modelsFirst!=data.ContainsKey("model_choice"))continue;
             var item=new ComponentChoice { Id=(string)data["id"],Label=Convert.ToString(data.ContainsKey("label") ? data["label"] : data["id"]),Required=data.ContainsKey("required") && Convert.ToBoolean(data["required"]) };
+            if(data.ContainsKey("model_choice"))item.Review=(Dictionary<string,object>)data["model_choice"];
+            if(data.ContainsKey("depends_on")) { var deps=new List<string>();foreach(object dep in (System.Collections.IEnumerable)data["depends_on"])deps.Add(Convert.ToString(dep));item.Dependencies=deps.ToArray(); }
             choices.Items.Add(item,item.Required);
         }
+        LoadSuiteChoices();
         loading=false;UpdateSelectionSize();Append("Ready. "+Convert.ToString(release["release"]));
         worker.WorkerReportsProgress=true;
         worker.ProgressChanged+=delegate(object sender,ProgressChangedEventArgs e) { var message=e.UserState as Dictionary<string,object>;if(message!=null)Progress(message);else Append(Convert.ToString(e.UserState)); };
         worker.DoWork+=RunInstall;
         worker.RunWorkerCompleted+=delegate(object sender,RunWorkerCompletedEventArgs e) {
-            pendingToken="";githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
+            pendingToken="";githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;custom.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
             if(e.Error!=null) { currentLabel.Text="Installation stopped";Append("Installation stopped: "+e.Error.Message); }
             else if(Convert.ToInt32(e.Result)!=0) { currentLabel.Text=Convert.ToInt32(e.Result)==2 ? "Paused — downloads retained" : "Installation did not complete";Append("See the details above. Downloaded files remain available for resume."); }
             else { currentLabel.Text="Installation verified";currentBytes.Text="All selected files are ready.";overallLabel.Text="Overall installation · 100%";currentProgress.Fraction=overallProgress.Fraction=1;Append("Installation verified. Open PortalAI normally. Updates preserve your existing accounts and settings.");install.Enabled=false; }
@@ -191,7 +257,14 @@ internal sealed class InstallerForm : Form {
         };
         install.Click+=delegate {
             var selected=new List<string>();foreach(ComponentChoice item in choices.CheckedItems)selected.Add(item.Id);
+            if(customModel!=null&&!selected.Contains("primary:"+primaryEdition)) { MessageBox.Show(this,"Select the primary PortalAI application to install your custom model.");return; }
+            var expanded=new HashSet<string>(selected);bool changed;
+            do { changed=false;foreach(ComponentChoice item in choices.Items)if(expanded.Contains(item.Id)||item.Required) { if(expanded.Add(item.Id))changed=true;foreach(string dependency in item.Dependencies)if(expanded.Add(dependency))changed=true; } } while(changed);
+            var reviews=new List<ComponentChoice>();foreach(ComponentChoice item in choices.Items)if(expanded.Contains(item.Id)&&item.Review!=null)reviews.Add(item);
+            modelConsent.Clear();if(reviews.Count>0)using(var review=new ModelReviewForm(reviews)) { if(review.ShowDialog(this)!=DialogResult.OK)return;modelConsent=review.Consent; }
+            selected=new List<string>(expanded);
             install.Enabled=false;upgrade.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
+            custom.Enabled=false;
             currentLabel.Text="Checking disk space and selected components…";currentBytes.Text="Preparing installation";overallLabel.Text="Overall installation · preparing";
             currentProgress.Fraction=overallProgress.Fraction=0;currentProgress.Indeterminate=overallProgress.Indeterminate=true;
             pendingToken=githubToken.Text.Trim();githubToken.Clear();githubToken.Enabled=false;
@@ -294,7 +367,7 @@ internal sealed class InstallerForm : Form {
                 if(!accepted) { e.Result=2;return; }
             }
         }
-        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? Program.Package,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade",suite=true }),new UTF8Encoding(false));
+        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? Program.Package,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade",suite=true,model_consent=modelConsent,custom_model=customModel }),new UTF8Encoding(false));
         using(Process process=Process.Start(Program.Engine(runtime,Program.Quote(request)))) {
             process.StandardInput.WriteLine(pendingToken);process.StandardInput.Close();pendingToken="";
             Task<string> errors=process.StandardError.ReadToEndAsync();string line;
