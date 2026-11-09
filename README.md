@@ -47,7 +47,7 @@ Keep the AI workspace, selected models and saved projects together in a local di
 
 The Academic edition keeps PortalAI's main interface and supported workflows, with standard/censored chat, vision and media enforced. Variant controls remain visible but inert, excluded model and LoRA assets are not downloaded, and an Academic instruction appendix is applied to the chat and mission harnesses.
 
-**[Purchase the Full version here — $25 once](https://payhip.com/b/Kw54p).** Full adds working standard/uncensored model choices, supported abliterated chat/vision options, the Full-only abliterated Swift coding specialist and supported alternate media models. The purchase includes Windows, Mac, Linux and Universal online setup kits; large models and runtime components download separately. [Explore the PortalAI site and guides](https://payhip.com/PortalAI).
+**[Purchase the Full version here — $49.99 once](https://payhip.com/b/Kw54p).** Full adds working standard/uncensored model choices, supported abliterated chat/vision options, the Full-only abliterated Swift coding specialist and supported alternate media models. The purchase includes Windows, Mac, Linux and Universal online setup kits; large models and runtime components download separately. [Explore the PortalAI site and guides](https://payhip.com/PortalAI).
 
 Academic remains standard-only: the abliterated coding model is excluded from its download manifest, and coding-specialist routing is forced off. Academic does not gain Full features through this purchase link.
 
