@@ -48,7 +48,9 @@ new Item("upgrade.json", 1770L, "0de6443ab60cb5b70c66c5755ac5e4db3db5e964ef90e59
             Thread.Sleep(500);
         }
     }
-    internal static string Prepare(string target, Action<int,string> report, Func<bool> cancelled, bool includeInstall = true) {
+    // Model selection happens in the verified installer, which checks its own
+    // selected-component plan. Do not reserve every optional model beforehand.
+    internal static string Prepare(string target, Action<int,string> report, Func<bool> cancelled, bool includeInstall = false) {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         target = Path.GetFullPath(target);
         string marker = Path.Combine(target, ".portalai-academic-setup");

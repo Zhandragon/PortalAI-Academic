@@ -8,6 +8,8 @@ Academic retains its exclusions: standard variants only, no abliterated suggesti
 
 Windows has model-group selection and license review. The experimental macOS/Linux installers offer small chat-model checkboxes and the compatible custom input. Universal setup prepares the corresponding three native installers. Physical Mac/Linux execution has not been newly validated.
 
+The Academic Windows download launcher checks download/extraction space first. The full installer then checks the actual selected components, so unselected optional models do not impose an up-front storage requirement.
+
 Validation includes consent/dependency guards; invalid, truncated and overlapping GGUF rejection; custom install receipts and changed-file detection; Academic exclusions; native chooser tests; runtime policy tests for both editions; installer/preparation tests; and trial expiry/retained-state tests using the bundled Python 3.12 cryptography. A real local Qwen3 GGUF passed structural admission. These checks do not certify arbitrary custom models' inference quality.
 
 Existing follow-up sending, science tools, GUI previews, platform dependency pins and edition boundaries are retained. Payhip Full and its free three-day trial use separate unbundled delivery kits; the drive mirrors retain the bundled edition installers.
