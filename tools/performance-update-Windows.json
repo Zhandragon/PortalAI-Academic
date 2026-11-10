@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.09-Desktop-r75",
+  "edition": "Academic",
+  "platform": "Windows",
+  "patch": "perf-critical-20261109",
+  "files": [
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 401725,
+      "sha256": "0350cde982854eed91512c7430db90883ac334534c3fa0c6d5fb1b1586db1082",
+      "expected_before": [
+        "6f97d243c3f64ead9d15d0cf14a47cbf0c6b748452518c9897db8260418f408e"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/performance_guidance.py",
+      "bytes": 2859,
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_nice_prompt_integration.py",
+      "bytes": 9446,
+      "sha256": "2c15f7335fd4bbbf51a7a7831071a49ae545b69b7bbccf36ba5dee9788c1bebf",
+      "expected_before": [
+        "dd3599a6ea196bee0ec80d2ee7711080ced4636602adf59665c9a03d4f306e76"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_performance_guidance.py",
+      "bytes": 2990,
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/Performance_Coding.md",
+      "bytes": 1805,
+      "sha256": "ef0e0a0a6e709bf99ea350b90faaba07bc1475cb60e3d60eebfe873e12ffd65d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 89,
+      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
+      "expected_before": [
+        "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "expected_before": [
+        "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+      ],
+      "mode": 420
+    }
+  ]
+}

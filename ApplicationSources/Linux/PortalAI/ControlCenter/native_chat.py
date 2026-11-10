@@ -3750,6 +3750,8 @@ class NativeChat:
     def system_prompt(self) -> str:
         from assistant_guidance import host_guidance, media_preference_guidance
         pieces = []
+        from performance_guidance import guidance as coding_guidance
+        pieces.append(coding_guidance((getattr(self, "session", None) or {}).get("messages", ())))
         if self.settings.get("low_power_support", False):
             from low_power_support import guidance
             try: active_model = model_id()

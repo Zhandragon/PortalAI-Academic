@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.09-Desktop-r75",
+  "edition": "Academic",
+  "platform": "Mac",
+  "patch": "perf-critical-20261109",
+  "files": [
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 378718,
+      "sha256": "fc213eb55fdf0f4a6d0501d4035661e043eda475c82aacf9fad7783ba8507923",
+      "expected_before": [
+        "c07d021f42460b96a275ecaa558e94967d4a2c93e034ba46613a26f014815d33"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/performance_guidance.py",
+      "bytes": 2859,
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_nice_prompt_integration.py",
+      "bytes": 9259,
+      "sha256": "05e322d4204394e1808f70ec30810701ec75b39b0f590d94fe1b9829651bbdc8",
+      "expected_before": [
+        "de48f173cd7871aefd5e29c66104dde214e56a18e1c7b33c93688aac436e1444"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Maintenance/Tests/test_performance_guidance.py",
+      "bytes": 2990,
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "Documentation/Performance_Coding.md",
+      "bytes": 1805,
+      "sha256": "ef0e0a0a6e709bf99ea350b90faaba07bc1475cb60e3d60eebfe873e12ffd65d",
+      "expected_before": [
+        null
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 89,
+      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
+      "expected_before": [
+        "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde"
+      ],
+      "mode": 420
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4949,
+      "sha256": "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91",
+      "expected_before": [
+        "1ba2398a768b931c879c5f2220b81c8d7c2f0a1ab85cf60e92d8e78052e63d91"
+      ],
+      "mode": 420
+    }
+  ]
+}

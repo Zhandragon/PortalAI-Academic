@@ -1,9 +1,9 @@
 {
   "scope": "Tracked and new non-vendored code under ApplicationSources only; not a live-drive or binary-release audit.",
   "files_per_platform": {
-    "Linux": 822,
-    "Mac": 797,
-    "Windows": 976
+    "Linux": 831,
+    "Mac": 806,
+    "Windows": 993
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -311,6 +311,7 @@
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_model_switch.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_vision_policy.py",
+    "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_coding_model_route.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_crash_recovery.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_effort_policy.py",
     "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_effort_smoke_cleanup.py",
@@ -1734,6 +1735,36 @@
         {
           "name": "windows_rocm_cpu_reader",
           "line": 14,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Agent/custom_models.py",
+      "platform": "Linux",
+      "component": "Agent",
+      "sha256": "75ea51472f217f44c42852758a3a2c527c2e7089ee85ed6fd25babcd1ab77326",
+      "lines": 187,
+      "overview": "Bounded GGUF admission for user-supplied text models; no repository code.",
+      "symbols": [
+        {
+          "name": "inspect_gguf",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_identity",
+          "line": 134,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "register_installed",
+          "line": 139,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "verify_selected",
+          "line": 173,
           "kind": "FunctionDef"
         }
       ]
@@ -4381,8 +4412,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/portable_fs.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "66898df560daa41aa00268af744f375412f06ff75dfaa1c9f49a823b6ee3ebe9",
-      "lines": 62,
+      "sha256": "e512228592f9e1fde1acfe548aed9bd48c330a83cf817d00fe22cc2b5b50104d",
+      "lines": 64,
       "overview": "Canonical application paths with Windows long-path I/O, without registry edits.",
       "symbols": [
         {
@@ -4392,17 +4423,17 @@
         },
         {
           "name": "native_path",
-          "line": 44,
+          "line": 46,
           "kind": "FunctionDef"
         },
         {
           "name": "walk",
-          "line": 55,
+          "line": 57,
           "kind": "FunctionDef"
         },
         {
           "name": "raise_walk_error",
-          "line": 60,
+          "line": 62,
           "kind": "FunctionDef"
         }
       ]
@@ -4990,8 +5021,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/runtime_policy.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "cd6f795638cec50f4da8210961b46ad6d135428fc06a9182e566e09f9ba0e905",
-      "lines": 456,
+      "sha256": "68c06051a2c2a5cf694d58c056d00e92c59f87dcf954d9547130bc2b38663007",
+      "lines": 460,
       "overview": "Portable hardware/model selection. Standard library only; no host installs.",
       "symbols": [
         {
@@ -5016,87 +5047,87 @@
         },
         {
           "name": "load_effective_policy",
-          "line": 86,
+          "line": 88,
           "kind": "FunctionDef"
         },
         {
           "name": "model_variant",
-          "line": 91,
+          "line": 93,
           "kind": "FunctionDef"
         },
         {
           "name": "automatic_models",
-          "line": 95,
+          "line": 97,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic_json",
-          "line": 106,
+          "line": 108,
           "kind": "FunctionDef"
         },
         {
           "name": "portable_env",
-          "line": 119,
+          "line": 121,
           "kind": "FunctionDef"
         },
         {
           "name": "run_probe",
-          "line": 142,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "_windows_memory_status",
-          "line": 155,
+          "line": 157,
           "kind": "FunctionDef"
         },
         {
           "name": "memory_info",
-          "line": 167,
+          "line": 169,
           "kind": "FunctionDef"
         },
         {
           "name": "detect_hardware",
-          "line": 188,
+          "line": 190,
           "kind": "FunctionDef"
         },
         {
           "name": "storage_budget",
-          "line": 208,
+          "line": 210,
           "kind": "FunctionDef"
         },
         {
           "name": "require_space",
-          "line": 223,
+          "line": 225,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_candidates",
-          "line": 230,
+          "line": 232,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_installation_issues",
-          "line": 243,
+          "line": 245,
           "kind": "FunctionDef"
         },
         {
           "name": "choose_backend",
-          "line": 267,
+          "line": 269,
           "kind": "FunctionDef"
         },
         {
           "name": "select_model",
-          "line": 320,
+          "line": 322,
           "kind": "FunctionDef"
         },
         {
           "name": "build_plan",
-          "line": 391,
+          "line": 395,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_plan",
-          "line": 410,
+          "line": 414,
           "kind": "FunctionDef"
         }
       ]
@@ -5125,8 +5156,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Agent/science_tools.py",
       "platform": "Linux",
       "component": "Agent",
-      "sha256": "63f6a827039d09461df083a6f3563a033ee9974f514f0fa6b8956cca3ca1e11d",
-      "lines": 762,
+      "sha256": "c9c226bde382abde0aec62e0be0618c4b38e5e4c640167e57006e10156478d91",
+      "lines": 793,
       "overview": "",
       "symbols": [
         {
@@ -5161,152 +5192,152 @@
         },
         {
           "name": "_result",
-          "line": 113,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "_disk_size",
-          "line": 128,
+          "line": 131,
           "kind": "FunctionDef"
         },
         {
           "name": "_pkg_version",
-          "line": 141,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "op_status",
-          "line": 161,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "_sympy_locals",
-          "line": 182,
+          "line": 185,
           "kind": "FunctionDef"
         },
         {
           "name": "_parse_expr",
-          "line": 192,
+          "line": 195,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calc",
-          "line": 196,
+          "line": 199,
           "kind": "FunctionDef"
         },
         {
           "name": "op_solve",
-          "line": 213,
+          "line": 216,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calculus",
-          "line": 240,
+          "line": 243,
           "kind": "FunctionDef"
         },
         {
           "name": "op_units",
-          "line": 265,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "op_uncertainty",
-          "line": 275,
+          "line": 278,
           "kind": "FunctionDef"
         },
         {
           "name": "_load_frame",
-          "line": 291,
+          "line": 294,
           "kind": "FunctionDef"
         },
         {
           "name": "_save_table_csv",
-          "line": 319,
+          "line": 322,
           "kind": "FunctionDef"
         },
         {
           "name": "op_stats",
-          "line": 325,
+          "line": 328,
           "kind": "FunctionDef"
         },
         {
           "name": "op_plot",
-          "line": 408,
+          "line": 411,
           "kind": "FunctionDef"
         },
         {
           "name": "_clean_seq",
-          "line": 447,
+          "line": 450,
           "kind": "FunctionDef"
         },
         {
           "name": "_seq_kind",
-          "line": 451,
+          "line": 454,
           "kind": "FunctionDef"
         },
         {
           "name": "_gc_fraction",
-          "line": 458,
+          "line": 461,
           "kind": "FunctionDef"
         },
         {
           "name": "op_bio",
-          "line": 464,
+          "line": 467,
           "kind": "FunctionDef"
         },
         {
           "name": "_chem_mol",
-          "line": 541,
+          "line": 544,
           "kind": "FunctionDef"
         },
         {
           "name": "_draw_mol",
-          "line": 548,
+          "line": 551,
           "kind": "FunctionDef"
         },
         {
           "name": "op_chem",
-          "line": 554,
+          "line": 557,
           "kind": "FunctionDef"
         },
         {
           "name": "op_numerics",
-          "line": 592,
+          "line": 595,
           "kind": "FunctionDef"
         },
         {
           "name": "op_linear",
-          "line": 620,
+          "line": 623,
           "kind": "FunctionDef"
         },
         {
           "name": "op_physics",
-          "line": 637,
+          "line": 640,
           "kind": "FunctionDef"
         },
         {
           "name": "op_run",
-          "line": 662,
+          "line": 665,
           "kind": "FunctionDef"
         },
         {
           "name": "op_help",
-          "line": 682,
+          "line": 685,
           "kind": "FunctionDef"
         },
         {
           "name": "op_selftest",
-          "line": 705,
+          "line": 709,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 726,
+          "line": 743,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 744,
+          "line": 775,
           "kind": "FunctionDef"
         }
       ]
@@ -7679,7 +7710,7 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "3efaff7457f47e1774267a3830e7969a0c45f62d9ffe5caa944f3e426415a94f",
+      "sha256": "998fcfb8082fb2b7a2c2052e697650d9671defdfc76fa739060e1a17a27c85d8",
       "lines": 203,
       "overview": "Current portable capabilities for Settings, Installed and diagnostics.",
       "symbols": [
@@ -7857,6 +7888,26 @@
           "name": "execute",
           "line": 194,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/chat_followups.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "17bd32a41b4ad13dc3c4cd8ddbe1ee0c23343052028039f5ec1becb2d58cea17",
+      "lines": 73,
+      "overview": "Session-scoped, in-memory follow-ups; only the GUI thread changes this queue.",
+      "symbols": [
+        {
+          "name": "Followup",
+          "line": 7,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupQueue",
+          "line": 13,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -8444,23 +8495,23 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "fe3fbbd9c0dff22707827a460f7f0a8dbf40bfdbd88e0bcefb7eb07a27ec2ae7",
-      "lines": 920,
+      "sha256": "b2ac8afe6c30d5c035bff782c1d9fafb0c6107d74fd616982c77181089377c4b",
+      "lines": 925,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 888,
+          "line": 893,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 891,
+          "line": 896,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 900,
+          "line": 905,
           "kind": "FunctionDef"
         }
       ]
@@ -9023,158 +9074,158 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/native_chat.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "16611d40dc534be01f3cb6fae64cbf645ad7608b46f44e148aefa249596cabf4",
-      "lines": 6714,
+      "sha256": "50122dc2c63b61a9feae0bba7d00affff1d69f2ac2cbb270d88523baed7aa86e",
+      "lines": 6927,
       "overview": "",
       "symbols": [
         {
           "name": "creationflags",
-          "line": 119,
+          "line": 122,
           "kind": "FunctionDef"
         },
         {
           "name": "clean_env",
-          "line": 123,
+          "line": 126,
           "kind": "FunctionDef"
         },
         {
           "name": "safe_rel",
-          "line": 139,
+          "line": 142,
           "kind": "FunctionDef"
         },
         {
           "name": "latest_master_instructions",
-          "line": 146,
+          "line": 149,
           "kind": "FunctionDef"
         },
         {
           "name": "load_json",
-          "line": 156,
+          "line": 159,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 163,
+          "line": 166,
           "kind": "FunctionDef"
         },
         {
           "name": "_normalize_qwen_messages",
-          "line": 171,
+          "line": 174,
           "kind": "FunctionDef"
         },
         {
           "name": "model_id",
-          "line": 193,
+          "line": 196,
           "kind": "FunctionDef"
         },
         {
           "name": "model_props",
-          "line": 205,
+          "line": 208,
           "kind": "FunctionDef"
         },
         {
           "name": "context_limit_from_props",
-          "line": 225,
+          "line": 228,
           "kind": "FunctionDef"
         },
         {
           "name": "estimate_tokens",
-          "line": 257,
+          "line": 260,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 265,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 274,
+          "line": 277,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 291,
+          "line": 294,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 481,
+          "line": 484,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 509,
+          "line": 512,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 524,
+          "line": 527,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 528,
+          "line": 531,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 543,
+          "line": 546,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_tool_batch",
-          "line": 554,
+          "line": 557,
           "kind": "FunctionDef"
         },
         {
           "name": "historical_tool_calls",
-          "line": 578,
+          "line": 581,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 610,
+          "line": 613,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 657,
+          "line": 660,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 662,
+          "line": 665,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 817,
+          "line": 820,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1403,
+          "line": 1406,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1410,
+          "line": 1413,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1428,
+          "line": 1431,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1573,
+          "line": 1576,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6702,
+          "line": 6915,
           "kind": "FunctionDef"
         }
       ]
@@ -9801,6 +9852,31 @@
           "name": "PageWatermark",
           "line": 12,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/performance_guidance.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e",
+      "lines": 56,
+      "overview": "Small, request-scoped coding guidance; never a permission or execution gate.",
+      "symbols": [
+        {
+          "name": "_text",
+          "line": 29,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_requested",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "guidance",
+          "line": 46,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -10758,9 +10834,9 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/release_version.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
       "lines": 2,
-      "overview": "Verified unified PortalAI distribution version.",
+      "overview": "Verified PortalAI distribution version.",
       "symbols": []
     },
     {
@@ -12936,6 +13012,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_chat_followups.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "57b3e00458595e482fefc0d5f25a3e2185bbdb32457ac1d42d78462f957ebee5",
+      "lines": 113,
+      "overview": "Real Tk composer/event pump, isolated store and workers; no inference or account.",
+      "symbols": [
+        {
+          "name": "QueueTests",
+          "line": 11,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupUITests",
+          "line": 31,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_chat_handoff.py",
       "platform": "Linux",
       "component": "Maintenance",
@@ -13029,8 +13125,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_chat_hydration.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "b878ae3831721d423fedb3a747212b6879b3419a4b15e0736b728c048dc71283",
-      "lines": 235,
+      "sha256": "99ec0408fecc17948341193b8cf90b0bb335e7794329a35395045cb592d3cbd2",
+      "lines": 244,
       "overview": "Lazy chat I/O boundaries using temporary profiles; no model or user data.",
       "symbols": [
         {
@@ -13329,7 +13425,7 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_chat_zoom_tk.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "868a80102712dc0e32c9f58c2006234f860597aae9890d6969408f8daee28c04",
+      "sha256": "541520cf1a34e3d579cfe02263bd6c81f0450ec8ebf879eb90b1860bd3338188",
       "lines": 287,
       "overview": "Synthetic Tk transcript only: no profiles, model servers or user history.",
       "symbols": [
@@ -15134,13 +15230,13 @@
       "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_nice_prompt_integration.py",
       "platform": "Linux",
       "component": "Maintenance",
-      "sha256": "de48f173cd7871aefd5e29c66104dde214e56a18e1c7b33c93688aac436e1444",
-      "lines": 133,
+      "sha256": "05e322d4204394e1808f70ec30810701ec75b39b0f590d94fe1b9829651bbdc8",
+      "lines": 164,
       "overview": "Nice receives current operating guidance without any account/model access.",
       "symbols": [
         {
           "name": "NicePromptIntegrationTests",
-          "line": 15,
+          "line": 22,
           "kind": "ClassDef"
         }
       ]
@@ -15156,6 +15252,26 @@
         {
           "name": "PageScrollTests",
           "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_performance_guidance.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73",
+      "lines": 58,
+      "overview": "Coding intent gets bounded guidance without loading tools or granting authority.",
+      "symbols": [
+        {
+          "name": "user",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "PerformanceGuidanceTests",
+          "line": 15,
           "kind": "ClassDef"
         }
       ]
@@ -15256,6 +15372,21 @@
         {
           "name": "PlatformMetadataTests",
           "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Maintenance/Tests/test_portable_fs_protocol.py",
+      "platform": "Linux",
+      "component": "Maintenance",
+      "sha256": "7107444ab96ca3998867fede763608392c52bcea975f7b312c033b67c1bba3df",
+      "lines": 26,
+      "overview": "Windows path protocol regression on Python 3.12 and 3.13+.",
+      "symbols": [
+        {
+          "name": "PathProtocolTests",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -18106,8 +18237,8 @@
       "path": "ApplicationSources/Linux/PortalAI/Scientific/world_scene.py",
       "platform": "Linux",
       "component": "Scientific",
-      "sha256": "2ff480faf8bb64b30fe7817bd55e6c52c70ed4912381e2494f804b6fa735e597",
-      "lines": 88,
+      "sha256": "37fc83fe4106546194356c74d17087196d128c74934d52941c3675afba99b38e",
+      "lines": 91,
       "overview": "Bounded, offline teaching physics; never an engineering safety certificate.",
       "symbols": [
         {
@@ -18122,12 +18253,12 @@
         },
         {
           "name": "describe",
-          "line": 78,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "run",
-          "line": 82,
+          "line": 85,
           "kind": "FunctionDef"
         }
       ]
@@ -18707,6 +18838,36 @@
         {
           "name": "main",
           "line": 6,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/choose_optional_models.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "ca317a927be80eaefc5dbe90f16f85f0c8d5af942720ec57c1f326136e300992",
+      "lines": 118,
+      "overview": "Native installer model choices. Downloads happen only after explicit review.",
+      "symbols": [
+        {
+          "name": "catalog",
+          "line": 14,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "choose",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install_choices",
+          "line": 75,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 112,
           "kind": "FunctionDef"
         }
       ]
@@ -19879,6 +20040,171 @@
       ]
     },
     {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/installer_core.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "14c2379c9ee7cf96b0d5ec9439434ceb44278825105d5ec7c9d67dd0d33c2cb5",
+      "lines": 802,
+      "overview": "Clean-install engine. No account creation, pairing, elevation or process control.",
+      "symbols": [
+        {
+          "name": "InstallError",
+          "line": 27,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Cancelled",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "canonical_destination",
+          "line": 41,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "is_comfy_user_destination",
+          "line": 48,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "sha256",
+          "line": 54,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "relative",
+          "line": 64,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "native_path",
+          "line": 78,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "checked_path",
+          "line": 86,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "public_destination",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_pin",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "HTTPSOnly",
+          "line": 124,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "download_ssl_context",
+          "line": 132,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "fetch",
+          "line": 156,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "download_artifact",
+          "line": 168,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_fetch_one",
+          "line": 179,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "write_verified",
+          "line": 238,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_allowlist",
+          "line": 267,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_tar_allowlist",
+          "line": 298,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "nsis_listing",
+          "line": 322,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "iso_listing",
+          "line": 347,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_verified_nsis_extractor",
+          "line": 377,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_nsis_allowlist",
+          "line": 385,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_unique_object",
+          "line": 449,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_manifest",
+          "line": 458,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "planned_receipts",
+          "line": 462,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "plan",
+          "line": 502,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "InstallationProgress",
+          "line": 569,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "_install_new",
+          "line": 597,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_update_metadata",
+          "line": 745,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "inspect_update",
+          "line": 767,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install",
+          "line": 781,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Linux/PortalAI/Tools/installer_update.py",
       "platform": "Linux",
       "component": "Tools",
@@ -20237,6 +20563,41 @@
         {
           "name": "main",
           "line": 164,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/Tools/model_choices.py",
+      "platform": "Linux",
+      "component": "Tools",
+      "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914",
+      "lines": 160,
+      "overview": "Explicit, separately licensed model choices for release installers.",
+      "symbols": [
+        {
+          "name": "digest",
+          "line": 52,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "apply_policy",
+          "line": 56,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_consent",
+          "line": 79,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_custom_request",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "with_custom_model",
+          "line": 134,
           "kind": "FunctionDef"
         }
       ]
@@ -24310,6 +24671,36 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Agent/custom_models.py",
+      "platform": "Mac",
+      "component": "Agent",
+      "sha256": "75ea51472f217f44c42852758a3a2c527c2e7089ee85ed6fd25babcd1ab77326",
+      "lines": 187,
+      "overview": "Bounded GGUF admission for user-supplied text models; no repository code.",
+      "symbols": [
+        {
+          "name": "inspect_gguf",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_identity",
+          "line": 134,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "register_installed",
+          "line": 139,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "verify_selected",
+          "line": 173,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Agent/desktop_control.py",
       "platform": "Mac",
       "component": "Agent",
@@ -26952,8 +27343,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/portable_fs.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "66898df560daa41aa00268af744f375412f06ff75dfaa1c9f49a823b6ee3ebe9",
-      "lines": 62,
+      "sha256": "e512228592f9e1fde1acfe548aed9bd48c330a83cf817d00fe22cc2b5b50104d",
+      "lines": 64,
       "overview": "Canonical application paths with Windows long-path I/O, without registry edits.",
       "symbols": [
         {
@@ -26963,17 +27354,17 @@
         },
         {
           "name": "native_path",
-          "line": 44,
+          "line": 46,
           "kind": "FunctionDef"
         },
         {
           "name": "walk",
-          "line": 55,
+          "line": 57,
           "kind": "FunctionDef"
         },
         {
           "name": "raise_walk_error",
-          "line": 60,
+          "line": 62,
           "kind": "FunctionDef"
         }
       ]
@@ -27561,8 +27952,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/runtime_policy.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "cd6f795638cec50f4da8210961b46ad6d135428fc06a9182e566e09f9ba0e905",
-      "lines": 456,
+      "sha256": "68c06051a2c2a5cf694d58c056d00e92c59f87dcf954d9547130bc2b38663007",
+      "lines": 460,
       "overview": "Portable hardware/model selection. Standard library only; no host installs.",
       "symbols": [
         {
@@ -27587,87 +27978,87 @@
         },
         {
           "name": "load_effective_policy",
-          "line": 86,
+          "line": 88,
           "kind": "FunctionDef"
         },
         {
           "name": "model_variant",
-          "line": 91,
+          "line": 93,
           "kind": "FunctionDef"
         },
         {
           "name": "automatic_models",
-          "line": 95,
+          "line": 97,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic_json",
-          "line": 106,
+          "line": 108,
           "kind": "FunctionDef"
         },
         {
           "name": "portable_env",
-          "line": 119,
+          "line": 121,
           "kind": "FunctionDef"
         },
         {
           "name": "run_probe",
-          "line": 142,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "_windows_memory_status",
-          "line": 155,
+          "line": 157,
           "kind": "FunctionDef"
         },
         {
           "name": "memory_info",
-          "line": 167,
+          "line": 169,
           "kind": "FunctionDef"
         },
         {
           "name": "detect_hardware",
-          "line": 188,
+          "line": 190,
           "kind": "FunctionDef"
         },
         {
           "name": "storage_budget",
-          "line": 208,
+          "line": 210,
           "kind": "FunctionDef"
         },
         {
           "name": "require_space",
-          "line": 223,
+          "line": 225,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_candidates",
-          "line": 230,
+          "line": 232,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_installation_issues",
-          "line": 243,
+          "line": 245,
           "kind": "FunctionDef"
         },
         {
           "name": "choose_backend",
-          "line": 267,
+          "line": 269,
           "kind": "FunctionDef"
         },
         {
           "name": "select_model",
-          "line": 320,
+          "line": 322,
           "kind": "FunctionDef"
         },
         {
           "name": "build_plan",
-          "line": 391,
+          "line": 395,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_plan",
-          "line": 410,
+          "line": 414,
           "kind": "FunctionDef"
         }
       ]
@@ -27696,8 +28087,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Agent/science_tools.py",
       "platform": "Mac",
       "component": "Agent",
-      "sha256": "63f6a827039d09461df083a6f3563a033ee9974f514f0fa6b8956cca3ca1e11d",
-      "lines": 762,
+      "sha256": "c9c226bde382abde0aec62e0be0618c4b38e5e4c640167e57006e10156478d91",
+      "lines": 793,
       "overview": "",
       "symbols": [
         {
@@ -27732,152 +28123,152 @@
         },
         {
           "name": "_result",
-          "line": 113,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "_disk_size",
-          "line": 128,
+          "line": 131,
           "kind": "FunctionDef"
         },
         {
           "name": "_pkg_version",
-          "line": 141,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "op_status",
-          "line": 161,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "_sympy_locals",
-          "line": 182,
+          "line": 185,
           "kind": "FunctionDef"
         },
         {
           "name": "_parse_expr",
-          "line": 192,
+          "line": 195,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calc",
-          "line": 196,
+          "line": 199,
           "kind": "FunctionDef"
         },
         {
           "name": "op_solve",
-          "line": 213,
+          "line": 216,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calculus",
-          "line": 240,
+          "line": 243,
           "kind": "FunctionDef"
         },
         {
           "name": "op_units",
-          "line": 265,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "op_uncertainty",
-          "line": 275,
+          "line": 278,
           "kind": "FunctionDef"
         },
         {
           "name": "_load_frame",
-          "line": 291,
+          "line": 294,
           "kind": "FunctionDef"
         },
         {
           "name": "_save_table_csv",
-          "line": 319,
+          "line": 322,
           "kind": "FunctionDef"
         },
         {
           "name": "op_stats",
-          "line": 325,
+          "line": 328,
           "kind": "FunctionDef"
         },
         {
           "name": "op_plot",
-          "line": 408,
+          "line": 411,
           "kind": "FunctionDef"
         },
         {
           "name": "_clean_seq",
-          "line": 447,
+          "line": 450,
           "kind": "FunctionDef"
         },
         {
           "name": "_seq_kind",
-          "line": 451,
+          "line": 454,
           "kind": "FunctionDef"
         },
         {
           "name": "_gc_fraction",
-          "line": 458,
+          "line": 461,
           "kind": "FunctionDef"
         },
         {
           "name": "op_bio",
-          "line": 464,
+          "line": 467,
           "kind": "FunctionDef"
         },
         {
           "name": "_chem_mol",
-          "line": 541,
+          "line": 544,
           "kind": "FunctionDef"
         },
         {
           "name": "_draw_mol",
-          "line": 548,
+          "line": 551,
           "kind": "FunctionDef"
         },
         {
           "name": "op_chem",
-          "line": 554,
+          "line": 557,
           "kind": "FunctionDef"
         },
         {
           "name": "op_numerics",
-          "line": 592,
+          "line": 595,
           "kind": "FunctionDef"
         },
         {
           "name": "op_linear",
-          "line": 620,
+          "line": 623,
           "kind": "FunctionDef"
         },
         {
           "name": "op_physics",
-          "line": 637,
+          "line": 640,
           "kind": "FunctionDef"
         },
         {
           "name": "op_run",
-          "line": 662,
+          "line": 665,
           "kind": "FunctionDef"
         },
         {
           "name": "op_help",
-          "line": 682,
+          "line": 685,
           "kind": "FunctionDef"
         },
         {
           "name": "op_selftest",
-          "line": 705,
+          "line": 709,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 726,
+          "line": 743,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 744,
+          "line": 775,
           "kind": "FunctionDef"
         }
       ]
@@ -30250,7 +30641,7 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "3efaff7457f47e1774267a3830e7969a0c45f62d9ffe5caa944f3e426415a94f",
+      "sha256": "998fcfb8082fb2b7a2c2052e697650d9671defdfc76fa739060e1a17a27c85d8",
       "lines": 203,
       "overview": "Current portable capabilities for Settings, Installed and diagnostics.",
       "symbols": [
@@ -30428,6 +30819,26 @@
           "name": "execute",
           "line": 194,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/chat_followups.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "17bd32a41b4ad13dc3c4cd8ddbe1ee0c23343052028039f5ec1becb2d58cea17",
+      "lines": 73,
+      "overview": "Session-scoped, in-memory follow-ups; only the GUI thread changes this queue.",
+      "symbols": [
+        {
+          "name": "Followup",
+          "line": 7,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupQueue",
+          "line": 13,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -31015,23 +31426,23 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "fe3fbbd9c0dff22707827a460f7f0a8dbf40bfdbd88e0bcefb7eb07a27ec2ae7",
-      "lines": 920,
+      "sha256": "b2ac8afe6c30d5c035bff782c1d9fafb0c6107d74fd616982c77181089377c4b",
+      "lines": 925,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 888,
+          "line": 893,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 891,
+          "line": 896,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 900,
+          "line": 905,
           "kind": "FunctionDef"
         }
       ]
@@ -31594,158 +32005,158 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/native_chat.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "9209cd7d79376e38dc758af61446c08032e59c585fbd63b6f213d7b65055e69b",
-      "lines": 6719,
+      "sha256": "fc213eb55fdf0f4a6d0501d4035661e043eda475c82aacf9fad7783ba8507923",
+      "lines": 6932,
       "overview": "",
       "symbols": [
         {
           "name": "creationflags",
-          "line": 119,
+          "line": 122,
           "kind": "FunctionDef"
         },
         {
           "name": "clean_env",
-          "line": 123,
+          "line": 126,
           "kind": "FunctionDef"
         },
         {
           "name": "safe_rel",
-          "line": 139,
+          "line": 142,
           "kind": "FunctionDef"
         },
         {
           "name": "latest_master_instructions",
-          "line": 146,
+          "line": 149,
           "kind": "FunctionDef"
         },
         {
           "name": "load_json",
-          "line": 156,
+          "line": 159,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 163,
+          "line": 166,
           "kind": "FunctionDef"
         },
         {
           "name": "_normalize_qwen_messages",
-          "line": 171,
+          "line": 174,
           "kind": "FunctionDef"
         },
         {
           "name": "model_id",
-          "line": 193,
+          "line": 196,
           "kind": "FunctionDef"
         },
         {
           "name": "model_props",
-          "line": 205,
+          "line": 208,
           "kind": "FunctionDef"
         },
         {
           "name": "context_limit_from_props",
-          "line": 225,
+          "line": 228,
           "kind": "FunctionDef"
         },
         {
           "name": "estimate_tokens",
-          "line": 257,
+          "line": 260,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 265,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 274,
+          "line": 277,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 291,
+          "line": 294,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 481,
+          "line": 484,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 509,
+          "line": 512,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 524,
+          "line": 527,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 528,
+          "line": 531,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 543,
+          "line": 546,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_tool_batch",
-          "line": 554,
+          "line": 557,
           "kind": "FunctionDef"
         },
         {
           "name": "historical_tool_calls",
-          "line": 578,
+          "line": 581,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 610,
+          "line": 613,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 657,
+          "line": 660,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 662,
+          "line": 665,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 817,
+          "line": 820,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1408,
+          "line": 1411,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1415,
+          "line": 1418,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1433,
+          "line": 1436,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1578,
+          "line": 1581,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 6707,
+          "line": 6920,
           "kind": "FunctionDef"
         }
       ]
@@ -32372,6 +32783,31 @@
           "name": "PageWatermark",
           "line": 12,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/performance_guidance.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e",
+      "lines": 56,
+      "overview": "Small, request-scoped coding guidance; never a permission or execution gate.",
+      "symbols": [
+        {
+          "name": "_text",
+          "line": 29,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_requested",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "guidance",
+          "line": 46,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -33329,9 +33765,9 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/release_version.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "f920a67030f5d324cfdef4bfbd5ea2cd4c50caf746aeecc8da42e7cae4eed569",
+      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
       "lines": 2,
-      "overview": "Verified unified PortalAI distribution version.",
+      "overview": "Verified PortalAI distribution version.",
       "symbols": []
     },
     {
@@ -35507,6 +35943,26 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_chat_followups.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "57b3e00458595e482fefc0d5f25a3e2185bbdb32457ac1d42d78462f957ebee5",
+      "lines": 113,
+      "overview": "Real Tk composer/event pump, isolated store and workers; no inference or account.",
+      "symbols": [
+        {
+          "name": "QueueTests",
+          "line": 11,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupUITests",
+          "line": 31,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_chat_handoff.py",
       "platform": "Mac",
       "component": "Maintenance",
@@ -35600,8 +36056,8 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_chat_hydration.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "b878ae3831721d423fedb3a747212b6879b3419a4b15e0736b728c048dc71283",
-      "lines": 235,
+      "sha256": "99ec0408fecc17948341193b8cf90b0bb335e7794329a35395045cb592d3cbd2",
+      "lines": 244,
       "overview": "Lazy chat I/O boundaries using temporary profiles; no model or user data.",
       "symbols": [
         {
@@ -35900,7 +36356,7 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_chat_zoom_tk.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "868a80102712dc0e32c9f58c2006234f860597aae9890d6969408f8daee28c04",
+      "sha256": "541520cf1a34e3d579cfe02263bd6c81f0450ec8ebf879eb90b1860bd3338188",
       "lines": 287,
       "overview": "Synthetic Tk transcript only: no profiles, model servers or user history.",
       "symbols": [
@@ -37705,13 +38161,13 @@
       "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_nice_prompt_integration.py",
       "platform": "Mac",
       "component": "Maintenance",
-      "sha256": "de48f173cd7871aefd5e29c66104dde214e56a18e1c7b33c93688aac436e1444",
-      "lines": 133,
+      "sha256": "05e322d4204394e1808f70ec30810701ec75b39b0f590d94fe1b9829651bbdc8",
+      "lines": 164,
       "overview": "Nice receives current operating guidance without any account/model access.",
       "symbols": [
         {
           "name": "NicePromptIntegrationTests",
-          "line": 15,
+          "line": 22,
           "kind": "ClassDef"
         }
       ]
@@ -37727,6 +38183,26 @@
         {
           "name": "PageScrollTests",
           "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_performance_guidance.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73",
+      "lines": 58,
+      "overview": "Coding intent gets bounded guidance without loading tools or granting authority.",
+      "symbols": [
+        {
+          "name": "user",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "PerformanceGuidanceTests",
+          "line": 15,
           "kind": "ClassDef"
         }
       ]
@@ -37827,6 +38303,21 @@
         {
           "name": "PlatformMetadataTests",
           "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Maintenance/Tests/test_portable_fs_protocol.py",
+      "platform": "Mac",
+      "component": "Maintenance",
+      "sha256": "7107444ab96ca3998867fede763608392c52bcea975f7b312c033b67c1bba3df",
+      "lines": 26,
+      "overview": "Windows path protocol regression on Python 3.12 and 3.13+.",
+      "symbols": [
+        {
+          "name": "PathProtocolTests",
+          "line": 8,
           "kind": "ClassDef"
         }
       ]
@@ -40461,6 +40952,36 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/choose_optional_models.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "ca317a927be80eaefc5dbe90f16f85f0c8d5af942720ec57c1f326136e300992",
+      "lines": 118,
+      "overview": "Native installer model choices. Downloads happen only after explicit review.",
+      "symbols": [
+        {
+          "name": "catalog",
+          "line": 14,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "choose",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install_choices",
+          "line": 75,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 112,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/collect_art_assets.py",
       "platform": "Mac",
       "component": "Tools",
@@ -41628,6 +42149,171 @@
       ]
     },
     {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/installer_core.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "14c2379c9ee7cf96b0d5ec9439434ceb44278825105d5ec7c9d67dd0d33c2cb5",
+      "lines": 802,
+      "overview": "Clean-install engine. No account creation, pairing, elevation or process control.",
+      "symbols": [
+        {
+          "name": "InstallError",
+          "line": 27,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Cancelled",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "canonical_destination",
+          "line": 41,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "is_comfy_user_destination",
+          "line": 48,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "sha256",
+          "line": 54,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "relative",
+          "line": 64,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "native_path",
+          "line": 78,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "checked_path",
+          "line": 86,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "public_destination",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_pin",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "HTTPSOnly",
+          "line": 124,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "download_ssl_context",
+          "line": 132,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "fetch",
+          "line": 156,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "download_artifact",
+          "line": 168,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_fetch_one",
+          "line": 179,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "write_verified",
+          "line": 238,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_allowlist",
+          "line": 267,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_tar_allowlist",
+          "line": 298,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "nsis_listing",
+          "line": 322,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "iso_listing",
+          "line": 347,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_verified_nsis_extractor",
+          "line": 377,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_nsis_allowlist",
+          "line": 385,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_unique_object",
+          "line": 449,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_manifest",
+          "line": 458,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "planned_receipts",
+          "line": 462,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "plan",
+          "line": 502,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "InstallationProgress",
+          "line": 569,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "_install_new",
+          "line": 597,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_update_metadata",
+          "line": 745,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "inspect_update",
+          "line": 767,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install",
+          "line": 781,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Mac/PortalAI/Tools/installer_update.py",
       "platform": "Mac",
       "component": "Tools",
@@ -41986,6 +42672,41 @@
         {
           "name": "main",
           "line": 164,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/Tools/model_choices.py",
+      "platform": "Mac",
+      "component": "Tools",
+      "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914",
+      "lines": 160,
+      "overview": "Explicit, separately licensed model choices for release installers.",
+      "symbols": [
+        {
+          "name": "digest",
+          "line": 52,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "apply_policy",
+          "line": 56,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_consent",
+          "line": 79,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_custom_request",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "with_custom_model",
+          "line": 134,
           "kind": "FunctionDef"
         }
       ]
@@ -44777,8 +45498,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/academic_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "a27a4d3b4c4ccf59a77edc40a4926cf0583e6a107713c397c6e1cefdc10cf7e6",
-      "lines": 150,
+      "sha256": "fbb17eddbb18566d86631e5b802809e3fba3fa8dec933834045c3fcf72faf426",
+      "lines": 151,
       "overview": "Policy compiled into the Academic edition; no preference or environment opt-out.",
       "symbols": [
         {
@@ -44808,22 +45529,22 @@
         },
         {
           "name": "instruction_suffix",
-          "line": 72,
+          "line": 73,
           "kind": "FunctionDef"
         },
         {
           "name": "check_workflow",
-          "line": 86,
+          "line": 87,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_installer_manifest",
-          "line": 123,
+          "line": 124,
           "kind": "FunctionDef"
         },
         {
           "name": "bind_help",
-          "line": 133,
+          "line": 134,
           "kind": "FunctionDef"
         }
       ]
@@ -44942,8 +45663,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/account_privacy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "8b18a49421bb0f583c268a8d7d52736dec7d492f9b7207de8de46db71e2ea8c9",
-      "lines": 325,
+      "sha256": "4a6a2a11ac6bf05dd526cb318ecb81583445afb4a1cfadef0c9b355bd84c3762",
+      "lines": 326,
       "overview": "Transactional per-profile privacy conversion, only after verified shutdown.",
       "symbols": [
         {
@@ -45912,8 +46633,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/chat_model_switch.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "7a4d7e12a16295270bb761d0bb41cc87f2fe415b5d154bb34ac07cec60626c1e",
-      "lines": 341,
+      "sha256": "76975671529632e57e977decd19d1fea4adb3dbd3f8dfc2a93ecb81e18663d76",
+      "lines": 418,
       "overview": "Apply chat effort between requests with owned, generation-fenced model recovery.",
       "symbols": [
         {
@@ -45952,23 +46673,38 @@
           "kind": "FunctionDef"
         },
         {
-          "name": "_result",
+          "name": "_full_gpu_plan",
           "line": 162,
           "kind": "FunctionDef"
         },
         {
+          "name": "_result",
+          "line": 169,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "_saved_admitted_plan",
-          "line": 173,
+          "line": 180,
           "kind": "FunctionDef"
         },
         {
           "name": "prepare_startup",
-          "line": 199,
+          "line": 206,
           "kind": "FunctionDef"
         },
         {
           "name": "prepare_chat",
-          "line": 206,
+          "line": 213,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "prepare_request",
+          "line": 367,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "finish_request",
+          "line": 406,
           "kind": "FunctionDef"
         }
       ]
@@ -46017,8 +46753,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/chat_selection.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "c3993cdf1eaa7fd201a2f1773bb7082e0874d1474623a924d690cb7c20892834",
-      "lines": 48,
+      "sha256": "03643d6db552d68d5bd7e16c7e4eed3a799434f5ab985eb8037c88fe21b95072",
+      "lines": 50,
       "overview": "Shared size/variant mapping for the chat slider and model Settings.",
       "symbols": [
         {
@@ -46028,12 +46764,12 @@
         },
         {
           "name": "selected_variant",
-          "line": 17,
+          "line": 19,
           "kind": "FunctionDef"
         },
         {
           "name": "choice_changes",
-          "line": 21,
+          "line": 23,
           "kind": "FunctionDef"
         }
       ]
@@ -46062,7 +46798,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/code_projects.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "0760e7320acf8ba65a7aedd15cfae96c745cb435638c4e464b26663e01530474",
+      "sha256": "1bcaaa266118cd2aeb54c9cab651ad3536b89c60ba373270da57ac3e86dc5b50",
       "lines": 322,
       "overview": "Bounded external project navigation, reviewed checks, and conflict-aware undo.",
       "symbols": [
@@ -46109,6 +46845,36 @@
         {
           "name": "write_tracked",
           "line": 306,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/coding_model_route.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "60de748944dae9add0ef5cf82fc1a827d0025ec0aeb59bf6526892977d7a3f3b",
+      "lines": 74,
+      "overview": "Bounded, local coding-task routing. Never reads tool output or edits preferences.",
+      "symbols": [
+        {
+          "name": "register_installed",
+          "line": 15,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_text",
+          "line": 31,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "coding_request",
+          "line": 44,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "route_policy",
+          "line": 55,
           "kind": "FunctionDef"
         }
       ]
@@ -46184,6 +46950,36 @@
         {
           "name": "windows_rocm_cpu_reader",
           "line": 14,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Agent/custom_models.py",
+      "platform": "Windows",
+      "component": "Agent",
+      "sha256": "75ea51472f217f44c42852758a3a2c527c2e7089ee85ed6fd25babcd1ab77326",
+      "lines": 187,
+      "overview": "Bounded GGUF admission for user-supplied text models; no repository code.",
+      "symbols": [
+        {
+          "name": "inspect_gguf",
+          "line": 24,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_identity",
+          "line": 134,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "register_installed",
+          "line": 139,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "verify_selected",
+          "line": 173,
           "kind": "FunctionDef"
         }
       ]
@@ -46332,8 +47128,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/effort_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "8149aecce7fa9a06b4157a40d6b9f89db77f4ce5797fb23faea8f8b7d1155453",
-      "lines": 384,
+      "sha256": "af8a16344cf96dbb876972f04c9c145813f19745dc3f367942ab8cff84f0a8c0",
+      "lines": 385,
       "overview": "Chat effort preferences and admission, without launching or reconfiguring models.",
       "symbols": [
         {
@@ -46378,47 +47174,47 @@
         },
         {
           "name": "_model_for",
-          "line": 141,
+          "line": 142,
           "kind": "FunctionDef"
         },
         {
           "name": "_plan",
-          "line": 178,
+          "line": 179,
           "kind": "FunctionDef"
         },
         {
           "name": "capabilities",
-          "line": 220,
+          "line": 221,
           "kind": "FunctionDef"
         },
         {
           "name": "require_chat_plan",
-          "line": 264,
+          "line": 265,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_preferences",
-          "line": 279,
+          "line": 280,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_effort",
-          "line": 305,
+          "line": 306,
           "kind": "FunctionDef"
         },
         {
           "name": "apply_tool_environment",
-          "line": 333,
+          "line": 334,
           "kind": "FunctionDef"
         },
         {
           "name": "image_steps",
-          "line": 351,
+          "line": 352,
           "kind": "FunctionDef"
         },
         {
           "name": "sd15_workflow_steps",
-          "line": 375,
+          "line": 376,
           "kind": "FunctionDef"
         }
       ]
@@ -48186,8 +48982,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/model_preferences.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "cd22ded242957fd645a935db2add961c8d8badafc12524c52e225d5fd509f6b0",
-      "lines": 132,
+      "sha256": "a78d56c8293fbbfb6bd0c75397cd34a88e0c491192406ccca0d86da46dc67dd7",
+      "lines": 135,
       "overview": "Portable, profile-scoped model choices; public assets/reserves stay shared.",
       "symbols": [
         {
@@ -48197,27 +48993,27 @@
         },
         {
           "name": "media_variant",
-          "line": 35,
+          "line": 36,
           "kind": "FunctionDef"
         },
         {
           "name": "validate",
-          "line": 40,
+          "line": 41,
           "kind": "FunctionDef"
         },
         {
           "name": "merge",
-          "line": 65,
+          "line": 68,
           "kind": "FunctionDef"
         },
         {
           "name": "effective",
-          "line": 74,
+          "line": 77,
           "kind": "FunctionDef"
         },
         {
           "name": "save",
-          "line": 94,
+          "line": 97,
           "kind": "FunctionDef"
         }
       ]
@@ -48926,8 +49722,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/plain_profile_workspace.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "2d2fcfe3ad4c66cc8ba6d0ed4a73e474bf886afb10136fb55b9a824c0d8605dd",
-      "lines": 163,
+      "sha256": "9dddf5a2554567514e1d5e395479af2010f5f5fd86af93b8797770c93bac02ac",
+      "lines": 162,
       "overview": "Explicit plaintext profiles with verified, incremental plaintext recovery.",
       "symbols": [
         {
@@ -48971,8 +49767,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/portable_fs.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "66898df560daa41aa00268af744f375412f06ff75dfaa1c9f49a823b6ee3ebe9",
-      "lines": 62,
+      "sha256": "e512228592f9e1fde1acfe548aed9bd48c330a83cf817d00fe22cc2b5b50104d",
+      "lines": 64,
       "overview": "Canonical application paths with Windows long-path I/O, without registry edits.",
       "symbols": [
         {
@@ -48982,17 +49778,17 @@
         },
         {
           "name": "native_path",
-          "line": 44,
+          "line": 46,
           "kind": "FunctionDef"
         },
         {
           "name": "walk",
-          "line": 55,
+          "line": 57,
           "kind": "FunctionDef"
         },
         {
           "name": "raise_walk_error",
-          "line": 60,
+          "line": 62,
           "kind": "FunctionDef"
         }
       ]
@@ -49680,8 +50476,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/runtime_policy.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "d1ba50d245b803830452bd284427bc4e0f8d51cbf17cd8ca0f5ee93c9887fe24",
-      "lines": 463,
+      "sha256": "3202ddfdfd63c046e6bc4bcc7ad56a90da778ef45b6951a97faf8fa82adc7ecb",
+      "lines": 473,
       "overview": "Portable hardware/model selection. Standard library only; no host installs.",
       "symbols": [
         {
@@ -49706,87 +50502,87 @@
         },
         {
           "name": "load_effective_policy",
-          "line": 85,
+          "line": 93,
           "kind": "FunctionDef"
         },
         {
           "name": "model_variant",
-          "line": 90,
+          "line": 98,
           "kind": "FunctionDef"
         },
         {
           "name": "automatic_models",
-          "line": 94,
+          "line": 102,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic_json",
-          "line": 103,
+          "line": 111,
           "kind": "FunctionDef"
         },
         {
           "name": "portable_env",
-          "line": 116,
+          "line": 124,
           "kind": "FunctionDef"
         },
         {
           "name": "run_probe",
-          "line": 139,
+          "line": 147,
           "kind": "FunctionDef"
         },
         {
           "name": "_windows_memory_status",
-          "line": 152,
+          "line": 160,
           "kind": "FunctionDef"
         },
         {
           "name": "memory_info",
-          "line": 164,
+          "line": 172,
           "kind": "FunctionDef"
         },
         {
           "name": "detect_hardware",
-          "line": 185,
+          "line": 193,
           "kind": "FunctionDef"
         },
         {
           "name": "storage_budget",
-          "line": 205,
+          "line": 213,
           "kind": "FunctionDef"
         },
         {
           "name": "require_space",
-          "line": 227,
+          "line": 235,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_candidates",
-          "line": 234,
+          "line": 242,
           "kind": "FunctionDef"
         },
         {
           "name": "runtime_installation_issues",
-          "line": 247,
+          "line": 255,
           "kind": "FunctionDef"
         },
         {
           "name": "choose_backend",
-          "line": 271,
+          "line": 279,
           "kind": "FunctionDef"
         },
         {
           "name": "select_model",
-          "line": 324,
+          "line": 332,
           "kind": "FunctionDef"
         },
         {
           "name": "build_plan",
-          "line": 396,
+          "line": 406,
           "kind": "FunctionDef"
         },
         {
           "name": "tool_plan",
-          "line": 417,
+          "line": 427,
           "kind": "FunctionDef"
         }
       ]
@@ -49815,8 +50611,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/science_tools.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "63f6a827039d09461df083a6f3563a033ee9974f514f0fa6b8956cca3ca1e11d",
-      "lines": 762,
+      "sha256": "c9c226bde382abde0aec62e0be0618c4b38e5e4c640167e57006e10156478d91",
+      "lines": 793,
       "overview": "",
       "symbols": [
         {
@@ -49851,152 +50647,152 @@
         },
         {
           "name": "_result",
-          "line": 113,
+          "line": 116,
           "kind": "FunctionDef"
         },
         {
           "name": "_disk_size",
-          "line": 128,
+          "line": 131,
           "kind": "FunctionDef"
         },
         {
           "name": "_pkg_version",
-          "line": 141,
+          "line": 144,
           "kind": "FunctionDef"
         },
         {
           "name": "op_status",
-          "line": 161,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "_sympy_locals",
-          "line": 182,
+          "line": 185,
           "kind": "FunctionDef"
         },
         {
           "name": "_parse_expr",
-          "line": 192,
+          "line": 195,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calc",
-          "line": 196,
+          "line": 199,
           "kind": "FunctionDef"
         },
         {
           "name": "op_solve",
-          "line": 213,
+          "line": 216,
           "kind": "FunctionDef"
         },
         {
           "name": "op_calculus",
-          "line": 240,
+          "line": 243,
           "kind": "FunctionDef"
         },
         {
           "name": "op_units",
-          "line": 265,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "op_uncertainty",
-          "line": 275,
+          "line": 278,
           "kind": "FunctionDef"
         },
         {
           "name": "_load_frame",
-          "line": 291,
+          "line": 294,
           "kind": "FunctionDef"
         },
         {
           "name": "_save_table_csv",
-          "line": 319,
+          "line": 322,
           "kind": "FunctionDef"
         },
         {
           "name": "op_stats",
-          "line": 325,
+          "line": 328,
           "kind": "FunctionDef"
         },
         {
           "name": "op_plot",
-          "line": 408,
+          "line": 411,
           "kind": "FunctionDef"
         },
         {
           "name": "_clean_seq",
-          "line": 447,
+          "line": 450,
           "kind": "FunctionDef"
         },
         {
           "name": "_seq_kind",
-          "line": 451,
+          "line": 454,
           "kind": "FunctionDef"
         },
         {
           "name": "_gc_fraction",
-          "line": 458,
+          "line": 461,
           "kind": "FunctionDef"
         },
         {
           "name": "op_bio",
-          "line": 464,
+          "line": 467,
           "kind": "FunctionDef"
         },
         {
           "name": "_chem_mol",
-          "line": 541,
+          "line": 544,
           "kind": "FunctionDef"
         },
         {
           "name": "_draw_mol",
-          "line": 548,
+          "line": 551,
           "kind": "FunctionDef"
         },
         {
           "name": "op_chem",
-          "line": 554,
+          "line": 557,
           "kind": "FunctionDef"
         },
         {
           "name": "op_numerics",
-          "line": 592,
+          "line": 595,
           "kind": "FunctionDef"
         },
         {
           "name": "op_linear",
-          "line": 620,
+          "line": 623,
           "kind": "FunctionDef"
         },
         {
           "name": "op_physics",
-          "line": 637,
+          "line": 640,
           "kind": "FunctionDef"
         },
         {
           "name": "op_run",
-          "line": 662,
+          "line": 665,
           "kind": "FunctionDef"
         },
         {
           "name": "op_help",
-          "line": 682,
+          "line": 685,
           "kind": "FunctionDef"
         },
         {
           "name": "op_selftest",
-          "line": 705,
+          "line": 709,
           "kind": "FunctionDef"
         },
         {
           "name": "dispatch",
-          "line": 726,
+          "line": 743,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 744,
+          "line": 775,
           "kind": "FunctionDef"
         }
       ]
@@ -52028,8 +52824,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Agent/workflows.py",
       "platform": "Windows",
       "component": "Agent",
-      "sha256": "14c7fa796347404a2ad4fc172664eed6ef9db49f606d22d5fb14e3b9116230a2",
-      "lines": 160,
+      "sha256": "32a90de0f148eba05f0098553b3666daca99b78b1f4512ca7a3651a1b9a568fa",
+      "lines": 169,
       "overview": "Versioned, bounded workflows with durable step receipts and explicit approvals.",
       "symbols": [
         {
@@ -52043,8 +52839,13 @@
           "kind": "FunctionDef"
         },
         {
-          "name": "Workflows",
+          "name": "_next_cursor",
           "line": 64,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "Workflows",
+          "line": 70,
           "kind": "ClassDef"
         }
       ]
@@ -52133,8 +52934,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "5cde2437940851a7755d3a1db34e90811c17718ec98ecc66d8a4a6ee78c34210",
-      "lines": 4361,
+      "sha256": "fa590ca7bb97ca62f8968888bf49d39546bb443a50ee70983a981b0ae334fbf8",
+      "lines": 4358,
       "overview": "",
       "symbols": [
         {
@@ -52144,7 +52945,7 @@
         },
         {
           "name": "run_application",
-          "line": 4353,
+          "line": 4350,
           "kind": "FunctionDef"
         }
       ]
@@ -52610,28 +53411,28 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/bundle_inventory.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3efaff7457f47e1774267a3830e7969a0c45f62d9ffe5caa944f3e426415a94f",
-      "lines": 203,
+      "sha256": "c78c04be423e8112527ed227e7488fa90a01781bc4491005c1562f247eab604c",
+      "lines": 204,
       "overview": "Current portable capabilities for Settings, Installed and diagnostics.",
       "symbols": [
         {
           "name": "file_state",
-          "line": 25,
+          "line": 26,
           "kind": "FunctionDef"
         },
         {
           "name": "inventory",
-          "line": 38,
+          "line": 39,
           "kind": "FunctionDef"
         },
         {
           "name": "installed_rows",
-          "line": 57,
+          "line": 58,
           "kind": "FunctionDef"
         },
         {
           "name": "media_model_files",
-          "line": 183,
+          "line": 184,
           "kind": "FunctionDef"
         }
       ]
@@ -52725,8 +53526,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_effort_ui.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "2fa6ec8a294867ca0814962dd24a1a4d8a112c1523dde23ae2abdd3932436e9d",
-      "lines": 377,
+      "sha256": "e769c4111642f1b71cfa6e8d36088f798b59aeb0bb87252cdd360028848f66d8",
+      "lines": 396,
       "overview": "Compact chat effort controls; model switching is delegated to the lifecycle API.",
       "symbols": [
         {
@@ -52741,12 +53542,12 @@
         },
         {
           "name": "completion_options",
-          "line": 56,
+          "line": 58,
           "kind": "FunctionDef"
         },
         {
           "name": "ChatEffortControls",
-          "line": 72,
+          "line": 74,
           "kind": "ClassDef"
         }
       ]
@@ -52788,6 +53589,26 @@
           "name": "execute",
           "line": 197,
           "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_followups.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "17bd32a41b4ad13dc3c4cd8ddbe1ee0c23343052028039f5ec1becb2d58cea17",
+      "lines": 73,
+      "overview": "Session-scoped, in-memory follow-ups; only the GUI thread changes this queue.",
+      "symbols": [
+        {
+          "name": "Followup",
+          "line": 7,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupQueue",
+          "line": 13,
+          "kind": "ClassDef"
         }
       ]
     },
@@ -52940,8 +53761,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_tool_menu.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "e2c2b18ba1f74b9cdb306ef2af2ee89bf9392f4c2af23ac62eaf98a4d280affc",
-      "lines": 219,
+      "sha256": "35220cc064763a19e1251e69535279a87b737c9f2d931e3a9d3a255ad7fee1c2",
+      "lines": 220,
       "overview": "Request-local capability discovery and on-demand tool/workflow guidance.",
       "symbols": [
         {
@@ -52981,7 +53802,7 @@
         },
         {
           "name": "load",
-          "line": 189,
+          "line": 190,
           "kind": "FunctionDef"
         }
       ]
@@ -52990,8 +53811,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "05d242eabb014fff49ab9b29e5475e6f5ca04e3e6719d094d857a9d79c57dd40",
-      "lines": 321,
+      "sha256": "9bf508bb258f209b8fa7ef2f69070531f59153244c9b628fd238eeb4c6d16ac6",
+      "lines": 325,
       "overview": "Turn-bound microphone transcription and cancellable, offline spoken replies.",
       "symbols": [
         {
@@ -53625,23 +54446,23 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/help_catalog.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "6232909f0beed3df93187ad5f3abbbf57e2c914f95d88d63f47b9efe6d6209a9",
-      "lines": 961,
+      "sha256": "f15d5984b9567d121d0cdec2c73f9a67802cca8ba3df52329a06681a22af286a",
+      "lines": 966,
       "overview": "Public Help catalog. No probes, private data access or runtime initialization.",
       "symbols": [
         {
           "name": "canonical_topic",
-          "line": 929,
+          "line": 934,
           "kind": "FunctionDef"
         },
         {
           "name": "filtered_topic_keys",
-          "line": 932,
+          "line": 937,
           "kind": "FunctionDef"
         },
         {
           "name": "action_topic",
-          "line": 941,
+          "line": 946,
           "kind": "FunctionDef"
         }
       ]
@@ -54334,163 +55155,163 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "8428e0a9bb82fc6e39d6d22c326a71279d60b9862a27ffdfc9869d26105f9c5b",
-      "lines": 7027,
+      "sha256": "0350cde982854eed91512c7430db90883ac334534c3fa0c6d5fb1b1586db1082",
+      "lines": 7268,
       "overview": "",
       "symbols": [
         {
           "name": "creationflags",
-          "line": 123,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "clean_env",
           "line": 127,
           "kind": "FunctionDef"
         },
         {
+          "name": "clean_env",
+          "line": 131,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "safe_rel",
-          "line": 143,
+          "line": 147,
           "kind": "FunctionDef"
         },
         {
           "name": "latest_master_instructions",
-          "line": 150,
+          "line": 154,
           "kind": "FunctionDef"
         },
         {
           "name": "load_json",
-          "line": 160,
+          "line": 164,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 167,
+          "line": 171,
           "kind": "FunctionDef"
         },
         {
           "name": "_normalize_qwen_messages",
-          "line": 175,
+          "line": 179,
           "kind": "FunctionDef"
         },
         {
           "name": "model_id",
-          "line": 197,
+          "line": 201,
           "kind": "FunctionDef"
         },
         {
           "name": "model_props",
-          "line": 209,
+          "line": 213,
           "kind": "FunctionDef"
         },
         {
           "name": "context_limit_from_props",
-          "line": 229,
+          "line": 233,
           "kind": "FunctionDef"
         },
         {
           "name": "estimate_tokens",
-          "line": 264,
+          "line": 268,
           "kind": "FunctionDef"
         },
         {
           "name": "human_size",
-          "line": 272,
+          "line": 276,
           "kind": "FunctionDef"
         },
         {
           "name": "pcm16_rms",
-          "line": 281,
+          "line": 285,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsWaveInStream",
-          "line": 298,
+          "line": 302,
           "kind": "ClassDef"
         },
         {
           "name": "enumerate_windows_wave_inputs",
-          "line": 488,
+          "line": 499,
           "kind": "FunctionDef"
         },
         {
           "name": "normalize_tool_calls",
-          "line": 516,
+          "line": 527,
           "kind": "FunctionDef"
         },
         {
           "name": "InvalidToolBatch",
-          "line": 531,
+          "line": 542,
           "kind": "ClassDef"
         },
         {
           "name": "_tool_metadata",
-          "line": 535,
+          "line": 546,
           "kind": "FunctionDef"
         },
         {
           "name": "_tool_arguments",
-          "line": 550,
-          "kind": "FunctionDef"
-        },
-        {
-          "name": "validate_tool_batch",
           "line": 561,
           "kind": "FunctionDef"
         },
         {
+          "name": "validate_tool_batch",
+          "line": 572,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "historical_tool_calls",
-          "line": 585,
+          "line": 596,
           "kind": "FunctionDef"
         },
         {
           "name": "ThinkSplitter",
-          "line": 617,
+          "line": 628,
           "kind": "ClassDef"
         },
         {
           "name": "ActiveHTTP",
-          "line": 664,
+          "line": 675,
           "kind": "ClassDef"
         },
         {
           "name": "ChatStore",
-          "line": 669,
+          "line": 680,
           "kind": "ClassDef"
         },
         {
           "name": "ToolRuntime",
-          "line": 824,
+          "line": 835,
           "kind": "ClassDef"
         },
         {
           "name": "_request_scope",
-          "line": 1406,
+          "line": 1417,
           "kind": "FunctionDef"
         },
         {
           "name": "_scoped_tools",
-          "line": 1413,
+          "line": 1424,
           "kind": "FunctionDef"
         },
         {
           "name": "_request_tools",
-          "line": 1434,
+          "line": 1445,
           "kind": "FunctionDef"
         },
         {
           "name": "WindowsFileDrop",
-          "line": 1439,
+          "line": 1450,
           "kind": "ClassDef"
         },
         {
           "name": "NativeChat",
-          "line": 1584,
+          "line": 1595,
           "kind": "ClassDef"
         },
         {
           "name": "main",
-          "line": 7015,
+          "line": 7256,
           "kind": "FunctionDef"
         }
       ]
@@ -55117,6 +55938,31 @@
           "name": "PageWatermark",
           "line": 12,
           "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/performance_guidance.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e",
+      "lines": 56,
+      "overview": "Small, request-scoped coding guidance; never a permission or execution gate.",
+      "symbols": [
+        {
+          "name": "_text",
+          "line": 29,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_requested",
+          "line": 42,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "guidance",
+          "line": 46,
+          "kind": "FunctionDef"
         }
       ]
     },
@@ -56089,9 +56935,9 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "3939f9ddf4d31d84b77b74d875e7ae2dc4f4043c0b15e94647440e1d4e4279fa",
+      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
       "lines": 2,
-      "overview": "Verified Windows PortalAI distribution version.",
+      "overview": "Verified PortalAI distribution version.",
       "symbols": []
     },
     {
@@ -56353,8 +57199,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/settings_page.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "75338ae2385522bc4786a2e9650ba6327ac4825c6091a02bd31bdc6ecb755be0",
-      "lines": 498,
+      "sha256": "924503b37fd4819ec25af9624ce529a5b99db99c7a2a166e350f02c4a5f4e0de",
+      "lines": 503,
       "overview": "Visible themed settings, independent of the GUI's lifecycle buttons.",
       "symbols": [
         {
@@ -56364,42 +57210,42 @@
         },
         {
           "name": "model_inventory_note",
-          "line": 26,
+          "line": 27,
           "kind": "FunctionDef"
         },
         {
           "name": "weight_profile_choices",
-          "line": 31,
+          "line": 32,
           "kind": "FunctionDef"
         },
         {
           "name": "save_settings",
-          "line": 42,
+          "line": 43,
           "kind": "FunctionDef"
         },
         {
           "name": "media_fit",
-          "line": 71,
+          "line": 73,
           "kind": "FunctionDef"
         },
         {
           "name": "SettingsPage",
-          "line": 111,
+          "line": 113,
           "kind": "ClassDef"
         },
         {
           "name": "validated_storage",
-          "line": 431,
+          "line": 435,
           "kind": "FunctionDef"
         },
         {
           "name": "save_storage_settings",
-          "line": 444,
+          "line": 449,
           "kind": "FunctionDef"
         },
         {
           "name": "StorageReservesPage",
-          "line": 451,
+          "line": 456,
           "kind": "ClassDef"
         }
       ]
@@ -56823,8 +57669,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/voice_echo.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "ce3cb1bd26adf43580b96fed15799383241232e8c7d858f60830b43361ad5d48",
-      "lines": 68,
+      "sha256": "10e45bee111b68f1cb8b6ec1d6ca01184a8aff7d8add9e6ecae955c26acc6015",
+      "lines": 74,
       "overview": "Bounded, owned Windows AEC capture with the same PCM interface as WinMM.",
       "symbols": [
         {
@@ -57627,8 +58473,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Installer/Windows/portable_update.py",
       "platform": "Windows",
       "component": "Installer",
-      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
-      "lines": 286,
+      "sha256": "8eaec8ead7dc76f3758ee7a123c912dd351861c62296b841157a9b31baccf7eb",
+      "lines": 337,
       "overview": "Version-aware public-file updates with readback, recovery, and account fences.",
       "symbols": [
         {
@@ -57638,92 +58484,97 @@
         },
         {
           "name": "sha",
-          "line": 29,
+          "line": 30,
           "kind": "FunctionDef"
         },
         {
           "name": "relative",
-          "line": 32,
+          "line": 33,
           "kind": "FunctionDef"
         },
         {
           "name": "path",
-          "line": 40,
+          "line": 41,
           "kind": "FunctionDef"
         },
         {
           "name": "public",
-          "line": 50,
+          "line": 51,
           "kind": "FunctionDef"
         },
         {
           "name": "read_json",
-          "line": 58,
+          "line": 59,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic",
-          "line": 67,
+          "line": 68,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 72,
+          "line": 73,
           "kind": "FunctionDef"
         },
         {
           "name": "copy_atomic",
-          "line": 74,
+          "line": 75,
           "kind": "FunctionDef"
         },
         {
           "name": "merge_executable_recovery",
-          "line": 81,
+          "line": 82,
           "kind": "FunctionDef"
         },
         {
           "name": "version",
-          "line": 96,
+          "line": 97,
           "kind": "FunctionDef"
         },
         {
           "name": "parsed",
-          "line": 106,
+          "line": 107,
           "kind": "FunctionDef"
         },
         {
           "name": "compatibility",
-          "line": 111,
+          "line": 112,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_manifest",
-          "line": 127,
+          "line": 128,
           "kind": "FunctionDef"
         },
         {
           "name": "plan",
-          "line": 139,
+          "line": 140,
           "kind": "FunctionDef"
         },
         {
-          "name": "closed_guard",
+          "name": "_verify_plain_closed",
           "line": 177,
           "kind": "FunctionDef"
         },
         {
+          "name": "closed_guard",
+          "line": 218,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "restore",
-          "line": 200,
+          "line": 251,
           "kind": "FunctionDef"
         },
         {
           "name": "apply",
-          "line": 225,
+          "line": 276,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 265,
+          "line": 316,
           "kind": "FunctionDef"
         }
       ]
@@ -58163,8 +59014,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Launchers/Stop_PortableAI.py",
       "platform": "Windows",
       "component": "Launchers",
-      "sha256": "075d44ab99a2b4c68cc09023ea58f2c8c67c15e65823f8a28ca418e95e31d780",
-      "lines": 253,
+      "sha256": "781008765d70ffb8f66759488cff8108686f950db839b5bfd0bce2626395d756",
+      "lines": 283,
       "overview": "",
       "symbols": [
         {
@@ -58184,42 +59035,47 @@
         },
         {
           "name": "kill",
-          "line": 60,
+          "line": 62,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "protected_pids",
+          "line": 74,
           "kind": "FunctionDef"
         },
         {
           "name": "owned_process",
-          "line": 69,
+          "line": 93,
           "kind": "FunctionDef"
         },
         {
           "name": "listener_map",
-          "line": 102,
+          "line": 126,
           "kind": "FunctionDef"
         },
         {
           "name": "portable_process_pids",
-          "line": 114,
+          "line": 138,
           "kind": "FunctionDef"
         },
         {
           "name": "marker_pids",
-          "line": 147,
+          "line": 173,
           "kind": "FunctionDef"
         },
         {
           "name": "cleanup_runtime",
-          "line": 160,
+          "line": 186,
           "kind": "FunctionDef"
         },
         {
           "name": "gpu_processes",
-          "line": 172,
+          "line": 198,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 186,
+          "line": 212,
           "kind": "FunctionDef"
         }
       ]
@@ -59042,7 +59898,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_effort_ui.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "3cf8a7f2b73513fc082fd38713ac1ef7cbf782c01bd44a6b7c4fb0a274f9b450",
+      "sha256": "5f2934db6804d3b245fb277680407e3dbe0f919c5c38e5b64c174c573ee274fc",
       "lines": 241,
       "overview": "",
       "symbols": [
@@ -59054,6 +59910,26 @@
         {
           "name": "ChatEffortUITests",
           "line": 37,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_followups.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "57b3e00458595e482fefc0d5f25a3e2185bbdb32457ac1d42d78462f957ebee5",
+      "lines": 113,
+      "overview": "Real Tk composer/event pump, isolated store and workers; no inference or account.",
+      "symbols": [
+        {
+          "name": "QueueTests",
+          "line": 11,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "FollowupUITests",
+          "line": 31,
           "kind": "ClassDef"
         }
       ]
@@ -59112,7 +59988,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_handoff_effort_smoke.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "8631b1b993b902724117eb45408ef6096ee1861f628529b8718a5ed86381a504",
+      "sha256": "12111249f45bbaf0b7dde55755c13d212b6ca50261e490a9abad8b00491b3c88",
       "lines": 41,
       "overview": "The real GUI preparation is shared with headless handoff checks.",
       "symbols": [
@@ -59212,8 +60088,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_hydration.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "4b0615caf26203b848a026db10e75eb876d3a4d3eba70bcbf5bd0c584d21d013",
-      "lines": 236,
+      "sha256": "e318091f3f13d388548348549a6fe861f6c2d23eb250df1c74e39989d7a30640",
+      "lines": 245,
       "overview": "Lazy chat I/O boundaries using temporary profiles; no model or user data.",
       "symbols": [
         {
@@ -59422,8 +60298,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_summary_recovery.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "0db1825404082d16ee775c644b968fb5ee864e6046f90ed3da8f2352cdb2a137",
-      "lines": 164,
+      "sha256": "c7731f4a54732cf25e8c22da7f13e3356ecd99013349e52059e8910f57df7b69",
+      "lines": 177,
       "overview": "Reasoning exhaustion followed by an incomplete summary, without live tools.",
       "symbols": [
         {
@@ -59477,8 +60353,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_vision_policy.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "5297668246ee2c7c230407c8a4975e52ca85c3eedefa4cbc5e973beff595cab9",
-      "lines": 147,
+      "sha256": "e22f32d3b9c65bb6c7d834031751c50a3809399ddcb1e7968c4072496dd8a6de",
+      "lines": 146,
       "overview": "",
       "symbols": [
         {
@@ -59537,7 +60413,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_chat_zoom_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "868a80102712dc0e32c9f58c2006234f860597aae9890d6969408f8daee28c04",
+      "sha256": "541520cf1a34e3d579cfe02263bd6c81f0450ec8ebf879eb90b1860bd3338188",
       "lines": 287,
       "overview": "Synthetic Tk transcript only: no profiles, model servers or user history.",
       "symbols": [
@@ -59564,6 +60440,21 @@
         {
           "name": "EvidenceCatalogTests",
           "line": 8,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_coding_model_route.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "4fba2d59d00915f78d072a4520a55e90326caeddbb16dafd7706f4d4b3d627a5",
+      "lines": 142,
+      "overview": "",
+      "symbols": [
+        {
+          "name": "RoutingTests",
+          "line": 17,
           "kind": "ClassDef"
         }
       ]
@@ -60082,13 +60973,13 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_gui_stop_contract.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "a38e0e50c02d88255e88902a6c858eaee412715fda80af7dcda3bbdcef24b799",
-      "lines": 39,
+      "sha256": "b51630e68da769d49011530558f6b64d1ae40bd5d7067eff26eb4e5aa846ed5d",
+      "lines": 66,
       "overview": "",
       "symbols": [
         {
           "name": "StopContractTests",
-          "line": 12,
+          "line": 13,
           "kind": "ClassDef"
         }
       ]
@@ -60644,6 +61535,21 @@
         {
           "name": "LocalAccountTests",
           "line": 21,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_logic_audit.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "ed24f547782d38e2b02b0dac051a7c7acf37d4fb16e2d12e47c33059e5464471",
+      "lines": 112,
+      "overview": "Small regressions for defects found by the r72 logic review; no inference.",
+      "symbols": [
+        {
+          "name": "LogicAuditTests",
+          "line": 12,
           "kind": "ClassDef"
         }
       ]
@@ -61422,8 +62328,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_nice_prompt_integration.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "dd3599a6ea196bee0ec80d2ee7711080ced4636602adf59665c9a03d4f306e76",
-      "lines": 146,
+      "sha256": "2c15f7335fd4bbbf51a7a7831071a49ae545b69b7bbccf36ba5dee9788c1bebf",
+      "lines": 168,
       "overview": "Nice receives current operating guidance without any account/model access.",
       "symbols": [
         {
@@ -61474,6 +62380,26 @@
         {
           "name": "PageScrollTests",
           "line": 16,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_performance_guidance.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73",
+      "lines": 58,
+      "overview": "Coding intent gets bounded guidance without loading tools or granting authority.",
+      "symbols": [
+        {
+          "name": "user",
+          "line": 11,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "PerformanceGuidanceTests",
+          "line": 15,
           "kind": "ClassDef"
         }
       ]
@@ -61639,6 +62565,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_fs_protocol.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "7107444ab96ca3998867fede763608392c52bcea975f7b312c033b67c1bba3df",
+      "lines": 26,
+      "overview": "Windows path protocol regression on Python 3.12 and 3.13+.",
+      "symbols": [
+        {
+          "name": "PathProtocolTests",
+          "line": 8,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_installer_placement.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -61772,8 +62713,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_portable_update.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "d31332206f5b464b3aa87494b65a133111a6356e9d60c6603a43e28361c7d268",
-      "lines": 118,
+      "sha256": "dd7ade9647b603e3916777e586d60a2f38a30b5e1361df926b8aeb3684951032",
+      "lines": 121,
       "overview": "Real file transactions on disposable old/current fixtures, without owner accounts.",
       "symbols": [
         {
@@ -61794,6 +62735,31 @@
         {
           "name": "PrivacyConversion",
           "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_privacy_storage_budget.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "0a4bf80ada78c86088c2335ecd02956a9a5c79853e384c71454aaa9bbc462e5c",
+      "lines": 54,
+      "overview": "Configured SSD reserves apply to both plaintext snapshots and conversion.",
+      "symbols": [
+        {
+          "name": "budget",
+          "line": 10,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "PlainBudget",
+          "line": 18,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "ConversionBudget",
+          "line": 35,
           "kind": "ClassDef"
         }
       ]
@@ -62644,6 +63610,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_science_chat_contract.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "1b2d0a651f58607432f44312443b5b0c19fd7f21a4f3b0ee13cb19027c667b13",
+      "lines": 61,
+      "overview": "Regression coverage for the actual native science result/dispatch boundary.",
+      "symbols": [
+        {
+          "name": "ScienceChatContractTests",
+          "line": 15,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_science_extensions.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -62654,6 +63635,21 @@
         {
           "name": "ScienceExtensionsTests",
           "line": 11,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_science_output_cards.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "2d94dd3039027cbc1bb4e0f1056f9192ed572cd804083f184ecb16266938bdea",
+      "lines": 43,
+      "overview": "Scientific file cards retain the private-reference and explicit-open boundary.",
+      "symbols": [
+        {
+          "name": "ScienceOutputCardTests",
+          "line": 14,
           "kind": "ClassDef"
         }
       ]
@@ -62797,8 +63793,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_shutdown_lifecycle_tk.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "c9875e3dd53410ef8ef462e80fb052badcede09ff2c51eeb6a9e0b4e5cbe20d4",
-      "lines": 245,
+      "sha256": "ec8d945e19b1d2d7de5fcb701c202e8213162d9de28d9a313510c4fa6add04ad",
+      "lines": 255,
       "overview": "Real Tk close/retry/timer tests with synthetic services and no profile data.",
       "symbols": [
         {
@@ -62922,7 +63918,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_startup_settings.py",
       "platform": "Windows",
       "component": "Maintenance",
-      "sha256": "3db7e4fbcf696914418f6c8d90e7b1759d834f5acc0c5ad24a1a486719a395d4",
+      "sha256": "fa72deb9e386241926bda08c3e39f67f006e775311bb1549f20c91342c41fa03",
       "lines": 201,
       "overview": "Settings/Startup integration with disposable files and owned lifecycle fixtures.",
       "symbols": [
@@ -63159,6 +64155,21 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_update_privacy.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "04fcf9ad0c2407d08941d457edb78047c14bc676a5a93d13c339d6eac0a6f0af",
+      "lines": 57,
+      "overview": "Updater closure checks against real disposable plaintext/account-free profiles.",
+      "symbols": [
+        {
+          "name": "UpdatePrivacyTests",
+          "line": 7,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_vace_cpu_smoke.py",
       "platform": "Windows",
       "component": "Maintenance",
@@ -63359,6 +64370,26 @@
         {
           "name": "VoicePolicyTests",
           "line": 13,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_stop_races.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "40f7c4e93f55596182f67014a90b4e98723cf1ced28c4c81e02bf7efbabc59d3",
+      "lines": 106,
+      "overview": "Stop hands-free during restoration, concurrent capture teardown, and Tk liveness.",
+      "symbols": [
+        {
+          "name": "CaptureCloseTests",
+          "line": 15,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "VoiceStopTkTests",
+          "line": 51,
           "kind": "ClassDef"
         }
       ]
@@ -64834,8 +65865,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Scientific/world_scene.py",
       "platform": "Windows",
       "component": "Scientific",
-      "sha256": "2ff480faf8bb64b30fe7817bd55e6c52c70ed4912381e2494f804b6fa735e597",
-      "lines": 88,
+      "sha256": "3da33a9dde7f88ccc77d8be98e362e71717ef5a6403ab9bb75fd86d7e5f63fbe",
+      "lines": 91,
       "overview": "Bounded, offline teaching physics; never an engineering safety certificate.",
       "symbols": [
         {
@@ -64850,12 +65881,12 @@
         },
         {
           "name": "describe",
-          "line": 78,
+          "line": 81,
           "kind": "FunctionDef"
         },
         {
           "name": "run",
-          "line": 82,
+          "line": 85,
           "kind": "FunctionDef"
         }
       ]
@@ -65931,6 +66962,36 @@
         {
           "name": "main",
           "line": 6,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/choose_optional_models.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "ca317a927be80eaefc5dbe90f16f85f0c8d5af942720ec57c1f326136e300992",
+      "lines": 118,
+      "overview": "Native installer model choices. Downloads happen only after explicit review.",
+      "symbols": [
+        {
+          "name": "catalog",
+          "line": 14,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "choose",
+          "line": 22,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install_choices",
+          "line": 75,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "main",
+          "line": 112,
           "kind": "FunctionDef"
         }
       ]
@@ -67103,6 +68164,171 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/installer_core.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "14c2379c9ee7cf96b0d5ec9439434ceb44278825105d5ec7c9d67dd0d33c2cb5",
+      "lines": 802,
+      "overview": "Clean-install engine. No account creation, pairing, elevation or process control.",
+      "symbols": [
+        {
+          "name": "InstallError",
+          "line": 27,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "Cancelled",
+          "line": 31,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "canonical_destination",
+          "line": 41,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "is_comfy_user_destination",
+          "line": 48,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "sha256",
+          "line": 54,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "relative",
+          "line": 64,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "native_path",
+          "line": 78,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "checked_path",
+          "line": 86,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "public_destination",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_pin",
+          "line": 117,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "HTTPSOnly",
+          "line": 124,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "download_ssl_context",
+          "line": 132,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "fetch",
+          "line": 156,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "download_artifact",
+          "line": 168,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_fetch_one",
+          "line": 179,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "write_verified",
+          "line": 238,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_allowlist",
+          "line": 267,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_tar_allowlist",
+          "line": 298,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "nsis_listing",
+          "line": 322,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "iso_listing",
+          "line": 347,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_verified_nsis_extractor",
+          "line": 377,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "extract_nsis_allowlist",
+          "line": 385,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_unique_object",
+          "line": 449,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "read_manifest",
+          "line": 458,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "planned_receipts",
+          "line": 462,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "plan",
+          "line": 502,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "InstallationProgress",
+          "line": 569,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "_install_new",
+          "line": 597,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "_update_metadata",
+          "line": 745,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "inspect_update",
+          "line": 767,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "install",
+          "line": 781,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/installer_update.py",
       "platform": "Windows",
       "component": "Tools",
@@ -67466,6 +68692,41 @@
       ]
     },
     {
+      "path": "ApplicationSources/Windows/PortalAI/Tools/model_choices.py",
+      "platform": "Windows",
+      "component": "Tools",
+      "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914",
+      "lines": 160,
+      "overview": "Explicit, separately licensed model choices for release installers.",
+      "symbols": [
+        {
+          "name": "digest",
+          "line": 52,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "apply_policy",
+          "line": 56,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_consent",
+          "line": 79,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "validate_custom_request",
+          "line": 101,
+          "kind": "FunctionDef"
+        },
+        {
+          "name": "with_custom_model",
+          "line": 134,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
       "path": "ApplicationSources/Windows/PortalAI/Tools/portability_audit.py",
       "platform": "Windows",
       "component": "Tools",
@@ -67666,8 +68927,8 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/portable_update.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "8d60ee8dfd24a2cd793b0933e5f30287d8294e89fdddcc5e4460256820eb89d0",
-      "lines": 286,
+      "sha256": "8eaec8ead7dc76f3758ee7a123c912dd351861c62296b841157a9b31baccf7eb",
+      "lines": 337,
       "overview": "Version-aware public-file updates with readback, recovery, and account fences.",
       "symbols": [
         {
@@ -67677,92 +68938,97 @@
         },
         {
           "name": "sha",
-          "line": 29,
+          "line": 30,
           "kind": "FunctionDef"
         },
         {
           "name": "relative",
-          "line": 32,
+          "line": 33,
           "kind": "FunctionDef"
         },
         {
           "name": "path",
-          "line": 40,
+          "line": 41,
           "kind": "FunctionDef"
         },
         {
           "name": "public",
-          "line": 50,
+          "line": 51,
           "kind": "FunctionDef"
         },
         {
           "name": "read_json",
-          "line": 58,
+          "line": 59,
           "kind": "FunctionDef"
         },
         {
           "name": "atomic",
-          "line": 67,
+          "line": 68,
           "kind": "FunctionDef"
         },
         {
           "name": "write_json",
-          "line": 72,
+          "line": 73,
           "kind": "FunctionDef"
         },
         {
           "name": "copy_atomic",
-          "line": 74,
+          "line": 75,
           "kind": "FunctionDef"
         },
         {
           "name": "merge_executable_recovery",
-          "line": 81,
+          "line": 82,
           "kind": "FunctionDef"
         },
         {
           "name": "version",
-          "line": 96,
+          "line": 97,
           "kind": "FunctionDef"
         },
         {
           "name": "parsed",
-          "line": 106,
+          "line": 107,
           "kind": "FunctionDef"
         },
         {
           "name": "compatibility",
-          "line": 111,
+          "line": 112,
           "kind": "FunctionDef"
         },
         {
           "name": "validate_manifest",
-          "line": 127,
+          "line": 128,
           "kind": "FunctionDef"
         },
         {
           "name": "plan",
-          "line": 139,
+          "line": 140,
           "kind": "FunctionDef"
         },
         {
-          "name": "closed_guard",
+          "name": "_verify_plain_closed",
           "line": 177,
           "kind": "FunctionDef"
         },
         {
+          "name": "closed_guard",
+          "line": 218,
+          "kind": "FunctionDef"
+        },
+        {
           "name": "restore",
-          "line": 200,
+          "line": 251,
           "kind": "FunctionDef"
         },
         {
           "name": "apply",
-          "line": 225,
+          "line": 276,
           "kind": "FunctionDef"
         },
         {
           "name": "main",
-          "line": 265,
+          "line": 316,
           "kind": "FunctionDef"
         }
       ]
@@ -68635,7 +69901,7 @@
       "path": "ApplicationSources/Windows/PortalAI/Tools/smoke_chat_handoff.py",
       "platform": "Windows",
       "component": "Tools",
-      "sha256": "4673b04232db86fd714181bce52dd1753e44cb97250394ca3dbcf826be183843",
+      "sha256": "98cc5c4e22e0e08c6538aba6be328ebe530db09009cac4ceb6fa7aef92bc9e71",
       "lines": 204,
       "overview": "Real NativeChat tool loop: model call -> media handoff -> model summary.",
       "symbols": [

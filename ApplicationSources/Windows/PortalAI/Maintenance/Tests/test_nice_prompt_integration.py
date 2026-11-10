@@ -142,5 +142,27 @@ class NicePromptIntegrationTests(unittest.TestCase):
                 self.assertIn("Search limits do not block other requested work", prompt)
 
 
+    def test_perf_critical_reaches_legacy_progressive_and_maintenance_prompts(self):
+        from chat_tool_menu import Selection
+        from performance_guidance import GUIDANCE
+        for progressive in (False, True):
+            for scope in ('all', 'coding', 'maintenance'):
+                with self.subTest(progressive=progressive, scope=scope):
+                    panel = self.panel(enabled=False)
+                    panel.session = {'messages': [{'role': 'user', 'content': 'Fix this Python parser.'}]}
+                    panel._request_tool_scope = scope
+                    if progressive:
+                        panel._tool_selection = Selection()
+                    prompt = chat.NativeChat.system_prompt(panel)
+                    self.assertEqual(prompt.count(GUIDANCE.strip()), 1)
+                    # The hint must not load tools, arm recovery, change budgets or select a model.
+                    if progressive:
+                        self.assertEqual(panel._tool_selection.names, ())
+                    self.assertFalse(hasattr(panel, '_coding_stall'))
+                    self.assertEqual(panel.settings, {'use_master_instructions': False, 'include_full_manual': False})
+                    panel.session['messages'].append({'role': 'user', 'content': 'Tell me a joke.'})
+                    self.assertNotIn('Coding discipline (perf-critical)', chat.NativeChat.system_prompt(panel))
+
+
 if __name__ == "__main__":
     unittest.main()
