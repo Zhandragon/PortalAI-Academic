@@ -4348,6 +4348,8 @@ def main(authenticated=None):
         except Exception as exc:
             log(f"Mission supervisor: {exc}")
     gui_jobs.thread(target=_resume_armed_missions, name="PortalAIMissionStartup", daemon=True).start()
+    from app_tour import install as install_app_tour
+    install_app_tour(app,root,lambda:COLORS,show_tab,lambda:selected_tab['key'],welcome_tab,help_tab,account_gate)
     pump(); app.mainloop()
     if next_account is not None:return next_account
     if single_instance_mutex is not None:

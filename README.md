@@ -9,6 +9,8 @@
 
 <h1 align="center">PortalAI</h1>
 
+**Windows r76 (2026-11-11):** Optional use-case survey with Lightweight/Full recommendations, Express/Custom setup, and a skippable in-app tour. [Onboarding and validation](Documentation/ONBOARDING-r76.txt). Existing Linux/macOS release packages remain r75; shared tour source is included but not runtime-tested on those platforms.
+
 **r75 (2026-11-09):** Optional model checkboxes with publisher/license review, plus validated compatible custom GGUF imports. Existing follow-up sending and science fixes are retained. [Release and validation](Documentation/RELEASE-r75.md) · [License review](Documentation/DEPENDENCY-LICENSE-REVIEW-20261109.txt) · [GUI previews](Documentation/GUI-PREVIEWS.md).
 
 

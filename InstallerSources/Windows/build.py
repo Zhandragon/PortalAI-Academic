@@ -33,7 +33,7 @@ def build(bootstrap, output):
                     f'/resource:{HERE / "installer_storage.py"},installer_storage.py',
                     f'/resource:{HERE / "portable_update.py"},portable_update.py',
                     f'/resource:{HERE / "suite_installer.py"},suite_installer.py',
-                    f'/resource:{HERE / "abliterator_installer_core.py"},abliterator_installer_core.py', str(HERE / 'Installer.cs')],
+                    f'/resource:{HERE / "abliterator_installer_core.py"},abliterator_installer_core.py', str(HERE / 'Installer.cs'), str(HERE / 'InstallSurvey.cs')],
                    cwd=HERE, check=True)
     return hashlib.sha256(output.read_bytes()).hexdigest()
 

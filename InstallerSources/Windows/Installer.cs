@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text;
@@ -167,7 +168,7 @@ internal sealed class PortalProgress : Control {
     }
     protected override void Dispose(bool disposing) { if(disposing)animation.Dispose();base.Dispose(disposing); }
 }
-internal sealed class InstallerForm : Form {
+internal sealed partial class InstallerForm : Form {
     readonly CheckedListBox choices=new CheckedListBox(); readonly TextBox status=new TextBox();
     readonly PortalButton install=new PortalButton(),pause=new PortalButton(),close=new PortalButton(),theme=new PortalButton();
     readonly PortalProgress currentProgress=new PortalProgress(),overallProgress=new PortalProgress();
@@ -182,13 +183,14 @@ internal sealed class InstallerForm : Form {
     Dictionary<string,object> customModel;
     string cancellation,lastStep; bool loading=true,dark=true; volatile bool pauseRequested;
     Color gold=Color.FromArgb(176,134,58); Point? drag;
+    Dictionary<string,object> releaseData;
     internal InstallerForm(bool smoke) {
         Text="PortalAI suite installer"; Name="PortalAIInstaller";
         Size=new Size(1060,960);MinimumSize=new Size(850,790);StartPosition=FormStartPosition.CenterScreen;
         FormBorderStyle=FormBorderStyle.None;Padding=new Padding(8);DoubleBuffered=true;
         Font=new Font("Segoe UI",9F);Icon=Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         var layout=new TableLayoutPanel { Dock=DockStyle.Fill,Padding=new Padding(12),RowCount=8,ColumnCount=1 };
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,52));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,88));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,52));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,130));
         layout.RowStyles.Add(new RowStyle(SizeType.Percent,55));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,65));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,140));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));layout.RowStyles.Add(new RowStyle(SizeType.Percent,45));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,48));
         var header=new Panel { Dock=DockStyle.Fill };
@@ -204,7 +206,9 @@ internal sealed class InstallerForm : Form {
         title.MouseDown+=delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left && WindowState==FormWindowState.Normal)drag=new Point(Cursor.Position.X-Left,Cursor.Position.Y-Top); };
         title.MouseMove+=delegate { if(drag.HasValue && Control.MouseButtons==MouseButtons.Left)Location=new Point(Cursor.Position.X-drag.Value.X,Cursor.Position.Y-drag.Value.Y); };
         title.MouseUp+=delegate { drag=null; };
+        var introduction=new Panel { Dock=DockStyle.Fill };
         Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nModels are optional, suggested/supported examples. Review their separate licenses before downloading. You can also use your own compatible chat model." };
+        introduction.Controls.Add(intro);introduction.Controls.Add(BuildSetupBar());
         choices.Name="Components";choices.Dock=DockStyle.Fill;choices.CheckOnClick=true;choices.BorderStyle=BorderStyle.None;choices.IntegralHeight=false;choices.HorizontalScrollbar=true;
         choices.ItemCheck+=delegate(object sender,ItemCheckEventArgs e) { if(!loading && ((ComponentChoice)choices.Items[e.Index]).Required)e.NewValue=CheckState.Checked; if(!loading)BeginInvoke((Action)UpdateSelectionSize); };
         var progress=new TableLayoutPanel { Dock=DockStyle.Fill,RowCount=5,ColumnCount=1,Padding=new Padding(0,10,0,4) };
@@ -229,9 +233,10 @@ internal sealed class InstallerForm : Form {
         var credentials=new TableLayoutPanel { Dock=DockStyle.Fill, RowCount=2,ColumnCount=1 };
         credentials.Controls.Add(selectionSize);
         var auth=new FlowLayoutPanel { Dock=DockStyle.Fill };auth.Controls.Add(new Label { Text="Private downloads: optional GitHub token", AutoSize=true, Padding=new Padding(0,5,0,0) });auth.Controls.Add(githubToken);credentials.Controls.Add(auth);
-        foreach(Control c in new Control[]{header,intro,choices,credentials,progress,new Label { Text="Installation details",Dock=DockStyle.Fill },status,buttons})layout.Controls.Add(c);
-        Controls.Add(layout);ApplyTheme();
+        foreach(Control c in new Control[]{header,introduction,choices,credentials,progress,new Label { Text="Installation details",Dock=DockStyle.Fill },status,buttons})layout.Controls.Add(c);
+        mainLayout=layout;Controls.Add(layout);ApplyTheme();
         var release=Program.Json().Deserialize<Dictionary<string,object>>(File.ReadAllText(Path.Combine(Program.Package,"release.json")));
+        releaseData=release;
         primaryEdition=Convert.ToString(((Dictionary<string,object>)release["upgrade"])["edition"]);
         title.Text="PortalAI "+primaryEdition;
         choices.Items.Add(new ComponentChoice { Id="primary:"+primaryEdition, Label="Install PortalAI "+primaryEdition+" for Windows" },true);
@@ -249,7 +254,7 @@ internal sealed class InstallerForm : Form {
         worker.ProgressChanged+=delegate(object sender,ProgressChangedEventArgs e) { var message=e.UserState as Dictionary<string,object>;if(message!=null)Progress(message);else Append(Convert.ToString(e.UserState)); };
         worker.DoWork+=RunInstall;
         worker.RunWorkerCompleted+=delegate(object sender,RunWorkerCompletedEventArgs e) {
-            pendingToken="";githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;custom.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
+            pendingToken="";surveyButton.Enabled=expressButton.Enabled=manualButton.Enabled=true;githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;custom.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
             if(e.Error!=null) { currentLabel.Text="Installation stopped";Append("Installation stopped: "+e.Error.Message); }
             else if(Convert.ToInt32(e.Result)!=0) { currentLabel.Text=Convert.ToInt32(e.Result)==2 ? "Paused — downloads retained" : "Installation did not complete";Append("See the details above. Downloaded files remain available for resume."); }
             else { currentLabel.Text="Installation verified";currentBytes.Text="All selected files are ready.";overallLabel.Text="Overall installation · 100%";currentProgress.Fraction=overallProgress.Fraction=1;Append("Installation verified. Open PortalAI normally. Updates preserve your existing accounts and settings.");install.Enabled=false; }
@@ -263,7 +268,7 @@ internal sealed class InstallerForm : Form {
             var reviews=new List<ComponentChoice>();foreach(ComponentChoice item in choices.Items)if(expanded.Contains(item.Id)&&item.Review!=null)reviews.Add(item);
             modelConsent.Clear();if(reviews.Count>0)using(var review=new ModelReviewForm(reviews)) { if(review.ShowDialog(this)!=DialogResult.OK)return;modelConsent=review.Consent; }
             selected=new List<string>(expanded);
-            install.Enabled=false;upgrade.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
+            surveyButton.Enabled=expressButton.Enabled=manualButton.Enabled=false;install.Enabled=false;upgrade.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
             custom.Enabled=false;
             currentLabel.Text="Checking disk space and selected components…";currentBytes.Text="Preparing installation";overallLabel.Text="Overall installation · preparing";
             currentProgress.Fraction=overallProgress.Fraction=0;currentProgress.Indeterminate=overallProgress.Indeterminate=true;
@@ -272,6 +277,7 @@ internal sealed class InstallerForm : Form {
         };
         pause.Click+=delegate { RequestPause(); };close.Click+=delegate { Close(); };
         FormClosing+=delegate(object sender,FormClosingEventArgs e) { if(worker.IsBusy) { e.Cancel=true;RequestPause();Append("Waiting for the installer to stop safely before closing."); } };
+        if(!smoke)Shown+=delegate{OpenSurvey(0);};
         if(smoke) { var timer=new System.Windows.Forms.Timer { Interval=1200 };timer.Tick+=delegate { timer.Stop();Close(); };Shown+=delegate { timer.Start(); }; }
     }
     void LoadSuiteChoices() {
@@ -293,11 +299,25 @@ internal sealed class InstallerForm : Form {
     void AddSuite(string id,string label,long bytes,long working) {
         choices.Items.Add(new ComponentChoice { Id=id, Label=label+" — "+Bytes(bytes)+" download", DownloadBytes=bytes,WorkingBytes=working },false);
     }
-    void UpdateSelectionSize() {
-        long download=0,working=0;
-        foreach(ComponentChoice c in choices.CheckedItems) { download+=c.DownloadBytes;working+=c.WorkingBytes; }
-        selectionSize.Text="Optional suite downloads: "+Bytes(download)+"; working space estimate: "+Bytes(working)+". Core files and free-space reserve are checked separately.";
+    string SelectionEstimate(IEnumerable<string> selection) {
+        var ids=InstallBundles.Expand(Inventory(),selection);long download=0,installed=0;
+        var artifacts=new HashSet<string>();
+        if(ids.Contains("primary:"+primaryEdition)) {
+            var payload=(Dictionary<string,object>)releaseData["payload"];download+=Convert.ToInt64(payload["bytes"]);
+            foreach(object obj in (System.Collections.IEnumerable)payload["members"])installed+=Convert.ToInt64(((Dictionary<string,object>)obj)["bytes"]);
+            foreach(object obj in (System.Collections.IEnumerable)releaseData["components"]) {
+                var c=(Dictionary<string,object>)obj;if(!ids.Contains(Convert.ToString(c["id"])))continue;
+                foreach(object item in (System.Collections.IEnumerable)c["artifacts"]) {
+                    var a=(Dictionary<string,object>)item;if(!artifacts.Add(Convert.ToString(a["sha256"])))continue;
+                    download+=Convert.ToInt64(a["bytes"]);
+                    foreach(object member in (System.Collections.IEnumerable)a["members"])installed+=Convert.ToInt64(((Dictionary<string,object>)member)["bytes"]);
+                }
+            }
+        }
+        foreach(ComponentChoice c in Inventory())if(ids.Contains(c.Id)){download+=c.DownloadBytes;installed+=c.WorkingBytes;}
+        return "Estimated download: "+Bytes(download)+" · files / suite working space: "+Bytes(installed)+". Retained downloads, extraction and reserve need additional space; checked before installation.";
     }
+    void UpdateSelectionSize() { selectionSize.Text=SelectionEstimate(choices.CheckedItems.Cast<ComponentChoice>().Select(x=>x.Id)); }
     void ApplyTheme() {
         Color bg=ColorTranslator.FromHtml(dark ? "#111315" : "#EEE7DC"),panel=ColorTranslator.FromHtml(dark ? "#1C1E20" : "#F8F3EA"),text=ColorTranslator.FromHtml(dark ? "#F2ECE2" : "#202224");
         Color button=ColorTranslator.FromHtml(dark ? "#2A2D2F" : "#E6DCCB"),hover=ColorTranslator.FromHtml(dark ? "#363A3D" : "#D9CBB3"),accent=ColorTranslator.FromHtml(dark ? "#58AFC1" : "#3E91A2");

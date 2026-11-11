@@ -1,0 +1,42 @@
+PORTALAI r76 — OPTIONAL ONBOARDING
+
+WINDOWS INSTALLER
+Take the optional survey, choose Express (a lightweight chat recommendation),
+or skip to Custom. Help me choose retakes the survey. Select any interests:
+chat, coding, documents/data, bioinformatics, physics, electrical engineering,
+mechanical/CAD/3D printing, chemistry, maths/signals, music, media editing,
+image/video generation and handsfree voice. Full edition also offers alternate
+model workflows. Academic retains its existing standard-only policy.
+
+Lightweight recommends fewer/smaller model collections for those interests.
+Full recommends broader coverage for the same interests, not every optional
+component. Required shared runtimes still install in both modes. Video and
+some scientific workflows can remain large even with Lightweight selected.
+The review shows estimated downloads and files; extraction, retained archives
+and a free-space reserve require additional space. The installer checks these.
+Size is not a hardware compatibility test.
+
+Apply & review checks the recommended component boxes without downloading.
+Change individual selections in the main list before Install here. The separate
+publisher/model licence review remains required, including model dependencies.
+Skipping the survey keeps current selections. Existing Full-edition text/vision
+archives contain standard and alternate variants together; the survey does not
+split archives or change the active model policy. No unrestricted licence is
+implied by an alternate model label. Custom compatible GGUF imports remain.
+
+APP TOUR
+After the launcher is ready, an optional tour explains Welcome, Controls, Chat,
+Models, Packages, Settings, Persistence and Help. Back revisits; Skip or Escape
+leaves; Finish returns to the page you started from. Repeat with Take app tour
+on Welcome or Help. Tour cards stay within the existing app, dim the background
+and block accidental actions underneath. No model startup, download, setting
+change or tool execution is performed by the tour. Normal app startup still
+follows existing preferences. Its seen marker is Maintenance/app-tour-v1.seen.
+
+VALIDATION
+Windows installer recommendation/navigation checks and isolated launcher-tour
+checks pass without downloading models or touching live accounts. Model licence
+tests, dependency planning and archive/payload hashes are verified separately.
+No full recipient installation or model-inference acceptance test was performed.
+Tour source is shared with Linux/Mac; those platforms were not runtime-tested.
+This is a local build; no storefront or live release was changed.
