@@ -2,7 +2,7 @@
 
 These are captures of real Windows GUI widgets. They are interface previews, not new claims of completed inference. Most use a disposable, offline capture fixture with background services disabled. Voice activity is illustrative. The science file cards replay files from the documented real Nice runs. Account fields are synthetic; no private account data is shown.
 
-The main tabs separate navigation from work inside each tab. Runtime and Models are distinct; Maintenance is independent of Help. The [storefront tour](https://payhip.com/PortalAI) mirrors this organization with ordinary help links.
+The main tabs separate navigation from work inside each tab. Runtime and Models are distinct; Maintenance is independent of Help. The [storefront tour](https://payhip.com/Zhandragon/portalai) mirrors this organization with ordinary help links.
 
 ## Welcome and contextual help
 

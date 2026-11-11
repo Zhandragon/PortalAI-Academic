@@ -30,7 +30,7 @@ Persistent missions retain objectives, access settings, review history and bound
 
 ## Understand and maintain the installation
 
-The Help menu provides 67 searchable operating topics. Maintenance brings diagnostics, storage audits, reserves, duplicate scans and repair controls into one place. The [web guides](https://payhip.com/PortalAI/help) mirror the Full r72 help; Academic edition restrictions still apply.
+The Help menu provides 67 searchable operating topics. Maintenance brings diagnostics, storage audits, reserves, duplicate scans and repair controls into one place. The [web guides](https://payhip.com/Zhandragon/help) mirror the Full r72 help; Academic edition restrictions still apply.
 
 ![Maintenance controls](assets/maintenance-current.png)
 
@@ -84,12 +84,12 @@ On Windows, Controls > Minimize to tray hides the window while work continues. T
 
 ## Explore by task
 
-- [Chat & Voice](https://payhip.com/PortalAI/chat-voice)
-- [Models](https://payhip.com/PortalAI/models-runtime)
-- [Media Studio](https://payhip.com/PortalAI/media-studio)
-- [Science examples in Chat](https://payhip.com/PortalAI/chat-voice)
-- [Workspace and persistence](https://payhip.com/PortalAI/workspace)
-- [Help](https://payhip.com/PortalAI/help)
+- [Chat & Voice](https://payhip.com/Zhandragon/chat-voice)
+- [Models](https://payhip.com/Zhandragon/models-runtime)
+- [Media Studio](https://payhip.com/Zhandragon/media-studio)
+- [Science examples in Chat](https://payhip.com/Zhandragon/chat-voice)
+- [Workspace and persistence](https://payhip.com/Zhandragon/workspace)
+- [Help](https://payhip.com/Zhandragon/help)
 
 These web guides describe Full r72 on Windows. OS-specific availability and Academic restrictions remain in effect. [Capture provenance](assets/README.md).
 
