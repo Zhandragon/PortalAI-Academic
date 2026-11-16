@@ -5626,7 +5626,7 @@ class NativeChat:
         # cancelling the inference that is already producing its answer.
         voice = getattr(self, 'conversation_active', None)
         if voice is not None and voice.is_set():
-            self.stop_conversation_mode()
+            self.stop_conversation_mode(cancel_request=False)
         self._refresh_followup_controls()
         if not self.busy and not state.paused:
             self.app.after_idle(self._drain_followups)
@@ -5694,8 +5694,19 @@ class NativeChat:
                          'The queue is paused. Review the saved conversation before retrying. '+str(exc), kind='error')
 
     def _start_request_worker(self, **kwargs):
+        target = kwargs.pop('target')
+        def run(*args, **target_kwargs):
+            try:
+                target(*args, **target_kwargs)
+            except BaseException:
+                self.ev.put(('error', 'The request worker exited unexpectedly. Review the saved conversation before retrying.'))
+                raise
+            finally:
+                # Also settle failures before the target's own try/finally.
+                # Identity makes duplicate/late completion harmless.
+                self.ev.put(('done', threading.current_thread()))
         try:
-            worker = self._thread(**kwargs)
+            worker = self._thread(target=run, **kwargs)
             self._active_request_worker = worker
             worker.start()
         except Exception:
@@ -5799,7 +5810,11 @@ class NativeChat:
         self.update_token_label()
         return "break" if remote_text is None else True
 
-    def stop_generation(self, *, _keep_followups=False):
+    def stop_generation(self, *, _keep_followups=False, _keep_conversation=False):
+        # Revoke inference before audio, storage, or tool cleanup can wait.
+        if self.busy:
+            self.cancel_event.set()
+            self._cancel_request_resources()
         if not _keep_followups:
             self._followup_state().pause()
         self._refresh_followup_controls()
@@ -5809,8 +5824,9 @@ class NativeChat:
             self.mic_btn.configure(text='🎙 Mic', bg=self.COL['panel2'])
         if getattr(self, '_mic_voice', None) is not None:
             self._mic_voice.cancel()
-        if getattr(self, 'conversation_active', None) is not None and self.conversation_active.is_set():
-            self.stop_conversation_mode()
+        if (not _keep_conversation and getattr(self, 'conversation_active', None) is not None
+                and self.conversation_active.is_set()):
+            self.stop_conversation_mode(cancel_request=False)
         self._memory_paused_by_stop = True
         rebuild_cancel = getattr(self, '_memory_rebuild_cancel', None)
         if rebuild_cancel is not None: rebuild_cancel.set()
@@ -5826,13 +5842,27 @@ class NativeChat:
             picker['cancel'].set()
             self._attachment_picker_pending = None
             if not getattr(self, '_closing', False): self.update_attachment_label()
+        self._refresh_followup_controls()
         if not self.busy:
             if getattr(self, 'stop_btn', None) is not None: self.stop_btn.configure(state='disabled')
             return
-        self.cancel_event.set()
-        self.cancel_http()
-        self.tool_runtime.cancel()
         self._set_llm_dot("error"); self.model_lbl.configure(text="stopping…", fg=self.COL["bad"])
+
+    def _cancel_request_resources(self):
+        cleanup = getattr(self, '_request_cleanup', None)
+        if cleanup is not None and cleanup.is_alive():
+            return
+        def clean():
+            # HTTP close can wait for a response reader; tool cancellation can
+            # join owned services. Attempt both off Tk and retain writer ownership.
+            for action in (self.cancel_http, self.tool_runtime.cancel):
+                try:
+                    action()
+                except Exception as exc:
+                    self.ev.put(('error', 'Stop cleanup failed: ' + str(exc)))
+        cleanup = self._thread(target=clean, name='PortalAI-request-cleanup', daemon=True)
+        self._request_cleanup = cleanup
+        cleanup.start()
 
     def refresh_sessions_labels_only(self):
         selected = set(self._selected_history_ids())
@@ -6057,16 +6087,21 @@ class NativeChat:
         self.conversation_thread = t
         t.start()
 
-    def stop_conversation_mode(self):
+    def stop_conversation_mode(self, *, cancel_request=True):
         """Revoke capture on Tk, then join/close audio on a tracked cleanup worker."""
         voice = getattr(self, '_conversation_io', None)
         if voice is not None: voice.request_cancel()
         self.conversation_active.clear()
         request = getattr(self, '_conversation_request', None)
+        stop_reply = (cancel_request and self.busy and request is not None
+                      and not request.done.is_set() and request.request_index >= 0)
         if request is not None:
             request.failed = True
             request.done.set()
         self.ev.put(("conversation_stopped", voice))
+        if stop_reply:
+            self.stop_generation()
+        self._refresh_followup_controls()
         cleanup = getattr(self, '_conversation_cleanup', None)
         if cleanup is not None and cleanup.is_alive(): return
         thread = self.conversation_thread
@@ -6418,7 +6453,11 @@ class NativeChat:
 
     def interrupt_voice_reply(self):
         voice=getattr(self,'_conversation_io',None)
-        if voice is not None and self.conversation_active.is_set():voice.interrupt_speech()
+        if voice is not None and self.conversation_active.is_set():
+            voice.interrupt_speech()
+            request = getattr(self, '_conversation_request', None)
+            if request is not None and not request.done.is_set() and self.busy:
+                self.stop_generation(_keep_conversation=True)
 
     def _speak_interruptible(self,voice,text,capture,device_label,*,live=False):
         from chat_voice import SpeechInterrupted
@@ -6469,6 +6508,7 @@ class NativeChat:
                     except SpeechInterrupted:
                         request.speech_cancelled=True;request.stream.disabled=True
                         while not request.stream.queue.empty():request.stream.queue.get_nowait()
+                        self.ev.put(('conversation_interrupt', request))
                     continue
             request.done.wait(.08)
         voice.reset_speech()
@@ -6523,7 +6563,9 @@ class NativeChat:
                 if wav is None:
                     continue
                 self.ev.put(("conversation_status", "Hands-free · transcribing…"))
-                text = self._transcribe_wav_text(wav)
+                # Keep this capture's cancellation token even if Stop arrives
+                # between the active check and transcription admission.
+                text = voice.transcribe(wav)
                 if not self.conversation_active.is_set():
                     break
                 request = VoiceTurn(self.session['id'], text)
@@ -6898,6 +6940,9 @@ class NativeChat:
                 if handled >= 400 or (time.perf_counter() - started) * 1000.0 >= self._stream_pump_budget_ms:
                     break
                 kind, data = self.ev.get_nowait()
+                if (kind == 'done' and data is not None
+                        and data is not getattr(self, '_active_request_worker', None)):
+                    continue
                 from native_rich_chat import observe as observe_rich_chat
                 observe_rich_chat(self,kind,data)
                 handled += 1
@@ -6958,10 +7003,13 @@ class NativeChat:
                     # The final event is emitted just before the worker exits.
                     # Keep cancellation set until all of its cleanup has finished.
                     worker = getattr(self, '_active_request_worker', None)
-                    if worker is not None and worker.is_alive():
-                        self.ev.put(('done', data))
+                    cleanup = getattr(self, '_request_cleanup', None)
+                    if ((worker is not None and worker.is_alive())
+                            or (cleanup is not None and cleanup.is_alive())):
+                        self.ev.put(('done', worker or data))
                         break
                     self._active_request_worker = None
+                    self._request_cleanup = None
                     was_cancelled = self.cancel_event.is_set()
                     queue_ready = self._followup_state().completed(
                         cancelled=was_cancelled, failed=bool(getattr(self, '_request_attention', False)))
@@ -7061,6 +7109,11 @@ class NativeChat:
                         if not self.busy and not self.conversation_active.is_set():
                             self.stop_btn.configure(state='disabled')
                             self.refresh_status()
+                elif kind == 'conversation_interrupt':
+                    if (data is getattr(self, '_conversation_request', None)
+                            and self.conversation_active.is_set() and self.busy
+                            and not data.done.is_set()):
+                        self.stop_generation(_keep_conversation=True)
                 elif kind == "conversation_status":
                     if self.conversation_active.is_set():
                         self._set_llm_dot("listening")
@@ -7107,6 +7160,7 @@ class NativeChat:
                     sync_voice_view(self)
                     self.conversation_btn.configure(text="🎧 Hands-free", bg=self.COL["panel2"])
                     self.mic_btn.configure(state="normal")
+                    self._refresh_followup_controls()
                     if not self.busy:
                         self.stop_btn.configure(state='disabled')
                         self.refresh_status()

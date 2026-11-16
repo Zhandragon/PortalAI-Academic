@@ -209,6 +209,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/activity_monitor.py](../ApplicationSources/Windows/PortalAI/ControlCenter/activity_monitor.py) | Read-only host telemetry and bounded Tk charts; no model or GPU compute probes. |
 | [ControlCenter/admin_profile_ui.py](../ApplicationSources/Windows/PortalAI/ControlCenter/admin_profile_ui.py) | Administrator inspection of sealed profiles without switching active users. |
 | [ControlCenter/alpha_watermark.py](../ApplicationSources/Windows/PortalAI/ControlCenter/alpha_watermark.py) | Per-pixel Windows composition of existing Tk PNGs, without a color key. |
+| [ControlCenter/app_tour.py](../ApplicationSources/Windows/PortalAI/ControlCenter/app_tour.py) | Optional, repeatable launcher tour. No downloads, model changes or tool runs. |
 | [ControlCenter/application_api_contract.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_contract.py) | Public v1 request contracts, shared by the OpenAPI document generator. |
 | [ControlCenter/application_api_runtime.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_runtime.py) | Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint. |
 | [ControlCenter/artifact_preview.py](../ApplicationSources/Windows/PortalAI/ControlCenter/artifact_preview.py) | Gated preview worker lifetime, tied to account/Stop and the Workspace sheet. |
@@ -536,6 +537,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_gui_polish.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_gui_polish.py) | Regression checks for live theme changes, passive branding and stepped inputs. |
 | [Maintenance/Tests/test_gui_stop_contract.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_gui_stop_contract.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_guidance_metadata.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_guidance_metadata.py) | Public help must describe real routes without loading/probing private workloads. |
+| [Maintenance/Tests/test_handsfree_stop_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_handsfree_stop_recovery.py) | Headless cancellation races: no microphone, model, account, or visible window. |
 | [Maintenance/Tests/test_hardware_media_transitions.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_hardware_media_transitions.py) | Cross-platform transitions use real selectors with synthetic devices/assets. |
 | [Maintenance/Tests/test_help_catalog_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_help_catalog_tk.py) | Real Help widget navigation using synthetic content, no account or live GUI. |
 | [Maintenance/Tests/test_help_maintenance_catalog.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_help_maintenance_catalog.py) | Help navigation, current menu callbacks and honest new-feature coverage. |

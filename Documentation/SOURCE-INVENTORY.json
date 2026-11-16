@@ -1,9 +1,9 @@
 {
   "scope": "Tracked and new non-vendored code under ApplicationSources only; not a live-drive or binary-release audit.",
   "files_per_platform": {
-    "Linux": 831,
-    "Mac": 806,
-    "Windows": 993
+    "Linux": 832,
+    "Mac": 807,
+    "Windows": 995
   },
   "python_files_without_module_overview": [
     "ApplicationSources/Linux/PortalAI/Agent/_common.py",
@@ -7265,8 +7265,8 @@
       "path": "ApplicationSources/Linux/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Linux",
       "component": "ControlCenter",
-      "sha256": "5cde2437940851a7755d3a1db34e90811c17718ec98ecc66d8a4a6ee78c34210",
-      "lines": 4361,
+      "sha256": "02559a54df0dc5d220f50bfcdc544f9e5d77ff77299db57082ca48148d81ec72",
+      "lines": 4363,
       "overview": "",
       "symbols": [
         {
@@ -7276,7 +7276,7 @@
         },
         {
           "name": "run_application",
-          "line": 4353,
+          "line": 4355,
           "kind": "FunctionDef"
         }
       ]
@@ -7637,6 +7637,26 @@
         {
           "name": "paint",
           "line": 32,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Linux/PortalAI/ControlCenter/app_tour.py",
+      "platform": "Linux",
+      "component": "ControlCenter",
+      "sha256": "e6e75c23487b824cc91617d3f888de7c7201326b548d9878531dd57850213beb",
+      "lines": 98,
+      "overview": "Optional, repeatable launcher tour. No downloads, model changes or tool runs.",
+      "symbols": [
+        {
+          "name": "AppTour",
+          "line": 16,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "install",
+          "line": 88,
           "kind": "FunctionDef"
         }
       ]
@@ -30196,8 +30216,8 @@
       "path": "ApplicationSources/Mac/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Mac",
       "component": "ControlCenter",
-      "sha256": "1634d5ec7f2cdb80dcf2b688d8ef21b18bcf72f3922f29ec2849e423e2f69e81",
-      "lines": 4367,
+      "sha256": "c4aa6b698242b8c888146be1038153540765b21f7f0f9c5c13216de407021713",
+      "lines": 4369,
       "overview": "",
       "symbols": [
         {
@@ -30207,7 +30227,7 @@
         },
         {
           "name": "run_application",
-          "line": 4359,
+          "line": 4361,
           "kind": "FunctionDef"
         }
       ]
@@ -30568,6 +30588,26 @@
         {
           "name": "paint",
           "line": 32,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Mac/PortalAI/ControlCenter/app_tour.py",
+      "platform": "Mac",
+      "component": "ControlCenter",
+      "sha256": "e6e75c23487b824cc91617d3f888de7c7201326b548d9878531dd57850213beb",
+      "lines": 98,
+      "overview": "Optional, repeatable launcher tour. No downloads, model changes or tool runs.",
+      "symbols": [
+        {
+          "name": "AppTour",
+          "line": 16,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "install",
+          "line": 88,
           "kind": "FunctionDef"
         }
       ]
@@ -52934,8 +52974,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/PortableAI_GUI.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "fa590ca7bb97ca62f8968888bf49d39546bb443a50ee70983a981b0ae334fbf8",
-      "lines": 4358,
+      "sha256": "68d8d6967c2bb17cd7998e37b03cf807786018163e19799519905c5a9d996098",
+      "lines": 4360,
       "overview": "",
       "symbols": [
         {
@@ -52945,7 +52985,7 @@
         },
         {
           "name": "run_application",
-          "line": 4350,
+          "line": 4352,
           "kind": "FunctionDef"
         }
       ]
@@ -53338,6 +53378,26 @@
         {
           "name": "paint",
           "line": 32,
+          "kind": "FunctionDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/ControlCenter/app_tour.py",
+      "platform": "Windows",
+      "component": "ControlCenter",
+      "sha256": "e6e75c23487b824cc91617d3f888de7c7201326b548d9878531dd57850213beb",
+      "lines": 98,
+      "overview": "Optional, repeatable launcher tour. No downloads, model changes or tool runs.",
+      "symbols": [
+        {
+          "name": "AppTour",
+          "line": 16,
+          "kind": "ClassDef"
+        },
+        {
+          "name": "install",
+          "line": 88,
           "kind": "FunctionDef"
         }
       ]
@@ -55155,8 +55215,8 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/native_chat.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "0350cde982854eed91512c7430db90883ac334534c3fa0c6d5fb1b1586db1082",
-      "lines": 7268,
+      "sha256": "d4d56aa1b5114f593046b94c4d6622fcf3505031452f7b4b38910922fa1f5d29",
+      "lines": 7322,
       "overview": "",
       "symbols": [
         {
@@ -55311,7 +55371,7 @@
         },
         {
           "name": "main",
-          "line": 7256,
+          "line": 7310,
           "kind": "FunctionDef"
         }
       ]
@@ -56935,7 +56995,7 @@
       "path": "ApplicationSources/Windows/PortalAI/ControlCenter/release_version.py",
       "platform": "Windows",
       "component": "ControlCenter",
-      "sha256": "62307ff0ff7964d9c268fd6a2a416530a5bfdb0d32d70eb3767bff0b1eb6dbde",
+      "sha256": "e5067847bfb7d7ad379cda442da7ea1386e60461cef7504e9fbbb05be7cc4e22",
       "lines": 2,
       "overview": "Verified PortalAI distribution version.",
       "symbols": []
@@ -60994,6 +61054,21 @@
       "symbols": [
         {
           "name": "GuidanceMetadataTests",
+          "line": 18,
+          "kind": "ClassDef"
+        }
+      ]
+    },
+    {
+      "path": "ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_handsfree_stop_recovery.py",
+      "platform": "Windows",
+      "component": "Maintenance",
+      "sha256": "3ed99b104a414ccf6c1b21a77655b846c6df99fc29445b11b96088dcbfd7de3d",
+      "lines": 207,
+      "overview": "Headless cancellation races: no microphone, model, account, or visible window.",
+      "symbols": [
+        {
+          "name": "StopRecoveryTests",
           "line": 18,
           "kind": "ClassDef"
         }

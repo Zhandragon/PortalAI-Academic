@@ -1,0 +1,31 @@
+Hands-free interruption and composer recovery — November 15, 2026
+
+End hands-free now cancels its admitted model reply as well as capture/playback.
+The voice orb and spoken interruption cancel an unfinished streaming reply while
+keeping hands-free enabled. Typing a follow-up still ends listening without
+cancelling the answer already in progress.
+
+Stop sets the request cancellation event immediately. HTTP close and tool/service
+cleanup run in a registered background writer. The composer remains available to
+queue messages during cleanup; a new request cannot start until the old request
+and its cancellation worker have both exited. Explicit Stop pauses queued items;
+Send now retains the existing explicit-resume behavior. No completed tool is
+replayed, and account shutdown still joins the registered cleanup worker.
+
+Every admitted request worker now emits an identity-bound final completion even
+if it fails before entering its own error handler. Late duplicate completion
+events cannot release another request. The Send button is refreshed after Stop
+clears pending history/attachment loading and after the voice view closes.
+Transcription retains the original voice session's cancellation token across Stop.
+
+Regression coverage uses a headless NativeChat fixture, real worker threads and
+a real local watched socket. It checks slow tool/HTTP cleanup, End, interruption,
+queued typing, failed worker startup/execution, stale completion and Send recovery.
+Related queue, voice, chat handoff, progress, timeline, writer ownership and GUI
+Stop tests also pass. Physical microphone/playback and live model/GPU latency
+were not tested; synthetic Stop latency assertions are under 250 ms.
+
+This Windows r77 release is based on the Windows r76 source. It preserves
+model weights, saved preferences and user conversations. The source-only
+update manifest accepts only the reviewed original hashes or the patched hashes,
+uses PortalAI's normal closed-installation guard and writes verified recovery.

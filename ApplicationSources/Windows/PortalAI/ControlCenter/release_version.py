@@ -1,2 +1,2 @@
 """Verified PortalAI distribution version."""
-RELEASE_VERSION = '2026.11.11-Desktop-r76'
+RELEASE_VERSION = '2026.11.15-Desktop-r77'

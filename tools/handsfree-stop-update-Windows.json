@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.15-Desktop-r77",
+  "edition": "Academic",
+  "platform": "Windows",
+  "patch": "handsfree-stop-20261115",
+  "files": [
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 404784,
+      "sha256": "d4d56aa1b5114f593046b94c4d6622fcf3505031452f7b4b38910922fa1f5d29",
+      "mode": 420,
+      "expected_before": [
+        "0350cde982854eed91512c7430db90883ac334534c3fa0c6d5fb1b1586db1082"
+      ]
+    },
+    {
+      "path": "Maintenance/Tests/test_handsfree_stop_recovery.py",
+      "bytes": 8662,
+      "sha256": "3ed99b104a414ccf6c1b21a77655b846c6df99fc29445b11b96088dcbfd7de3d",
+      "mode": 420,
+      "expected_before": [
+        null
+      ]
+    },
+    {
+      "path": "Documentation/Handsfree_Stop_Recovery_20261115.txt",
+      "bytes": 2035,
+      "sha256": "d6210d1ba3c86de2970a4983ddaa0374a95a04abdbee41cbef9b1685ab98a39d",
+      "mode": 420,
+      "expected_before": [
+        null
+      ]
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 91,
+      "sha256": "e5067847bfb7d7ad379cda442da7ea1386e60461cef7504e9fbbb05be7cc4e22",
+      "mode": 420,
+      "expected_before": [
+        "28ce6172cd61c09cec9d1e1466fe0a6d7a94c65df7cd3bf7b1dd8a24ddaadeaf"
+      ]
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf",
+      "mode": 420,
+      "expected_before": [
+        "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+      ]
+    }
+  ]
+}
