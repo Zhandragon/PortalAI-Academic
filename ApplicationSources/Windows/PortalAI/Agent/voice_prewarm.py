@@ -1,4 +1,4 @@
-"""Optional bounded CPU import overlap; never loads weights or allocates VRAM."""
+"""Bounded CPU preparation while listening/thinking; never allocates VRAM."""
 import os
 from pathlib import Path
 import subprocess
@@ -10,7 +10,7 @@ import uuid
 class PreparedVoice:
     def __init__(self,root,check):
         self.root=Path(root).resolve();self.check=check;self.process=self.job=None
-        self.lock=threading.RLock();self.taken=False;self.closed=False;self.started=time.monotonic()
+        self.lock=threading.RLock();self.taken=False;self.closed=False;self.started=time.monotonic();self.preload=False
         from media_paths import media_runtime
         self.logpath=media_runtime(self.root)/('voice-imports-'+uuid.uuid4().hex+'.log')
 
@@ -25,13 +25,16 @@ class PreparedVoice:
         if os.name!='nt' or hw['ram_total_bytes']<16*GIB or hw['ram_available_bytes']<8*GIB or not hw.get('gpus'):return None
         if not any(g.get('backend','cuda')=='cuda' and g.get('index',0)==0 for g in hw['gpus']):return None
         require_space(root,1024**2,for_outputs=True);ticket=cls(root,check);ticket.logpath.parent.mkdir(parents=True,exist_ok=True)
+        ticket.preload=hw['ram_total_bytes']>=24*GIB and hw['ram_available_bytes']>=12*GIB
         env=portable_env(ticket.root);env.update(PORTALAI_TORCH_BACKEND='cuda',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',OMP_NUM_THREADS='2',MKL_NUM_THREADS='2')
+        env.pop('PORTALAI_VOICE_PRELOAD',None)
+        if ticket.preload:env['PORTALAI_VOICE_PRELOAD']='1'
         try:
             with ticket.logpath.open('xb') as log:
                 ticket.process=subprocess.Popen([str(python_path(ticket.root)),'-B','-I',str(ticket.root/'Agent/nice_voice.py'),'--warm'],
                     cwd=ticket.root,env=env,stdin=subprocess.PIPE,stdout=log,stderr=log,
                     creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),**worker_process_options())
-                ticket.job=WorkerJob(ticket.process);ticket.job.limit_memory(2*GIB);register(ticket.root,ticket)
+                ticket.job=WorkerJob(ticket.process);ticket.job.limit_memory((8 if ticket.preload else 2)*GIB);register(ticket.root,ticket)
                 check();ticket.process.stdin.write(b'warm\n');ticket.process.stdin.flush()
             threading.Thread(target=ticket._watch,name='PortalAI-voice-import-guard',daemon=True).start();return ticket
         except BaseException:ticket.close();raise
@@ -44,7 +47,7 @@ class PreparedVoice:
                     self.check()
                     if self.process.poll() is not None or time.monotonic()-self.started>120 or self.logpath.stat().st_size>1024**2:break
                     from runtime_policy import memory_info
-                    if memory_info()[1]<4*1024**3:break
+                    if memory_info()[1]<(6 if self.preload else 4)*1024**3:break
                 time.sleep(.5)
         except Exception:pass
         self.close()

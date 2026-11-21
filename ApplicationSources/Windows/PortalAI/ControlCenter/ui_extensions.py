@@ -71,7 +71,7 @@ class ResponsiveFlow(tk.Frame):
         self._after = None
         if not self.winfo_exists():
             return
-        width = max(40, int(self.winfo_width()))
+        width = max(1, int(self.winfo_width()))
         signature = (width, tuple((w.winfo_reqwidth(), w.winfo_reqheight()) for w in self._items if w.winfo_exists()))
         if signature == self._last:
             return
@@ -80,7 +80,7 @@ class ResponsiveFlow(tk.Frame):
         for w in self._items:
             if not w.winfo_exists():
                 continue
-            ww, wh = max(1, w.winfo_reqwidth()), max(1, w.winfo_reqheight())
+            ww, wh = min(width, max(1, w.winfo_reqwidth())), max(1, w.winfo_reqheight())
             if x and x + ww > width:
                 x = 0
                 y += row_h + self._vgap
@@ -97,8 +97,9 @@ def bind_responsive_wrap(label: tk.Widget, *, padding=24, minimum=260):
     parent = label.master
     def update(event=None):
         try:
-            w = int((event.width if event is not None else parent.winfo_width()) - padding)
-            label.configure(wraplength=max(minimum, w))
+            parent_width = int(event.width if event is not None else parent.winfo_width())
+            if parent_width <= 1: return  # Wait for the first actual allocation.
+            label.configure(wraplength=max(1, parent_width - padding))
         except Exception:
             pass
     parent.bind("<Configure>", update, add="+")

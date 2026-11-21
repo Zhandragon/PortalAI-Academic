@@ -23,6 +23,7 @@ from runtime_policy import ROOT, atomic_json, portable_env, portable_path, requi
 from mission_modes import profile, allowed_actions, authorize_action
 
 ACTIVE = {"queued", "running", "waiting"}
+_SUPERVISED = False
 
 
 @contextmanager
@@ -447,6 +448,34 @@ class Missions:
         activity.update('planned','LLM finished planning '+str(action.get('action','an action')),force=True)
         return action
 
+    def _owned_command(self,mission,command,timeout,*,shell=False):
+        from tool_process import ToolProcess
+        def check():
+            if self.stopped(mission):raise MissionCancelled('Mission command stopped')
+            self.folder(mission['id'])  # Recheck the captured profile path.
+        check();folder=self.folder(mission['id']);path=folder/'last-command.log'
+        owner=None
+        try:
+            with path.open('wb') as log:
+                owner=ToolProcess(self.root,command,cwd=self.root,
+                    env={**portable_env(self.root),'PORTALAI_CHAT_IMAGE_DEFAULTS':'1'},
+                    check=check,shell=shell,stdout=log,stderr=log,text=False,
+                    python=sys.executable,inherited=_SUPERVISED)
+                proc=owner.start();deadline=time.monotonic()+timeout
+                while proc.poll() is None:
+                    check();owner.check()
+                    if time.monotonic()>deadline:raise TimeoutError('Mission command timed out; outcome requires review')
+                    if path.stat().st_size>8*1024**2:raise RuntimeError('Mission command exceeded its 8 MiB log budget')
+                    require_space(self.root,for_outputs=True);time.sleep(.1)
+                check()
+            if path.stat().st_size>8*1024**2:raise RuntimeError('Mission command exceeded its output limit')
+            output=path.read_text(encoding='utf-8',errors='replace')
+            if _SUPERVISED:owner.close()  # Finished launcher; ancestor job retains descendants.
+            return subprocess.CompletedProcess(command,proc.returncode,output,'')
+        except BaseException:
+            if owner:owner.close()
+            raise
+
     def execute(self, mission, action):
         kind = action.get("action")
         folder = self.folder(mission["id"])
@@ -506,9 +535,7 @@ class Missions:
             from platform_runtime import python_path
             py=python_path(self.root)
             require_space(self.root, for_outputs=True)
-            cp = subprocess.run([str(py), "-B", str(self.root / "Tools/system_test.py"), "--root", str(self.root), "--json"],
-                                cwd=self.root, capture_output=True, text=True, errors="replace", timeout=240,
-                                env=portable_env(self.root), creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            cp = self._owned_command(mission,[str(py),'-B',str(self.root/'Tools/system_test.py'),'--root',str(self.root),'--json'],240)
             report = json.loads(cp.stdout)
             atomic_json(folder / "diagnostics.json", report)
             return json.dumps({"exit_code": cp.returncode, "counts": report["counts"],
@@ -530,35 +557,9 @@ class Missions:
             materialize(self.root, None, recursive=True)
             if self.stopped(mission):
                 raise RuntimeError("Mission stopped while restoring its files; command was not started")
-            # Full mode is deliberately unrestricted and is NOT a sandbox.
-            with (folder / "last-command.log").open("w", encoding="utf-8") as log:
-                p = subprocess.Popen(command, shell=True, cwd=self.root, stdout=log, stderr=log,
-                                     env={**portable_env(self.root), 'PORTALAI_CHAT_IMAGE_DEFAULTS':'1'},
-                                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-                                     start_new_session=(os.name != "nt"))
-                try:
-                    deadline = time.monotonic() + 120
-                    while p.poll() is None:
-                        if (folder / "STOP").exists():
-                            raise RuntimeError("Host command stopped by user")
-                        if time.monotonic() >= deadline:
-                            raise RuntimeError("Host command timed out")
-                        if (folder / "last-command.log").stat().st_size > 8*1024**2:
-                            raise RuntimeError("Host command exceeded its 8 MiB log budget")
-                        require_space(self.root, for_outputs=True)
-                        time.sleep(.5)
-                except BaseException:
-                    if os.name == "nt":
-                        subprocess.run(["taskkill", "/PID", str(p.pid), "/T", "/F"], capture_output=True,
-                                       timeout=10, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-                    else:
-                        import signal
-                        os.killpg(p.pid, signal.SIGKILL)
-                    p.wait(timeout=10)
-                    raise
-            with (folder / "last-command.log").open(encoding="utf-8", errors="replace") as f:
-                output = f.read(12000)
-            return json.dumps({"exit_code": p.returncode, "output": output})
+            # Full mode remains host access, with the same Stop/profile owner.
+            cp=self._owned_command(mission,command,120,shell=True)
+            return json.dumps({'exit_code':cp.returncode,'output':cp.stdout[:12000]})
         if kind == "subtask":
             if mission["depth"] >= 3 or len(mission["children"]) >= 5:
                 raise RuntimeError("Subtask depth/count budget reached")
@@ -722,12 +723,14 @@ class Missions:
 
 
 def main():
+    global _SUPERVISED
     gate = os.environ.get("PORTALAI_MISSION_GATE")
     if gate:
         deadline = time.monotonic()+15
         while not Path(gate).exists():
             if time.monotonic() > deadline: raise RuntimeError("Supervisor did not authorize worker startup")
             time.sleep(.05)
+        _SUPERVISED = True
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT, help="Portable workspace root (also used by isolated lifecycle tests)")
     sub = parser.add_subparsers(dest="command", required=True)

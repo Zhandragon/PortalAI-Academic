@@ -12,14 +12,15 @@ import time
 import wave
 
 
-def generate(root,data,instruction):
+def generate(root,data,instruction,*,preloaded=None):
     started=time.monotonic();timing={}
     runner=runpy.run_path(str(Path(root)/'Voice/Qwen3-TTS/qwen_tts_runner.py'))
     import torch
     timing['imports_seconds']=round(time.monotonic()-started,3)
     import qwen_tts
     timing['voice_package_seconds']=round(time.monotonic()-started,3)
-    model=runner['_load']('custom');tokenizer=model.model.speech_tokenizer
+    model=runner['_activate_preloaded'](preloaded) if preloaded is not None else runner['_load']('custom')
+    tokenizer=model.model.speech_tokenizer
     timing['model_ready_seconds']=round(time.monotonic()-started,3)
     decoder=tokenizer.model.decoder;rate=int(tokenizer.get_output_sample_rate());upsample=int(decoder.total_upsample)
     folder=Path(data['stream_dir']);codes=[];pending=0;number=0;frames=0
@@ -43,7 +44,9 @@ def generate(root,data,instruction):
                 time.sleep(.05)
             target=folder/(str(number).zfill(4)+'.wav');temporary=target.with_suffix('.part')
             with wave.open(str(temporary),'wb') as chunk:chunk.setparams((1,2,rate,0,'NONE','not compressed'));chunk.writeframes(raw)
-            with temporary.open('r+b') as stream:os.fsync(stream.fileno())
+            # These are disposable IPC chunks, not durable profile records.
+            # Closing before atomic publication makes all bytes visible without
+            # forcing a physical USB flush for every second of speech.
             os.replace(temporary,target);complete.writeframes(raw)
             if not number:timing['first_chunk_seconds']=round(time.monotonic()-started,3)
             number+=1;codes=codes[-25:];pending=0
@@ -62,7 +65,9 @@ def generate(root,data,instruction):
         hook=model.model.talker.register_forward_hook(observe)
         try:
             tokenizer.decode=finish
-            model.generate_custom_voice(text=data['text'],language='English',speaker='Ryan',instruct=instruction)
+            from qwen_voice_acceleration import accelerate
+            with accelerate(model) as acceleration, torch.inference_mode():
+                model.generate_custom_voice(text=data['text'],language='English',speaker='Ryan',instruct=instruction)
         finally:tokenizer.decode=original;hook.remove()
     timing['total_seconds']=round(time.monotonic()-started,3)
-    print(json.dumps({'success':True,'file':data['output'],'sample_rate':rate,'mode':'custom','stream_chunks':number,'timing':timing}),flush=True)
+    print(json.dumps({'success':True,'file':data['output'],'sample_rate':rate,'mode':'custom','stream_chunks':number,'timing':timing,'acceleration':acceleration}),flush=True)

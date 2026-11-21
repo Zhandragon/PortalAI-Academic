@@ -101,23 +101,37 @@ class ActivityCharts(tk.Frame):
     def __init__(self, parent, palette):
         super().__init__(parent, bd=0)
         self.palette = palette; self.samples = deque(maxlen=60); self.labels = {}; self.canvases = {}
-        self.cells = []; self.borders=[]
+        self.cells = []; self.borders=[]; self._columns = None
         from ornate_ui import ConnectedBorder
         for key, title in (('cpu','CPU'), ('ram','RAM'), ('gpu','GPU'), ('vram','VRAM')):
             cell = tk.Frame(self, bd=0); self.cells.append(cell)
             border=ConnectedBorder(cell,palette,radius=12,filigree=True,shine=True)
             self.borders.append(border)
-            label = tk.Label(cell, text=title+' · waiting', anchor='w', font=('Segoe UI', 9, 'bold'))
+            label = tk.Label(cell, text=title+' · waiting', width=1, anchor='w', font=('Segoe UI', 9, 'bold'))
             label.pack(fill='x', padx=10, pady=(9, 2)); self.labels[key] = label
-            canvas = tk.Canvas(cell, height=62, bd=0, highlightthickness=0)
-            canvas.pack(fill='x', padx=10, pady=(0, 9)); self.canvases[key] = canvas
+            canvas = tk.Canvas(cell, width=1, height=62, bd=0, highlightthickness=0)
+            canvas.pack(fill='both', expand=True, padx=10, pady=(0, 9)); self.canvases[key] = canvas
             canvas.bind('<Configure>', lambda _e: self.redraw(), add='+')
         self.bind('<Configure>', self.reflow, add='+'); self.apply_palette(palette)
 
     def reflow(self, event):
+        if event.widget is not self: return
         cols = 4 if event.width >= 850 else 2 if event.width >= 430 else 1
-        for col in range(4): self.columnconfigure(col, weight=1 if col < cols else 0)
-        for index, cell in enumerate(self.cells): cell.grid(row=index//cols, column=index%cols, sticky='ew', padx=3, pady=3)
+        if cols != self._columns:
+            self._columns = cols
+            for col in range(4):
+                self.columnconfigure(col, weight=1 if col < cols else 0,
+                                     uniform='chart' if col < cols else '', minsize=0)
+                self.rowconfigure(col, weight=1 if col < (4+cols-1)//cols else 0)
+            for index, cell in enumerate(self.cells):
+                cell.grid(row=index//cols, column=index%cols, sticky='nsew', padx=3, pady=3)
+        # Labels must not set a minimum width wider than their viewport.
+        width = max(1, event.width//cols - 26)
+        for label in self.labels.values():
+            if label.winfo_pixels(label.cget('wraplength')) != width: label.configure(wraplength=width)
+        height = max(62, min(132, width//4))
+        for canvas in self.canvases.values():
+            if canvas.winfo_pixels(canvas.cget('height')) != height: canvas.configure(height=height)
 
     def update_sample(self, data):
         self.samples.append(dict(data))
@@ -139,7 +153,7 @@ class ActivityCharts(tk.Frame):
     def redraw(self):
         p = self.palette
         for key, canvas in self.canvases.items():
-            canvas.delete('all'); w = max(10, canvas.winfo_width()); h = 56
+            canvas.delete('all'); w = max(4, canvas.winfo_width()); h = max(1, canvas.winfo_height()-6)
             for percent in (0, 50, 100):
                 y = 3 + h*(1-percent/100)
                 canvas.create_line(2,y,w-2,y,fill=p.get('border', '#786747'), dash=(2,4))

@@ -35,6 +35,8 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/audio_inpaint_amd_entry.py](../ApplicationSources/Windows/PortalAI/Agent/audio_inpaint_amd_entry.py) | Offline, isolated audio-native inpainting; entered only by the bounded worker. |
 | [Agent/audio_inpaint_math.py](../ApplicationSources/Windows/PortalAI/Agent/audio_inpaint_math.py) | Training-free masked flow matching and exact localized PCM composition. |
 | [Agent/bounded_comfy.py](../ApplicationSources/Windows/PortalAI/Agent/bounded_comfy.py) | Own a scaled ComfyUI session with an OS-enforced memory and lifetime limit. |
+| [Agent/browser_use_runtime.py](../ApplicationSources/Windows/PortalAI/Agent/browser_use_runtime.py) | Relocatable browser-use dependencies and account-local ephemeral state. |
+| [Agent/browser_use_worker.py](../ApplicationSources/Windows/PortalAI/Agent/browser_use_worker.py) | Owned browser-use/CDP worker with a small structured accessibility interface. |
 | [Agent/chat_budgets.py](../ApplicationSources/Windows/PortalAI/Agent/chat_budgets.py) | Inference-only effort budgets; never admit or reload a model. |
 | [Agent/chat_model_switch.py](../ApplicationSources/Windows/PortalAI/Agent/chat_model_switch.py) | Apply chat effort between requests with owned, generation-fenced model recovery. |
 | [Agent/chat_priority.py](../ApplicationSources/Windows/PortalAI/Agent/chat_priority.py) | Per-profile foreground chat priority, with OS-owned crash-released leases. |
@@ -117,6 +119,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/native_flux.py](../ApplicationSources/Windows/PortalAI/Agent/native_flux.py) | Bounded FLUX Klein 4B generation/editing on bundled CPU/Vulkan engines. |
 | [Agent/native_video.py](../ApplicationSources/Windows/PortalAI/Agent/native_video.py) | Bounded Wan 1.3B text-to-video on native Vulkan or CPU, with CPU T5/VAE. |
 | [Agent/nice_voice.py](../ApplicationSources/Windows/PortalAI/Agent/nice_voice.py) | Expressive Nice voice using the existing SSD-local Qwen TTS runtime. |
+| [Agent/open_computer_use.py](../ApplicationSources/Windows/PortalAI/Agent/open_computer_use.py) | Portable iFurySt/open-computer-use UIA adapter inside Desktop's grants. |
 | [Agent/piper_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/piper_bridge.py) | Bounded CPU speech lifecycle; Windows job owns only this worker tree. |
 | [Agent/piper_worker.py](../ApplicationSources/Windows/PortalAI/Agent/piper_worker.py) | Short-lived CPU speech worker using only the SSD's pinned package layer. |
 | [Agent/plain_profile_workspace.py](../ApplicationSources/Windows/PortalAI/Agent/plain_profile_workspace.py) | Explicit plaintext profiles with verified, incremental plaintext recovery. |
@@ -135,6 +138,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/profile_shutdown.py](../ApplicationSources/Windows/PortalAI/Agent/profile_shutdown.py) | Fail-closed process quiescence for profile recovery and sealing. |
 | [Agent/profile_tool_hydration.py](../ApplicationSources/Windows/PortalAI/Agent/profile_tool_hydration.py) | Prepare ordinary filesystem paths before unmanaged media/science libraries. |
 | [Agent/profile_workspace.py](../ApplicationSources/Windows/PortalAI/Agent/profile_workspace.py) | Verified encrypted profile snapshots, independent of model/runtime directories. |
+| [Agent/qwen_voice_acceleration.py](../ApplicationSources/Windows/PortalAI/Agent/qwen_voice_acceleration.py) | Optional CUDA graph for Qwen's fixed fifteen residual codec predictions. |
 | [Agent/qwen_voice_stream.py](../ApplicationSources/Windows/PortalAI/Agent/qwen_voice_stream.py) | Incremental audio decoding for the installed Qwen3 12 Hz custom voice. |
 | [Agent/qwen_vram_watchdog.py](../ApplicationSources/Windows/PortalAI/Agent/qwen_vram_watchdog.py) | No module overview; see source and symbol inventory. |
 | [Agent/radeon_edit.py](../ApplicationSources/Windows/PortalAI/Agent/radeon_edit.py) | Small Radeon editing profiles, independent of the CUDA/FLUX workflow. |
@@ -159,6 +163,8 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/stt_worker.py](../ApplicationSources/Windows/PortalAI/Agent/stt_worker.py) | No module overview; see source and symbol inventory. |
 | [Agent/suite_utilities.py](../ApplicationSources/Windows/PortalAI/Agent/suite_utilities.py) | Public suite discovery and independent utility launchers. No account access. |
 | [Agent/tool_contracts.py](../ApplicationSources/Windows/PortalAI/Agent/tool_contracts.py) | Small current execution contracts, independent of catalog and private state. |
+| [Agent/tool_process.py](../ApplicationSources/Windows/PortalAI/Agent/tool_process.py) | Gated tool trees that remain owned after a launching shell exits. |
+| [Agent/tool_process_worker.py](../ApplicationSources/Windows/PortalAI/Agent/tool_process_worker.py) | Execute only after the parent has established process-tree ownership. |
 | [Agent/tts_policy.py](../ApplicationSources/Windows/PortalAI/Agent/tts_policy.py) | Speech admission for isolated CUDA/ROCm runtimes and basic CPU speech. |
 | [Agent/vace_reference.py](../ApplicationSources/Windows/PortalAI/Agent/vace_reference.py) | Bounded VACE reference-conditioned generation; caller holds the GPU lease. |
 | [Agent/verification_worker.py](../ApplicationSources/Windows/PortalAI/Agent/verification_worker.py) | Gated child for explicitly approved project test commands; no shell parsing. |
@@ -169,7 +175,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Agent/voice_bridge.py](../ApplicationSources/Windows/PortalAI/Agent/voice_bridge.py) | No module overview; see source and symbol inventory. |
 | [Agent/voice_memory.py](../ApplicationSources/Windows/PortalAI/Agent/voice_memory.py) | Bounded voice admission with the existing owned-model lease and recovery. |
 | [Agent/voice_policy.py](../ApplicationSources/Windows/PortalAI/Agent/voice_policy.py) | Installed voice capacity, effort linking and explicit independent TTS choices. |
-| [Agent/voice_prewarm.py](../ApplicationSources/Windows/PortalAI/Agent/voice_prewarm.py) | Optional bounded CPU import overlap; never loads weights or allocates VRAM. |
+| [Agent/voice_prewarm.py](../ApplicationSources/Windows/PortalAI/Agent/voice_prewarm.py) | Bounded CPU preparation while listening/thinking; never allocates VRAM. |
 | [Agent/web_capabilities.py](../ApplicationSources/Windows/PortalAI/Agent/web_capabilities.py) | Structured page reader, stateful browser and bounded HTTP API operations. |
 | [Agent/web_image_quality.py](../ApplicationSources/Windows/PortalAI/Agent/web_image_quality.py) | Small, advisory image checks: source association is not face recognition. |
 | [Agent/web_research.py](../ApplicationSources/Windows/PortalAI/Agent/web_research.py) | Bounded public research, data previews and inert file/media discovery. |
@@ -213,6 +219,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [ControlCenter/application_api_contract.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_contract.py) | Public v1 request contracts, shared by the OpenAPI document generator. |
 | [ControlCenter/application_api_runtime.py](../ApplicationSources/Windows/PortalAI/ControlCenter/application_api_runtime.py) | Application API v1 adapters; no Tk calls or arbitrary host-shell endpoint. |
 | [ControlCenter/artifact_preview.py](../ApplicationSources/Windows/PortalAI/ControlCenter/artifact_preview.py) | Gated preview worker lifetime, tied to account/Stop and the Workspace sheet. |
+| [ControlCenter/browser_use_api.py](../ApplicationSources/Windows/PortalAI/ControlCenter/browser_use_api.py) | Small-model browser actions backed by the bundled browser-use runtime. |
 | [ControlCenter/bundle_inventory.py](../ApplicationSources/Windows/PortalAI/ControlCenter/bundle_inventory.py) | Current portable capabilities for Settings, Installed and diagnostics. |
 | [ControlCenter/capability_tools.py](../ApplicationSources/Windows/PortalAI/ControlCenter/capability_tools.py) | Chat adapters for account-scoped workspace features; management stays in the UI. |
 | [ControlCenter/chat_catalog.py](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_catalog.py) | Small per-account history catalog. Raw transcripts and media stay on demand. |
@@ -679,6 +686,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_record_refresh_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_record_refresh_tk.py) | Slow record I/O must never own Tk; hidden/stale/revoked reads cannot publish. |
 | [Maintenance/Tests/test_record_sorting_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_record_sorting_tk.py) | Real heading callbacks reorder synthetic records across refresh/filter changes. |
 | [Maintenance/Tests/test_remaining_media_routes.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_remaining_media_routes.py) | CLI integration, compute admission and delayed-Stop regression; no live models. |
+| [Maintenance/Tests/test_resize_geometry.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_resize_geometry.py) | Geometry regression checks without creating native windows. |
 | [Maintenance/Tests/test_review_issue.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_review_issue.py) | Review summaries must be short, actionable, scoped and faithful to evidence. |
 | [Maintenance/Tests/test_review_issue_layout_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_review_issue_layout_tk.py) | Native compact/resizing and review navigation with synthetic data only. |
 | [Maintenance/Tests/test_reviewed_account_setup.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_reviewed_account_setup.py) | Reviewed first-account migration; synthetic data and credentials only. |
@@ -714,6 +722,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_suite_ui_tk.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_suite_ui_tk.py) | Real Tk controls; maintenance actions use mocks or disposable roots. |
 | [Maintenance/Tests/test_suite_utilities.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_suite_utilities.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_task_progress.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_task_progress.py) | Intent, recurrent progress, real worker routing and context/account boundaries. |
+| [Maintenance/Tests/test_tool_process_stop.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tool_process_stop.py) | Real owned child/grandchild cancellation, with no desktop input or model. |
 | [Maintenance/Tests/test_tool_protocol.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tool_protocol.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_tool_protocol_recovery.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tool_protocol_recovery.py) | Format-only inference repair; printed commands are never executed or replayed. |
 | [Maintenance/Tests/test_tts_cli.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_tts_cli.py) | No module overview; see source and symbol inventory. |
@@ -734,6 +743,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Maintenance/Tests/test_voice_onset.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_onset.py) | Speech onset, same-stream priming, visualizer timing and cancellation tests. |
 | [Maintenance/Tests/test_voice_policy.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_policy.py) | No module overview; see source and symbol inventory. |
 | [Maintenance/Tests/test_voice_stop_races.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_stop_races.py) | Stop hands-free during restoration, concurrent capture teardown, and Tk liveness. |
+| [Maintenance/Tests/test_voice_streaming.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_streaming.py) | Streaming reserve, cancellation, portability and CPU preloading regressions. |
 | [Maintenance/Tests/test_voice_visualizer.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_voice_visualizer.py) | Real Tk rendering, PCM state, and muted capture using disposable audio. |
 | [Maintenance/Tests/test_wallet_rpc_identity.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_wallet_rpc_identity.py) | The public RPC receives an honest product identity and retains redirect guards. |
 | [Maintenance/Tests/test_web_agents.py](../ApplicationSources/Windows/PortalAI/Maintenance/Tests/test_web_agents.py) | Synthetic account/HTTP fixtures only; no owner data or live model jobs. |
@@ -777,6 +787,12 @@ An overview below is taken verbatim from the module docstring. “No module over
 | --- | --- |
 | [ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/Start Weight-Space Editor.cmd](../ApplicationSources/Windows/Utilities/PortalAI%20Weight-Space%20Editor/Start%20Weight-Space%20Editor.cmd) | Source script; inspect its comments and entry points. |
 | [ApplicationSources/Windows/Utilities/PortalAI Weight-Space Editor/launch.py](../ApplicationSources/Windows/Utilities/PortalAI%20Weight-Space%20Editor/launch.py) | Locate the independent PortalAI installation on this portable drive. |
+
+## Runtime
+
+| Source | Overview |
+| --- | --- |
+| [Runtime/ComputerUse/windows-x64/runtime.ps1](../ApplicationSources/Windows/PortalAI/Runtime/ComputerUse/windows-x64/runtime.ps1) | Source script; inspect its comments and entry points. |
 
 ## SDK
 
@@ -862,6 +878,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/audit_source_bloat.py](../ApplicationSources/Windows/PortalAI/Tools/audit_source_bloat.py) | Read-only first-party source audit; never scans accounts or deletes assets. |
 | [Tools/audit_specialist_filters.py](../ApplicationSources/Windows/PortalAI/Tools/audit_specialist_filters.py) | Read-only source evidence, not a universal model-behavior or license audit. |
 | [Tools/benchmark_lazy_chat_login.py](../ApplicationSources/Windows/PortalAI/Tools/benchmark_lazy_chat_login.py) | Bounded synthetic login benchmark on the portable volume; no live accounts. |
+| [Tools/benchmark_voice_stream.py](../ApplicationSources/Windows/PortalAI/Tools/benchmark_voice_stream.py) | Bounded synthetic Qwen streaming measurement; never uses an account workspace. |
 | [Tools/build_linux_installer.py](../ApplicationSources/Windows/PortalAI/Tools/build_linux_installer.py) | Build a clean Linux x86-64 installer from the released source payload and verified runtimes. |
 | [Tools/build_linux_test_disk.py](../ApplicationSources/Windows/PortalAI/Tools/build_linux_test_disk.py) | Read-only virtual test disk; never exposes a host directory to the guest. |
 | [Tools/build_macos_installer.py](../ApplicationSources/Windows/PortalAI/Tools/build_macos_installer.py) | Build a clean dual-architecture macOS installer from approved release inputs. |
@@ -978,6 +995,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/smoke_amd_sfx.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_amd_sfx.py) | Real small MMAudio inference using ROCm packages on CPU (not Radeon validation). |
 | [Tools/smoke_banner_storage.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_banner_storage.py) | Compact chat banner and storage display in a disposable launcher account. |
 | [Tools/smoke_biology.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_biology.py) | Synthetic biology/network/real CPU-weight diagnostics, never a live profile login. |
+| [Tools/smoke_browser_use.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_browser_use.py) | Headless, CPU-only browser-use acceptance in marked synthetic artifacts. |
 | [Tools/smoke_chat_effort.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_chat_effort.py) | Sequential live Fast/Deep/Fast switching; restores the initial owned model. |
 | [Tools/smoke_chat_handoff.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_chat_handoff.py) | Real NativeChat tool loop: model call -> media handoff -> model summary. |
 | [Tools/smoke_chat_layout.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_chat_layout.py) | Screenshot the real chat layout with harmless synthetic rows and no services. |
@@ -1011,6 +1029,7 @@ An overview below is taken verbatim from the module docstring. “No module over
 | [Tools/smoke_native_worker.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_native_worker.py) | Exercise the shared media worker and cancellation without model/GPU loading. |
 | [Tools/smoke_native_workflows.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_native_workflows.py) | Focused native-form integration on a real disposable account/GUI only. |
 | [Tools/smoke_navigation.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_navigation.py) | Actual launcher navigation on a disposable account; never the user's GUI. |
+| [Tools/smoke_open_computer_use.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_open_computer_use.py) | UIA-only test against a disposable nonactivating window; no physical input. |
 | [Tools/smoke_persistence.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_persistence.py) | Real process restart/crash tests in isolated SSD folders; no live model needed. |
 | [Tools/smoke_persistence_lifecycle.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_persistence_lifecycle.py) | Verify explicit Stop pauses armed work across a normal native restart. |
 | [Tools/smoke_persistence_readability.py](../ApplicationSources/Windows/PortalAI/Tools/smoke_persistence_readability.py) | Capture labeled persistence sheets using disposable records, never user missions. |

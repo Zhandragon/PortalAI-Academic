@@ -2,11 +2,19 @@
 from pathlib import Path
 import threading
 
-_lock=threading.RLock();_resources={}
+_lock=threading.RLock();_resources={};_epochs={}
 
 
-def register(root,resource):
-    with _lock:_resources.setdefault(str(Path(root).resolve()),set()).add(resource)
+def epoch(root):
+    with _lock:return _epochs.get(str(Path(root).resolve()),0)
+
+
+def register(root,resource,expected_epoch=None):
+    key=str(Path(root).resolve())
+    with _lock:
+        if expected_epoch is not None and _epochs.get(key,0)!=expected_epoch:
+            raise RuntimeError('Workspace operation stopped before resource startup')
+        _resources.setdefault(key,set()).add(resource)
 
 
 def unregister(root,resource):
@@ -15,7 +23,10 @@ def unregister(root,resource):
 
 
 def close_all(root):
-    with _lock:values=list(_resources.pop(str(Path(root).resolve()),set()))
+    key=str(Path(root).resolve())
+    with _lock:
+        _epochs[key]=_epochs.get(key,0)+1
+        values=list(_resources.pop(key,set()))
     errors=[]
     for resource in values:
         try:resource.close()

@@ -53,16 +53,27 @@ def synthesize(text, root, output, check, *, on_chunk=None, prepared=None):
     token=uuid.uuid4().hex;request=runtime/('nice_voice_'+token+'.json');gate=request.with_suffix('.gate');logpath=request.with_suffix('.log')
     part=out.with_name(out.stem+'.'+token+'.part.wav');proc=job=None
     chunks=request.with_suffix('.chunks') if on_chunk is not None else None;chunk_number=0
+    blocked_chunk_since=None
     def drain_chunks():
-        nonlocal chunk_number
+        nonlocal chunk_number,blocked_chunk_since
         if chunks is None:return
         while True:
             item=chunks/(str(chunk_number).zfill(4)+'.wav')
             if not item.exists():return
             check()
-            with wave.open(str(item),'rb') as wav:
-                if wav.getnchannels()!=1 or wav.getsampwidth()!=2 or wav.getframerate()!=24000 or not 0<wav.getnframes()<=48000:raise RuntimeError('Invalid incremental speech chunk')
-            on_chunk(item);item.unlink();chunk_number+=1
+            try:
+                with wave.open(str(item),'rb') as wav:
+                    if wav.getnchannels()!=1 or wav.getsampwidth()!=2 or wav.getframerate()!=24000 or not 0<wav.getnframes()<=48000:raise RuntimeError('Invalid incremental speech chunk')
+            except PermissionError:
+                # Windows scanners can briefly hold a just-published USB file.
+                # No chunk was queued unless push completed successfully.
+                if blocked_chunk_since is None:blocked_chunk_since=time.monotonic()
+                if time.monotonic()-blocked_chunk_since>3:raise
+                return
+            on_chunk(item)
+            blocked_chunk_since=None;chunk_number+=1
+            try:item.unlink()
+            except PermissionError:pass  # Finally cleans up; never replay a queued chunk.
     with process_lock(runtime/'nice-voice.lock'):
         try:
             require_space(root,40*1024**2,for_outputs=True);check();out.parent.mkdir(parents=True,exist_ok=True)
@@ -86,7 +97,10 @@ def synthesize(text, root, output, check, *, on_chunk=None, prepared=None):
                     if time.monotonic()>=deadline:raise TimeoutError('Expressive voice exceeded 240 seconds')
                     if logpath.stat().st_size>1024**2:raise RuntimeError('Expressive voice log exceeded its limit')
                     require_space(root,for_outputs=True);time.sleep(.1)
-            check();drain_chunks();result=VoiceBridge._payload(proc.returncode,logpath.read_text(encoding='utf-8',errors='replace'),'',plan)
+            check();drain_chunks()
+            while blocked_chunk_since is not None:
+                check();time.sleep(.05);drain_chunks()
+            result=VoiceBridge._payload(proc.returncode,logpath.read_text(encoding='utf-8',errors='replace'),'',plan)
             if [Path(p).resolve() for p in result['files']] != [part]:raise RuntimeError('Expressive voice output identity changed')
             with wave.open(str(part),'rb') as wav:
                 if wav.getnchannels()!=1 or not wav.getnframes() or part.stat().st_size>32*1024**2:
@@ -109,7 +123,7 @@ def synthesize(text, root, output, check, *, on_chunk=None, prepared=None):
                         time.sleep(.1)
 
 
-def worker(request,*,warm=False):
+def worker(request,*,warm=False,preloaded=None):
     import runpy
     import sys
     root=Path(__file__).resolve().parents[1]
@@ -123,7 +137,14 @@ def worker(request,*,warm=False):
     runner=root/'Voice/Qwen3-TTS/qwen_tts_runner.py'
     if data.get('stream_dir'):
         from qwen_voice_stream import generate
-        generate(root,data,INSTRUCTION);return
+        generate(root,data,INSTRUCTION,preloaded=preloaded);return
+    if preloaded is not None:
+        functions=runpy.run_path(str(runner))
+        model=functions['_activate_preloaded'](preloaded)
+        wavs,rate=model.generate_custom_voice(text=data['text'],language='English',speaker='Ryan',instruct=INSTRUCTION)
+        functions['_save'](wavs[0],rate,data['output'])
+        print(json.dumps({'success':True,'file':data['output'],'sample_rate':int(rate),'mode':'custom'}),flush=True)
+        return
     sys.argv=[str(runner),'custom','--text',data['text'],'--speaker','Ryan','--instruction',INSTRUCTION,
               '--language','English','--output',data['output']]
     runpy.run_path(str(runner),run_name='__main__')
@@ -135,13 +156,16 @@ if __name__=='__main__':
         if sys.stdin.buffer.readline(32)!=b'warm\n':raise SystemExit('Voice import gate closed')
         import runpy
         root=Path(__file__).resolve().parents[1]
-        runpy.run_path(str(root/'Voice/Qwen3-TTS/qwen_tts_runner.py'))
+        runner=runpy.run_path(str(root/'Voice/Qwen3-TTS/qwen_tts_runner.py'))
         import torch
         import qwen_tts
-        # No model or CUDA context before fresh admission and the model handoff.
+        preloaded=None
+        if os.environ.get('PORTALAI_VOICE_PRELOAD')=='1':
+            preloaded=runner['_load']('custom',device='cpu')
+        # Prepared weights remain on CPU until fresh admission/model handoff.
         request=sys.stdin.buffer.readline(32769).decode('utf-8').strip()
         if not request or len(request)>32768:raise SystemExit('Voice request gate closed')
-        torch.set_num_threads(4);worker(request,warm=True)
+        torch.set_num_threads(4);worker(request,warm=True,preloaded=preloaded)
     else:
         if len(sys.argv)!=3 or sys.argv[1]!='--worker':raise SystemExit('Internal voice worker')
         worker(sys.argv[2])

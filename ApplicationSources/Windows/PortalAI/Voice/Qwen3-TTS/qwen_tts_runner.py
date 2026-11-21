@@ -83,9 +83,8 @@ def _checkpoint_reads():
         modeling_utils.safe_open = original
 
 
-def _load(kind: str):
+def _cuda_dtype():
     import torch
-    from qwen_tts import Qwen3TTSModel
 
     if not torch.cuda.is_available():
         raise RuntimeError(
@@ -102,10 +101,29 @@ def _load(kind: str):
             bf16=bool(torch.all(probe@probe==16).item());torch.cuda.synchronize()
             del probe
         except RuntimeError:bf16=False
-    dtype = torch.bfloat16 if bf16 else torch.float16
+    return torch.bfloat16 if bf16 else torch.float16
+
+
+def _activate_preloaded(model):
+    """Only called after the parent grants its fresh GPU admission/handoff."""
+    import torch
+    dtype = _cuda_dtype()
+    model.model.to(device='cuda:0', dtype=dtype)
+    tokenizer = model.model.speech_tokenizer
+    tokenizer.model.to(device='cuda:0', dtype=dtype)
+    tokenizer.device = torch.device('cuda:0')
+    model.device = torch.device('cuda:0')
+    return model
+
+
+def _load(kind: str, *, device='cuda:0'):
+    from qwen_tts import Qwen3TTSModel
+    # CPU preparation retains each checkpoint's native precision and never asks
+    # CUDA for a context. Conversion happens only after fresh GPU admission.
+    dtype = 'auto' if device == 'cpu' else _cuda_dtype()
     attn = os.environ.get("PORTABLEAI_QWEN_TTS_ATTN", "sdpa")
     kwargs = dict(
-        device_map="cuda:0",
+        device_map=device,
         dtype=dtype,
         attn_implementation=attn,
         local_files_only=True,

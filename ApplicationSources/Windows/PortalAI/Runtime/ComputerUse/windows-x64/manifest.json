@@ -1,0 +1,16 @@
+{
+  "upstream": "https://github.com/iFurySt/open-computer-use",
+  "version": "1.1.5",
+  "license": "MIT",
+  "upstream_runtime_sha256": "2a0fcbd6da3be690bbc548964e10f3977e84972fe8aeccebfd7c5e922c89bf67",
+  "adaptations": [
+    "Exact granted HWND/PID/creation time; no implicit modal switching",
+    "No post-action screenshot in the text adapter",
+    "Include an explicitly granted owned/tool window without granting its owner"
+  ],
+  "files": {
+    "LICENSE": "0fdb775e00e6fdde23984b4f1184cd13c34135caac1e714ad489141c239704bc",
+    "open-computer-use.exe": "b4b9765c6e42b1bec12965311d659ca8d18f6c7b5b9bfffa48be2b867884432d",
+    "runtime.ps1": "9bef2bf714350488bb2054a88ffcd65f7be9e73080ae8adc53ec96bec437c942"
+  }
+}

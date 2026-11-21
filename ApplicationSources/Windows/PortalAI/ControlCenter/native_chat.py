@@ -850,7 +850,11 @@ class ToolRuntime:
                 raise subprocess.TimeoutExpired(getattr(process, 'args', label), timeout,
                                                 output=partial_out, stderr=partial_err)
             try:
-                return process.communicate(timeout=min(1., remaining))
+                owner = getattr(process, '_portalai_owner', None)
+                if owner:owner.check()
+                result = process.communicate(timeout=min(.25, remaining))
+                if owner:owner.check()
+                return result
             except subprocess.TimeoutExpired as exc:
                 partial_out, partial_err = exc.output, exc.stderr
                 try:
@@ -971,79 +975,53 @@ class ToolRuntime:
 
     def _set_proc(self, p):
         with self._lock:
-            if p is None and getattr(self,'_linux_job',None):
-                self._linux_job.close(completed=self._proc is not None and self._proc.poll() is not None)
-                self._linux_job=None
-                for path in getattr(self,'_linux_job_files',()):path.unlink(missing_ok=True)
             self._proc = p
 
-    def _start_linux(self,command,env,shell=False,expected_epoch=None):
-        """Gate a host tool until its descendant lifetime is owned by a cgroup."""
-        import uuid
-        from mission_supervisor import WorkerJob
-        from runtime_policy import atomic_json
-        epoch=getattr(self,'_cancel_epoch',0) if expected_epoch is None else expected_epoch
-        if getattr(self,'_cancel_epoch',0)!=epoch:raise RuntimeError('Tool startup cancelled')
-        self.profile.check()
-        folder=self.profile.private('Data/Runtime/ChatTools') if self.profile.identity is not None else self.root/'Agent/.runtime'
-        folder.mkdir(parents=True,exist_ok=True)
-        token=uuid.uuid4().hex;request=folder/('chat-tool-'+token+'.json');gate=request.with_suffix('.gate')
-        atomic_json(request,{'command':['/bin/sh','-c',command] if shell else command,'gate':str(gate)})
-        p=subprocess.Popen([str(self.boot),'-B','-I',str(self.root/'Agent/sdcpp_worker.py'),str(request)],
-                           cwd=self._working_directory(),env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
-                           text=True,encoding='utf-8',errors='replace')
-        job=None
+    def _start_linux(self, command, env, shell=False, expected_epoch=None):
+        """Compatibility entry point: all platforms now own gated tool trees."""
+        from tool_process import ToolProcess
+        from workspace_services import register, unregister, epoch as workspace_epoch
+        epoch = getattr(self, '_cancel_epoch', 0) if expected_epoch is None else expected_epoch
+        scope_epoch = workspace_epoch(self.root)
+        operation_check = getattr(self, '_operation_check', None)
+        def check():
+            self._account_role()
+            if getattr(self, '_cancel_epoch', 0) != epoch:
+                raise RuntimeError('Tool startup or execution cancelled')
+            if workspace_epoch(self.root) != scope_epoch:
+                raise RuntimeError('Workspace tool execution cancelled')
+            if callable(operation_check):operation_check()
+        check()
+        owner = ToolProcess(self.root, command, cwd=self._working_directory(), env=env,
+                            check=check, shell=shell, python=self.boot)
         try:
-            job=WorkerJob(p)
             with self._lock:
-                if getattr(self,'_cancel_epoch',0)!=epoch:raise RuntimeError('Tool startup cancelled')
-                self._proc=p;self._linux_job=job;self._linux_job_files=(request,gate)
-                gate.touch()
+                check()
+                register(self.root, owner, expected_epoch=scope_epoch)
+                p = owner.start()
+                p._portalai_owner = owner
+                self._proc = p
             return p
         except BaseException:
-            if job:job.close()
-            if p.poll() is None:p.kill()
-            p.wait(timeout=10);request.unlink(missing_ok=True);gate.unlink(missing_ok=True)
+            owner.close();unregister(self.root, owner)
             raise
 
     def cancel(self, *, cleanup_media=True):
+        # Revoke before waiting for a desktop call to finish releasing its keys.
         from desktop_control import revoke
-        revoke(self.root)
         with self._lock:
-            self._cancel_epoch=getattr(self,'_cancel_epoch',0)+1
-            p = self._proc
-            if os.name!='nt' and getattr(self,'_linux_job',None):self._linux_job.close()
+            self._cancel_epoch = getattr(self, '_cancel_epoch', 0) + 1
+        revoke(self.root)
         from workspace_services import close_all
-        self._workspace_cleanup_errors=close_all(self.root)
+        self._workspace_cleanup_errors = close_all(self.root)
         if getattr(self, '_web_client', None):
             self._web_client.close()
         from agent_collaboration import close_profile
         close_profile(self.root, self.profile.identity)
-        if getattr(self, '_agents_used', False):
-            from mission_supervisor import pause_all
-            pause_all(self.root)
-        if not p or p.poll() is not None:
-            return
-        try:
-            if os.name == "nt":
-                subprocess.run(["taskkill", "/PID", str(p.pid), "/T", "/F"], capture_output=True,
-                               creationflags=creationflags(), timeout=8)
-            else:
-                p.terminate()
-        except Exception:
-            try:
-                p.kill()
-            except Exception:
-                pass
-        # best-effort PortableAI worker cleanup
-        if not cleanup_media:
-            return
-        try:
-            subprocess.Popen([str(self.boot), str(self.root / "Agent" / "ai_tools.py"), "cancel"],
-                             cwd=str(self.root), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                             env=clean_env(self.root), creationflags=creationflags())
-        except Exception:
-            pass
+        from mission_supervisor import pause_all
+        pause_all(self.root)
+        # Every command, including media/science and detached launches, belongs
+        # to an OS job. Never spawn an unowned cleanup script or kill by PID.
 
     def shell(self, command: str) -> str:
         role = self._account_role()
@@ -1056,10 +1034,7 @@ class ToolRuntime:
             argv = registered_media_argv(command, self.root, self.boot)
             child_env = self._effort_env(clean_env(self.root, prepend_bootstrap=False, profile=self.profile))
             timeout, label = self._shell_wait_policy(command)
-            p = self._start_linux(argv, child_env, shell=False) if os.name != 'nt' else subprocess.Popen(
-                argv, cwd=str(self._working_directory()), shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                text=True, encoding='utf-8', errors='replace', env=child_env, creationflags=creationflags())
-            self._set_proc(p)
+            p = self._start_linux(argv, child_env, shell=False, expected_epoch=epoch)
             try:
                 out, err = self._communicate(p, timeout, label)
             except subprocess.TimeoutExpired as exc:
@@ -1113,20 +1088,7 @@ class ToolRuntime:
         child_env = self._effort_env(child_env)
 
         timeout, label = self._shell_wait_policy(command)
-        if os.name != 'nt':
-            p = self._start_linux(command, child_env, shell=True, expected_epoch=epoch)
-        else:
-            # Cancellation cannot fall between the final startup check and
-            # recording this process for Stop to terminate.
-            with self._lock:
-                self._account_role()
-                if getattr(self, '_cancel_epoch', 0) != epoch:
-                    raise RuntimeError('Tool startup cancelled during file restoration')
-                p = subprocess.Popen(command, cwd=str(self._working_directory()), shell=True,
-                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                                     encoding="utf-8", errors="replace", env=child_env,
-                                     creationflags=creationflags())
-                self._proc = p
+        p = self._start_linux(command, child_env, shell=True, expected_epoch=epoch)
         try:
             out, err = self._communicate(p, timeout, label)
         except subprocess.TimeoutExpired as exc:
@@ -1191,6 +1153,7 @@ class ToolRuntime:
 
     def science(self, operation: str, input_data: dict | None = None) -> str:
         """Run a scientific task in the isolated PortableAI SciencePackages layer."""
+        epoch = getattr(self, '_cancel_epoch', 0)
         role = self._account_role()
         if role != 'admin' and (operation not in ('help', 'status') or input_data):
             raise PermissionError('Scientific expression and code execution require an administrator in this release. Account restrictions are not an OS sandbox; basic science help/status remain available.')
@@ -1216,13 +1179,7 @@ class ToolRuntime:
         child_env["MPLCONFIGDIR"] = str(self.profile.private('PortableCache/Science/matplotlib'))
         child_env = self._effort_env(child_env)
         timeout = max(30, int(self.settings.get("tool_timeout_seconds", 1800)))
-        p = self._start_linux([str(py),str(script),'--root',str(self.root),'--request-file',str(req)],child_env) if os.name!='nt' else subprocess.Popen(
-            [str(py), str(script), "--root", str(self.root), "--request-file", str(req)],
-            cwd=str(self._working_directory()), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            text=True, encoding="utf-8", errors="replace", env=child_env,
-            creationflags=creationflags(),
-        )
-        self._set_proc(p)
+        p = self._start_linux([str(py),str(script),'--root',str(self.root),'--request-file',str(req)], child_env, expected_epoch=epoch)
         try:
             out, err = self._communicate(p, timeout, 'Science task')
         except subprocess.TimeoutExpired:
@@ -1257,18 +1214,7 @@ class ToolRuntime:
         argv = media_argv(self.root, self.boot, command, arguments)
         child_env = self._effort_env(clean_env(self.root, prepend_bootstrap=False, profile=self.profile))
         timeout, label = self._shell_wait_policy('python Agent/ai_tools.py ' + command)
-        if os.name != 'nt':
-            p = self._start_linux(argv, child_env, shell=False, expected_epoch=epoch)
-        else:
-            with self._lock:
-                self._account_role()
-                if getattr(self, '_cancel_epoch', 0) != epoch:
-                    raise RuntimeError('Media tool startup cancelled')
-                p = subprocess.Popen(argv, cwd=str(self._working_directory()), shell=False,
-                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                                     encoding='utf-8', errors='replace', env=child_env,
-                                     creationflags=creationflags())
-                self._proc = p
+        p = self._start_linux(argv, child_env, shell=False, expected_epoch=epoch)
         try:
             out, err = self._communicate(p, timeout, label)
         except subprocess.TimeoutExpired as exc:
@@ -1281,6 +1227,12 @@ class ToolRuntime:
 
     def execute(self, name: str, args: dict) -> str:
         self._account_role()
+        if name == 'browser':
+            from browser_use_api import BrowserClient
+            if not getattr(self, '_browser_client', None):self._browser_client=BrowserClient(self)
+            result=self._browser_client.call(str(args.get('action','state')),args)
+            if args.get('action')=='close':self._browser_client.close()
+            return result
         if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill','project','verify'):
             from capability_tools import dispatch
             return json.dumps(dispatch(self,name,args),ensure_ascii=True)
@@ -1406,13 +1358,14 @@ from media_tool_api import TOOLS as MEDIA_TOOLS
 from chat_evidence import TOOL as HISTORY_TOOL
 from chat_task_checkpoint import TOOL as CHECKPOINT_TOOL
 from web_tool_api import TOOL as WEB_TOOL
+from browser_use_api import TOOL as BROWSER_TOOL
 from agent_collaboration import TOOL as AGENTS_TOOL
 from maintenance_tools import TOOLS as MAINTENANCE_TOOLS
 from capability_tools import TOOLS as WORKSPACE_TOOLS
 from task_notebook import TOOL as TASK_NOTEBOOK_TOOL
 WORKSPACE_TOOLS = [*WORKSPACE_TOOLS, TASK_NOTEBOOK_TOOL]
 from file_inspection import TOOL as FILE_INSPECT_TOOL
-TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, AGENTS_TOOL, FILE_INSPECT_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
+TOOLS = [HISTORY_TOOL, CHECKPOINT_TOOL, WEB_TOOL, BROWSER_TOOL, AGENTS_TOOL, FILE_INSPECT_TOOL] + MEDIA_TOOLS + TOOLS + MAINTENANCE_TOOLS + WORKSPACE_TOOLS
 
 def _request_scope(panel):
     scope = getattr(panel, '_request_tool_scope', None)
@@ -6568,6 +6521,9 @@ class NativeChat:
                 text = voice.transcribe(wav)
                 if not self.conversation_active.is_set():
                     break
+                # Preparation can expire during a long listening pause. Renew it
+                # before LLM inference so imports/CPU weights overlap the reply.
+                if callable(getattr(voice,'prepare_next_reply',None)):voice.prepare_next_reply()
                 request = VoiceTurn(self.session['id'], text)
                 voice.reset_speech()
                 if (self.settings.get('conversation_stream_piper',False) and self.settings.get('conversation_speak_replies',True)

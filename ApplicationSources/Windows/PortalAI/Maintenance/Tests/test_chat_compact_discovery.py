@@ -25,6 +25,12 @@ def exchange(session, name, args, content):
 
 
 class CompactDiscoveryTests(unittest.TestCase):
+    def setUp(self):
+        # These prompt fixtures have no authenticated profile. Do not query an
+        # owner's project store merely to exercise compact prompt admission.
+        workspace=patch('portable_workspace.chat_guidance',return_value='')
+        workspace.start();self.addCleanup(workspace.stop)
+
     def catalog(self, **kwargs):
         with patch('runtime_policy.load_effective_policy',return_value={'media':{'media_variant':'standard'}}):
             return catalog_response(ROOT, **kwargs)

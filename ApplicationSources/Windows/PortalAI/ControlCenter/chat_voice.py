@@ -195,7 +195,12 @@ class VoiceIO:
             try:
                 from tts_policy import check_piper_memory, NICE_VOICE
                 def admit():
-                    if expressive: nice_voice.admit(self.root)
+                    if expressive:
+                        prepared=self._prepared_voice
+                        if (prepared is not None and getattr(prepared,'preload',False)
+                                and self._cpu_memory()['ram_available_bytes']<6*1024**3):
+                            prepared.close();self._prepared_voice=None
+                        nice_voice.admit(self.root)
                     else: check_piper_memory(self._cpu_memory())
                 def speak(check):
                     if expressive:

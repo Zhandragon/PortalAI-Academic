@@ -100,16 +100,15 @@ class WebAccountRuntimeTests(unittest.TestCase):
             with patch.object(chat.subprocess, 'Popen', return_value=process) as popen, \
                  patch.object(runtime, '_start_linux', return_value=process) as linux:
                 self.assertEqual(runtime.execute('shell', {'command':'python Agent/web_tools.py search "ordinary arbitrary topic"'}), '{"success":true}')
-            call = popen.call_args if os.name == 'nt' else linux.call_args
+            call = linux.call_args
             self.assertIs(call.kwargs['shell'], False)
             self.assertEqual(call.args[0][-2:], ['search', 'ordinary arbitrary topic'])
             self.assertEqual(call.args[0][1], str(self.root/'Agent/web_tools.py'))
-            env = call.kwargs['env'] if os.name == 'nt' else call.args[1]
+            env = call.args[1]
             self.assertEqual(env[UID_ENV], self.uid); self.assertEqual(env[EPOCH_ENV], self.epoch)
             self.assertNotIn('PORTALAI_ACCOUNT_UNLOCK', env)
             self.assertTrue(Path(env['TEMP']).is_relative_to(self.root/'Private/Users'/self.uid/'Workspace'))
-            if os.name == 'nt':
-                self.assertEqual(Path(call.kwargs['cwd']), self.root/'Private/Users'/self.uid/'Workspace')
+            self.assertEqual(runtime._working_directory(), self.root/'Private/Users'/self.uid/'Workspace')
 
     def test_revoked_login_cannot_launch_a_registered_web_command(self):
         runtime = self.runtime('guest')

@@ -1683,7 +1683,7 @@ def main(authenticated=None):
     def wrap_control_text(event):
         width = max(80, event.width - 28)
         for item in control_text_labels:
-            if int(item.cget('wraplength')) != width:item.configure(wraplength=width)
+            if item.winfo_pixels(item.cget('wraplength')) != width:item.configure(wraplength=width)
     ctl.bind('<Configure>', wrap_control_text, add='+')
     settings_page.on_change = lambda: control_policy.set(settings_page.startup_summary())
     last_policy_edit = [time.monotonic()]
@@ -1759,7 +1759,7 @@ def main(authenticated=None):
         detail.pack(fill="x", padx=10)
         def wrap_status(event, widget=detail):
             width=max(80,event.width-20)
-            if int(widget.cget('wraplength'))!=width:widget.configure(wraplength=width)
+            if widget.winfo_pixels(widget.cget('wraplength'))!=width:widget.configure(wraplength=width)
         block.bind('<Configure>',wrap_status,add='+')
         services[key] = (state, detail)
         for activity_key, activity_title in activity_rows:
@@ -1773,7 +1773,7 @@ def main(authenticated=None):
             adetail.grid(row=0,column=2,sticky='ew')
             def wrap_activity(event,widget=adetail):
                 width=max(40,event.width-4)
-                if int(widget.cget('wraplength'))!=width:widget.configure(wraplength=width)
+                if widget.winfo_pixels(widget.cget('wraplength'))!=width:widget.configure(wraplength=width)
             adetail.bind('<Configure>',wrap_activity,add='+')
             activities[activity_key] = (astate, adetail)
         model_wrap = tk.Frame(block, bg=COLORS["card"])
@@ -2013,7 +2013,7 @@ def main(authenticated=None):
     }
 
     def relayout_buttons(force=False):
-        width = max(btnrow.winfo_width(), ctl.winfo_width(), 1)
+        width = max(btnrow.winfo_width(), 1)
         # PORTALAI_RESPONSIVE_CONTROL_LAYOUT_HOOK_v15_138
         try:
             if portal_control_menu is not None and portal_control_menu.handle_layout(width):
@@ -2035,7 +2035,7 @@ def main(authenticated=None):
             child.grid(row=idx // cols, column=idx % cols, sticky="ew", padx=4, pady=4)
 
     def relayout_service_cards(force=False):
-        width = max(service_cards_wrap.winfo_width(), runtime_tab.winfo_width(), 1)
+        width = max(service_cards_wrap.winfo_width(), 1)
         cols = 1 if width < 520 else 2 if width < 900 else 3
         if not force and layout_state["service_cols"] == cols:
             return
@@ -2053,7 +2053,7 @@ def main(authenticated=None):
 
     def _perform_relayout(force=False):
         layout_state["after_id"] = None
-        width = max(content.winfo_width(), app.winfo_width(), 1)
+        width = max(content.winfo_width(), 1)
         try:
             if width < 760:
                 header.pack_configure(pady=(8, 4))
@@ -2080,10 +2080,13 @@ def main(authenticated=None):
             layout_state["after_id"] = app.after(45, _perform_relayout)
 
     app._portalai_relayout = relayout_main
-    content.bind("<Configure>", relayout_main)
+    content.bind("<Configure>", relayout_main, add='+')
     # The scroll-page viewport can resize without the outer content frame
     # changing. Reflow Controls from its own geometry as well.
     ctl.bind('<Configure>', relayout_main, add='+')
+    btnrow.bind('<Configure>', relayout_main, add='+')
+    service_cards_wrap.bind('<Configure>', relayout_main, add='+')
+    service_cards_wrap.bind('<Map>', relayout_main, add='+')
 
     def _save_theme_preference():
         try:

@@ -1,7 +1,7 @@
 """Portable Windows/Linux mission supervision. No services, registry or login tasks.
 
 Only explicitly armed root missions run. Pending actions are never replayed.
-The OS job owns each worker tree until its successful, checkpointed completion.
+The OS job retains descendants after checkpointed completion until Stop or exit.
 """
 from instance_runtime import port as _instance_port, url as _instance_url
 import argparse
@@ -79,6 +79,25 @@ class WorkerJob:
 
     def check(self):
         if self.linux is not None:self.linux.check()
+
+    def active(self):
+        """Query the owned tree, including descendants of an exited launcher."""
+        if not self.handle:return False
+        if self.linux is not None:
+            return 'populated 1' in (self.linux.group/'cgroup.events').read_text()
+        if getattr(self,'mac',None) is not None:
+            # The EOF guardian exits when its original process group empties.
+            return self.mac.guardian.poll() is None
+        from ctypes import wintypes as w
+        class Accounting(ctypes.Structure):
+            _fields_=[('user',ctypes.c_int64),('kernel',ctypes.c_int64),
+                      ('period_user',ctypes.c_int64),('period_kernel',ctypes.c_int64),
+                      ('faults',w.DWORD),('total',w.DWORD),('active',w.DWORD),('terminated',w.DWORD)]
+        data=Accounting()
+        self.lib.QueryInformationJobObject.argtypes=[w.HANDLE,ctypes.c_int,ctypes.c_void_p,w.DWORD,ctypes.c_void_p]
+        if not self.lib.QueryInformationJobObject(self.handle,1,ctypes.byref(data),ctypes.sizeof(data),None):
+            raise OSError(ctypes.get_last_error(),'Cannot inspect owned tool job')
+        return bool(data.active)
 
     def limit_memory(self, size):
         """Optional committed-memory ceiling set before the worker gate opens."""
@@ -244,6 +263,7 @@ class Supervisor:
                                                  str(self.root/"Agent/mission_runner.py"), "--root", str(self.root)]
         self.model_ready = model_ready or self.ready
         self.worker = None; self.job = None; self.log = None; self.mid = None; self.root_id = None
+        self.effects = []
         self.started = 0; self.last_heartbeat = 0; self.last_state = None; self.last_identity = None
 
     def ready(self):
@@ -293,7 +313,13 @@ class Supervisor:
                 self.heartbeat('needs_review',checkpoint_errors=[{'mission':self.mid,'error':str(exc)}])
                 return  # Preserve the damaged checkpoint; never replay its previous copy.
             completed = proc.poll() == 0 and not m.get("pending_action") and not cancelled
-            if self.job: self.job.close(completed=completed)
+            if self.job:
+                if completed and self.job.active():
+                    # Keep detached descendants inside their original job until
+                    # Stop/Disable/logout, even though the step checkpointed.
+                    self.effects.append((self.job,self.mid,self.root_id))
+                    self.job=None
+                else:self.job.close()
             self.reconcile(self.mid, None if completed else failure or "Worker exited before a confirmed action result")
         finally:
             try:
@@ -356,6 +382,20 @@ class Supervisor:
 
     def tick(self):
         stopping = (self.store.base/"supervisor.stop").exists()
+        retained=[]
+        for job,mid,root_id in self.effects:
+            try:
+                stopped=stopping or self.store.stopped(self.store.load(mid)) or not read_policy(self.store,root_id).get('enabled')
+                policy=read_policy(self.store,root_id)
+                if policy.get('schedule_id'):
+                    from mission_schedule import Schedules,epoch
+                    schedules=Schedules(self.root)
+                    stopped=stopped or policy.get('schedule_epoch')!=epoch(self.root) or not schedules.enabled(schedules.load(policy['schedule_id']))
+                if stopped or not job.active():job.close()
+                else:job.check();retained.append((job,mid,root_id))
+            except Exception:
+                job.close()
+        self.effects=retained
         if self.worker:
             if self.job:
                 try:self.job.check()
@@ -402,7 +442,7 @@ class Supervisor:
         if not roots:
             waiting=schedules.any_enabled()
             self.heartbeat('waiting_for_schedule' if waiting else 'idle', checkpoint_errors=getattr(self.store,'load_errors',[]))
-            return waiting
+            return waiting or bool(self.effects)
         for root_id, m in candidates:
             self.reconcile(m["id"])
             m = self.store.load(m["id"])
@@ -445,6 +485,8 @@ class Supervisor:
                 while time.monotonic() < deadline and self.tick(): time.sleep(.5)
             finally:
                 self.finish_worker(cancelled=True)
+                for job,_,_ in self.effects:job.close()
+                self.effects.clear()
                 self.heartbeat("stopped")
 
 

@@ -9,6 +9,8 @@
 
 <h1 align="center">PortalAI</h1>
 
+**Windows r79 (2026-11-21):** Portable Open Computer Use and browser-use, text-model accessibility, Stop for detached tool processes and mission hooks, responsive Runtime panels, and faster buffered voice. Academic model restrictions remain in force. [Changes and validation](Documentation/RELEASE-r79.md).
+
 **Windows r77 (2026-11-15):** Faster handsfree interruption and reliable Send/queued-message recovery after Stop. [Fix and validation](Documentation/RELEASE-r77.md).
 
 **Windows r76 (2026-11-11):** Optional use-case survey with Lightweight/Full recommendations, Express/Custom setup, and a skippable in-app tour. [Onboarding and validation](Documentation/ONBOARDING-r76.txt). Existing Linux/macOS release packages remain r75; shared tour source is included but not runtime-tested on those platforms.

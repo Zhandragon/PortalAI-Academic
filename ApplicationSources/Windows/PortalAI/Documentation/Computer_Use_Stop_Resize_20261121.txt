@@ -1,0 +1,56 @@
+PortalAI Windows r79: computer use, cancellation and responsive panels
+
+Computer control now includes a window-scoped adaptation of iFurySt Open
+Computer Use v1.1.5 (MIT). In Workspace, explicitly grant one application
+window for the current login. Nice can inspect its accessibility tree with
+computer state, invoke a supported control, or set an editable value. Each
+input consumes a fresh observation. Stop and logout revoke the grant.
+The existing native accessibility and vision tools remain available.
+
+Text-only models, including Qwen 4B, can use accessibility actions. Only pixel
+actions and screenshots require a vision model. Discovery explains the
+windows -> state -> invoke/set_value sequence instead of guessing shell
+commands to launch an application. Actual Qwen 4B generation has not been
+retested in this release's acceptance run.
+
+The browser tool uses browser-use 1.0.7 and the existing bundled Chromium.
+It runs headlessly, with accessible text/element IDs and no paid browser-use
+cloud service. A separate disposable profile keeps this tool independent of
+the desktop browser. Cookies and temporary state are removed on orderly
+close. Public URL restrictions and role/account checks still apply.
+
+All new dependencies live under Runtime on the portable drive. No host Python,
+Node, browser installation, service or startup task is required. Application
+state stays in the active account's workspace. Windows uses its built-in
+PowerShell and UI Automation for desktop access. These new runtime layers
+are supplied for Windows x64; experimental Linux/macOS releases remain r75.
+
+Stop now fences pending starts and late results across Workspace hooks,
+closes owned browser/MCP/command workers, and pauses mission schedules and
+workers even if another hook started them. Command launchers and detached
+descendants stay in an owned OS job after the launching shell finishes.
+Ownership must be established before a command's start gate opens. Stop,
+logout or controller exit closes the owned process tree. Stop cannot undo
+completed file/network actions or commands already delivered to an existing
+external application. An exit code alone does not establish cancellation.
+
+Runtime cards and Controls use their own allocated width and receive their
+own resize events. Tracker cards use equal columns, wrap long memory labels,
+and redraw from both actual canvas dimensions. Narrow wrapping containers
+no longer force controls or text beyond their available width. Comparison
+with r45 and r77 found no recent change to activity_monitor.py/page_scroll.py;
+this was not established as a recent reversion.
+
+Validation includes real Windows detached-child/controller-crash/Stop tests,
+mission descendants after checkpoint completion, pre-launch cancellation,
+cross-hook cancellation, and geometry regression checks. A real headless
+browser passed public navigation, accessibility state, fill, click, stale
+observation rejection, private-URL rejection, guest input denial and owned
+process-tree shutdown. A disposable desktop fixture returned its scoped
+accessibility controls; further input checks were deferred after a foreground
+window change. Full visual resizing, actual Qwen 4B inference, physical
+non-Windows execution and fresh-recipient installation are not claimed.
+
+The previously validated voice acceleration and buffering are included.
+Restart PortalAI through normal Exit and reopen to activate updated modules;
+never force-close an account while it is sealing.

@@ -6,6 +6,31 @@ import time
 import wave
 
 
+class PlaybackBuffer:
+    """Keep a small lead for real-time producers; fully buffer slower devices.
+
+    The first chunk includes model startup, so measure throughput only between
+    subsequent arrivals. Input remains bounded by PCMPlayer's 32 MiB limit.
+    """
+    def __init__(self):
+        self.pending = []
+        self.first = None
+        self.first_size = 0
+        self.size = 0
+
+    def add(self, raw, arrived):
+        if self.first is None:
+            self.first, self.first_size = arrived, len(raw)
+        self.pending.append(raw)
+        self.size += len(raw)
+        duration = (self.size - self.first_size) / 48000
+        return self.size >= 1.8 * 48000 and duration > 0 and (arrived - self.first) / duration < .85
+
+    def drain(self):
+        pending, self.pending = self.pending, []
+        return pending
+
+
 class PCMPlayer:
     def __init__(self,voice,pitch):
         from mission_supervisor import WorkerJob
@@ -21,16 +46,30 @@ class PCMPlayer:
         except BaseException:self.close();raise
     def write(self):
         try:
+            buffer = PlaybackBuffer()
+            playing = False
             while not self.closed:
-                try:raw=self.queue.get(timeout=.1)
+                try:item=self.queue.get(timeout=.1)
                 except queue.Empty:continue
-                if raw is None:break
-                if self.started is None:self.started=time.monotonic()
-                self.proc.stdin.write(raw);self.proc.stdin.flush()
+                if item is None:
+                    chunks = buffer.drain()
+                else:
+                    raw, arrived = item
+                    if not playing:
+                        if not buffer.add(raw, arrived):continue
+                        playing = True
+                        chunks = buffer.drain()
+                    else:chunks = [raw]
+                for raw in chunks:
+                    if self.closed:break
+                    if self.started is None:self.started=time.monotonic()
+                    self.proc.stdin.write(raw);self.proc.stdin.flush()
+                if item is None:break
             self.proc.stdin.close()
         except Exception as exc:self.error=exc
     def tick(self):
         self.voice.check()
+        if self.job:self.job.check()
         if self.error:raise RuntimeError('Incremental audio playback failed: '+str(self.error))
         if self.proc.poll() is not None and self.proc.returncode:raise RuntimeError('Incremental audio player exited: '+self.proc.stderr.read(2048).decode('utf-8','replace'))
         if self.started is not None:
@@ -41,14 +80,22 @@ class PCMPlayer:
                 self.voice.activity.level(level,source='speaker')
     def push(self,path):
         from voice_activity import pcm_level
-        with wave.open(str(path),'rb') as wav:
-            if wav.getframerate()!=24000 or wav.getnchannels()!=1 or wav.getsampwidth()!=2 or wav.getnframes()>48000:raise ValueError('Unexpected incremental PCM format')
-            raw=wav.readframes(wav.getnframes())
+        deadline=time.monotonic()+3
+        while True:
+            self.tick()
+            try:
+                with wave.open(str(path),'rb') as wav:
+                    if wav.getframerate()!=24000 or wav.getnchannels()!=1 or wav.getsampwidth()!=2 or not 0<wav.getnframes()<=48000:raise ValueError('Unexpected incremental PCM format')
+                    raw=wav.readframes(wav.getnframes())
+                break
+            except PermissionError:
+                if time.monotonic()>=deadline:raise
+                time.sleep(.05)
         if self.samples+len(raw)>32*1024**2:raise ValueError('PCM speech limit exceeded')
         self.envelope_pending+=raw
         while len(self.envelope_pending)>=4800:
             self.envelope.append(pcm_level(self.envelope_pending[:4800]));self.envelope_pending=self.envelope_pending[4800:]
-        self.samples+=len(raw);self.put(raw)
+        self.samples+=len(raw);self.put((raw,time.monotonic()))
     def put(self,raw):
         deadline=time.monotonic()+30
         while True:

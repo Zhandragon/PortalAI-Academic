@@ -12,7 +12,7 @@ from unittest.mock import Mock,patch
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'Agent'),str(ROOT/'ControlCenter')]
 from desktop_control import Desktop
-from capability_tools import computer_context,guard
+from capability_tools import computer_context,guard,dispatch
 
 
 class ComputerBoundaries(unittest.TestCase):
@@ -61,6 +61,27 @@ class ComputerBoundaries(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError,'stopped'):check()
         with patch('account_permissions.require_user',side_effect=PermissionError('login ended')):
             with self.assertRaises(PermissionError):guard(runtime)
+
+    def test_text_model_can_use_accessibility_without_pixel_controls(self):
+        runtime=SimpleNamespace(root=self.root)
+        target=Mock();target.call.return_value={'elements':[]}
+        with patch('account_permissions.require_admin'),patch('desktop_control.desktop',return_value=target),patch('native_chat.model_props',return_value={}):
+            for action in ('state','invoke','set_value','elements','click_element','type','keypress','windows','status'):
+                dispatch(runtime,'computer',{'action':action},check=lambda:None)
+                self.assertFalse(target.call.call_args.args[1]['visual'])
+            for action in ('screenshot','click','drag','scroll'):
+                with self.assertRaisesRegex(RuntimeError,'text accessibility'):dispatch(runtime,'computer',{'action':action},check=lambda:None)
+
+    def test_accessibility_observation_does_not_attach_an_image(self):
+        self.desktop.observation={'token':'fixture','at':time.monotonic(),'backend':'open-computer-use'}
+        self.assertIsNone(self.desktop.image_message('fixture'))
+
+    def test_shared_stop_fences_a_separate_workspace_runtime(self):
+        from workspace_services import close_all
+        runtime=SimpleNamespace(root=self.root,profile=SimpleNamespace(check=Mock()),_cancel_epoch=1)
+        with patch('account_permissions.require_user'):
+            check=guard(runtime);close_all(self.root)
+            with self.assertRaisesRegex(RuntimeError,'stopped'):check()
 
 
 if __name__=='__main__':unittest.main()

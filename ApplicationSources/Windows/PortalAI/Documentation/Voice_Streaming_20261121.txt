@@ -1,0 +1,65 @@
+PortalAI voice streaming repair - November 21, 2026
+
+The installed Qwen voice produced 0.96 seconds of PCM roughly every 1.9 seconds
+on this Windows RTX 3090 host. Starting playback with the first chunk therefore
+caused repeated underruns. Python/package imports and loading voice weights also
+delayed the start of every spoken reply.
+
+The fixed-size residual codec predictor now optionally uses a worker-local CUDA
+graph. The selected Qwen model, Ryan preset, instructions, temperature, top-k,
+sampling and pitch are preserved. The graph retains all input tensors for its
+entire lifetime; no package, model weight, host installation or driver was changed.
+Unsupported backends/configurations use the existing upstream predictor. A graph
+setup failure can fall back only before that predictor produces its output.
+Errors after generation starts are never replayed.
+
+The PCM player measures arrival speed and buffers at least 1.8 seconds for a
+producer faster than real time. Slower producers buffer through completion instead
+of repeatedly exhausting the audio stream. The existing 32 MiB speech limit,
+same-stream onset/tail protection, pitch and owned playback cleanup remain.
+Disposable chunk files use close plus atomic publication without a physical USB
+flush per chunk. Brief Windows sharing violations are retried before publication;
+failure to delete an already consumed chunk never plays that chunk twice.
+
+On Windows CUDA hosts with at least 24 GiB RAM and 12 GiB currently free,
+hands-free preparation loads local weights on CPU with an 8 GiB process cap.
+No CUDA context is initialized during this phase. Under 6 GiB free, preparation
+is released. Other eligible hosts retain the existing 2 GiB imports-only path.
+GPU movement still waits for the original lease, fresh admission, login and Stop
+checks. The worker remains bounded, registered for cleanup and expires after
+120 seconds. Preparation is renewed after transcription if a long listening
+pause expired it. No model is kept resident after the existing speech worker ends.
+
+Portability
+All paths derive from the portable installation or active profile. The optimization
+uses the existing bundled Torch and BootstrapPython; it needs no compiler, new
+dependency, host Python, download, service or drive-letter setting. CUDA acceleration
+is conditional; ROCm/CPU retain the original predictor. Linux/macOS routing and
+existing unsupported-backend reporting remain in place. Physical AMD/Linux/macOS
+audio acceptance is not established by this Windows test.
+
+Validation
+110 voice/admission/CLI/Stop/handoff/onset/streaming tests passed. The static owned
+source scanner checked 1,160 files with no errors or warnings. The regression
+suite includes relocated paths, slow/fast producer timing, exact sample ordering,
+file sharing retries, cancellation, fallback and CPU prewarm memory bounds.
+
+Real RTX 3090 tests: the original and accelerated seeded speech WAVs have identical
+SHA-256 B58A4B418C9DB8280E91719E714DB3DDF8C05CD039C65374DE8C22F0C14054A6.
+Typical chunk intervals fell from about 1.9 seconds to about 0.6 seconds for
+0.96 seconds of audio. With completed CPU preparation, first PCM took 2.7-3.0
+seconds, versus approximately 20 seconds for an entirely cold request. Preparation
+time is overlapped, not eliminated; these are voice-stage measurements, not total
+microphone-to-answer or LLM latency guarantees.
+
+The real bundled ffplay ran from a disposable relocated directory with its dummy
+audio device: 426,240 PCM bytes were played through the new buffer and the process
+exited successfully. This verifies the playback process/pipe, not a listening test
+on the user's speakers. Detailed synthetic logs and timings are under
+Maintenance/Validation/VoiceStreaming_20261121. No production chat was submitted.
+
+Recovery: checksum-verified pre-edit public source is under
+Maintenance/Patches/VoiceStreaming_before_20261121. Changes activate on normal
+launch; no hot reload or forced shutdown was used. Existing r77 archives remain
+recovery baselines. The focused Windows r78 packages carry the same public changes
+for Full/Academic and preserve each edition's own policy and pinned assets.

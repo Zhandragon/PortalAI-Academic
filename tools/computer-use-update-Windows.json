@@ -1,0 +1,216 @@
+{
+  "version": "2026.11.21-Desktop-r79",
+  "edition": "Academic",
+  "files": [
+    {
+      "path": "Agent/application_api.py",
+      "bytes": 13841,
+      "sha256": "0d8d524760198427b2e75d59f39ab617cd890762cb6a54cefc029263cd607618"
+    },
+    {
+      "path": "Agent/browser_use_runtime.py",
+      "bytes": 1705,
+      "sha256": "7c64d9f2221af1379195ca1cc22dcaafdbadbde8749d5a4113cc696907ffcf0e"
+    },
+    {
+      "path": "Agent/browser_use_worker.py",
+      "bytes": 11268,
+      "sha256": "9a798e937b90259cea46cbaad314b16265ab86485cb171dd05655c4b7c8b3148"
+    },
+    {
+      "path": "Agent/desktop_control.py",
+      "bytes": 19356,
+      "sha256": "08ee16e16b0d522207fa7c70a38da67bdbf8a9e17bd6eb481491add824bf64a8"
+    },
+    {
+      "path": "Agent/mission_runner.py",
+      "bytes": 51233,
+      "sha256": "f8d5efa1f0ee695c7e1913968948c463e1bd1586af3d8d4df2344bad10031b7a"
+    },
+    {
+      "path": "Agent/mission_supervisor.py",
+      "bytes": 26935,
+      "sha256": "e941f0854d8bf162b67b13f1f0038caec9fe7e4db42e324e6863090b2a9afe47"
+    },
+    {
+      "path": "Agent/nice_voice.py",
+      "bytes": 9041,
+      "sha256": "8799361a04a6b4dcb1a50ac048b171dc7cd29e44cf737d7ab9a4ba3ef1fbe211"
+    },
+    {
+      "path": "Agent/open_computer_use.py",
+      "bytes": 3581,
+      "sha256": "d04c552bea2aea5cf35aa428bb71504a26d7e3d476ea95f50d0282dbddb8de13"
+    },
+    {
+      "path": "Agent/qwen_voice_acceleration.py",
+      "bytes": 5607,
+      "sha256": "bd5400616dd491ac1e9481890b1be8c993499bfbd1edad3b3435691b2b8eee12"
+    },
+    {
+      "path": "Agent/qwen_voice_stream.py",
+      "bytes": 4185,
+      "sha256": "57db4ca86042b68a7f7eabe4a10baeda0dd1bf7d03dfd25f573d8270f61ea67e"
+    },
+    {
+      "path": "Agent/tool_process.py",
+      "bytes": 4299,
+      "sha256": "fb55b873059692476e52d85227d23bf1b8e37c0a7dbf2af1eba32f3f3c5dcd8d"
+    },
+    {
+      "path": "Agent/tool_process_worker.py",
+      "bytes": 604,
+      "sha256": "1f9e29d97b2f6da8a8f9fa717a5b08b0804e44133f08a9938394cded642fb7b0"
+    },
+    {
+      "path": "Agent/voice_prewarm.py",
+      "bytes": 4197,
+      "sha256": "0b528e069513335010a4c6e2bdc04a8aae4905ff3415baedbe6636d58994ab0b"
+    },
+    {
+      "path": "ControlCenter/PortableAI_GUI.py",
+      "bytes": 235069,
+      "sha256": "50d14f666d149ce207ef11984caa2af0f6e6255819072c2a2b9cebd092974d6e"
+    },
+    {
+      "path": "ControlCenter/activity_monitor.py",
+      "bytes": 9141,
+      "sha256": "107c88f47036add2c01316e1573c795f0a55516618d4713f0950cdb37ab8292a"
+    },
+    {
+      "path": "ControlCenter/browser_use_api.py",
+      "bytes": 2080,
+      "sha256": "0a1452fc27cac4491e3b37e115b952499a2038df2ddb0813b9e91ecc03187d8d"
+    },
+    {
+      "path": "ControlCenter/capability_tools.py",
+      "bytes": 21622,
+      "sha256": "b7af53543b18c3c4ae054c1a20709dde9278e8874b7d625e8f80fedae2205a0c"
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 18617,
+      "sha256": "1e17d10e50d5f4a384d4f5e34fae8afefacf711ab2e3b556af52691297f034ce"
+    },
+    {
+      "path": "ControlCenter/chat_voice.py",
+      "bytes": 15492,
+      "sha256": "e332c27d6d1e3379936231c38cb6a3d140f1f64d8454adbd0b1efe821e60b3b4"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 402266,
+      "sha256": "d8327e7046f2315cb854c8809cad921f3cc42f0c50411aca1551aea73a6f9c0e"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 89,
+      "sha256": "d5ea00e811477cf31a5f486cbf5481e44477523398e5ce58f7ab6551b8bb9012"
+    },
+    {
+      "path": "ControlCenter/ui_extensions.py",
+      "bytes": 18519,
+      "sha256": "6a6214cbdc52124d19bc966548077d574afb538d6f1e8d7d045515b8c0e3eec2"
+    },
+    {
+      "path": "ControlCenter/voice_pcm_player.py",
+      "bytes": 6365,
+      "sha256": "af661fe7e2f13fc7692adaaebc724254c5d75e9c1ac91733f1aa9a4bd26d3a78"
+    },
+    {
+      "path": "ControlCenter/web_tool_api.py",
+      "bytes": 5519,
+      "sha256": "1516980708d6719792e1b2010433d845df9dd1e77e5e15f5830c58facd6f412a"
+    },
+    {
+      "path": "ControlCenter/workspace_services.py",
+      "bytes": 1142,
+      "sha256": "a1222ea018088fb8bce69fe97f019ab41e0181a35bba6f97ac59f7ae1a85d7fa"
+    },
+    {
+      "path": "Documentation/Computer_Use_Stop_Resize_20261121.txt",
+      "bytes": 3484,
+      "sha256": "3f2fef1d1d0c8aed4e95333abefe4bd492a127021a1a679c427a94d255331344"
+    },
+    {
+      "path": "Documentation/Voice_Streaming_20261121.txt",
+      "bytes": 4162,
+      "sha256": "28eddd40a3d26e318b27bc208827f8bc7873f81932c4a57cc8f472e746930119"
+    },
+    {
+      "path": "Maintenance/Tests/test_account_web_commands.py",
+      "bytes": 8629,
+      "sha256": "5cafbb761f005aefa16967d693bbf673177e0eb2700a5d6c519d6cca410c8f64"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_compact_discovery.py",
+      "bytes": 8725,
+      "sha256": "595c1f437c1920222e6a8cff57f3fab7caea40866d82130c4b543d8c82d3b9ab"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_tool_api.py",
+      "bytes": 8129,
+      "sha256": "251d00aa40e38ca0426061cd186d050190bb207f29ed099fbee12db3c9ef28d7"
+    },
+    {
+      "path": "Maintenance/Tests/test_resize_geometry.py",
+      "bytes": 2520,
+      "sha256": "327ad8b1ece711ea7d9c02837ce4c1d90c7620a44b310e31406612a341500afb"
+    },
+    {
+      "path": "Maintenance/Tests/test_tool_process_stop.py",
+      "bytes": 7274,
+      "sha256": "d739c83e87e63fc8c16d2c8174ac2968fea8edbee4717afaa5d24c0c164f369a"
+    },
+    {
+      "path": "Maintenance/Tests/test_voice_streaming.py",
+      "bytes": 10048,
+      "sha256": "4793c744c694f53225ada25141b303200b276b16586ca52ca0886bb481cfbdcd"
+    },
+    {
+      "path": "Maintenance/Tests/test_workspace_computer.py",
+      "bytes": 5416,
+      "sha256": "6f6016714082e2efb7240d507a3f25f5c4b90c59a30f56cc7703397d51cc4018"
+    },
+    {
+      "path": "Tools/benchmark_voice_stream.py",
+      "bytes": 7703,
+      "sha256": "e747129f82dc73d29ec0fddd3fb6cfac5faa46eaf7f58eb338b1455154fa14e2"
+    },
+    {
+      "path": "Tools/smoke_browser_use.py",
+      "bytes": 3859,
+      "sha256": "f0f3525ff1ad3e0cc78bbdc6d1bd7372946903cc16070dba90d7b48603cbe076"
+    },
+    {
+      "path": "Tools/smoke_open_computer_use.py",
+      "bytes": 4968,
+      "sha256": "7b53012c83f0a3cff31e0290c2ffdabc32cf7eca7437830572cdcc2b7545935b"
+    },
+    {
+      "path": "Voice/Qwen3-TTS/qwen_tts_runner.py",
+      "bytes": 8162,
+      "sha256": "1f50b6258e1f5c07199253cd9dd7876a2505d06b79284429a06a4dcd96ac09a1"
+    },
+    {
+      "path": "Runtime/ComputerUse/windows-x64/LICENSE",
+      "bytes": 1060,
+      "sha256": "0fdb775e00e6fdde23984b4f1184cd13c34135caac1e714ad489141c239704bc"
+    },
+    {
+      "path": "Runtime/ComputerUse/windows-x64/manifest.json",
+      "bytes": 733,
+      "sha256": "068a9f8db47ec9e31955f8d5fb24341ccd728859f2c15ea4f41a5233faedfeb3"
+    },
+    {
+      "path": "Runtime/ComputerUse/windows-x64/runtime.ps1",
+      "bytes": 88686,
+      "sha256": "9bef2bf714350488bb2054a88ffcd65f7be9e73080ae8adc53ec96bec437c942"
+    },
+    {
+      "path": "Runtime/BrowserUse/windows-x64/manifest.json",
+      "bytes": 1711068,
+      "sha256": "5286027cd1ea1f7134791985948ad158a13b0abb50d876149c753283c31dc9ae"
+    }
+  ]
+}

@@ -39,7 +39,7 @@ class MediaToolTests(unittest.TestCase):
     def test_no_admin_shell_even_for_metacharacters(self):
         child=Mock(returncode=0);child.communicate.return_value=('synthetic result','')
         args=['--prompt','a & b; $(c)', '--uncensored']
-        with patch.object(native_chat.subprocess,'Popen',return_value=child) as start:
+        with patch.object(self.tool,'_start_linux',return_value=child) as start:
             self.assertEqual(self.tool.execute('media_tool',{'command':'image','arguments':args}),'synthetic result')
         self.assertFalse(start.call_args.kwargs['shell'])
         self.assertEqual(start.call_args.args[0][-len(args):],args)
@@ -65,7 +65,7 @@ class MediaToolTests(unittest.TestCase):
         # Real child process, synthetic worker: proves routing without loading media models.
         (self.root/'Agent').mkdir()
         (self.root/'Agent/ai_tools.py').write_text('import sys,json,os;print(json.dumps({"argv":sys.argv[1:],"saved_image_defaults":os.environ.get("PORTALAI_CHAT_IMAGE_DEFAULTS")}))')
-        self.tool.boot=ROOT/'Runtime/BootstrapPython/python.exe'
+        self.tool.boot=Path(sys.executable)
         result=json.loads(self.tool.execute('generate_image',{'prompt':'teapot & "flower"','variant':'uncensored','width':512}))
         self.assertEqual(result['argv'][0],'image');self.assertEqual(result['argv'][-2:],['--','teapot & "flower"'])
         self.assertIn('--uncensored',result['argv'])
@@ -112,7 +112,7 @@ class MediaToolTests(unittest.TestCase):
         self.assertEqual(result['media_variant'],'standard')
         self.assertEqual(result['media_defaults']['media_variant'],'standard')
         self.assertEqual(result['commands'],['image'])
-        self.assertTrue(any(row['uncensored'] for row in result['variants']['models'] if 'uncensored' in row))
+        self.assertFalse(any(row['uncensored'] for row in result['variants']['models'] if 'uncensored' in row))
         for command in ('generate_image','image'):
             self.assertTrue(any(row['id']=='flux-klein' for row in api.variant_catalog(self.root,command)['models']))
         self.assertEqual(api.variant_catalog(self.root,'version')['models'],[])
