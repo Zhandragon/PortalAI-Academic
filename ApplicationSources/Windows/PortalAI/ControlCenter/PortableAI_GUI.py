@@ -1837,10 +1837,10 @@ def main(authenticated=None):
     diag_coverage_label=label(diag_panel, diagnostic_coverage, 8, fg=COLORS['muted'], wraplength=980,justify='left')
     diag_coverage_label.pack(fill='x', padx=14, pady=(0,6));bind_responsive_wrap(diag_coverage_label,padding=28,minimum=120)
 
-    gpu_panel = panel(activity_tab, "CPU / Memory / GPU", "Host activity · five-minute rolling history · first reported GPU adapter")
+    gpu_panel = panel(activity_tab, "CPU / Memory / GPU", "Host activity · live history grows to five minutes · first reported GPU adapter")
     gpu_panel.pack(fill="x", pady=(0, 10))
-    from activity_monitor import Sampler, ActivityCharts
-    activity_sampler = Sampler()
+    from activity_monitor import Sampler, ActivityCharts, TelemetryMonitor
+    telemetry_monitor = TelemetryMonitor(Sampler(), stop_worker, lambda sample: event_q.put(('telemetry', sample)))
     from runtime_activity import RuntimeActivity, format_processes
     runtime_activity = RuntimeActivity(root)
     activity_charts = ActivityCharts(gpu_panel, COLORS)
@@ -1860,11 +1860,13 @@ def main(authenticated=None):
     gpu_models_box = readonly_box(gpu_panel, height=4)
     gpu_models_box.border.simple=False;gpu_models_box.border.filigree=True
     gpu_models_box.pack(fill="x", padx=12, pady=(0, 6))
-    label(
+    monitor_note = label(
         gpu_panel,
-        "Read-only monitoring: CPU/RAM and WDDM about every 5 s; adapter summary every 15 s; package inventory every 2 min. Probes may extend intervals. Missing counters show unavailable.",
-        8, fg=COLORS["muted"],
-    ).pack(fill="x", padx=12, pady=(0, 12))
+        "Monitoring builds history quickly at startup, then reduces sampling. Charts show up to five minutes of observed activity. Missing counters remain unavailable.",
+        8, fg=COLORS["muted"], wraplength=900, justify='left',
+    )
+    monitor_note.pack(fill="x", padx=12, pady=(0, 12))
+    bind_responsive_wrap(monitor_note, padding=24, minimum=120)
 
     maintenance_panel = panel(maintenance_tab, "Maintenance & Storage", "Inspect first; cleanup and destructive deletion remain explicit")
     maintenance_panel.pack(fill="x", padx=0, pady=(0, 6))
@@ -2681,7 +2683,7 @@ def main(authenticated=None):
         installed_cache=(comps,models,loras); last_inventory=time.time(); return installed_cache
 
     def snapshot():
-        activity_sample = activity_sampler.sample()
+        activity_sample = telemetry_monitor.latest()
         process_rows, process_events = runtime_activity.processes()
         stages, stage_events = runtime_activity.lifecycle(process_rows)
         gpu_summary,gpu_util=gpu_state(activity_sample)
@@ -2738,7 +2740,7 @@ def main(authenticated=None):
         policy_sampled_at = time.monotonic()
         current_policy=bundle_inventory(root, policy=load_effective_policy(root))
         from effort_policy import load_preferences as load_effort_preferences
-        saved_effort = load_effort_preferences(root)
+        saved_effort = load_effort_preferences(root, policy=current_policy['policy'])
         cfg=current_policy["policy"];budget=current_policy["storage"]
         from mission_runner import Missions, ACTIVE
         from mission_supervisor import read_policy
@@ -2769,20 +2771,18 @@ def main(authenticated=None):
             'storage_budget':budget,
             "services":{"policy":("SAVED","Settings apply on next startup; loaded chat is shown separately"),"missions":("ARMED" if armed else "PAUSED","Persistent state on SSD; computer must remain on"),"qwen":qserver,"comfy":cserver,"ace":aserver,"tts":tts_server,"musetalk":muse_server,"mmaudio":mma_server,"science":science_server,"media":media,"opengui":op},
             "activity":{"agent":agentact,"qwen":qact,"comfy":cact,"ace":aact,"tts":tts_act,"musetalk":muse_act,"mmaudio":mma_act,"science":science_act,"media":mact},
-            "telemetry":activity_sample,"runtime_models":runtime_models,"gpu":gpu_summary,"gpu_models":model_lines,
+            "runtime_models":runtime_models,"gpu":gpu_summary,"gpu_models":model_lines,
             "installed":comps,"models":models,"loras":loras,
         }
 
     def worker():
         # Lightweight always-on monitor. All probes/scans run off Tk's main thread.
-        try:
-            while not stop_worker.is_set():
-                try:
-                    event_q.put(("snapshot", snapshot()))
-                except Exception as exc:
-                    event_q.put(("log", f"Status monitor error: {type(exc).__name__}: {exc}"))
-                stop_worker.wait(5.0)
-        finally: activity_sampler.close()
+        while not stop_worker.is_set():
+            try:
+                event_q.put(("snapshot", snapshot()))
+            except Exception as exc:
+                event_q.put(("log", f"Status monitor error: {type(exc).__name__}: {exc}"))
+            stop_worker.wait(5.0)
 
     status_worker_started = False
 
@@ -2791,6 +2791,7 @@ def main(authenticated=None):
         if status_worker_started or stop_worker.is_set():
             return
         status_worker_started = True
+        gui_jobs.thread(target=telemetry_monitor.run, name="PortalAITelemetry", daemon=True).start()
         gui_jobs.thread(target=worker, name="PortableAIStatus", daemon=True).start()
 
     
@@ -2817,6 +2818,7 @@ def main(authenticated=None):
         except Exception as exc:
             control_progress.set(f'Startup not started: {exc}'); log(control_progress.get()); return
         ticket = startup_gate.ticket()
+        startup_policy_edited_at = last_policy_edit[0]
         requested_at = time.time()
         py = Path(bootstrap_python(root))
         if not py.exists() or not script.exists():
@@ -2848,6 +2850,7 @@ def main(authenticated=None):
                 cp = subprocess.CompletedProcess(child.args, child.returncode, stdout, stderr)
                 result = startup_result(root, cp, requested_at)
                 result['ticket'] = ticket
+                result['policy_edited_at'] = startup_policy_edited_at
                 event_q.put(("startup_result", result))
             except subprocess.TimeoutExpired:
                 event_q.put(("startup_result", {"ok":False,"ticket":ticket,"detail":"Startup timed out after 440 seconds. Check the Control Log and chat model log.","returncode":-1}))
@@ -3651,6 +3654,11 @@ def main(authenticated=None):
                         name = model.get('label') or model.get('id') or 'Qwen'
                         context = f" · {model['context_tokens']} context tokens" if model.get('context_tokens') else ''
                         control_loaded.set('Current chat: ' + name + context)
+                        if native_chat_panel is not None and getattr(native_chat_panel, 'effort', None):
+                            # A later deliberate choice wins over a completed
+                            # startup. Never turn an observation into a save.
+                            observed = model if data.get('policy_edited_at') == last_policy_edit[0] else None
+                            native_chat_panel.effort.sync_saved_choice(loaded_model=observed)
                         log(str(data.get("detail") or "Native Startup complete: Qwen READY."))
                         force_scan.set()
                     else:
@@ -3771,6 +3779,9 @@ def main(authenticated=None):
                         app.destroy()
                     app.after(100, destroy_window)
                     return
+                if kind == 'telemetry':
+                    activity_charts.update_sample(data)
+                    continue
                 # Apply only actual changes. The old loop reconfigured dozens of
                 # labels/Text widgets every monitor cycle even when nothing changed,
                 # which made the launcher feel sluggish during chat streaming/resizing.
@@ -3809,7 +3820,6 @@ def main(authenticated=None):
                         set_box_text(runtime_model_boxes[k],model_text or "No model/component reported.")
                         if k not in ('policy','missions'): log(f'{k} model/component: {model_text[:300]}')
                         last_ui_state["runtime_models"][k] = frozen
-                if data.get('telemetry'): activity_charts.update_sample(data['telemetry'])
                 if last_ui_state["gpu"] != data["gpu"]:
                     gpu_lbl.configure(text=data["gpu"]); last_ui_state["gpu"] = data["gpu"]
                 gpu_models_value = tuple(data["gpu_models"])

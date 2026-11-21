@@ -1,0 +1,118 @@
+{
+  "baseline_windows": "2026.11.21-Desktop-r80",
+  "native_linux_macos_validation": false,
+  "platforms": {
+    "Linux": {
+      "version_stamp": "\"\"\"Verified PortalAI distribution version.\"\"\"\nRELEASE_VERSION = '2026.11.09-Desktop-r75'",
+      "changes": {
+        "r76": {
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/app_tour.py": "identical",
+          "ControlCenter/release_version.py": "different; needs platform review"
+        },
+        "r77": {
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/release_version.py": "different; needs platform review"
+        },
+        "r79": {
+          "Agent/application_api.py": "different; needs platform review",
+          "Agent/browser_use_runtime.py": "absent",
+          "Agent/browser_use_worker.py": "absent",
+          "Agent/desktop_control.py": "different; needs platform review",
+          "Agent/mission_runner.py": "different; needs platform review",
+          "Agent/mission_supervisor.py": "different; needs platform review",
+          "Agent/nice_voice.py": "absent",
+          "Agent/open_computer_use.py": "absent",
+          "Agent/qwen_voice_acceleration.py": "absent",
+          "Agent/qwen_voice_stream.py": "absent",
+          "Agent/tool_process.py": "absent",
+          "Agent/tool_process_worker.py": "absent",
+          "Agent/voice_prewarm.py": "absent",
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/activity_monitor.py": "different; needs platform review",
+          "ControlCenter/browser_use_api.py": "absent",
+          "ControlCenter/capability_tools.py": "different; needs platform review",
+          "ControlCenter/chat_tool_menu.py": "absent",
+          "ControlCenter/chat_voice.py": "absent",
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/release_version.py": "different; needs platform review",
+          "ControlCenter/ui_extensions.py": "different; needs platform review",
+          "ControlCenter/voice_pcm_player.py": "absent",
+          "ControlCenter/web_tool_api.py": "different; needs platform review",
+          "ControlCenter/workspace_services.py": "different; needs platform review"
+        },
+        "r80": {
+          "Agent/assistant_guidance.py": "different; needs platform review",
+          "Agent/browser_use_worker.py": "absent",
+          "Agent/desktop_control.py": "different; needs platform review",
+          "Agent/open_computer_use.py": "absent",
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/capability_tools.py": "different; needs platform review",
+          "ControlCenter/chat_tool_menu.py": "absent",
+          "ControlCenter/media_planning.py": "absent",
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/portal_navigation.py": "absent",
+          "ControlCenter/release_version.py": "different; needs platform review",
+          "ControlCenter/task_progress.py": "different; needs platform review",
+          "ControlCenter/tool_protocol.py": "different; needs platform review"
+        }
+      }
+    },
+    "Mac": {
+      "version_stamp": "\"\"\"Verified PortalAI distribution version.\"\"\"\nRELEASE_VERSION = '2026.11.09-Desktop-r75'",
+      "changes": {
+        "r76": {
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/app_tour.py": "identical",
+          "ControlCenter/release_version.py": "different; needs platform review"
+        },
+        "r77": {
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/release_version.py": "different; needs platform review"
+        },
+        "r79": {
+          "Agent/application_api.py": "different; needs platform review",
+          "Agent/browser_use_runtime.py": "absent",
+          "Agent/browser_use_worker.py": "absent",
+          "Agent/desktop_control.py": "different; needs platform review",
+          "Agent/mission_runner.py": "different; needs platform review",
+          "Agent/mission_supervisor.py": "different; needs platform review",
+          "Agent/nice_voice.py": "absent",
+          "Agent/open_computer_use.py": "absent",
+          "Agent/qwen_voice_acceleration.py": "absent",
+          "Agent/qwen_voice_stream.py": "absent",
+          "Agent/tool_process.py": "absent",
+          "Agent/tool_process_worker.py": "absent",
+          "Agent/voice_prewarm.py": "absent",
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/activity_monitor.py": "different; needs platform review",
+          "ControlCenter/browser_use_api.py": "absent",
+          "ControlCenter/capability_tools.py": "different; needs platform review",
+          "ControlCenter/chat_tool_menu.py": "absent",
+          "ControlCenter/chat_voice.py": "absent",
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/release_version.py": "different; needs platform review",
+          "ControlCenter/ui_extensions.py": "different; needs platform review",
+          "ControlCenter/voice_pcm_player.py": "absent",
+          "ControlCenter/web_tool_api.py": "different; needs platform review",
+          "ControlCenter/workspace_services.py": "different; needs platform review"
+        },
+        "r80": {
+          "Agent/assistant_guidance.py": "different; needs platform review",
+          "Agent/browser_use_worker.py": "absent",
+          "Agent/desktop_control.py": "different; needs platform review",
+          "Agent/open_computer_use.py": "absent",
+          "ControlCenter/PortableAI_GUI.py": "different; needs platform review",
+          "ControlCenter/capability_tools.py": "different; needs platform review",
+          "ControlCenter/chat_tool_menu.py": "absent",
+          "ControlCenter/media_planning.py": "absent",
+          "ControlCenter/native_chat.py": "different; needs platform review",
+          "ControlCenter/portal_navigation.py": "absent",
+          "ControlCenter/release_version.py": "different; needs platform review",
+          "ControlCenter/task_progress.py": "different; needs platform review",
+          "ControlCenter/tool_protocol.py": "different; needs platform review"
+        }
+      }
+    }
+  }
+}

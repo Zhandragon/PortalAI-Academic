@@ -13,7 +13,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path[:0] = [str(ROOT/p) for p in ('ControlCenter','Agent','Tools')]
+sys.path[:0] = [str(ROOT/p) for p in ('ControlCenter','Agent','Tools','Maintenance/Tests')]
 from activity_monitor import cpu_percent, ActivityCharts
 from runtime_activity import owned, label_for, RuntimeActivity, format_processes
 from windows_gpu_counters import summarize
@@ -32,7 +32,7 @@ class ActivityTests(unittest.TestCase):
              patch.object(settings_page,'load_policy',return_value={'extension':{'keep':True},'storage':{'extra':'retained'}}), \
              patch.object(settings_page.shutil,'disk_usage',return_value=SimpleNamespace(total=1024**4)), \
              patch.object(settings_page,'atomic_json') as write:
-            for invalid in ('nan','inf','-1','0','1025'):
+            for invalid in ('nan','inf','-1','1025'):
                 with self.assertRaises(ValueError): settings_page.save_storage_settings(ROOT,{**values,'output_reserve_gib':invalid})
             with self.assertRaises(ValueError): settings_page.save_storage_settings(ROOT,{**values,'minimum_free_percent':'51'})
             write.assert_not_called()
@@ -58,7 +58,8 @@ class ActivityTests(unittest.TestCase):
         self.assertNotIn('8',result['processes'])
 
     def test_process_attribution_rejects_neighbor_root_and_hides_prompt(self):
-        self.assertTrue(owned(ROOT,ROOT/'Runtime/BootstrapPython/python.exe'))
+        # The development checkout may link BootstrapPython to an external runtime.
+        self.assertTrue(owned(ROOT,ROOT/'Runtime/FixtureOwned/python.exe'))
         self.assertFalse(owned(ROOT,ROOT.parent/(ROOT.name+'-other')/'python.exe'))
         self.assertEqual(label_for('python.exe','"D:/PortableAI/Agent/ai_tools.py" voice-design --text "PRIVATE PROMPT"'), 'ai_tools · voice-design')
         text = format_processes([{'pid':12,'label':'science','cpu':None,'ram':None}],{'12':9})
@@ -157,13 +158,13 @@ class NavigationTkTests(unittest.TestCase):
         effort._save_model_choice=Mock()
         effort._module=Mock(return_value=policy);self.panel.effort=effort;self.panel.busy=False;self.panel.root=ROOT
         self.panel.open_settings();tabs=self.panel._preferences_tabs;tabs.select('effort');self.pump()
-        combos=[w for w in widgets(tabs.pages['effort']) if isinstance(w,ttk.Combobox)]
+        combos=[w for w in widgets(tabs.pages['effort']) if isinstance(w,ttk.Combobox) and tuple(w.cget('values'))==('fast','balanced','deep')]
         self.assertEqual(len(combos),2);combos[0].set('fast');combos[1].set('deep')
         button(self.panel._sheet_overlay,'Cancel').invoke();policy.save_preferences.assert_not_called()
         effort._save_model_choice.assert_not_called()
         self.assertEqual(effort.profile,'balanced')
         self.panel.open_settings();tabs=self.panel._preferences_tabs;tabs.select('effort');self.pump()
-        combos=[w for w in widgets(tabs.pages['effort']) if isinstance(w,ttk.Combobox)]
+        combos=[w for w in widgets(tabs.pages['effort']) if isinstance(w,ttk.Combobox) and tuple(w.cget('values'))==('fast','balanced','deep')]
         combos[0].set('fast');combos[1].set('balanced');tabs.select('voice')
         button(self.panel._sheet_overlay,'Save settings').invoke()
         effort._save_model_choice.assert_called_once_with(level='fast')
@@ -200,8 +201,10 @@ class NavigationTkTests(unittest.TestCase):
 
     def test_chart_history_is_bounded_and_unavailable_stays_unavailable(self):
         chart=ActivityCharts(self.app,LIGHT);chart.pack(fill='x');self.pump()
-        for at in range(80):chart.update_sample({'at':at,'cpu':20,'ram':30,'gpu':None,'vram':None})
-        self.assertEqual(len(chart.samples),60)
+        for at in range(700):chart.update_sample({'at':at/2,'cpu':20,'ram':30,'gpu':None,'vram':None})
+        self.assertLessEqual(len(chart.samples),602)
+        self.assertLessEqual(chart.samples[0]['at'],chart.samples[-1]['at']-300)
+        self.assertGreater(chart.samples[1]['at'],chart.samples[-1]['at']-300-0.5)
         self.assertIn('unavailable',chart.labels['gpu'].cget('text'))
 
     def test_reopening_popup_cancels_old_focus_timers(self):

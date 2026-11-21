@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.21-Desktop-r81",
+  "edition": "Academic",
+  "platform": "Windows",
+  "compatible_versions": [
+    "2026.11.21-Desktop-r80"
+  ],
+  "files": [
+    {
+      "path": "Agent/effort_policy.py",
+      "bytes": 20281,
+      "sha256": "81b7892a627087c1601b027fba3174c0a66a2bdb7ba56b1095be6169c40fa0b5"
+    },
+    {
+      "path": "ControlCenter/PortableAI_GUI.py",
+      "bytes": 237252,
+      "sha256": "212efc6a577e5a76d7205fbe112e4ca1695222366d3db6593ae3b17718d6bef6"
+    },
+    {
+      "path": "ControlCenter/activity_monitor.py",
+      "bytes": 11859,
+      "sha256": "1b5d6b5263ba1d17075ab9be2c78acae7b021af4e3d3250629a8c71adb88ec1f"
+    },
+    {
+      "path": "ControlCenter/chat_effort_ui.py",
+      "bytes": 23125,
+      "sha256": "8724dc03c8a36a92bcb4167b0182f4725fdfad65258bba0e23b0d4297332c80e"
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 89,
+      "sha256": "1059874883ce4f30aed737a3284363d8ba6fa33fe97b033dc8788af82f371f4d"
+    },
+    {
+      "path": "Documentation/Startup_Runtime_Parity_20261121.txt",
+      "bytes": 3306,
+      "sha256": "069b60dc2607030b5698b582f0e8d018a1acba9e1dec6ebf6233599209b9f1af"
+    },
+    {
+      "path": "Documentation/platform-parity-r80.json",
+      "bytes": 6452,
+      "sha256": "641d16f05dbcbb8177928ee426b5bc05876d72fa8d94797d350dbdfaba455f32"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_effort_ui.py",
+      "bytes": 12194,
+      "sha256": "534163b9b96e125b8837146760126ffbd9f183e5e40413278b1ab36e310d0994"
+    },
+    {
+      "path": "Maintenance/Tests/test_navigation_activity.py",
+      "bytes": 14073,
+      "sha256": "7ac1a914346285c9bebf94630eb8414e3f9cc2058c95b9cebdbb195148b33d8c"
+    },
+    {
+      "path": "Maintenance/Tests/test_resize_geometry.py",
+      "bytes": 2541,
+      "sha256": "70845cf480b0dbfcbffe7be740c7db9202abd58243998025721415fd42f68969"
+    },
+    {
+      "path": "Maintenance/Tests/test_startup_effort_sync.py",
+      "bytes": 3662,
+      "sha256": "ba5ce7d1bd9e70e86f2724baaba3a95099fee966151c6af9d34bb801edd1b839"
+    },
+    {
+      "path": "Maintenance/Tests/test_telemetry_warmup.py",
+      "bytes": 3282,
+      "sha256": "d3c4f06175eb0dd1506327a6c245d0facfb6d46e753eaca608384408c9a821a1"
+    },
+    {
+      "path": "Tools/portable_update.py",
+      "bytes": 21547,
+      "sha256": "8eaec8ead7dc76f3758ee7a123c912dd351861c62296b841157a9b31baccf7eb"
+    },
+    {
+      "path": "Tools/smoke_startup_runtime.py",
+      "bytes": 5045,
+      "sha256": "fcea951602c690ccdafb68d31574deb1637b39c5477dd24bcde033f3c3ba7a17"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import threading
 import time
 import tkinter as tk
 
@@ -65,7 +66,7 @@ class Sampler:
                 except (OSError, ValueError): continue
         return {'gpu':None, 'vram':None, 'adapter':'GPU counters unavailable on this driver'}
 
-    def sample(self):
+    def sample(self, *, gpu_interval=15.0):
         from runtime_policy import memory_info
         result = {'cpu':None, 'ram':None}
         try:
@@ -75,8 +76,9 @@ class Sampler:
             total, available = memory_info()
             if total: result.update(ram=100*(total-available)/total, ram_used=(total-available)/1024**3, ram_total=total/1024**3)
         except (OSError, ValueError): pass
-        if time.monotonic()-self.last_gpu >= 15:
+        if time.monotonic()-self.last_gpu >= gpu_interval:
             self.gpu = self.sample_gpu(); self.last_gpu = time.monotonic()
+        result.update(gpu_at=self.last_gpu, vram_at=self.last_gpu)
         process_counters = {}
         if os.name == 'nt':
             if not self.windows_attempted:
@@ -88,7 +90,7 @@ class Sampler:
             if self.windows is not None:
                 counters = self.windows.sample(); process_counters = counters['processes']
                 if self.gpu.get('gpu') is None and counters['gpu'] is not None:
-                    result.update(gpu=counters['gpu'], adapter='Windows WDDM · busiest GPU engine')
+                    result.update(gpu=counters['gpu'], gpu_at=time.monotonic(), adapter='Windows WDDM · busiest GPU engine')
         merged = {**self.gpu, **result}
         # CPU/RAM result has no GPU key unless WDDM supplied a fallback.
         return {**merged, 'process_counters':process_counters, 'at':time.monotonic()}
@@ -97,10 +99,40 @@ class Sampler:
         if self.windows is not None: self.windows.close(); self.windows = None
 
 
+class TelemetryMonitor:
+    """One sampler owner, independent of slow inventory and service probes."""
+    def __init__(self, sampler, stop, publish, *, clock=None):
+        self.sampler = sampler; self.stop = stop; self.publish = publish
+        self.clock = clock or time.monotonic
+        self._lock = threading.Lock(); self._latest = {}
+
+    def latest(self):
+        with self._lock: return dict(self._latest)
+
+    def run(self):
+        started = self.clock()
+        try:
+            while not self.stop.is_set():
+                before = self.clock(); elapsed = before-started
+                interval = .5 if elapsed < 10 else 1.0 if elapsed < 30 else 5.0
+                try:
+                    sample = self.sampler.sample(gpu_interval=2.0 if elapsed < 30 else 15.0)
+                    if self.stop.is_set(): break
+                    with self._lock: self._latest = dict(sample)
+                    self.publish(sample)
+                except (OSError, ValueError, RuntimeError):
+                    # Missing driver counters must not turn into a tight retry loop.
+                    pass
+                self.stop.wait(max(.1, interval-(self.clock()-before)))
+        finally:
+            self.sampler.close()
+
+
 class ActivityCharts(tk.Frame):
     def __init__(self, parent, palette):
         super().__init__(parent, bd=0)
-        self.palette = palette; self.samples = deque(maxlen=60); self.labels = {}; self.canvases = {}
+        self.palette = palette; self.samples = deque(maxlen=640); self.labels = {}; self.canvases = {}
+        self._started_at = None
         self.cells = []; self.borders=[]; self._columns = None
         from ornate_ui import ConnectedBorder
         for key, title in (('cpu','CPU'), ('ram','RAM'), ('gpu','GPU'), ('vram','VRAM')):
@@ -112,6 +144,7 @@ class ActivityCharts(tk.Frame):
             canvas = tk.Canvas(cell, width=1, height=62, bd=0, highlightthickness=0)
             canvas.pack(fill='both', expand=True, padx=10, pady=(0, 9)); self.canvases[key] = canvas
             canvas.bind('<Configure>', lambda _e: self.redraw(), add='+')
+        self.window_label = tk.Label(self, text='History · waiting for samples', anchor='w', font=('Segoe UI', 8))
         self.bind('<Configure>', self.reflow, add='+'); self.apply_palette(palette)
 
     def reflow(self, event):
@@ -125,6 +158,8 @@ class ActivityCharts(tk.Frame):
                 self.rowconfigure(col, weight=1 if col < (4+cols-1)//cols else 0)
             for index, cell in enumerate(self.cells):
                 cell.grid(row=index//cols, column=index%cols, sticky='nsew', padx=3, pady=3)
+            self.rowconfigure(4, weight=0)
+            self.window_label.grid(row=(len(self.cells)+cols-1)//cols, column=0, columnspan=cols, sticky='w', padx=10)
         # Labels must not set a minimum width wider than their viewport.
         width = max(1, event.width//cols - 26)
         for label in self.labels.values():
@@ -134,7 +169,14 @@ class ActivityCharts(tk.Frame):
             if canvas.winfo_pixels(canvas.cget('height')) != height: canvas.configure(height=height)
 
     def update_sample(self, data):
+        if self.samples and data['at'] <= self.samples[-1]['at']: return
+        if self._started_at is None: self._started_at = data['at']
         self.samples.append(dict(data))
+        while len(self.samples) > 1 and self.samples[1]['at'] < data['at']-300:
+            self.samples.popleft()
+        observed = max(0, data['at']-self._started_at)
+        self.window_label.configure(text=('History · last 5 min' if observed >= 300 else
+                                         f'History · {observed:.0f} s observed · growing to 5 min'))
         for key, label in self.labels.items():
             value = data.get(key)
             text = key.upper()+' · '+('unavailable' if value is None else f'{value:.0f}%')
@@ -147,6 +189,7 @@ class ActivityCharts(tk.Frame):
         for cell in self.cells: cell.configure(bg=palette['panel2'])
         for label in self.labels.values(): label.configure(bg=palette['panel2'], fg=palette['text'])
         for canvas in self.canvases.values(): canvas.configure(bg=palette['panel2'])
+        self.window_label.configure(bg=palette['panel'], fg=palette.get('muted', palette['text']))
         for border in self.borders: border.apply_palette(palette)
         self.redraw()
 
@@ -161,9 +204,16 @@ class ActivityCharts(tk.Frame):
             def draw_segment():
                 if len(points) >= 4: canvas.create_line(*points, fill=p.get('accent', '#3E91A2'), width=2)
             now = self.samples[-1]['at'] if self.samples else 0
+            started = getattr(self, '_started_at', None)
+            if started is None: started = self.samples[0]['at'] if self.samples else now
+            span = min(300., max(1., now-started))
+            previous_at = None
             for sample in self.samples:
                 value = sample.get(key)
-                if value is None or now-sample['at'] > 300:
+                observed_at = sample.get(key+'_at', sample['at'])
+                if value is None or now-observed_at > span:
                     draw_segment(); points = []; continue
-                points.extend((2+(w-4)*(1-(now-sample['at'])/300), 3+h*(1-max(0,min(100,value))/100)))
+                if observed_at == previous_at: continue  # Cached GPU values are not fresh samples.
+                previous_at = observed_at
+                points.extend((2+(w-4)*(1-(now-observed_at)/span), 3+h*(1-max(0,min(100,value))/100)))
             draw_segment()

@@ -94,6 +94,7 @@ class ChatEffortControls:
         self._details = None
         self.on_choice_saved = None
         self._choice_signature = None
+        self._automatic_model = None
         colors = panel.COL
         self.widget = tk.Frame(parent, bg=colors['panel'])
         tk.Label(self.widget, text='Chat effort', bg=colors['panel'], fg=colors['muted'],
@@ -124,17 +125,31 @@ class ChatEffortControls:
             sys.path.insert(0, agent)
         return importlib.import_module(name)
 
-    def sync_saved_choice(self, *, refresh=True, policy=None, preferences=None):
+    def sync_saved_choice(self, *, refresh=True, policy=None, preferences=None, loaded_model=None):
         if self.panel.busy: return  # Keep the current request's admitted options intact.
         if policy is None: policy = self._module('runtime_policy').load_effective_policy(self.panel.root)
-        if preferences is None: preferences = self._module('effort_policy').load_preferences(self.panel.root)
-        variant = self._module('chat_selection').selected_variant(policy)
+        if preferences is None: preferences = self._module('effort_policy').load_preferences(self.panel.root, policy=policy)
+        selection = self._module('chat_selection')
+        variant = selection.selected_variant(policy)
+        # The saved explicit model is authoritative even if an older effort read
+        # arrives with it. Automatic observations are scoped to this exact choice.
+        profile = selection.tier_for_model(policy.get('selection')) or preferences['chat']
         signature = (policy.get('selection'), variant, policy.get('backend'),
-                     policy.get('context_tokens'), preferences['chat'])
-        if signature == self._choice_signature: return
+                     policy.get('context_tokens'), preferences['chat'], policy.get('_profile_id'))
+        automatic = getattr(self, '_automatic_model', None)
+        if automatic and automatic[0] != signature: automatic = None
+        if policy.get('selection') == 'auto' and isinstance(loaded_model, dict):
+            model = next((m for m in policy.get('models', []) if m['id'] == loaded_model.get('id')), None)
+            tier = selection.tier_for_model(loaded_model.get('id'))
+            if model is not None and tier and not model.get('vision_only') and not model.get('coding_specialist'):
+                automatic = (signature, dict(loaded_model), tier)
+        if automatic: profile = automatic[2]
+        observed_changed = automatic != getattr(self, '_automatic_model', None)
+        self._automatic_model = automatic
+        if signature == self._choice_signature and profile == self.profile and not observed_changed: return
         self._choice_signature = signature
-        self._sync_linked_voice(preferences['chat'])
-        self.profile = preferences['chat']
+        if not automatic: self._sync_linked_voice(profile)
+        self.profile = profile
         self.scale.set(LEVELS.index(self.profile)); self.uncensored.set(variant == 'uncensored')
         self.active_options = {}; self.active_plan = None; self.capability_data = None
         self._probe_serial += 1  # Discard an old variant/model probe immediately.
@@ -236,12 +251,15 @@ class ChatEffortControls:
     def _render(self):
         plan = ((self.capability_data or {}).get('profiles') or {}).get(self.profile) or {}
         applied = self.active_plan if self.active_plan and self.active_plan.get('profile') == self.profile else {}
-        chosen = model_label(applied.get('model') or plan.get('model') or plan.get('selection'))
+        automatic = getattr(self, '_automatic_model', None)
+        chosen = model_label(applied.get('model') or (automatic[1] if automatic else None) or plan.get('model') or plan.get('selection'))
         # The checkbox already shows variant; keep the compact row readable.
         chosen = chosen.replace(' Abliterated', '').replace(' Standard', '')
         suffix = (' \u00b7 locked' if plan.get('locked') else
                   ' \u00b7 unavailable' if plan and not plan.get('available') else
-                  ' \u00b7 ' + chosen if plan else '')
+                  ' \u00b7 ' + chosen if plan or automatic else '')
+        if automatic:
+            suffix = ' · ' + chosen + ' · Auto' + (' · locked' if plan.get('locked') else '')
         from voice_policy import resolve
         capacity = (self.capability_data or {}).get('voice')
         if capacity:
@@ -264,7 +282,8 @@ class ChatEffortControls:
         lines = [
             'Fast selects 1.7B, Balanced selects 4B, and Deep selects 27B. '
             'Uncensored independently chooses the matching abliterated variant; unchecked uses Standard. '
-            'The model and variant synchronize with Settings. Automatic in Settings retains hardware fallback.',
+            'The model and variant synchronize with Settings. Automatic in Settings retains hardware fallback. '
+            'After Startup, Auto shows the model that loaded; this does not save a different model choice.',
             'Model size controls much of the speed difference: 1.7B is lighter than 4B, and 4B is lighter than 27B. '
             'The slider also sets reasoning, generated-token allowance and model wait budgets. Tool calls use the separate Chat Preferences budget. '
             'Generated tokens include both thinking and the visible answer. A longer budget does not guarantee a better answer.',

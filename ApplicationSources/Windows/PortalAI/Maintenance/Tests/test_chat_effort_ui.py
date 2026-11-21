@@ -208,11 +208,11 @@ class ChatEffortUITests(unittest.TestCase):
         process = Mock(returncode=0)
         process.communicate.return_value = ('done', '')
         command = 'python Agent/ai_tools.py image "example" --width 1024 --height 768 --steps 31'
-        with patch.object(chat.subprocess, 'Popen', return_value=process) as popen:
+        with patch.object(runtime, '_start_linux', return_value=process) as launch:
             runtime.shell(command)
-        forwarded = popen.call_args.args[0]
+        forwarded = launch.call_args.args[0]
         self.assertTrue(forwarded.endswith('Agent/ai_tools.py image "example" --width 1024 --height 768 --steps 31'))
-        self.assertEqual(popen.call_args.kwargs['env']['PORTALAI_TOOL_EFFORT'], 'fast')
+        self.assertEqual(launch.call_args.args[1]['PORTALAI_TOOL_EFFORT'], 'fast')
 
     def test_explicit_scientific_precision_is_preserved(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -231,9 +231,9 @@ class ChatEffortUITests(unittest.TestCase):
                 self.assertEqual(json.loads(request.read_text())['input'], original)
                 return '{"success":true}', ''
             process.communicate.side_effect = communicate
-            with patch.object(chat.subprocess, 'Popen', return_value=process) as popen:
+            with patch.object(runtime, '_start_linux', return_value=process) as launch:
                 self.assertEqual(runtime.science('example', original), '{"success":true}')
-            self.assertEqual(popen.call_args.kwargs['env']['PORTALAI_TOOL_EFFORT'], 'fast')
+            self.assertEqual(launch.call_args.args[1]['PORTALAI_TOOL_EFFORT'], 'fast')
             self.assertEqual(original, {'tolerance': 1e-10, 'precision': 80, 'iterations': 900})
 
 

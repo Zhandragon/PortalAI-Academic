@@ -26,7 +26,7 @@ def _level(value: str) -> str:
     return value.lower()
 
 
-def load_preferences(root: Path = ROOT) -> dict:
+def load_preferences(root: Path = ROOT, *, policy: dict | None = None) -> dict:
     """Missing/new preference keys have defaults; never rewrite existing policy."""
     from profile_paths import enabled, private_path
     root = Path(root)
@@ -46,7 +46,8 @@ def load_preferences(root: Path = ROOT) -> dict:
     result = {key: saved[key] if saved.get(key) in LEVELS else "balanced"
               for key in ("chat", "tools")}
     from chat_selection import tier_for_model
-    tier = tier_for_model(runtime.load_effective_policy(root).get('selection'))
+    cfg = policy if policy is not None else runtime.load_effective_policy(root)
+    tier = tier_for_model(cfg.get('selection'))
     if tier: result['chat'] = tier
     return result
 

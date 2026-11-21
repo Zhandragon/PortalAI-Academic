@@ -1,0 +1,64 @@
+{
+  "version": "2026.11.21-Desktop-r81",
+  "full_focused": {
+    "run": 96,
+    "passed": 95,
+    "skipped": 1
+  },
+  "academic_focused": {
+    "run": 59,
+    "passed": 58,
+    "skipped": 1
+  },
+  "installed_focused": {
+    "run": 26,
+    "passed": 25,
+    "skipped": 1
+  },
+  "suites_overlap": true,
+  "native_linux_macos_tested": false,
+  "model_inference_tested_for_r81": false,
+  "clean_recipient_installer_tested": false,
+  "full_gui": {
+    "passed": true,
+    "production_accounts_opened": false,
+    "model_services_started": false,
+    "final_close_verified_sealed": true,
+    "real_host_samples": 42,
+    "observed_seconds": 35.07800000000134,
+    "first_ten_seconds": 21,
+    "last_intervals": [
+      1.11,
+      0.91,
+      1.0,
+      5.02
+    ],
+    "cpu_available": true,
+    "gpu_available": true,
+    "monitor_stopped": true,
+    "automatic_receipt_ui_synced": true,
+    "later_manual_choice_won": true,
+    "stale_stop_receipt_ignored": true
+  },
+  "academic_gui": {
+    "passed": true,
+    "production_accounts_opened": false,
+    "model_services_started": false,
+    "final_close_verified_sealed": true,
+    "real_host_samples": 42,
+    "observed_seconds": 35.09399999999914,
+    "first_ten_seconds": 21,
+    "last_intervals": [
+      1.11,
+      0.92,
+      1.0,
+      5.0
+    ],
+    "cpu_available": true,
+    "gpu_available": true,
+    "monitor_stopped": true,
+    "automatic_receipt_ui_synced": true,
+    "later_manual_choice_won": true,
+    "stale_stop_receipt_ignored": true
+  }
+}

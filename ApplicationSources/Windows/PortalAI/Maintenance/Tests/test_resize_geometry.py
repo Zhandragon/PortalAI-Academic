@@ -24,7 +24,7 @@ class ResizeTests(unittest.TestCase):
         self.assertEqual(canvas.create_line.call_args.args, (2,59,198,3))
 
     def test_chart_cards_reflow_after_shrink_and_expand(self):
-        charts=SimpleNamespace(_columns=None, cells=[Mock() for _ in range(4)],
+        charts=SimpleNamespace(_columns=None, cells=[Mock() for _ in range(4)], window_label=Mock(),
             labels={},canvases={},columnconfigure=Mock(),rowconfigure=Mock())
         for width,cols in ((1100,4),(700,2),(390,1),(1000,4)):
             ActivityCharts.reflow(charts,SimpleNamespace(widget=charts,width=width))

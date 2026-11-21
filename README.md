@@ -9,6 +9,8 @@
 
 <h1 align="center">PortalAI</h1>
 
+**Windows r81 (2026-11-21):** Startup model/effort synchronization and fast initial Runtime history. [Changes and platform parity audit](Documentation/RELEASE-r81.md). Linux/macOS packages remain experimental r75.
+
 **Windows r80 (2026-11-21):** Reference-guided media plans, staged edits, shutdown cleanup and real Nice desktop/browser acceptance. [Changes and limitations](Documentation/RELEASE-r80.md).
 
 **Windows r79 (2026-11-21):** Portable Open Computer Use and browser-use, text-model accessibility, Stop for detached tool processes and mission hooks, responsive Runtime panels, and faster buffered voice. Academic model restrictions remain in force. [Changes and validation](Documentation/RELEASE-r79.md).
