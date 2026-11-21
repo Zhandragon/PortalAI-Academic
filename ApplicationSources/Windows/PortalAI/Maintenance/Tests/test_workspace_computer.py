@@ -11,11 +11,18 @@ from unittest.mock import Mock,patch
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'Agent'),str(ROOT/'ControlCenter')]
-from desktop_control import Desktop
+from desktop_control import Desktop,key_codes
 from capability_tools import computer_context,guard,dispatch
 
 
 class ComputerBoundaries(unittest.TestCase):
+    def test_common_key_aliases_share_the_same_bounded_codes(self):
+        self.assertEqual(key_codes(['Control','l']),key_codes(['CTRL','L']))
+        self.assertEqual(key_codes(['Return']),key_codes(['ENTER']))
+        self.assertEqual(key_codes(['Escape']),key_codes(['ESC']))
+        for invalid in ([],['unknown'],['CTRL']*5,[1]):
+            with self.assertRaises(ValueError):key_codes(invalid)
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.identity=object()
@@ -67,7 +74,7 @@ class ComputerBoundaries(unittest.TestCase):
         target=Mock();target.call.return_value={'elements':[]}
         with patch('account_permissions.require_admin'),patch('desktop_control.desktop',return_value=target),patch('native_chat.model_props',return_value={}):
             for action in ('state','invoke','set_value','elements','click_element','type','keypress','windows','status'):
-                dispatch(runtime,'computer',{'action':action},check=lambda:None)
+                dispatch(runtime,'computer',{'action':action,'target':'Fixture control [1]'},check=lambda:None)
                 self.assertFalse(target.call.call_args.args[1]['visual'])
             for action in ('screenshot','click','drag','scroll'):
                 with self.assertRaisesRegex(RuntimeError,'text accessibility'):dispatch(runtime,'computer',{'action':action},check=lambda:None)
@@ -75,6 +82,31 @@ class ComputerBoundaries(unittest.TestCase):
     def test_accessibility_observation_does_not_attach_an_image(self):
         self.desktop.observation={'token':'fixture','at':time.monotonic(),'backend':'open-computer-use'}
         self.assertIsNone(self.desktop.image_message('fixture'))
+
+    def test_named_target_cannot_combine_another_controls_label_and_id(self):
+        self.desktop.observation.update(window=123,targets={'Slippi Launcher [56]':'56','Other folder [66]':'66'})
+        with patch.object(self.desktop,'dpi',return_value=nullcontext()),patch.object(self.desktop,'check',return_value={}),patch.object(self.desktop,'focus') as focus:
+            with self.assertRaisesRegex(ValueError,'exact named target'):
+                self.desktop.call('click_element',{'window':123,'observation':'fixture','target':'Slippi Launcher [66]'},lambda:None)
+            focus.assert_not_called()
+            self.assertEqual(self.desktop.observation['token'],'fixture')
+
+    def test_focus_queue_attachment_is_released_on_account_cancellation(self):
+        user=Mock();kernel=Mock();user.IsIconic.return_value=False
+        user.GetForegroundWindow.return_value=999;user.GetWindowThreadProcessId.side_effect=[2,3]
+        user.AttachThreadInput.return_value=True;kernel.GetCurrentThreadId.return_value=1
+        with patch.object(self.desktop,'api',return_value=(user,kernel)),patch.object(self.desktop,'check',side_effect=[{},PermissionError('login ended')]):
+            with self.assertRaises(PermissionError):self.desktop.focus(123,lambda:None)
+        self.assertEqual([c.args for c in user.AttachThreadInput.call_args_list],[(1,2,True),(1,3,True),(1,3,False),(1,2,False)])
+        user.SetActiveWindow.assert_not_called()
+
+    def test_model_dispatch_rejects_bare_element_ids_before_desktop_input(self):
+        runtime=SimpleNamespace(root=self.root)
+        target=Mock()
+        with patch('account_permissions.require_admin'),patch('desktop_control.desktop',return_value=target),patch('native_chat.model_props',return_value={}):
+            for action in ('invoke','set_value','click_element'):
+                with self.assertRaises(ValueError):dispatch(runtime,'computer',{'action':action,'element':'56'},check=lambda:None)
+            target.call.assert_not_called()
 
     def test_shared_stop_fences_a_separate_workspace_runtime(self):
         from workspace_services import close_all

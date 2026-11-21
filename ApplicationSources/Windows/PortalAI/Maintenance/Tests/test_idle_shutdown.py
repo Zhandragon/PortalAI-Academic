@@ -16,6 +16,16 @@ from workspace_services import register, close_all, unregister
 
 
 class IdleShutdownTests(unittest.TestCase):
+    def test_stop_while_chat_is_idle_still_revokes_completed_tool_owners(self):
+        chat=Mock(spec=NativeChat)
+        chat.busy=False;chat.cancel_event=threading.Event();chat.conversation_active=threading.Event()
+        chat.memory=None;chat.mic_stream=chat.mic_proc=chat._mic_voice=None
+        chat._memory_rebuild_cancel=chat._history_search_request=chat._session_load_request=chat._attachment_picker_pending=None
+        chat._closing=False;chat.stop_btn=None
+        NativeChat.stop_generation(chat)
+        self.assertTrue(chat.cancel_event.is_set())
+        chat._cancel_request_resources.assert_called_once()
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)

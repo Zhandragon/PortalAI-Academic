@@ -48,6 +48,8 @@ WEB_DISCOVERY = frozenset(('help', 'search', 'research', 'image', 'image-search'
 def inspection(name, args):
     if not isinstance(args, dict):
         return False
+    if name=='computer':return args.get('action') in ('windows','status','state','elements','screenshot')
+    if name=='portal_ui':return args.get('action','state')=='state'
     if name in DISCOVERY or name in ('read_file', 'file_inspect', 'chat_history'):
         return True
     if name == 'web':
@@ -68,6 +70,18 @@ def inspection(name, args):
         except (ValueError, TypeError, AttributeError, OSError):
             return False
     return False
+
+
+def promised_desktop_action(content, messages, start):
+    """A bounded inference follow-up, never an action or permission grant."""
+    text=str(content or '').strip()
+    if not re.search(r"\b(?:I will|I'll|let me|next I)\s+(?:now\s+)?(?:click|open|launch|navigate|type|proceed|check|inspect|use)\b",text,re.I):return False
+    if re.search(r"\b(?:cannot|can't|blocked|permission|approval|if you|would you)\b|```",text,re.I):return False
+    rows=messages[max(0,start):]
+    tools=[r for r in rows if r.get('role')=='tool']
+    if not any(r.get('name') in ('computer','portal_ui') for r in tools):return False
+    if any(r.get('execution',{}).get('effectful') and r.get('execution',{}).get('outcome')=='uncertain' for r in tools):return False
+    return True
 
 
 def signature(name, args):
@@ -129,6 +143,9 @@ class TaskProgress:
     def before(self, name, args):
         if not self.active:
             return None
+        # Fresh observations are prerequisites for safe input; never throttle
+        # them merely because repeated observations were not task progress.
+        if name in ('computer','portal_ui'):return None
         self.calls += 1
         if name == 'chat_checkpoint':
             self.checkpoints += 1

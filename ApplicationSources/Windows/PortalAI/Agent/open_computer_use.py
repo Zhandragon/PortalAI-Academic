@@ -24,7 +24,7 @@ def call(root,row,check,tool='get_app_state',snapshot=None,element=None,value=No
     payload={'tool':tool,'app':str(row['pid']),'expected_pid':row['pid'],
              'expected_created':row['created'],'windowHandle':row['window'],
              'include_ax':True,'include_screenshot':False,'text_limit':500,
-             'max_tree_nodes':160,'max_tree_depth':24}
+             'max_tree_nodes':600,'max_tree_depth':36}
     if tool!='get_app_state':
         if tool not in ('click','set_value'):raise ValueError('Unsupported accessibility action')
         record=next((e for e in (snapshot or {}).get('elements',[]) if str(e['index'])==element),None)
@@ -49,7 +49,7 @@ def call(root,row,check,tool='get_app_state',snapshot=None,element=None,value=No
             try:out,err=p.communicate(timeout=.1);break
             except subprocess.TimeoutExpired:pass
         check()
-        if p.returncode or len(out)>512*1024:raise RuntimeError('Computer helper failed; outcome may be uncertain: '+err[-1200:])
+        if p.returncode or len(out)>2*1024*1024:raise RuntimeError('Computer helper failed; outcome may be uncertain: '+err[-1200:])
         result=json.loads(out.lstrip('\ufeff'))
         if not result.get('ok'):raise RuntimeError(str(result.get('error','Computer operation failed'))[:1600])
         observed=result.get('snapshot')

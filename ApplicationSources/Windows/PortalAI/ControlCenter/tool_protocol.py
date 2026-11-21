@@ -26,9 +26,10 @@ def read_only_tool_attempt(name, args, root) -> bool:
     """
     if root is None or not isinstance(args, dict):
         return False
+    if name=='portal_ui':return args.get('action','state')=='state'
     if name in {"read_file", "file_inspect", "list_dir", "chat_history", "tool_help"}:
         return True
-    if name == 'available_tools':
+    if name in ('available_tools','media_plan'):
         return True
     if name=='project':return args.get('action') in {'list','scan','search','edits','diff'}
     if name=='verify':
@@ -38,7 +39,7 @@ def read_only_tool_attempt(name, args, root) -> bool:
     if name in ('knowledge','mcp','workflow','computer','structured','artifact','skill'):
         action=args.get('action')
         safe={'knowledge':{'list','search','read'},'mcp':{'list','tools'},
-              'workflow':{'list','describe','status'},'computer':{'windows','status'},
+              'workflow':{'list','describe','status'},'computer':{'windows','status','state','elements','screenshot'},
               'structured':{'generate'},'artifact':{'list','libraries','read','history','compare'},'skill':{'list','read','assets','file'}}
         return isinstance(action,str) and action in safe[name]
     if name == 'web':

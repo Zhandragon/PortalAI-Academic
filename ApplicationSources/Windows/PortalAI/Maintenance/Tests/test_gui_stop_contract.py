@@ -11,6 +11,31 @@ stop=importlib.util.module_from_spec(spec);spec.loader.exec_module(stop)
 
 
 class StopContractTests(unittest.TestCase):
+    def test_external_descendants_are_owned_only_with_valid_parent_creation(self):
+        parent={'ProcessId':424242,'ParentProcessId':0,'StartTicks':'10','ExecutablePath':str(ROOT/'Runtime/python.exe'),'CommandLine':'owned hook'}
+        child={'ProcessId':424243,'ParentProcessId':424242,'StartTicks':'20','ExecutablePath':'C:/Windows/System32/cmd.exe','CommandLine':'cmd /c owned job'}
+        unrelated={**child,'ProcessId':424244,'StartTicks':'5'}
+        pids,_=stop.portable_process_pids(ROOT,[parent,child,unrelated])
+        self.assertEqual(pids,{424242,424243})
+        pids,_=stop.portable_process_pids(ROOT,[child],known={424243:child})
+        self.assertEqual(pids,{424243})
+        pids,_=stop.portable_process_pids(ROOT,[{**child,'StartTicks':'30'}],known={424243:child})
+        self.assertFalse(pids)
+    def test_unknown_owned_worker_is_a_component(self):
+        worker={'ProcessId':424242,'ParentProcessId':0,'StartTicks':'1',
+                'ExecutablePath':str(ROOT/'Runtime/BootstrapPython/python.exe'),
+                'CommandLine':'python newly_installed_custom_hook.py'}
+        with patch.object(stop,'cim_processes',return_value=[worker]):
+            pids,_=stop.portable_process_pids(ROOT)
+        self.assertIn(424242,pids)
+
+    def test_host_python_direct_owned_script_is_a_component(self):
+        worker={'ExecutablePath':'C:/HostPython/python.exe',
+                'CommandLine':subprocess.list2cmdline(['python','-B',str(ROOT/'Tools/new_hook.py')])}
+        self.assertTrue(stop.owned_process(ROOT,worker))
+        worker['CommandLine']=subprocess.list2cmdline(['python','-c','print('+repr(str(ROOT))+')'])
+        self.assertFalse(stop.owned_process(ROOT,worker))
+
     def test_owned_child_path(self):
         self.assertTrue(stop.owned_process(ROOT,{'ExecutablePath':str(ROOT/'Runtime/python.exe')}))
 

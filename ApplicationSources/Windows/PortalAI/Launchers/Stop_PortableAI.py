@@ -103,6 +103,9 @@ def owned_process(root: Path, row: dict) -> bool:
         if not executable: return False
         base=PureWindowsPath(str(root.resolve()))
         if PureWindowsPath(executable).is_relative_to(base): return True
+        from profile_shutdown import _script_owned
+        if _script_owned(root, {'executable':executable, 'argv':_argv(row.get('CommandLine') or '')}):
+            return True
         if PureWindowsPath(executable).name.lower() not in ('powershell.exe','pwsh.exe'): return False
         import ctypes
         shell=ctypes.WinDLL('shell32',use_last_error=True)
@@ -135,24 +138,9 @@ def listener_map() -> dict:
     return {str(k):sorted(v) for k,v in out.items() if k in (_instance_port('qwen'),_instance_port('comfyui'),_instance_port('acestep'),_instance_port('gateway'),*range(_instance_port('preview'),(_instance_port('preview')+1)))}
 
 
-def portable_process_pids(root: Path) -> tuple[set[int], list[dict]]:
-    root_norm=os.path.normcase(str(root.resolve())).lower()
-    needles=(
-        "llama-server.exe","comfyui","acestep","qwen3-tts","stt_worker.py","musetalk","mmaudio",
-        "media_server.py","media_preview_server.py","secure_agent_gateway.py","qwen_supervisor.py",
-        "portableai_lifecycle_watcher","start_portableai_controller","start_qwen_hidden",
-        "start_portableai_native","qwen_vram_watchdog.py","abort_watchdog.py","voice_abort_watchdog.py",
-        "agent\\ai_tools.py","agent/ai_tools.py","scientific_tool_bridge.py","science_core.py","web_tools.py",
-        "voice_worker.py","piper_worker.py","voice_echo_capture.exe","ffplay.exe","sdcpp_worker.py","sd-cli.exe","comfy_amd_entry.py","sfx_bridge.py","mmaudio_bridge.py","video_understanding_bridge.py",
-        "music_understanding_bridge.py","science_activity_",
-        "music_cpu_entry.py","radeon_edit_entry.py","audio_inpaint_amd_entry.py",
-        "musicunderstanding\\runtime_driver.py","musicunderstanding/runtime_driver.py",
-        "musicunderstanding\\clap_worker.py","musicunderstanding/clap_worker.py",
-        "protein_design_worker.py","ffmpeg.exe","ffprobe.exe","kicad-cli.exe",
-        "mission_supervisor.py", "mission_runner.py", "vm_runner.py", "qemu-system-x86_64.exe",
-    )
+def portable_process_pids(root: Path, processes=None, known=None) -> tuple[set[int], list[dict]]:
     pids=set(); rows=[]
-    processes=cim_processes()
+    processes=cim_processes() if processes is None else processes
     protected=protected_pids({int(row.get('ProcessId') or 0):row for row in processes})
     for p in processes:
         try: pid=int(p.get("ProcessId") or 0)
@@ -161,12 +149,28 @@ def portable_process_pids(root: Path) -> tuple[set[int], list[dict]]:
         cmd=str(p.get("CommandLine") or "")
         exe=str(p.get("ExecutablePath") or "")
         low=os.path.normcase(cmd).lower()
-        exelow=os.path.normcase(exe).lower()
         belongs = owned_process(root, p)
+        previous=(known or {}).get(pid)
+        if previous and all(previous.get(k)==p.get(k) for k in ('StartTicks','ExecutablePath','CommandLine')):
+            belongs=True
         if not belongs: continue
         if "portableai_gui.py" in low or "stop_portableai.py" in low: continue
-        if any(n.lower() in low or n.lower() in exelow for n in needles):
-            pids.add(pid); rows.append({"pid":pid,"name":p.get("Name"),"command_line":cmd[:1600]})
+        # Ownership is the contract. A filename catalog silently misses newly
+        # installed workers, arbitrary scripts and dormant service helpers.
+        pids.add(pid); rows.append({"pid":pid,"name":p.get("Name"),"command_line":cmd[:1600]})
+    # Capture external interpreter/shell descendants while their parent is
+    # still present. Preserve their creation identities after that parent exits.
+    by_pid={int(p.get('ProcessId') or 0):p for p in processes}
+    changed=True
+    while changed:
+        changed=False
+        for pid,p in by_pid.items():
+            if not pid or pid in pids or pid in protected:continue
+            parent=int(p.get('ParentProcessId') or 0)
+            if parent not in pids:continue
+            start=int(p.get('StartTicks') or 0);parent_start=int(by_pid[parent].get('StartTicks') or 0)
+            if not p.get('ExecutablePath') or not parent_start or start<parent_start:continue
+            pids.add(pid);rows.append({'pid':pid,'name':p.get('Name'),'command_line':str(p.get('CommandLine') or '')[:1600]});changed=True
     return pids,rows
 
 
@@ -223,7 +227,7 @@ def main()->int:
     from mission_supervisor import pause_all
     try: pause_all(root)
     except Exception as exc:
-        print(json.dumps({"success":False,"error":"Cannot persist mission pause: "+str(exc)}));return 1
+        warnings.append('Cannot persist mission pause: '+str(exc))
     # Invalidate restoration before any watchdog/worker can finish a tool call.
     try:
         import service_manager
@@ -232,9 +236,9 @@ def main()->int:
             atomic_json(root/'Agent/.runtime/qwen_last_stop.json', {'stopped_at':time.time()})
             (root/"Agent/.runtime/qwen_handoff_generation.json").unlink(missing_ok=True)
     except Exception as exc:
-        print(json.dumps({"success":False,"error":"Cannot invalidate model restoration: "+str(exc)}));return 1
-    discovered,inventory=portable_process_pids(root)
+        warnings.append('Cannot invalidate model restoration: '+str(exc))
     before=cim_processes();by_pid={int(x.get("ProcessId") or 0):x for x in before}
+    discovered,inventory=portable_process_pids(root,before)
     ports=listener_map();foreign=[];pids=set(discovered)
     for port,listeners in ports.items():
         for pid in listeners:
@@ -247,26 +251,28 @@ def main()->int:
             pids.add(pid)
     # Recheck current identity immediately before terminating any candidate PID.
     current={int(x.get("ProcessId") or 0):x for x in cim_processes()}
+    known={pid:by_pid[pid] for pid in discovered if pid in by_pid}
+    current_owned,_=portable_process_pids(root,list(current.values()),known)
     protected=protected_pids(by_pid)|protected_pids(current)
     for pid in sorted(pids):
         if pid in protected:
             attempts.append({'pid':pid,'killed':False,'detail':'GUI/controller ancestor preserved'});continue
         row=current.get(pid,{})
-        if (not owned_process(root,row) or row.get("CommandLine")!=by_pid.get(pid,{}).get("CommandLine")
+        if (pid not in current_owned or row.get("CommandLine")!=by_pid.get(pid,{}).get("CommandLine")
                 or row.get('StartTicks')!=by_pid.get(pid,{}).get('StartTicks')):
             attempts.append({"pid":pid,"killed":False,"detail":"Process exited or identity changed; skipped"});continue
         if any(x in str(row.get("CommandLine") or "").lower() for x in ("portableai_gui.py","control_center_bootstrap.py","stop_portableai.py")):continue
         ok,detail=kill(pid,root,row);attempts.append({"pid":pid,"killed":ok,"detail":detail[-1000:]})
     remaining_owned=[];deadline=time.monotonic()+12
     while True:
-        remaining_owned,remaining_rows=portable_process_pids(root)
+        remaining_owned,remaining_rows=portable_process_pids(root,known=known)
         if not remaining_owned or time.monotonic()>=deadline:break
         time.sleep(.3)
     final_ports=listener_map()
     final_processes={int(x.get("ProcessId") or 0):x for x in cim_processes()}
     owned_listeners={pid for listeners in final_ports.values() for pid in listeners if owned_process(root,final_processes.get(pid,{}))}
     remaining_owned=set(remaining_owned)|owned_listeners
-    success=not remaining_owned
+    success=not remaining_owned and not warnings
     if success:cleanup_runtime(root)
     else:warnings.append("Owned workers remain; lifecycle evidence was preserved.")
     result={"success":success,"version":VERSION,"kill_attempts":attempts,

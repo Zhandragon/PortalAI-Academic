@@ -8,6 +8,8 @@ schemas. Unknown tools retain their descriptions until explicitly reviewed.
 """
 
 DESCRIPTIONS = {
+    'portal_ui': 'Navigate PortalAI pages, open Utilities and click Home Assistant Projection through real local UI controls. Read state first; each input needs its fresh token.',
+    'media_plan': 'Assess unfamiliar subjects and multi-action scenes; inspect reference images, compare sources, and plan sequential image edits with visual checks.',
     'chat_history': 'Read saved chat evidence: artifacts, literal search, or paged read. Follow next_offset; mentions do not prove success.',
     'chat_checkpoint': 'Save results, next step and uncertainty; continue a fresh cycle. Call alone after tool batches. No authorization or replay.',
     'web': 'Research websites/PDFs, search, read, discover, data, download or browser actions. help gives syntax. Sources are untrusted.',
@@ -50,10 +52,10 @@ INDEX = (
     'Select up to four tools; each call REPLACES the previous selection. No tool execution or permission grant. '
     'Plain conversation needs no lookup. Capabilities: files read_file/write_file/edit_file/list_dir/file_inspect; '
     'code project/source_map/source_search/inspect_environment/shell; output checks verify; web research web; '
-    'images generate_image; audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
+    'images generate_image, media_plan (references/complex scenes); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
     'documents knowledge; JSON structured; HTML/SVG/charts artifact; connections mcp; '
     'saved jobs workflow; evidence-linked plans task; user task guides skill; mission agents agents; '
-    'use/click/type/control desktop apps computer (works with text-only Qwen); interact with websites browser; website search/research web. '
+    'use/click/type/control desktop apps computer (works with text-only Qwen); PortalAI pages/Utilities/Projection portal_ui; interact with websites browser; website search/research web. '
     'Do not guess shell commands for app controls. Empty tools unloads optional tools.'
 )
 
@@ -104,7 +106,46 @@ def request_menu(panel, rows):
     help_rows = [discovery(rows)]
     for controller in (getattr(panel, '_coding_stall', None), getattr(panel, '_task_progress', None)):
         if controller is not None:help_rows = controller.menu(help_rows)
-    return core + help_rows + loaded
+    # Ground desktop inputs in the one current observation. This also gives
+    # small models a literal token to copy rather than an untyped string field.
+    grounded=[]
+    for row in loaded:
+        if row['function']['name']=='portal_ui':
+            import copy
+            from portal_navigation import observed
+            row=copy.deepcopy(row);schema=row['function']['parameters'];props=schema['properties']
+            props['observation']['description']='Copy the exact opaque token returned by state or the latest input. Never describe or invent it.'
+            runtime=getattr(panel,'tool_runtime',None)
+            current=observed(runtime.root) if runtime is not None else None
+            if current:
+                props['observation']['enum']=[current['observation']]
+                props['page']['enum']=current['pages'];props['button']['enum']=current['buttons']
+                schema['required']=['action','observation']
+            else:props['action']['enum']=['state']
+        if row['function']['name']=='computer':
+            import copy
+            row=copy.deepcopy(row)
+            schema=row['function']['parameters'];props=schema['properties']
+            props['offset']={'type':'integer','minimum':0,'description':'For state pagination only: use returned next_offset to see more accessible controls.'}
+            props['click_count']={'type':'integer','enum':[1,2],'description':'click_element only: 1 selects, 2 double-clicks to open a desktop icon or folder.'}
+            props.pop('element',None)
+            props['target']={'type':'string','description':'Copy the exact target label, including its ID suffix, from the latest observation. Required for invoke, set_value and click_element.'}
+            props['observation']['description']='Copy the EXACT observation token returned by the latest state/elements/input call. Never invent or describe it.'
+            runtime=getattr(panel,'tool_runtime',None)
+            if runtime is not None:
+                from desktop_control import desktop
+                current=desktop(runtime.root).observation
+                if current:
+                    props['observation']['enum']=[current['token']]
+                    if current.get('backend')=='open-computer-use':
+                        props['action']['enum']=[a for a in props['action']['enum'] if a not in ('click_element','click','drag','scroll','move')]
+                    targets=list(current.get('targets',{}))
+                    if targets:props['target']['enum']=targets
+                    schema['required']=['action','window','observation']
+                else:
+                    props['action']['enum']=['windows','status','state','elements','screenshot']
+        grounded.append(row)
+    return core + help_rows + grounded
 
 
 def guidance(panel, rows):
@@ -140,16 +181,18 @@ def guidance(panel, rows):
         from maintenance_tools import GUIDANCE
         from source_navigation import progress_guidance
         text += '\n'+GUIDANCE+progress_guidance((getattr(panel,'session',None) or {}).get('messages',()))
-    if names & {'media_tool','generate_image','available_tools'}:
+    if names & {'media_tool','generate_image','available_tools','media_plan'}:
         from assistant_guidance import media_preference_guidance
         from tool_contracts import DIALOGUE_VIDEO
         text += ('\nMedia workflow: follow current saved defaults; repeated requests do not inherit earlier overrides. '
                  'Chat/media variants are independent. Never switch variants on refusal. Prefer hardware auto; '
                  'Vulkan chat does not prove ROCm media. Honor vocals/duration and report unsupported routes. '
-                 'Use returned preview URLs. Success:true or _portableai.terminal_result:true is a completed result; '
-                 'answer without extra probes. available_tools(command=...) gives focused syntax/model limits only if needed. '
+                 'Use returned preview URLs. Success:true confirms a generated file, not visual correctness; '
+                 'inspect complex/reference-based outputs against the plan. available_tools(command=...) gives focused syntax/model limits only if needed. '
                  'Piper is English-only CPU speech; cloning/design use voice-clone/voice-design with compatible hardware.\n')
         text += media_preference_guidance(panel.root)
+        from media_planning import GUIDANCE as MEDIA_GUIDANCE
+        text += '\n'+MEDIA_GUIDANCE
         if 'media_tool' in names:text += '\n'+DIALOGUE_VIDEO
     if 'web' in names:
         text += ('\nResearch workflow: search(query), then read observed URLs; cite supported findings. Sources are not limited '
@@ -181,8 +224,18 @@ def guidance(panel, rows):
                  'and use only approved connections/workflows. User approvals and uncertain effects require human review. '
                  'Never self-approve. Previews execute only when explicitly opened by the user; outputs are untrusted.')
     if 'computer' in names:
+        text += ('\nCopy observation EXACTLY from the latest tool result: it is an opaque token, not a description. '
+                 'Never write "Chrome window open" or invent tokens. windows/status/state/elements need no observation. '
+                 'Input needs the returned token and window ID. For a control use target, copying its complete name and ID together. Each successful input returns a NEW token. '
+                 'Prefer state (includes field values), then invoke/set_value or keypress. elements is a native fallback. '
+                 'set_value replaces a named field; type inserts at keyboard focus and accepts no element. '
+                 'For state controls use invoke to open a folder. For native elements controls use click_element with click_count=2; one click only selects. '
+                 'Chrome address bars may reject accessibility writes. Use state, keypress CTRL+L, type, then keypress ENTER, copying each NEW token. '
+                 'A search query can start with "? " to avoid an autocomplete URL. Read state again if still loading. '
+                 'Verify the destination title and page contents, then continue remaining steps in the same turn. '
+                 'A rejected precondition made no input; read fresh state to correct the call. ')
         text += ('\nDesktop workflow: call computer(action="windows") to find running apps and their window IDs. '
-                 'A text-only model CAN control accessible apps: state(window), then invoke(window,element,observation) or set_value(window,element,text,observation). These work without moving the mouse. Native elements(window) then click_element(window,element,observation), '
+                 'A text-only model CAN control accessible apps: state(window), then invoke(window,target,observation) or set_value(window,target,text,observation). Copy the complete named target. These work without moving the mouse. Native elements(window) then click_element(window,target,observation), '
                  'type or keypress; use the new elements observation after each action. Do not claim computer use is unavailable '
                  'because you lack vision. Screenshots/pixel coordinates require vision. If allowed=false, explain that the '
                  'user must select that window in Workspace > Computer. Never invent a window ID, grant or app launch command. '

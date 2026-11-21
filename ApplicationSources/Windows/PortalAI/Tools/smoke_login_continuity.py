@@ -17,12 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT/'Agent'), str(ROOT/'ControlCenter'), str(ROOT/'Tools')]
 
 
-def run(destination, theme='light', chat_settings=False, inspector=None):
+def run(destination, theme='light', chat_settings=False, inspector=None, runtime_root=None):
     if os.name != 'nt': raise RuntimeError('This fixture verifies the Windows native wrapper')
     destination = Path(destination).resolve()
-    if not destination.is_relative_to(ROOT/'Maintenance/Validation'):
+    if not any(destination.is_relative_to(base/'Maintenance/Validation') for base in (ROOT,Path(runtime_root or ROOT).resolve())):
         raise ValueError('Use a synthetic Maintenance/Validation directory')
     destination.mkdir(parents=True, exist_ok=True)
+    interpreter=Path(runtime_root or ROOT)/'Runtime/BootstrapPython/python.exe'
     import tkinter as tk
     from tkinter import ttk
     import account_ui, account_gate, writer_jobs, native_chat, settings_page
@@ -152,7 +153,7 @@ def run(destination, theme='light', chat_settings=False, inspector=None):
                 assert len(state['private'])==2 and state['retained_until_built']
                 assert app._portalai_login_dialog is None
                 assert state['built']['native_chat_panel'] is not None
-                assert len(state['built']['buttons'])==6
+                assert [str(b.cget('text')) for b in state['built']['buttons']]==['Startup','Utilities','System Test','Full Component Diagnosis','Minimize to tray','Stop all components','Exit PortalAI']
                 for _ in range(2):
                     state['built']['toggle_theme']();app.update_idletasks()
                     border=state['built']['welcome_note_border']
@@ -217,8 +218,8 @@ def run(destination, theme='light', chat_settings=False, inspector=None):
              patch.object(ProfileRuntime,'prepare',prepare),patch.object(writer_jobs.WriterJobs,'thread',threads), \
              patch.object(native_chat.NativeChat,'__init__',private_init(original_chat,'chat')), \
              patch.object(settings_page.SettingsPage,'__init__',private_init(original_settings,'settings')), \
-             patch('portable_runtime.bootstrap_python',return_value=str(ROOT/'Runtime/BootstrapPython/python.exe')), \
-             patch('native_chat.bootstrap_python',return_value=str(ROOT/'Runtime/BootstrapPython/python.exe')), \
+             patch('portable_runtime.bootstrap_python',return_value=str(interpreter)), \
+             patch('native_chat.bootstrap_python',return_value=str(interpreter)), \
              patch.object(account_gate.GUIAccountGate,'close',fixture_close):
             os.environ.pop('PORTALAI_PROFILE_ID',None);os.environ.pop('PORTALAI_PROFILE_EPOCH',None)
             exec(compile(source,namespace['__file__'],'exec'),namespace)
@@ -236,7 +237,7 @@ def run(destination, theme='light', chat_settings=False, inspector=None):
                     'final':state['final'],'root_remap_events':state['maps'],'wrong_password_rejected':state['wrong_password'],
                     'busy_chrome_close_refused':state['busy_close_guard'],'progress':state['progress'],
                     'private_ui_after_ready':state['private'],'login_retained_until_main_ready':state['retained_until_built'],
-                    'six_controls':True,'final_close_verified_sealed':True,
+                    'seven_controls':True,'final_close_verified_sealed':True,
                     'stored_theme':theme,'corner_theme_roundtrip':True,'login_chrome_drag':True,
                     'shutdown_backdrop':state.get('shutdown_backdrop',False),
                     'shutdown_last_page':'controls','chat_settings_rendered':chat_settings}

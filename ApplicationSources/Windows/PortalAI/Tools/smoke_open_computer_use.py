@@ -33,9 +33,13 @@ $helper=New-Object Windows.Interop.WindowInteropHelper $form
 
 
 def main():
+    global ROOT
     from validation_artifacts import ValidationArtifacts
     import argparse
-    parser=argparse.ArgumentParser();parser.add_argument('--artifacts-dir',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--artifacts-dir',required=True)
+    parser.add_argument('--runtime-root',type=Path,default=ROOT)
+    parser.add_argument('--allow-foreground',action='store_true',help='Explicitly authorized foreground acceptance; retain identity checks')
+    args=parser.parse_args();ROOT=args.runtime_root.resolve()
     artifacts=ValidationArtifacts(ROOT,Path(args.artifacts_dir));base=artifacts.path('ocu-fixture');base.mkdir(exist_ok=True)
     script=base/'fixture.ps1';script.write_text(FIXTURE,encoding='utf-8');receipt=base/'window.txt';receipt.unlink(missing_ok=True)
     user=ctypes.WinDLL('user32');user.GetForegroundWindow.restype=ctypes.c_void_p
@@ -51,7 +55,7 @@ def main():
             if p.poll() is not None:raise RuntimeError(p.communicate()[1])
             if time.monotonic()>deadline:raise TimeoutError('Nonactivating fixture did not start')
             time.sleep(.05)
-        assert user.GetForegroundWindow()==foreground,'Fixture unexpectedly changed foreground'
+        if not args.allow_foreground:assert user.GetForegroundWindow()==foreground,'Fixture unexpectedly changed foreground'
         hwnd=int(receipt.read_text())
         fixture_root=base/'root';layer=fixture_root/'Runtime/ComputerUse/windows-x64';layer.mkdir(parents=True,exist_ok=True)
         for name in ('runtime.ps1','manifest.json','LICENSE'):
@@ -60,7 +64,7 @@ def main():
         row=Desktop(fixture_root,None).info(hwnd)
         from open_computer_use import call
         def check():
-            assert user.GetForegroundWindow()==foreground,'Foreground changed; stop this background fixture'
+            if not args.allow_foreground:assert user.GetForegroundWindow()==foreground,'Foreground changed; stop this background fixture'
             assert p.poll() is None,'Fixture ended'
         with patch('platform_runtime.python_path',return_value=Path(sys.executable)):
             state=call(fixture_root,row,check)['snapshot']
@@ -74,7 +78,7 @@ def main():
             try:call(fixture_root,{**row,'created':row['created']+1},check)
             except RuntimeError as exc:assert 'identity changed' in str(exc),exc
             else:raise AssertionError('Changed process identity was accepted')
-        report={'ok':True,'backend':'open-computer-use 1.1.5','text_state':True,'set_value':True,'invoke':True,'identity_rejected':True,'foreground_unchanged':True,'physical_input':False,'synthetic':True}
+        report={'ok':True,'backend':'open-computer-use 1.1.5','text_state':True,'set_value':True,'invoke':True,'identity_rejected':True,'foreground_unchanged':user.GetForegroundWindow()==foreground,'foreground_authorized':args.allow_foreground,'synthetic':True}
         (base/'result.json').write_text(json.dumps(report,indent=2),encoding='utf-8');print(json.dumps(report))
     finally:
         owner.close();p.communicate(timeout=5)

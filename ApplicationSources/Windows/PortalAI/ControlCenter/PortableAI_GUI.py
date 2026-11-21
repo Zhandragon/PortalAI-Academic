@@ -2946,13 +2946,23 @@ def main(authenticated=None):
         log("Stopping all PortalAI-managed components, including active on-demand workers...")
         def _job():
             try:
+                cleanup_errors=[]
                 if native_chat_panel is not None:
-                    native_chat_panel.wait_audio_release()
+                    try:native_chat_panel.wait_audio_release()
+                    except Exception as exc:cleanup_errors.append('Audio release: '+str(exc))
+                    cleanup = getattr(native_chat_panel, '_request_cleanup', None)
+                    if cleanup is not None:
+                        cleanup.join(timeout=30)
+                        if cleanup.is_alive():
+                            cleanup_errors.append('Tool cancellation has not finished; Stop all must be retried')
+                    if getattr(native_chat_panel.tool_runtime, '_workspace_cleanup_errors', None):
+                        cleanup_errors.append('A Workspace resource could not close; Stop all must be retried')
                 _stop_legacy_openwebui_quiet()
                 flags=getattr(subprocess,"CREATE_NO_WINDOW",0) if os.name=="nt" else 0
                 cp=subprocess.run([str(py),str(script),"--root",str(root),"--include-opengui"],cwd=str(root),capture_output=True,text=True,errors="replace",timeout=120,creationflags=flags)
                 detail=((cp.stdout or "")+("\n"+cp.stderr if cp.stderr else "")).strip()
-                event_q.put(("stop_result",{"ok":cp.returncode==0,"detail":detail or f"Stop helper exited {cp.returncode}."}))
+                if cleanup_errors:detail+='\n'+'\n'.join(cleanup_errors)
+                event_q.put(("stop_result",{"ok":cp.returncode==0 and not cleanup_errors,"detail":detail or f"Stop helper exited {cp.returncode}."}))
             except Exception as exc:event_q.put(("stop_result",{"ok":False,"detail":f"{type(exc).__name__}: {exc}"}))
             finally:
                 try: lock.release()
@@ -3548,7 +3558,7 @@ def main(authenticated=None):
         if exit_in_progress or (account_gate is not None and account_gate.locked):
             return
         from utilities_ui import show_utilities
-        show_utilities(app, root, COLORS)
+        return show_utilities(app, root, COLORS)
     button("Utilities", open_utilities)
     button("System Test", run_system_test)
     button("Full Component Diagnosis", diagnose)
@@ -3595,6 +3605,8 @@ def main(authenticated=None):
         try:
             while True:
                 kind,data=event_q.get_nowait()
+                if kind=='portal_navigation':
+                    endpoint,request=data;endpoint.dispatch(request);continue
                 if account_gate is not None and account_gate.locked:
                     if kind in ('tray_action', 'tray_context'):
                         # Locked tray clicks reveal only the shutdown/recovery
@@ -4316,6 +4328,10 @@ def main(authenticated=None):
         install_native_ui_state(app, root, account_gate, native_chat_panel, settings_page)
         from native_workflow_launcher import configure as configure_native_workflows
         configure_native_workflows(app, locals())
+        from portal_navigation import configure as configure_navigation
+        configure_navigation(root,app,event_q,
+            lambda:{'page':selected_tab['key'],'pages':list(tab_pages),'page_labels':{'runtime':'Models','activity':'Runtime','installed':'Packages','controls':'Controls'}},show_tab,open_utilities,
+            lambda:exit_in_progress or (account_gate is not None and account_gate.locked))
     except (OSError,ValueError,RuntimeError,PermissionError):
         log('Native read-only state unavailable; ordinary local/projection UI remains available.')
         workflow=getattr(app,'_portalai_native_workflow',None)

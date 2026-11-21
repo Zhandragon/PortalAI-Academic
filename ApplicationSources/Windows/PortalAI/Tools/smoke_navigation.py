@@ -34,9 +34,9 @@ def inspect(built,app,destination):
         canvas.yview_moveto(0);app.update()
     check_scroll('welcome',built['tab_scroll_canvases']['welcome'])
     expected={'accounts':'Accounts','activity':'Runtime','runtime':'Models','installed':'Packages','settings':'Settings','maintenance':'Maintenance'}
-    assert len(built['buttons'])==6
+    assert len(built['buttons'])==7
     controls=built['buttons']
-    assert [str(b.cget('text')) for b in controls]==['Startup','System Test','Full Component Diagnosis','Minimize to tray','Stop all components','Exit PortalAI']
+    assert [str(b.cget('text')) for b in controls]==['Startup','Utilities','System Test','Full Component Diagnosis','Minimize to tray','Stop all components','Exit PortalAI']
     watermark=built['page_watermark']
     from test_settings_surfaces_tk import button,widgets
     built['show_tab']('accounts');app.update()

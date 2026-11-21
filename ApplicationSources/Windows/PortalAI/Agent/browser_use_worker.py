@@ -153,7 +153,8 @@ class BrowserSession:
                 key=args.get('key')
                 if key not in ('Enter','Tab','Escape','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'):raise ValueError('Unsupported browser key')
                 await self.call('cdp','DOM.focus',backendNodeId=node)
-                await self.call('press_key',key)
+                # The pinned harness names the space key by its character.
+                await self.call('press_key',' ' if key=='Space' else key)
             await asyncio.sleep(.15)
             try:result=await self.state()
             except Exception as exc:return {'performed':True,'observation_error':str(exc)[:1000],'instruction':'Input was delivered. Read state without repeating the input.'}
