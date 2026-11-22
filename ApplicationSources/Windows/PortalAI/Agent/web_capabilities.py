@@ -182,7 +182,13 @@ class WebSession:
             doc['document']=self._save_document(doc)
         if args.get('find'):
             hits,next_offset=find_text(doc['text'],args['find'],args.get('offset',0))
-            return {'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':next_offset}
+            result={'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':next_offset,
+                    'find_mode':'literal_text'}
+            if not hits:
+                result['next_step']=('No literal text matches. The find argument is not a semantic search query or regular expression. '
+                    'Read this document without find to inspect its text and returned image links, then use a literal phrase '
+                    'actually present or choose a different source. Do not repeat the same empty lookup.')
+            return result
         return {k:v for k,v in doc.items() if not k.startswith('_') and k not in ('text','links','headings')} | page_slice(doc['text'],args.get('offset',doc.get('_section_offset',0)),args.get('max_chars',12000)) | {
             'headings':doc['headings'][:100], 'links':doc['links'][int(args.get('link_offset',0)):int(args.get('link_offset',0))+100],
             'link_count':len(doc['links']), 'heading_count':len(doc['headings'])}
@@ -240,7 +246,7 @@ class WebSession:
             'data':'url OR document; format auto/json/jsonl/csv/tsv/html/xml; pointer for JSON, table for HTML, tag for XML; offset/limit. Binary spreadsheets/archives require download and a suitable local reader.',
             'media_info':'url; video oEmbed metadata for supported hosts or HTTP file headers; does not analyze media content',
             'download':'url, max_bytes (default 8 MiB, maximum 32 MiB), optional purpose=person_photo to reject likely placeholder avatars; saves inert file in private Outputs/WebResearch for local reading/analysis; no execution/extraction',
-            'read':'url OR document, offset, max_chars, find, link_offset; pdf_page for PDFs. HTML also returns ranked images/image_urls with profile/placeholder hints; download exact image URLs, do not guess them. HTML #fragment links start at the first visible ID/named anchor; percent-encoded fragments are decoded. fragment_found=false means no matching anchor was found. Explicit offset overrides section navigation; cached full text remains available.',
+            'read':'url OR document, offset, max_chars, find (literal text, not semantic search or regex), link_offset; pdf_page for PDFs. Omit find to read the page and its image links. HTML also returns ranked images/image_urls with profile/placeholder hints; download exact image URLs, do not guess them. HTML #fragment links start at the first visible ID/named anchor; percent-encoded fragments are decoded. fragment_found=false means no matching anchor was found. Explicit offset overrides section navigation; cached full text remains available.',
             'open':'url (new browser tab); optional page to navigate existing tab',
             'tabs':'list browser tab IDs and URLs', 'inspect':'page, optional selector or role+name; optional frame selector; offset/max_chars',
             'click':'page and selector or role+name, optional index', 'fill':'page, selector or role+name, value',

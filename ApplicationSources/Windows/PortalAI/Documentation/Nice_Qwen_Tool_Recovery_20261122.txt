@@ -1,0 +1,20 @@
+Nice Qwen tool recovery: Windows r84
+
+The observed failure was a reply-token limit during tool serialization, after
+planning and repeated literal searches. No generation call reached the backend.
+The incomplete batch remains withheld. One fresh format-only inference correction
+is now permitted after read-only history, with extra thinking disabled. It shares
+the existing one-repair budget and preserves login, Stop, context and duplicate-
+action guards. Earlier effectful or uncertain actions block automatic correction.
+Partial tool JSON is never executed, completed or copied into the repair prompt.
+
+Structured web read is classified like the existing registered read-only fetch.
+Empty find results explain literal matching and how to inspect the cached page
+without find. Supplied images should be inspected before deciding that external
+research is needed. Video generation alone does not require a research detour.
+
+Includes the semantic media assessment in r83 and all r79-r82 fixes. Tests use
+synthetic model frames and disposable fixtures, not a live model/video benchmark.
+This does not guarantee every model response completes or is factually correct.
+No accounts, settings, dependency pins or user-generated simulation are modified.
+Experimental Linux/macOS packages remain r75.

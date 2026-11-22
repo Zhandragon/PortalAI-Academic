@@ -543,6 +543,10 @@ class InvalidToolBatch(RuntimeError):
     """A model response failed preflight; none of its tools may execute."""
 
 
+class TruncatedToolBatch(InvalidToolBatch):
+    """The server ended tool serialization at its reply limit; no dispatch occurred."""
+
+
 def _tool_metadata(call, *, known_tool=True):
     if not isinstance(call, dict) or call.get('type') != 'function':
         raise InvalidToolBatch('Tool call is not a function object.')
@@ -4935,6 +4939,8 @@ class NativeChat:
         if normalized and not self.cancel_event.is_set():
             if payload.get('tool_choice') == 'none':
                 raise InvalidToolBatch('The model returned a tool call during an answer-only request; the entire batch was withheld.')
+            if finish_reason == 'length':
+                raise TruncatedToolBatch("Qwen ended a tool response with finish reason 'length'; the entire batch was withheld.")
             if finish_reason not in ('tool_calls', 'stop'):
                 raise InvalidToolBatch(f'Qwen ended a tool response with finish reason {finish_reason!r}; the entire batch was withheld.')
             validate_tool_batch(normalized)
@@ -5108,28 +5114,49 @@ class NativeChat:
 
     def _completion_with_tool_repair(self, api, estimated, current_request, repair_state):
         """Retry only malformed tool *format*, never interpret text as an action."""
-        from tool_protocol import classify_text_tool_call, correction_message
+        from tool_protocol import classify_text_tool_call, correction_message, truncation_correction_message
         names = tuple(row['function']['name'] for row in _request_tools(self))
-        content, reasoning, calls = self._completion_with_continuation(api, estimated, repair_state)
+        truncated = False
+        try:
+            content, reasoning, calls = self._completion_with_continuation(api, estimated, repair_state)
+        except TruncatedToolBatch:
+            # Regenerate one API response, never execute or continue partial JSON.
+            # Prior effects, cancellation, login, context and the shared retry cap
+            # are checked below exactly as for printed tool-format correction.
+            truncated = True
+            content, reasoning, calls = '', '', []
         if getattr(self, '_reply_without_tools', False):
+            if truncated: raise InvalidToolBatch('A truncated tool call is forbidden in an answer-only request.')
             return content, reasoning, calls, False
-        if calls or self.cancel_event.is_set() or not classify_text_tool_call(content, tool_names=names, request=current_request):
+        if self.cancel_event.is_set() or (not truncated and (calls or not classify_text_tool_call(content, tool_names=names, request=current_request))):
             return content, reasoning, calls, False
         if repair_state['used']:
-            raise InvalidToolBatch('Nice printed another tool call as text. The text was not executed; the single format-repair attempt is exhausted.')
+            raise InvalidToolBatch(('Nice returned another truncated tool call. No tool from that response was executed; the single format-repair attempt is exhausted.'
+                if truncated else 'Nice printed another tool call as text. The text was not executed; the single format-repair attempt is exhausted.'))
         if repair_state.get('unsafe_attempted'):
-            raise InvalidToolBatch('Nice printed a tool call after an earlier action may already have had effects. Automatic format retry was blocked to avoid replay; review the saved result before continuing.')
-        correction = correction_message(names)
+            raise InvalidToolBatch(('Nice returned a truncated tool call' if truncated else 'Nice printed a tool call') +
+                ' after an earlier action may already have had effects. Automatic format retry was blocked to avoid replay; review the saved result before continuing.')
+        correction = truncation_correction_message(names) if truncated else correction_message(names)
         budget = (getattr(self, '_last_context_meta', None) or {}).get('budget')
         if not budget or estimated + estimate_tokens([correction]) > budget:
-            raise InvalidToolBatch('Nice printed a tool call as text, but a correction does not fit the current context. No printed command was executed.')
+            raise InvalidToolBatch(('Nice returned a truncated tool call' if truncated else 'Nice printed a tool call as text') +
+                ', but a correction does not fit the current context. No tool from that response was executed.')
         self._check_login()
         if self.cancel_event.is_set():
             return '', '', [], False
         repair_state['used'] = True
-        self.ev.put(('tool_format_repair', 'Nice printed tool syntax instead of invoking a tool. Requesting one corrected response; the printed command was not run.'))
+        self.ev.put(('tool_format_repair',
+            'Nice reached its reply-token limit while writing a tool call. No tool from that response ran. Requesting one concise corrected response with extra reasoning disabled.'
+            if truncated else 'Nice printed tool syntax instead of invoking a tool. Requesting one corrected response; the printed command was not run.'))
         self.ev.put(('assistant_start', {'index':len(self.session['messages'])}))
-        content, reasoning, calls = self.stream_completion([*api, correction])
+        initial_options = getattr(self, '_completion_overrides', None)
+        try:
+            if truncated:
+                self._completion_overrides = {**(initial_options or {}), 'chat_template_kwargs':
+                    {**((initial_options or {}).get('chat_template_kwargs') or {}), 'enable_thinking':False}}
+            content, reasoning, calls = self.stream_completion([*api, correction])
+        finally:
+            self._completion_overrides = initial_options
         if not calls and not self.cancel_event.is_set() and classify_text_tool_call(content, tool_names=names, request=current_request):
             raise InvalidToolBatch('Nice still returned tool syntax as text after format repair. No printed command was executed.')
         return content, reasoning, calls, True

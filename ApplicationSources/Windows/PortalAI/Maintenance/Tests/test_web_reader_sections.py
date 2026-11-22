@@ -7,6 +7,15 @@ sys.path.insert(0,str(ROOT/'Agent'))
 import web_capabilities as web
 
 class ReaderSectionTests(unittest.TestCase):
+    def test_empty_find_explains_literal_matching_and_returns_cached_read_path(self):
+        session,value=self.read('<p>A red sphere beside a blue cube.</p>','https://example.com',find='sphere|cube')
+        self.assertEqual(value['matches'],[])
+        self.assertEqual(value['find_mode'],'literal_text')
+        self.assertIn('without find',value['next_step'])
+        with patch.object(web,'_request_bytes',side_effect=AssertionError('Must reuse cached text')):
+            page=session.run({'action':'read','document':value['document']})
+        self.assertIn('red sphere',page['text'])
+
     def read(self,source,url,final=None,**args):
         session=web.WebSession(ROOT,Mock())
         with patch.object(web,'_request_bytes',return_value=(source.encode(),final or url.split('#')[0],'text/html')):

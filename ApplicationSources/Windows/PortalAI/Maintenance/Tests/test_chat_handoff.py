@@ -118,9 +118,9 @@ class ChatContinuationTests(unittest.TestCase):
             {'choices': [{'delta': {'tool_calls': [{'index': 0, **CALL}]}}]},
             {'choices': [{'delta': {}, 'finish_reason': 'length'}]}])
         with patch.object(p, '_wait_for_model', return_value=True), patch.object(chat, 'model_id', return_value='test'), patch.object(chat.http.client, 'HTTPConnection', return_value=conn):
-            p.agent_worker('test')
+            with self.assertRaisesRegex(chat.TruncatedToolBatch, "'length'"):
+                p.stream_completion([])
         p.tool_runtime.execute.assert_not_called()
-        self.assertIn("'length'", p.session['messages'][-1]['content'])
 
     def test_worker_preflight_rejects_missing_id_unknown_name_and_nonobject_args(self):
         for edit in ({'id': ''}, {'function': {'name': 'unknown', 'arguments': '{}'}},

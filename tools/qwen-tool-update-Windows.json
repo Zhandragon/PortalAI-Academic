@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.22-Desktop-r84",
+  "edition": "Academic",
+  "platform": "Windows",
+  "compatible_versions": [
+    "2026.11.22-Desktop-r82",
+    "2026.11.22-Desktop-r83"
+  ],
+  "files": [
+    {
+      "path": "ControlCenter/media_planning.py",
+      "bytes": 18158,
+      "sha256": "28516bcba6173f3f0a5ea2ecb5b9a4c1802cfaa1750b62e6f3d63384e26c2dad"
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 25209,
+      "sha256": "299cb8b8ec4055824b75f00e17153fd561a4589580a94c509dcaf1cb05f8635d"
+    },
+    {
+      "path": "Agent/assistant_guidance.py",
+      "bytes": 5738,
+      "sha256": "1244ff540be4834fce1389d13e8197429cea7f92aeb1e9f9edee0bf7cd4e37cb"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_planning.py",
+      "bytes": 13226,
+      "sha256": "776b43d8d4fbcdf556d4d76c11e40295f64398bf0bfa9cfc46256b83f6913e64"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 91,
+      "sha256": "67648fc4d5467426cf593409fdfeb0d928ec3a81643e55e0f7b8a847938b708b"
+    },
+    {
+      "path": "Documentation/Nice_Media_Assessment_20261122.txt",
+      "bytes": 1510,
+      "sha256": "be7443797f2d6fec7a8a6187a36a6a2a20efb0ce118e104b635e9e0919daff8c"
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 409137,
+      "sha256": "1d2fdd3ac9b4c77cb3558d076ad14e8ab488e3dad7a5a82992304734418574a0"
+    },
+    {
+      "path": "ControlCenter/tool_protocol.py",
+      "bytes": 10324,
+      "sha256": "a34cea8331b895262bf6f97c9531ec3222bfdca30cbaaab642021ee23204ecbc"
+    },
+    {
+      "path": "Agent/web_capabilities.py",
+      "bytes": 21207,
+      "sha256": "5d50d1177037b497a24673fa3fcd8f5976a23d8ccdd628f9842a97320a159fd9"
+    },
+    {
+      "path": "Maintenance/Tests/test_tool_truncation_recovery.py",
+      "bytes": 7534,
+      "sha256": "c13c19a384ea2852f96c801df6000c1a21f23ca784b954c8fe93476fedc49496"
+    },
+    {
+      "path": "Maintenance/Tests/test_web_reader_sections.py",
+      "bytes": 3849,
+      "sha256": "6bf368b0153e976364249268fb245fe3fd9e40dcc7db57139a9a7db116e3be78"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_handoff.py",
+      "bytes": 15854,
+      "sha256": "5a322a42f7b9afc76b2f23ca13ed26f6ceae1689b87f31460dc33d206732d482"
+    },
+    {
+      "path": "Documentation/Nice_Qwen_Tool_Recovery_20261122.txt",
+      "bytes": 1313,
+      "sha256": "29948ca670f152139ad5034787b0061aa629f7ddb437d341a477ed84a06b3d73"
+    }
+  ]
+}

@@ -44,7 +44,7 @@ def read_only_tool_attempt(name, args, root) -> bool:
         return isinstance(action,str) and action in safe[name]
     if name == 'web':
         action = args.get('action')
-        return isinstance(action, str) and action in {'help', 'search'}
+        return isinstance(action, str) and action in {'help', 'search', 'read'}
     if name == 'media_tool':
         return args.get('command') == 'model-variants' or args.get('arguments') == ['--help']
     if name != "shell":
@@ -82,6 +82,19 @@ def _strict_json(text: str):
         raise ValueError("non-JSON constant")
 
     return json.loads(text, object_pairs_hook=object_pairs, parse_constant=invalid_constant)
+
+
+def truncation_correction_message(tool_names):
+    """A fresh bounded inference request; partial arguments are never reused."""
+    names=tuple(str(name) for name in tool_names)
+    return {'role':'system','content':
+        'Host protocol correction: your last response reached the reply-token limit while serializing a tool call. '
+        'No tools from that response were executed. Use the original user request and saved outcomes above. '
+        'Return one concise, complete structured API tool call for the next unresolved step, or a concise final answer/blocker. '
+        'Omit further hidden reasoning and unnecessary narration. Use only these supplied functions: '+', '.join(names)+'. '
+        'Do not repeat completed or uncertain actions. Do not append to partial JSON, invent missing results, '
+        'or reduce the user-requested output merely to fit the tool envelope. Large text/file contents should use '
+        'supported bounded writes and saved paths. This is the only format correction allowed in this request.'}
 
 
 def _function(value) -> bool:
