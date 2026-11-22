@@ -1,4 +1,4 @@
-Nice Qwen tool recovery: Windows r84
+Nice Qwen tool recovery: Windows r85
 
 The observed failure was a reply-token limit during tool serialization, after
 planning and repeated literal searches. No generation call reached the backend.
@@ -8,7 +8,9 @@ the existing one-repair budget and preserves login, Stop, context and duplicate-
 action guards. Earlier effectful or uncertain actions block automatic correction.
 Partial tool JSON is never executed, completed or copied into the repair prompt.
 
-Structured web read is classified like the existing registered read-only fetch.
+Public web retrieval and metadata routes, including failed metadata lookups,
+are classified consistently with the existing registered read-only fetch.
+Arbitrary HTTP requests, downloads and browser interactions remain excluded.
 Empty find results explain literal matching and how to inspect the cached page
 without find. Supplied images should be inspected before deciding that external
 research is needed. Video generation alone does not require a research detour.

@@ -1,0 +1,66 @@
+PortalAI Windows r85 workflow generality audit
+Date: 2026-11-22
+
+The harness should teach reusable ways to use capabilities and check evidence.
+It should not encode a particular subject, scene or previous task as the solution
+to all superficially similar requests. Tool syntax and capability-specific
+constraints remain useful; removing them would make the harness less capable.
+
+Reviewed the current Windows Full and Academic prompt assembly, progressive tool
+guidance, semantic media assessment, compact/low-power support, coding routing,
+coding/progress recovery, mission/workflow runner, retrieval and structured-output
+prompts, task checkpoints and the optional master manual. Also searched relevant
+Linux/macOS legacy guidance for the removed scene prescriptions; those packages
+remain r75 and have not received native runtime acceptance in this release.
+
+RETAINED
+- Computer use: discover windows, observe accessibility or vision state, copy
+  current observation tokens and named targets, act, inspect the returned state.
+- Browser use: observed URLs and element IDs, current page state, session scope,
+  and checks after interaction. Tool contracts explain available capabilities.
+- Local commands/files: actual OS and working directory, bundled tools, private
+  output destinations, exact returned paths, bounded reads and verified results.
+- Coding: relevant source inspection, configured and hardware-admitted coding
+  specialist routing, focused edits, appropriate tests and measured optimization.
+- Science: supported operations and schemas, explicit units/assumptions/precision,
+  numerical verification and truthful interpretation of scientific outputs.
+- Media: inspect supplied inputs; assess components, relationships, uncertainty
+  and requested fidelity; research actual gaps; plan dependent stages; use prior
+  output as the next edit input; inspect constraints and revise failed parts.
+- Workflow runners, saved evidence and checkpoints, Stop/account/context guards,
+  bounded protocol correction and protection against repeating uncertain effects.
+
+GENERALIZED
+r83 removed topic-keyword decisions and two fixed scene prescriptions from media
+planning. Missing assessment now means unknown. References and composition stages
+are independently decided from a model-supplied explanation, not a topic label.
+r84 explains that supplied inputs can already establish needed structure, and
+video generation alone does not require an external-reference detour. It also
+handles token-truncated tool serialization and literal search misses generically.
+
+r85 classifies audited public document/metadata retrieval consistently for
+protocol correction, including failed lookups. This is a capability/effect
+classification; arbitrary requests, downloads and browser actions stay excluded.
+A mixed planning/failed-metadata/read history is covered by a regression case.
+
+No further scene-specific prescriptions were found in the reviewed active
+guidance. Operation names, syntax placeholders, model/backend limits, examples
+of argument shapes and scientific tool inventories are retained. A dedicated
+scientific operation is a capability, not a global recipe for unrelated tasks.
+Conservative intent heuristics still select optional coding/progress guidance;
+they do not establish semantic understanding or determine media reference needs.
+
+REVIEW STANDARD FOR FUTURE CHANGES
+Express a rule in terms of task requirements, missing evidence, tool preconditions
+and observable failure modes. Keep illustrative task cases in regression tests,
+not mandatory runtime instructions. Test unfamiliar subjects, different requested
+fidelity, independent reference/staging decisions, omitted judgments and failure
+recovery. Let the model reason about content while the host validates schemas,
+permissions, budgets and execution evidence. Do not claim that successful schema
+validation or a saved file certifies understanding or perceptual correctness.
+
+LIMITS
+This is a source/guidance audit, not proof of general intelligence or a live-model
+generalization benchmark. The 23 media-planning cases use supplied judgments;
+the 11 truncation-recovery cases use synthetic model frames/worker paths. A live
+model/media acceptance run remains a receiving-machine check in the handoff.

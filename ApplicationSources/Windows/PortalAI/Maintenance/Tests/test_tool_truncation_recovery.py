@@ -68,9 +68,30 @@ class TruncatedToolRecoveryTests(unittest.TestCase):
         self.assertIn('repeated a previously attempted action',p.session['messages'][-1]['content'])
 
     def test_read_classification_does_not_extend_to_browser_writes_or_downloads(self):
-        self.assertTrue(read_only_tool_attempt('web',{'action':'read','arguments':{'document':'cached'}},ROOT))
-        for action in ('download','api','click','fill','navigate','unknown'):
+        for action in ('help','search','read','site_search','site_query','catalog_search','discover','data','media_info'):
+            self.assertTrue(read_only_tool_attempt('web',{'action':action,'arguments':{'document':'cached'}},ROOT))
+        for action in ('download','request','api','open','close','click','fill','select','press','scroll','navigate','unknown'):
             self.assertFalse(read_only_tool_attempt('web',{'action':action},ROOT))
+
+    def test_planning_and_failed_metadata_lookup_do_not_block_fresh_correction(self):
+        p=fixture();p.settings['tool_step_limit']=12
+        p.session['messages'][0]['content']='Inspect the supplied input and complete the requested media task.'
+        def tool(identifier,name,args):
+            return {'id':identifier,'type':'function','function':{'name':name,'arguments':json.dumps(args)}}
+        history=[tool('docs','available_tools',{'command':'video'}),
+                 tool('assessment','media_plan',{'action':'assess','brief':'fixture'}),
+                 tool('planning','media_plan',{'action':'plan','brief':'fixture'}),
+                 tool('metadata','web',{'action':'media_info','arguments':{'url':'cached-document'}}),
+                 tool('page','web',{'action':'read','arguments':{'url':'https://example.com'}})]
+        p.tool_runtime.execute.side_effect=['{}','{}',ValueError('Missing planning evidence'),
+                                           ValueError('Only http:// and https:// URLs allowed'),'{}','{"success":true}']
+        responses=[('','',[item]) for item in history]+[truncated(),('','',[call('fresh','next authorized action')]),('Done.','',[])]
+        with patch.object(p,'stream_completion',side_effect=responses):p.agent_worker('test')
+        self.assertEqual(p.tool_runtime.execute.call_count,6)
+        saved=[row for row in p.session['messages'] if row.get('role')=='tool']
+        self.assertTrue(all(not row['execution']['effectful'] for row in saved[:5]))
+        self.assertIn('Only http://',saved[3]['content'])
+        self.assertEqual(p.session['messages'][-1]['content'],'Done.')
 
     def test_cancel_or_revoked_login_prevents_corrected_dispatch(self):
         for revoke in (False,True):

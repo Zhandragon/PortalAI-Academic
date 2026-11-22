@@ -44,7 +44,12 @@ def read_only_tool_attempt(name, args, root) -> bool:
         return isinstance(action,str) and action in safe[name]
     if name == 'web':
         action = args.get('action')
-        return isinstance(action, str) and action in {'help', 'search', 'read'}
+        # These routes retrieve public documents/metadata or parse cached data.
+        # They cannot select an HTTP method, drive a browser or publish a file.
+        # Keep arbitrary requests, downloads and browser actions outside this set.
+        return isinstance(action, str) and action in {
+            'help', 'search', 'read', 'site_search', 'site_query',
+            'catalog_search', 'discover', 'data', 'media_info'}
     if name == 'media_tool':
         return args.get('command') == 'model-variants' or args.get('arguments') == ['--help']
     if name != "shell":
