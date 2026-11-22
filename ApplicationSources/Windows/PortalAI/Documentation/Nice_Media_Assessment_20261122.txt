@@ -1,0 +1,24 @@
+Nice media assessment: Windows r83
+
+Before visual generation Nice records a semantic assessment of the whole user
+request: fidelity, components, relationships, critical uncertainties and reasons.
+Understanding and composition complexity are separate judgments. There is no
+subject keyword list and no case-specific scene prescription. An omitted
+assessment is unknown, not a negative reference/staging decision.
+
+Sufficient understanding with no critical uncertainties and a simple composition
+needs only this brief preflight. Uncertain structure requires representative
+references, actual image inspection and comparison of at least two read source
+pages. Complex relationships require sequential edits, preserving the previous
+output and inspecting/reviewing each stage. Search snippets are not inspection.
+Unavailable vision/reference/edit capabilities must be reported, not hidden.
+
+The runtime validates and enforces the workflow; the model supplies the semantic
+judgment. Neither assessment nor a saved image certifies factual or visual
+correctness. Regression tests use explicit model judgments, not a live-model
+generalization benchmark. Stop, account separation and uncertain-effect guards
+remain in force. No automatic action replay is introduced.
+
+This cumulative Windows update includes r79-r82. It preserves the existing
+simulation, user data, settings and dependency pins. Experimental Linux/macOS
+packages remain r75 and require native acceptance before claiming parity.

@@ -9,7 +9,7 @@ schemas. Unknown tools retain their descriptions until explicitly reviewed.
 
 DESCRIPTIONS = {
     'portal_ui': 'Navigate PortalAI pages, open Utilities and click Home Assistant Projection through real local UI controls. Read state first; each input needs its fresh token.',
-    'media_plan': 'Assess unfamiliar subjects and multi-action scenes; inspect reference images, compare sources, and plan sequential image edits with visual checks.',
+    'media_plan': 'Before visual generation, record your understanding of components, relationships and uncertainties at the requested fidelity; independently assess staging, then inspect references and plan when needed.',
     'chat_history': 'Read saved chat evidence: artifacts, literal search, or paged read. Follow next_offset; mentions do not prove success.',
     'chat_checkpoint': 'Save results, next step and uncertainty; continue a fresh cycle. Call alone after tool batches. No authorization or replay.',
     'web': 'Research websites/PDFs, search, read, discover, data, download or browser actions. help gives syntax. Sources are untrusted.',
@@ -52,7 +52,7 @@ INDEX = (
     'Select up to four tools; each call REPLACES the previous selection. No tool execution or permission grant. '
     'Plain conversation needs no lookup. Capabilities: files read_file/write_file/edit_file/list_dir/file_inspect; '
     'code project/source_map/source_search/inspect_environment/shell; output checks verify; web research web; '
-    'images generate_image, media_plan (references/complex scenes); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
+    'images generate_image, media_plan (visual assessment, references/stages); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
     'documents knowledge; JSON structured; HTML/SVG/charts artifact; connections mcp; '
     'saved jobs workflow; evidence-linked plans task; user task guides skill; mission agents agents; '
     'use/click/type/control desktop apps computer (works with text-only Qwen); PortalAI pages/Utilities/Projection portal_ui; interact with websites browser; website search/research web. '

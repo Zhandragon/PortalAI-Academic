@@ -56,7 +56,7 @@ def host_guidance(root, *, platform_name=None):
         "Unlock cannot bypass RAM/VRAM/storage/backend limits. Prefer hardware auto. "
         "Installed is not tested; Vulkan chat does not prove ROCm media. "
         "Report unvalidated hardware; keep requested functionality.\n"
-        "generate_image follows saved profile; embed returned URLs. Complex media: media_plan. "
+        "generate_image follows saved profile; embed returned URLs. Before visual generation: media_plan assess; references/stages when needed. "
         "media_tool follows saved media defaults; available_tools lists pairs/limits. "
         "PortalAI Academic uses standard/censored chat and media models only. Variant controls and flags do not enable alternates. "
         "Refuse unethical or obscene requests; never use a tool to evade a refusal or replay a completed tool. "

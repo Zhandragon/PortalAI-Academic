@@ -1,8 +1,8 @@
 """Request-local media planning, observed references and staged image edits.
 
 This is an execution aid, not a factual or visual correctness certificate.
-Model assessments complement conservative lexical hints; unknown terminology
-must be assessed by the assistant rather than assumed to be familiar.
+The assistant supplies a semantic assessment of the user's requested fidelity.
+Missing assessment is unknown, never evidence that references are unnecessary.
 """
 import base64
 import io
@@ -11,32 +11,52 @@ from pathlib import Path
 import re
 
 GUIDANCE = (
-    'Before media generation assess subject familiarity, factual precision, object count, '
-    'spatial relationships and simultaneous actions. Everyday simple scenes can use generate_image directly. '
-    'Specialized/unfamiliar subjects need media_plan: research several representative references '
+    'Before visual generation call media_plan assess with an assessment of the whole user request. '
+    'Identify the requested fidelity, visible components, their relationships and any critical uncertainties. '
+    'Judge whether you can describe the relevant structure accurately from your own understanding; '
+    'topic labels and familiarity with a name are not evidence of understanding. Explain your judgment. '
+    'Independently judge whether the number of objects, spatial dependencies or simultaneous actions '
+    'need staged construction, and explain why. A familiar subject can still need stages; an unfamiliar '
+    'subject can need references even in a simple composition. A simple request with sufficient '
+    'understanding and no critical uncertainties can proceed directly after this short assessment. '
+    'When understanding is insufficient or uncertain, research representative references '
     '(normally 3-5, from at least two independent sources), inspect actual images, compare their shared '
     'structure and record disagreements; do not average incompatible mechanisms or copy a single composition. '
     'Use authoritative sources for scientific anatomy/mechanisms. Search snippets are not visual inspection. '
     'Complex interactions need 2-6 sequential stages: layout/subjects, relationships/poses, critical action, '
     'then details. Use each returned image as the next edit input and preserve successful parts. '
-    'For CRISPR, establish the DNA/protein/guide arrangement before depicting cleavage; a watercolor style '
-    'does not excuse missing structure. For a dancing woman and distracted waiter dropping a bottle, '
-    'establish both poses, then gaze/hand release/falling bottle as separate edits. '
+    'Resolve uncertain subcomponents and their relationships before assembling the whole; choose '
+    'stages from the dependencies in this request. Style does not remove requested structural constraints. '
     'Inspect each stage against explicit constraints, revise only failed parts, and report unverified details. '
     'Never claim correctness from a successful file save. If reference retrieval, vision or editing is '
     'unavailable, state the limitation instead of silently doing an unsupported one-shot.'
 )
 
 
-def assess(text):
-    text = str(text).casefold()
-    specialized = bool(re.search(r'\b(crispr|cas9|cas12|dna|rna|helix|helices|molecul\w*|protein|'
-                                r'anatom\w*|surg\w*|circuit\w*|schematic|mechanism|cross.section|'
-                                r'scientific|structural|accurate diagram)\b', text))
-    relational = len(re.findall(r'\b(while|because|distract\w*|dropp\w*|danc\w*|holding|'
-                               r'behind|in front|reaching|catching|handing|simultaneous\w*)\b', text))
-    return {'reference_required':specialized, 'staged':relational >= 3,
-            'assessment':'Heuristic hints only; assess unfamiliar subjects and relationships semantically too.'}
+def assess(value=None):
+    """Validate a model judgment, not classify subject words or certify knowledge."""
+    if value is None:
+        return {'assessment_required':True, 'assessment':None,
+                'reference_required':None, 'staged':None}
+    if not isinstance(value,dict):raise ValueError('Supply an assessment object based on the whole user request')
+    understanding=value.get('understanding')
+    if understanding not in ('sufficient','needs_references','uncertain'):
+        raise ValueError('Assess understanding as sufficient, needs_references or uncertain')
+    checked={'understanding':understanding}
+    for key in ('fidelity','rationale','staging_reason'):
+        text=value.get(key)
+        if not isinstance(text,str) or not text.strip() or len(text)>1600:
+            raise ValueError('Explain assessment '+key+' in 1-1600 characters')
+        checked[key]=text.strip()
+    for key in ('components','relationships','uncertainties'):
+        checked[key]=list(_strings(value.get(key),12))
+    if not checked['components']:raise ValueError('Identify at least one visible component')
+    if type(value.get('staged')) is not bool:raise ValueError('Assess staged as a boolean, independently of reference needs')
+    checked['staged']=value['staged']
+    return {'assessment_required':False,'assessment':checked,
+            'assessment_origin':'model judgment, not independent factual certification',
+            'reference_required':understanding!='sufficient' or bool(checked['uncertainties']),
+            'staged':checked['staged']}
 
 
 def _strings(value, maximum=8):
@@ -72,7 +92,7 @@ def result_json(result):
 
 class MediaPlanning:
     def __init__(self, request=''):
-        self.request=request; self.plan=None; self.references=[]; self.visual=None
+        self.request=request; self.assessment=None; self.plan=None; self.references=[]; self.visual=None
         self.outputs=[]; self.fetched=set(); self.downloaded=set();self.inspected=set();self.reviews={}
         self.completed_stages=0;self.output_stages={}
 
@@ -98,10 +118,15 @@ class MediaPlanning:
     def call(self, runtime, args):
         action=args.get('action','assess')
         if action=='assess':
-            brief=args.get('brief',self.request)
-            return {**assess(brief),'guidance':GUIDANCE,'generation_started':False}
+            if 'assessment' in args:
+                candidate=assess(args['assessment'])
+                if candidate['assessment_required']:raise ValueError('Supply a complete assessment object')
+                if (self.plan or self.outputs) and candidate['assessment']!=self.assessment:
+                    raise ValueError('Assessment is fixed for this plan. Inspect/review/edit its outputs; start a new request for a different plan.')
+                self.assessment=candidate['assessment']
+            return {**assess(self.assessment),'guidance':GUIDANCE,'generation_started':False}
         if action=='status':
-            return {'plan':self.plan,'outputs':self.outputs,'reviews':self.reviews,
+            return {**assess(self.assessment),'plan':self.plan,'outputs':self.outputs,'reviews':self.reviews,
                     'completed_stages':self.completed_stages,
                     'complete':bool(self.plan and self.completed_stages==len(self.plan['stages']) and self.outputs and self.outputs[-1] in self.reviews and not self.reviews[self.outputs[-1]]['failed'] and set(self.plan['constraints'])<=set(self.reviews[self.outputs[-1]]['passed']))}
         if action=='review':
@@ -145,14 +170,13 @@ class MediaPlanning:
                     'instruction':'Compare these actual images before plan. For stage verification, state which constraints passed or failed.'}
         if action!='plan':raise ValueError('media_plan actions: assess, inspect, plan, review, status')
         if self.outputs:raise ValueError('A generated plan is already in progress. Inspect/review/edit its outputs; start a new request for a different plan.')
-        risk=args.get('subject_risk')
-        if risk not in ('familiar','specialized','uncertain'):raise ValueError('Assess subject_risk: familiar, specialized or uncertain')
+        judgment=assess(self.assessment)
+        if judgment['assessment_required']:raise ValueError('Call media_plan assess with a complete semantic assessment before planning')
         constraints=_strings(args.get('constraints',[]),12)
         stages=_strings(args.get('stages',[]),6)
         comparison=str(args.get('reference_comparison','')).strip()
         sources=_strings(args.get('sources',[]),6)
-        hints=assess(self.request+' '+str(args.get('brief','')))
-        needs_refs=hints['reference_required'] or risk!='familiar'
+        needs_refs=judgment['reference_required']
         if needs_refs:
             if len(self.references)<3:raise ValueError('Inspect at least three representative reference images before planning this specialized/unfamiliar subject')
             from urllib.parse import urlsplit
@@ -160,8 +184,8 @@ class MediaPlanning:
             if len({urlsplit(s).hostname for s in sources})<2:raise ValueError('Compare references using at least two independently hosted source pages')
             if len(comparison)<40:raise ValueError('Record the shared structure, relevant differences and uncertainty from the references')
         if not constraints:raise ValueError('Record the requested visual constraints to check after generation')
-        if not stages or hints['staged'] and len(stages)<2:raise ValueError('Use 2-6 sequential stages for this multi-action scene')
-        self.plan={'subject_risk':risk,'reference_required':needs_refs,'constraints':constraints,
+        if not stages or judgment['staged'] and len(stages)<2:raise ValueError('Use 2-6 sequential stages when the assessment calls for staged construction')
+        self.plan={'assessment':self.assessment,'reference_required':needs_refs,'constraints':constraints,
                    'stages':stages,'sources':sources,'reference_comparison':comparison,
                    'references':list(self.references),'staged':len(stages)>1}
         return {'plan':self.plan,'generation_started':False,'next_step':stages[0],
@@ -172,10 +196,13 @@ class MediaPlanning:
         if not request:return
         command,argv,prompt=request
         if command not in ('image','edit','inpaint','autoedit','video','video-small','dialogue-video') or '--help' in argv:return
-        hints=assess(self.request+' '+str(prompt))
-        if not self.plan and (hints['reference_required'] or hints['staged']):
+        judgment=assess(self.assessment)
+        if judgment['assessment_required']:
             return {'success':False,'generation_started':False,'planning_required':True,
-                    **hints,'next_step':'Call media_plan assess, inspect references if needed, then plan before generation. '+GUIDANCE}
+                    **judgment,'next_step':'Call media_plan assess with the assessment object for the whole user request. '+GUIDANCE}
+        if not self.plan and (judgment['reference_required'] or judgment['staged']):
+            return {'success':False,'generation_started':False,'planning_required':True,
+                    **judgment,'next_step':'Inspect references if required, then call media_plan plan before generation. '+GUIDANCE}
         if self.plan and self.plan['staged'] and self.outputs:
             if self.outputs[-1] not in self.reviews:
                 return {'success':False,'generation_started':False,'next_step':'Inspect the last output and call media_plan review before continuing.', 'previous_output':self.outputs[-1]}
@@ -200,13 +227,23 @@ def context(chat):
 
 
 TOOL={'type':'function','function':{'name':'media_plan','description':
-    'Assess media complexity, inspect actual reference/output images with vision, and plan reference-guided or sequential generation. Simple everyday scenes need no plan. Specialized/unfamiliar subjects need 3-5 image samples and two read source pages. Complex interactions need staged edits and explicit visual checks. Planning does not generate images.',
+    'Before any visual generation, submit your semantic assessment of the whole user request. Simple understood scenes need only assessment; uncertain structure needs inspected references and a plan. Composition complexity independently determines staging. Inspect/review stage outputs. This tool records your judgment, not an automatic subject classifier or correctness certificate.',
     'parameters':{'type':'object','properties':{
         'action':{'type':'string','enum':['assess','inspect','plan','review','status']},'brief':{'type':'string'},
         'passed':{'type':'array','items':{'type':'string'},'maxItems':12},
         'failed':{'type':'array','items':{'type':'string'},'maxItems':12},
         'paths':{'type':'array','items':{'type':'string'},'maxItems':6},
-        'subject_risk':{'type':'string','enum':['familiar','specialized','uncertain']},
+        'assessment':{'type':'object','description':'Required for assess to record a decision. Omit to see current/pending state. Evaluate requested fidelity, not topic keywords.',
+            'properties':{
+                'understanding':{'type':'string','enum':['sufficient','needs_references','uncertain']},
+                'fidelity':{'type':'string','description':'What visual/factual precision the user requests.'},
+                'components':{'type':'array','items':{'type':'string'},'minItems':1,'maxItems':12},
+                'relationships':{'type':'array','items':{'type':'string'},'maxItems':12},
+                'uncertainties':{'type':'array','items':{'type':'string'},'maxItems':12,'description':'Unresolved details critical to that fidelity; empty only when none.'},
+                'rationale':{'type':'string','description':'Explain what you understand or what references must establish.'},
+                'staged':{'type':'boolean'},
+                'staging_reason':{'type':'string','description':'Explain composition dependencies, independently of reference needs.'}},
+            'required':['understanding','fidelity','components','relationships','uncertainties','rationale','staged','staging_reason'],'additionalProperties':False},
         'constraints':{'type':'array','items':{'type':'string'},'maxItems':12},
         'stages':{'type':'array','items':{'type':'string'},'maxItems':6},
         'sources':{'type':'array','items':{'type':'string'},'maxItems':6},

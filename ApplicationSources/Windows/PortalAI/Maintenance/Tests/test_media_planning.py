@@ -10,13 +10,27 @@ sys.path[:0]=[str(ROOT/'Agent'),str(ROOT/'ControlCenter')]
 from media_planning import MediaPlanning, assess
 
 
+def judgment(planner, understanding='sufficient', staged=False, **changes):
+    value=dict(understanding=understanding, fidelity='Recognizable illustrative shapes',
+               components=['Main subject'],relationships=[],uncertainties=[],
+               rationale='The requested visible form is understood at this fidelity.',
+               staged=staged,staging_reason='Separate dependent actions.' if staged else 'One isolated subject.')
+    value.update(changes)
+    return planner.call(None,{'action':'assess','assessment':value})
+
+
 class MediaPlanningTests(unittest.TestCase):
     def test_everyday_scene_remains_direct(self):
         planner=MediaPlanning('Create a watercolor of a blue teapot on a table')
+        result=judgment(planner,components=['teapot','table'],relationships=['teapot rests on table'])
+        self.assertFalse(result['reference_required']);self.assertFalse(result['staged'])
         self.assertIsNone(planner.before('generate_image',{'prompt':'blue teapot'}))
 
-    def test_crispr_requires_research_before_any_image_is_launched(self):
-        planner=MediaPlanning('Create an image of CRISPR cutting DNA helices')
+    def test_unassessed_request_does_not_launch_or_claim_no_references(self):
+        planner=MediaPlanning('Show a jacquard loom')
+        state=planner.call(None,{'action':'assess'})
+        self.assertTrue(state['assessment_required'])
+        self.assertIsNone(state['reference_required']);self.assertIsNone(state['staged'])
         runtime=SimpleNamespace(_account_role=Mock(),_media_planning=planner,_execute=Mock())
         from native_chat import ToolRuntime
         result=json.loads(ToolRuntime.execute(runtime,'generate_image',{'prompt':'watercolor blobs'}))
@@ -24,16 +38,23 @@ class MediaPlanningTests(unittest.TestCase):
         runtime._execute.assert_not_called()
 
     def test_relationships_survive_a_simplified_subprompt(self):
-        planner=MediaPlanning('A woman dancing with a man who is a waiter dropping a bottle because he is distracted by her')
+        planner=MediaPlanning('Two jugglers exchange clubs across a seesaw')
+        judgment(planner,staged=True,components=['two jugglers','clubs','seesaw'],
+                 relationships=['clubs travel between hands','feet balance on opposite ends'])
         self.assertTrue(planner.before('generate_image',{'prompt':'woman and waiter'})['staged'])
 
     def test_semantic_uncertainty_requires_references_without_a_keyword(self):
-        planner=MediaPlanning('Draw an unfamiliar device')
+        planner=MediaPlanning('Draw the workings of a bandoneon')
+        result=judgment(planner,'uncertain',components=['bellows','reed blocks','valves'],
+                        uncertainties=['How the valves connect to the reed blocks'],
+                        rationale='The internal arrangement is not understood well enough to depict.')
+        self.assertTrue(result['reference_required']);self.assertFalse(result['staged'])
         with self.assertRaisesRegex(ValueError,'three'):
-            planner.call(None,{'action':'plan','subject_risk':'uncertain','constraints':['Correct geometry'],'stages':['Layout']})
+            planner.call(None,{'action':'plan','constraints':['Correct geometry'],'stages':['Layout']})
 
     def test_search_results_and_fabricated_citations_do_not_count_as_read_pages(self):
         planner=MediaPlanning('CRISPR');planner.references=['a.png','b.png','c.png']
+        judgment(planner,'needs_references')
         planner.observe('web',{'action':'search','arguments':{'query':'CRISPR'}},json.dumps({'ok':True,'result':{'url':'https://a.example'}}))
         with self.assertRaisesRegex(ValueError,'Read each source'):
             planner.call(None,{'action':'plan','subject_risk':'specialized','constraints':['Correct structure'],'stages':['Layout'],
@@ -46,6 +67,7 @@ class MediaPlanningTests(unittest.TestCase):
 
     def test_independent_sources_and_inspection_are_required(self):
         planner=MediaPlanning('DNA');planner.references=['a.png','b.png','c.png']
+        judgment(planner,'needs_references')
         for url in ('https://a.example/1','https://a.example/2'):
             planner.observe('web',{'action':'read','arguments':{'url':url}},json.dumps({'ok':True,'result':{'text':'real page'}}))
         with self.assertRaisesRegex(ValueError,'independently'):
@@ -54,6 +76,7 @@ class MediaPlanningTests(unittest.TestCase):
 
     def test_staged_work_must_continue_from_actual_previous_output(self):
         planner=MediaPlanning('dancing waiter dropping bottle because distracted')
+        judgment(planner,staged=True)
         planner.call(None,{'action':'plan','subject_risk':'familiar','constraints':['Bottle visibly falling'],
                            'stages':['Establish poses','Edit gaze and bottle']})
         planner.observe('generate_image',{},json.dumps({'success':True,'files':['Outputs/stage1.png']}))
@@ -79,6 +102,7 @@ class MediaPlanningTests(unittest.TestCase):
 
     def test_multiple_images_are_not_mistaken_for_completed_stages(self):
         planner=MediaPlanning('dancing distracted dropping bottle')
+        judgment(planner,staged=True)
         planner.call(None,{'action':'plan','subject_risk':'familiar','constraints':['Bottle visibly falling'],
                            'stages':['Layout','Bottle action']})
         planner.observe('generate_image',{},json.dumps({'success':True,'files':['a.png','b.png']}))
@@ -100,6 +124,78 @@ class MediaPlanningTests(unittest.TestCase):
         planner=MediaPlanning('CRISPR')
         self.assertIsNone(planner.before('science',{'operation':'help'}))
         self.assertIsNone(planner.before('media_tool',{'command':'image','arguments':['--help']}))
+
+    def test_same_topic_can_have_different_fidelity_needs(self):
+        decorative=MediaPlanning('Abstract DNA-themed wallpaper')
+        judgment(decorative,fidelity='Decorative curves, no anatomical claim',components=['curved ribbons'])
+        self.assertIsNone(decorative.before('generate_image',{'prompt':decorative.request}))
+        precise=MediaPlanning('Explain the precise attachment of this assembly')
+        judgment(precise,'needs_references',fidelity='Accurate attachment geometry',
+                 uncertainties=['Orientation of the attaching parts'])
+        self.assertTrue(precise.before('generate_image',{'prompt':'ribbons'})['reference_required'])
+
+    def test_critical_uncertainty_requires_references_even_if_marked_sufficient(self):
+        result=judgment(MediaPlanning(),'sufficient',uncertainties=['Unknown joint orientation'])
+        self.assertTrue(result['reference_required'])
+
+    def test_missing_or_malformed_fields_never_grant_generation(self):
+        valid=judgment(MediaPlanning())['assessment']
+        variants=[{},None,'familiar',dict(valid,staged='false'),dict(valid,components=[]),
+                  dict(valid,uncertainties=None),dict(valid,rationale='')]
+        variants += [{k:v for k,v in valid.items() if k!=field} for field in valid]
+        for value in variants:
+            with self.subTest(value=value):
+                planner=MediaPlanning()
+                with self.assertRaises(ValueError):planner.call(None,{'action':'assess','assessment':value})
+                self.assertTrue(planner.before('generate_image',{})['assessment_required'])
+
+    def test_query_does_not_replace_recorded_judgment(self):
+        planner=MediaPlanning('An unfamiliar artifact')
+        expected=judgment(planner,'uncertain')
+        self.assertEqual(planner.call(None,{'action':'assess','brief':'a simple dot'}),expected)
+
+    def test_all_registered_visual_routes_require_assessment(self):
+        planner=MediaPlanning('ordinary scene')
+        for command in ('image','edit','inpaint','autoedit','video','video-small','dialogue-video'):
+            with self.subTest(command=command):
+                self.assertTrue(planner.before('media_tool',{'command':command,'arguments':[]})['assessment_required'])
+                self.assertTrue(planner.before('shell',{'command':'python Agent/ai_tools.py '+command})['assessment_required'])
+        self.assertIsNone(planner.before('media_tool',{'command':'music','arguments':[]}))
+
+    def test_plan_cannot_bypass_assessment_or_shorten_required_stages(self):
+        planner=MediaPlanning()
+        args={'action':'plan','subject_risk':'familiar','constraints':['Correct poses'],'stages':['Layout']}
+        with self.assertRaisesRegex(ValueError,'semantic assessment'):planner.call(None,args)
+        judgment(planner,staged=True)
+        with self.assertRaisesRegex(ValueError,'2-6'):planner.call(None,args)
+        self.assertIsNone(planner.plan)
+
+    def test_familiar_complex_scene_needs_stages_without_research(self):
+        planner=MediaPlanning('Two jugglers exchange clubs across a seesaw')
+        assessment=judgment(planner,staged=True)['assessment']
+        result=planner.call(None,{'action':'plan','constraints':['Clubs between hands'],
+                                 'stages':['Layout people and seesaw','Edit throws and catches']})
+        self.assertFalse(result['plan']['reference_required']);self.assertEqual(result['plan']['references'],[])
+        with self.assertRaisesRegex(ValueError,'fixed'):judgment(planner,staged=False)
+        self.assertEqual(planner.call(None,{'action':'assess','assessment':assessment})['assessment'],assessment)
+
+    def test_reference_plan_accepts_inspection_and_two_read_sources(self):
+        planner=MediaPlanning('A bandoneon interior')
+        judgment(planner,'uncertain')
+        planner.references=['a.png','b.png','c.png']  # inspection state; vision capability tested separately
+        for url in ('https://a.example/1','https://b.example/2'):
+            planner.observe('web',{'action':'read','arguments':{'url':url}},{'ok':True,'result':{}})
+        result=planner.call(None,{'action':'plan','constraints':['Valve attachment'],
+            'stages':['Construct verified arrangement'],'sources':list(planner.fetched),
+            'reference_comparison':'Shared valve attachments agree; view orientation differs between the sources.'})
+        self.assertTrue(result['plan']['reference_required'])
+        self.assertIsNone(planner.before('generate_image',{'prompt':'Construct verified arrangement'}))
+
+    def test_guidance_has_no_case_specific_prescriptions(self):
+        from media_planning import GUIDANCE, TOOL
+        text=GUIDANCE+' '+json.dumps(TOOL)
+        self.assertNotIn('CRISPR',text);self.assertNotIn('waiter',text)
+        self.assertIn('uncertainties',text);self.assertIn('whole user request',text)
 
 
 if __name__=='__main__':unittest.main()
