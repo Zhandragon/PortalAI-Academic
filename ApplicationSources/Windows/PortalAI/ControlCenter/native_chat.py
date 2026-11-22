@@ -1112,7 +1112,25 @@ class ToolRuntime:
     def write_file(self, path: str, content: str) -> str:
         if self._account_role() != 'admin':
             raise PermissionError('Direct file editing requires an administrator; registered tools save results in your workspace.')
-        p = self.safe_path(path)
+        from profile_paths import UndeclaredPrivatePath, workspace_root
+        try:
+            p = self.safe_path(path)
+            profile = getattr(self, 'profile', None)
+            if (getattr(profile, 'identity', None) is not None
+                    and not Path(os.path.expandvars(path)).is_absolute() and not p.exists()
+                    and not p.is_relative_to(workspace_root(self.root, profile.identity[0]))):
+                from source_navigation import PUBLIC
+                if not any(p.is_relative_to(self.root / scope) for scope in PUBLIC):
+                    raise UndeclaredPrivatePath(
+                        'New generated files must use Outputs/<project>/<filename> or User Folder/<project>/<filename>. '
+                        'A bare relative destination would write into the application folder, outside the account workspace. '
+                        'Use an explicit absolute path for an intentionally selected application or external project location. '
+                        'This path was rejected before any file was written; correct the destination, not the generated file content.')
+        except UndeclaredPrivatePath as exc:
+            # Only this specific pre-write validation failure has a known zero-effect
+            # outcome. Authentication errors and any later I/O failures still raise.
+            return json.dumps({'success': False, 'error': str(exc), 'write_started': False,
+                               'requested_path': path}, ensure_ascii=False)
         before = p.read_bytes() if p.exists() else None
         p.parent.mkdir(parents=True, exist_ok=True)
         if self._account_role() != 'admin':
@@ -1321,7 +1339,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "read_file",
-            "description": "Read an exact page of a UTF-8/text file. Relative paths resolve in the signed-in workspace. Follow next_offset for more text; complete=true means the end. Do not reread offset 0 to recover an omitted middle. Account access rules apply.",
+            "description": "Read an exact page of a UTF-8/text file. Data/, Outputs/ and User Folder/ paths resolve in the signed-in workspace; public source paths resolve at the application root. Follow next_offset for more text; complete=true means the end. Do not reread offset 0 to recover an omitted middle. Account access rules apply.",
             "parameters": {
                 "type": "object",
                 "properties": {"path": {"type": "string"}, "max_chars": {"type": "integer"}, "offset": {"type": "integer"}},
@@ -1333,7 +1351,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "write_file",
-            "description": "Write a UTF-8 text file to a local path.",
+            "description": "Write a UTF-8 text file (administrator only). For new generated programs/files use a workspace-relative path under Outputs/ or User Folder/, for example Outputs/my-app/index.html. Do not write directly at Private/Users/<id>/Workspace/. Existing application source and explicitly chosen external project paths retain their access rules. A destination-validation error needs a corrected path, not rewritten program content. Use real newlines in content. Return the exact successful output path to the user; writing is not proof the program runs.",
             "parameters": {
                 "type": "object",
                 "properties": {"path": {"type": "string"}, "content": {"type": "string"}},
@@ -2982,7 +3000,9 @@ class NativeChat:
             f"- current_chat_contributes_to_memory: {'yes' if included else 'no'}\n"
             f"- current_chat_cross_session_recall: {'yes' if recall else 'no (isolated)'}\n"
             f"- automatic_prior_memory_injected_this_turn: {'yes' if bool(memory_text) else 'no'}\n"
-            "Registered media commands resolve at the application root; shell and relative file reads use your signed-in workspace. "
+            "Registered media commands and public source paths resolve at the application root; shell starts in your signed-in workspace, where Data/, Outputs/ and User Folder/ paths resolve. "
+            "Save new generated programs/files under Outputs/ or User Folder/, for example Outputs/my-app/index.html; "
+            "the account Workspace root itself is not a declared private-data destination. "
             "Use media_tool with the supplied guide; available_tools is for a specific missing detail. "
             "For requested environment inspection or code repair, inspect application_root with file/shell tools. "
             "Report observed access errors rather than assuming tools or hardware are absent. "

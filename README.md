@@ -9,6 +9,8 @@
 
 <h1 align="center">PortalAI</h1>
 
+**Windows r82 (2026-11-22):** Clear output destinations, precise rejected-write results and browser/artifact delivery guidance. [Changes](Documentation/RELEASE-r82.md). Linux/macOS packages remain experimental r75.
+
 **Windows r81 (2026-11-21):** Startup model/effort synchronization and fast initial Runtime history. [Changes and platform parity audit](Documentation/RELEASE-r81.md). Linux/macOS packages remain experimental r75.
 
 **Windows r80 (2026-11-21):** Reference-guided media plans, staged edits, shutdown cleanup and real Nice desktop/browser acceptance. [Changes and limitations](Documentation/RELEASE-r80.md).

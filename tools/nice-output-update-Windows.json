@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.22-Desktop-r82",
+  "edition": "Academic",
+  "platform": "Windows",
+  "compatible_versions": [
+    "2026.11.21-Desktop-r81"
+  ],
+  "files": [
+    {
+      "path": "Agent/profile_paths.py",
+      "bytes": 11436,
+      "sha256": "3b4b7f915d3f27e5a8b9579f81d56e5bc7be1e80a3be4934e86db30d268da3c5"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 407264,
+      "sha256": "c550f7ff03bc6f036d282cc8886e50a26a89620a32da006b7ad75209231e6df0"
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 25143,
+      "sha256": "c2c7664a3c29d8511f3ce7ae4fc85da83d8040d379defd5a864827d4443ffcf7"
+    },
+    {
+      "path": "ControlCenter/capability_tools.py",
+      "bytes": 23573,
+      "sha256": "04f2b94d22fa3376514225cb3fc666649207d1c81cc78fd94e4203bc1614add3"
+    },
+    {
+      "path": "Maintenance/Tests/test_generated_output_paths.py",
+      "bytes": 7850,
+      "sha256": "8e54ec1a7f59665923eb24c3af4b34888deb85135f59fa482a23cae49c27f627"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 91,
+      "sha256": "924df9cd33b9cd063a4aa19ad05e6115298b70989cf961ce5bcae8ba86a4ed1c"
+    },
+    {
+      "path": "Documentation/Nice_Output_Workflow_20261122.txt",
+      "bytes": 2052,
+      "sha256": "1be2f18fe6e3d36a2390e4c9f64b699a3b581224102adccdf1b71c37265b8140"
+    },
+    {
+      "path": "ControlCenter/control_center_bootstrap.py",
+      "bytes": 4852,
+      "sha256": "e886a4e71ea2afab0e301f3fcef692e62276143b63df092d210fd09e695e12bf"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "version": "2026.11.22-Desktop-r82",
+  "full": {
+    "tests": 138,
+    "passed": 137,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_baseline_failures": [
+      "test_chat_full_context.FullContextTests.test_selected_tools_receive_full_original_schemas_and_only_relevant_workflows"
+    ],
+    "successful": true,
+    "modules": [
+      "test_generated_output_paths",
+      "test_profile_historical_paths",
+      "test_portable_profile_paths",
+      "test_chat_compact_discovery",
+      "test_progressive_tool_worker",
+      "test_chat_full_context",
+      "test_coding_stall",
+      "test_tool_protocol",
+      "test_tool_protocol_recovery",
+      "test_capability_intelligence",
+      "test_account_permissions"
+    ],
+    "fixture_adaptation": "Prompt-only desktop state is synthetic; no owner desktop/account/model actions.",
+    "actual_model_inference": false,
+    "native_linux_macos_tested": false
+  },
+  "academic": {
+    "tests": 138,
+    "passed": 136,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_baseline_failures": [
+      "test_chat_compact_discovery.CompactDiscoveryTests.test_larger_context_no_longer_automatically_injects_full_manual",
+      "test_chat_full_context.FullContextTests.test_selected_tools_receive_full_original_schemas_and_only_relevant_workflows"
+    ],
+    "successful": true,
+    "modules": [
+      "test_generated_output_paths",
+      "test_profile_historical_paths",
+      "test_portable_profile_paths",
+      "test_chat_compact_discovery",
+      "test_progressive_tool_worker",
+      "test_chat_full_context",
+      "test_coding_stall",
+      "test_tool_protocol",
+      "test_tool_protocol_recovery",
+      "test_capability_intelligence",
+      "test_account_permissions"
+    ],
+    "fixture_adaptation": "Prompt-only desktop state is synthetic; no owner desktop/account/model actions.",
+    "actual_model_inference": false,
+    "native_linux_macos_tested": false
+  },
+  "suites_overlap": true,
+  "new_output_workflow_regressions": 10,
+  "installed_public_files_verified": 9,
+  "normal_exit_and_account_sealing_observed": true,
+  "reopened_to_sign_in": true,
+  "signed_in_post_update_model_run_tested": false,
+  "simulation_modified": false,
+  "clean_recipient_installer_tested": false,
+  "native_linux_macos_tested": false,
+  "baseline_mismatches": {
+    "full_context": "Existing test assumes static desktop schema; r79 already grounds it in observed state. Reproduced with original sources.",
+    "academic_compact": "Existing 5000-character cap is exceeded by Academic policy suffix. The tested system_prompt method is unchanged."
+  },
+  "packages": {
+    "Full": {
+      "version": "2026.11.22-Desktop-r82",
+      "edition": "Full",
+      "trial": false,
+      "archive": "PortalAI-Full-Windows-Installer-2026.11.22-Desktop-r82.zip",
+      "sha256": "622a8947da6564ae2b86eb13a42bc2f5e78457e64271bb0339fb18042b33d883",
+      "payload_files": 14712,
+      "changed_source_files": [
+        "Agent/profile_paths.py",
+        "ControlCenter/capability_tools.py",
+        "ControlCenter/chat_tool_menu.py",
+        "ControlCenter/control_center_bootstrap.py",
+        "ControlCenter/native_chat.py",
+        "ControlCenter/release_version.py",
+        "Documentation/Nice_Output_Workflow_20261122.txt",
+        "Maintenance/Tests/test_generated_output_paths.py"
+      ],
+      "component_pins_unchanged": true,
+      "native_installer_unchanged": true,
+      "archive_and_payload_verified": true,
+      "minimum_and_full_install_plans_passed": true,
+      "recipient_install_tested": false
+    },
+    "Academic": {
+      "version": "2026.11.22-Desktop-r82",
+      "edition": "Academic",
+      "trial": false,
+      "archive": "PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r82.zip",
+      "sha256": "6d69c2f3a2b04feabf03e1db674f22a7c8e25075313452322b51003d6da34c74",
+      "payload_files": 14698,
+      "changed_source_files": [
+        "Agent/profile_paths.py",
+        "ControlCenter/capability_tools.py",
+        "ControlCenter/chat_tool_menu.py",
+        "ControlCenter/control_center_bootstrap.py",
+        "ControlCenter/native_chat.py",
+        "ControlCenter/release_version.py",
+        "Documentation/Nice_Output_Workflow_20261122.txt",
+        "Maintenance/Tests/test_generated_output_paths.py"
+      ],
+      "component_pins_unchanged": true,
+      "native_installer_unchanged": true,
+      "archive_and_payload_verified": true,
+      "minimum_and_full_install_plans_passed": true,
+      "recipient_install_tested": false
+    },
+    "Trial": {
+      "version": "2026.11.22-Desktop-r82",
+      "edition": "Full",
+      "trial": true,
+      "archive": "PortalAI-Full-Trial-Windows-Installer-2026.11.22-Desktop-r82.zip",
+      "sha256": "95c331a75ce310592ea8d3c1f55af63d743514ec55604a4fa3daf0c645967702",
+      "payload_files": 14715,
+      "changed_source_files": [
+        "Agent/mission_runner.py",
+        "Agent/mission_supervisor.py",
+        "Agent/profile_paths.py",
+        "Agent/trial_access.py",
+        "ControlCenter/PortableAI_GUI.py",
+        "ControlCenter/app_tour.py",
+        "ControlCenter/application_api_runtime.py",
+        "ControlCenter/capability_tools.py",
+        "ControlCenter/chat_tool_menu.py",
+        "ControlCenter/control_center_bootstrap.py",
+        "ControlCenter/native_chat.py",
+        "ControlCenter/release_version.py",
+        "ControlCenter/trial_ui.py",
+        "Documentation/Nice_Output_Workflow_20261122.txt",
+        "Documentation/Trial_Edition.md",
+        "Maintenance/Tests/test_generated_output_paths.py",
+        "Tools/portable_update.py"
+      ],
+      "component_pins_unchanged": true,
+      "native_installer_unchanged": true,
+      "archive_and_payload_verified": true,
+      "minimum_and_full_install_plans_passed": true,
+      "recipient_install_tested": false
+    }
+  }
+}

@@ -38,6 +38,10 @@ class ProfileLocked(PermissionError):
     pass
 
 
+class UndeclaredPrivatePath(ValueError):
+    """The path is outside declared private scope; no hydration has begun."""
+
+
 def enabled(root):
     root = Path(root)
     base = root / 'Private/Accounts'
@@ -121,7 +125,11 @@ def private_path(root, relative, *, context=None, hydrate=True):
     root = Path(root).resolve()
     relative = _relative(relative)
     if not is_private(relative):
-        raise ValueError('Path is not a declared private-data location: ' + relative)
+        raise UndeclaredPrivatePath('Path is not a declared private-data location: ' + relative +
+                         '. Save new generated files under Outputs/ or User Folder/ in the signed-in workspace '
+                         '(for example Outputs/my-app/index.html), not directly at Workspace/. '
+                         'This path was rejected before any file was written; correct the destination, '
+                         'not the generated file content.')
     active = capture(root)
     if context is not None and active != context:
         raise ProfileLocked('The captured login is no longer active')
