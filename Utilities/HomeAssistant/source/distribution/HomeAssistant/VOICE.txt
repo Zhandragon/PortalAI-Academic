@@ -1,0 +1,37 @@
+PortalAI Home Assistant 0.5.13: phone speech and voice conversation
+
+Phone: use an HTTPS HA connection, open PortalAI Native > Chat > Connect,
+then Talk to PortalAI, allow this device microphone, speak, Finish & send.
+The configured preferred HA pipeline provides STT only; recognized text goes
+once to the current shared PortalAI chat. This is tap-to-talk, not continuous
+hands-free or wake-word capture. Replies appear as text, without added TTS.
+Audio capture is memory-only and stops on backgrounding, navigation, account/
+chat changes, disconnect or cancellation. The normal chat persists submitted
+text. Pending desktop attachments are not submitted by the microphone button.
+Optional panel config phone_voice_name changes the displayed assistant name.
+
+Voice devices: add the optional PortalAI Voice via Projection integration in
+HA, choose an already paired host and exact permitted voice devices, review
+the delegation, then select its conversation entity in a voice pipeline.
+Keep a dedicated conversation selected in the signed-in PortalAI account.
+Anyone using a permitted voice device may request its granted tools. Switching
+account/chat, locking the app, or a busy task makes this route unavailable.
+HA's selected STT/TTS providers still determine where audio is processed.
+No device control or extra tool permission is enabled merely by installing files.
+
+Home-specific entities, groups, aliases and instructions belong in deployment
+configuration/project reference files. See ENVIRONMENT.example.txt. The core
+application has no fixed household, assistant name or entity identifiers.
+
+Controller handoff: install the matching projection host patch and restart
+Projection normally. Successful native actions then have a two-second handoff.
+In-flight native actions remain mutually exclusive; unknown outcomes retain a
+bounded fallback. Idle/read-only/background operation does not acquire control,
+and ordinary desktop input is not globally locked. Legacy screenshot leases
+are unchanged. Never automatically replay a request with uncertain effects.
+
+Validation scope: synthetic phone audio/protocol tests and HA/host handoff tests
+pass. Live model-driven normal-light actions were independently verified, but
+voice completion was intermittent and may be slow. Physical phone microphone,
+Voice Preview end-to-end, and native Linux/macOS acceptance remain unverified.
+The dedicated voice pipeline is optional; test it before making it your default.

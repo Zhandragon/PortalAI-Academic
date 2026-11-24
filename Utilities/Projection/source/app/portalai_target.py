@@ -9,6 +9,8 @@ import sys
 import threading
 import time
 import uuid
+from contextlib import nullcontext
+from native_handoff import action as native_action
 
 MODULE=Path(__file__).resolve().parents[1]
 
@@ -102,8 +104,11 @@ class Manager:
         if not isinstance(viewer,str) or not 16<=len(viewer)<=128:raise ValueError('Missing viewer identity')
         now=time.monotonic()
         with self.lock:
+            hold = getattr(self, '_native_hold', None)
+            if hold is not None and hold['viewer'] != viewer:
+                raise PermissionError('Another viewer has a native action in progress')
             if self.viewer and self.viewer[0]!=viewer and self.viewer[1]>now:
-                raise PermissionError('Another viewer controls this desktop; disconnect it or wait 30 seconds')
+                raise PermissionError('Another remote viewer controls this session; finish or disconnect it, then try again')
             self.viewer=(viewer,now+30)
 
     def frame(self, payload, *, background=False):
@@ -222,24 +227,24 @@ class Manager:
                 raise TimeoutError('native_chat_expired')
             with self.lock:
                 if self.operation.get('state')=='running':raise RuntimeError('Lifecycle operation in progress')
-            self._lease(payload['viewer'])
-            window,endpoint=self.native_chat_endpoint()
-            if payload.get('include_pending_attachments') is True and (type(endpoint.get('native_chat_attachment_protocol')) is not int or endpoint['native_chat_attachment_protocol']!=1):raise RuntimeError('native_chat_attachment_update_required')
-            if time.monotonic()>=deadline:raise TimeoutError('native_chat_expired')
-            conn=http.client.HTTPConnection('127.0.0.1',endpoint['port'],timeout=7)
-            try:
-                item={'hwnd':window['hwnd'],'event':{'kind':'native_chat','payload':payload},
-                      'request_id':uuid.uuid4().hex,'expires_at':deadline}
-                conn.request('POST','/input',json.dumps(item,ensure_ascii=False).encode('utf-8'),
-                             {'Authorization':'Bearer '+endpoint['token'],'Content-Type':'application/json'})
-                response=conn.getresponse();raw=response.read(4097)
-                if response.status!=200 or len(raw)>4096:raise RuntimeError('native_chat_refused_or_expired; do not replay automatically')
-                result=json.loads(raw)
-                if (not isinstance(result,dict) or result.get('accepted') is not True
-                        or result.get('request_id')!=payload.get('request_id') or result.get('operation')!=payload.get('operation')):
-                    raise RuntimeError('Invalid native chat acknowledgement; do not replay automatically')
-                return {k:result[k] for k in ('accepted','request_id','operation')}
-            finally:conn.close()
+            with native_action(self, payload['viewer']):
+                window,endpoint=self.native_chat_endpoint()
+                if payload.get('include_pending_attachments') is True and (type(endpoint.get('native_chat_attachment_protocol')) is not int or endpoint['native_chat_attachment_protocol']!=1):raise RuntimeError('native_chat_attachment_update_required')
+                if time.monotonic()>=deadline:raise TimeoutError('native_chat_expired')
+                conn=http.client.HTTPConnection('127.0.0.1',endpoint['port'],timeout=7)
+                try:
+                    item={'hwnd':window['hwnd'],'event':{'kind':'native_chat','payload':payload},
+                          'request_id':uuid.uuid4().hex,'expires_at':deadline}
+                    conn.request('POST','/input',json.dumps(item,ensure_ascii=False).encode('utf-8'),
+                                 {'Authorization':'Bearer '+endpoint['token'],'Content-Type':'application/json'})
+                    response=conn.getresponse();raw=response.read(4097)
+                    if response.status!=200 or len(raw)>4096:raise RuntimeError('native_chat_refused_or_expired; do not replay automatically')
+                    result=json.loads(raw)
+                    if (not isinstance(result,dict) or result.get('accepted') is not True
+                            or result.get('request_id')!=payload.get('request_id') or result.get('operation')!=payload.get('operation')):
+                        raise RuntimeError('Invalid native chat acknowledgement; do not replay automatically')
+                    return {k:result[k] for k in ('accepted','request_id','operation')}
+                finally:conn.close()
 
     def native_ui(self, payload, deadline):
         """Bounded commands to the owned GUI, independent of screenshot/input locks.
@@ -258,31 +263,32 @@ class Manager:
         if len(raw)>(1400000 if bulk else 56000):raise ValueError('native_ui_limit')
         with self.lock:
             if self.operation.get('state')=='running':raise RuntimeError('Lifecycle operation in progress')
-        if payload.get('operation') not in ('describe','file_get','rich_index','rich_detail','rich_media','rich_media_batch','rich_preview'):self._lease(payload['viewer'])
-        window,endpoint=self.native_chat_endpoint(protocol='native_ui_protocol')
-        if bulk and endpoint.get('native_file_upload_protocol')!=2:raise RuntimeError('native_upload_v2_unavailable')
-        remaining=deadline-time.monotonic()
-        if remaining<=0:raise TimeoutError('native_ui_expired')
-        conn=http.client.HTTPConnection('127.0.0.1',endpoint['port'],timeout=min(5,remaining))
-        try:
-            item={'hwnd':window['hwnd'],'event':{'kind':'native_ui','payload':payload},
-                  'request_id':uuid.uuid4().hex,'expires_at':deadline}
-            conn.request('POST','/input',json.dumps(item,ensure_ascii=False).encode('utf-8'),
-                         {'Authorization':'Bearer '+endpoint['token'],'Content-Type':'application/json'})
-            limit=360000 if payload.get('operation')=='rich_media_batch' and payload.get('protocol')==2 else 65000
-            response=conn.getresponse();raw=response.read(limit+1)
-            if len(raw)>limit:raise RuntimeError('native_ui_reply_limit; do not replay automatically')
-            result=json.loads(raw)
-            if response.status!=200:
-                # GUI messages are controlled codes, never submitted values.
-                raise RuntimeError('native_ui_refused_or_uncertain; do not replay automatically')
-            allowed={'accepted','request_id','operation','model','transfer','offset','file','name','mime','size','data','eof','sha256','message','rich'}
-            if (not isinstance(result,dict) or set(result)-allowed or result.get('accepted') is not True
-                    or result.get('request_id')!=payload.get('request_id')
-                    or result.get('operation')!=payload.get('operation')):
-                raise RuntimeError('native_ui_invalid_acknowledgement; do not replay automatically')
-            return result
-        finally:conn.close()
+        mutating = payload.get('operation') not in ('describe','file_get','rich_index','rich_detail','rich_media','rich_media_batch','rich_preview')
+        with (native_action(self, payload['viewer']) if mutating else nullcontext()):
+            window,endpoint=self.native_chat_endpoint(protocol='native_ui_protocol')
+            if bulk and endpoint.get('native_file_upload_protocol')!=2:raise RuntimeError('native_upload_v2_unavailable')
+            remaining=deadline-time.monotonic()
+            if remaining<=0:raise TimeoutError('native_ui_expired')
+            conn=http.client.HTTPConnection('127.0.0.1',endpoint['port'],timeout=min(5,remaining))
+            try:
+                item={'hwnd':window['hwnd'],'event':{'kind':'native_ui','payload':payload},
+                      'request_id':uuid.uuid4().hex,'expires_at':deadline}
+                conn.request('POST','/input',json.dumps(item,ensure_ascii=False).encode('utf-8'),
+                             {'Authorization':'Bearer '+endpoint['token'],'Content-Type':'application/json'})
+                limit=360000 if payload.get('operation')=='rich_media_batch' and payload.get('protocol')==2 else 65000
+                response=conn.getresponse();raw=response.read(limit+1)
+                if len(raw)>limit:raise RuntimeError('native_ui_reply_limit; do not replay automatically')
+                result=json.loads(raw)
+                if response.status!=200:
+                    # GUI messages are controlled codes, never submitted values.
+                    raise RuntimeError('native_ui_refused_or_uncertain; do not replay automatically')
+                allowed={'accepted','request_id','operation','model','transfer','offset','file','name','mime','size','data','eof','sha256','message','rich'}
+                if (not isinstance(result,dict) or set(result)-allowed or result.get('accepted') is not True
+                        or result.get('request_id')!=payload.get('request_id')
+                        or result.get('operation')!=payload.get('operation')):
+                    raise RuntimeError('native_ui_invalid_acknowledgement; do not replay automatically')
+                return result
+            finally:conn.close()
 
     def lifecycle(self, action, payload):
         if action not in ('start','restart','force_shutdown'):raise ValueError('Unsupported lifecycle action')

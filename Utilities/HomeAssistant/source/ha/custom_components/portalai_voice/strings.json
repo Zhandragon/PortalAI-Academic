@@ -1,0 +1,19 @@
+{
+  "title": "PortalAI Voice via Projection",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect PortalAI voice",
+        "description": "Select your paired PortalAI and the physical voice devices allowed to use it. Keep PortalAI unlocked, idle, and on the dedicated voice chat you want to connect. Your signed-in HA administrator can also test this agent through Assist. Other HA users are refused.",
+        "data": {"name": "Assistant name", "device_id": "Paired PortalAI device", "allowed_devices": "Allowed physical voice devices"}
+      },
+      "confirm": {
+        "title": "Approve voice access to PortalAI",
+        "description": "Connect account {account}, chat {chat}. Anyone speaking to the selected voice devices can use the tools granted to this PortalAI account. Responses and history are shared in this dedicated chat. Keep this chat selected: switching chats, locking PortalAI, an open dialog, or an active task prevents new voice commands. This adapter does not switch chats or bypass approval/Stop controls. A timeout can leave an action uncertain; check the chat before repeating it. No new token or network listener is created.",
+        "data": {"approve": "Allow these voice devices to use this PortalAI chat and its granted tools"}
+      }
+    },
+    "error": {"projection_unavailable": "Unlock PortalAI, start projection, select an idle voice chat, and try again.", "approval_required": "Explicit approval is required to enable voice access."},
+    "abort": {"owner_required": "An active Home Assistant administrator must configure this integration.", "projection_required": "Set up and pair PortalAI Projection and PortalAI Native first.", "already_configured": "This PortalAI projection already has a voice connection."}
+  }
+}

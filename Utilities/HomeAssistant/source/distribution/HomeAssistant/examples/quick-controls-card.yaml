@@ -1,0 +1,33 @@
+# Standalone controls card. These existing HA services require an HA admin.
+type: horizontal-stack
+cards:
+  - type: button
+    name: Restart PortalAI
+    icon: mdi:restart
+    tap_action:
+      action: perform-action
+      perform_action: portalai_projection.full_restart
+      data:
+        device_id: "REPLACE_WITH_MODULE_DEVICE_ID"
+      confirmation:
+        text: Close PortalAI normally, wait for profile sealing, and reopen it?
+  - type: button
+    name: Force shutdown
+    icon: mdi:power-alert
+    tap_action:
+      action: none
+    hold_action:
+      action: perform-action
+      perform_action: portalai_projection.force_shutdown
+      data:
+        device_id: "REPLACE_WITH_MODULE_DEVICE_ID"
+        confirm: UNSAFE SHUTDOWN
+      confirmation:
+        text: Force shutdown can interrupt profile sealing and require recovery. It does not reopen PortalAI. Continue?
+  - type: button
+    name: PortalAI full interface
+    icon: mdi:chat
+    tap_action:
+      action: navigate
+      navigation_path: /portalai-native
+

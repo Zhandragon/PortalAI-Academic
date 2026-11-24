@@ -1,0 +1,40 @@
+pair_device:
+  name: Approve projection device
+  description: Approve a public device key. Only a signed-in HA administrator can do this.
+  fields:
+    pairing_request:
+      name: Public pairing request
+      required: true
+      selector:
+        text:
+          multiline: true
+remove_device:
+  name: Remove projection device
+  description: Revoke the projection-only key and active session.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:
+full_restart:
+  name: Full Restart PortalAI
+  description: Close normally, wait for verified shutdown and sealing, and reopen. Never automatically forces termination.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:
+force_shutdown:
+  name: Force Shutdown PortalAI (unsafe)
+  description: Terminate owned PortalAI processes without normal sealing. Recovery may be required. Does not reopen.
+  fields:
+    device_id:
+      required: true
+      selector:
+        text:
+    confirm:
+      required: true
+      selector:
+        select:
+          options:
+            - UNSAFE SHUTDOWN

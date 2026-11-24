@@ -1,0 +1,16 @@
+# The helper displays this YAML with the real public device_id filled in.
+type: vertical-stack
+cards:
+  - type: button
+    name: Recover PortalAI apps
+    icon: mdi:lifebuoy
+    tap_action:
+      action: perform-action
+      perform_action: portalai_recovery.recover_apps
+      data:
+        device_id: "REPLACE_WITH_MODULE_DEVICE_ID"
+      confirmation:
+        text: Restore projection and open normal PortalAI login without killing processes or replaying work?
+  - type: entity
+    entity: sensor.portalai_recovery_FIRST_8_DEVICE_ID_CHARS
+    name: Portable recovery helper

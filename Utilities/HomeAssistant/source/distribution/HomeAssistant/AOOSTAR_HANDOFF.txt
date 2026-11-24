@@ -1,0 +1,8 @@
+PortalAI Home Assistant 0.5.13, 2026-11-24
+
+Built on the newer 0.5.12 timeline source. Phone speech, shared two-second
+native control handoff and optional voice integration are added. Existing
+attachment, upload, history/media, recovery, pairing and security checks remain.
+Install the matching Projection Host patch and restart Projection normally.
+Read VOICE.txt and VALIDATION.txt before choosing a default voice pipeline.
+No household-specific instructions or identities belong in application code.

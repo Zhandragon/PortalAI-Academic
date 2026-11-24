@@ -1,3 +1,9 @@
+Current HA companion release: 0.5.13 (2026-11-24)
+https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.24-HA-0.5.13
+Install the matching HA and Projection Host packages from that release.
+The older setup paths and version notes below are retained as history;
+read ../../../Documentation/RELEASE-HA-0.5.13.md for current instructions.
+
 PortalAI Projection — standalone portable companion
 ===================================================
 
@@ -210,7 +216,7 @@ Keep existing pairing. Recovery remains 0.1.0. Rich error stage diagnostics and
 long-picker reconnection are in HA; see Handoffs/HA-0.5.9/INSTALLED.txt.
 
 
-Current HA release: 0.5.11.
+Historical HA release: 0.5.11.
 HA 0.5.11 compatibility
 The clean installer includes the matching host history, preview and vision UI code.
 Use ../PortalAI HA Setup/Install PortalAI HA.cmd for the matching HA receiver.

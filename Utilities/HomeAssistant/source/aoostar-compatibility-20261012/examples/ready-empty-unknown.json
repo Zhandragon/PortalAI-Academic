@@ -1,0 +1,55 @@
+{
+  "protocol": "portalai-native-state/2",
+  "generation": "synthetic-generation",
+  "kind": "snapshot",
+  "snapshot": {
+    "version": 2,
+    "view": "synthetic-view",
+    "epoch": "synthetic-binding",
+    "revision": 1,
+    "account": {
+      "state": "ready",
+      "displayName": "Synthetic fixture"
+    },
+    "runtime": {
+      "state": "unavailable",
+      "cpu": null,
+      "gpu": null,
+      "memory": null,
+      "model": ""
+    },
+    "models": [],
+    "packages": [],
+    "chat": {
+      "conversations": [],
+      "current": null,
+      "messages": [],
+      "busy": false,
+      "contextUsed": null,
+      "contextLimit": null,
+      "replyCap": null,
+      "window": {
+        "conversationsComplete": false,
+        "messagesComplete": true
+      }
+    },
+    "settings": {
+      "selection": "auto",
+      "variant": "standard",
+      "backend": "auto",
+      "context": 8192,
+      "reply": 2048,
+      "effort": "Balanced",
+      "media": {
+        "media_variant": "auto",
+        "image_profile": "auto",
+        "image_engine": "auto",
+        "speech_model": "auto",
+        "voice_engine": "auto",
+        "text_video_engine": "auto",
+        "reference_video_profile": "auto",
+        "music_engine": "auto"
+      }
+    }
+  }
+}

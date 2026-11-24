@@ -1,0 +1,15 @@
+PortalAI Home Assistant 0.5.13 — full release, 2026-11-24
+
+109 JavaScript tests passed, including real-panel microphone integration and
+the preserved timeline, attachment, upload, HTTP and reconnection behavior.
+104 Python receiver/installer/voice tests passed. The built 197-file HA payload
+verified every checksum and passed a full local installation and rollback,
+including optional voice translations and the native handoff helper.
+The matching projection host passed 25 synthetic checks. Its updater passed
+checksum, backup, idempotence and changed-source rejection checks.
+Tests use isolated fixtures. They do not manipulate real home equipment.
+
+Live normal-light actions have been independently verified. Voice completion
+has been intermittent and can be slow. Physical phone microphone, Voice Preview
+end-to-end and native Linux/macOS execution are not claimed. See VOICE.txt.
+No application model, runtime, pairing, token or household data is distributed.

@@ -1,0 +1,12 @@
+HOME ASSISTANT ENVIRONMENT — FILL IN FOR YOUR INSTALLATION
+
+Name the intended assistant, dedicated conversation and voice device.
+Document the authenticated connection name without copying credentials.
+Map natural requests to exact exposed groups/entities and available tools.
+For "all lights", explicitly define the intended group and exclusions.
+Document dangerous equipment and the interlocks required before activating it.
+Record which capabilities have been tested, limitations and rollback steps.
+Use live device states to verify actions. A model saying done is not proof.
+After uncertain delivery, inspect chat and device state before retrying.
+Keep this reference with deployment files or the assistant project, not in
+general PortalAI application code. Never put tokens or private keys here.

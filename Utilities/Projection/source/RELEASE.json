@@ -17,12 +17,14 @@
   },
   "historical_receiver_notice": "receiver fields above describe the October 12 source snapshot; use current_ha_setup for installation",
   "current_ha_setup": {
-    "version": "0.5.11",
+    "version": "0.5.13",
     "recovery": "0.1.0",
-    "distribution_revision": "portable-1",
-    "installer": "../PortalAI HA Setup/Install PortalAI HA.cmd",
-    "payload": "../PortalAI HA Setup/Setup Files/HomeAssistant",
-    "compatibility_notes": "Handoffs/HA-0.5.11/README.txt"
+    "distribution_revision": "voice-handoff-1",
+    "release_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.24-HA-0.5.13",
+    "asset": "PortalAI-HomeAssistant-0.5.13-recovery-0.1.0.zip",
+    "host_asset": "PortalAI-Projection-Host-0.5.13.zip",
+    "installer_in_asset": "HomeAssistant/install.py",
+    "compatibility_notes_in_asset": "HomeAssistant/VOICE.txt"
   },
   "host_upload_update": {
     "date": "2026-10-15",
@@ -47,5 +49,12 @@
     "native_ui_protocol": 1,
     "included_in_clean_install": true,
     "normal_restart_required_for_existing_host": true
+  },
+  "native_remote_handoff": {
+    "version": "0.5.13",
+    "completed_seconds": 2,
+    "remote_only": true,
+    "requires_matching_HA": true,
+    "legacy_screenshot_lease_unchanged": true
   }
 }

@@ -14,3 +14,7 @@ Documentation/RELEASE-r51.txt -text
 Documentation/Task_Progress_r51.txt -text
 Research/CodingSpecialist/** -text
 Documentation/science-examples/** -text
+
+# Preserve reproducible HA and host-update payload bytes.
+Utilities/HomeAssistant/** -text
+Utilities/Projection/HostUpdate/** -text

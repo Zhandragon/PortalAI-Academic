@@ -1,0 +1,12 @@
+{
+  "domain": "portalai_voice",
+  "name": "PortalAI Voice via Projection",
+  "version": "0.1.0",
+  "config_flow": true,
+  "dependencies": ["conversation", "portalai_native"],
+  "requirements": [],
+  "codeowners": [],
+  "documentation": "https://developers.home-assistant.io/docs/intent_conversation_api/",
+  "iot_class": "cloud_push",
+  "integration_type": "service"
+}

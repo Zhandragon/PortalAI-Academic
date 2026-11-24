@@ -9,6 +9,8 @@
 
 <h1 align="center">PortalAI</h1>
 
+**Home Assistant 0.5.13 (2026-11-24):** Phone microphone input, two-second native remote handoff, and optional voice integration. [Full release](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.24-HA-0.5.13) · [Setup and validation](Documentation/RELEASE-HA-0.5.13.md).
+
 **Windows r85 (2026-11-22):** Final cumulative tool-recovery release, including consistent read-only metadata/retrieval classification and the workflow generality audit. [Changes](Documentation/RELEASE-r85.md) · [Workflow audit](Documentation/WORKFLOW-GENERALITY-r85.txt). Includes r79-r84; experimental Linux/macOS remain r75.
 
 **Windows r84 (2026-11-22):** Bounded correction for token-truncated tool calls, clearer literal page search, and audited reusable tool/media workflows. [Changes](Documentation/RELEASE-r84.md) · [Workflow audit](Documentation/WORKFLOW-GENERALITY-r84.txt). Includes r79-r83; experimental Linux/macOS remain r75.

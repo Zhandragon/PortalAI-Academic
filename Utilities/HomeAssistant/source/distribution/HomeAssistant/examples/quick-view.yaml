@@ -1,0 +1,38 @@
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: button
+        name: Restart PortalAI
+        icon: mdi:restart
+        tap_action:
+          action: perform-action
+          perform_action: portalai_projection.full_restart
+          data:
+            device_id: "REPLACE_WITH_MODULE_DEVICE_ID"
+          confirmation:
+            text: Close PortalAI normally and reopen it?
+      - type: button
+        name: Force shutdown
+        icon: mdi:power-plug-off
+        tap_action:
+          action: none
+        hold_action:
+          action: perform-action
+          perform_action: portalai_projection.force_shutdown
+          data:
+            device_id: "REPLACE_WITH_MODULE_DEVICE_ID"
+            confirm: UNSAFE SHUTDOWN
+          confirmation:
+            text: >-
+              Force shutdown may require profile recovery. It will not
+              reopen PortalAI. Continue?
+      - type: button
+        name: Full interface
+        icon: mdi:chat
+        tap_action:
+          action: navigate
+          navigation_path: /portalai-native
+  - type: custom:portalai-quick-chat
+    title: PortalAI
+    device_id: "REPLACE_WITH_MODULE_DEVICE_ID"

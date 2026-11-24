@@ -1,3 +1,5 @@
+**Home Assistant 0.5.13 (2026-11-24):** Phone microphone input, two-second native remote handoff, and optional voice integration. [Full release](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.24-HA-0.5.13) · [Setup and validation](../../Documentation/RELEASE-HA-0.5.13.md).
+
 # PortalAI Projection
 
 Optional companion for the existing PortalAI application. **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** Windows x64 and Linux x86-64 packages are provided; Linux requires X11/XWayland and delegated cgroup v2 memory control. See the [full setup guide](../../Documentation/PROJECTION.md) for requirements and validation limits.
