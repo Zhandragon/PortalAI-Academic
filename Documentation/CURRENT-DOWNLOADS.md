@@ -2,18 +2,18 @@
 
 [Back to downloads](../README.md#download-and-install)
 
-**Bundle 2026.11.25-bundle4** includes the native installers, complete optional model download catalogs, and compatible optional companions. Models download during installation; their weights are not embedded in these ZIPs.
+**Bundle 2026.11.25-bundle5** includes the native installers, complete optional model download catalogs, and compatible optional companions. Models download during installation; their weights are not embedded in these ZIPs.
 
 | Choice | Application |
 | --- | --- |
-| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle4.zip) | r85, x64 |
-| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle4.zip) | Experimental r75, Apple silicon / Intel |
-| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle4.zip) | Experimental r75, x86-64 |
-| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle4.zip) | Windows r85; Mac/Linux r75 |
+| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle5/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle5.zip) | r85, x64 |
+| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle5/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle5.zip) | Experimental r75, Apple silicon / Intel |
+| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle5/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle5.zip) | Experimental r75, x86-64 |
+| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle5/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle5.zip) | Windows r85; Mac/Linux r75 |
 
 ## Install at the drive root or a folder you choose
 
-1. Extract the entire ZIP into a new folder. Keep **Packages**, **Setup**, **Utilities** and the setup scripts together.
+1. Extract the entire ZIP into a new folder. Keep **Packages**, **Setup**, **Utilities** and the setup scripts together. The standalone launcher asset alone is not a complete installer bundle.
 2. Windows: open **Start Setup.cmd**. Mac: open **Start Setup.command**. Linux: run **bash prepare-setup.sh**.
 3. Choose the **installation root directory**. The default is the drive containing the bundle. Windows offers an editable field, **Browse** and **Drive root**; Mac/Linux ask in the terminal.
 4. Choose the components, review model licenses, and install. Windows **All components** selects every available model and native companion; **Express** remains a small starter setup. Mac/Linux offer **Select all** in their model chooser and a separate optional suite chooser.
@@ -44,13 +44,13 @@ Windows reset and Weight-Space Editor launchers remain in the native application
 
 ## Verification and current versions
 
-The original Windows r85 and Mac/Linux r75 native archives remain byte-for-byte intact. Checksum-verified setup overlays add destination controls, complete model catalogs and current bundled companion selection. Prepared packages receive updated checksums. The Windows extraction-path fix is retained: unused Mac test/debug files are omitted and paths reserve 120 characters for the extraction folder.
+The original Windows r85 and Mac/Linux r75 native archives remain byte-for-byte intact. Checksum-verified setup overlays add destination controls, complete model catalogs and current bundled companion selection. Prepared packages receive updated checksums. Mac/Linux companion installation restores verified executable permissions even if the ZIP was first extracted on Windows. The Windows extraction-path fix is retained: unused Mac test/debug files are omitted and paths reserve 120 characters for the extraction folder.
 
-- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/SHA256SUMS.txt)
+- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle5/SHA256SUMS.txt)
 - [Bundle manifest and build validation](DOWNLOAD-BUNDLES.json)
 - [Windows r85](RELEASE-r85.md), [Mac/Linux r75](RELEASE-r75.md), [Home Assistant 0.5.13](RELEASE-HA-0.5.13.md)
 - [Release history and tracked changes](RELEASE-HISTORY.md)
 
 Each ZIP contains **bundle.json**, **BUNDLE-CONTENTS.json** and **SHA256SUMS**. PowerShell **-VerifyOnly** and Bash **--verify-only** verify preparation inputs without launching; **-ExtractOnly** / **--extract-only** prepares the native installer without launching.
 
-Validation covers archive contents, destination placement, optional model consent, credential handling, bundled companion placement, space checks and Windows UI behavior. Mac/Linux remain experimental. Fresh physical Mac/Linux installations and live inference were not rerun for this packaging update.
+A Linux regression test executes a copied launcher after its original executable bit has been lost; catalogs reject privileged permission bits. Validation covers archive contents, destination placement, optional model consent, credential handling, bundled companion placement, space checks and Windows UI behavior. Mac/Linux remain experimental. Fresh physical Mac/Linux installations and live inference were not rerun for this packaging update.
