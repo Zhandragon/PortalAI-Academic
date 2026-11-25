@@ -6,7 +6,7 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.25-bundle4'
+VERSION='2026.11.25-bundle5'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
 WINDOWS_EXTRACTION_ROOT_BUDGET=120
@@ -138,11 +138,13 @@ Windows reset and Weight-Space Editor entry points remain in the native app
 payload where supported; use them from the installed application's Utilities.
 
 CURRENT RELEASE
-Bundle 4 recreates the drive layout from a ZIP extracted anywhere on the drive.
+Bundle 5 recreates the drive layout from a ZIP extracted anywhere on the drive.
 Windows Start Setup defaults to the drive root. Edit Installation root directory,
 Browse, or Drive root before installing. Mac/Linux ask for an installation root.
 Applications go in PortalAI Windows, PortalAI Mac or PortalAI Linux under that
 root. Selected companions go beside them in Utilities, never under Platforms.
+Mac/Linux utility launchers and runtimes retain their recorded executable modes,
+including when Windows extraction did not preserve the original permissions.
 Existing application/companion folders are preserved; use Update existing for an
 installed application. An unrelated Utilities/Installers folder is allowed.
 
@@ -244,7 +246,7 @@ def main():
                 row=dict(source_file='Utilities/Windows/Portable Abliterator Setup/'+tail,file='SuiteAssets/abliterator/'+tail,dest=tail)
                 source=stage/rel;abliterator.append(row)
             else:continue
-            row.update(bytes=source.stat().st_size,sha256=sha(source))
+            row.update(bytes=source.stat().st_size,sha256=sha(source),mode=modes[rel]&0o777)
         local_assets=[dict(id='projection-'+platform.lower(),platform=platform,files=projection)]
         if abliterator:local_assets.append(dict(id='abliterator-windows',platform='Windows',files=abliterator,additional_download_bytes=3103192679))
         local_json=encoded(dict(schema=1,base_catalog_sha256=hashlib.sha256(suite_catalogs[platform]).hexdigest(),assets=local_assets))

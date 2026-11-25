@@ -1,6 +1,6 @@
 """Optional companions use reviewed local files and the selected root layout."""
 from pathlib import Path
-import hashlib,json,sys,tempfile,threading,unittest
+import hashlib,json,sys,tempfile,threading,unittest,os,subprocess,stat
 from unittest.mock import patch
 from collections import namedtuple
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'Windows'))
@@ -60,5 +60,20 @@ class Companions(unittest.TestCase):
             result=suite.space_check(self.root,840*suite.GIB,completed_downloads=390*suite.GIB)
             self.assertEqual(result['reserve_bytes'],92*suite.GIB)
             self.assertEqual(result['temporary_reserve_bytes'],suite.GIB)
+
+    @unittest.skipIf(os.name=='nt','POSIX executable permissions are exercised by Linux CI')
+    def test_recorded_launcher_permissions_survive_windows_extraction(self):
+        data=b'#!/bin/sh\nprintf executable\n'
+        source=self.package/'SuiteAssets/launcher';source.write_bytes(data);source.chmod(0o644)
+        row=dict(file='SuiteAssets/launcher',dest='Utilities/PortalAI-Projection/Start Projection.sh',bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),mode=0o755)
+        destination=self.root/'installed';suite.copy_local_utility(dict(local_files=[row]),self.package,destination,threading.Event())
+        target=destination/row['dest']
+        self.assertEqual(stat.S_IMODE(target.stat().st_mode),0o755)
+        self.assertEqual(subprocess.check_output([str(target)]),b'executable')
+
+    def test_privileged_companion_modes_are_rejected_before_installation(self):
+        path=self.package/'suite-local.json';overlay=json.loads(path.read_text());overlay['assets'][0]['files'][0]['mode']=0o4755;path.write_text(json.dumps(overlay))
+        with self.assertRaises(suite.SuiteError):suite.read_catalog(self.package)
+        self.assertFalse((self.root/'Utilities').exists())
 
 if __name__=='__main__':unittest.main()

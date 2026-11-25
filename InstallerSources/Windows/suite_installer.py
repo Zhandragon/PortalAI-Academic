@@ -100,6 +100,8 @@ def read_catalog(package):
                 check(pin['file'].startswith('SuiteAssets/') and pin['dest'] not in seen,'Invalid bundled utility file')
                 seen.add(pin['dest'])
                 check(type(pin['bytes']) is int and pin['bytes']>=0 and re.fullmatch('[0-9a-f]{64}',pin['sha256']),'Missing bundled utility pin')
+                if 'mode' in pin:
+                    check(type(pin['mode']) is int and 0<=pin['mode']<=0o777 and pin['mode']&0o400,'Invalid bundled utility permissions')
             asset.update(local_files=row['files'],resolve_release=False,private=False,
                          expanded_bytes=sum(p['bytes'] for p in row['files']),additional_download_bytes=row.get('additional_download_bytes',0))
     return catalog
@@ -353,6 +355,10 @@ def copy_local_utility(asset, package, destination, stop):
         target.parent.mkdir(parents=True,exist_ok=True)
         with source.open('rb') as inp,target.open('xb') as out:shutil.copyfileobj(inp,out,1024**2)
         check(sha(target)==row['sha256'],'Bundled companion readback failed')
+        if os.name!='nt':
+            # Use the archive's recorded mode even if Windows extraction lost it.
+            # Special privilege bits are never copied.
+            target.chmod(row.get('mode',source.stat().st_mode)&0o777)
     return destination
 
 

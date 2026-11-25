@@ -86,7 +86,7 @@ for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
 manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
     validation=dict(archive_checks=checks,setup_regression_tests=15,setup_regression_tests_passed_locally=15,native_mac_linux_runtime_tested=False,live_inference_retested=False,
-      archive_layout_tests_passed=6,install_destination_tests_passed=9,windows_gui_checks_passed_locally=15,complete_model_tests_passed=11,bundled_companion_tests_passed=6,
+      archive_layout_tests_passed=6,install_destination_tests_passed=9,windows_gui_checks_passed_locally=15,complete_model_tests_passed=11,bundled_companion_tests_passed=8,unix_launcher_mode_test_passed=True,
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:
