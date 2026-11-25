@@ -6,13 +6,15 @@ Projection is an optional portable companion to the PortalAI application. It con
 
 **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** Install the companion for the computer running PortalAI, not the phone, tablet or computer used to view Home Assistant.
 
-## Host requirements and downloads
+## Host requirements and bundled companions
 
-| Host | Support and download |
+Projection is included as an optional companion in the [current OS bundles](CURRENT-DOWNLOADS.md). Open **Utilities / your OS / PortalAI-Projection** only if wanted. Keep **PortalAI HA Setup** beside it. Fresh bundles include the 0.5.13 host update and matching HA integration.
+
+| Host | Requirements |
 | --- | --- |
-| Windows x64 | [Windows Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Windows-Setup.exe). An unlocked, signed-in desktop is required. The downloader needs .NET Framework 4.5+, included with Windows 10/11. |
-| Linux x86-64 | [Linux Projection setup](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-Projection-Linux-Setup.sh). Requires Linux 5.14+, an unlocked X11/XWayland TrueColor desktop, a drive mounted with execution allowed, and a delegated cgroup v2 with memory control. The launcher requests a systemd user scope without sudo. Download setup uses Bash, curl, tar and SHA-256 utilities. |
-| macOS 14+, Intel / Apple silicon | [Mac Projection + HA setup](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.24-r10/PortalAI-Projection-Mac-20261024-r10.tar.gz). Bundled runtime, verified owned-window capture and separate recovery. Physical Mac acceptance pending. |
+| Windows x64 | Unlocked, signed-in desktop. Use Start Projection.cmd. |
+| Linux x86-64 | Linux 5.14+, X11/XWayland TrueColor desktop, executable drive, delegated cgroup v2 memory control. Use Start Projection.sh. |
+| macOS 14+, Intel / Apple silicon | Screen Recording permission for desktop projection. Use Start Projection.command. Native acceptance pending. |
 
 Linux has partial validation; physical Linux desktops remain unvalidated. ARM Linux, headless/locked desktops, native Wayland without XWayland, missing cgroup delegation and unusual visual formats are unsupported. Physical HA Green/Home Assistant Cloud deployment has not been validated end to end. Report problems to the [maintainer](https://github.com/Zhandragon/PortalAI-Academic/issues) with OS versions and the error message, excluding passwords, tokens and private connection files.
 
@@ -22,15 +24,10 @@ Extract the Mac bundle and keep its two Utilities folders together, outside the 
 
 ## 1. Prepare the companion
 
-Install PortalAI first. Open the Windows download, or on Linux run:
+Install PortalAI first. Extract the OS bundle and open **Utilities / your OS**. **PortalAI-Projection** and **PortalAI HA Setup** are already included; keep them together. Python/Tk/TLS runtimes are included. Main setup does not activate them.
 
-```sh
-bash PortalAI-Projection-Linux-Setup.sh
-```
+Use **Start Projection.cmd** on Windows, **Start Projection.command** on Mac or **Start Projection.sh** on Linux. For an existing companion, preserve Connections and state and follow the [guarded upgrade guide](RELEASE-HA-0.5.13.md).
 
-Choose a new folder on the **same drive** as the installed PortalAI application. The downloader verifies every part, reconstructs the archive, checks extracted files and opens the companion. Its `utilities` folder contains two sibling folders: `PortalAI-Projection` and `PortalAI HA Setup`. Keep them together. Python/Tk/TLS dependencies are included; no host Python or Node installation is required for these companion launchers.
-
-For later launches, use `utilities/PortalAI-Projection/Start Projection.cmd` on Windows or `sh "utilities/PortalAI-Projection/Start Projection.sh"` on Linux. The setup downloader is for preparing/verifying the distribution; you do not need to redownload it each time.
 
 ## 2. Set your Home Assistant link and PortalAI folder
 
@@ -47,7 +44,7 @@ Use Home Assistant's own sign-in on a trusted device. The Projection connection 
 
 ## 3. Install the matching Home Assistant integration
 
-The bundle includes **PortalAI Home Assistant 0.5.12 + Recovery 0.1.0**. HA must already be installed, onboarded and accessible to its administrator. Back up its configuration, then use a writable HA configuration folder or share.
+The bundle includes **PortalAI Home Assistant 0.5.13 + Recovery 0.1.0**. HA must already be installed, onboarded and accessible to its administrator. Back up its configuration, then use a writable HA configuration folder or share.
 
 **From Windows:** open `utilities/PortalAI HA Setup/Install PortalAI HA.cmd`. Choose **Install** for a writable config/share, or **Prepare** to create a deployment ZIP for a trusted HA device. Enter the public device ID generated above. This uses the sibling companion's bundled Python.
 
@@ -59,7 +56,7 @@ sh "utilities/PortalAI HA Setup/Install PortalAI HA.sh"
 
 It uses the companion's bundled Linux Python and asks for the writable HA configuration path and public device ID. It does not install Home Assistant OS or configure remote access.
 
-**Directly on a trusted HA device:** download and extract the [matching integration ZIP](https://raw.githubusercontent.com/Zhandragon/PortalAI-Academic/main/Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip), verify its [SHA-256](../Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip.sha256), enter the extracted `HomeAssistant` folder and run `sh install.sh`. This direct route needs Python 3.9+ on that device. Read its `README_FIRST.txt` before installation.
+**Directly on a trusted HA device:** download and extract the [matching integration included in your bundle](CURRENT-DOWNLOADS.md), verify its [SHA-256](../Utilities/Projection/PortalAI-HomeAssistant-0.5.11-recovery-0.1.0.zip.sha256), enter the extracted `HomeAssistant` folder and run `sh install.sh`. This direct route needs Python 3.9+ on that device. Read its `README_FIRST.txt` before installation.
 
 For standard HA layouts the installer adds the integrations and frontend modules, a PortalAI Native sidebar, and Quick Chat/Desktop/Recovery dashboard views. Changed files receive verified backups. Advanced YAML layouts with external includes, packages, aliases or conflicting dashboards stop before automatic writes; follow the package's explicit `--files-only` and manual-merge instructions.
 

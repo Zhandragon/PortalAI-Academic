@@ -1,53 +1,20 @@
-# PortalAI (Academic) documentation
+# PortalAI Academic documentation
 
-[Welcome page and gallery](../README.md) · [Download and install](../README.md#download-and-install)
+[Welcome page](../README.md) · [Current downloads and optional utilities](CURRENT-DOWNLOADS.md) · [Release history](RELEASE-HISTORY.md)
 
-Documentation and help are already inside PortalAI. Open **Help** to browse or search offline topics, and right-click controls for context-aware guidance. These repository guides focus on distribution, installation and connecting optional companions.
-
-Latest capability update: [tested Windows r60](CAPABILITY-INTELLIGENCE-r60.md), superseding the implementation-only patch and including the earlier [static audit repairs](STATIC-AUDIT-20261101.txt).
-
-Current Windows package: [r72 logic-audit repairs](RELEASE-r72.md), [installer verification](WINDOWS-INSTALLER-r72.json). Includes earlier coding routing, privacy, context, voice and ownership repairs. Linux/Mac: [r51](RELEASE-r51.txt). Earlier source patch: [mission recovery and source audit](SOURCE-AUDIT-20261029.md). Upgrade background: [unified r45](UNIFIED-20261025-r45.md).
+Current bundles contain **Windows r85**, **experimental Mac/Linux r75**, and **Home Assistant 0.5.13** with the matching Projection host update. Companions remain optional.
 
 | Topic | Guide |
 | --- | --- |
-| Install and launch | [Installation and platform requirements](INSTALLATION.md) |
-| Drive format: Windows NTFS, Mac APFS, Linux ext4 | [Drive preparation and filesystem recommendations](INSTALLATION.md#drive-format-and-preparation) |
-| Home Assistant link, pairing and projection | [Projection guide](PROJECTION.md) |
-| Interface and hardware controls | [Gallery and settings overview](../README.md#a-look-inside) |
-| Local accounts and encryption | [Privacy and local accounts](../README.md#privacy-and-local-accounts) |
-| Antivirus detections | [llama.cpp and antivirus help](../README.md#antivirus-and-the-llamacpp-server) |
-| Companion downloads | [Utilities](../README.md#companion-utilities) |
-| Build provenance and verification | [Academic build notes](README.txt), [current validation](VALIDATION.json), [publishing guide](PUBLISHING.md) |
-| Screenshot provenance | [Artwork notes](assets/README.md) |
+| Setup, optional utilities and verification | [Current downloads](CURRENT-DOWNLOADS.md) |
+| Hardware, drivers and native filesystems | [Installation](INSTALLATION.md) |
+| Projection, Home Assistant and pairing | [Projection](PROJECTION.md) |
+| Current HA changes and optional voice | [Home Assistant 0.5.13](RELEASE-HA-0.5.13.md) |
+| Features and science examples | [Feature tour](FEATURE-TOUR.md) |
+| Application source | [Source map](SOURCE-MAP.md) |
+| Earlier changes, audits and validation | [Release history](RELEASE-HISTORY.md) |
+| Latest bundle build and checks | [Bundle manifest](DOWNLOAD-BUNDLES.json) |
 
-Academic enforces standard/censored routing and excludes abliterated/uncensored assets. Its visible variant controls do not unlock those assets.
+Help is built into PortalAI. Open **Help** or right-click a control. Report OS, release and exact error, leaving out passwords, tokens and private account files.
 
-Only Windows has been thoroughly tested; Linux has partial validation. macOS installation and other configurations may encounter errors. **macOS Projection is now packaged for Intel and Apple silicon (macOS 14+); native Mac acceptance remains pending.** Use the matching repository's issue tracker linked on the welcome page, and omit secrets and private user files from reports.
-
-[Current web/agents/ports/Mac update](UPDATE-20261021.md) · [Usage](WebAgents/USAGE.txt) · [Mac setup](MacProjection/SETUP.txt).
-
-[Silent web tools update and current installers](SILENT-WEB-20261021.md).
-
-[Chat timeline update and current installers](CHAT-TIMELINE-20261022.md).
-
-**Earlier update: mission review instructions.** Add corrections or responses to a paused mission or scheduled run, retain review history, and re-enable reviewed schedules. [Details and current installers](MISSION-REVIEW-20261022.md).
-
-
-Current distribution correction: [one-off migration removal](DISTRIBUTION-SCOPE-20261024-r9.md) and [validation](DISTRIBUTION-SCOPE-VALIDATION-20261024-r9.json).
-
-Current update: [shutdown and Projection repair](SHUTDOWN-20261024-r10.md) and [receiving validation](SHUTDOWN-VALIDATION-20261024-r10.json).
-
-## Implementation and source
-
-- [Microphone and hands-free voice](VOICE-CONTROLS-r52.md), [test receipts](VOICE-VALIDATION-r52.json), and [voice lifecycle source](../ApplicationSources/Windows/PortalAI/ControlCenter/chat_voice.py)
-- [Qwen runtime repair, consolidation and limits](QWEN-RUNTIME-CONSOLIDATION-20261030.txt), [validation receipts](QWEN-RUNTIME-VALIDATION-20261030.json) and [voice worker source](../ApplicationSources/Windows/PortalAI/Voice/Qwen3-TTS/qwen_tts_runner.py)
-- [Architecture and source map](SOURCE-MAP.md)
-- [Mission recovery: exact behavior, limits and tests](MISSION-RECOVERY.md)
-- [Application module index](MODULE-INDEX.md) and [machine-readable source inventory](SOURCE-INVENTORY.json)
-- [2026-10-29 audit: publication gaps, installed variants and validation](SOURCE-AUDIT-20261029.md)
-
-**Follow-up bug fixes (2026-10-29):** schedule backoff, worker launch recovery, and durable failure records. [Findings, source, tests and SSD patch](BUG-REVIEW-20261029.md).
-
-**Workspace update (2026-10-29):** [knowledge, MCP, workflows and Windows computer use](WORKSPACE.md), [validation](WORKSPACE-VALIDATION-20261029.md), and [code/runtime bloat audit](BLOAT-AUDIT-20261029.md).
-
-Experimental work: [Qwen reasoning, coding, math and tool-use diagnostics](../Research/WeightSpace/README.md). Includes a small measured pilot and reversible sparse-edit tooling; **no model improvement or weight change is deployed**.
+Windows has received extensive runtime testing; Linux/macOS remain experimental. Native platform and live-model acceptance limits are documented with each release.

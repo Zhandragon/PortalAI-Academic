@@ -1,5 +1,7 @@
 # Installing PortalAI (Academic)
 
+**Current bundles:** [downloads and optional utilities](CURRENT-DOWNLOADS.md). The welcome page has the four current choices; older release notes are historical.
+
 Current release: verified executable backups, a manual recovery popup, and scheduled-mission startup/activity fixes. [Instructions](RECOVERY-MISSIONS-20261022.md).
 
 [Documentation index](README.md) · [Current installer downloads](../README.md#download-and-install)

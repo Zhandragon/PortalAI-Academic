@@ -1,0 +1,188 @@
+{
+  "bundle_version": "2026.11.25-bundle1",
+  "edition": "Academic",
+  "native_versions": {
+    "Windows": "r85",
+    "Mac": "r75",
+    "Linux": "r75"
+  },
+  "utilities_optional": true,
+  "validation": {
+    "archive_checks": [
+      {
+        "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip",
+        "members_verified": 2477,
+        "reviewed_contents_sha256": "bd0d6c565a8c9a6ad979e5c080d83425fe44273a6fe2cc70edb4ee9cf3c02126",
+        "native_archives_unchanged": true,
+        "utilities_optional": true
+      },
+      {
+        "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip",
+        "members_verified": 2017,
+        "reviewed_contents_sha256": "ac90eaa6999761d0b99d00fe00931f32aa90e5281951d027c63e721e2d80872c",
+        "native_archives_unchanged": true,
+        "utilities_optional": true
+      },
+      {
+        "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip",
+        "members_verified": 1400,
+        "reviewed_contents_sha256": "788d14d7125ad7e7c4a7552e3db41436dfaf9cc15cbc727f898bf0d09b970068",
+        "native_archives_unchanged": true,
+        "utilities_optional": true
+      },
+      {
+        "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip",
+        "members_verified": 5876,
+        "reviewed_contents_sha256": "3addc65971d853fbb850ac035531be058d320ed3ecf923966d8c7a8cd7b69765",
+        "native_archives_unchanged": true,
+        "utilities_optional": true
+      }
+    ],
+    "setup_regression_tests": 9,
+    "setup_regression_tests_passed": 9,
+    "native_mac_linux_runtime_tested": false,
+    "live_inference_retested": false,
+    "build_workflow": "https://github.com/Zhandragon/PortalAI-Academic/actions/runs/45689134194",
+    "source_commit": "a9c032950273582e5550f1209fc4f7cffc8b78d5"
+  },
+  "bundles": [
+    {
+      "edition": "Academic",
+      "platform": "Windows",
+      "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip",
+      "bytes": 684604971,
+      "sha256": "18cf833de7c914dd55e3be6615d5658f15d56130a28f71db9249d68bcd717af5",
+      "manifest": {
+        "schema": 1,
+        "version": "2026.11.25-bundle1",
+        "edition": "Academic",
+        "platforms": [
+          "Windows"
+        ],
+        "assets": [
+          {
+            "platform": "Windows",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip",
+            "bytes": 662019033,
+            "sha256": "d35cb07d57ddc99bd7aec51333d25a187e914bd932febaa2e71b266c31351947",
+            "version": "2026.11.22-Desktop-r85",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.22-Desktop-r85/PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip"
+          }
+        ],
+        "windows_installer": "PortalAI-Academic-Install.exe",
+        "utilities_optional": true,
+        "home_assistant": "0.5.13",
+        "projection_host_update": "0.5.13",
+        "abliterator_included": false
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Mac",
+      "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip",
+      "bytes": 671350437,
+      "sha256": "f01a94c049180c1e683e3af27127d0671b7a2022596c0281a8cc5aa7efdc8d65",
+      "manifest": {
+        "schema": 1,
+        "version": "2026.11.25-bundle1",
+        "edition": "Academic",
+        "platforms": [
+          "Mac"
+        ],
+        "assets": [
+          {
+            "platform": "Mac",
+            "file": "PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+            "bytes": 589027550,
+            "sha256": "1ab145d3c038a5b411a731a421978fbe7fd7e755af9b14cc5c1245a6322f4065",
+            "version": "2026.11.09-Desktop-r75",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+          }
+        ],
+        "windows_installer": "PortalAI-Academic-Install.exe",
+        "utilities_optional": true,
+        "home_assistant": "0.5.13",
+        "projection_host_update": "0.5.13",
+        "abliterator_included": false
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Linux",
+      "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip",
+      "bytes": 594195929,
+      "sha256": "8e4410bef4b268631886a9546245f907686f23325b5c9e099b3c6a05b161825f",
+      "manifest": {
+        "schema": 1,
+        "version": "2026.11.25-bundle1",
+        "edition": "Academic",
+        "platforms": [
+          "Linux"
+        ],
+        "assets": [
+          {
+            "platform": "Linux",
+            "file": "PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+            "bytes": 532255768,
+            "sha256": "fcfc9f3a3deaf1f89d5f71ff4387b1984d3872782f7c71f3858c86abb45795a4",
+            "version": "2026.11.09-Desktop-r75",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+          }
+        ],
+        "windows_installer": "PortalAI-Academic-Install.exe",
+        "utilities_optional": true,
+        "home_assistant": "0.5.13",
+        "projection_host_update": "0.5.13",
+        "abliterator_included": false
+      }
+    },
+    {
+      "edition": "Academic",
+      "platform": "Universal",
+      "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip",
+      "bytes": 1950135854,
+      "sha256": "16acf2266907a55d8f493e0c6181c82f741b340b35957b33746a396b6cb21691",
+      "manifest": {
+        "schema": 1,
+        "version": "2026.11.25-bundle1",
+        "edition": "Academic",
+        "platforms": [
+          "Windows",
+          "Mac",
+          "Linux"
+        ],
+        "assets": [
+          {
+            "platform": "Windows",
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip",
+            "bytes": 662019033,
+            "sha256": "d35cb07d57ddc99bd7aec51333d25a187e914bd932febaa2e71b266c31351947",
+            "version": "2026.11.22-Desktop-r85",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.22-Desktop-r85/PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip"
+          },
+          {
+            "platform": "Mac",
+            "file": "PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+            "bytes": 589027550,
+            "sha256": "1ab145d3c038a5b411a731a421978fbe7fd7e755af9b14cc5c1245a6322f4065",
+            "version": "2026.11.09-Desktop-r75",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+          },
+          {
+            "platform": "Linux",
+            "file": "PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+            "bytes": 532255768,
+            "sha256": "fcfc9f3a3deaf1f89d5f71ff4387b1984d3872782f7c71f3858c86abb45795a4",
+            "version": "2026.11.09-Desktop-r75",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+          }
+        ],
+        "windows_installer": "PortalAI-Academic-Install.exe",
+        "utilities_optional": true,
+        "home_assistant": "0.5.13",
+        "projection_host_update": "0.5.13",
+        "abliterator_included": false
+      }
+    }
+  ]
+}

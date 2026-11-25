@@ -11,3 +11,34 @@ Run `python -B bootstrap-source/build.py` on Windows with the .NET Framework com
 Build the maintained Windows launcher with `InstallerSources/Windows/build.py`, passing the verified matching `--runtime-zip`, an `--output` executable path and the existing `--icon`. The build requires Python, all four engine/update helpers, and `storage-plan.json` as embedded resources. Run the produced executable with `--verify-bootstrap`, inspect resource hashes, and exercise its storage-plan loader before packaging. Updating `.cs` or `.py` sources alone does not update an already compiled executable.
 
 Recompute `PACKAGE_SHA256.json`, the complete archive hash, bootstrap metadata and universal manifest/TSV pins together. Universal sources live in `InstallerSources/Universal`; preserve executable ZIP modes for shell launchers. Test the edition-specific launcher path and missing/corrupt archives. Keep Full assets private and Academic assets separate. Preserve historical package parts and release archives needed by existing downloaders.
+
+## Welcome-page download bundles
+
+Current download bundles are built with tools/build_welcome_bundles.py and the
+launchers in InstallerSources/Bundle. The native installer archives remain
+unchanged. Optional Projection/HA files and, for Full Windows/Universal only,
+Portable Abliterator setup are included beside them; main setup never runs them.
+
+The build accepts --inputs, --output and --edition. Each input record supplies
+key, path, sha256 and asset.browser_download_url. Required keys are the edition's
+Windows/Mac/Linux installers, Projection/Windows, Projection/Mac,
+Projection/Linux, HomeAssistant and HostUpdate. Full additionally requires
+Abliterator/Windows. Academic builds require no Full/private inputs.
+Use independently verified published hashes, not files from a personal install.
+
+For subsequent releases, create new draft release IDs and a new bundle version.
+Update tools/download-bundle-inputs.json with reviewed source pins and contents
+manifests from the local builds. The manually dispatched Build current download
+bundles workflow downloads those pinned inputs, reconstructs the bundles, checks
+every member against the reviewed contents, and uploads to the task-owned draft.
+It does not publish releases, change optional selections or change repository
+visibility. Existing published assets are never overwritten. Update the current
+download guide, four welcome-page buttons and DOWNLOAD-BUNDLES.json together only
+after the draft assets pass verification. Retain the latest desktop release
+pointer for existing updater clients. Archive superseded notices in release
+history rather than appending them to the welcome page.
+
+On Windows, run InstallerSources/Tests/test_download_bundles.py to exercise both
+PowerShell and Git Bash preparation: correct entry points, optional components
+left inactive, corrupt/missing packages, duplicate platforms, existing folders
+and wrong-OS bundles. These checks do not replace native macOS/Linux acceptance.
