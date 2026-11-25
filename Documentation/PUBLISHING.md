@@ -42,3 +42,7 @@ On Windows, run InstallerSources/Tests/test_download_bundles.py to exercise both
 PowerShell and Git Bash preparation: correct entry points, optional components
 left inactive, corrupt/missing packages, duplicate platforms, existing folders
 and wrong-OS bundles. These checks do not replace native macOS/Linux acceptance.
+
+## Windows extraction path check
+
+Mac Projection runtime packaging omits only the PyObjCTest test tree and .dSYM debug-symbol trees under MacPackages-arm64 and MacPackages-x86_64. Preserve all runtime extensions, package metadata and licenses. Build and CI reject archive paths that exceed classic Windows file/directory limits after reserving 120 UTF-16 characters for the destination folder (including the ZIP stem). Run InstallerSources/Tests/test_bundle_archive_layout.py; its regression includes the reported testoutputinitializer debug path. Also compare retained members against the previous bundle and exercise all member paths with the Windows extractor.

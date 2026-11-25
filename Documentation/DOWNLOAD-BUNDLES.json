@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026.11.25-bundle1",
+  "bundle_version": "2026.11.25-bundle2",
   "edition": "Academic",
   "native_versions": {
     "Windows": "r85",
@@ -10,51 +10,72 @@
   "validation": {
     "archive_checks": [
       {
-        "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip",
+        "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip",
         "members_verified": 2477,
-        "reviewed_contents_sha256": "bd0d6c565a8c9a6ad979e5c080d83425fe44273a6fe2cc70edb4ee9cf3c02126",
+        "reviewed_contents_sha256": "8a40ea9bb5aeac96b2dd9d7cf98c4565d421e990f1133396380dd0c6f456a0d4",
         "native_archives_unchanged": true,
-        "utilities_optional": true
+        "utilities_optional": true,
+        "windows_paths": {
+          "max_relative_path_characters": 133,
+          "extraction_root_budget": 120,
+          "max_full_path_characters": 254
+        }
       },
       {
-        "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip",
-        "members_verified": 2017,
-        "reviewed_contents_sha256": "ac90eaa6999761d0b99d00fe00931f32aa90e5281951d027c63e721e2d80872c",
+        "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip",
+        "members_verified": 881,
+        "reviewed_contents_sha256": "3c5f3780ea622324baddbe6bf64dee6066c04bfb6c0315faedefe596e4d911f6",
         "native_archives_unchanged": true,
-        "utilities_optional": true
+        "utilities_optional": true,
+        "windows_paths": {
+          "max_relative_path_characters": 133,
+          "extraction_root_budget": 120,
+          "max_full_path_characters": 254
+        }
       },
       {
-        "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip",
+        "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip",
         "members_verified": 1400,
-        "reviewed_contents_sha256": "788d14d7125ad7e7c4a7552e3db41436dfaf9cc15cbc727f898bf0d09b970068",
+        "reviewed_contents_sha256": "7d57a57d9ef41171ff848b5528904ebe47e42b7023aa9a0b089c588570035f6a",
         "native_archives_unchanged": true,
-        "utilities_optional": true
+        "utilities_optional": true,
+        "windows_paths": {
+          "max_relative_path_characters": 131,
+          "extraction_root_budget": 120,
+          "max_full_path_characters": 252
+        }
       },
       {
-        "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip",
-        "members_verified": 5876,
-        "reviewed_contents_sha256": "3addc65971d853fbb850ac035531be058d320ed3ecf923966d8c7a8cd7b69765",
+        "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip",
+        "members_verified": 4740,
+        "reviewed_contents_sha256": "944fc23f016d8f02f96d2318fa33a9055061586e7690e33d6f9767363428bf19",
         "native_archives_unchanged": true,
-        "utilities_optional": true
+        "utilities_optional": true,
+        "windows_paths": {
+          "max_relative_path_characters": 133,
+          "extraction_root_budget": 120,
+          "max_full_path_characters": 254
+        }
       }
     ],
     "setup_regression_tests": 9,
     "setup_regression_tests_passed": 9,
     "native_mac_linux_runtime_tested": false,
     "live_inference_retested": false,
-    "build_workflow": "https://github.com/Zhandragon/PortalAI-Academic/actions/runs/45689134194",
-    "source_commit": "a9c032950273582e5550f1209fc4f7cffc8b78d5"
+    "archive_layout_tests_passed": 6,
+    "build_workflow": "https://github.com/Zhandragon/PortalAI-Academic/actions/runs/45692926902",
+    "source_commit": "f0c3fc937394a7e3b89116887cbfe0ccd6941c42"
   },
   "bundles": [
     {
       "edition": "Academic",
       "platform": "Windows",
-      "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip",
-      "bytes": 684604971,
-      "sha256": "18cf833de7c914dd55e3be6615d5658f15d56130a28f71db9249d68bcd717af5",
+      "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip",
+      "bytes": 684605117,
+      "sha256": "1f4f7548568037c48e54e93e12452c781562e72f7430de2563a06444b493587a",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.25-bundle1",
+        "version": "2026.11.25-bundle2",
         "edition": "Academic",
         "platforms": [
           "Windows"
@@ -79,12 +100,12 @@
     {
       "edition": "Academic",
       "platform": "Mac",
-      "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip",
-      "bytes": 671350437,
-      "sha256": "f01a94c049180c1e683e3af27127d0671b7a2022596c0281a8cc5aa7efdc8d65",
+      "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip",
+      "bytes": 659497919,
+      "sha256": "3f3c5d1406588870c3aa36a0a081e6797a0de5152d2f687f6dbc83451d835a4f",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.25-bundle1",
+        "version": "2026.11.25-bundle2",
         "edition": "Academic",
         "platforms": [
           "Mac"
@@ -109,12 +130,12 @@
     {
       "edition": "Academic",
       "platform": "Linux",
-      "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip",
-      "bytes": 594195929,
-      "sha256": "8e4410bef4b268631886a9546245f907686f23325b5c9e099b3c6a05b161825f",
+      "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip",
+      "bytes": 594196077,
+      "sha256": "ec3b7f5481abcffb1d4ab25a6d73672f3b4abf49a49660de5bac1f2743d18539",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.25-bundle1",
+        "version": "2026.11.25-bundle2",
         "edition": "Academic",
         "platforms": [
           "Linux"
@@ -139,12 +160,12 @@
     {
       "edition": "Academic",
       "platform": "Universal",
-      "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip",
-      "bytes": 1950135854,
-      "sha256": "16acf2266907a55d8f493e0c6181c82f741b340b35957b33746a396b6cb21691",
+      "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip",
+      "bytes": 1938283294,
+      "sha256": "1215c228fdf9684bab4115161aaf0f24ec152f2fe2a948a85e3f0bd50c9c0f06",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.25-bundle1",
+        "version": "2026.11.25-bundle2",
         "edition": "Academic",
         "platforms": [
           "Windows",

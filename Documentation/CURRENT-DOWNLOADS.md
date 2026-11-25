@@ -2,14 +2,20 @@
 
 [Back to downloads](../README.md#download-and-install)
 
-Bundle **2026.11.25-bundle1** combines the latest available native installers and compatible optional utility files. These are complete distribution bundles, not complete offline model/runtime libraries.
+Bundle **2026.11.25-bundle2** combines the latest available native installers and compatible optional utility files. These are complete distribution bundles, not complete offline model/runtime libraries.
 
 | Choice | Application | Included optional companions |
 | --- | --- | --- |
-| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle1/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip) | r85, Windows x64 | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
-| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle1/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip) | Experimental r75, Apple silicon / Intel | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
-| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle1/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip) | Experimental r75, x86-64 | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
-| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle1/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip) | Windows r85; Mac/Linux r75 | All applicable companions |
+| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip) | r85, Windows x64 | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
+| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip) | Experimental r75, Apple silicon / Intel | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
+| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip) | Experimental r75, x86-64 | Projection with 0.5.13 host update, Home Assistant 0.5.13 |
+| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip) | Windows r85; Mac/Linux r75 | All applicable companions |
+
+## Windows extraction fix in bundle 2
+
+The Mac and all-three-OS bundles previously included deeply nested PyObjC test/debug files that could trigger **0x80010135: Path too long** in Windows Explorer. Bundle 2 removes those unused development files. All retained runtime files and native installer archives are unchanged. Every archive path now passes a Windows path budget that reserves 120 characters for the destination folder, including the default ZIP folder name.
+
+If an earlier extraction failed, cancel it and download bundle 2 above. Extract into a fresh folder; do not continue from a partly extracted bundle 1. No registry change is required for normal extraction. Exceptionally deep custom destinations can still exceed Windows limits.
 
 ## Install
 
@@ -39,13 +45,14 @@ Exit PortalAI normally and allow account sealing to finish. Windows offers **Upd
 
 ## Latest changes and verification
 
-This refresh changes packaging and documentation. The verified Windows r85 and Mac/Linux r75 native archives are included byte for byte. Optional selections and model/runtime pins are unchanged. Fresh companions receive the published 0.5.13 host changes after verifying the reviewed baseline, together with the published HA 0.5.13 integration.
+This refresh changes packaging and documentation. Mac PyObjC test suites and debug symbols are omitted; the application and runtime libraries are retained. The verified Windows r85 and Mac/Linux r75 native archives are included byte for byte. Optional selections and model/runtime pins are unchanged. Fresh companions receive the published 0.5.13 host changes after verifying the reviewed baseline, together with the published HA 0.5.13 integration.
 
 - [Windows r85 changes and validation](RELEASE-r85.md)
 - [Mac/Linux r75 baseline](RELEASE-r75.md)
 - [Home Assistant 0.5.13 changes and limits](RELEASE-HA-0.5.13.md)
-- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle1/SHA256SUMS.txt)
+- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/SHA256SUMS.txt)
 - [Bundle manifest and build validation](DOWNLOAD-BUNDLES.json)
+- [Windows extraction path verification](BUNDLE-PATH-VALIDATION-20261125.json)
 - [Older release history and tracked changes](RELEASE-HISTORY.md)
 
 Each bundle contains **bundle.json**, **BUNDLE-CONTENTS.json** and **SHA256SUMS**. Preparation verifies native archive sizes and SHA-256 digests. **-VerifyOnly** (PowerShell) or **--verify-only** (Bash) verifies without launching; **-ExtractOnly** / **--extract-only** extracts without launching. Whole-bundle hashes are published separately.

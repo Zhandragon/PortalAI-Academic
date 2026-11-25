@@ -1,0 +1,47 @@
+{
+  "bundle_version": "2026.11.25-bundle2",
+  "edition": "Academic",
+  "archive_layout_regressions_passed": 6,
+  "setup_regressions_passed": 9,
+  "windows_path_test": "Windows PowerShell System.IO.Compression.ZipFile.ExtractToDirectory; all real archive member paths with empty fixture bodies at a 120-character destination. Real member hashes validated separately.",
+  "removed_files": "Only PyObjCTest and .dSYM trees under Mac Projection Runtime/MacPackages-arm64 and MacPackages-x86_64.",
+  "native_mac_linux_installation_retested": false,
+  "archives": [
+    {
+      "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip",
+      "removed_mac_development_files": 0,
+      "retained_payload_hashes_unchanged": true,
+      "windows_extraction_paths_tested": 2477,
+      "max_relative_path_characters": 133,
+      "extraction_root_budget": 120,
+      "max_full_path_characters": 254
+    },
+    {
+      "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip",
+      "removed_mac_development_files": 1136,
+      "retained_payload_hashes_unchanged": true,
+      "windows_extraction_paths_tested": 881,
+      "max_relative_path_characters": 133,
+      "extraction_root_budget": 120,
+      "max_full_path_characters": 254
+    },
+    {
+      "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip",
+      "removed_mac_development_files": 0,
+      "retained_payload_hashes_unchanged": true,
+      "windows_extraction_paths_tested": 1400,
+      "max_relative_path_characters": 131,
+      "extraction_root_budget": 120,
+      "max_full_path_characters": 252
+    },
+    {
+      "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip",
+      "removed_mac_development_files": 1136,
+      "retained_payload_hashes_unchanged": true,
+      "windows_extraction_paths_tested": 4740,
+      "max_relative_path_characters": 133,
+      "extraction_root_budget": 120,
+      "max_full_path_characters": 254
+    }
+  ]
+}
