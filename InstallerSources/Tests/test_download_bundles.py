@@ -15,6 +15,10 @@ class BundlePreparation(unittest.TestCase):
             with zipfile.ZipFile(p,'w') as z:z.writestr('PortalAI-Install.exe',b'fixture - must never execute')
             self.assets.append(dict(platform=platform,file=p.name,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest(),url='https://example.invalid/no-download'))
         self.manifest=dict(schema=1,version='test',assets=self.assets,windows_installer='PortalAI-Install.exe')
+        (self.root/'Setup').mkdir()
+        self.launcher=b'updated fixture - must never execute'
+        (self.root/'Setup/PortalAI-Setup.exe').write_bytes(self.launcher)
+        self.manifest['windows_launcher']=dict(file='Setup/PortalAI-Setup.exe',bytes=len(self.launcher),sha256=hashlib.sha256(self.launcher).hexdigest())
         self.save()
     def tearDown(self):self.tmp.cleanup()
     def save(self):
@@ -36,7 +40,7 @@ class BundlePreparation(unittest.TestCase):
         self.assertFalse((self.root/'Utilities').exists())
     def test_extract_only_uses_windows_entry_without_launch(self):
         r=self.ps('-ExtractOnly');self.assertEqual(r.returncode,0,r.stderr)
-        self.assertEqual((self.root/'Platforms/Windows-test/PortalAI-Install.exe').read_bytes(),b'fixture - must never execute')
+        self.assertEqual((self.root/'Platforms/Windows-test/PortalAI-Install.exe').read_bytes(),self.launcher)
     def test_academic_entrypoint(self):
         p=self.root/'Packages/Windows.zip'
         with zipfile.ZipFile(p,'w') as z:z.writestr('PortalAI-Academic-Install.exe',b'Academic fixture')
@@ -44,6 +48,15 @@ class BundlePreparation(unittest.TestCase):
         self.manifest['windows_installer']='PortalAI-Academic-Install.exe';self.save()
         r=self.ps('-ExtractOnly');self.assertEqual(r.returncode,0,r.stderr)
         self.assertTrue((self.root/'Platforms/Windows-test/PortalAI-Academic-Install.exe').is_file())
+        self.assertEqual((self.root/'Platforms/Windows-test/PortalAI-Academic-Install.exe').read_bytes(),self.launcher)
+    def test_corrupt_setup_launcher_rejected_before_extraction(self):
+        (self.root/'Setup/PortalAI-Setup.exe').write_bytes(b'bad')
+        self.assertNotEqual(self.ps('-ExtractOnly').returncode,0)
+        self.assertFalse((self.root/'Platforms').exists())
+    def test_missing_setup_launcher_rejected_before_extraction(self):
+        (self.root/'Setup/PortalAI-Setup.exe').unlink()
+        self.assertNotEqual(self.ps('-VerifyOnly').returncode,0)
+        self.assertFalse((self.root/'Platforms').exists())
     def test_corrupt_package_rejected_in_both_shells(self):
         (self.root/'Packages/Windows.zip').write_bytes(b'corrupt')
         for r in [self.ps('-VerifyOnly'),self.sh('--verify-only')]:self.assertNotEqual(r.returncode,0)

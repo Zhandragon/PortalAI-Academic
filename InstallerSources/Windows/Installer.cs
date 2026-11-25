@@ -57,7 +57,9 @@ internal static class Program {
                 }
             }
             Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InstallerForm(args.Length == 1 && args[0] == "--ui-smoke")); return 0;
+            string destination=null;
+            foreach(string arg in args)if(arg.StartsWith("--destination=",StringComparison.Ordinal))destination=arg.Substring(14);
+            Application.Run(new InstallerForm(args.Contains("--ui-smoke"),destination)); return 0;
         } catch (Exception error) { MessageBox.Show(error.Message, "PortalAI installer", MessageBoxButtons.OK, MessageBoxIcon.Error); return 1; }
     }
 }
@@ -179,18 +181,22 @@ internal sealed partial class InstallerForm : Form {
     string pendingToken="", primaryEdition;
     readonly PortalButton upgrade=new PortalButton(); string upgradeTarget;
     readonly PortalButton custom=new PortalButton();
+    readonly TextBox destinationBox=new TextBox { Dock=DockStyle.Fill,Name="InstallDestination",AccessibleName="Installation root directory" };
+    readonly PortalButton browseDestination=new PortalButton { Text="Browse...",Width=105 },driveRoot=new PortalButton { Text="Drive root",Width=105 };
+    readonly Label destinationPreview=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Name="DestinationPreview" };
+    string installDestination;
     Dictionary<string,string> modelConsent=new Dictionary<string,string>();
     Dictionary<string,object> customModel;
     string cancellation,lastStep; bool loading=true,dark=true; volatile bool pauseRequested;
     Color gold=Color.FromArgb(176,134,58); Point? drag;
     Dictionary<string,object> releaseData;
-    internal InstallerForm(bool smoke) {
+    internal InstallerForm(bool smoke,string initialDestination=null) {
         Text="PortalAI suite installer"; Name="PortalAIInstaller";
         Size=new Size(1060,960);MinimumSize=new Size(850,790);StartPosition=FormStartPosition.CenterScreen;
         FormBorderStyle=FormBorderStyle.None;Padding=new Padding(8);DoubleBuffered=true;
         Font=new Font("Segoe UI",9F);Icon=Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         var layout=new TableLayoutPanel { Dock=DockStyle.Fill,Padding=new Padding(12),RowCount=8,ColumnCount=1 };
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,52));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,130));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,52));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,180));
         layout.RowStyles.Add(new RowStyle(SizeType.Percent,55));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,65));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,140));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute,25));layout.RowStyles.Add(new RowStyle(SizeType.Percent,45));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,48));
         var header=new Panel { Dock=DockStyle.Fill };
@@ -206,9 +212,22 @@ internal sealed partial class InstallerForm : Form {
         title.MouseDown+=delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left && WindowState==FormWindowState.Normal)drag=new Point(Cursor.Position.X-Left,Cursor.Position.Y-Top); };
         title.MouseMove+=delegate { if(drag.HasValue && Control.MouseButtons==MouseButtons.Left)Location=new Point(Cursor.Position.X-drag.Value.X,Cursor.Position.Y-drag.Value.Y); };
         title.MouseUp+=delegate { drag=null; };
-        var introduction=new Panel { Dock=DockStyle.Fill };
-        Label intro=new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="PortalAI will be installed beside this installer:\r\n"+Program.Package+"\r\n\r\nModels are optional, suggested/supported examples. Review their separate licenses before downloading. You can also use your own compatible chat model." };
-        introduction.Controls.Add(intro);introduction.Controls.Add(BuildSetupBar());
+        var introduction=new TableLayoutPanel { Dock=DockStyle.Fill,ColumnCount=1,RowCount=5 };
+        foreach(int h in new[]{23,38,30,40,42})introduction.RowStyles.Add(new RowStyle(SizeType.Absolute,h));
+        introduction.Controls.Add(new Label { Text="Installation root directory",Dock=DockStyle.Fill });
+        var destinationRow=new TableLayoutPanel { Dock=DockStyle.Fill,ColumnCount=3,RowCount=1 };
+        destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,112));destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,112));
+        destinationRow.Controls.Add(destinationBox);destinationRow.Controls.Add(browseDestination);destinationRow.Controls.Add(driveRoot);introduction.Controls.Add(destinationRow);
+        destinationBox.TextChanged+=delegate { UpdateDestinationPreview(); };
+        destinationBox.Text=initialDestination ?? Program.Package;
+        browseDestination.Click+=delegate { using(var picker=new FolderBrowserDialog { Description="Choose the drive root or folder for PortalAI and its optional utilities",ShowNewFolderButton=true }) {
+            try { picker.SelectedPath=InstallDestination.Normalize(destinationBox.Text); }catch(ArgumentException){}
+            if(picker.ShowDialog(this)==DialogResult.OK)destinationBox.Text=picker.SelectedPath;
+        }};
+        driveRoot.Click+=delegate { try { destinationBox.Text=Path.GetPathRoot(InstallDestination.Normalize(destinationBox.Text)); }catch(ArgumentException){destinationBox.Text=Path.GetPathRoot(Program.Package);} };
+        introduction.Controls.Add(destinationPreview);
+        introduction.Controls.Add(new Label { Dock=DockStyle.Fill,AutoEllipsis=true,Text="Models and companion utilities are optional. Review the selected components and model licenses before installing." });
+        introduction.Controls.Add(BuildSetupBar());
         choices.Name="Components";choices.Dock=DockStyle.Fill;choices.CheckOnClick=true;choices.BorderStyle=BorderStyle.None;choices.IntegralHeight=false;choices.HorizontalScrollbar=true;
         choices.ItemCheck+=delegate(object sender,ItemCheckEventArgs e) { if(!loading && ((ComponentChoice)choices.Items[e.Index]).Required)e.NewValue=CheckState.Checked; if(!loading)BeginInvoke((Action)UpdateSelectionSize); };
         var progress=new TableLayoutPanel { Dock=DockStyle.Fill,RowCount=5,ColumnCount=1,Padding=new Padding(0,10,0,4) };
@@ -220,12 +239,13 @@ internal sealed partial class InstallerForm : Form {
         foreach(Control c in new Control[]{currentLabel,currentProgress,currentBytes,overallLabel,overallProgress}) { c.Dock=DockStyle.Fill;progress.Controls.Add(c); }
         status.Name="InstallationLog";status.Dock=DockStyle.Fill;status.Multiline=true;status.ReadOnly=true;status.ScrollBars=ScrollBars.Vertical;status.BorderStyle=BorderStyle.None;
         var buttons=new FlowLayoutPanel { Dock=DockStyle.Fill,FlowDirection=FlowDirection.RightToLeft,Padding=new Padding(0,9,0,0) };
-        close.Text="Close";pause.Text="Pause";install.Text="Install here";pause.Enabled=false;
+        close.Text="Close";pause.Text="Pause";install.Text="Install";pause.Enabled=false;
         upgrade.Text="Update existing";upgrade.Width=135;
         upgrade.Click+=delegate {
             using(var picker=new FolderBrowserDialog { Description="Choose the existing PortalAI application folder" }) {
                 if(picker.ShowDialog(this)!=DialogResult.OK)return;
                 upgradeTarget=picker.SelectedPath;install.Enabled=true;install.PerformClick();
+                if(!worker.IsBusy)upgradeTarget=null;
             }
         };
         custom.Text="Your model link";custom.Width=135;custom.Click+=delegate { using(var dialog=new CustomModelForm(primaryEdition=="Academic",customModel)) { if(dialog.ShowDialog(this)==DialogResult.OK) { customModel=dialog.Request;custom.Text=customModel==null ? "Your model link" : "Edit model link";Append(customModel==null ? "No custom model selected." : "Custom model selected: "+Convert.ToString(customModel["label"])+". File validation runs before installation."); } } };
@@ -254,13 +274,15 @@ internal sealed partial class InstallerForm : Form {
         worker.ProgressChanged+=delegate(object sender,ProgressChangedEventArgs e) { var message=e.UserState as Dictionary<string,object>;if(message!=null)Progress(message);else Append(Convert.ToString(e.UserState)); };
         worker.DoWork+=RunInstall;
         worker.RunWorkerCompleted+=delegate(object sender,RunWorkerCompletedEventArgs e) {
-            pendingToken="";surveyButton.Enabled=expressButton.Enabled=manualButton.Enabled=true;githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;custom.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
+            pendingToken="";surveyButton.Enabled=expressButton.Enabled=manualButton.Enabled=true;githubToken.Enabled=true;pause.Enabled=false;choices.Enabled=true;install.Enabled=true;upgrade.Enabled=true;custom.Enabled=true;destinationBox.Enabled=browseDestination.Enabled=driveRoot.Enabled=true;upgradeTarget=null;currentProgress.Indeterminate=overallProgress.Indeterminate=false;
             if(e.Error!=null) { currentLabel.Text="Installation stopped";Append("Installation stopped: "+e.Error.Message); }
             else if(Convert.ToInt32(e.Result)!=0) { currentLabel.Text=Convert.ToInt32(e.Result)==2 ? "Paused — downloads retained" : "Installation did not complete";Append("See the details above. Downloaded files remain available for resume."); }
             else { currentLabel.Text="Installation verified";currentBytes.Text="All selected files are ready.";overallLabel.Text="Overall installation · 100%";currentProgress.Fraction=overallProgress.Fraction=1;Append("Installation verified. Open PortalAI normally. Updates preserve your existing accounts and settings.");install.Enabled=false; }
             currentProgress.Invalidate();overallProgress.Invalidate();
         };
         install.Click+=delegate {
+            try { installDestination=InstallDestination.Normalize(destinationBox.Text); }
+            catch(Exception error) { MessageBox.Show(this,error.Message,"Choose an installation folder");return; }
             var selected=new List<string>();foreach(ComponentChoice item in choices.CheckedItems)selected.Add(item.Id);
             if(customModel!=null&&!selected.Contains("primary:"+primaryEdition)) { MessageBox.Show(this,"Select the primary PortalAI application to install your custom model.");return; }
             var expanded=new HashSet<string>(selected);bool changed;
@@ -270,6 +292,8 @@ internal sealed partial class InstallerForm : Form {
             selected=new List<string>(expanded);
             surveyButton.Enabled=expressButton.Enabled=manualButton.Enabled=false;install.Enabled=false;upgrade.Enabled=false;choices.Enabled=false;pause.Enabled=false;cancellation=null;pauseRequested=false;lastStep=null;
             custom.Enabled=false;
+            destinationBox.Enabled=browseDestination.Enabled=driveRoot.Enabled=false;
+            Append("Installation destination: "+(upgradeTarget ?? installDestination));
             currentLabel.Text="Checking disk space and selected components…";currentBytes.Text="Preparing installation";overallLabel.Text="Overall installation · preparing";
             currentProgress.Fraction=overallProgress.Fraction=0;currentProgress.Indeterminate=overallProgress.Indeterminate=true;
             pendingToken=githubToken.Text.Trim();githubToken.Clear();githubToken.Enabled=false;
@@ -279,6 +303,10 @@ internal sealed partial class InstallerForm : Form {
         FormClosing+=delegate(object sender,FormClosingEventArgs e) { if(worker.IsBusy) { e.Cancel=true;RequestPause();Append("Waiting for the installer to stop safely before closing."); } };
         if(!smoke)Shown+=delegate{OpenSurvey(0);};
         if(smoke) { var timer=new System.Windows.Forms.Timer { Interval=1200 };timer.Tick+=delegate { timer.Stop();Close(); };Shown+=delegate { timer.Start(); }; }
+    }
+    void UpdateDestinationPreview() {
+        try { destinationPreview.Text="Application: "+Path.Combine(InstallDestination.Normalize(destinationBox.Text),"PortalAI Windows")+"   |   Optional companions: Utilities"; }
+        catch(ArgumentException) { destinationPreview.Text="Choose an absolute folder path or drive root, for example E:\\"; }
     }
     void LoadSuiteChoices() {
         string path=Path.Combine(Program.Package,"suite-catalog.json");
@@ -366,7 +394,7 @@ internal sealed partial class InstallerForm : Form {
         if(upgradeTarget==null) {
             var ordinary=new List<string>();bool primary=false;
             foreach(string id in (string[])e.Argument) { if(id.StartsWith("primary:"))primary=true;else if(!id.Contains(":"))ordinary.Add(id); }
-            if(primary)worker.ReportProgress(0,StoragePreflight.CheckSelection(Program.Package,ordinary.ToArray()));
+            if(primary)worker.ReportProgress(0,StoragePreflight.CheckSelection(installDestination,ordinary.ToArray()));
         }
         if(pauseRequested) { e.Result=2;return; }
         worker.ReportProgress(0,"Preparing the bundled installer runtime...");string runtime=Program.PrepareRuntime();cancellation=Path.Combine(runtime,"cancel");
@@ -387,7 +415,7 @@ internal sealed partial class InstallerForm : Form {
                 if(!accepted) { e.Result=2;return; }
             }
         }
-        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? Program.Package,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade",suite=true,model_consent=modelConsent,custom_model=customModel }),new UTF8Encoding(false));
+        File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? installDestination,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade",suite=true,model_consent=modelConsent,custom_model=customModel }),new UTF8Encoding(false));
         using(Process process=Process.Start(Program.Engine(runtime,Program.Quote(request)))) {
             process.StandardInput.WriteLine(pendingToken);process.StandardInput.Close();pendingToken="";
             Task<string> errors=process.StandardError.ReadToEndAsync();string line;
@@ -400,6 +428,16 @@ internal sealed partial class InstallerForm : Form {
             }
             process.WaitForExit();if(errors.Result.Length>0)worker.ReportProgress(0,errors.Result);e.Result=process.ExitCode;
         }
+    }
+}
+
+internal static class InstallDestination {
+    internal static string Normalize(string value) {
+        value=(value ?? "").Trim();
+        if(!Path.IsPathRooted(value) || Path.GetPathRoot(value).Length<3)throw new ArgumentException("Choose an absolute folder path or drive root, for example E:\\.");
+        string path=Path.GetFullPath(value);
+        if(File.Exists(path))throw new ArgumentException("The installation destination must be a folder, not a file.");
+        return path;
     }
 }
 

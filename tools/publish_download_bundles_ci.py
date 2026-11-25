@@ -48,6 +48,10 @@ for row in rows:
         for name,digest in contents['files'].items():
             with z.open(name) as f:assert hashlib.file_digest(f,'sha256').hexdigest()==digest,name
         assert row['manifest']['utilities_optional']
+        if 'Windows' in row['manifest']['platforms']:
+            launcher=row['manifest']['windows_launcher']
+            assert hashlib.sha256(z.read(launcher['file'])).hexdigest()==launcher['sha256']
+            assert z.getinfo(launcher['file']).file_size==launcher['bytes']
         path_report=windows_path_report(z.namelist())
         assert not any(n.startswith('Utilities/Mac/') and mac_development_file(n.removeprefix('Utilities/Mac/')) for n in z.namelist())
         if config['edition']=='Academic':assert not any('Abliterator' in n for n in z.namelist())
@@ -79,8 +83,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
 for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
 manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
-    validation=dict(archive_checks=checks,setup_regression_tests=9,setup_regression_tests_passed=9,native_mac_linux_runtime_tested=False,live_inference_retested=False,
-      archive_layout_tests_passed=6,
+    validation=dict(archive_checks=checks,setup_regression_tests=11,setup_regression_tests_passed=11,native_mac_linux_runtime_tested=False,live_inference_retested=False,
+      archive_layout_tests_passed=6,install_destination_tests_passed=7,windows_gui_checks_passed=10,
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:

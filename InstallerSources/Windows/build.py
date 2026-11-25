@@ -21,7 +21,7 @@ def build(bootstrap, output):
         raise RuntimeError('Installer bootstrap checksum mismatch')
     output.parent.mkdir(parents=True, exist_ok=True)
     compiler = Path('C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe')
-    subprocess.run([str(compiler), '/nologo', '/target:winexe', '/platform:x64', f'/out:{output}',
+    subprocess.run([str(compiler), '/nologo', '/codepage:65001', '/target:winexe', '/platform:x64', f'/out:{output}',
                     '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
                     '/reference:System.Web.Extensions.dll', '/reference:System.IO.Compression.dll',
                     '/reference:System.IO.Compression.FileSystem.dll',

@@ -594,6 +594,22 @@ class InstallationProgress:
                     overall_done=min(self.total,self.completed+self.done),overall_total=self.total)
 
 
+def new_install_destination(destination, expected_files):
+    """Allow a drive/folder root; reserve only this installation's own entries."""
+    destination = native_path(destination)
+    if destination.name:
+        checked_path(destination.parent, destination.name)
+    if destination.exists() and not destination.is_dir():
+        raise InstallError('Installation destination is not a folder')
+    publish_names = sorted({relative(row['dest']).parts[0] for row in expected_files} | {'INSTALL_RECEIPT.json'})
+    into_existing = destination.is_dir()
+    # checked_path also rejects linked ancestors, including for drive roots.
+    for name in publish_names:
+        if checked_path(destination, name).exists():
+            raise InstallError('An installation item already exists at the selected destination: '+name+'. Use Update existing for an installed application, or choose another folder. Existing files will not be overwritten.')
+    return destination, into_existing, publish_names
+
+
 def _install_new(package, destination, selected, stop=None, progress=None, events=None, *, model_consent=None, custom_model=None):
     """Build a new directory beside the requested final path, then publish it."""
     stop = stop or threading.Event()
@@ -610,19 +626,8 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
     chosen, artifacts, expected_files, need = plan(manifest, selected)
     meter=InstallationProgress(events,artifacts,expected_files)
     meter.start("preparing","Checking selected files and disk space")
-    destination = native_path(destination)
-    if not destination.name or destination == destination.parent:
-        raise InstallError('Choose a new installation folder, not a drive root')
-    checked_path(destination.parent, destination.name)
-    in_place = destination == package
-    if destination.exists() and not in_place:
-        raise InstallError('Choose a new folder. Existing folders are never overwritten.')
-    publish_names = sorted({relative(row['dest']).parts[0] for row in expected_files} | {'INSTALL_RECEIPT.json'})
-    if in_place:
-        for name in publish_names:
-            if checked_path(destination, name).exists():
-                raise InstallError('An installation item already exists beside the installer: '+name+'. Move the installer package to an empty folder; existing files will not be overwritten.')
-    work_parent = destination if in_place else destination.parent
+    destination, into_existing, publish_names = new_install_destination(destination, expected_files)
+    work_parent = destination if into_existing else destination.parent
     from installer_storage import check_space
     space = check_space(work_parent, expected_files, artifacts)
     progress(space['message'], 0, 0)
@@ -716,7 +721,7 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
     (stage / 'INSTALL_RECEIPT.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     # On Windows rename fails when a concurrent process creates the target.
     meter.start('publish','Publishing the verified installation')
-    if in_place:
+    if into_existing:
         # Publish only this release's verified top-level entries. Never merge
         # into or replace unrelated folders already beside the installer.
         for name in publish_names:

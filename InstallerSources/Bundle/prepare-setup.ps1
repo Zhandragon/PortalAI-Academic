@@ -42,6 +42,15 @@ foreach ($asset in $manifest.assets) {
     throw 'An included installer is missing or corrupt. Extract a fresh copy of the complete bundle; see START_HERE.txt.'
 }
 Write-Host 'All included OS packages are verified. Each OS completes its own native installation.'
+$updatedLauncher = $null
+if ($manifest.windows_launcher) {
+    $launcher = $manifest.windows_launcher
+    if ($launcher.file -ne 'Setup/PortalAI-Setup.exe' -or $launcher.sha256 -notmatch '^[a-f0-9]{64}$' -or $launcher.bytes -le 0) { throw 'Invalid Windows setup launcher pin.' }
+    $updatedLauncher = Assert-PlainPath (Join-Path $bundleRoot $launcher.file)
+    if (-not (Test-Asset $launcher $updatedLauncher)) { throw 'The updated Windows setup launcher is missing or corrupt. Extract a fresh complete bundle.' }
+} elseif ($manifest.version -eq '2026.11.25-bundle3' -and 'Windows' -in @($manifest.assets.platform)) {
+    throw 'The Windows setup launcher pin is missing.'
+}
 if ($VerifyOnly -or $PrepareOnly) { return }
 if ('Windows' -notin @($manifest.assets.platform)) { throw 'This bundle does not include Windows. Use the matching OS bundle or Universal.' }
 if (-not $ExtractOnly) {
@@ -55,5 +64,6 @@ $destination = Assert-PlainPath (Join-Path $bundleRoot ('Platforms\Windows-' + $
 if (Test-Path -LiteralPath $destination) { throw 'An extracted installer already exists. Use its Windows installer, or choose a fresh universal folder.' }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [IO.Compression.ZipFile]::ExtractToDirectory((Join-Path $packages $windowsAsset.file),$destination)
+if ($updatedLauncher) { Copy-Item -LiteralPath $updatedLauncher -Destination (Join-Path $destination $installerName) -Force }
 if ($ExtractOnly) { Write-Host "Prepared $destination"; return }
-Start-Process -FilePath (Join-Path $destination $installerName) -WorkingDirectory $destination
+Start-Process -FilePath (Join-Path $destination $installerName) -WorkingDirectory $destination -ArgumentList ('--destination=' + [IO.Path]::GetPathRoot($bundleRoot))

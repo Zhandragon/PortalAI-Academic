@@ -6,7 +6,7 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.25-bundle2'
+VERSION='2026.11.25-bundle3'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
 WINDOWS_EXTRACTION_ROOT_BUDGET=120
@@ -112,6 +112,8 @@ Platforms in this bundle: {', '.join(platforms)}.
    Linux: run bash prepare-setup.sh.
    Setup verifies the included native installers, then asks before opening
    the installer for this OS. It does not start the companion utilities.
+   Windows setup suggests this drive's root. Use Browse, Drive root or the
+   editable installation root field to choose where PortalAI is installed.
 3. Choose your destination and desired components in the native installer.
    Models and selected runtime dependencies still need internet and disk space.
    Existing users: exit PortalAI normally and choose Update existing (Windows)
@@ -137,7 +139,11 @@ payload where supported; use them from the installed application's Utilities.
 
 CURRENT RELEASE
 This is a packaging refresh. Native application installers are included byte for
-byte. Bundle 2 removes unused Mac PyObjC tests and debug symbols that caused
+byte; Windows preparation replaces the setup executable with the verified updated
+launcher in Setup/PortalAI-Setup.exe. The application payload remains r85.
+Bundle 3 adds an editable Windows installation root, Browse and Drive root.
+Existing destination files are never overwritten by a fresh install.
+Bundle 2 removes unused Mac PyObjC tests and debug symbols that caused
 Windows Explorer's Path too long error in Mac/Universal downloads. Runtime
 libraries remain unchanged. All archive paths are checked with 120 characters
 reserved for the extraction folder, including the ZIP's default folder name.
@@ -167,7 +173,7 @@ def main():
     args=parser.parse_args()
     repo=Path(__file__).resolve().parents[1]
     inputs={item['key']:item for item in json.loads(args.inputs.read_text())}
-    required=[args.edition+'/'+p for p in PLATFORMS]+['Projection/'+p for p in PLATFORMS]+['HomeAssistant','HostUpdate']
+    required=[args.edition+'/'+p for p in PLATFORMS]+['Projection/'+p for p in PLATFORMS]+['HomeAssistant','HostUpdate','WindowsSetup']
     if args.edition=='Full':required.append('Abliterator/Windows')
     inputs={key:inputs[key] for key in required}
     for item in inputs.values():
@@ -194,6 +200,9 @@ def main():
         manifest=dict(schema=1,version=VERSION,edition=args.edition,platforms=platforms,assets=assets,
             windows_installer=exe,utilities_optional=True,home_assistant='0.5.13',
             projection_host_update='0.5.13',abliterator_included=args.edition=='Full' and 'Windows' in platforms)
+        if 'Windows' in platforms:
+            setup=Path(inputs['WindowsSetup']['path'])
+            manifest['windows_launcher']=dict(file='Setup/PortalAI-Setup.exe',bytes=setup.stat().st_size,sha256=inputs['WindowsSetup']['sha256'])
         hashes={}
         def put(z,rel,data,mode=0o644,compression=zipfile.ZIP_DEFLATED):
             zi=zipfile.ZipInfo(rel,(2026,11,25,0,0,0))
@@ -201,6 +210,7 @@ def main():
             z.writestr(zi,data,compresslevel=5)
             hashes[rel]=hashlib.sha256(data).hexdigest()
         with zipfile.ZipFile(target,'x',allowZip64=True) as z:
+            if 'Windows' in platforms:put(z,manifest['windows_launcher']['file'],setup.read_bytes())
             for platform,a in zip(platforms,assets):
                 source=Path(inputs[args.edition+'/'+platform]['path'])
                 rel='Packages/'+a['file']

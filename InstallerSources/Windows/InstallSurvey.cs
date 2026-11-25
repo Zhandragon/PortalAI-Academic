@@ -54,15 +54,15 @@ internal sealed partial class InstallerForm {
     FlowLayoutPanel BuildSetupBar() {
         var bar=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=42,WrapContents=false};
         surveyButton.Text="Help me choose";surveyButton.Width=140;surveyButton.Click+=delegate{OpenSurvey(1);};
-        expressButton.Text="Express";expressButton.Click+=delegate{ApplyBundle(InstallBundles.Recommend(Inventory(),new[]{"chat"},false,primaryEdition),"Express Â· Lightweight chat");};
-        manualButton.Text="Custom";manualButton.Click+=delegate{setupMode.Text="âœ“ Custom Â· choose components below";choices.Focus();};
+        expressButton.Text="Express";expressButton.Click+=delegate{ApplyBundle(InstallBundles.Recommend(Inventory(),new[]{"chat"},false,primaryEdition),"Express · Lightweight chat");};
+        manualButton.Text="Custom";manualButton.Click+=delegate{setupMode.Text="✓ Custom · choose components below";choices.Focus();};
         bar.Controls.AddRange(new Control[]{surveyButton,expressButton,manualButton,setupMode});setupMode.Text="Choose a setup path";return bar;
     }
     IEnumerable<ComponentChoice> Inventory(){return choices.Items.Cast<ComponentChoice>();}
     void ApplyBundle(HashSet<string> selected,string mode) {
         if(worker.IsBusy)return;
         loading=true;try{for(int i=0;i<choices.Items.Count;i++)choices.SetItemChecked(i,selected.Contains(((ComponentChoice)choices.Items[i]).Id));}finally{loading=false;}
-        setupMode.Text="âœ“ "+mode;UpdateSelectionSize();Append("Selection applied. Review or change the components below, then choose Install here when ready. No downloads have started.");
+        setupMode.Text="✓ "+mode;UpdateSelectionSize();Append("Selection applied. Review or change the components below, then choose Install when ready. No downloads have started.");
     }
     void CloseSurvey(){if(surveyOverlay!=null){Controls.Remove(surveyOverlay);surveyOverlay.Dispose();surveyOverlay=null;}if(mainLayout!=null){mainLayout.Enabled=true;mainLayout.Visible=true;}}
     PortalButton SurveyButton(string text,Action action,int width=135){var b=new PortalButton{Text=text,Width=width,Height=36};b.Click+=delegate{action();};return b;}
@@ -73,7 +73,7 @@ internal sealed partial class InstallerForm {
         surveyOverlay=new Panel{Dock=DockStyle.Fill,Padding=new Padding(30)};Controls.Add(surveyOverlay);surveyOverlay.BringToFront();
         var card=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=3,Padding=new Padding(18)};
         card.RowStyles.Add(new RowStyle(SizeType.AutoSize));card.RowStyles.Add(new RowStyle(SizeType.Percent,100));card.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        var heading=SurveyText(page==0?"Choose how to set up PortalAI":page==1?"1 of 2 Â· What will you use PortalAI for?":"2 of 2 Â· Review your bundle",18);card.Controls.Add(heading);
+        var heading=SurveyText(page==0?"Choose how to set up PortalAI":page==1?"1 of 2 · What will you use PortalAI for?":"2 of 2 · Review your bundle",18);card.Controls.Add(heading);
         var body=new FlowLayoutPanel{Dock=DockStyle.Fill,AutoScroll=true,FlowDirection=FlowDirection.TopDown,WrapContents=false};card.Controls.Add(body);
         var actions=new FlowLayoutPanel{Dock=DockStyle.Fill,AutoSize=true,WrapContents=true,Padding=new Padding(0,12,0,0)};card.Controls.Add(actions);surveyOverlay.Controls.Add(card);
         if(page==0) {
@@ -81,7 +81,7 @@ internal sealed partial class InstallerForm {
             body.Controls.Add(SurveyText("Express starts with a lightweight chat bundle. Custom keeps the component list under your control. You can retake the survey with Help me choose."));
             actions.Controls.Add(SurveyButton("Take survey",()=>OpenSurvey(1)));
             actions.Controls.Add(SurveyButton("Express",()=>{CloseSurvey();expressButton.PerformClick();}));
-            actions.Controls.Add(SurveyButton("Skip Â· Custom",()=>{CloseSurvey();manualButton.PerformClick();}));
+            actions.Controls.Add(SurveyButton("Skip · Custom",()=>{CloseSurvey();manualButton.PerformClick();}));
         } else if(page==1) {
             body.Controls.Add(SurveyText("Select any interests. Shared scientific tools are already part of the base installation; several interests may use the same files."));
             var uses=new CheckedListBox{Name="SurveyInterests",CheckOnClick=true,Width=700,Height=320,IntegralHeight=false,BorderStyle=BorderStyle.None};
@@ -94,12 +94,12 @@ internal sealed partial class InstallerForm {
             actions.Controls.Add(SurveyButton("Review bundle",()=>{surveyInterests=new HashSet<string>(uses.CheckedItems.Cast<InstallInterest>().Select(x=>x.Id));fullBundle=full.Checked;surveySelection=InstallBundles.Recommend(Inventory(),surveyInterests,fullBundle,primaryEdition);OpenSurvey(2);}));
             body.SizeChanged+=delegate{uses.Width=Math.Max(240,body.ClientSize.Width-24);};
         } else {
-            body.Controls.Add(SurveyText((fullBundle?"Full":"Lightweight")+" Â· "+surveyInterests.Count+" interests Â· "+surveySelection.Count+" components (including required files)"));
+            body.Controls.Add(SurveyText((fullBundle?"Full":"Lightweight")+" · "+surveyInterests.Count+" interests · "+surveySelection.Count+" components (including required files)"));
             body.Controls.Add(SurveyText(SelectionEstimate(surveySelection),10));
             var review=new TextBox{Name="BundleReview",ReadOnly=true,Multiline=true,ScrollBars=ScrollBars.Vertical,Width=700,Height=310,Text=String.Join("\r\n",Inventory().Where(x=>surveySelection.Contains(x.Id)).Select(x=>"â€¢ "+x.Label+(x.Required?" [required]":"")+(x.Review!=null?" [license review]":"")))};body.Controls.Add(review);
-            body.Controls.Add(SurveyText("Apply only selects these components. You can edit the list next. Install here performs the separate model-license review and disk-space check before downloading. No model policy is changed by this survey.",10));
+            body.Controls.Add(SurveyText("Apply only selects these components. You can edit the list next. Install performs the separate model-license review and disk-space check before downloading. No model policy is changed by this survey.",10));
             if(primaryEdition=="Full"&&surveySelection.Overlaps(new[]{"text-small","text-4b","vision-2b","vision-4b"}))body.Controls.Add(SurveyText("Full-edition chat/vision downloads contain standard and alternate variants together. Selecting standard-model interests does not exclude alternate files from these existing bundles.",10));
-            actions.Controls.Add(SurveyButton("â€¹ Back",()=>OpenSurvey(1)));actions.Controls.Add(SurveyButton("Skip survey",CloseSurvey));actions.Controls.Add(SurveyButton("Apply & review",()=>{CloseSurvey();ApplyBundle(surveySelection,(fullBundle?"Full":"Lightweight")+" survey bundle");},160));
+            actions.Controls.Add(SurveyButton("‹ Back",()=>OpenSurvey(1)));actions.Controls.Add(SurveyButton("Skip survey",CloseSurvey));actions.Controls.Add(SurveyButton("Apply & review",()=>{CloseSurvey();ApplyBundle(surveySelection,(fullBundle?"Full":"Lightweight")+" survey bundle");},160));
             body.SizeChanged+=delegate{review.Width=Math.Max(240,body.ClientSize.Width-24);};
         }
         body.SizeChanged+=delegate{foreach(Control item in body.Controls)if(item is Label)item.MaximumSize=new Size(Math.Max(220,body.ClientSize.Width-24),0);};
