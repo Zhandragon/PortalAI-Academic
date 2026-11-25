@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "$0")" && pwd -P)"
-VERIFY=0; PREPARE=0
+VERIFY=0; PREPARE=0; EXTRACT=0; PRIVATE_RELEASE=1
 case "${1:-}" in --verify-only) VERIFY=1;; --prepare-only) PREPARE=1;; --extract-only) EXTRACT=1;; '') ;; *) echo 'Use --prepare-only, --verify-only, --extract-only, or no option.' >&2; exit 2;; esac
 for command in curl tar awk wc mktemp; do command -v "$command" >/dev/null || { echo "Required OS utility missing: $command" >&2; exit 2; }; done
 if command -v shasum >/dev/null; then digest() { shasum -a 256 "$1" | awk '{print $1}'; }
@@ -32,6 +32,15 @@ while IFS=$'\t' read -r platform filename bytes hash url; do
 done < "$ROOT/assets.tsv"
 [[ "$count" = 1 || "$count" = 3 ]] || { echo 'Expected one or three platform packages.' >&2; exit 2; }
 echo 'All included OS packages are verified. Each OS completes its own native installation.'
+if [ -f "$ROOT/setup.tsv" ]; then
+  while IFS=$'\t' read -r name bytes hash; do
+    [[ "$name" =~ ^Setup/[A-Za-z0-9._/-]+$ && "$bytes" =~ ^[0-9]+$ && "$hash" =~ ^[a-f0-9]{64}$ ]] || { echo 'Invalid model setup pin.' >&2; exit 2; }
+    case "/$name/" in */../*) echo 'Unsafe model setup path.' >&2; exit 2;; esac
+    valid "$ROOT/$name" "$bytes" "$hash" || { echo "Missing/corrupt model setup file: $name" >&2; exit 2; }
+  done < "$ROOT/setup.tsv"
+else
+  echo 'The complete model setup inventory is missing. Extract a fresh bundle.' >&2; exit 2
+fi
 [ "$VERIFY" = 0 ] && [ "$PREPARE" = 0 ] || exit 0
 case "$(uname -s)" in Darwin) platform=Mac; script=install-macos.sh;; Linux) platform=Linux;script=install.sh;; *) echo 'Use Start Setup.cmd on Windows.';exit 0;; esac
 if [ "$EXTRACT" = 0 ]; then
@@ -44,5 +53,25 @@ folder="$ROOT/Platforms/${filename%.tar.gz}"
 [ ! -e "$folder" ] && [ ! -L "$folder" ] || { echo "An extracted installer already exists. Run $folder/$script directly.";exit 2; }
 mkdir -p "$folder"
 tar -xzf "$ROOT/Packages/$filename" --strip-components=1 -C "$folder"
+[ ! -L "$ROOT/Setup/Models" ] && [ ! -L "$ROOT/Setup/$platform" ] || { echo 'Linked model setup folder refused.' >&2; exit 2; }
+cp -R "$ROOT/Setup/Models" "$folder/model-setup"
+cp "$ROOT/Setup/$platform/$script" "$folder/$script"
+cp "$ROOT/Setup/$platform/SHA256SUMS" "$folder/SHA256SUMS"
+cp "$ROOT/Setup/$platform/suite-local.json" "$folder/suite-local.json"
+while IFS=$'\t' read -r source destination bytes hash; do
+  case "$source" in "Utilities/$platform/"*) ;; *) echo 'Invalid companion source.' >&2; exit 2;; esac
+  case "$destination" in SuiteAssets/*) ;; *) echo 'Invalid companion destination.' >&2; exit 2;; esac
+  case "/$source/$destination/" in */../*) echo 'Unsafe companion path.' >&2; exit 2;; esac
+  valid "$ROOT/$source" "$bytes" "$hash" || { echo "Corrupt bundled companion: $source" >&2; exit 2; }
+  mkdir -p "$(dirname -- "$folder/$destination")"
+  cp "$ROOT/$source" "$folder/$destination"
+done < "$ROOT/Setup/$platform/suite-copy.tsv"
 [ "$EXTRACT" = 0 ] || { echo "Prepared $folder"; exit 0; }
-exec bash "$folder/$script"
+mount_root=$(LC_ALL=C df -Pk "$ROOT" | awk 'NR==2 {for(i=1;i<=5;i++)sub(/^[[:space:]]*[^[:space:]]+[[:space:]]+/,"");print}')
+[ -n "$mount_root" ] || { echo 'Cannot determine the drive root. Run the native installer with your chosen destination.' >&2; exit 2; }
+read -r -p "Installation root directory [$mount_root]: " install_parent
+install_parent="${install_parent:-$mount_root}"
+case "$install_parent" in /*) ;; *) echo 'Choose an absolute installation root.' >&2; exit 2;; esac
+echo "Application: ${install_parent%/}/PortalAI $platform"
+echo "Optional companions: ${install_parent%/}/Utilities"
+exec bash "$folder/$script" "${install_parent%/}/PortalAI $platform"

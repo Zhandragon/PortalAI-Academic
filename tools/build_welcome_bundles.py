@@ -6,7 +6,7 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.25-bundle3'
+VERSION='2026.11.25-bundle4'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
 WINDOWS_EXTRACTION_ROOT_BUDGET=120
@@ -122,7 +122,7 @@ Platforms in this bundle: {', '.join(platforms)}.
 OPTIONAL UTILITIES
 All utility files for the included platforms are in Utilities/<OS>.
 Nothing here is selected, installed into your existing application, configured,
-paired or activated automatically. The native installer's options are unchanged.
+paired or activated automatically. Select only the optional components you want.
 You can leave all companion folders unused.
 
 Projection: open Utilities/<OS>/PortalAI-Projection/Start Projection.cmd
@@ -130,28 +130,37 @@ Projection: open Utilities/<OS>/PortalAI-Projection/Start Projection.cmd
 Choose the installed PortalAI application folder when creating the connection.
 Home Assistant: use the neighboring PortalAI HA Setup launcher only when wanted.
 Both folders must stay together. You do not need a separate Projection download.
-To make these companions discoverable from PortalAI's Utilities page, place the
-two folders in Utilities beside the installed application on a NEW installation.
+Selecting Projection during setup places both folders in Utilities beside the
+installed application. You can also copy the two folders there for a NEW install.
 Do not overwrite existing Connections or state when updating.
 {"Portable Abliterator: Windows only, included in Windows/Universal bundles at Utilities/Windows/Portable Abliterator Setup. Extracted setup is optional; run Portable-Abliterator-Install.exe only if wanted. Its selected runtime dependencies still download during installation." if edition=="Full" else "Academic: Portable Abliterator and Full-only model assets are excluded."}
 Windows reset and Weight-Space Editor entry points remain in the native app
 payload where supported; use them from the installed application's Utilities.
 
 CURRENT RELEASE
-This is a packaging refresh. Native application installers are included byte for
-byte; Windows preparation replaces the setup executable with the verified updated
-launcher in Setup/PortalAI-Setup.exe. The application payload remains r85.
-Bundle 3 adds an editable Windows installation root, Browse and Drive root.
-Existing destination files are never overwritten by a fresh install.
-Bundle 2 removes unused Mac PyObjC tests and debug symbols that caused
-Windows Explorer's Path too long error in Mac/Universal downloads. Runtime
-libraries remain unchanged. All archive paths are checked with 120 characters
-reserved for the extraction folder, including the ZIP's default folder name.
-Windows r85 improves tool-call recovery and media workflow planning.
-Home Assistant 0.5.13 adds phone speech input, native control handoff and optional
-voice integration. Mac/Linux remain experimental r75 and do not have Windows
-feature parity. Physical Mac/Linux installs and phone voice were not rerun here.
-Only Windows has received extensive runtime testing.
+Bundle 4 recreates the drive layout from a ZIP extracted anywhere on the drive.
+Windows Start Setup defaults to the drive root. Edit Installation root directory,
+Browse, or Drive root before installing. Mac/Linux ask for an installation root.
+Applications go in PortalAI Windows, PortalAI Mac or PortalAI Linux under that
+root. Selected companions go beside them in Utilities, never under Platforms.
+Existing application/companion folders are preserved; use Update existing for an
+installed application. An unrelated Utilities/Installers folder is allowed.
+
+All components selects every available model group and optional native utility.
+Express remains lightweight. Models stay optional and download during setup;
+the ZIP does not contain their weights. Full includes the 27B variants and source
+weights, ACE-Step 4B, Whisper Turbo, FLUX 9B FP8 and the Abliterator example model.
+Academic keeps its standard-model boundary. Mac/Linux offer the complete eligible
+model catalog; native runtime support still varies. FLUX requires the recipient's
+own publisher access and Hugging Face read token; no credentials are bundled.
+Successful setup removes completed temporary model/runtime downloads. Interrupted
+downloads are retained for retry. Full Windows with all components is about 431
+GiB installed and requires additional temporary download and recovery space.
+
+Native archives remain byte-for-byte intact. Verified setup overlays add the
+destination controls and model catalogs without changing the r85/r75 app payloads.
+The Windows extraction-path fix is retained. Only Windows has extensive runtime
+testing; physical Mac/Linux installations and live inference were not rerun here.
 
 VERIFICATION
 bundle.json records the native package versions, sizes and hashes.
@@ -181,6 +190,73 @@ def main():
     stage=args.output/'staged-utilities'
     stage.mkdir(parents=True,exist_ok=True)
     modes=stage_utilities(inputs,stage,args.edition=='Full')
+    from complete_model_catalog import prepare,encoded
+    model_overlay,model_catalog=prepare(repo,inputs[args.edition+'/Windows']['path'],args.edition)
+    common_setup={'Setup/Models/model-catalog.json':encoded(model_catalog),
+        'Setup/Models/complete_models.py':(repo/'InstallerSources/Models/complete_models.py').read_bytes()}
+    for name in ('installer_core.py','installer_storage.py','model_choices.py','suite_installer.py'):
+        common_setup['Setup/Models/Engine/'+name]=(repo/'InstallerSources/Windows'/name).read_bytes()
+    for name,data in model_overlay.items():
+        if name.startswith('ModelData/'):common_setup['Setup/Models/'+name]=data
+    native_setup={};suite_catalogs={}
+    with zipfile.ZipFile(inputs[args.edition+'/Windows']['path']) as archive:
+        suite_catalogs['Windows']=archive.read('suite-catalog.json')
+    for platform in ('Mac','Linux'):
+        script='install-macos.sh' if platform=='Mac' else 'install.sh'
+        with tarfile.open(inputs[args.edition+'/'+platform]['path'],'r:gz') as archive:
+            names=archive.getnames()
+            script_name=next(n for n in names if n.endswith('/'+script))
+            sums_name=next(n for n in names if n.endswith('/SHA256SUMS'))
+            original=archive.extractfile(script_name).read().decode()
+            sums=archive.extractfile(sums_name).read().decode()
+            suite_catalogs[platform]=archive.extractfile(next(n for n in names if n.endswith('/suite-catalog.json'))).read()
+        old='"$PYTHON" -B "$ROOT/Tools/choose_optional_models.py"' if platform=='Mac' else '"$PYTHON" -B "$STAGE/PortalAI/Tools/choose_optional_models.py"'
+        new='"$PYTHON" -B "$SELF_DIR/model-setup/complete_models.py" --root "$ROOT"' if platform=='Mac' else '"$PYTHON" -B "$SCRIPT_DIR/model-setup/complete_models.py" --root "$STAGE/PortalAI"'
+        assert original.count(old)==1,'Unreviewed native model-chooser entry point'
+        updated=original.replace(old,new)
+        native_app_name='PortalAI '+('Academic ' if args.edition=='Academic' else '')+platform
+        default_old='DEST="${1:-'+('$SELF_DIR' if platform=='Mac' else '$SCRIPT_DIR')+'/'+native_app_name+'}"'
+        source_var='$SELF_DIR' if platform=='Mac' else '$SCRIPT_DIR'
+        default_new=("PORTALAI_DRIVE_ROOT=$(LC_ALL=C df -Pk \""+source_var+"\" | awk 'NR==2 {for(i=1;i<=5;i++)sub(/^[[:space:]]*[^[:space:]]+[[:space:]]+/,\"\");print}')\n"
+            +'[ -n "$PORTALAI_DRIVE_ROOT" ] || { echo "Cannot determine installation drive root." >&2; exit 2; }\n'
+            +'DEST="${1:-${PORTALAI_DRIVE_ROOT%/}/PortalAI '+platform+'}"')
+        assert updated.count(default_old)==1,'Unreviewed native default destination'
+        updated=updated.replace(default_old,default_new)
+        suite_old='"${STAGE}/PortalAI/Tools/suite_installer.py"' if platform=='Linux' else '"${ROOT}/Tools/suite_installer.py"'
+        suite_new='"$SCRIPT_DIR/model-setup/Engine/suite_installer.py"' if platform=='Linux' else '"$SELF_DIR/model-setup/Engine/suite_installer.py"'
+        assert updated.count(suite_old)==1,'Unreviewed native suite entry point'
+        updated=updated.replace(suite_old,suite_new).encode()
+        old_line=hashlib.sha256(original.encode()).hexdigest()+'  '+script
+        assert sums.count(old_line)==1,'Native script checksum differs'
+        sums=sums.replace(old_line,hashlib.sha256(updated).hexdigest()+'  '+script)
+        native_setup[platform]={script:updated,'SHA256SUMS':sums.encode()}
+    local_suites={}
+    for platform in PLATFORMS:
+        projection=[];abliterator=[]
+        for rel in sorted(modes):
+            if rel.startswith('Utilities/'+platform+'/'):
+                tail=rel.split('/',2)[2]
+                if not tail.startswith(('PortalAI-Projection/','PortalAI HA Setup/')):continue
+                row=dict(source_file=rel,file='SuiteAssets/projection/Utilities/'+tail,dest='Utilities/'+tail)
+                source=stage/rel;projection.append(row)
+            elif platform=='Windows' and rel.startswith('FullOnly/Portable Abliterator Setup/'):
+                tail=rel.removeprefix('FullOnly/Portable Abliterator Setup/')
+                row=dict(source_file='Utilities/Windows/Portable Abliterator Setup/'+tail,file='SuiteAssets/abliterator/'+tail,dest=tail)
+                source=stage/rel;abliterator.append(row)
+            else:continue
+            row.update(bytes=source.stat().st_size,sha256=sha(source))
+        local_assets=[dict(id='projection-'+platform.lower(),platform=platform,files=projection)]
+        if abliterator:local_assets.append(dict(id='abliterator-windows',platform='Windows',files=abliterator,additional_download_bytes=3103192679))
+        local_json=encoded(dict(schema=1,base_catalog_sha256=hashlib.sha256(suite_catalogs[platform]).hexdigest(),assets=local_assets))
+        tsv=''.join(f"{r['source_file']}\t{r['file']}\t{r['bytes']}\t{r['sha256']}\n" for a in local_assets for r in a['files']).encode()
+        local_suites[platform]={'suite-local.json':local_json,'suite-copy.tsv':tsv}
+        if platform in native_setup:
+            extra={name.removeprefix('Setup/Models/'):data for name,data in common_setup.items()}
+            sums=native_setup[platform]['SHA256SUMS'].decode().rstrip('\n')+'\n'
+            sums+=''.join(hashlib.sha256(data).hexdigest()+'  model-setup/'+name+'\n' for name,data in sorted(extra.items()))
+            sums+=hashlib.sha256(local_json).hexdigest()+'  suite-local.json\n'
+            sums+=''.join(r['sha256']+'  '+r['file']+'\n' for a in local_assets for r in a['files'])
+            native_setup[platform]['SHA256SUMS']=sums.encode()
     outputs=[]
     for selection in ['Windows','Mac','Linux','Universal']:
         platforms=PLATFORMS if selection=='Universal' else (selection,)
@@ -200,6 +276,12 @@ def main():
         manifest=dict(schema=1,version=VERSION,edition=args.edition,platforms=platforms,assets=assets,
             windows_installer=exe,utilities_optional=True,home_assistant='0.5.13',
             projection_host_update='0.5.13',abliterator_included=args.edition=='Full' and 'Windows' in platforms)
+        setup_files=dict(common_setup)
+        for platform in platforms:
+            files={**(model_overlay if platform=='Windows' else native_setup[platform]),**local_suites[platform]}
+            for name,data in files.items():setup_files['Setup/'+platform+'/'+name]=data
+        manifest['model_catalog_version']=model_catalog['version']
+        manifest['setup_files']=[dict(file=name,bytes=len(data),sha256=hashlib.sha256(data).hexdigest()) for name,data in sorted(setup_files.items())]
         if 'Windows' in platforms:
             setup=Path(inputs['WindowsSetup']['path'])
             manifest['windows_launcher']=dict(file='Setup/PortalAI-Setup.exe',bytes=setup.stat().st_size,sha256=inputs['WindowsSetup']['sha256'])
@@ -210,6 +292,8 @@ def main():
             z.writestr(zi,data,compresslevel=5)
             hashes[rel]=hashlib.sha256(data).hexdigest()
         with zipfile.ZipFile(target,'x',allowZip64=True) as z:
+            for name,data in sorted(setup_files.items()):put(z,name,data)
+            put(z,'setup.tsv',''.join(f"{r['file']}\t{r['bytes']}\t{r['sha256']}\n" for r in manifest['setup_files']).encode())
             if 'Windows' in platforms:put(z,manifest['windows_launcher']['file'],setup.read_bytes())
             for platform,a in zip(platforms,assets):
                 source=Path(inputs[args.edition+'/'+platform]['path'])
@@ -237,9 +321,10 @@ def main():
             put(z,'SHA256SUMS',''.join(f'{value}  {key}\n' for key,value in sorted(hashes.items())).encode())
         assert target.stat().st_size<2_000_000_000,'Split-free GitHub bundle exceeds 2 GB'
         checksum=sha(target)
+        name=target.name
         outputs.append(dict(edition=args.edition,platform=selection,name=name,path=str(target),bytes=target.stat().st_size,sha256=checksum,manifest=manifest))
         print(f'Built {name}: {target.stat().st_size:,} bytes',flush=True)
     (args.output/'bundle-build.json').write_text(json.dumps(outputs,indent=2)+'\n')
-    print('Completed four bundles; native installers and optional selections unchanged.',flush=True)
+    print('Completed four bundles; native archives retained and complete optional catalogs added.',flush=True)
 if __name__=='__main__':main()
 

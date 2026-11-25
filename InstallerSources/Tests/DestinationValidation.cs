@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 using System.Windows.Forms;
 class DestinationValidation {
     static BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;
@@ -13,6 +14,7 @@ class DestinationValidation {
         Check(InstallDestination.Normalize(@"E:\")==@"E:\","Drive root accepted");
         Check(InstallDestination.Normalize(@"E:\My AI")==@"E:\My AI","Folder with spaces accepted");
         foreach(string bad in new[]{"","relative","E:"}){bool rejected=false;try{InstallDestination.Normalize(bad);}catch(ArgumentException){rejected=true;}Check(rejected,"Relative/empty input rejected");}
+        using(var standalone=new InstallerForm(false))Check(Get<TextBox>(standalone,"destinationBox").Text==Path.GetPathRoot(Program.Package),"Direct Windows installer also defaults to its drive root");
         using(var host=new UserControl{Size=new Size(1060,960)})using(var form=new InstallerForm(false,@"E:\")){
             form.TopLevel=false;form.Dock=DockStyle.Fill;host.Controls.Add(form);host.CreateControl();form.Show();Application.DoEvents();
             form.GetType().GetMethod("CloseSurvey",F).Invoke(form,null);
@@ -21,6 +23,13 @@ class DestinationValidation {
             box.Text=@"E:\My AI";Check(preview.Text.Contains(@"E:\My AI\PortalAI Windows"),"Preview follows edits");
             Get<PortalButton>(form,"driveRoot").PerformClick();Check(box.Text==@"E:\","Drive root button follows selected drive");
             Check(Get<PortalButton>(form,"browseDestination").Enabled,"Browse is available before installation");
+            var choices=Get<CheckedListBox>(form,"choices");
+            Check(choices.Items.Cast<ComponentChoice>().Any(c=>c.Id=="whisper-turbo-model"),"Complete model catalog is shown");
+            Get<PortalButton>(form,"allComponentsButton").PerformClick();
+            Check(choices.Items.Cast<ComponentChoice>().Where(c=>c.Review!=null).All(c=>choices.CheckedItems.Contains(c)),"All components includes every optional model group");
+            Get<PortalButton>(form,"expressButton").PerformClick();
+            Check(!choices.CheckedItems.Cast<ComponentChoice>().Any(c=>c.Id=="whisper-turbo-model"||c.Id.StartsWith("utility:")),"Express stays lightweight and utilities remain optional");
+            Check(Get<TextBox>(form,"huggingfaceToken").UseSystemPasswordChar&&Get<TextBox>(form,"huggingfaceToken").Text=="","Recipient model credential starts empty and masked");
             Shot(form,"destination-dark.png");host.Size=new Size(850,790);Shot(form,"destination-small.png");
             typeof(InstallerForm).GetField("dark",F).SetValue(form,false);form.GetType().GetMethod("ApplyTheme",F).Invoke(form,null);Shot(form,"destination-light.png");
             Check(!Get<System.ComponentModel.BackgroundWorker>(form,"worker").IsBusy,"Choosing a folder does not start installation");

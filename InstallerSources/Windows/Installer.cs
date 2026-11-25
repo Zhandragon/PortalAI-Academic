@@ -16,6 +16,25 @@ internal static class Program {
     internal static readonly string Package = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     internal static JavaScriptSerializer Json() { return new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue, RecursionLimit = 128 }; }
     internal static string Quote(string value) { return "\"" + value + "\""; }
+    internal static Dictionary<string,object> LoadPlan(string filename) {
+        string path=Path.Combine(Package,filename);
+        var result=Json().Deserialize<Dictionary<string,object>>(File.ReadAllText(path));
+        string overlayPath=Path.Combine(Package,"model-overlay.json");
+        if(!File.Exists(overlayPath))return result;
+        var overlay=Json().Deserialize<Dictionary<string,object>>(File.ReadAllText(overlayPath));
+        string digest;using(var stream=File.OpenRead(path))using(var hash=System.Security.Cryptography.SHA256.Create())digest=BitConverter.ToString(hash.ComputeHash(stream)).Replace("-","").ToLowerInvariant();
+        string pin=filename=="release.json" ? "base_release_sha256" : "base_storage_sha256";
+        if(Convert.ToInt32(overlay["schema"])!=1||digest!=Convert.ToString(overlay[pin]))throw new IOException("Model catalog does not match this installer package.");
+        if(filename=="release.json"&&Convert.ToString(overlay["edition"])!=Convert.ToString(((Dictionary<string,object>)result["upgrade"])["edition"]))throw new IOException("Model catalog edition differs.");
+        var components=((System.Collections.IEnumerable)result["components"]).Cast<Dictionary<string,object>>().ToList();
+        foreach(Dictionary<string,object> addition in (System.Collections.IEnumerable)overlay[filename=="release.json" ? "components" : "storage_components"]) {
+            if(Convert.ToBoolean(addition["required"]))throw new IOException("Additional model downloads must be optional.");
+            var existing=components.FirstOrDefault(c=>Convert.ToString(c["id"])==Convert.ToString(addition["id"]));
+            if(existing==null)components.Add(addition);
+            else if(filename=="release.json") { existing["model_choice"]=addition["model_choice"];existing["required"]=false; }
+        }
+        result["components"]=components.ToArray();return result;
+    }
     internal static string PrepareRuntime() {
         string root = Path.Combine(Package, ".PortalAI-installer-" + Guid.NewGuid().ToString("N"));
         if (Directory.Exists(root) || File.Exists(root)) throw new IOException("Installer work folder already exists.");
@@ -176,9 +195,10 @@ internal sealed partial class InstallerForm : Form {
     readonly PortalProgress currentProgress=new PortalProgress(),overallProgress=new PortalProgress();
     readonly Label currentLabel=new Label(),currentBytes=new Label(),overallLabel=new Label(),title=new Label();
     readonly BackgroundWorker worker=new BackgroundWorker();
-    readonly TextBox githubToken=new TextBox { UseSystemPasswordChar=true, Width=250, AccessibleName="Optional GitHub token" };
+    readonly TextBox githubToken=new TextBox { UseSystemPasswordChar=true, Width=180, AccessibleName="Optional GitHub token" };
     readonly Label selectionSize=new Label { Dock=DockStyle.Fill, AutoEllipsis=true };
-    string pendingToken="", primaryEdition;
+    readonly TextBox huggingfaceToken=new TextBox { UseSystemPasswordChar=true, Width=180, AccessibleName="Optional Hugging Face token for gated models" };
+    string pendingToken="", pendingHuggingfaceToken="", primaryEdition;
     readonly PortalButton upgrade=new PortalButton(); string upgradeTarget;
     readonly PortalButton custom=new PortalButton();
     readonly TextBox destinationBox=new TextBox { Dock=DockStyle.Fill,Name="InstallDestination",AccessibleName="Installation root directory" };
@@ -219,7 +239,7 @@ internal sealed partial class InstallerForm : Form {
         destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,112));destinationRow.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,112));
         destinationRow.Controls.Add(destinationBox);destinationRow.Controls.Add(browseDestination);destinationRow.Controls.Add(driveRoot);introduction.Controls.Add(destinationRow);
         destinationBox.TextChanged+=delegate { UpdateDestinationPreview(); };
-        destinationBox.Text=initialDestination ?? Program.Package;
+        destinationBox.Text=initialDestination ?? Path.GetPathRoot(Program.Package);
         browseDestination.Click+=delegate { using(var picker=new FolderBrowserDialog { Description="Choose the drive root or folder for PortalAI and its optional utilities",ShowNewFolderButton=true }) {
             try { picker.SelectedPath=InstallDestination.Normalize(destinationBox.Text); }catch(ArgumentException){}
             if(picker.ShowDialog(this)==DialogResult.OK)destinationBox.Text=picker.SelectedPath;
@@ -252,10 +272,10 @@ internal sealed partial class InstallerForm : Form {
         buttons.Controls.AddRange(new Control[]{close,pause,upgrade,install,custom});
         var credentials=new TableLayoutPanel { Dock=DockStyle.Fill, RowCount=2,ColumnCount=1 };
         credentials.Controls.Add(selectionSize);
-        var auth=new FlowLayoutPanel { Dock=DockStyle.Fill };auth.Controls.Add(new Label { Text="Private downloads: optional GitHub token", AutoSize=true, Padding=new Padding(0,5,0,0) });auth.Controls.Add(githubToken);credentials.Controls.Add(auth);
+        var auth=new FlowLayoutPanel { Dock=DockStyle.Fill };auth.Controls.Add(new Label { Text="GitHub token (optional)", AutoSize=true, Padding=new Padding(0,5,0,0) });auth.Controls.Add(githubToken);auth.Controls.Add(new Label { Text="Hugging Face token (optional)",AutoSize=true,Padding=new Padding(0,5,0,0) });auth.Controls.Add(huggingfaceToken);credentials.Controls.Add(auth);
         foreach(Control c in new Control[]{header,introduction,choices,credentials,progress,new Label { Text="Installation details",Dock=DockStyle.Fill },status,buttons})layout.Controls.Add(c);
         mainLayout=layout;Controls.Add(layout);ApplyTheme();
-        var release=Program.Json().Deserialize<Dictionary<string,object>>(File.ReadAllText(Path.Combine(Program.Package,"release.json")));
+        var release=Program.LoadPlan("release.json");
         releaseData=release;
         primaryEdition=Convert.ToString(((Dictionary<string,object>)release["upgrade"])["edition"]);
         title.Text="PortalAI "+primaryEdition;
@@ -297,6 +317,7 @@ internal sealed partial class InstallerForm : Form {
             currentLabel.Text="Checking disk space and selected components…";currentBytes.Text="Preparing installation";overallLabel.Text="Overall installation · preparing";
             currentProgress.Fraction=overallProgress.Fraction=0;currentProgress.Indeterminate=overallProgress.Indeterminate=true;
             pendingToken=githubToken.Text.Trim();githubToken.Clear();githubToken.Enabled=false;
+            pendingHuggingfaceToken=huggingfaceToken.Text.Trim();huggingfaceToken.Clear();huggingfaceToken.Enabled=false;
             worker.RunWorkerAsync(selected.ToArray());
         };
         pause.Click+=delegate { RequestPause(); };close.Click+=delegate { Close(); };
@@ -417,7 +438,7 @@ internal sealed partial class InstallerForm : Form {
         }
         File.WriteAllText(request,Program.Json().Serialize(new { package=Program.Package,destination=upgradeTarget ?? installDestination,selected=(string[])e.Argument,cancel_file=cancellation,mode=upgradeTarget==null ? "install" : "upgrade",suite=true,model_consent=modelConsent,custom_model=customModel }),new UTF8Encoding(false));
         using(Process process=Process.Start(Program.Engine(runtime,Program.Quote(request)))) {
-            process.StandardInput.WriteLine(pendingToken);process.StandardInput.Close();pendingToken="";
+            process.StandardInput.WriteLine(pendingToken);process.StandardInput.WriteLine(pendingHuggingfaceToken);process.StandardInput.Close();pendingToken="";pendingHuggingfaceToken="";
             Task<string> errors=process.StandardError.ReadToEndAsync();string line;
             using(var log=new StreamWriter(Path.Combine(runtime,"installer-log.jsonl"),false,new UTF8Encoding(false))) {
                 while((line=process.StandardOutput.ReadLine())!=null) {
@@ -482,9 +503,7 @@ internal static class StoragePreflight {
         return message;
     }
     internal static System.Collections.Generic.Dictionary<string,object> EmbeddedPlan() {
-        using (var reader = new System.IO.StreamReader(System.IO.Path.Combine(Program.Package,"storage-plan.json"))) {
-            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<System.Collections.Generic.Dictionary<string,object>>(reader.ReadToEnd());
-        }
+        return Program.LoadPlan("storage-plan.json");
     }
     internal static string CheckSelection(string path, string[] selected) {
         var plan = EmbeddedPlan();

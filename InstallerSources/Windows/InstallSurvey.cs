@@ -45,7 +45,7 @@ internal static class InstallBundles {
 }
 
 internal sealed partial class InstallerForm {
-    readonly PortalButton surveyButton=new PortalButton(),expressButton=new PortalButton(),manualButton=new PortalButton();
+    readonly PortalButton surveyButton=new PortalButton(),expressButton=new PortalButton(),manualButton=new PortalButton(),allComponentsButton=new PortalButton();
     readonly Label setupMode=new Label{AutoSize=true,Padding=new Padding(6,8,0,0)};
     Panel surveyOverlay; int surveyPage; bool fullBundle;
     HashSet<string> surveyInterests=new HashSet<string>{"chat"};
@@ -56,7 +56,9 @@ internal sealed partial class InstallerForm {
         surveyButton.Text="Help me choose";surveyButton.Width=140;surveyButton.Click+=delegate{OpenSurvey(1);};
         expressButton.Text="Express";expressButton.Click+=delegate{ApplyBundle(InstallBundles.Recommend(Inventory(),new[]{"chat"},false,primaryEdition),"Express · Lightweight chat");};
         manualButton.Text="Custom";manualButton.Click+=delegate{setupMode.Text="✓ Custom · choose components below";choices.Focus();};
-        bar.Controls.AddRange(new Control[]{surveyButton,expressButton,manualButton,setupMode});setupMode.Text="Choose a setup path";return bar;
+        allComponentsButton.Text="All components";allComponentsButton.Width=130;
+        allComponentsButton.Click+=delegate { ApplyBundle(new HashSet<string>(Inventory().Where(c=>!c.Id.Contains(":")||c.Id=="primary:"+primaryEdition||c.Id.StartsWith("utility:")).Select(c=>c.Id)),"All components · review below"); };
+        bar.Controls.AddRange(new Control[]{surveyButton,expressButton,manualButton,allComponentsButton,setupMode});setupMode.Text="Choose a setup path";return bar;
     }
     IEnumerable<ComponentChoice> Inventory(){return choices.Items.Cast<ComponentChoice>();}
     void ApplyBundle(HashSet<string> selected,string mode) {

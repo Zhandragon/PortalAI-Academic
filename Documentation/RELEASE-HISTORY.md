@@ -4,7 +4,8 @@
 
 These records describe their own versions. Older download links are historical. Assets are retained for existing pinned launchers.
 
-- [November 25, 2026, bundle 2: Windows extraction path fix](CURRENT-DOWNLOADS.md)
+- [November 25, 2026, bundle 4: installation roots and complete model catalog](CURRENT-DOWNLOADS.md)
+- [November 25, 2026, bundle 2: Windows extraction path fix](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.25-bundle2)
 - [November 25, 2026, bundle 1: initial complete bundles - superseded](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.25-bundle1)
 - [Welcome-page announcements preserved before cleanup](History/WELCOME-before-20261125.md)
 

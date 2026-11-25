@@ -6,7 +6,9 @@ ROOT=Path(__file__).resolve().parents[1]
 config=json.loads((ROOT/'tools/download-bundle-inputs.json').read_text())
 assert os.environ['GITHUB_REPOSITORY']==config['repository']
 assert config['tag']=='v'+VERSION
-subprocess.run([sys.executable,str(ROOT/'InstallerSources/Tests/test_bundle_archive_layout.py')],check=True)
+test_env=dict(os.environ,PYTHONPATH=str(ROOT/'InstallerSources/Windows'))
+for test in ('test_bundle_archive_layout','test_download_bundles','test_install_destination','test_complete_models','test_bundled_companions','test_suite_installer','test_storage_preflight','test_model_choices','test_custom_models','test_archive_allowlist','test_installer_progress'):
+    subprocess.run([sys.executable,str(ROOT/'InstallerSources/Tests'/(test+'.py'))],env=test_env,check=True)
 token=os.environ['GH_TOKEN'];api='https://api.github.com/repos/'+config['repository']
 headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','User-Agent':'PortalAI-bundle-build'}
 def call(url,method='GET',data=None):
@@ -83,8 +85,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
 for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
 manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
-    validation=dict(archive_checks=checks,setup_regression_tests=11,setup_regression_tests_passed=11,native_mac_linux_runtime_tested=False,live_inference_retested=False,
-      archive_layout_tests_passed=6,install_destination_tests_passed=7,windows_gui_checks_passed=10,
+    validation=dict(archive_checks=checks,setup_regression_tests=15,setup_regression_tests_passed_locally=15,native_mac_linux_runtime_tested=False,live_inference_retested=False,
+      archive_layout_tests_passed=6,install_destination_tests_passed=9,windows_gui_checks_passed_locally=15,complete_model_tests_passed=11,bundled_companion_tests_passed=6,
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:

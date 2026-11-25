@@ -15,20 +15,20 @@ Academic uses standard-only chat, vision and media. Full-only model assets and P
 
 <table>
 <tr>
-<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip"><img src="Documentation/assets/download-windows.svg" width="288" height="76" alt="Download Windows bundle" /></a><br/><strong>Windows x64 · r85</strong><br/><sub>Optional Projection and Home Assistant setup included.</sub></td>
-<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip"><img src="Documentation/assets/download-mac.svg" width="288" height="76" alt="Download Mac bundle" /></a><br/><strong>Mac · experimental r75</strong><br/><sub>Apple silicon / Intel. Optional Projection requires macOS 14+.</sub></td>
+<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle4.zip"><img src="Documentation/assets/download-windows.svg" width="288" height="76" alt="Download Windows bundle" /></a><br/><strong>Windows x64 · r85</strong><br/><sub>Optional Projection and Home Assistant setup included.</sub></td>
+<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle4.zip"><img src="Documentation/assets/download-mac.svg" width="288" height="76" alt="Download Mac bundle" /></a><br/><strong>Mac · experimental r75</strong><br/><sub>Apple silicon / Intel. Optional Projection requires macOS 14+.</sub></td>
 </tr>
 <tr>
-<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip"><img src="Documentation/assets/download-linux.svg" width="288" height="76" alt="Download Linux bundle" /></a><br/><strong>Linux x86-64 · experimental r75</strong><br/><sub>Optional Projection and Home Assistant setup included.</sub></td>
-<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip"><img src="Documentation/assets/download-universal.svg" width="288" height="76" alt="Download all three operating systems bundle" /></a><br/><strong>All three OSes · Windows r85 + Mac/Linux r75</strong><br/><sub>All native installers and their optional utilities in one download.</sub></td>
+<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle4.zip"><img src="Documentation/assets/download-linux.svg" width="288" height="76" alt="Download Linux bundle" /></a><br/><strong>Linux x86-64 · experimental r75</strong><br/><sub>Optional Projection and Home Assistant setup included.</sub></td>
+<td align="center" width="50%"><a href="https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle4.zip"><img src="Documentation/assets/download-universal.svg" width="288" height="76" alt="Download all three operating systems bundle" /></a><br/><strong>All three OSes · Windows r85 + Mac/Linux r75</strong><br/><sub>All native installers and their optional utilities in one download.</sub></td>
 </tr>
 </table>
 
-[Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle2.zip) · [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle2.zip) · [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle2.zip) · [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle2.zip) · [Checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle2/SHA256SUMS.txt)
+[Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Windows-Bundle-2026.11.25-bundle4.zip) · [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Mac-Bundle-2026.11.25-bundle4.zip) · [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Linux-Bundle-2026.11.25-bundle4.zip) · [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/PortalAI-Academic-Universal-Bundle-2026.11.25-bundle4.zip) · [Checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.25-bundle4/SHA256SUMS.txt)
 
 1. **Prepare the drive:** NTFS for Windows, APFS for Mac, or executable ext4 for Linux. [Requirements and drive preparation](Documentation/INSTALLATION.md).
 2. **Extract the entire bundle** into a new folder. Keep its files together. Open **Start Setup.cmd** on Windows, **Start Setup.command** on Mac, or run **bash prepare-setup.sh** on Linux.
-3. **Choose your components in the native installer.** Optional companions are in **Utilities / your OS** when you want them. Model weights and selected runtime dependencies still download during setup.
+3. **Choose the installation root and components.** Setup suggests the drive root. Applications use **PortalAI Windows**, **PortalAI Mac** or **PortalAI Linux** there, with selected companions in the sibling **Utilities** folder. **All components** selects the complete Windows catalog; **Express** stays lightweight. Models download during setup.
 
 **Already installed?** Exit PortalAI normally, then choose **Update existing** on Windows or use the native **--upgrade** workflow on Mac/Linux. [Setup, optional utilities and upgrades](Documentation/CURRENT-DOWNLOADS.md).
 
@@ -36,7 +36,7 @@ Academic uses standard-only chat, vision and media. Full-only model assets and P
 
 ## Latest update — November 25, 2026
 
-**Bundle 2 — Windows extraction fix:** removes unused Mac test/debug files that caused **0x80010135: Path too long** when extracting the Mac or all-three-OS bundle. Download a fresh bundle using the buttons above. Every archive path is now checked against Windows limits with room for the default extraction folder. Windows **r85**, experimental Mac/Linux **r75**, Home Assistant **0.5.13** and optional component choices are unchanged.
+**Bundle 4 — drive-root installation and complete model downloads:** choose the installation root before setup. The installed application and optional utilities follow the existing drive layout, independent of where you unzip the bundle. The model catalog now includes the additional eligible large-model variants and supporting files. Models remain optional downloads; the Windows extraction-path fix is retained. Application versions remain Windows **r85** and experimental Mac/Linux **r75**.
 
 [Current release details](Documentation/CURRENT-DOWNLOADS.md) · [Release history and tracked changes](Documentation/RELEASE-HISTORY.md)
 
@@ -84,7 +84,7 @@ Projection and **Home Assistant 0.5.13 + Recovery 0.1.0** setup are included in 
 | Home Assistant setup | The adjacent **PortalAI HA Setup** folder; keep both folders together. |
 | Recovery/reset and Weight-Space Editor | In the installed application’s Utilities where supported. |
 
-Academic excludes Portable Abliterator and Full-only model assets. The native installer’s optional component choices remain unchanged. Downloading the bundle does not install or activate a companion, pair a device, or configure Home Assistant.
+Academic excludes Portable Abliterator and Full-only model assets. Models and companions remain optional. Windows **All components** selects every available choice; **Express** selects a small starter configuration. Downloading the bundle does not install or activate a companion, pair a device, or configure Home Assistant.
 
 ## Built-in help and documentation
 

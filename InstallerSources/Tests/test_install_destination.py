@@ -12,6 +12,7 @@ class Destinations(unittest.TestCase):
         self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
         self.package=self.root/'package';self.package.mkdir()
         files={'PortalAI Windows/Agent/executable_recovery.py':b'def register(*args): pass\n',
+               'Utilities/PortalAI-Reset/tool.txt':b'clean utility fixture',
                'PortalAI Windows/app.txt':b'clean fixture', 'Start PortalAI Windows.cmd':b'fixture, never run'}
         rows=[];payload=self.package/'payload.zip'
         with zipfile.ZipFile(payload,'w') as z:
@@ -30,6 +31,19 @@ class Destinations(unittest.TestCase):
         self.install(self.root/'new');self.install(self.package)
         self.assertTrue((self.root/'new/INSTALL_RECEIPT.json').is_file())
         self.assertTrue((self.package/'PortalAI Windows/app.txt').is_file())
+    def test_installers_inside_utilities_do_not_nest_the_application(self):
+        target=self.root/'drive';installer=target/'Utilities/Installers/Unzipped Bundle/Platforms/Windows'
+        installer.mkdir(parents=True);(installer/'keep.txt').write_text('installer package')
+        self.install(target)
+        self.assertEqual((target/'PortalAI Windows/app.txt').read_bytes(),b'clean fixture')
+        self.assertEqual((target/'Utilities/PortalAI-Reset/tool.txt').read_bytes(),b'clean utility fixture')
+        self.assertEqual((installer/'keep.txt').read_text(),'installer package')
+        self.assertFalse((installer/'PortalAI Windows').exists())
+    def test_existing_owned_utility_is_preserved(self):
+        target=self.root/'drive';utility=target/'Utilities/PortalAI-Reset';utility.mkdir(parents=True)
+        (utility/'owner.txt').write_text('keep')
+        with self.assertRaises(core.InstallError):self.install(target)
+        self.assertEqual((utility/'owner.txt').read_text(),'keep')
     def test_existing_application_is_never_overwritten(self):
         target=self.root/'used';(target/'PortalAI Windows').mkdir(parents=True)
         (target/'PortalAI Windows/owner.txt').write_text('owner')

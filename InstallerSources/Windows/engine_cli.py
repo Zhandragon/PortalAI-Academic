@@ -55,6 +55,7 @@ def main():
         if request.get('suite'):
             token = sys.stdin.readline(4097).strip()
             if len(token) > 4096: raise ValueError('Invalid credential length')
+            core.set_huggingface_token(sys.stdin.readline(4097).strip())
             manifest = core.read_manifest(request['package'])
             edition = manifest['upgrade']['edition']
             install_primary = 'primary:'+edition in selected
@@ -67,7 +68,11 @@ def main():
             destination = Path(request['destination']).parent if mode == 'upgrade' else Path(request['destination'])
             catalog = suite.resolve_catalog(suite.read_catalog(request['package']), optional, edition, 'Windows', request['package'], edition, token)
             planned = suite.plan(catalog, optional, edition, 'Windows', edition)
-            suite.space_check(destination, planned['working_bytes'] + (core.plan(manifest, ordinary)[3] if install_primary else 0))
+            primary_plan=core.plan(manifest, ordinary) if install_primary else None
+            reclaimed=0
+            if primary_plan and mode=='install' and manifest.get('discard_completed_downloads'):
+                reclaimed=sum({a['sha256']:a['bytes'] for a in primary_plan[1] if 'bundled_file' not in a}.values())
+            suite.space_check(destination, planned['working_bytes'] + (primary_plan[3] if primary_plan else 0),completed_downloads=reclaimed)
             if install_primary:
                 report['application'] = core.install(request['package'], request['destination'], ordinary, stop, progress, events, mode=mode, model_consent=model_consent, custom_model=custom_model)
             elif custom_model:

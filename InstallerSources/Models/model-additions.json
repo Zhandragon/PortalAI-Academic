@@ -1,0 +1,541 @@
+{
+  "schema": 1,
+  "version": "2026.11.25",
+  "additions": [
+    {
+      "component": {
+        "id": "text-27b-standard",
+        "label": "Qwen3.8 27B standard Q4_K_M + vision projector",
+        "required": false,
+        "artifacts": [
+          {
+            "id": "text-27b-standard-2fd523f171fe",
+            "url": "https://huggingface.co/ggml-org/Qwen3.8-27B-GGUF/resolve/71bc7b627595dc8a91039addd9c791ae548d6747/Qwen3.8-27B-Q4_K_M.gguf",
+            "bytes": 18973870528,
+            "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/LLM/models/Qwen3.8-27B-Q4_K_M.gguf",
+                "bytes": 18973870528,
+                "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747"
+              }
+            ]
+          },
+          {
+            "id": "text-27b-standard-a0ab2c50a369",
+            "url": "https://huggingface.co/ggml-org/Qwen3.8-27B-GGUF/resolve/71bc7b627595dc8a91039addd9c791ae548d6747/mmproj-Qwen3.8-27B-BF16.gguf",
+            "bytes": 931145888,
+            "sha256": "de2a49866988ea272c43dc2a43ee2662c25725a717ca5b9059ea420a97f53fe8",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/LLM/models/mmproj-Qwen3.8-27B-Standard-BF16.gguf",
+                "bytes": 931145888,
+                "sha256": "de2a49866988ea272c43dc2a43ee2662c25725a717ca5b9059ea420a97f53fe8"
+              }
+            ]
+          }
+        ],
+        "model_choice": {
+          "license": "Apache-2.0",
+          "restrictions": "Optional large chat and vision model. Preserve publisher notices; substantial memory is required.",
+          "license_url": "https://huggingface.co/ggml-org/Qwen3.8-27B-GGUF",
+          "sources": [
+            "https://huggingface.co/ggml-org/Qwen3.8-27B-GGUF/resolve/71bc7b627595dc8a91039addd9c791ae548d6747/Qwen3.8-27B-Q4_K_M.gguf",
+            "https://huggingface.co/ggml-org/Qwen3.8-27B-GGUF/resolve/71bc7b627595dc8a91039addd9c791ae548d6747/mmproj-Qwen3.8-27B-BF16.gguf"
+          ],
+          "artifacts": [
+            {
+              "id": "text-27b-standard-2fd523f171fe",
+              "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747",
+              "bytes": 18973870528
+            },
+            {
+              "id": "text-27b-standard-a0ab2c50a369",
+              "sha256": "de2a49866988ea272c43dc2a43ee2662c25725a717ca5b9059ea420a97f53fe8",
+              "bytes": 931145888
+            }
+          ],
+          "review_digest": "e0943e034d949c0cb339b54d2eb3567a5326447a3fcc80ca134fb1e1ab117b30"
+        }
+      },
+      "full_only": false,
+      "source_revision": "71bc7b627595dc8a91039addd9c791ae548d6747"
+    },
+    {
+      "component": {
+        "id": "ace-language-model-4b",
+        "label": "ACE-Step 4B music language model",
+        "required": false,
+        "artifacts": [
+          {
+            "id": "ace-language-model-4b-b33563055168",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/README.md",
+            "bytes": 5498,
+            "sha256": "ed42093e8f7903f23bd45ea56bea8f484c8aee47820ae8880d6da752681a1da7",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/README.md",
+                "bytes": 5498,
+                "sha256": "ed42093e8f7903f23bd45ea56bea8f484c8aee47820ae8880d6da752681a1da7"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-dec41b953711",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/added_tokens.json",
+            "bytes": 2217787,
+            "sha256": "db08b66a515fb5d6acca0b3492d25bb44e0deda6241fc1113ac0679d40558c48",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/added_tokens.json",
+                "bytes": 2217787,
+                "sha256": "db08b66a515fb5d6acca0b3492d25bb44e0deda6241fc1113ac0679d40558c48"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-00824420d158",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/chat_template.jinja",
+            "bytes": 4168,
+            "sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/chat_template.jinja",
+                "bytes": 4168,
+                "sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-587cb980af76",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/config.json",
+            "bytes": 1562,
+            "sha256": "211bb68b2d641360526e4654b524e508f4046c1292016c08555bb877bd686d1b",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/config.json",
+                "bytes": 1562,
+                "sha256": "211bb68b2d641360526e4654b524e508f4046c1292016c08555bb877bd686d1b"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-b0d6dcfed49b",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/merges.txt",
+            "bytes": 1671853,
+            "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/merges.txt",
+                "bytes": 1671853,
+                "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-27a688080142",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model-00001-of-00002.safetensors",
+            "bytes": 4999914896,
+            "sha256": "ada9d0d4ff48f112de3f7b82cd4e7d57b4245932657e8b8edc9a5ded6a23b77f",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/model-00001-of-00002.safetensors",
+                "bytes": 4999914896,
+                "sha256": "ada9d0d4ff48f112de3f7b82cd4e7d57b4245932657e8b8edc9a5ded6a23b77f"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-2cca3b5a8849",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model-00002-of-00002.safetensors",
+            "bytes": 3379239240,
+            "sha256": "6302100c3577e2f1dbf32573e9b5e6e6b1bea7af101b433c2d3d6280faa8ab68",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/model-00002-of-00002.safetensors",
+                "bytes": 3379239240,
+                "sha256": "6302100c3577e2f1dbf32573e9b5e6e6b1bea7af101b433c2d3d6280faa8ab68"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-0a05be823898",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model.safetensors.index.json",
+            "bytes": 32818,
+            "sha256": "8a9ec992fbae144ba9b40521f8763a3419546bd7a8864d80b0c3f1e1e3678fcf",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/model.safetensors.index.json",
+                "bytes": 32818,
+                "sha256": "8a9ec992fbae144ba9b40521f8763a3419546bd7a8864d80b0c3f1e1e3678fcf"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-c07a9be597b7",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/special_tokens_map.json",
+            "bytes": 1824199,
+            "sha256": "76e233bfc357b0b03d7b6e6ba8e799244f358552575a7cdadb78d3d19106b298",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/special_tokens_map.json",
+                "bytes": 1824199,
+                "sha256": "76e233bfc357b0b03d7b6e6ba8e799244f358552575a7cdadb78d3d19106b298"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-224931eb13f8",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/tokenizer.json",
+            "bytes": 24321939,
+            "sha256": "35af56c3f5cb3ea2cc578aa28a8937770981d504f183ac5c8c38baf4bbd4af4d",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/tokenizer.json",
+                "bytes": 24321939,
+                "sha256": "35af56c3f5cb3ea2cc578aa28a8937770981d504f183ac5c8c38baf4bbd4af4d"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-94d5c6ba8f6b",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/tokenizer_config.json",
+            "bytes": 14072925,
+            "sha256": "6cd70cdd89425971794f5235562edcc608b0629a6c4686ae51a8b8c8b8ba5e95",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/tokenizer_config.json",
+                "bytes": 14072925,
+                "sha256": "6cd70cdd89425971794f5235562edcc608b0629a6c4686ae51a8b8c8b8ba5e95"
+              }
+            ]
+          },
+          {
+            "id": "ace-language-model-4b-ba05d8e2e484",
+            "url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/vocab.json",
+            "bytes": 2776833,
+            "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Music/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-4B/vocab.json",
+                "bytes": 2776833,
+                "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+              }
+            ]
+          }
+        ],
+        "model_choice": {
+          "license": "MIT",
+          "restrictions": "Optional larger music language model. Preserve publisher notices.",
+          "license_url": "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B",
+          "sources": [
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/README.md",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/added_tokens.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/chat_template.jinja",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/config.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/merges.txt",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model-00001-of-00002.safetensors",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model-00002-of-00002.safetensors",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/model.safetensors.index.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/special_tokens_map.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/tokenizer.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/tokenizer_config.json",
+            "https://huggingface.co/ACE-Step/acestep-5Hz-lm-4B/resolve/0a3ec94b557aea7d508da38b31cfe7341f6ff737/vocab.json"
+          ],
+          "artifacts": [
+            {
+              "id": "ace-language-model-4b-b33563055168",
+              "sha256": "ed42093e8f7903f23bd45ea56bea8f484c8aee47820ae8880d6da752681a1da7",
+              "bytes": 5498
+            },
+            {
+              "id": "ace-language-model-4b-dec41b953711",
+              "sha256": "db08b66a515fb5d6acca0b3492d25bb44e0deda6241fc1113ac0679d40558c48",
+              "bytes": 2217787
+            },
+            {
+              "id": "ace-language-model-4b-00824420d158",
+              "sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+              "bytes": 4168
+            },
+            {
+              "id": "ace-language-model-4b-587cb980af76",
+              "sha256": "211bb68b2d641360526e4654b524e508f4046c1292016c08555bb877bd686d1b",
+              "bytes": 1562
+            },
+            {
+              "id": "ace-language-model-4b-b0d6dcfed49b",
+              "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+              "bytes": 1671853
+            },
+            {
+              "id": "ace-language-model-4b-27a688080142",
+              "sha256": "ada9d0d4ff48f112de3f7b82cd4e7d57b4245932657e8b8edc9a5ded6a23b77f",
+              "bytes": 4999914896
+            },
+            {
+              "id": "ace-language-model-4b-2cca3b5a8849",
+              "sha256": "6302100c3577e2f1dbf32573e9b5e6e6b1bea7af101b433c2d3d6280faa8ab68",
+              "bytes": 3379239240
+            },
+            {
+              "id": "ace-language-model-4b-0a05be823898",
+              "sha256": "8a9ec992fbae144ba9b40521f8763a3419546bd7a8864d80b0c3f1e1e3678fcf",
+              "bytes": 32818
+            },
+            {
+              "id": "ace-language-model-4b-c07a9be597b7",
+              "sha256": "76e233bfc357b0b03d7b6e6ba8e799244f358552575a7cdadb78d3d19106b298",
+              "bytes": 1824199
+            },
+            {
+              "id": "ace-language-model-4b-224931eb13f8",
+              "sha256": "35af56c3f5cb3ea2cc578aa28a8937770981d504f183ac5c8c38baf4bbd4af4d",
+              "bytes": 24321939
+            },
+            {
+              "id": "ace-language-model-4b-94d5c6ba8f6b",
+              "sha256": "6cd70cdd89425971794f5235562edcc608b0629a6c4686ae51a8b8c8b8ba5e95",
+              "bytes": 14072925
+            },
+            {
+              "id": "ace-language-model-4b-ba05d8e2e484",
+              "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+              "bytes": 2776833
+            }
+          ],
+          "review_digest": "e8726e3f6ad7659f59cc00dfc7bc08ab9d3cd270344ec1ea4c3daf9fdefd8d9d"
+        },
+        "depends_on": [
+          "ace-step-models"
+        ]
+      },
+      "full_only": false,
+      "source_revision": "0a3ec94b557aea7d508da38b31cfe7341f6ff737"
+    },
+    {
+      "component": {
+        "id": "whisper-turbo-model",
+        "label": "Whisper large-v3-turbo speech recognition",
+        "required": false,
+        "artifacts": [
+          {
+            "id": "whisper-turbo-model-587cb980af76",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/config.json",
+            "bytes": 2263,
+            "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/config.json",
+                "bytes": 2263,
+                "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-model-15d442008fc3",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/model.bin",
+            "bytes": 1617884929,
+            "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/model.bin",
+                "bytes": 1617884929,
+                "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-model-36afccab5d8d",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/preprocessor_config.json",
+            "bytes": 340,
+            "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/preprocessor_config.json",
+                "bytes": 340,
+                "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-model-224931eb13f8",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/tokenizer.json",
+            "bytes": 2710337,
+            "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/tokenizer.json",
+                "bytes": 2710337,
+                "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-model-997adb8193fc",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/vocabulary.json",
+            "bytes": 1068114,
+            "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/vocabulary.json",
+                "bytes": 1068114,
+                "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-model-b33563055168",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/README.md",
+            "bytes": 1445,
+            "sha256": "b3068692728faed23580cce5cd569fc47ff76c690c032b2641ffd5554ea64d8f",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/README.md",
+                "bytes": 1445,
+                "sha256": "b3068692728faed23580cce5cd569fc47ff76c690c032b2641ffd5554ea64d8f"
+              }
+            ]
+          },
+          {
+            "id": "whisper-turbo-local-revision",
+            "url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo",
+            "bytes": 40,
+            "sha256": "a51a4d3dbd7708ff138ea428d7018c9295bd8f05a2e35d5866df2548c5ada64b",
+            "format": "file",
+            "bundled_file": "ModelData/whisper-turbo-revision.txt",
+            "inline_utf8": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+            "members": [
+              {
+                "dest": "PortalAI Windows/SpeechToText/models/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/refs/main",
+                "bytes": 40,
+                "sha256": "a51a4d3dbd7708ff138ea428d7018c9295bd8f05a2e35d5866df2548c5ada64b"
+              }
+            ]
+          }
+        ],
+        "model_choice": {
+          "license": "MIT",
+          "restrictions": "Optional larger multilingual speech model. Preserve publisher notices.",
+          "license_url": "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo",
+          "sources": [
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/config.json",
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/model.bin",
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/preprocessor_config.json",
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/tokenizer.json",
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/vocabulary.json",
+            "https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/README.md"
+          ],
+          "artifacts": [
+            {
+              "id": "whisper-turbo-model-587cb980af76",
+              "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e",
+              "bytes": 2263
+            },
+            {
+              "id": "whisper-turbo-model-15d442008fc3",
+              "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da",
+              "bytes": 1617884929
+            },
+            {
+              "id": "whisper-turbo-model-36afccab5d8d",
+              "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+              "bytes": 340
+            },
+            {
+              "id": "whisper-turbo-model-224931eb13f8",
+              "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd",
+              "bytes": 2710337
+            },
+            {
+              "id": "whisper-turbo-model-997adb8193fc",
+              "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1",
+              "bytes": 1068114
+            },
+            {
+              "id": "whisper-turbo-model-b33563055168",
+              "sha256": "b3068692728faed23580cce5cd569fc47ff76c690c032b2641ffd5554ea64d8f",
+              "bytes": 1445
+            },
+            {
+              "id": "whisper-turbo-local-revision",
+              "sha256": "a51a4d3dbd7708ff138ea428d7018c9295bd8f05a2e35d5866df2548c5ada64b",
+              "bytes": 40
+            }
+          ],
+          "review_digest": "b8117a3a84e2fa68a9cb4a3b563d985f29a263fb7160decec5d22f206c2634a0"
+        },
+        "depends_on": [
+          "speech-recognition-runtime"
+        ]
+      },
+      "full_only": false,
+      "source_revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf"
+    },
+    {
+      "component": {
+        "id": "flux-klein9b-fp8",
+        "label": "FLUX.2 Klein base 9B FP8 (requires your Hugging Face access)",
+        "required": false,
+        "artifacts": [
+          {
+            "id": "flux-klein9b-fp8-e0afd493ff38",
+            "url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9b-fp8/resolve/5fe9c6fba7d9726cf82304f4986c51144ae5c2d7/flux-2-klein-base-9b-fp8.safetensors",
+            "bytes": 9567278472,
+            "sha256": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4",
+            "format": "file",
+            "members": [
+              {
+                "dest": "PortalAI Windows/Generative/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/flux-2-klein-base-9b-fp8.safetensors",
+                "bytes": 9567278472,
+                "sha256": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4"
+              }
+            ],
+            "authentication": "huggingface"
+          }
+        ],
+        "model_choice": {
+          "license": "FLUX Non-Commercial",
+          "restrictions": "NONCOMMERCIAL weights. Obtain access and accept the publisher terms yourself at the model page, then provide your own Hugging Face read token. The installer does not accept terms for you.",
+          "license_url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9b-fp8",
+          "sources": [
+            "https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9b-fp8/resolve/5fe9c6fba7d9726cf82304f4986c51144ae5c2d7/flux-2-klein-base-9b-fp8.safetensors"
+          ],
+          "artifacts": [
+            {
+              "id": "flux-klein9b-fp8-e0afd493ff38",
+              "sha256": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4",
+              "bytes": 9567278472
+            }
+          ],
+          "review_digest": "d6da9980a27606d126ea2f46da476651a9e731266fa1a589779a87e01cc405e8"
+        },
+        "depends_on": [
+          "shared-image-video-models"
+        ]
+      },
+      "full_only": false,
+      "source_revision": "5fe9c6fba7d9726cf82304f4986c51144ae5c2d7"
+    }
+  ]
+}

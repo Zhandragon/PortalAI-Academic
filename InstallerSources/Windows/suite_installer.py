@@ -85,6 +85,23 @@ def read_catalog(package):
         check(re.fullmatch('[0-9a-f]{64}', row.get('sha256', '')), 'Missing suite SHA-256 pin')
         check(len(relative(row['file']).parts) == 1, 'Asset filename must be a basename')
         check(type(row.get('expanded_bytes')) is int and row['expanded_bytes'] >= 0, 'Missing suite storage estimate')
+    local=path_under(package,'suite-local.json')
+    if local.is_file():
+        overlay=json.loads(local.read_text('utf-8'))
+        check(overlay.get('schema')==1 and overlay.get('base_catalog_sha256')==sha(file),'Bundled utility catalog does not match this installer')
+        known={a['id']:a for a in catalog['assets']}
+        for row in overlay['assets']:
+            check(row['id'] in known and known[row['id']]['kind'] in ('utility','utility-installer'),'Unexpected bundled utility')
+            asset=known[row['id']]
+            check(row['platform']==asset['platform'],'Bundled utility platform differs')
+            seen=set()
+            for pin in row['files']:
+                relative(pin['dest']);relative(pin['file'])
+                check(pin['file'].startswith('SuiteAssets/') and pin['dest'] not in seen,'Invalid bundled utility file')
+                seen.add(pin['dest'])
+                check(type(pin['bytes']) is int and pin['bytes']>=0 and re.fullmatch('[0-9a-f]{64}',pin['sha256']),'Missing bundled utility pin')
+            asset.update(local_files=row['files'],resolve_release=False,private=False,
+                         expanded_bytes=sum(p['bytes'] for p in row['files']),additional_download_bytes=row.get('additional_download_bytes',0))
     return catalog
 
 
@@ -173,16 +190,20 @@ def plan(catalog, selected, edition, platform, primary=None):
             'working_bytes': download + installed * 2, 'requires_auth': any(a.get('private') for a in assets.values())}
 
 
-def space_check(destination, needed):
+def space_check(destination, needed, completed_downloads=0):
     parent = Path(destination).absolute()
     while not parent.exists():
         check(parent != parent.parent, 'Destination volume is missing'); parent = parent.parent
     usage = shutil.disk_usage(parent)
     reserve = max(GIB, int(usage.total * .10))
-    check(usage.free >= needed + reserve,
-          f'Selected suite needs {needed/GIB:.2f} GiB plus {reserve/GIB:.2f} GiB free-space reserve; '
+    # New catalog installers remove their completed model/runtime downloads only
+    # after publication. Preserve the final 10% reserve without charging it twice
+    # during that temporary download peak; always leave 1 GiB while installing.
+    temporary_reserve=max(GIB,reserve-max(0,completed_downloads))
+    check(usage.free >= needed + temporary_reserve,
+          f'Selected suite needs {needed/GIB:.2f} GiB plus {temporary_reserve/GIB:.2f} GiB temporary free space; '
           f'{usage.free/GIB:.2f} GiB is available. Select fewer downloads or another destination.')
-    return {'required_bytes': needed, 'reserve_bytes': reserve, 'available_bytes': usage.free}
+    return {'required_bytes': needed, 'reserve_bytes': reserve, 'temporary_reserve_bytes':temporary_reserve, 'available_bytes': usage.free}
 
 
 class SafeRedirect(urllib.request.HTTPRedirectHandler):
@@ -320,6 +341,42 @@ def native_package(folder):
     return candidates[0]
 
 
+def copy_local_utility(asset, package, destination, stop):
+    files=asset['local_files']
+    for row in files:
+        source=path_under(package,row['file'])
+        check(source.is_file() and source.stat().st_size==row['bytes'] and sha(source)==row['sha256'],'Bundled companion file failed verification: '+row['dest'])
+        path_under(destination,row['dest'])
+    for row in files:
+        check(not stop.is_set(),'Suite assembly cancelled')
+        source=path_under(package,row['file']);target=path_under(destination,row['dest'])
+        target.parent.mkdir(parents=True,exist_ok=True)
+        with source.open('rb') as inp,target.open('xb') as out:shutil.copyfileobj(inp,out,1024**2)
+        check(sha(target)==row['sha256'],'Bundled companion readback failed')
+    return destination
+
+
+def publish_abliterator(source, target, package, primary_components, core):
+    source,target=native(source),native(target)
+    if not target.exists():return publish_tree(source,target)
+    check(core is not None and 'abliterator-example-model' in primary_components,'Abliterator already exists; no files were overwritten')
+    component=next(c for c in core.read_manifest(package)['components'] if c['id']=='abliterator-example-model')
+    prefix='Utilities/Portable Abliterator/'
+    expected={r['dest'][len(prefix):]:r for a in component['artifacts'] for r in a['members'] if r['dest'].startswith(prefix)}
+    check(expected,'Missing Abliterator model inventory')
+    actual={p.relative_to(target).as_posix():p for p in target.rglob('*') if p.is_file()}
+    check(set(actual)==set(expected),'Existing Abliterator folder contains other files; no merge attempted')
+    for name,p in actual.items():
+        path_under(target,name)
+        check(p.stat().st_size==expected[name]['bytes'] and sha(p)==expected[name]['sha256'],'Existing Abliterator model differs')
+    files=[p for p in source.rglob('*') if p.is_file()]
+    for p in files:
+        name=p.relative_to(source).as_posix();path_under(source,name)
+        check(not path_under(target,name).exists(),'Abliterator runtime overlaps an existing model file')
+    for p in files:
+        dest=path_under(target,p.relative_to(source).as_posix());dest.parent.mkdir(parents=True,exist_ok=True);p.rename(dest)
+
+
 def execute(catalog, selected, edition, platform, package, destination, *, primary=None,
             stop=None, progress=None, token=None, core=None, primary_components=()):
     stop = stop or threading.Event(); progress = progress or (lambda *a: None)
@@ -338,7 +395,8 @@ def execute(catalog, selected, edition, platform, package, destination, *, prima
         temp.replace(receipt)
     for row in planned['rows']:
         check(not stop.is_set(), 'Suite assembly cancelled')
-        asset = row['asset']; archive = download(asset, package, destination, stop, progress, token)
+        asset = row['asset']
+        archive = None if asset.get('local_files') else download(asset, package, destination, stop, progress, token)
         if row['action'] == 'copy':
             name = 'Utilities/Installers/' + asset['edition'] + '/' + asset['platform'] + '/' + asset['file']
             target = path_under(destination, name)
@@ -355,7 +413,7 @@ def execute(catalog, selected, edition, platform, package, destination, *, prima
             continue
         work = path_under(destination, 'Utilities/.suite-work/' + asset['id'] + '-' + uuid.uuid4().hex)
         work.mkdir(parents=True)
-        extracted = unpack(archive, work/'package', asset, stop)
+        extracted = copy_local_utility(asset,package,work/'package',stop) if asset.get('local_files') else unpack(archive, work/'package', asset, stop)
         if asset['kind'] == 'utility':
             # Only these public companion roots are published, never saved state.
             companion = extracted/'Utilities/PortalAI-Projection'
@@ -372,7 +430,7 @@ def execute(catalog, selected, edition, platform, package, destination, *, prima
             import abliterator_installer_core as ablit
             pkg = native_package(extracted)
             ablit.install(pkg, work/'installed', [], stop, progress)
-            publish_tree(work/'installed/Utilities/Portable Abliterator', destination/'Utilities/Portable Abliterator')
+            publish_abliterator(work/'installed/Utilities/Portable Abliterator', destination/'Utilities/Portable Abliterator',package,primary_components,core)
         elif platform == 'Windows':
             check(core is not None, 'The bundled Windows install engine is unavailable')
             pkg = native_package(extracted)

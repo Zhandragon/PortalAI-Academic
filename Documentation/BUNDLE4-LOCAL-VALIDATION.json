@@ -1,0 +1,90 @@
+{
+  "bundle": "2026.11.25-bundle4",
+  "windows_ui_checks": 15,
+  "regression_suites": [
+    {
+      "test": "test_complete_models",
+      "passed": true
+    },
+    {
+      "test": "test_bundled_companions",
+      "passed": true
+    },
+    {
+      "test": "test_install_destination",
+      "passed": true
+    },
+    {
+      "test": "test_download_bundles",
+      "passed": true
+    },
+    {
+      "test": "test_suite_installer",
+      "passed": true
+    },
+    {
+      "test": "test_storage_preflight",
+      "passed": true
+    },
+    {
+      "test": "test_model_choices",
+      "passed": true
+    },
+    {
+      "test": "test_custom_models",
+      "passed": true
+    },
+    {
+      "test": "test_archive_allowlist",
+      "passed": true
+    },
+    {
+      "test": "test_installer_progress",
+      "passed": true
+    },
+    {
+      "test": "test_bundle_archive_layout",
+      "passed": true
+    }
+  ],
+  "archives": [
+    {
+      "name": "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle4.zip",
+      "bytes": 696459752,
+      "sha256": "2d9cdbc8fb4751a66294d5622ae3a93ecb704e2c4736c4a4ab553d6381d43b61",
+      "members_verified": 2490,
+      "native_archives_unchanged": true,
+      "utilities_optional": true,
+      "academic_exclusions_checked": true
+    },
+    {
+      "name": "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle4.zip",
+      "bytes": 659712012,
+      "sha256": "e255155190cfb7a12c782178aec0122158faac148a48133564009733b7252ea4",
+      "members_verified": 893,
+      "native_archives_unchanged": true,
+      "utilities_optional": true,
+      "academic_exclusions_checked": true
+    },
+    {
+      "name": "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle4.zip",
+      "bytes": 594493529,
+      "sha256": "3a535e33db8dd406690115483eb717faf8c62f157bf852706848abbc36d4a3da",
+      "members_verified": 1412,
+      "native_archives_unchanged": true,
+      "utilities_optional": true,
+      "academic_exclusions_checked": true
+    },
+    {
+      "name": "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle4.zip",
+      "bytes": 1950517413,
+      "sha256": "5d1cd4d10c9384596a837b69cd46e0f4be2338ebd1a93a52bbae0141b0f8a55c",
+      "members_verified": 4761,
+      "native_archives_unchanged": true,
+      "utilities_optional": true,
+      "academic_exclusions_checked": true
+    }
+  ],
+  "native_runtime_tested": false,
+  "live_inference_tested": false
+}

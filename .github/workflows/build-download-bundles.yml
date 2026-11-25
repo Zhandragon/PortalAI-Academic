@@ -17,6 +17,9 @@ jobs:
             tools
             InstallerSources/Bundle
             InstallerSources/Tests
+            InstallerSources/Windows
+            InstallerSources/Models
+            InstallerSources/Linux
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'

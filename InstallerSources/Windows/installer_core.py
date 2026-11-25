@@ -126,7 +126,24 @@ class HTTPSOnly(urllib.request.HTTPRedirectHandler):
         parsed = urllib.parse.urlsplit(newurl)
         if parsed.scheme != 'https' or parsed.username or parsed.password:
             raise InstallError('Refusing a non-HTTPS redirect')
-        return super().redirect_request(req, fp, code, msg, headers, newurl)
+        redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if parsed.hostname != urllib.parse.urlsplit(req.full_url).hostname:
+            for mapping in (redirected.headers, redirected.unredirected_hdrs):
+                for key in list(mapping):
+                    if key.lower() == 'authorization':
+                        del mapping[key]
+        return redirected
+
+
+_huggingface_token = ''
+
+
+def set_huggingface_token(value):
+    """A recipient credential stays in this process, never in plans or receipts."""
+    global _huggingface_token
+    if not isinstance(value, str) or len(value) > 4096 or any(c.isspace() for c in value):
+        raise InstallError('Invalid Hugging Face credential')
+    _huggingface_token = value
 
 
 def download_ssl_context():
@@ -156,6 +173,10 @@ def download_ssl_context():
 def fetch(item, cache, stop, progress, opener=None):
     try:
         return _fetch_one(item, cache, stop, progress, opener)
+    except urllib.error.HTTPError as error:
+        if error.code in (401, 403) and item.get('authentication') == 'huggingface':
+            raise InstallError('This model requires your own Hugging Face access. Open its publisher page, obtain access and accept its terms, then provide a read token authorized for that model.') from None
+        raise InstallError(f"Download failed for {item['id']} (HTTP {error.code}). Verified downloads are retained for retry.") from None
     except (urllib.error.URLError, TimeoutError, ConnectionError, ssl.SSLError) as error:
         raise InstallError(
             f"Download failed for {item['id']} from {item['url']}: {error}. "
@@ -200,6 +221,12 @@ def _fetch_one(item, cache, stop, progress, opener=None):
         offset = 0
     if offset < item['bytes']:
         headers = {'Accept-Encoding': 'identity', 'User-Agent': 'PortalAI-Clean-Installer/1'}
+        if item.get('authentication'):
+            if item['authentication'] != 'huggingface' or url.hostname != 'huggingface.co' or url.port not in (None, 443):
+                raise InstallError('Unrecognized model authentication destination')
+            if not _huggingface_token:
+                raise InstallError('Provide your own Hugging Face read token after obtaining access to the selected gated model.')
+            headers['Authorization'] = 'Bearer ' + _huggingface_token
         if offset:
             headers['Range'] = f'bytes={offset}-'
         progress('Downloading ' + item['id'] + ' from ' + item['url'], offset, item['bytes'])
@@ -456,7 +483,30 @@ def _unique_object(pairs):
 
 
 def read_manifest(package):
-    return json.loads((Path(package) / 'release.json').read_text('utf-8'), object_pairs_hook=_unique_object)
+    raw=checked_path(package,'release.json').read_bytes()
+    manifest=json.loads(raw, object_pairs_hook=_unique_object)
+    path=checked_path(package,'model-overlay.json')
+    if not path.exists():return manifest
+    overlay=json.loads(path.read_text('utf-8'),object_pairs_hook=_unique_object)
+    if (overlay.get('schema')!=1 or overlay.get('edition')!=manifest['upgrade']['edition'] or
+            overlay.get('base_release_sha256')!=hashlib.sha256(raw).hexdigest()):
+        raise InstallError('Model catalog does not match this installer package')
+    known={c['id']:c for c in manifest['components']};seen=set()
+    for component in overlay['components']:
+        key=component['id']
+        if key in seen or component.get('required') is not False or not component.get('model_choice'):
+            raise InstallError('Additional models must be unique, reviewed optional choices')
+        seen.add(key)
+        if manifest['upgrade']['edition']=='Academic' and any(word in (key+' '+component['label']).casefold() for word in ('abliterat','uncensor','alternate')):
+            raise InstallError('Model is excluded from Academic')
+        if key in known:
+            if component['artifacts']!=known[key]['artifacts']:
+                raise InstallError('Model overlay cannot change existing download pins')
+            known[key]['required']=False;known[key]['model_choice']=component['model_choice']
+        else:manifest['components'].append(component)
+    manifest['model_catalog_sha256']=sha256(path)
+    manifest['discard_completed_downloads']=True
+    return manifest
 
 
 def planned_receipts(manifest, chosen, ordinary_files):
@@ -601,13 +651,32 @@ def new_install_destination(destination, expected_files):
         checked_path(destination.parent, destination.name)
     if destination.exists() and not destination.is_dir():
         raise InstallError('Installation destination is not a folder')
-    publish_names = sorted({relative(row['dest']).parts[0] for row in expected_files} | {'INSTALL_RECEIPT.json'})
+    owned=set()
+    for row in expected_files:
+        parts=relative(row['dest']).parts
+        owned.add('/'.join(parts[:2]) if parts[0]=='Utilities' else parts[0])
+    publish_names = sorted(owned | {'INSTALL_RECEIPT.json'})
     into_existing = destination.is_dir()
     # checked_path also rejects linked ancestors, including for drive roots.
     for name in publish_names:
         if checked_path(destination, name).exists():
             raise InstallError('An installation item already exists at the selected destination: '+name+'. Use Update existing for an installed application, or choose another folder. Existing files will not be overwritten.')
     return destination, into_existing, publish_names
+
+
+def completed_download_cleanup(cache, artifacts, progress):
+    """Remove only installer-owned, completed hash-named cache files after success."""
+    removed=0
+    for pin,size in {a['sha256']:a['bytes'] for a in artifacts if 'bundled_file' not in a}.items():
+        try:
+            path=checked_path(cache,pin+'.download')
+            if path.is_file() and path.stat().st_size==size:
+                path.unlink();removed+=size
+        except (OSError,InstallError):
+            progress('Installation is complete; a temporary download is still in use and was retained.',0,0)
+    try:Path(cache).rmdir()
+    except OSError:pass  # Keep interrupted, rejected, or unrelated cache entries.
+    return removed
 
 
 def _install_new(package, destination, selected, stop=None, progress=None, events=None, *, model_consent=None, custom_model=None):
@@ -716,14 +785,16 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
         if stop.is_set(): raise Cancelled('Paused during executable backup creation')
     repair.register(app_root, recovery_files, manifest['release'], recovery_cancel)
     report = {'release': manifest['release'], 'release_sha256': release_hash,
+              'model_catalog_sha256': manifest.get('model_catalog_sha256'),
+              'completed_download_cleanup_enabled': bool(manifest.get('discard_completed_downloads')),
               'components': [c['id'] for c in chosen], 'verified_files': len(expected_files),
               'accounts_created': False, 'projection_connections_created': False}
     (stage / 'INSTALL_RECEIPT.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     # On Windows rename fails when a concurrent process creates the target.
     meter.start('publish','Publishing the verified installation')
     if into_existing:
-        # Publish only this release's verified top-level entries. Never merge
-        # into or replace unrelated folders already beside the installer.
+        # Publish the application and individually owned companion folders.
+        # An existing Utilities/Installers folder is a valid source location.
         for name in publish_names:
             if checked_path(destination, name).exists():
                 raise InstallError('Destination appeared during installation; verified staging was retained: '+str(stage))
@@ -732,16 +803,20 @@ def _install_new(package, destination, selected, stop=None, progress=None, event
         try:
             for name in publish_names:
                 journal.write_text(json.dumps({'destination': str(destination), 'published': published, 'next': name}), encoding='utf-8')
-                checked_path(stage, name).rename(checked_path(destination, name))
+                target=checked_path(destination, name);target.parent.mkdir(parents=True,exist_ok=True)
+                checked_path(stage, name).rename(target)
                 published.append(name)
         except Exception as exc:
             raise InstallError('Publication interrupted; do not retry blindly. Review '+str(journal)+'. '+str(exc)) from exc
         journal.unlink()
+        if (stage/'Utilities').is_dir():(stage/'Utilities').rmdir()
         stage.rmdir()
+        if manifest.get('discard_completed_downloads'):completed_download_cleanup(cache,artifacts,progress)
         return report
     if destination.exists():
         raise InstallError('Destination appeared during installation; completed staging was retained')
     stage.rename(destination)
+    if manifest.get('discard_completed_downloads'):completed_download_cleanup(cache,artifacts,progress)
     return report
 
 
