@@ -1,0 +1,108 @@
+{
+  "repository": "Zhandragon/PortalAI-Academic",
+  "edition": "Academic",
+  "tag": "v2026.11.25-bundle1",
+  "release_id": 458569498,
+  "inputs": [
+    {
+      "key": "Academic/Windows",
+      "sha256": "d35cb07d57ddc99bd7aec51333d25a187e914bd932febaa2e71b266c31351947",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip",
+        "size": 662019033,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/780810822",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.22-Desktop-r85/PortalAI-Academic-Windows-Installer-2026.11.22-Desktop-r85.zip"
+      }
+    },
+    {
+      "key": "Academic/Mac",
+      "sha256": "1ab145d3c038a5b411a731a421978fbe7fd7e755af9b14cc5c1245a6322f4065",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+        "size": 589027550,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/726680667",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Mac-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+      }
+    },
+    {
+      "key": "Academic/Linux",
+      "sha256": "fcfc9f3a3deaf1f89d5f71ff4387b1984d3872782f7c71f3858c86abb45795a4",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz",
+        "size": 532255768,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/726680683",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.09-Desktop-r75/PortalAI-Academic-Linux-Installer-2026.11.09-Desktop-r75-suite.tar.gz"
+      }
+    },
+    {
+      "key": "Projection/Windows",
+      "sha256": "466d7b5e73a0dcdbe7fa0fcf5d5fe0fa40701c4e1032315d6a32aef03ce1c126",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Projection-Windows-20261024-r10.zip",
+        "size": 22382266,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/687351812",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Projection-Windows-20261024-r10.zip"
+      }
+    },
+    {
+      "key": "Projection/Mac",
+      "sha256": "669e104f4c46744fba2f79237660a78a84e0033b979b089e86f3ab696ad85a91",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Projection-Mac-20261024-r10.tar.gz",
+        "size": 81039926,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/687351675",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Projection-Mac-20261024-r10.tar.gz"
+      }
+    },
+    {
+      "key": "Projection/Linux",
+      "sha256": "9e6384ff468ce1a6dc3c1199f3f95d4ed261380e15f805031cb6432523846f58",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Projection-Linux-20261024-r10.tar.gz",
+        "size": 60824845,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/687351565",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.10.29-Desktop-r51/PortalAI-Projection-Linux-20261024-r10.tar.gz"
+      }
+    },
+    {
+      "key": "HomeAssistant",
+      "sha256": "7b018ef77605b189e690f4af63423ef8d073ab5d91a6e2c35bd1ab8ba89a1a2f",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-HomeAssistant-0.5.13-recovery-0.1.0.zip",
+        "size": 727142,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/785884242",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.24-HA-0.5.13/PortalAI-HomeAssistant-0.5.13-recovery-0.1.0.zip"
+      }
+    },
+    {
+      "key": "HostUpdate",
+      "sha256": "4340d9fef01684af7dd98489eb80b8a80d566c9da09bced31fc4911657fbf5bb",
+      "private": false,
+      "asset": {
+        "name": "PortalAI-Projection-Host-0.5.13.zip",
+        "size": 10491,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/785884291",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.24-HA-0.5.13/PortalAI-Projection-Host-0.5.13.zip"
+      }
+    }
+  ],
+  "expected_contents": {
+    "Windows": "bd0d6c565a8c9a6ad979e5c080d83425fe44273a6fe2cc70edb4ee9cf3c02126",
+    "Mac": "ac90eaa6999761d0b99d00fe00931f32aa90e5281951d027c63e721e2d80872c",
+    "Linux": "788d14d7125ad7e7c4a7552e3db41436dfaf9cc15cbc727f898bf0d09b970068",
+    "Universal": "3addc65971d853fbb850ac035531be058d320ed3ecf923966d8c7a8cd7b69765"
+  },
+  "reviewed_archives": {
+    "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle1.zip": "f32566011763d8a06f8a938a7733cfbac8f2eb1c72b87efa6c7fa820d9988eed",
+    "PortalAI-Academic-Mac-Bundle-2026.11.25-bundle1.zip": "7185f995d0894a0bd89313b80948ab5a925d5da669c55e80b4cac609d117882f",
+    "PortalAI-Academic-Linux-Bundle-2026.11.25-bundle1.zip": "c8c9b38b0057036a93feb2fa9e755ac497bc5b6c755f618d1d3efdd9ddbb59a6",
+    "PortalAI-Academic-Universal-Bundle-2026.11.25-bundle1.zip": "a940b829350377b51edf371b20fa1519e846153d18b5caf88bfce5fe0d08fa03"
+  }
+}
