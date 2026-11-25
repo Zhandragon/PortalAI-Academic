@@ -181,7 +181,8 @@ def main():
                     if rel.split('/')[1] not in platforms:continue
                     dest=rel
                 put(z,dest,(stage/rel).read_bytes(),mode)
-            for source in sorted((repo/'InstallerSources/Bundle').iterdir()):
+            # WindowsPath sorts case-insensitively; use that explicit order on every build host.
+            for source in sorted((repo/'InstallerSources/Bundle').iterdir(),key=lambda p:p.name.casefold()):
                 if source.is_file():
                     put(z,source.name,source.read_bytes(),0o755 if source.suffix in ('.sh','.command') else 0o644)
             put(z,'bundle.json',(json.dumps(manifest,indent=2)+'\n').encode())
