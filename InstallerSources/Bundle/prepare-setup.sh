@@ -58,6 +58,7 @@ cp -R "$ROOT/Setup/Models" "$folder/model-setup"
 cp "$ROOT/Setup/$platform/$script" "$folder/$script"
 cp "$ROOT/Setup/$platform/SHA256SUMS" "$folder/SHA256SUMS"
 cp "$ROOT/Setup/$platform/suite-local.json" "$folder/suite-local.json"
+cp "$ROOT/Setup/$platform/suite-catalog.json" "$folder/suite-catalog.json"
 while IFS=$'\t' read -r source destination bytes hash; do
   case "$source" in "Utilities/$platform/"*) ;; *) echo 'Invalid companion source.' >&2; exit 2;; esac
   case "$destination" in SuiteAssets/*) ;; *) echo 'Invalid companion destination.' >&2; exit 2;; esac

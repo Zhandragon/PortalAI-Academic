@@ -1,8 +1,8 @@
 {
   "repository": "Zhandragon/PortalAI-Academic",
   "edition": "Academic",
-  "tag": "v2026.11.25-bundle5",
-  "release_id": 458708561,
+  "tag": "v2026.11.25-bundle6",
+  "release_id": 458730302,
   "inputs": [
     {
       "key": "Academic/Windows",
@@ -94,21 +94,21 @@
     },
     {
       "key": "WindowsSetup",
-      "sha256": "bdb11a7f92039316f1d23d80bb02a72d18416d310d79a3593c2d2408b94def65",
+      "sha256": "505cce72ee710813920be8d0af9ab9f939c55ad058b2bc55727b6e83acfbcdff",
       "private": true,
       "asset": {
         "name": "PortalAI-Setup.exe",
-        "size": 11679744,
-        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/793350093",
-        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/untagged-b75eab5e9ab67517bd65/PortalAI-Setup.exe"
+        "size": 11680256,
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/793432988",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/untagged-229877e063e17972d4e4/PortalAI-Setup.exe"
       }
     }
   ],
   "expected_contents": {
-    "Windows": "6d714e465fa4f6be03869feb318ab94df82ceec3a35353be944819b080684f12",
-    "Mac": "0a2c5893647c2ce57e0e6aff382e5ea8a605131509b37ee3e81ca20ba191c6ba",
-    "Linux": "b7024aaddfacd9c502927b568c855fee8393f723b2c029ab5eba0df76c8bd561",
-    "Universal": "e6bf1a95cfd7a50a6eeceb30cc456877f8dd663968f4957a8b5ba1b1ff7af436"
+    "Windows": "26f5667924d9c3dd94877ba4e7b34004c479edbfe5c5051dc2066affa908a693",
+    "Mac": "44b5dc0e09d76edfd5d8f32d5f1157b67114c7ccac40fb622dd4824eb1eb2ffa",
+    "Linux": "431a6687cbcebfdee89f28ce5a2826543760ee3d673a1ef49f7df1e6dfc61777",
+    "Universal": "7f8ff77753e36fc40db3479a9506d17e65268860643291ad3c2534ffe8e744ec"
   },
   "reviewed_archives": {
     "PortalAI-Academic-Windows-Bundle-2026.11.25-bundle5.zip": "ff963e060efff2abefdc5bc891216a093f5acbad2eecd5ee6a972d8664ad6eed",
@@ -118,7 +118,7 @@
   },
   "setup_launcher": {
     "name": "PortalAI-Setup.exe",
-    "sha256": "bdb11a7f92039316f1d23d80bb02a72d18416d310d79a3593c2d2408b94def65",
-    "bytes": 11679744
+    "sha256": "505cce72ee710813920be8d0af9ab9f939c55ad058b2bc55727b6e83acfbcdff",
+    "bytes": 11680256
   }
 }

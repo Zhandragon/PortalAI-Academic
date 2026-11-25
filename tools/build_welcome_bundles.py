@@ -6,7 +6,7 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.25-bundle5'
+VERSION='2026.11.25-bundle6'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
 WINDOWS_EXTRACTION_ROOT_BUDGET=120
@@ -118,6 +118,12 @@ Platforms in this bundle: {', '.join(platforms)}.
    Models and selected runtime dependencies still need internet and disk space.
    Existing users: exit PortalAI normally and choose Update existing (Windows)
    or use the native --upgrade workflow (Mac/Linux).
+
+SAVED INSTALLER COPIES
+Keep installer copy choices download this current complete bundle release,
+including Windows, Mac, Linux and all-three-OS ZIPs. All components on Windows
+selects these copies along with the current edition's models and utilities.
+The other edition's application is a separate optional selection.
 
 OPTIONAL UTILITIES
 All utility files for the included platforms are in Utilities/<OS>.
@@ -232,6 +238,9 @@ def main():
         assert sums.count(old_line)==1,'Native script checksum differs'
         sums=sums.replace(old_line,hashlib.sha256(updated).hexdigest()+'  '+script)
         native_setup[platform]={script:updated,'SHA256SUMS':sums.encode()}
+    from current_bundle_catalog import current_catalog
+    old_suite_catalogs=suite_catalogs.copy()
+    suite_catalogs={platform:current_catalog(raw,args.edition,VERSION) for platform,raw in suite_catalogs.items()}
     local_suites={}
     for platform in PLATFORMS:
         projection=[];abliterator=[]
@@ -251,10 +260,13 @@ def main():
         if abliterator:local_assets.append(dict(id='abliterator-windows',platform='Windows',files=abliterator,additional_download_bytes=3103192679))
         local_json=encoded(dict(schema=1,base_catalog_sha256=hashlib.sha256(suite_catalogs[platform]).hexdigest(),assets=local_assets))
         tsv=''.join(f"{r['source_file']}\t{r['file']}\t{r['bytes']}\t{r['sha256']}\n" for a in local_assets for r in a['files']).encode()
-        local_suites[platform]={'suite-local.json':local_json,'suite-copy.tsv':tsv}
+        local_suites[platform]={'suite-local.json':local_json,'suite-copy.tsv':tsv,'suite-catalog.json':suite_catalogs[platform]}
         if platform in native_setup:
             extra={name.removeprefix('Setup/Models/'):data for name,data in common_setup.items()}
             sums=native_setup[platform]['SHA256SUMS'].decode().rstrip('\n')+'\n'
+            old_pin=hashlib.sha256(old_suite_catalogs[platform]).hexdigest()+'  suite-catalog.json'
+            assert sums.count(old_pin)==1
+            sums=sums.replace(old_pin,hashlib.sha256(suite_catalogs[platform]).hexdigest()+'  suite-catalog.json')
             sums+=''.join(hashlib.sha256(data).hexdigest()+'  model-setup/'+name+'\n' for name,data in sorted(extra.items()))
             sums+=hashlib.sha256(local_json).hexdigest()+'  suite-local.json\n'
             sums+=''.join(r['sha256']+'  '+r['file']+'\n' for a in local_assets for r in a['files'])

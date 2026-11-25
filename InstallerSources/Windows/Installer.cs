@@ -340,8 +340,9 @@ internal sealed partial class InstallerForm : Form {
             if(primaryEdition=="Academic" && edition=="Full")continue;
             long bytes=Convert.ToInt64(a["bytes"]),expanded=Convert.ToInt64(a["expanded_bytes"]),extra=a.ContainsKey("additional_download_bytes") ? Convert.ToInt64(a["additional_download_bytes"]) : 0;
             if(kind=="installer") {
-                AddSuite("copy:"+id,"Keep "+edition+" "+platform+" installer",bytes,bytes*3);
-                if(platform=="Windows" && edition!=primaryEdition)AddSuite("app:"+edition,"Install PortalAI "+edition+" for Windows",bytes+extra,bytes+extra+expanded*2);
+                if(!a.ContainsKey("application_only") || !Convert.ToBoolean(a["application_only"]))
+                    AddSuite("copy:"+id,"Keep "+edition+" "+(platform=="Universal" ? "all three OSes" : platform)+" installer bundle",bytes,bytes*3);
+                if((!a.ContainsKey("copy_only") || !Convert.ToBoolean(a["copy_only"])) && platform=="Windows" && edition!=primaryEdition)AddSuite("app:"+edition,"Install PortalAI "+edition+" for Windows",bytes+extra,bytes+extra+expanded*2);
             } else if(platform=="Windows")AddSuite("utility:"+id,Convert.ToString(a["utility"])=="abliterator" ? "PortalAI Abliterator" : "PortalAI Home Assistant Projection",bytes+extra,bytes+extra+expanded*2);
         }
     }

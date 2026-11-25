@@ -80,7 +80,10 @@ def read_catalog(package):
         check(row['id'] not in ids, 'Duplicate suite asset'); ids.add(row['id'])
         check(row.get('kind') in ('installer', 'utility', 'utility-installer'), 'Unknown suite asset kind')
         check(row.get('edition') in ('Full', 'Academic', 'Any'), 'Unknown suite edition')
-        check(row.get('platform') in ('Windows', 'Linux', 'Mac'), 'Unknown suite platform')
+        check(row.get('platform') in ('Windows', 'Linux', 'Mac') or (row.get('platform')=='Universal' and row.get('kind')=='installer' and row.get('copy_only') is True), 'Unknown suite platform')
+        for flag in ('copy_only','application_only'):
+            check(flag not in row or type(row[flag]) is bool,'Invalid suite action boundary')
+        check(not (row.get('copy_only') and row.get('application_only')),'Conflicting suite action boundaries')
         check(type(row.get('bytes')) is int and row['bytes'] > 0, 'Missing suite byte-size pin')
         check(re.fullmatch('[0-9a-f]{64}', row.get('sha256', '')), 'Missing suite SHA-256 pin')
         check(len(relative(row['file']).parts) == 1, 'Asset filename must be a basename')
@@ -163,9 +166,10 @@ def choices(catalog, edition, platform, primary=None):
             continue
         if asset['kind'] == 'installer':
             title = asset['edition'] + ' ' + asset['platform']
-            rows.append({'id': 'copy:' + asset['id'], 'action': 'copy', 'asset': asset,
-                         'label': 'Keep ' + title + ' installer copy'})
-            if asset['platform'] == platform and asset['edition'] != primary:
+            if not asset.get('application_only'):
+                rows.append({'id': 'copy:' + asset['id'], 'action': 'copy', 'asset': asset,
+                             'label': 'Keep ' + title + (' installer bundle' if asset.get('bundle_copy') else ' installer copy')})
+            if not asset.get('copy_only') and asset['platform'] == platform and asset['edition'] != primary:
                 rows.append({'id': 'app:' + asset['edition'], 'action': 'application', 'asset': asset,
                              'label': 'Install PortalAI ' + asset['edition'] + ' for ' + platform})
         elif asset['platform'] == platform:
@@ -402,6 +406,7 @@ def execute(catalog, selected, edition, platform, package, destination, *, prima
     for row in planned['rows']:
         check(not stop.is_set(), 'Suite assembly cancelled')
         asset = row['asset']
+        check(not (asset.get('bundle_copy') and asset.get('resolve_release')), 'Resolve current installer bundle pins before downloading')
         archive = None if asset.get('local_files') else download(asset, package, destination, stop, progress, token)
         if row['action'] == 'copy':
             name = 'Utilities/Installers/' + asset['edition'] + '/' + asset['platform'] + '/' + asset['file']

@@ -57,6 +57,9 @@ class CustomModels(unittest.TestCase):
         self.assertFalse(policy['models'][0]['automatic'])
         custom.verify_selected(target,policy['models'][0])
         with target.open('r+b') as f:f.seek(-1,2);f.write(b'x')
+        # Make the cache-invalidating timestamp change deterministic on Windows.
+        import os
+        stamp=target.stat();os.utime(target,ns=(stamp.st_atime_ns,stamp.st_mtime_ns+1_000_000_000))
         with self.assertRaisesRegex(ValueError,'checksum'):custom.verify_selected(target,policy['models'][0])
         record.write_text(json.dumps({**definition['data'],'path':'../../elsewhere','verified':True}))
         policy={'models':[]};custom.register_installed(self.root,policy)

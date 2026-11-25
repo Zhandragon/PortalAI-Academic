@@ -57,7 +57,7 @@ internal sealed partial class InstallerForm {
         expressButton.Text="Express";expressButton.Click+=delegate{ApplyBundle(InstallBundles.Recommend(Inventory(),new[]{"chat"},false,primaryEdition),"Express · Lightweight chat");};
         manualButton.Text="Custom";manualButton.Click+=delegate{setupMode.Text="✓ Custom · choose components below";choices.Focus();};
         allComponentsButton.Text="All components";allComponentsButton.Width=130;
-        allComponentsButton.Click+=delegate { ApplyBundle(new HashSet<string>(Inventory().Where(c=>!c.Id.Contains(":")||c.Id=="primary:"+primaryEdition||c.Id.StartsWith("utility:")).Select(c=>c.Id)),"All components · review below"); };
+        allComponentsButton.Click+=delegate { ApplyBundle(new HashSet<string>(Inventory().Where(c=>!c.Id.Contains(":")||c.Id=="primary:"+primaryEdition||c.Id.StartsWith("utility:")||c.Id.StartsWith("copy:")).Select(c=>c.Id)),"All components · review below"); };
         bar.Controls.AddRange(new Control[]{surveyButton,expressButton,manualButton,allComponentsButton,setupMode});setupMode.Text="Choose a setup path";return bar;
     }
     IEnumerable<ComponentChoice> Inventory(){return choices.Items.Cast<ComponentChoice>();}

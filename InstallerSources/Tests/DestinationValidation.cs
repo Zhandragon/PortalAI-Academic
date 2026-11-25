@@ -24,8 +24,13 @@ class DestinationValidation {
             Get<PortalButton>(form,"driveRoot").PerformClick();Check(box.Text==@"E:\","Drive root button follows selected drive");
             Check(Get<PortalButton>(form,"browseDestination").Enabled,"Browse is available before installation");
             var choices=Get<CheckedListBox>(form,"choices");
+            var copies=choices.Items.Cast<ComponentChoice>().Where(c=>c.Id.StartsWith("copy:")).ToArray();
+            int expectedCopies=Get<string>(form,"primaryEdition")=="Full" ? 8 : 4;
+            Check(copies.Length==expectedCopies,"Current per-OS bundle choices are displayed without old native copies");
+            Check(copies.Any(c=>c.Id.EndsWith("-universal")),"All-three-OS bundle copy is available");
             Check(choices.Items.Cast<ComponentChoice>().Any(c=>c.Id=="whisper-turbo-model"),"Complete model catalog is shown");
             Get<PortalButton>(form,"allComponentsButton").PerformClick();
+            Check(copies.All(c=>choices.CheckedItems.Contains(c)),"All components includes current installer bundle copies");
             Check(choices.Items.Cast<ComponentChoice>().Where(c=>c.Review!=null).All(c=>choices.CheckedItems.Contains(c)),"All components includes every optional model group");
             Get<PortalButton>(form,"expressButton").PerformClick();
             Check(!choices.CheckedItems.Cast<ComponentChoice>().Any(c=>c.Id=="whisper-turbo-model"||c.Id.StartsWith("utility:")),"Express stays lightweight and utilities remain optional");

@@ -24,7 +24,15 @@ class BundlePreparation(unittest.TestCase):
         p=self.root/'Setup/Windows/model-overlay.json';p.parent.mkdir();p.write_bytes(data)
         self.manifest['setup_files']=[dict(file='Setup/Windows/model-overlay.json',bytes=len(data),sha256=hashlib.sha256(data).hexdigest())]
         self.save()
-    def tearDown(self):self.tmp.cleanup()
+    def tearDown(self):
+        # Start-Process returns before the tiny argument-recording fixture has
+        # released its executable image on Windows. Wait only for that file lock.
+        import time
+        for attempt in range(30):
+            try:self.tmp.cleanup();return
+            except PermissionError:
+                if attempt==29:raise
+                time.sleep(.1)
     def save(self):
         (self.root/'bundle.json').write_text(json.dumps(self.manifest))
         (self.root/'assets.tsv').write_text(''.join(f"{a['platform']}\t{a['file']}\t{a['bytes']}\t{a['sha256']}\t{a['url']}\n" for a in self.manifest['assets']))
@@ -112,6 +120,7 @@ class BundlePreparation(unittest.TestCase):
                 fixture={'Setup/Models/complete_models.py':b'# fixture, never run\n',
                     'Setup/'+platform+'/'+script:data,'Setup/'+platform+'/SHA256SUMS':b'# fixture\n',
                     'Setup/'+platform+'/suite-local.json':b'{"assets":[]}\n',
+                    'Setup/'+platform+'/suite-catalog.json':b'{"assets":[]}\n',
                     'Utilities/'+platform+'/fixture.txt':b'companion fixture'}
                 content=fixture['Utilities/'+platform+'/fixture.txt']
                 fixture['Setup/'+platform+'/suite-copy.tsv']=(f'Utilities/{platform}/fixture.txt\tSuiteAssets/fixture.txt\t{len(content)}\t{hashlib.sha256(content).hexdigest()}\n').encode()
