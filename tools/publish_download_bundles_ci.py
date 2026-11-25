@@ -1,9 +1,12 @@
 """Rebuild and upload a task-owned draft from verified published inputs."""
 from pathlib import Path
 import concurrent.futures,hashlib,http.client,json,os,shutil,subprocess,sys,urllib.request,urllib.error,urllib.parse,zipfile
+from build_welcome_bundles import windows_path_report,mac_development_file,VERSION
 ROOT=Path(__file__).resolve().parents[1]
 config=json.loads((ROOT/'tools/download-bundle-inputs.json').read_text())
 assert os.environ['GITHUB_REPOSITORY']==config['repository']
+assert config['tag']=='v'+VERSION
+subprocess.run([sys.executable,str(ROOT/'InstallerSources/Tests/test_bundle_archive_layout.py')],check=True)
 token=os.environ['GH_TOKEN'];api='https://api.github.com/repos/'+config['repository']
 headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','User-Agent':'PortalAI-bundle-build'}
 def call(url,method='GET',data=None):
@@ -45,8 +48,10 @@ for row in rows:
         for name,digest in contents['files'].items():
             with z.open(name) as f:assert hashlib.file_digest(f,'sha256').hexdigest()==digest,name
         assert row['manifest']['utilities_optional']
+        path_report=windows_path_report(z.namelist())
+        assert not any(n.startswith('Utilities/Mac/') and mac_development_file(n.removeprefix('Utilities/Mac/')) for n in z.namelist())
         if config['edition']=='Academic':assert not any('Abliterator' in n for n in z.namelist())
-        checks.append(dict(name=row['name'],members_verified=len(z.namelist()),reviewed_contents_sha256=expected,native_archives_unchanged=True,utilities_optional=True))
+        checks.append(dict(name=row['name'],members_verified=len(z.namelist()),reviewed_contents_sha256=expected,native_archives_unchanged=True,utilities_optional=True,windows_paths=path_report))
     print('Verified reviewed contents '+row['name'],flush=True)
 def upload(p,digest):
     release=call(api+'/releases/'+str(config['release_id']));assert release['draft']
@@ -73,8 +78,9 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
     assets=list(pool.map(lambda r:upload(Path(r['path']),r['sha256']),rows))
 for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
-manifest=dict(bundle_version='2026.11.25-bundle1',edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
+manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
     validation=dict(archive_checks=checks,setup_regression_tests=9,setup_regression_tests_passed=9,native_mac_linux_runtime_tested=False,live_inference_retested=False,
+      archive_layout_tests_passed=6,
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:

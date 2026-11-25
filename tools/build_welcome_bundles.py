@@ -6,9 +6,38 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.25-bundle1'
+VERSION='2026.11.25-bundle2'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
+WINDOWS_EXTRACTION_ROOT_BUDGET=120
+
+def mac_development_file(relative):
+    """Exclude PyObjC's test suite/debug symbols, never its runtime extensions."""
+    parts=PurePosixPath(relative).parts
+    if len(parts)<4 or parts[:2]!=('PortalAI-Projection','Runtime'):
+        return False
+    if parts[2] not in ('MacPackages-arm64','MacPackages-x86_64'):
+        return False
+    return parts[3]=='PyObjCTest' or any(p.endswith('.dSYM') for p in parts[3:])
+
+def windows_path_report(names):
+    """Reserve 120 UTF-16 characters for the destination, including the ZIP stem.
+
+    This covers a normal Downloads path and the default Extract All folder.
+    Check classic file and directory limits without requiring long-path support.
+    """
+    longest=0
+    for name in names:
+        units=len(name.replace('/','\\').encode('utf-16-le'))//2
+        full=WINDOWS_EXTRACTION_ROOT_BUDGET+1+units
+        parent=name.rpartition('/')[0]
+        parent_units=len(parent.replace('/','\\').encode('utf-16-le'))//2
+        if full>=260 or (parent and WINDOWS_EXTRACTION_ROOT_BUDGET+1+parent_units>247):
+            raise ValueError('Bundle path exceeds the Windows extraction budget: '+name)
+        longest=max(longest,units)
+    return dict(max_relative_path_characters=longest,
+        extraction_root_budget=WINDOWS_EXTRACTION_ROOT_BUDGET,
+        max_full_path_characters=WINDOWS_EXTRACTION_ROOT_BUDGET+1+longest)
 def sha(p):
     with Path(p).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def entries(p):
@@ -41,6 +70,7 @@ def stage_utilities(inputs,dest,include_abliterator):
             if 'Utilities/' not in name:continue
             relative=name.split('Utilities/',1)[1]
             if relative.startswith('PortalAI HA Setup/Setup Files/HomeAssistant/'):continue
+            if platform=='Mac' and mac_development_file(relative):continue
             if relative.endswith('PortalAI-Projection/app/portalai_target.py'):
                 assert hashlib.sha256(data).hexdigest()==BASELINE,'Unreviewed Projection baseline'
                 baseline_seen=True
@@ -107,7 +137,11 @@ payload where supported; use them from the installed application's Utilities.
 
 CURRENT RELEASE
 This is a packaging refresh. Native application installers are included byte for
-byte. Windows r85 improves tool-call recovery and media workflow planning.
+byte. Bundle 2 removes unused Mac PyObjC tests and debug symbols that caused
+Windows Explorer's Path too long error in Mac/Universal downloads. Runtime
+libraries remain unchanged. All archive paths are checked with 120 characters
+reserved for the extraction folder, including the ZIP's default folder name.
+Windows r85 improves tool-call recovery and media workflow planning.
 Home Assistant 0.5.13 adds phone speech input, native control handoff and optional
 voice integration. Mac/Linux remain experimental r75 and do not have Windows
 feature parity. Physical Mac/Linux installs and phone voice were not rerun here.
@@ -188,6 +222,7 @@ def main():
             put(z,'bundle.json',(json.dumps(manifest,indent=2)+'\n').encode())
             put(z,'assets.tsv',''.join(f"{a['platform']}\t{a['file']}\t{a['bytes']}\t{a['sha256']}\t{a['url']}\n" for a in assets).encode())
             put(z,'START_HERE.txt',start_here(args.edition,platforms).encode())
+            windows_path_report([*hashes,'BUNDLE-CONTENTS.json','SHA256SUMS'])
             put(z,'BUNDLE-CONTENTS.json',(json.dumps(dict(version=VERSION,files=hashes.copy()),indent=2)+'\n').encode())
             put(z,'SHA256SUMS',''.join(f'{value}  {key}\n' for key,value in sorted(hashes.items())).encode())
         assert target.stat().st_size<2_000_000_000,'Split-free GitHub bundle exceeds 2 GB'
