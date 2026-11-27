@@ -23,25 +23,25 @@ class CurrentCopies(unittest.TestCase):
                     file='old-'+owner+'-'+platform+'.zip',bytes=1,sha256='0'*64,expanded_bytes=1,repository='Zhandragon/PortalAI'+('-Academic' if owner=='Academic' else ''),tag='old',resolve_release=True))
         self.raw=json.dumps(dict(schema=1,catalog_version='old',assets=assets))
     def catalog(self,edition='Full'):
-        (self.package/'suite-catalog.json').write_bytes(current_catalog(self.raw,edition,'2026.11.25-bundle6'))
+        (self.package/'suite-catalog.json').write_bytes(current_catalog(self.raw,edition,'2026.11.26-bundle7'))
         return suite.read_catalog(self.package)
     def test_all_eight_full_copies_are_current_zip_bundles(self):
         rows=suite.choices(self.catalog(),'Full','Windows','Full');copies=[r for r in rows if r['action']=='copy']
         self.assertEqual(len(copies),8)
         self.assertEqual({r['asset']['platform'] for r in copies},{'Windows','Mac','Linux','Universal'})
         for row in copies:
-            self.assertIn('-Bundle-2026.11.25-bundle6.zip',row['asset']['file'])
-            self.assertEqual(row['asset']['tag'],'v2026.11.25-bundle6')
+            self.assertIn('-Bundle-2026.11.26-bundle7.zip',row['asset']['file'])
+            self.assertEqual(row['asset']['tag'],'v2026.11.26-bundle7')
             self.assertTrue(row['asset']['resolve_release'])
     def test_academic_has_four_copies_and_no_full_assets(self):
         catalog=self.catalog('Academic');rows=suite.choices(catalog,'Academic','Windows','Academic')
         self.assertEqual(len([r for r in rows if r['action']=='copy']),4)
         self.assertTrue(all(r['asset']['edition']=='Academic' for r in rows))
         with self.assertRaises(suite.SuiteError):suite.plan(catalog,['copy:installer-full-windows'],'Academic','Windows')
-    def test_secondary_windows_application_uses_r85_and_cannot_be_saved_as_an_old_copy(self):
+    def test_secondary_windows_application_uses_r86_and_cannot_be_saved_as_an_old_copy(self):
         rows=suite.choices(self.catalog(),'Full','Windows','Full')
         app=next(r for r in rows if r['id']=='app:Academic')
-        self.assertEqual(app['asset']['tag'],'v2026.11.22-Desktop-r85')
+        self.assertEqual(app['asset']['tag'],'v2026.11.26-Desktop-r86')
         self.assertTrue(app['asset']['application_only'])
         self.assertNotIn('copy:'+app['asset']['id'],[r['id'] for r in rows])
     def test_resolved_universal_copy_is_verified_and_saved_at_selected_root(self):

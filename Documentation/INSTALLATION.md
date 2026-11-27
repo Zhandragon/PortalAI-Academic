@@ -100,3 +100,9 @@ The [universal bundle](https://github.com/Zhandragon/PortalAI-Academic/releases/
 Academic downloads the pinned archives automatically. Already downloaded matching archives can be placed in **Packages** and verified offline; native setup may still fetch dependencies.
 
 Stock macOS normally cannot write NTFS. Choose a writable destination suitable for each native runtime; universal preparation does not format drives or provide filesystem drivers.
+
+## Antivirus and the llama.cpp server
+
+Antivirus software may flag or quarantine PortalAI's llama.cpp local model server (`llama-server.exe` on Windows), its supporting libraries, bundled runtimes or the unsigned launcher. This can prevent chat models or workflows from starting and cause local server connection errors. A detection is not by itself proof of either malware or a false positive.
+
+Check the blocked file's path and detection name, verify its source and expected SHA-256 checksum, and review the alert before restoring it or approving a specific file exception. Students should ask their instructor or IT administrator to review the alert. Do not disable antivirus globally or exclude the entire PortalAI folder. Include the antivirus product and detection name in a report to the maintainer, without submitting private data.

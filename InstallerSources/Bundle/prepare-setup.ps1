@@ -48,10 +48,10 @@ if ($manifest.windows_launcher) {
     if ($launcher.file -ne 'Setup/PortalAI-Setup.exe' -or $launcher.sha256 -notmatch '^[a-f0-9]{64}$' -or $launcher.bytes -le 0) { throw 'Invalid Windows setup launcher pin.' }
     $updatedLauncher = Assert-PlainPath (Join-Path $bundleRoot $launcher.file)
     if (-not (Test-Asset $launcher $updatedLauncher)) { throw 'The updated Windows setup launcher is missing or corrupt. Extract a fresh complete bundle.' }
-} elseif ($manifest.version -in @('2026.11.25-bundle3','2026.11.25-bundle4','2026.11.25-bundle5','2026.11.25-bundle6') -and 'Windows' -in @($manifest.assets.platform)) {
+} elseif ($manifest.version -in @('2026.11.25-bundle3','2026.11.25-bundle4','2026.11.25-bundle5','2026.11.25-bundle6','2026.11.26-bundle7') -and 'Windows' -in @($manifest.assets.platform)) {
     throw 'The Windows setup launcher pin is missing.'
 }
-if ($manifest.version -in @('2026.11.25-bundle4','2026.11.25-bundle5','2026.11.25-bundle6') -and -not $manifest.model_catalog_version) { throw 'The complete model catalog is missing.' }
+if ($manifest.version -in @('2026.11.25-bundle4','2026.11.25-bundle5','2026.11.25-bundle6','2026.11.26-bundle7') -and -not $manifest.model_catalog_version) { throw 'The complete model catalog is missing.' }
 foreach ($file in $manifest.setup_files) {
     if ($file.file -notmatch '^Setup/[A-Za-z0-9._/-]+$' -or $file.file -match '(^|/)\.\.(/|$)' -or $file.sha256 -notmatch '^[a-f0-9]{64}$' -or $file.bytes -le 0) { throw 'Invalid model setup file pin.' }
     if (-not (Test-Asset $file (Assert-PlainPath (Join-Path $bundleRoot $file.file)))) { throw "Missing or corrupt model setup file: $($file.file)" }

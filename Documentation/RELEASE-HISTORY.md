@@ -4,7 +4,8 @@
 
 These records describe their own versions. Older download links are historical. Assets are retained for existing pinned launchers.
 
-- [November 25, 2026, bundle 6: current saved installer copies and complete setup](CURRENT-DOWNLOADS.md)
+- [November 26, 2026, bundle 7: Nice image workflow, chat labels and image sampling](CURRENT-DOWNLOADS.md)
+- [November 25, 2026, bundle 6: current saved installer copies and complete setup](History/CURRENT-DOWNLOADS-bundle6.md)
 - [November 25, 2026, bundle 5: complete setup and portable utility permissions](History/CURRENT-DOWNLOADS-bundle5.md)
 - [November 25, 2026, bundle 4: installation roots and complete model catalog](History/CURRENT-DOWNLOADS-bundle4.md)
 - [November 25, 2026, bundle 2: Windows extraction path fix](https://github.com/Zhandragon/PortalAI-Academic/releases/tag/v2026.11.25-bundle2)
@@ -12,6 +13,8 @@ These records describe their own versions. Older download links are historical. 
 - [Welcome-page announcements preserved before cleanup](History/WELCOME-before-20261125.md)
 
 ## Application and companion releases
+
+- [RELEASE-r86](RELEASE-r86.md)
 
 - [RELEASE-HA-0.5.13](RELEASE-HA-0.5.13.md)
 - [RELEASE-r85](RELEASE-r85.md)

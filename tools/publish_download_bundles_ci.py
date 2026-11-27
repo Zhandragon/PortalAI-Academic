@@ -22,7 +22,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):return None
 def download(item):
     dest=ROOT/'build/inputs'/item['asset']['name'];dest.parent.mkdir(parents=True,exist_ok=True)
-    if item['private']:
+    if item['private'] or item['key']=='WindowsSetup':
         h=dict(headers,Accept='application/octet-stream')
         try:r=urllib.request.build_opener(NoRedirect).open(urllib.request.Request(item['asset']['url'],headers=h),timeout=90)
         except urllib.error.HTTPError as e:
@@ -84,12 +84,12 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
     assets=list(pool.map(lambda r:upload(Path(r['path']),r['sha256']),rows))
 for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
-manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r85','Mac':'r75','Linux':'r75'},utilities_optional=True,
-    validation=dict(archive_checks=checks,setup_regression_tests=15,setup_regression_tests_passed_locally=15,native_mac_linux_runtime_tested=False,live_inference_retested=False,
-      archive_layout_tests_passed=6,install_destination_tests_passed=9,windows_gui_checks_passed_locally=18,complete_model_tests_passed=11,bundled_companion_tests_passed=8,unix_launcher_mode_test_passed=True,current_installer_copy_tests_passed=6,
+manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r86','Mac':'r75','Linux':'r75'},utilities_optional=True,
+    validation=dict(archive_checks=checks,setup_regression_modules=12,setup_regression_modules_passed=12,native_mac_linux_runtime_tested=False,windows_live_results='VALIDATION-r86.json',
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:
-    p=out/name;p.write_text(data);upload(p,sha(p))
+    if not config.get('ci_upload_bundles_only',False):
+        p=out/name;p.write_text(data);upload(p,sha(p))
 print('Draft complete and verified; publication remains a separate final step.',flush=True)
 
