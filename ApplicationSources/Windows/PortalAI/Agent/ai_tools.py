@@ -453,27 +453,38 @@ def _exclusive_gpu(target: str | None, reason: str):
     - persistent worker is stopped before Qwen is restored
     """
     from workload_request import request_guard
+    from media_timing import PhaseTimings
+    timings=PhaseTimings()
     check = request_guard(root_dir())
     check()
-    lease = acquire_gpu_lease(reason)
+    with timings.phase('lease_wait'):
+        lease = acquire_gpu_lease(reason)
     qwen_state = None
     admitted = False
     try:
         check()
         admitted = True
-        quiesce_gpu_workers(target)
-        qwen_state = qwen_gpu_handoff_begin(reason, start_guard=check)
+        with timings.phase('quiesce_workers'):
+            quiesce_gpu_workers(target)
+        with timings.phase('chat_handoff_begin'):
+            qwen_state = qwen_gpu_handoff_begin(reason, start_guard=check)
         check()
-        yield
+        with timings.phase('media_work'):
+            yield
     finally:
         if admitted and target in ("comfyui", "acestep"):
-            try: service_stop(target)
+            try:
+                with timings.phase('worker_stop'):service_stop(target)
             except Exception: pass
             _clear_gpu_state(target)
         try:
-            qwen_gpu_handoff_end(qwen_state)
+            with timings.phase('chat_handoff_end'):
+                qwen_gpu_handoff_end(qwen_state)
         finally:
-            release_gpu_lease(lease)
+            try:
+                with timings.phase('lease_release'):release_gpu_lease(lease)
+            finally:
+                timings.emit()
 
 
 @contextmanager

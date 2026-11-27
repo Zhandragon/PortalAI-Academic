@@ -195,6 +195,8 @@ def guidance(panel, rows):
                  'Chat/media variants are independent. Never switch variants on refusal. Prefer hardware auto; '
                  'Vulkan chat does not prove ROCm media. Honor vocals/duration and report unsupported routes. '
                  'Use returned preview URLs. Success:true confirms a generated file, not visual correctness; '
+                 'Combine assessment with generate_image/media_tool when no separate plan is needed, or with media_plan plan after inspecting references. '
+                 'When output_inspection says images_attached_next_request=true, review the attached output directly; do not spend another call attaching it again. '
                  'Inspect images with media_plan(action="inspect",paths=[...]); it is not a media_tool command. '
                  'Edit with media_tool(command="edit",arguments=[IMAGE_PATH,INSTRUCTION]); inspect the result against the plan. '
                  'available_tools is a separate function: load it with tool_help if focused syntax/model limits are needed. '
@@ -206,6 +208,7 @@ def guidance(panel, rows):
     if 'web' in names:
         text += ('\nFor existing images use web image_search(query), download suitable returned image_url values and inspect the actual files. '
                  'For multiple requested subjects, retrieve one suitable image for each before extra research. '
+                 'Batch independent searches in one tool response, then batch downloads using the returned URLs; inspect the selected files together. '
                  'Read page_url only when source context is needed. Avoid extra pages when the downloaded inputs establish appearance. '
                  'Research workflow: search(query), then read observed URLs; cite supported findings. Sources are not limited to Wikipedia. '
                  'Help and snippets are not read-page analysis. read.find is literal text, not an instruction to locate images. '

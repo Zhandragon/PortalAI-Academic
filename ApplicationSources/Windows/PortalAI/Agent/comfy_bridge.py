@@ -510,7 +510,13 @@ class ComfyBridge:
         return list(dict.fromkeys(out))
 
     def run(self, wf, destination: Path):
-        pid = self.queue(wf)
-        entry = self.wait(pid)
-        files = self.fetch_outputs(entry, destination)
-        return {"prompt_id": pid, "files": files}
+        from media_timing import PhaseTimings
+        timings=PhaseTimings()
+        with timings.phase('comfy_queue'):
+            pid = self.queue(wf)
+        with timings.phase('comfy_wait'):
+            entry = self.wait(pid)
+        with timings.phase('output_fetch'):
+            files = self.fetch_outputs(entry, destination)
+        return {"prompt_id": pid, "files": files, 'timings':timings.snapshot(),
+                'timing_scope':'Comfy queue/wait/fetch wall time; wait includes model loading and execution, not isolated GPU sampling.'}

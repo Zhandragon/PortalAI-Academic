@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "kind": "portalai-performance-candidate",
+  "edition": "Academic",
+  "platform": "Windows",
+  "status": "awaiting-live-inference-acceptance",
+  "base_commit": "0b6de7b85e42d26f741e961429fccbb3c03c21ef",
+  "installed_release_unchanged": "2026.11.26-Desktop-r86",
+  "new_model_bytes": 0,
+  "files": [
+    {
+      "path": "Agent/ai_tools.py",
+      "bytes": 154950,
+      "sha256": "b58198b918153dcef1cbe9e2e4df0a302f4c98da03b2e3d0e085dcdceefe142f",
+      "base_sha256": "956e05937bd711c7dc74054aed68faa2678764531d43888e2c9984c43cebc310"
+    },
+    {
+      "path": "Agent/assistant_guidance.py",
+      "bytes": 5722,
+      "sha256": "96e3154001ff36ce888e8039c8bbabcf97ac07f0fc696da068e744846e1a3ad4",
+      "base_sha256": "b8562684bf725c8f492324402c27d7542620d20f4c2180ee46ca4e0a88a58a81"
+    },
+    {
+      "path": "Agent/comfy_bridge.py",
+      "bytes": 21939,
+      "sha256": "f97247ba845d26ae094e679b1bddd9d77c9e1902815267d71cb607bba8f3e95a",
+      "base_sha256": "5100fded2d3ea4df698ece88d03619ae3061175026101cedd915641d499df76b"
+    },
+    {
+      "path": "Agent/media_timing.py",
+      "bytes": 1108,
+      "sha256": "11a030986969b2bb203e1d3be983661ae538f09d8deb77cc85d436ffab7f143c",
+      "base_sha256": null
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 26955,
+      "sha256": "72963f0805c770d0ec371e20a350a7d3efe8f13ebe001211c1bd959919d9e848",
+      "base_sha256": "7e65bb18dabcd78909c5921c053b264b9396b33cf0dca949357b45afae8de636"
+    },
+    {
+      "path": "ControlCenter/media_planning.py",
+      "bytes": 26594,
+      "sha256": "08b38db7bc4a9b381043d64473f7263904d62f5eb08b0244707a878da3151ed3",
+      "base_sha256": "6c4ea2fe7f15ba167ef32758ac3a5bc0aa521eb6680b0887562da304325fc52f"
+    },
+    {
+      "path": "ControlCenter/media_tool_api.py",
+      "bytes": 11873,
+      "sha256": "4d9799252bef77d0c2b8d1b917148feda3b753cacdf22d692e5cf7b07e49cdc1",
+      "base_sha256": "ab2bd464116416bf798989eb4b25e3169e8213ddd9b8d0ec81c2bd7eb199c19b"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 413632,
+      "sha256": "3138564f88f4d650457275e3925458b628e758e36ff8be58f1362238e0040669",
+      "base_sha256": "e7a4af1a598f35e0ac46e8872c779fc26bdc12e38ea3e614f1e75575bc1b0375"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_full_context.py",
+      "bytes": 14161,
+      "sha256": "ce6fddf6963d317d6906aaf4e47a8e1a979a2f8e99e06947a3ec55f7f16cd42c",
+      "base_sha256": "ab3531439c93212fddc0b57ae0359f5b11ce78081a40c1a0ccd4a273bad7ec9a"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_fast_path.py",
+      "bytes": 10143,
+      "sha256": "27accab8a06b1efab60917ce19447af8f1d56ca439f1eb9e1d308ec61171dad5",
+      "base_sha256": null
+    },
+    {
+      "path": "Maintenance/Tests/test_media_timing.py",
+      "bytes": 3532,
+      "sha256": "dcebc951339910042668eda20d6ddcbbbd2bb16581a4f38fa823e299d4117eb7",
+      "base_sha256": null
+    },
+    {
+      "path": "Maintenance/Benchmarks/image_workflow_cpu.py",
+      "bytes": 8282,
+      "sha256": "ef7297448cb0039f2077738acc89eeabedb6c4b653fbd18ffa7a080eb498d958",
+      "base_sha256": null
+    },
+    {
+      "path": "Maintenance/Benchmarks/results/image-workflow-cpu-20261126.json",
+      "bytes": 7486,
+      "sha256": "bfe848c0bbe69b96dd215ca925f2a5561a9f1018874bab2bdca595c5b4e7fd6f",
+      "base_sha256": null
+    },
+    {
+      "path": "Documentation/Nice_Image_Performance_20261126.txt",
+      "bytes": 7559,
+      "sha256": "6243af8051d3872ffdccf60f9cb8b370635a67ce516ed291a595f65764779256",
+      "base_sha256": null
+    }
+  ],
+  "validation": {
+    "cpu_regressions_passed": 370,
+    "additional_context_integration_checks_passed": 1,
+    "gpu_inference_run": false,
+    "gui_acceptance_run": false
+  }
+}

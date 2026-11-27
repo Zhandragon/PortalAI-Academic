@@ -58,9 +58,12 @@ def catalog_response(root, command=None, detail='summary'):
 
 
 def image_arguments(args):
-    allowed = {'prompt', 'negative', 'variant', 'profile', 'override_saved_profile', 'width', 'height', 'seed', 'steps'}
+    allowed = {'prompt', 'negative', 'variant', 'profile', 'override_saved_profile', 'width', 'height', 'seed', 'steps', 'assessment'}
     if not isinstance(args, dict) or set(args) - allowed:
         raise ValueError('Unknown generate_image argument')
+    if 'assessment' in args:
+        from media_planning import assess
+        if assess(args['assessment'])['assessment_required']:raise ValueError('Supply a complete assessment object')
     prompt = args.get('prompt')
     if not isinstance(prompt, str) or not prompt.strip() or len(prompt) > 16000 or '\x00' in prompt:
         raise ValueError('A nonempty image prompt is required (at most 16000 characters)')
@@ -127,3 +130,20 @@ TOOLS = [
         'parameters': {'type': 'object', 'properties': {'command': {'type': 'string', 'description':'Optional tool/command, e.g. generate_image, image, video, voice-say or science.'}, 'detail': {'type':'string','enum':['summary','full'],'description':'Default summary. Full is only for a specific metadata question.'}},
                        'additionalProperties': False}}}
 ]
+
+# Share the same validated judgment schema rather than inventing a less strict
+# shortcut. The host consumes it; it is never turned into a worker CLI flag.
+from copy import deepcopy as _copy_schema
+from media_planning import TOOL as _PLAN_TOOL
+for _tool in TOOLS:
+    if _tool['function']['name'] in ('generate_image','media_tool'):
+        _tool['function']['parameters']['properties']['assessment']=_copy_schema(
+            _PLAN_TOOL['function']['parameters']['properties']['assessment'])
+        # The loaded media workflow already explains these fields. Keep the
+        # full validation contract without duplicating its explanatory prose.
+        for _field in _tool['function']['parameters']['properties']['assessment']['properties'].values():
+            _field.pop('description',None)
+        _tool['function']['parameters']['properties']['assessment']['description']=(
+            'Optional combined semantic assessment: supply this instead of a separate media_plan assess call. '
+            'References and staged construction still require an accepted plan. No worker starts if prerequisites are missing.')
+        _tool['function']['description']+=' Include assessment here when no separate plan is needed. Successful images are attached for the next visual review when vision is available.'

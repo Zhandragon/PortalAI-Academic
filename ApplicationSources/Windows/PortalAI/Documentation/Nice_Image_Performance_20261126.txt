@@ -1,0 +1,121 @@
+PortalAI image workflow performance candidate - 2026-11-26
+
+Status
+Implemented and CPU-tested in both Windows source editions. This candidate is
+not a production release. The installed D:/E: copies and published r86/bundle7
+remain the previously accepted release. No GPU inference, app restart, model
+download or computer-use control was used for this performance pass.
+
+What the accepted baseline actually measured
+PortalAI used Qwen3.8-27B for coordination and FLUX.2 Klein Base 9B FP8 for
+images. It did not use Qwen-Image as its image model. Timings below include the
+whole user task; the image-tool interval also includes worker/model handoffs.
+
+Request                         Whole task   Image tool   Other coordination
+Bicycle                        297.31 s     214.95 s      82.36 s
+Two downloaded subjects        516.91 s     243.02 s     273.89 s
+Dog and red ball               563.64 s     242.09 s     321.55 s
+
+The reference retrieval calls themselves totaled about 4-6 seconds in the two
+edit runs. Repeated model turns were a much larger cost. Existing logs do not
+isolate diffusion sampling from model loading and chat restoration. The second
+reference was inspected and described in a single-image edit; this is not a
+benchmark of direct multi-image conditioning.
+
+Comparison with other setups
+1. A Qwen-Image-Edit CLI author reports 6-10 seconds at 1024 square on an RTX
+   3090 with FP8 and a four-step Lightning LoRA, around 18 GB peak VRAM. This is
+   a first-party implementation claim, not an independently replicated end-to-
+   end agent benchmark. It uses a different image model and sampling recipe.
+   https://github.com/aadebuger/ComfyUI-QwenImageEditCLI#performance-reference
+2. Comfy's official Klein article distinguishes distilled four-step models
+   from Base. Its example 9B figures are about 2 seconds distilled versus
+   35 seconds Base at 50 steps on a 5090. Different hardware, steps and model
+   variants prevent applying that speed ratio to PortalAI's current preset.
+   https://blog.comfy.org/p/flux2-klein-4b-fast-local-image-editing
+3. A measured 3090 study reports Klein 4B, 768 square, twelve-picture medians:
+   Base 50 steps 34.564 seconds; distilled four steps 1.667 seconds. EasyCache
+   reduced Base to 15.606 seconds but changed pixels. FP8/NVFP4 were slower
+   than BF16 on that card. This suggests candidates to test, not a proven
+   quality-preserving speedup for our larger 9B edit workflow.
+   https://research.strata2signal.com/what-speeds-up-a-picture/
+4. Anthropic documents the cost of an inference pass per tool invocation and
+   retaining intermediate context. Progressive tool discovery and combining
+   deterministic operations reduce those costs. This candidate applies that
+   orchestration principle locally, without adding a cloud dependency.
+   https://www.anthropic.com/research/advanced-tool-use
+
+Implemented changes
+- A complete semantic assessment can accompany generation or a reference plan.
+  An extra assessment-only response is optional. Missing references, unread
+  sources and required stages still block generation. Rejected combined plans
+  do not partially commit their assessment.
+- Saved output pixels are prepared automatically for the next model response.
+  The model must still review actual constraints. Review in the generation
+  tool batch is blocked; successful file creation never certifies correctness.
+  Preview failure preserves the generated file and requests explicit inspection.
+- Accepted reference findings and completed final reviews retire transient
+  image attachments. Saved files, source receipts, plans and reviews remain.
+  Failed or incomplete final reviews retain pixels. Intermediate stage output
+  remains available for the next edit; the exact previous output is required.
+- Guidance batches independent searches, then downloads selected returned URLs,
+  and inspects references together. Dependent URLs must come from real results.
+- Bounded scalar timings separate lease wait, chat handoffs, media work, cleanup
+  and Comfy queue/wait/fetch. Comfy wait is wall time, not pure GPU sampling.
+  Timing records contain no prompts, paths or account identifiers.
+
+Preserved design
+The semantic distinction between appearance and technical-structure gaps,
+evidence provenance, staged editing, visual review and progressive tool loading
+remain. These may be useful differentiators; this comparison does not establish
+research novelty. No subject-specific matching or portrait exception was added.
+Model selection, saved variants, image dimensions, steps, CFG, GPU serialization,
+account checks and Academic policy are unchanged.
+
+CPU-only comparison
+Maintenance/Benchmarks/image_workflow_cpu.py runs the actual baseline and
+candidate planner with scripted decisions and real Pillow previews. No model,
+network, GUI or image generator is called. Counts begin after reference retrieval
+and include the final model response. They are structural opportunities, not
+observed LLM behavior or a seconds-saved estimate.
+
+Scenario                 Responses old/new   Image attachments old/new
+Simple generation                5 / 3                  2 / 1
+Two-reference edit               7 / 5                 10 / 3
+Technical two-stage edit        10 / 7                 17 / 6
+
+Full replay: 40,673,280 bytes peak process working set (38.79 MiB).
+Academic replay: 37,658,624 bytes peak process working set (35.91 MiB).
+Python traced peaks were about 6.9 and 6.8 MiB. Six 1024-square noisy reference
+fixtures produced 2,242,254 bytes of preview JSON. These process peaks include
+Python, Pillow and fixtures; they are not an inference RAM/VRAM measurement or
+a worst-case decoder bound. No model weights or persistent GPU cache were added.
+The implementation uses the existing maximum 768-pixel preview dimension.
+
+Validation
+Each edition passed 370 CPU regression tests, plus one added integration check
+that the full reference workflow fits a 16K context and releases its 4096-token
+two-image reservation after recording findings. The same tools and evidence
+remain available. Tests cover guards, failed previews, same-batch review refusal,
+immutable staged assessments, cleanup on errors and bounded timing metadata.
+The compact-menu test now measures description compression independently of
+required schemas, and still verifies exact schema and permission preservation.
+No new model or runtime dependency is needed.
+
+Pending acceptance before release
+Run the same prompts, seeds, dimensions, saved profiles and retrieved inputs on
+the baseline and candidate with the GPU free. Use a disposable account and a
+background native worker. Include simple composition, two unrelated objects,
+likeness, and a technical staged composition. Keep initial-load and repeated-run
+results separate; collect phase timings, tool/model-response counts, peak host
+RAM/VRAM, source failures and independent visual constraint checks. Include a
+direct Comfy run using the identical model/workflow/settings to isolate agent
+overhead. Repeat enough to distinguish consistent changes from startup noise.
+No real-time speedup or output-quality equivalence is claimed yet. GUI tests
+also remain outside this final background-only validation set.
+
+Potential next experiments
+Distilled compatible models and EasyCache warrant controlled A/B tests with
+explicit quality checks and RAM/VRAM measurement. Neither is enabled here.
+Simply reducing Base to four steps is not equivalent to using a distilled model.
+Keeping chat and image models resident simultaneously is also not enabled.

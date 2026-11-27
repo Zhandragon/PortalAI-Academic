@@ -1,0 +1,277 @@
+{
+  "kind": "CPU structural replay, not an inference benchmark",
+  "baseline": "0b6de7b85e42d26f741e961429fccbb3c03c21ef",
+  "new_model_bytes": 0,
+  "new_persistent_cache_bytes": 0,
+  "scenarios": {
+    "simple": {
+      "baseline": {
+        "responses": 5,
+        "image_attachments": 2,
+        "visual_json_bytes": 747818,
+        "phases": [
+          {
+            "response": "assess",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "generate_1",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "inspect_output_1",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 1,
+            "visual_json_bytes": 373909
+          }
+        ],
+        "references_retained": 0,
+        "reviews_retained": 1,
+        "completed_stages": 0
+      },
+      "candidate": {
+        "responses": 3,
+        "image_attachments": 1,
+        "visual_json_bytes": 373909,
+        "phases": [
+          {
+            "response": "generate_1",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 0,
+            "visual_json_bytes": 0
+          }
+        ],
+        "references_retained": 0,
+        "reviews_retained": 1,
+        "completed_stages": 0
+      }
+    },
+    "two_references": {
+      "baseline": {
+        "responses": 7,
+        "image_attachments": 10,
+        "visual_json_bytes": 3738130,
+        "phases": [
+          {
+            "response": "inspect_references",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "assess",
+            "images": 2,
+            "visual_json_bytes": 747578
+          },
+          {
+            "response": "plan",
+            "images": 2,
+            "visual_json_bytes": 747578
+          },
+          {
+            "response": "generate_1",
+            "images": 2,
+            "visual_json_bytes": 747578
+          },
+          {
+            "response": "inspect_output_1",
+            "images": 2,
+            "visual_json_bytes": 747578
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 1,
+            "visual_json_bytes": 373909
+          }
+        ],
+        "references_retained": 2,
+        "reviews_retained": 1,
+        "completed_stages": 1
+      },
+      "candidate": {
+        "responses": 5,
+        "image_attachments": 3,
+        "visual_json_bytes": 1121487,
+        "phases": [
+          {
+            "response": "inspect_references",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "plan",
+            "images": 2,
+            "visual_json_bytes": 747578
+          },
+          {
+            "response": "generate_1",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 0,
+            "visual_json_bytes": 0
+          }
+        ],
+        "references_retained": 2,
+        "reviews_retained": 1,
+        "completed_stages": 1
+      }
+    },
+    "technical_staged": {
+      "baseline": {
+        "responses": 10,
+        "image_attachments": 17,
+        "visual_json_bytes": 6354533,
+        "phases": [
+          {
+            "response": "inspect_references",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "assess",
+            "images": 3,
+            "visual_json_bytes": 1121247
+          },
+          {
+            "response": "plan",
+            "images": 3,
+            "visual_json_bytes": 1121247
+          },
+          {
+            "response": "generate_1",
+            "images": 3,
+            "visual_json_bytes": 1121247
+          },
+          {
+            "response": "inspect_output_1",
+            "images": 3,
+            "visual_json_bytes": 1121247
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "generate_2",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "inspect_output_2",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "review_2",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 1,
+            "visual_json_bytes": 373909
+          }
+        ],
+        "references_retained": 3,
+        "reviews_retained": 2,
+        "completed_stages": 2
+      },
+      "candidate": {
+        "responses": 7,
+        "image_attachments": 6,
+        "visual_json_bytes": 2242974,
+        "phases": [
+          {
+            "response": "inspect_references",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "plan",
+            "images": 3,
+            "visual_json_bytes": 1121247
+          },
+          {
+            "response": "generate_1",
+            "images": 0,
+            "visual_json_bytes": 0
+          },
+          {
+            "response": "review_1",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "generate_2",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "review_2",
+            "images": 1,
+            "visual_json_bytes": 373909
+          },
+          {
+            "response": "final",
+            "images": 0,
+            "visual_json_bytes": 0
+          }
+        ],
+        "references_retained": 3,
+        "reviews_retained": 2,
+        "completed_stages": 2
+      }
+    }
+  },
+  "before": {
+    "working_set_bytes": 23506944,
+    "peak_working_set_bytes": 28069888
+  },
+  "six_reference_preview_json_bytes": 2242254,
+  "python_traced_current_bytes": 2621782,
+  "python_traced_peak_bytes": 7106336,
+  "after": {
+    "working_set_bytes": 27369472,
+    "peak_working_set_bytes": 37658624
+  },
+  "cpu_replay_wall_seconds": 1.146,
+  "limitations": [
+    "Fixed scripted decisions; no LLM, GPU, web or actual image quality evaluation.",
+    "Counts start after reference retrieval; batching independent search/download calls could save more responses.",
+    "Working-set peak includes interpreter, Pillow and fixtures; tracemalloc excludes native Pillow allocations.",
+    "Fixtures are six 1024-square noise images, not a worst-case decoder memory bound."
+  ]
+}

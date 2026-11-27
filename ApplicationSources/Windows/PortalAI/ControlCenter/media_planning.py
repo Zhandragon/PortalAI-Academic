@@ -11,7 +11,9 @@ from pathlib import Path
 import re
 
 GUIDANCE = (
-    'Before visual generation call media_plan assess with an assessment of the whole user request. '
+    'Before visual generation record an assessment of the whole user request. '
+    'Include assessment directly in generate_image/media_tool when no separate plan is needed; '
+    'include it in media_plan action=plan when references or stages need a plan. A separate assess call is optional. '
     'Identify the requested fidelity, visible components, their relationships and any critical uncertainties. '
     'Judge whether you can describe the relevant structure accurately from your own understanding; '
     'topic labels and familiarity with a name are not evidence of understanding. Explain your judgment. '
@@ -35,6 +37,9 @@ GUIDANCE = (
     'Resolve uncertain subcomponents and their relationships before assembling the whole; choose '
     'stages from the dependencies in this request. Style does not remove requested structural constraints. '
     'Inspect each stage against explicit constraints, revise only failed parts, and report unverified details. '
+    'Batch independent searches in one response, then batch downloads of selected returned URLs; never guess dependent URLs. '
+    'Inspect supplied/reference images together. Record their useful appearance in the assessment rationale or reference_comparison. '
+    'Accepted plans and completed reviews retain text evidence; the same pixels need not be reprocessed on every later turn. '
     'Never claim correctness from a successful file save. If reference retrieval, vision or editing is '
     'unavailable, state the limitation instead of silently doing an unsupported one-shot.'
 )
@@ -132,6 +137,29 @@ class MediaPlanning:
         self.request=request; self.assessment=None; self.plan=None; self.references=[]; self.visual=None
         self.outputs=[]; self.fetched=set(); self.downloaded=set();self.inspected=set();self.reviews={}
         self.completed_stages=0;self.output_stages={}
+        self.output_attachment_pending=False
+
+    def candidate_assessment(self, args):
+        """Validate without committing; a rejected combined plan stays atomic."""
+        if 'assessment' not in args:return assess(self.assessment)
+        candidate=assess(args['assessment'])
+        if candidate['assessment_required']:raise ValueError('Supply a complete assessment object')
+        if (self.plan or self.outputs) and candidate['assessment']!=self.assessment:
+            raise ValueError('Assessment is fixed for this plan. Inspect/review/edit its outputs; start a new request for a different plan.')
+        return candidate
+
+    def _retire_visual(self):
+        # This is only the transient API attachment, never the saved files,
+        # inspected paths, source evidence, assessment, plan or review receipts.
+        self.visual=None
+        self.output_attachment_pending=False
+
+    def attach_generated_output(self, runtime):
+        """Prepare actual pixels once; the next model response still reviews them."""
+        result=self.call(runtime, {'action':'inspect','paths':[self.outputs[-1]]})
+        self.output_attachment_pending=True
+        result['instruction']='The generated image is attached for your next response. Review its visible constraints directly; no separate inspect call is needed. This attachment is not a correctness certificate.'
+        return result
 
     def observe(self, name, args, result):
         data=result_json(result)
@@ -156,10 +184,7 @@ class MediaPlanning:
         action=args.get('action','assess')
         if action=='assess':
             if 'assessment' in args:
-                candidate=assess(args['assessment'])
-                if candidate['assessment_required']:raise ValueError('Supply a complete assessment object')
-                if (self.plan or self.outputs) and candidate['assessment']!=self.assessment:
-                    raise ValueError('Assessment is fixed for this plan. Inspect/review/edit its outputs; start a new request for a different plan.')
+                candidate=self.candidate_assessment(args)
                 self.assessment=candidate['assessment']
             judgment=assess(self.assessment)
             return {**judgment,'next_step':self.next_step(judgment),
@@ -171,12 +196,14 @@ class MediaPlanning:
                     'complete':reviewed and (not self.plan or self.completed_stages==len(self.plan['stages']) and set(self.plan['constraints'])<=set(self.reviews[self.outputs[-1]]['passed']))}
         if action=='review':
             if not self.outputs:raise ValueError('Generate an image before review')
+            if self.output_attachment_pending:raise ValueError('The generated image must reach the next model response before review; do not review it in the generation tool batch')
             output=self.outputs[-1]
             if output not in self.inspected:raise ValueError('Inspect the actual latest output image before reviewing it')
             passed=_strings(args.get('passed',[]),12);failed=_strings(args.get('failed',[]),12)
             if not passed and not failed:raise ValueError('Record the visual constraints that passed or failed')
             self.reviews[output]={'passed':passed,'failed':failed,'assessment':'Model visual review, not independent factual certification'}
             if not self.plan:
+                if not failed:self._retire_visual()
                 return {'output':output,'review':self.reviews[output],'complete':not failed,
                         'plan_required':False,'next_step':'Edit failed checks using this output.' if failed else
                         'The simple image is inspected and reviewed. Report the actual result now; no plan, further review, or regeneration is required.'}
@@ -190,6 +217,7 @@ class MediaPlanning:
                 next_step='Review this same inspected output again. Copy each remaining constraint label exactly into passed or failed according to what the image shows. Do not regenerate merely to correct review labels.'
             else:
                 next_step='Report the final checked result.' if final_stage else 'Continue the next planned stage.'
+            if final_stage and not failed and not missing:self._retire_visual()
             return {'output':output,'review':self.reviews[output],
                     'stage':None if stage is None else stage+1,'completed_stages':self.completed_stages,
                     'constraints_to_check':self.plan['constraints'],'unchecked_constraints':missing,
@@ -217,6 +245,8 @@ class MediaPlanning:
             self.inspected.update(paths);self.inspected.update(checked)
             self.references=list(dict.fromkeys(self.references+[p for p in checked if p not in self.outputs]))[-6:]
             self.visual={'role':'user','content':parts}
+            # Explicit inspection is also only an attachment. Generation's
+            # automatic path separately blocks review in that same tool batch.
             instruction=('Inspect the actual output against the user request. A simple image needs no plan. You may call review with descriptive passed/failed checks, then report the result.'
                          if self.outputs and not self.plan else
                          'Compare these actual images. For a final planned stage review, copy every planned constraint label exactly into passed or failed based on the image; paraphrases do not identify the checked constraint.')
@@ -225,7 +255,7 @@ class MediaPlanning:
                     'instruction':instruction}
         if action!='plan':raise ValueError('media_plan actions: assess, inspect, plan, review, status')
         if self.outputs:raise ValueError('An image is already generated. Inspect and review the existing output; do not create a plan after generation. A simple image can be reviewed without a plan.')
-        judgment=assess(self.assessment)
+        judgment=self.candidate_assessment(args)
         if judgment['assessment_required']:raise ValueError('Call media_plan assess with a complete semantic assessment before planning')
         constraints=_strings(args.get('constraints',[]),12)
         stages=_strings(args.get('stages',[]),6)
@@ -242,16 +272,20 @@ class MediaPlanning:
             if len(comparison)<40:raise ValueError('Record what the inspected reference establishes, remaining uncertainty and any relevant differences')
         if not constraints:raise ValueError('Record the requested visual constraints to check after generation')
         if not stages or judgment['staged'] and len(stages)<2:raise ValueError('Use 2-6 sequential stages when the assessment calls for staged construction')
+        self.assessment=judgment['assessment']
         self.plan={'assessment':self.assessment,'reference_required':needs_refs,'constraints':constraints,
                    'stages':stages,'sources':sources,'reference_comparison':comparison,
                    'references':list(self.references),'staged':len(stages)>1}
+        # The model has now supplied its visual findings. Future generation
+        # reads the accepted plan; raw references can be re-inspected if needed.
+        if comparison:self._retire_visual()
         return {'plan':self.plan,'generation_started':False,'next_step':stages[0],
                 'execution':'Generate a layout or edit a selected reference. For later stages pass the exact previous output to media_tool edit/inpaint. Inspect stage outputs, preserve correct regions and finish only when the constraints are checked.'}
 
     def next_step(self, judgment):
         """Give the missing next action, not the entire policy after each call."""
         if judgment['assessment_required']:
-            return 'Call media_plan action=assess with the complete assessment object from its tool definition. Assess unresolved visual gaps after inspecting supplied images; tool syntax or availability is not a visual reference gap.'
+            return 'Supply a complete assessment, directly on generate_image/media_tool or with media_plan assess/plan. Assess unresolved visual gaps after inspecting supplied images; tool syntax or availability is not a visual reference gap.'
         if not judgment['reference_required'] and not judgment['staged']:
             return 'Generate the requested image or edit now, then inspect the actual output before reporting completion.'
         needed=max(0,judgment['minimum_reference_images']-len(self.references))
@@ -270,7 +304,7 @@ class MediaPlanning:
         if not request:return
         command,argv,prompt=request
         if command not in ('image','edit','inpaint','autoedit','video','video-small','dialogue-video') or '--help' in argv:return
-        judgment=assess(self.assessment)
+        judgment=self.candidate_assessment(args) if name in ('generate_image','media_tool') else assess(self.assessment)
         if judgment['assessment_required']:
             return {'success':False,'generation_started':False,'planning_required':True,
                     **judgment,'next_step':self.next_step(judgment)}
@@ -283,6 +317,8 @@ class MediaPlanning:
             if command not in ('edit','inpaint','autoedit','video','dialogue-video') or self.outputs[-1] not in argv:
                 return {'success':False,'generation_started':False,'next_step':'Continue by editing the exact previous output instead of regenerating the whole scene.',
                         'previous_output':self.outputs[-1],'constraints':self.plan['constraints']}
+        if 'assessment' in args and name in ('generate_image','media_tool'):
+            self.assessment=judgment['assessment']
 
 
 def planner(runtime):
@@ -297,17 +333,18 @@ def context(chat):
     chat.tool_runtime.profile.check()
     from native_chat import model_props
     if not model_props().get('modalities',{}).get('vision'):return None
+    value.output_attachment_pending=False
     return value.visual
 
 
 TOOL={'type':'function','function':{'name':'media_plan','description':
-    'Before any visual generation, submit your semantic assessment of the whole user request. Simple understood scenes need only assessment; uncertain structure needs inspected references and a plan. Composition complexity independently determines staging. Inspect/review stage outputs. This tool records your judgment, not an automatic subject classifier or correctness certificate.',
+    'Record semantic assessment of the whole user request. Supply assessment together with action=plan to avoid a separate assess turn, or directly on generate_image/media_tool for a scene needing no plan. Uncertain structure needs inspected references and a plan; composition complexity independently determines staging. Inspect/review stage outputs. This records judgment, not a correctness certificate.',
     'parameters':{'type':'object','properties':{
         'action':{'type':'string','enum':['assess','inspect','plan','review','status']},'brief':{'type':'string'},
         'passed':{'type':'array','items':{'type':'string'},'maxItems':12,'description':'Visual checks that passed. For the final stage, copy the exact planned constraint labels; do not paraphrase.'},
         'failed':{'type':'array','items':{'type':'string'},'maxItems':12,'description':'Visual checks that failed. Use exact planned constraint labels so every final constraint is accounted for.'},
         'paths':{'type':'array','items':{'type':'string'},'maxItems':6},
-        'assessment':{'type':'object','description':'Required for assess to record a decision. Omit to see current/pending state. Evaluate requested fidelity, not topic keywords.',
+        'assessment':{'type':'object','description':'Record a decision with assess or combine with plan. Evaluate requested fidelity, not topic keywords.',
             'properties':{
                 'understanding':{'type':'string','enum':['sufficient','needs_references','uncertain']},
                 'reference_scope':{'type':'string','enum':['appearance','structure'],'description':'appearance for likeness, visible shape or image editing: one inspected reference can suffice. structure for uncertain technical mechanisms: three inspected images and two read sources. Choose from the actual gap, not the topic name.'},

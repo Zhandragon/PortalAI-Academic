@@ -1266,8 +1266,21 @@ class ToolRuntime:
         media = planner(self)
         if name == 'media_plan':
             return json.dumps(media.call(self, args), ensure_ascii=False)
+        previous_output=media.outputs[-1] if media.outputs else None
         result = self._execute(name, args)
         media.observe(name, args, result)
+        if media.outputs and media.outputs[-1]!=previous_output:
+            try:
+                inspection=media.attach_generated_output(self)
+            except PermissionError:
+                raise
+            except Exception as exc:
+                # Saving a real image must remain success even if its preview
+                # cannot be prepared. The model must then inspect explicitly.
+                inspection={'images_attached_next_request':False,
+                            'instruction':'Inspect the saved output before claiming visual correctness.',
+                            'error':type(exc).__name__+': '+str(exc)[:300]}
+            result += '\n'+json.dumps({'output_inspection':inspection},ensure_ascii=False)
         return result
 
     def _execute(self, name: str, args: dict) -> str:

@@ -77,7 +77,12 @@ class FullContextTests(unittest.TestCase):
             self.assertEqual({k:v for k,v in before['function'].items() if k!='description'},
                              {k:v for k,v in after['function'].items() if k!='description'})
         self.assertEqual(chat.TOOLS,original)
-        self.assertLess(chat.estimate_tokens(compact),chat.estimate_tokens(original)*.75)
+        # The helper compresses descriptions, not validation schemas. Measure
+        # that part independently as optional structured contracts grow.
+        descriptions=lambda rows:[r['function'].get('description','') for r in rows]
+        self.assertLess(chat.estimate_tokens(descriptions(compact)),
+                        chat.estimate_tokens(descriptions(original))*.5)
+        self.assertLess(chat.estimate_tokens(compact),chat.estimate_tokens(original))
         for scope in ('all','coding','maintenance'):
             p=full_panel();p._request_tool_scope=scope
             names={r['function']['name'] for r in chat._scoped_tools(p)}
@@ -158,6 +163,28 @@ class FullContextTests(unittest.TestCase):
                     continue
                 self.assertEqual(next(r for r in menu if r['function']['name']==name),
                                  next(r for r in chat.TOOLS if r['function']['name']==name))
+
+    def test_reference_workflow_fits_and_releases_visual_budget_after_plan(self):
+        from media_planning import MediaPlanning
+        from test_media_fast_path import assessment
+        p=full_panel(capacity=16384)
+        p.tool_runtime.profile=SimpleNamespace(check=lambda:None)
+        media=p.tool_runtime._media_planning=MediaPlanning()
+        media.references=['one.png','two.png']
+        media.visual={'role':'user','content':[
+            {'type':'image_url','image_url':{'url':'data:image/jpeg;base64,fixture'}} for _ in range(2)]}
+        with patch.object(chat,'model_props',return_value={'modalities':{'vision':True}}):
+            load(p,{'tools':['web','media_plan','media_tool']},chat._scoped_tools(p))
+            p.api_messages();before=copy.deepcopy(p._last_context_meta)
+            media.call(None,dict(action='plan',assessment=assessment(understanding='needs_references'),
+                constraints=['Appearance'],stages=['Edit'],sources=[],
+                reference_comparison='Both inspected references establish the requested appearance and relative placement.'))
+            p.api_messages();after=p._last_context_meta
+        self.assertLessEqual(before['estimated_sent'],before['budget'])
+        self.assertLessEqual(after['estimated_sent'],after['budget'])
+        self.assertEqual(before['estimated_input']-after['estimated_input'],4096)
+        self.assertEqual(media.plan['references'],['one.png','two.png'])
+        self.assertEqual(set(p._tool_selection.names),{'web','media_plan','media_tool'})
 
     def test_selection_does_not_leak_to_new_turn_or_chat(self):
         p=full_panel();load(p,{'tools':['web']},chat._scoped_tools(p))
