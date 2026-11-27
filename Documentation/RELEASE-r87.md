@@ -1,4 +1,4 @@
-PortalAI Windows r87 — optional multi-reference image editing
+PortalAI Windows r87 â€” optional multi-reference image editing
 
 Edit with one to three reference images using optional Qwen-Image-Edit-2511.
 Settings offers Auto, Lightning (4 steps), Full (40 steps), and Existing editing,
