@@ -24,6 +24,30 @@ def fixture():
 
 
 class ProgressiveWorkerTests(unittest.TestCase):
+    def test_loading_planner_keeps_image_generation_available(self):
+        p=fixture();menus=[]
+        replies=[('','',[call('image-help','tool_help',{'tools':['generate_image']})]),
+                 ('','',[call('plan-help','tool_help',{'tools':['media_plan']})]),
+                 ('','',[call('image','generate_image',{'prompt':'A blue teapot'})]),('Done.','',[])]
+        def respond(_):
+            menus.append({r['function']['name'] for r in chat._request_tools(p)})
+            return replies.pop(0)
+        with patch.object(p,'stream_completion',side_effect=respond):p.agent_worker('test')
+        self.assertTrue({'generate_image','media_plan'} <= menus[2])
+        p.tool_runtime.execute.assert_called_once_with('generate_image',{'prompt':'A blue teapot'})
+        receipts=[json.loads(r['content']) for r in p.session['messages'] if r.get('name')=='tool_help']
+        self.assertEqual(receipts[-1]['loaded_tools'],['generate_image','media_plan'])
+        self.assertEqual(receipts[-1]['unloaded_tools'],[])
+
+    def test_explicit_replacement_reports_unloaded_tools(self):
+        from chat_tool_menu import load
+        p=fixture()
+        load(p,{'tools':['generate_image','media_plan']},chat._scoped_tools(p))
+        receipt=json.loads(load(p,{'tools':['web'],'replace':True},chat._scoped_tools(p)))
+        self.assertEqual(receipt['loaded_tools'],['web'])
+        self.assertEqual(receipt['unloaded_tools'],['generate_image','media_plan'])
+        self.assertNotIn('generate_image',{r['function']['name'] for r in chat._request_tools(p)})
+
     def test_load_then_execute_separate_turns_and_save_discovery_as_read_only(self):
         p=fixture();menus=[]
         replies=[('','',[call('help','tool_help',{'tools':['read_file']})]),

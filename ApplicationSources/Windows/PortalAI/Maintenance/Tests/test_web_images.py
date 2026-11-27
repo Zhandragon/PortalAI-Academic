@@ -23,6 +23,8 @@ PUBLIC='https://independent.example/photo.png'
 
 class WebImageTests(unittest.TestCase):
     def setUp(self):
+        fallback = patch.object(web, '_bing_images', return_value=[])
+        fallback.start(); self.addCleanup(fallback.stop)
         temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup)
         self.root=Path(temporary.name);(self.root/'Agent').mkdir()
         (self.root/'Agent/hardware_profiles.json').write_text(json.dumps({'storage':{'minimum_free_gib':0,'minimum_free_fraction':0,'output_reserve_gib':0}}))

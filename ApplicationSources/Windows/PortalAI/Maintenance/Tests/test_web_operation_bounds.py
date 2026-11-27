@@ -18,6 +18,8 @@ IMAGE = {'image_url': 'https://example.com/event.jpg', 'page_url': PAGE, 'title'
 
 class WebOperationBoundsTests(unittest.TestCase):
     def setUp(self):
+        fallback = patch.object(web, '_bing_images', return_value=[])
+        fallback.start(); self.addCleanup(fallback.stop)
         self.state = Mock()
         self.state.cached.return_value = None
         self.state.cooling.return_value = None
@@ -55,7 +57,8 @@ class WebOperationBoundsTests(unittest.TestCase):
              patch.object(web, '_wikipedia_lead_images') as wiki:
             result = web.image_search('specific event photograph')
         self.assertEqual(result['image_urls'], [IMAGE['image_url']])
-        self.assertEqual(result['search_results'], pages)
+        self.assertEqual([{k:v for k,v in row.items() if k != 'image_lookup'} for row in result['search_results']], pages)
+        self.assertEqual(result['search_results'][0]['image_lookup']['status'], 'images_found')
         self.assertTrue(result['lookup_limited'])
         wiki.assert_not_called(); self.state.block.assert_not_called()
 

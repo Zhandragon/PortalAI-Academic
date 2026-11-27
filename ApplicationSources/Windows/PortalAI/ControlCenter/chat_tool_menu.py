@@ -49,14 +49,15 @@ def compact_menu(rows):
 CORE = frozenset(('chat_history', 'chat_checkpoint'))
 INDEX = (
     'Load schemas and workflow guidance for the NEXT turn; call alone. '
-    'Select up to four tools; each call REPLACES the previous selection. No tool execution or permission grant. '
+    'Add up to four tools per call; previously loaded tools remain available. Use replace=true only to replace the selection when context is tight. No tool execution or permission grant. '
     'Plain conversation needs no lookup. Capabilities: files read_file/write_file/edit_file/list_dir/file_inspect; '
     'code project/source_map/source_search/inspect_environment/shell; output checks verify; web research web; '
     'images generate_image, media_plan (visual assessment, references/stages); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
     'documents knowledge; JSON structured; HTML/SVG/charts artifact; connections mcp; '
     'saved jobs workflow; evidence-linked plans task; user task guides skill; mission agents agents; '
     'use/click/type/control desktop apps computer (works with text-only Qwen); PortalAI pages/Utilities/Projection portal_ui; interact with websites browser; website search/research web. '
-    'Do not guess shell commands for app controls. Empty tools unloads optional tools.'
+    'For images load generate_image and media_plan together; for edits load media_tool and media_plan together. '
+    'Do not guess shell commands for app controls. Empty tools with replace=true unloads optional tools.'
 )
 
 
@@ -84,7 +85,8 @@ def discovery(rows):
     names = [r['function']['name'] for r in rows if r['function']['name'] not in CORE]
     return {'type':'function', 'function':{'name':'tool_help', 'description':INDEX,
         'parameters':{'type':'object', 'properties':{'tools':{'type':'array', 'maxItems':4,
-            'uniqueItems':True, 'items':{'type':'string', 'enum':names}}},
+            'uniqueItems':True, 'items':{'type':'string', 'enum':names}},
+            'replace':{'type':'boolean','description':'Default false: retain previously loaded tools. True replaces the full selection.'}},
             'required':['tools'], 'additionalProperties':False}}}
 
 
@@ -155,7 +157,7 @@ def guidance(panel, rows):
         '\n\nYour conversational name is Nice; PortalAI is the harness. Use structured function tools; '
         'printed commands never execute. For tools absent from the menu, call tool_help alone with the '
         'needed names. Their full definitions and workflow instructions arrive next turn. '
-        'Choose only the next step; switch tools when the task changes. Answer ordinary conversation directly. '
+        'Load the tools needed for the workflow together. Later loads add tools; replace=true explicitly unloads others. Answer ordinary conversation directly. '
         'For file creation, load tools and choose an output path before drafting. '
         'Keep working on the authorized request until verified or blocked. Use evidence and report uncertainty. '
         'Explicit user parameters always prevail: preserve requested dimensions, duration, precision and tolerances. '
@@ -193,17 +195,21 @@ def guidance(panel, rows):
                  'Chat/media variants are independent. Never switch variants on refusal. Prefer hardware auto; '
                  'Vulkan chat does not prove ROCm media. Honor vocals/duration and report unsupported routes. '
                  'Use returned preview URLs. Success:true confirms a generated file, not visual correctness; '
-                 'inspect complex/reference-based outputs against the plan. available_tools(command=...) gives focused syntax/model limits only if needed. '
+                 'Inspect images with media_plan(action="inspect",paths=[...]); it is not a media_tool command. '
+                 'Edit with media_tool(command="edit",arguments=[IMAGE_PATH,INSTRUCTION]); inspect the result against the plan. '
+                 'available_tools is a separate function: load it with tool_help if focused syntax/model limits are needed. '
                  'Piper is English-only CPU speech; cloning/design use voice-clone/voice-design with compatible hardware.\n')
         text += media_preference_guidance(panel.root)
         from media_planning import GUIDANCE as MEDIA_GUIDANCE
         text += '\n'+MEDIA_GUIDANCE
         if 'media_tool' in names:text += '\n'+DIALOGUE_VIDEO
     if 'web' in names:
-        text += ('\nResearch workflow: search(query), then read observed URLs; cite supported findings. Sources are not limited '
-                 'to Wikipedia. Help and snippets are not read-page analysis. Use observed selectors/offsets. '
-                 'For a person photo, read the identified profile first: images/image_urls expose profile pictures and placeholder hints. '
-                 'Follow a relevant observed profile link before broadening search; discover(document,kind=image) inspects cached markup. '
+        text += ('\nFor existing images use web image_search(query), download suitable returned image_url values and inspect the actual files. '
+                 'For multiple requested subjects, retrieve one suitable image for each before extra research. '
+                 'Read page_url only when source context is needed. Avoid extra pages when the downloaded inputs establish appearance. '
+                 'Research workflow: search(query), then read observed URLs; cite supported findings. Sources are not limited to Wikipedia. '
+                 'Help and snippets are not read-page analysis. read.find is literal text, not an instruction to locate images. '
+                 'Use another returned source after access denial/rate limits, not guessed URL variants. '
                  'download(url,purpose=person_photo) saves the exact photo URL and rejects likely placeholders. Check image_assessment. '
                  'Downloads verify bytes, not subject identity. Source association is not face recognition. '
                  'Never guess URL variants after a 404, substitute generated images or bypass TLS/site challenges. '
@@ -272,26 +278,30 @@ def load(panel, arguments, rows):
     if panel.cancel_event.is_set():raise RuntimeError('Tool documentation load cancelled')
     names = arguments.get('tools') if isinstance(arguments, dict) else None
     allowed = {r['function']['name'] for r in rows} - CORE
-    if (not isinstance(arguments, dict) or set(arguments) != {'tools'} or not isinstance(names, list)
+    if (not isinstance(arguments, dict) or not {'tools'} <= set(arguments) <= {'tools','replace'} or not isinstance(names, list)
+            or type(arguments.get('replace',False)) is not bool
             or len(names)>4 or any(not isinstance(n,str) or n not in allowed for n in names)
             or len(set(names)) != len(names)):
         raise ValueError('Select at most four distinct tool names from the current tool_help schema')
     selection = panel._tool_selection;selection.sync(panel)
-    previous = selection.names;selection.names = tuple(names)
+    previous = selection.names
+    retained = () if arguments.get('replace',False) else tuple(n for n in previous if n in allowed)
+    selection.names = tuple(dict.fromkeys((*retained, *names)))
     try:
         plan = panel._context_plan()
         # The short receipt has not been appended yet. Reserve 256 more tokens
         # and a minimum usable answer; never remove saved content to load docs.
         minimum = plan['estimated_input'] + plan['safety_tokens'] + plan['checkpoint_reserve'] + 256 + 256
         if minimum > plan['budget']:
-            raise ValueError('These tool definitions do not fit the current context. Select fewer tools (one at a time), '
+            raise ValueError('These tool definitions do not fit the current context. Select fewer tools using replace=true, '
                              'use chat_checkpoint after completed work, or increase context. Previous selection retained.')
         panel._check_login()
         if panel.cancel_event.is_set():raise RuntimeError('Tool documentation load cancelled')
     except BaseException:
         selection.names = previous
         raise
-    return json.dumps({'loaded_tools':names, 'ready_next_turn':True,
+    return json.dumps({'loaded_tools':list(selection.names), 'added_tools':[n for n in selection.names if n not in previous],
+                       'unloaded_tools':[n for n in previous if n not in selection.names], 'ready_next_turn':True,
                        'next_step':'Continue the original request using these tools now. Loading documentation is not task completion; do not stop with a readiness report or ask the user to repeat the request.',
                        'notice':'Full definitions and matching workflow guidance are supplied in the next request. '
                                 'No action was executed; account permissions, Stop and resource limits still apply.'})

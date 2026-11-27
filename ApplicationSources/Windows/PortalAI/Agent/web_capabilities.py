@@ -184,6 +184,10 @@ class WebSession:
             hits,next_offset=find_text(doc['text'],args['find'],args.get('offset',0))
             result={'document':doc['document'],'url':doc['url'],'matches':hits,'next_offset':next_offset,
                     'find_mode':'literal_text'}
+            # Finding text does not discard image metadata already fetched from
+            # the same page. Preserve exact candidates without another request.
+            for key in ('images','image_urls','image_note'):
+                if key in doc:result[key]=doc[key]
             if not hits:
                 result['next_step']=('No literal text matches. The find argument is not a semantic search query or regular expression. '
                     'Read this document without find to inspect its text and returned image links, then use a literal phrase '
@@ -225,6 +229,25 @@ class WebSession:
         if action in ('site_search','site_query','catalog_search','discover','data','media_info','download'):
             from web_research import execute
             result=execute(self,action,args);self.check();return result
+        if action=='image_search':
+            from web_tools import image_search
+            query=args.get('query');limit=args.get('limit',4)
+            if not isinstance(query,str) or not query.strip() or len(query)>4096:
+                raise ValueError('image_search requires a query of 1..4096 characters')
+            if type(limit) is not int or not 1<=limit<=8:
+                raise ValueError('image_search limit must be an integer 1..8')
+            result=image_search(query,page_limit=3,candidate_limit=limit)
+            self.check()
+            # Candidates retain their exact source page and image URL. Search
+            # snippets are useful only as fallback when no images were found;
+            # otherwise they distract the model into fetching the same pages.
+            if result.get('images'):
+                result = {key:value for key,value in result.items() if key != 'search_results'}
+            return {**result,'kind':'image_candidates',
+                    'source':'Existing public image links; pictured content is not verified.',
+                    'next_step':('Download a relevant returned image_url with action=download, then inspect the actual image. Use page_url only when source context is needed. Do not repeat discovery when adequate inputs are already available.'
+                                 if result.get('images') else
+                                 'No image candidates were found. Search results are source pages, not image URLs. Skip pages marked image_lookup=failed or no_images; they were already inspected. Try an uninspected source or a meaningfully different query within the remaining allowance. Do not invent an image URL.')}
         if action=='search':
             from web_tools import web_search
             query=args.get('query'); limit=args.get('limit',6); fresh=args.get('fresh',False)
@@ -238,6 +261,7 @@ class WebSession:
         if action=='help': return {'kind':'tool_help',
             'note':'Tool instructions only; no search was performed. Use search with query to find pages, then read returned URLs for details.',
             'actions':{
+            'image_search':'query (required), limit 1..8 (default 4); finds existing images with exact image_url and page_url pairs. Download a suitable image_url, then inspect the actual file.',
             'search':'query (required), limit 1..12 (default 6), fresh boolean (default false); returns titles, URLs and snippets',
             'site_search':'site host/URL, query, limit 1..12; returns results filtered to that site/path',
             'site_query':'url and parameter from an observed public GET search form, query, optional max_chars; fetches the encoded in-site search response',

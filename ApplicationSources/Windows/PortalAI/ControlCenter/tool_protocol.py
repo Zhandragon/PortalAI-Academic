@@ -10,6 +10,109 @@ import re
 from pathlib import Path
 
 MAX_ENVELOPE_BYTES = 64 * 1024
+
+
+class ToolArgumentStream:
+    """Reject stalled JSON formatting without limiting text inside string values.
+
+    This validates framing only. It never returns arguments or authorizes a call;
+    the complete response still needs its terminal marker and batch validation.
+    """
+    MAX_FORMATTING_WHITESPACE = 256
+    MAX_MEMBER_NAME = 256
+
+    def __init__(self):
+        self.quoted = False
+        self.escaped = False
+        self.unicode_digits = 0
+        self.started = False
+        self.complete = False
+        self.depth = 0
+        self.whitespace = 0
+        self.containers = []
+        self.member_name = False
+        self.member_chars = 0
+
+    def feed(self, fragment):
+        for char in fragment:
+            if self.quoted:
+                # Field names are protocol, unlike unbounded user text values.
+                # A broken escaped quote can otherwise keep one name open for
+                # the entire token allowance while still looking like a string.
+                if self.member_name:
+                    self.member_chars += 1
+                    if self.member_chars > self.MAX_MEMBER_NAME:
+                        raise ValueError('Tool argument JSON member name exceeded 256 characters')
+                if ord(char) < 32:
+                    raise ValueError('Unescaped control character in JSON string')
+                if self.unicode_digits:
+                    if char not in '0123456789abcdefABCDEF':
+                        raise ValueError('Invalid Unicode escape in JSON string')
+                    self.unicode_digits -= 1
+                elif self.escaped:
+                    if char not in '"\\/bfnrtu':
+                        raise ValueError('Invalid escape in JSON string')
+                    if char == 'u':self.unicode_digits = 4
+                    self.escaped = False
+                elif char == '\\':
+                    self.escaped = True
+                elif char == '"':
+                    self.quoted = False
+                continue
+            if char in ' \t\r\n':
+                self.whitespace += 1
+                if self.whitespace > self.MAX_FORMATTING_WHITESPACE:
+                    raise ValueError('Tool argument serialization stalled in excessive JSON formatting whitespace')
+                continue
+            self.whitespace = 0
+            if self.complete:
+                raise ValueError('Tool argument serialization continued after its complete JSON object')
+            if not self.started:
+                if char != '{':
+                    raise ValueError('Tool arguments must start with a JSON object')
+                self.started = True
+            if char == '"':
+                self.quoted = True
+                self.member_name = bool(self.containers and self.containers[-1] == ['{', True])
+                self.member_chars = 0
+            elif char == ':' and self.containers:
+                self.containers[-1][1] = False
+            elif char == ',' and self.containers:
+                self.containers[-1][1] = self.containers[-1][0] == '{'
+            elif char in '{[':
+                self.depth += 1
+                self.containers.append([char, char == '{'])
+            elif char in '}]':
+                if not self.containers or self.containers[-1][0] != {'}':'{', ']':'['}[char]:
+                    raise ValueError('Mismatched JSON container in tool arguments')
+                self.containers.pop()
+                self.depth -= 1
+                if self.depth == 0:
+                    self.complete = True
+
+
+def verified_inert_download(name, args, result, execution):
+    """A completed inbound file permits fresh inference, never replay or execution.
+
+    Arbitrary writes and missing/failed/cancelled download receipts stay unsafe.
+    The native worker owns byte verification; web page prose cannot create this
+    download result envelope. Action receipts and duplicate checks stay effectful.
+    """
+    if (name != 'web' or not isinstance(args, dict) or args.get('action') != 'download'
+            or not execution.get('dispatched') or execution.get('outcome') != 'returned'):
+        return False
+    try:
+        data = json.loads(result)
+    except (TypeError, ValueError):
+        return False
+    if not isinstance(data, dict) or data.get('ok') is not True:
+        return False
+    row = data.get('result')
+    return (isinstance(row, dict) and row.get('download_verified') is True
+            and row.get('executed') is False and isinstance(row.get('path'), str)
+            and bool(row['path']) and type(row.get('bytes')) is int and row['bytes'] > 0
+            and isinstance(row.get('sha256'), str)
+            and re.fullmatch('[0-9a-fA-F]{64}', row['sha256']) is not None)
 _NAME = r"[A-Za-z_][A-Za-z0-9_-]{0,127}"
 _FUNCTION_XML = re.compile(r"<tool_call>\s*<function=(" + _NAME + r")>\s*(.*?)\s*</function>\s*</tool_call>", re.S)
 _PARAMETER_XML = re.compile(r"<parameter=(" + _NAME + r")>(.*?)</parameter>", re.S)
@@ -48,7 +151,7 @@ def read_only_tool_attempt(name, args, root) -> bool:
         # They cannot select an HTTP method, drive a browser or publish a file.
         # Keep arbitrary requests, downloads and browser actions outside this set.
         return isinstance(action, str) and action in {
-            'help', 'search', 'read', 'site_search', 'site_query',
+            'help', 'search', 'image_search', 'read', 'site_search', 'site_query',
             'catalog_search', 'discover', 'data', 'media_info'}
     if name == 'media_tool':
         return args.get('command') == 'model-variants' or args.get('arguments') == ['--help']
@@ -93,7 +196,7 @@ def truncation_correction_message(tool_names):
     """A fresh bounded inference request; partial arguments are never reused."""
     names=tuple(str(name) for name in tool_names)
     return {'role':'system','content':
-        'Host protocol correction: your last response reached the reply-token limit while serializing a tool call. '
+        'Host protocol correction: your last response could not finish serializing a tool call within its format/reply limits. '
         'No tools from that response were executed. Use the original user request and saved outcomes above. '
         'Return one concise, complete structured API tool call for the next unresolved step, or a concise final answer/blocker. '
         'Omit further hidden reasoning and unnecessary narration. Use only these supplied functions: '+', '.join(names)+'. '

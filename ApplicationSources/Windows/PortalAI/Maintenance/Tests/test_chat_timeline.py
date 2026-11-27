@@ -41,6 +41,21 @@ class TimelineTests(unittest.TestCase):
                 if b:out.append('['+b['text'].get('1.0','end-1c')+']')
         return ''.join(out)
 
+    def test_live_identity_is_correct_before_any_branding_tick(self):
+        self.feed(('assistant_start', {'index': 0}))
+        self.assertEqual(self.p.chat.get('1.0', 'end-1c'), 'Nice\n')
+        self.assertIn('assistant', self.p.chat.tag_names('1.0'))
+        self.feed(('content', 'Qwen is the underlying model.'))
+        self.assertIn('Qwen is the underlying model.', self.transcript())
+
+    def test_saved_identity_matches_live_in_both_renderers(self):
+        self.p.busy = False
+        self.p.session['messages'] = [{'role': 'assistant', 'content': 'Qwen model details'}]
+        for render in (self.p.render_history, self.p.render_history_incremental):
+            render(); self.app.update()
+            self.assertEqual(self.p.chat.get('1.0', 'end-1c'), 'Nice\nQwen model details\n')
+            self.assertIn('assistant', self.p.chat.tag_names('1.0'))
+
     def test_fifo_reasoning_prose_tools_and_second_answer(self):
         self.feed(('assistant_start',{'index':0}),('reasoning','THOUGHT'),('content','BEFORE TOOL'),
                   ('tool_start',{'name':'lookup','args':{}}),('tool_result',{'name':'lookup','content':'RESULT'}),

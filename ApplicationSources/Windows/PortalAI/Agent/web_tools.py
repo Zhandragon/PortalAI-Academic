@@ -317,6 +317,14 @@ def _request_bytes_sync(url, *, timeout, headers, max_bytes):
     budget = _IMAGE_BUDGET.get()
     _check_request()
     _validate_public_url(url)
+    # Search engines sometimes return human-readable spaces/Unicode in paths.
+    # Encode those components without decoding escapes or changing the host.
+    parts = urllib.parse.urlsplit(url)
+    safe = "/?:@!$&'()*+,;=-._~%"
+    url = urllib.parse.urlunsplit((parts.scheme, parts.netloc,
+        urllib.parse.quote(parts.path, safe=safe),
+        urllib.parse.quote(parts.query, safe=safe),
+        urllib.parse.quote(parts.fragment, safe=safe)))
     _check_request()
     req_headers = {
         "User-Agent": USER_AGENT,
@@ -750,7 +758,9 @@ class PageImageParser(HTMLParser):
 
 
 def _page_image_candidates(page_url: str, max_candidates: int = 8) -> list[dict[str, str]]:
-    data, final_url, content_type = _request_bytes(page_url, max_bytes=2_000_000)
+    # Match native page reading: ordinary article/product HTML can exceed 2 MB.
+    # The existing operation deadline, request count and decompression cap apply.
+    data, final_url, content_type = _request_bytes(page_url, max_bytes=16*1024**2)
     try:
         _image_bytes_extension(data)
     except ValueError:
@@ -1009,6 +1019,59 @@ def _duckduckgo_images(query: str, limit: int = 12) -> list[dict[str, str]]:
     return out
 
 
+def _bing_images(query: str, limit: int = 8) -> list[dict[str, str]]:
+    """Read public image-result metadata; no browser or challenge bypass."""
+    rows = []
+    seen = set()
+
+    class Results(HTMLParser):
+        def handle_starttag(self, tag, attrs):
+            if tag != 'a' or len(rows) >= 60:
+                return
+            metadata = dict(attrs).get('m', '')
+            if not metadata or len(metadata) > 32768:
+                return
+            try:
+                item = json.loads(metadata)
+                if not isinstance(item, dict):return
+                image_url, page_url = item.get('murl'), item.get('purl')
+                _candidate_url(image_url)
+                _candidate_url(page_url)
+            except (ValueError, TypeError):
+                return
+            if image_url in seen:return
+            seen.add(image_url)
+            rows.append({'image_url': image_url, 'page_url': page_url,
+                         'title': str(item.get('t', ''))[:500],
+                         'alt': str(item.get('desc', ''))[:500],
+                         'image_source': 'bing-images'})
+
+    # Broad search can silently drop the subject and return only a colour or
+    # other generic term. Require minimal support in the returned metadata;
+    # this is relevance screening, not verification of the pictured content.
+    generic = {'photo', 'photos', 'image', 'images', 'picture', 'pictures',
+               'photograph', 'photographs', 'of', 'a', 'an', 'the', 'and', 'on', 'in'}
+    terms = set(re.findall(r'\w+', query.casefold())) - generic
+    simplified = re.sub(r'\s+(?:photos?|images?|pictures?|photographs?)\s*$', '', query, flags=re.I).strip()
+    queries = list(dict.fromkeys([query, simplified])) if simplified else [query]
+    for search_query in queries:
+        rows.clear(); seen.clear()
+        url = 'https://www.bing.com/images/search?' + urllib.parse.urlencode({'q': search_query})
+        data, _, content_type = _request_bytes(url)
+        text = _decode(data, content_type)
+        _check_challenge(text)
+        Results().feed(text)
+        relevant = []
+        for row in rows:
+            metadata = ' '.join(str(value) for value in row.values()).casefold()
+            matches = sum(bool(re.search(r'(?<!\w)' + re.escape(term) + r'(?:s|es)?(?!\w)', metadata)) for term in terms)
+            if not terms or matches >= min(2, len(terms)):
+                relevant.append(row)
+        if relevant:return relevant[:limit]
+    raise WebAccessError('The image search returned no candidates supported by the subject metadata.',
+                         category='no_relevant_results', retry_after_seconds=60)
+
+
 def _page_metadata_images(
     query: str,
     page_limit: int = 5,
@@ -1018,18 +1081,29 @@ def _page_metadata_images(
     Last-resort fallback: normal web search, then extract og:image/twitter:image
     from result pages. This was v15.14's ONLY image-discovery method.
     """
-    search = web_search(query, limit=max(3, min(page_limit, 8)))
+    search = web_search(query, limit=8)
+    # Annotate copies so failed inspections are visible without mutating cache.
+    search = {**search, 'results': [dict(row) for row in search['results']]}
     state = WebState()
     candidates: list[dict[str, str]] = []
     seen: set[str] = set()
 
-    for result in search["results"][:page_limit]:
+    # A few pages from one inaccessible host must not consume every page slot.
+    hosts=set(); pages=[]; duplicates=[]
+    for result in search["results"]:
+        host=(urllib.parse.urlsplit(result.get('url','')).hostname or '').casefold().removeprefix('www.')
+        if not host:continue
+        if host in hosts:duplicates.append(result)
+        else:hosts.add(host);pages.append(result)
+    for result in (pages+duplicates)[:page_limit]:
         state.check()
         page_url = result.get("url", "")
         if not page_url:
             continue
         try:
-            for img in _page_image_candidates(page_url):
+            images = _page_image_candidates(page_url)
+            result['image_lookup'] = {'status': 'images_found' if images else 'no_images'}
+            for img in images:
                 u = img["image_url"]
                 if u in seen:
                     continue
@@ -1051,7 +1125,8 @@ def _page_metadata_images(
             # consumes the operation allowance.
             exc.details.update(images=candidates, search_results=search['results'])
             raise
-        except Exception:
+        except Exception as exc:
+            result['image_lookup'] = {'status': 'failed', **_web_error(exc)}
             continue
         if len(candidates) >= candidate_limit:
             break
@@ -1126,7 +1201,9 @@ def image_search(query: str, page_limit: int = 5, candidate_limit: int = 12) -> 
             detail = {'provider':name, **_web_error(exc)}
             error_details.append(detail)
             errors.append(name + ': ' + detail['message'])
-            try:state.block('image:' + name, detail.get('retry_after_seconds',30), detail['message'])
+            try:
+                if detail.get('category') != 'no_relevant_results':
+                    state.block('image:' + name, detail.get('retry_after_seconds',30), detail['message'])
             except ProfileLocked:raise
             except Exception:pass
 
@@ -1135,6 +1212,8 @@ def image_search(query: str, page_limit: int = 5, candidate_limit: int = 12) -> 
     # actual URLs exist, let the caller inspect/refine instead of spending the
     # whole allowance filling an arbitrary list with unrelated fallback art.
     sufficient = min(candidate_limit, 3)
+    if len(candidates) < sufficient:
+        run_provider('bing-images', lambda:_bing_images(query, limit=candidate_limit-len(candidates)))
     if len(candidates) < sufficient:
         def metadata():
             nonlocal search_results

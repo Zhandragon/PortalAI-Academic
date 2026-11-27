@@ -92,7 +92,9 @@ def image_arguments(args):
 
 def media_argv(root, boot, command, arguments):
     if command not in MEDIA_COMMANDS:
-        raise PermissionError('Unknown registered media command; call available_tools for supported commands')
+        if command == 'inspect':
+            raise PermissionError('inspect is not a media_tool command. Inspect images with the separate media_plan function: {"action":"inspect","paths":["IMAGE_PATH"]}.')
+        raise PermissionError('Unknown media_tool command. available_tools is a separate function, not a command. Load it with tool_help({"tools":["available_tools"]}), then call available_tools({"command":"edit"}) for editing help. Or use media_tool({"command":"edit","arguments":["--help"]}). No worker was started.')
     if not isinstance(arguments, list) or len(arguments) > 128 or any(
             not isinstance(a, str) or '\x00' in a or len(a) > 32000 for a in arguments):
         raise ValueError('arguments must be a bounded array of literal strings')
@@ -115,7 +117,8 @@ TOOLS = [
         'name': 'media_tool',
         'description': 'Run local media using command and literal CLI strings. Use known syntax directly; ["--help"] is for a specific unknown option. Omit engine/profile to follow CURRENT Settings. Do not copy an earlier job\'s overrides into a repeat request. Media auto permits per-request --official/--uncensored choices; fixed media preferences use omitted flags unless the user overrides. video-small is silent text-to-video (Wan1.3B CPU/Vulkan); video preserves an input image (Wan2.2 Windows CUDA or VACE1.3B Radeon/Linux GPU); music/score-video auto fits ACE-Step GPU or MusicGen CPU after chat unload. CPU --engine musicgen-cpu requires --instrumental, no lyrics, 1..30s, 10 GiB free RAM; noncommercial CC-BY-NC-4.0 weights, no separate prompt filter. Never drop vocals or truncate duration. Image calls pin named saved profiles; --override-saved-profile with --profile is only for a user-requested one-off model change. Other explicit engine/profile flags override defaults within supported routes. edit --edit-profile klein4 uses CPU/Vulkan; semantic targets need GPU segmentation. Voice/music/MMAudio/VACE: no separate runtime filter found. dialogue-video arguments=[IMAGE,WORDS,"--duration","20","--motion",ACTION] makes a 20-second video. Optional --dialogue-start defaults to 0; runtime measures natural speech and checks it fits. No prerequisite catalog/history lookup or speech/frame calculation.',
         'parameters': {'type': 'object', 'properties': {
-            'command': {'type': 'string'},
+            'command': {'type': 'string', 'enum': sorted(MEDIA_COMMANDS),
+                        'description': 'Registered worker command. edit uses arguments=[IMAGE_PATH,INSTRUCTION]. Inspect images with the separate media_plan function, action=inspect. Use arguments=["--help"] for command options.'},
             'arguments': {'type': 'array', 'items': {'type': 'string'}}
         }, 'required': ['command'], 'additionalProperties': False}}},
     {'type': 'function', 'function': {

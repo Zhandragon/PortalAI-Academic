@@ -2,6 +2,30 @@
 import json
 
 
+def project_image_search(row, message_id, limit):
+    """Keep exact candidate/source pairs and explicit omissions in small contexts."""
+    images=row.get('images')
+    if not isinstance(images,list):return None
+    encode=lambda value:json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    view={'kind':'image_candidates','message_id':message_id,'query':str(row.get('query',''))[:120],
+          'source':'Unverified image links; download then inspect.','images':[],
+          'omitted_images':len(images),'exact':'chat_history action=read'}
+    if len(encode(view))>limit:return None
+    for image in images:
+        if not isinstance(image,dict) or not isinstance(image.get('image_url'),str):continue
+        item={k:image[k] for k in ('image_url','page_url') if isinstance(image.get(k),str)}
+        title=str(image.get('title') or image.get('alt') or '')
+        for count in (100,40,0):
+            candidate={**item,**({'title':title[:count]} if count else {})}
+            trial={**view,'images':view['images']+[candidate],
+                   'omitted_images':len(images)-len(view['images'])-1}
+            if len(encode(trial))<=limit:
+                view=trial;break
+    if not view['images'] and images:view['read_exact_history_first']=True
+    if len(encode(view))>limit:return None
+    return encode(view)
+
+
 def project_research(row, message_id, limit):
     shapes={'data_preview':'items','resource_discovery':'resources','catalog_results':'results'}
     key=shapes.get(row.get('kind'))

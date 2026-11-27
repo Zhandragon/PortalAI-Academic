@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "kind": "portalai-public-update",
+  "version": "2026.11.26-Desktop-r86",
+  "edition": "Academic",
+  "platform": "Windows",
+  "compatible_versions": [
+    "2026.11.22-Desktop-r85"
+  ],
+  "files": [
+    {
+      "path": "Agent/assistant_guidance.py",
+      "bytes": 5697,
+      "sha256": "b8562684bf725c8f492324402c27d7542620d20f4c2180ee46ca4e0a88a58a81"
+    },
+    {
+      "path": "Agent/web_capabilities.py",
+      "bytes": 23368,
+      "sha256": "8e40232ff2d90544a408ce3a81b1f4f94e5596fe102ab7b709d381c8ff449d2c"
+    },
+    {
+      "path": "Agent/web_research.py",
+      "bytes": 26821,
+      "sha256": "ef0b373771c246ab2019521d912d70713c355154d99eaae850ab07ca23a263a4"
+    },
+    {
+      "path": "Agent/web_tools.py",
+      "bytes": 63526,
+      "sha256": "afa185a0592c60c901861682da59082f7db5808c3b586ca3c2e772d89e38a8bd"
+    },
+    {
+      "path": "ControlCenter/chat_evidence.py",
+      "bytes": 13653,
+      "sha256": "0f5a21977828754852561adfb2088d9587fbcc6bdc7c0950b498e27c1ea2f5cf"
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 26478,
+      "sha256": "7e65bb18dabcd78909c5921c053b264b9396b33cf0dca949357b45afae8de636"
+    },
+    {
+      "path": "ControlCenter/image_lookup_policy.py",
+      "bytes": 16932,
+      "sha256": "c4f3dc4501529c062aa6708df3cf486fdd26e6a0e1a2cfa0caad74626a048668"
+    },
+    {
+      "path": "ControlCenter/media_planning.py",
+      "bytes": 23986,
+      "sha256": "6c4ea2fe7f15ba167ef32758ac3a5bc0aa521eb6680b0887562da304325fc52f"
+    },
+    {
+      "path": "ControlCenter/media_tool_api.py",
+      "bytes": 10362,
+      "sha256": "ab2bd464116416bf798989eb4b25e3169e8213ddd9b8d0ec81c2bd7eb199c19b"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 412828,
+      "sha256": "e7a4af1a598f35e0ac46e8872c779fc26bdc12e38ea3e614f1e75575bc1b0375"
+    },
+    {
+      "path": "ControlCenter/performance_guidance.py",
+      "bytes": 2859,
+      "sha256": "4765e0620ba707a0712c5e50619fe5313642414d9760e5db04b337d9476bae5e"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 91,
+      "sha256": "025e01610a3fa3c8bf20acf38eeaf2d273a3d8f7240e743b7c6aa542f9f3e665"
+    },
+    {
+      "path": "ControlCenter/tool_protocol.py",
+      "bytes": 15423,
+      "sha256": "dce1571284763023e067be744b6ecfd24c15b2740d9aa112fafbbaa6f5d44ff8"
+    },
+    {
+      "path": "ControlCenter/web_research_evidence.py",
+      "bytes": 5289,
+      "sha256": "adb68877bb5b5d2d15674dab7c8a8a2eb38a676d0db3c890e1732c3d4257fbd8"
+    },
+    {
+      "path": "ControlCenter/web_tool_api.py",
+      "bytes": 16621,
+      "sha256": "699e8411e626777c31f3a428f232f6eb57302dac84059ebdb7127de4422a2a25"
+    },
+    {
+      "path": "Documentation/Nice_Image_Workflow_20261126.txt",
+      "bytes": 5922,
+      "sha256": "f2dedb6556542a367557c5a3b274482bbd55a3014e1dde70f07f4a8b21a9151f"
+    },
+    {
+      "path": "Maintenance/Tests/test_adaptive_image_lookup.py",
+      "bytes": 16172,
+      "sha256": "03c1258bbc56c5b31a650335ee8f1c314efa9b4fc116e2d3df4c0c75c4bb8ec6"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_full_context.py",
+      "bytes": 12219,
+      "sha256": "ab3531439c93212fddc0b57ae0359f5b11ce78081a40c1a0ccd4a273bad7ec9a"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_http_progress.py",
+      "bytes": 17348,
+      "sha256": "984bcf57e3b68e9644733c74105c1d0aa87e500abe4bd3d62204c6704ea3d6af"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_command_recovery.py",
+      "bytes": 2028,
+      "sha256": "5e45f47bb4e893cfe5b138e30c1b7a750c16aa16ed324f82fcedd170f09f07c5"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_planning.py",
+      "bytes": 21117,
+      "sha256": "47a8fc3a399d3e8e30aca426028305d2462f4e6b66f006ddbee7c5288d6741fb"
+    },
+    {
+      "path": "Maintenance/Tests/test_native_image_search.py",
+      "bytes": 10004,
+      "sha256": "5819fd0c1600d0e5a68f9ee91adad2424d8f1313ed817ae15264fe582a184077"
+    },
+    {
+      "path": "Maintenance/Tests/test_performance_guidance.py",
+      "bytes": 2990,
+      "sha256": "afad6c1f9845869a3eecc8757255e922f7f9dc23b2d0097b2f6a36875b44af73"
+    },
+    {
+      "path": "Maintenance/Tests/test_progressive_tool_worker.py",
+      "bytes": 6044,
+      "sha256": "0f1d523aa939ca668d578b63ee80ba81e3333c4a2ac8b456a1956be36651de44"
+    },
+    {
+      "path": "Maintenance/Tests/test_tool_serialization_guard.py",
+      "bytes": 6758,
+      "sha256": "bd9b07aa08e0f875a5d4529aa57721f3e1928d89d1273dd70383a17f215e6207"
+    },
+    {
+      "path": "Maintenance/Tests/test_web_research.py",
+      "bytes": 16148,
+      "sha256": "167baa7fe3cb33e376c08d452beaef8d55113a5c35697532eabd52b070dd321e"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_timeline.py",
+      "bytes": 9196,
+      "sha256": "78b813a85bb6e04e1d044f71d44d42f0211de2c80cb019a6ff9324635ce7ddfa"
+    },
+    {
+      "path": "Agent/comfy_bridge.py",
+      "bytes": 21553,
+      "sha256": "5100fded2d3ea4df698ece88d03619ae3061175026101cedd915641d499df76b"
+    },
+    {
+      "path": "Workflows/API/Flux2_Klein_9B_T2I_Official_FP8.json",
+      "bytes": 2282,
+      "sha256": "4ded364ad8ae4fcdb3899066b228afa33751b6540ca988fd659fabec0814f7c9"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_policy.py",
+      "bytes": 11174,
+      "sha256": "45d42db446c4ebd9738f349eb0e9ff511d2533604a0e424043aa14d4f650393b"
+    },
+    {
+      "path": "Maintenance/Tests/test_image_effort.py",
+      "bytes": 11345,
+      "sha256": "d2a282e090207fc6a2216700306186c2da46f11335e8aadc1a369acaaa71deac"
+    },
+    {
+      "path": "Maintenance/Tests/test_web_images.py",
+      "bytes": 11279,
+      "sha256": "a99b17a094706cbe1b561f57cd91a919a410809761f61319347a3d43afadc90b"
+    },
+    {
+      "path": "Maintenance/Tests/test_image_lookup_limits.py",
+      "bytes": 14407,
+      "sha256": "754bd1846d4894a5a5e5e9084f6805a622d847e1609031cbfb01dedb8a81dd8b"
+    },
+    {
+      "path": "Maintenance/Tests/test_web_operation_bounds.py",
+      "bytes": 9318,
+      "sha256": "cd663372637c0bb4cdd3e16b5fd5d94dd6d2fdb7f12c2163a76b89073ff687f5"
+    },
+    {
+      "path": "Maintenance/Tests/test_image_search_recovery.py",
+      "bytes": 7258,
+      "sha256": "b420b49f143748a6ecdf460b18aa69fb470ca1704ead9d9b0ccd98d5a4aa374a"
+    },
+    {
+      "path": "Maintenance/Tests/test_tool_preflight.py",
+      "bytes": 6226,
+      "sha256": "f8eb58e9c8c30bcd5443287d9e8d4fe0ace3333367be5dca970bd0d583024a32"
+    }
+  ]
+}

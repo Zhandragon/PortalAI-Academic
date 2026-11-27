@@ -59,11 +59,11 @@ class ImageLookupCycle:
         if name=='web':
             action=args.get('action');values=args.get('arguments',{})
             if not isinstance(action,str) or not isinstance(values,dict):return None
-            if action in ('search','site_search'):
+            if action in ('search','site_search','image_search'):
                 query=values.get('query')
                 if not isinstance(query,str):return None
                 scope=str(values.get('site','')) if action=='site_search' else ''
-                return 'search',' '.join((scope+' '+query).split()).casefold()
+                return ('image-search' if action=='image_search' else 'search'),' '.join((scope+' '+query).split()).casefold()
             if action not in ('read','discover','download','media_info'):return None
             value=values.get('url')
             if not isinstance(value,str):
@@ -139,7 +139,7 @@ class ImageLookupCycle:
         # file or other requested tool calls in the same task or batch.
         if request is None:
             return None
-        if name=='shell' and request[0] in {'image', 'image-search', 'download-image'}:
+        if request[0]=='image-search' or name=='shell' and request[0] in {'image', 'download-image'}:
             self.active = True
         if not self.active:
             return None
@@ -242,6 +242,15 @@ class ImageLookupCycle:
         return progress
 
     def record(self, name, args, result):
+        # Generation prompts need the same search bounds when the media
+        # assessment starts reference research; wording need not say "find".
+        if name == 'media_plan' and args.get('action') == 'assess':
+            try:
+                judgment = result if isinstance(result, dict) else json.loads(result)
+                if isinstance(judgment, dict) and judgment.get('reference_required') is True:
+                    self.active = True
+            except (ValueError, TypeError):
+                pass
         request = self.request(name, args)
         if not self.active or request is None or request != self._inflight:
             return
@@ -284,10 +293,13 @@ class ImageLookupCycle:
                     'remain available and must be executed through their tools before claiming completion.')
         return (f'Image lookup progress: {self.searches}/{self.MAX_SEARCHES} distinct searches, '
                 f'{self.downloads}/{self.MAX_INSPECTIONS} page/download attempts. ' + self.last_progress +
+                'If an expanded query failed, try the user\'s original short subject wording before adding more descriptors. '
                 ' Stop when evidence is adequate. If it is inadequate, make a meaningful broader/narrower query or inspect '
                 'a credible returned page; check a possibly misspelled name/event using evidence and do not silently substitute a different subject. '
                 'Inspect an identified person profile and its images before broadening search; default avatars and coauthor photos are not substitutes. '
-                'With web use read(url), discover(document,kind=image), then download(url) on a returned image. '
+                'When an adequate image_url is already returned, download it directly and inspect the saved image. '
+                'Only when no suitable image URL exists, use read on an uninspected source page and download a discovered image. '
+                'Do not refetch pages marked image_lookup=failed or no_images. '
                 'Legacy shell fetch/download-image also remain available. Check image_assessment for likely placeholders. '
                 'Do not repeat queries. Source pages are not image URLs, '
                 'and downloading verifies image bytes, not an exact semantic match. The elapsed allowance limits new lookup '

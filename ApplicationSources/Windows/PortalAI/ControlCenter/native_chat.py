@@ -544,7 +544,7 @@ class InvalidToolBatch(RuntimeError):
 
 
 class TruncatedToolBatch(InvalidToolBatch):
-    """The server ended tool serialization at its reply limit; no dispatch occurred."""
+    """Tool serialization exceeded a reply/framing limit; no dispatch occurred."""
 
 
 def _tool_metadata(call, *, known_tool=True):
@@ -1248,15 +1248,24 @@ class ToolRuntime:
         return ((out or '') + (('\n' + err) if err else '') +
                 (f'\n[exit code {p.returncode}]' if p.returncode else ''))[-120000:]
 
-    def execute(self, name: str, args: dict) -> str:
+    def preflight(self, name: str, args: dict):
+        """Validate before dispatch; a local rejection has no external effects."""
         self._account_role()
+        if name == 'web':
+            from web_tool_api import validate_call
+            validate_call(str(args.get('action', 'help')), args.get('arguments') or {})
+        from media_planning import planner
+        blocked = planner(self).before(name, args)
+        return json.dumps(blocked, ensure_ascii=False) if blocked is not None else None
+
+    def execute(self, name: str, args: dict) -> str:
+        # Direct callers retain the same gate, even outside the chat worker.
+        blocked = ToolRuntime.preflight(self, name, args)
+        if blocked is not None:return blocked
         from media_planning import planner
         media = planner(self)
         if name == 'media_plan':
             return json.dumps(media.call(self, args), ensure_ascii=False)
-        blocked = media.before(name, args)
-        if blocked is not None:
-            return json.dumps(blocked, ensure_ascii=False)
         result = self._execute(name, args)
         media.observe(name, args, result)
         return result
@@ -1435,7 +1444,9 @@ def _scoped_tools(panel):
 
 def _request_tools(panel):
     from chat_tool_menu import request_menu
-    return request_menu(panel, _scoped_tools(panel))
+    rows=request_menu(panel, _scoped_tools(panel))
+    repair=getattr(panel,'_web_argument_repair',None)
+    return [repair if repair is not None and row['function']['name']=='web' else row for row in rows]
 
 
 class WindowsFileDrop:
@@ -2125,7 +2136,7 @@ class NativeChat:
             self.chat.see("end")
 
     def header(self, role: str):
-        tag = "you" if role == "You" else "assistant" if role == "Qwen" else "tool"
+        tag = "you" if role == "You" else "assistant" if role == "Nice" else "tool"
         self.chat_insert(("\n" if self.chat.index("end-1c") != "1.0" else "") + role + "\n", tag)
 
     def assistant_text(self, text, *, stream=False):
@@ -3454,7 +3465,7 @@ class NativeChat:
                     lines.append(f"- Attachment: `{a.get('path') or a.get('name')}`")
                 lines.append("")
             elif role == "assistant":
-                lines += ["## Qwen", "", str(m.get("content") or ""), ""]
+                lines += ["## Nice", "", str(m.get("content") or ""), ""]
             elif role == "tool":
                 lines += [f"### Tool: {m.get('name') or 'tool'}", "", "```text", str(m.get("content") or ""), "```", ""]
         try:
@@ -3541,7 +3552,7 @@ class NativeChat:
                         font=(ui_font(self.host), 9), activestyle="none")
         lb.pack(fill="both", expand=True, padx=14, pady=(0, 8))
         for _, role, snippet in choices:
-            lb.insert("end", f"{'You' if role == 'user' else 'Qwen'} · {snippet}")
+            lb.insert("end", f"{'You' if role == 'user' else 'Nice'} · {snippet}")
         lb.selection_set(len(choices)-1); lb.activate(len(choices)-1)
         row = tk.Frame(body, bg=self.COL["bg"]); row.pack(fill="x", padx=14, pady=(0, 12))
         ElegantButton(row, text="Cancel", command=self._close_sheet, bg=self.COL["panel2"], fg=self.COL["text"],
@@ -3662,7 +3673,7 @@ class NativeChat:
                     self.chat_insert(f"📎 {a.get('name')} · {human_size(int(a.get('size') or 0))}\n", "muted")
                 self._message_marks[i] = self.chat.index("end-1c")
             elif role == "assistant":
-                self.header("Qwen")
+                self.header("Nice")
                 reasoning = str(msg.get("reasoning") or "")
                 if reasoning and self.settings.get("show_thinking", True):
                     b = self.create_trace_block("thinking", "Thinking", state="saved", initial=clip_display(reasoning))
@@ -3744,7 +3755,7 @@ class NativeChat:
                 for a in msg.get("attachments") or []: self.chat_insert(f"📎 {a.get('name')} · {human_size(int(a.get('size') or 0))}\n","muted")
                 self._message_marks[i]=self.chat.index("end-1c")
             elif role=="assistant":
-                self.header("Qwen"); reasoning=str(msg.get("reasoning") or "")
+                self.header("Nice"); reasoning=str(msg.get("reasoning") or "")
                 if reasoning and self.settings.get("show_thinking",True):
                     b=self.create_trace_block("thinking","Thinking",state="saved",initial=reasoning.rstrip()); self.finish_trace_block(b,"saved")
                 content=str(msg.get("content") or "")
@@ -4903,7 +4914,13 @@ class NativeChat:
                     if fn.get("name"):
                         c["name"] += str(fn["name"])
                     if fn.get("arguments"):
-                        c["arguments"] += str(fn["arguments"])
+                        from tool_protocol import ToolArgumentStream
+                        fragment = str(fn['arguments'])
+                        try:
+                            c.setdefault('_argument_stream', ToolArgumentStream()).feed(fragment)
+                        except ValueError as exc:
+                            raise TruncatedToolBatch(str(exc) + '; the entire batch was withheld.') from exc
+                        c["arguments"] += fragment
                 # finish_reason is authoritative. Some backends keep the socket
                 # open after length/stop without sending [DONE]; do not turn a
                 # completed generation into a spurious idle timeout.
@@ -5119,11 +5136,12 @@ class NativeChat:
         truncated = False
         try:
             content, reasoning, calls = self._completion_with_continuation(api, estimated, repair_state)
-        except TruncatedToolBatch:
+        except TruncatedToolBatch as exc:
             # Regenerate one API response, never execute or continue partial JSON.
             # Prior effects, cancellation, login, context and the shared retry cap
             # are checked below exactly as for printed tool-format correction.
             truncated = True
+            repair_state['serialization_failure'] = str(exc)[:400]
             content, reasoning, calls = '', '', []
         if getattr(self, '_reply_without_tools', False):
             if truncated: raise InvalidToolBatch('A truncated tool call is forbidden in an answer-only request.')
@@ -5146,7 +5164,7 @@ class NativeChat:
             return '', '', [], False
         repair_state['used'] = True
         self.ev.put(('tool_format_repair',
-            'Nice reached its reply-token limit while writing a tool call. No tool from that response ran. Requesting one concise corrected response with extra reasoning disabled.'
+            'Nice could not finish a tool call within its format/reply limits (' + repair_state.get('serialization_failure', '') + '). No tool from that response ran. Requesting one concise corrected response with extra reasoning disabled.'
             if truncated else 'Nice printed tool syntax instead of invoking a tool. Requesting one corrected response; the printed command was not run.'))
         self.ev.put(('assistant_start', {'index':len(self.session['messages'])}))
         initial_options = getattr(self, '_completion_overrides', None)
@@ -5218,6 +5236,8 @@ class NativeChat:
         self._reply_without_tools = False
         self._checkpoint_final_only = ''
         repair_state = {'used': False, 'unsafe_attempted': False}
+        self._web_argument_repair = None
+        argument_repairs = set()
         attempted_actions = set()
         attempted_results = {}
         from chat_working_memory import tool_call_limit, prior_action_results
@@ -5326,6 +5346,7 @@ class NativeChat:
                     self._last_finish_reason = None
                     content, reasoning, calls, repaired = self._completion_with_tool_repair(
                         api, estimated, current_request, repair_state)
+                    self._web_argument_repair = None
                 except InvalidToolBatch:
                     raise
                 except Exception as exc:
@@ -5407,6 +5428,8 @@ class NativeChat:
                     self.ev.put(("tool_start", {"name": name, "args": args}))
                     execution = {'effectful': False, 'dispatched': False, 'outcome': 'not_executed',
                                  'request_index': request_index}
+                    unsafe_before_call = repair_state.get('unsafe_attempted', False)
+                    argument_blocker = None
                     try:
                         blocked = (f'Tool-call limit ({limit}) reached. This call was NOT executed. '
                                    'Continue from saved results in the final answer.'
@@ -5421,6 +5444,25 @@ class NativeChat:
                             blocked = lookup.before(name, args)
                             if blocked is None: blocked = stall.before(name, args)
                             if blocked is None: blocked = progress.before(name, args)
+                            # Check deterministic local gates before recording an
+                            # effectful dispatch. Failed prerequisites may be fixed
+                            # and the same action freshly requested without replay.
+                            preflight = getattr(type(self.tool_runtime), 'preflight', None)
+                            if blocked is None and preflight is not None:
+                                try:
+                                    blocked = preflight(self.tool_runtime, name, args)
+                                except Exception as exc:
+                                    from web_tool_api import ArgumentError, corrective_tool
+                                    if name=='web' and isinstance(exc,ArgumentError):
+                                        action=str(args.get('action','help'))
+                                        repair=corrective_tool(action)
+                                        if repair is not None:
+                                            if action in argument_repairs:
+                                                argument_blocker='The '+action+' call still omitted or misstated required arguments after one schema-guided correction. No rejected call was executed.'
+                                            else:
+                                                argument_repairs.add(action)
+                                                self._web_argument_repair=repair
+                                    raise
                         self._image_lookup_active = lookup.active
                         if blocked is not None:
                             result = blocked
@@ -5480,6 +5522,7 @@ class NativeChat:
                     progress.observe(name, args, result, execution, len(self.session['messages']))
                     if progress.armed: usage['task_progress'] = progress.snapshot()
                     lookup.record(name, args, result)
+                    self._image_lookup_active = lookup.active
                     self._check_login()
                     if name=='chat_checkpoint' and self.cancel_event.is_set():break
                     tmsg = {"role": "tool", "name": name, "tool_call_id": call.get("id"), "content": result, "media": [],
@@ -5495,6 +5538,12 @@ class NativeChat:
                     usage['checkpoints_since_tool']=cycle.since_progress
                     self._context_state()['last_run'] = dict(usage)
                     self.store.save_session(self.session)
+                    from tool_protocol import verified_inert_download
+                    if verified_inert_download(name, args, result, execution):
+                        # Only a durably saved, byte-verified inbound download is
+                        # cleared here. Earlier unsafe actions remain blocking;
+                        # receipts and attempted_actions still prevent replay.
+                        repair_state['unsafe_attempted'] = unsafe_before_call
                     if accepted_checkpoint is not None:
                         self.ev.put(('progress','Task checkpoint saved. Continuing automatically with a fresh reasoning cycle.'))
                     # Completion evidence must survive a failed preview renderer.
@@ -5506,6 +5555,9 @@ class NativeChat:
                         self.ev.put(('progress', 'The tool result is saved, but its preview could not be prepared. Continuing from the saved result.'))
                     self.store.save_session(self.session)
                     self.ev.put(("tool_result", tmsg))
+                    if argument_blocker:
+                        self._save_blocker(argument_blocker,lookup)
+                        return
         except InvalidToolBatch as exc:
             if not self.cancel_event.is_set():
                 diagnostic = f'Qwen returned an invalid tool response: {exc} No tools from this response were run. Earlier completed results remain saved. Review the response and send a new request to continue.'
@@ -5534,6 +5586,7 @@ class NativeChat:
             self._reply_without_tools = False
             self._checkpoint_final_only = ''
             self._image_lookup_active = False
+            self._web_argument_repair = None
             self._coding_stall = None
             self._task_progress = None
             try:
@@ -6999,7 +7052,7 @@ class NativeChat:
                 flush_content()
                 if kind == "assistant_start":
                     self._inline_image_stream = False
-                    self.finish_trace_block(self._live_thinking_block, "done"); self._live_thinking_block = None; self._live_tool_block = None; self.header("Qwen")
+                    self.finish_trace_block(self._live_thinking_block, "done"); self._live_thinking_block = None; self._live_tool_block = None; self.header("Nice")
                 elif kind == 'inline_image_ready':
                     from inline_chat_images import finish
                     finish(self, data)

@@ -43,6 +43,9 @@ class FullContextTests(unittest.TestCase):
         guide=patch('portable_workspace.chat_guidance',return_value='');guide.start();self.addCleanup(guide.stop)
         policy=patch.object(runtime_policy,'load_effective_policy',return_value=runtime_policy.load_policy(ROOT))
         policy.start();self.addCleanup(policy.stop)
+        # Menu projection must not inspect the signed-in desktop profile.
+        desktop=patch('desktop_control.desktop',return_value=SimpleNamespace(observation=None))
+        desktop.start();self.addCleanup(desktop.stop)
 
     def test_greeting_and_followup_fit_all_efforts_and_supported_full_contexts(self):
         for capacity in (4096,8192,16384,32768):
@@ -144,11 +147,15 @@ class FullContextTests(unittest.TestCase):
                                      (['media_tool'],'Media workflow:','File workflow:'),
                                      (['web'],'Research workflow:','Media workflow:'),
                                      (['computer'],'Desktop workflow:','Research workflow:')]:
-            load(p,{'tools':names},chat._scoped_tools(p))
+            load(p,{'tools':names,'replace':True},chat._scoped_tools(p))
             api,_=p.api_messages();menu=chat._request_tools(p)
             self.assertEqual({r['function']['name'] for r in menu},set(names)|{'tool_help',*('chat_history','chat_checkpoint')})
             self.assertIn(required,api[0]['content']);self.assertNotIn(absent,api[0]['content'])
             for name in names:
+                if name=='computer':
+                    schema=next(r for r in menu if r['function']['name']==name)['function']['parameters']
+                    self.assertEqual(schema['properties']['action']['enum'],['windows','status','state','elements','screenshot'])
+                    continue
                 self.assertEqual(next(r for r in menu if r['function']['name']==name),
                                  next(r for r in chat.TOOLS if r['function']['name']==name))
 

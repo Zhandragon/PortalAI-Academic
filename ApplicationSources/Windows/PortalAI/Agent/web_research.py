@@ -37,7 +37,11 @@ def integer(args, name, default, low, high):
 
 
 def kind_of(url, content_type=''):
-    content_type = content_type.lower().split(';')[0]
+    content_type = content_type.lower().split(';')[0].strip()
+    # File-description pages often end in .jpg/.pdf. The fetched HTML type
+    # takes precedence over that URL suffix; it is a page, not binary media.
+    if content_type in ('text/html', 'application/xhtml+xml'):
+        return 'page'
     for prefix in ('image', 'audio', 'video'):
         if content_type.startswith(prefix + '/'):
             return prefix
@@ -368,6 +372,13 @@ def download(session,args):
     allowed={suffix for values in KINDS.values() for suffix in values}|{'.html'}
     if ext not in allowed:ext={"application/pdf":".pdf","application/json":".json","text/csv":".csv","text/plain":".txt","text/html":".html","video/mp4":".mp4","audio/mpeg":".mp3"}.get(mime.split(';')[0].lower(),'.data')
     image_details={}
+    # Image CDNs often use extensionless URLs and a generic binary MIME type.
+    # Identify recognized raster signatures before choosing the saved suffix.
+    if kind=='file':
+        from web_tools import _image_bytes_extension
+        try:ext=_image_bytes_extension(raw)
+        except ValueError:pass
+        else:kind='image'
     if kind=='image' and mime.split(';')[0].lower()!='image/svg+xml':
         from web_tools import _image_bytes_extension
         from web_image_quality import assess_image
@@ -389,7 +400,7 @@ def download(session,args):
         part.rename(path);published=True;session.check()
         return {'path':str(path),'files':[str(path)],'url':final,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
                 'content_type':mime,'kind':kind,'content_analyzed':False,'executed':False,**image_details,
-                'next_step':'Use a supported local file reader; media_tool transcribe accepts audio/video and video-understand accepts video. Fetch tool help before selecting arguments. Downloading does not verify content or meaning.'}
+                'next_step':'Inspect the actual file using the available image, audio or video tools. Use known arguments directly; load missing tool definitions only when needed. Downloading verifies bytes, not content or meaning.'}
     except BaseException:
         if published:
             _contained(session.root,path)

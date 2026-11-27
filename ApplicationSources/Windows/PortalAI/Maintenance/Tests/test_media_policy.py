@@ -133,6 +133,25 @@ class MediaPolicyTests(unittest.TestCase):
             mp.speech_plan(self.root, device='cuda', hardware=self.hw, policy=policy)
         self.assertEqual(self.speech(model='base', device='cuda')['model'], 'base')
 
+    def test_base_flux_workflow_uses_guided_native_sampling_and_request_values(self):
+        for name in ('Official_FP8', 'Uncensored'):
+            path = ROOT/('Workflows/API/Flux2_Klein_9B_T2I_'+name+'.json')
+            if not path.exists(): continue  # Academic has only the official workflow.
+            with self.subTest(variant=name):
+                wf = json.loads(path.read_text())
+                ComfyBridge().configure_t2i(wf, 'a cube', 'blur', 768, 512, 123)
+                nodes = {row['class_type']: row['inputs'] for row in wf.values()}
+                latent = nodes['EmptyFlux2LatentImage']; schedule = nodes['Flux2Scheduler']
+                self.assertEqual((latent['width'], latent['height']), (768, 512))
+                self.assertEqual((schedule['width'], schedule['height']), (768, 512))
+                self.assertEqual(schedule['steps'], 20)
+                self.assertEqual(nodes['CFGGuider']['cfg'], 5)
+                self.assertEqual(nodes['KSamplerSelect']['sampler_name'], 'euler')
+                self.assertEqual(nodes['RandomNoise']['noise_seed'], 123)
+                self.assertIn('base-9b', nodes['UNETLoader']['unet_name'])
+                texts = [n['inputs']['text'] for n in wf.values() if n['class_type']=='CLIPTextEncode']
+                self.assertEqual(texts, ['a cube', 'blur'])
+
     def test_small_workflow_applies_dimensions_seed_and_negative(self):
         wf = json.loads((ROOT/"Workflows/API/SD15_T2I_Portable.json").read_text())
         ComfyBridge().configure_t2i(wf, "a cube", "blur", 256, 384, 123)

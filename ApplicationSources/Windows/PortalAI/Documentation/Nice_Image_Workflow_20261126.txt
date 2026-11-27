@@ -1,0 +1,76 @@
+Nice image workflow repair -- Windows 2026.11.26-Desktop-r86
+
+Tool loading and reference planning
+- Loading tool definitions adds to the current selection. Explicit replace=true
+  retains intentional unloading. Context admission, account checks and Stop stay
+  in effect, so loading a media tool no longer accidentally discards web tools.
+- Inspect supplied/downloaded images first. Appearance gaps can use one suitable
+  inspected input. Uncertain technical structure still requires three inspected
+  images from two independently hosted, read sources.
+- Unspecified style, lighting and settings are creative choices. Familiar simple
+  requests with sufficient understanding do not require web research. Required
+  assessments activate the existing bounded lookup cycle.
+- Native image_search exposes the existing bounded providers. Exact image and
+  source-page URL pairs survive evidence compaction; candidates remain unverified
+  until inspected. Metadata pages retain their discovered images in find mode.
+- HTML/XHTML MIME types take precedence over image-like filename extensions.
+  Bounded metadata reads accommodate large pages and sample distinct hosts first.
+- Inspection uses Pillow already shipped in the portable browser runtime when
+  the optional scientific package layer is absent. No package installation or
+  browser startup is required merely to inspect an image.
+
+General tool-call recovery
+- Web actions and envelope fields are explicit in a plain object schema supported
+  by the bundled model server. Arbitrary HTTP JSON data remains supported inside
+  the json field. Missing required fields fail before starting a web worker.
+- Media commands have an explicit enum and errors identify the correct inspection
+  function and edit arguments.
+- Incremental JSON validation rejects runaway whitespace, oversized field names,
+  invalid escapes/control characters, mismatched brackets and trailing output.
+  Large string values such as file contents retain their original allowance.
+- Incomplete or malformed batches never dispatch. One fresh format correction
+  uses recorded outcomes; it does not replay attempted actions. A verified inert
+  download permits inference for the next unresolved step. Uncertain effects
+  keep recovery blocked. Durable receipts and duplicate-call guards remain.
+- These rules are independent of the requested person, object or image topic.
+
+Chat identity and image quality
+- Response headers use Nice at insertion, including streaming, saved history,
+  turn selection and exports. Technical model names in content remain intact.
+- Base 9B text-to-image workflows use the Comfy-Org base sampling graph: native
+  FLUX.2 latent, resolution-dependent Flux2Scheduler, Euler, 20 steps and CFG 5.
+  The previous 8-step unguided graph produced visibly distorted output.
+- Requested dimensions and seed now reach custom-sampler workflows as well as
+  KSampler workflows. Official/alternate weights and edition policies stay intact.
+- Upstream reference: https://github.com/Comfy-Org/workflow_templates/blob/main/templates/image_flux2_text_to_image_9b.json
+
+Validation and packaging
+- Full and Academic each passed 369 focused tests covering reference planning,
+  progressive tools, context/evidence, argument validation, recovery and handoff.
+- The installed source/config syntax scan passed 1194 selected owned files.
+- Actual model schema probes passed for download, image search and page reading.
+- Final live image acceptance, timings and limitations are recorded separately
+  in Documentation/VALIDATION-r86.json in the corresponding source release.
+- The release builder checks first-party imports against the complete payload,
+  including performance_guidance, before producing an installer. Payload and
+  outer archive hashes, unchanged dependency pins and install plans are verified.
+
+This repair changes the Windows native workflow. Mac/Linux r75 payloads do not
+contain this progressive image-planning implementation and remain unchanged.
+The refreshed bundles retain the existing setup, model and companion options.
+Academic policy, Trial restrictions, model settings and private data are retained.
+Physical Mac/Linux execution is not established by Windows validation.
+
+Public search recovery
+- An additional public image provider returns original image/source pairs within the same request and elapsed limits.
+- Failed fallback page inspections remain visible, so Nice can skip blocked or empty pages.
+- Returned image URLs go directly to download/inspection; empty results give accurate recovery guidance.
+- Public URL paths and queries encode spaces and Unicode without altering hosts or existing escapes.
+- Public image results require basic subject metadata support; one retry may remove a trailing generic image-search word. This is not visual verification.
+- Extensionless binary image downloads receive a verified image suffix from their bytes.
+- Planning replies name the missing next action and required fields, reuse inspected references, and distinguish visual uncertainty from tool questions.
+- Planning and web-argument preflight failures occur before effect receipts, so a corrected fresh call can run; dispatched actions retain duplicate protection.
+- Final image reviews expose exact outstanding constraint labels, so paraphrased checks can be corrected on the same output without regeneration.
+- Image searches start with the user-supplied subject words before adding extra descriptors; failed expanded queries return to the original short subject.
+- A locally rejected web call receives one action-specific schema correction with required arguments enforced. Repeated invalid arguments stop explicitly; completed or uncertain actions are never replayed.
+- A simple assessed output can be inspected and reviewed without a plan. Review failures still require correction, and each new output must be inspected; planned-stage coverage remains strict.

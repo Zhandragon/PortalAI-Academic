@@ -18,6 +18,8 @@ IMAGE = {'title':'Actual candidate','image_url':'https://example.com/actual.png'
 
 class ImageNetworkBudgetTests(unittest.TestCase):
     def setUp(self):
+        fallback = patch.object(web, '_bing_images', return_value=[])
+        fallback.start(); self.addCleanup(fallback.stop)
         self.state = Mock(); self.state.cooling.return_value = None
         patched = patch.object(web,'WebState',return_value=self.state); patched.start(); self.addCleanup(patched.stop)
         patched = patch.object(web,'_validate_public_url'); patched.start(); self.addCleanup(patched.stop)

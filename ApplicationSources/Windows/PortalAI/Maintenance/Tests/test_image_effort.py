@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'Agent'))
 import effort_policy as ep
 import sd15_variants as variants
+from instance_runtime import url as instance_url
 
 
 class ImageEffortTests(unittest.TestCase):
@@ -32,7 +33,7 @@ class ImageEffortTests(unittest.TestCase):
             if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == 'args' for target in node.targets):
                 break
             parser_statements.append(node)
-        namespace = {'argparse': argparse}
+        namespace = {'argparse': argparse, '_instance_url': instance_url}
         module = ast.Module(body=[variant, *parser_statements], type_ignores=[])
         exec(compile(ast.fix_missing_locations(module), 'image-parser', 'exec'), namespace)
         self.parser = namespace['parser']
@@ -128,7 +129,7 @@ class ImageEffortTests(unittest.TestCase):
             self.assertEqual(plan.call_args.kwargs['respect_saved_profile'], respect)
             self.assertEqual(plan.call_args.kwargs['profile'], 'sd15')
 
-    def test_uncensored_native_and_comfy_routes_load_and_report_alternate(self):
+    def test_academic_native_and_comfy_routes_keep_standard_for_alternate_request(self):
         first, comfy = self._image_nodes()
         for engine in ('sdcpp-cpu', 'comfyui'):
             with self.subTest(engine=engine):
@@ -142,13 +143,13 @@ class ImageEffortTests(unittest.TestCase):
                      patch.dict(os.environ, {'PORTALAI_TOOL_EFFORT':'fast'}):
                     with self.assertRaises(StopIteration):
                         exec(compile(ast.Module(body=[first, comfy], type_ignores=[]), 'image-alternate-route', 'exec'), namespace)
-                self.assertEqual(namespace['emit'].call_args.args[0]['model_variant'], 'uncensored')
+                self.assertEqual(namespace['emit'].call_args.args[0]['model_variant'], 'standard')
                 if engine.startswith('sdcpp'):
-                    self.assertEqual(generate.call_args.args[0]['checkpoint'], variants.MODELS+variants.ALTERNATE)
+                    self.assertEqual(generate.call_args.args[0]['checkpoint'], variants.MODELS+variants.STANDARD)
                 else:
                     sent = namespace['b'].run.call_args.args[0]
                     loaders = [n for n in sent.values() if n.get('class_type') == 'CheckpointLoaderSimple']
-                    self.assertEqual(loaders[0]['inputs']['ckpt_name'], variants.ALTERNATE)
+                    self.assertEqual(loaders[0]['inputs']['ckpt_name'], variants.STANDARD)
                     self.assertEqual(sent['5']['inputs']['steps'], 12)
 
     def test_comfy_sd15_route_changes_only_sd15_sampler_budget(self):

@@ -15,6 +15,31 @@ def args(query, action='image-search'):
 
 
 class AdaptiveImageLookupTests(unittest.TestCase):
+    def test_generation_reference_research_activates_existing_limits(self):
+        cycle=ImageLookupCycle('Generate an image of a person')
+        self.assertFalse(cycle.active)
+        cycle.record('media_plan',{'action':'assess'},json.dumps({'reference_required':True}))
+        self.assertTrue(cycle.active)
+        for i in range(cycle.MAX_INSPECTIONS):
+            self.assertIsNone(cycle.before('web',{'action':'read','arguments':{'url':f'https://example.com/{i}'}}))
+        blocked=json.loads(cycle.before('web',{'action':'read','arguments':{'url':'https://example.com/extra'}}))
+        self.assertTrue(blocked['lookup_closed'])
+        self.assertIsNone(cycle.before('generate_image',{'prompt':'Create image from evidence'}))
+
+    def test_reference_research_has_elapsed_limit_and_no_false_activation(self):
+        now=[0.0]
+        with patch('image_lookup_policy.time.monotonic',side_effect=lambda:now[0]):
+            cycle=ImageLookupCycle('Generate an image')
+            cycle.record('media_plan',{'action':'assess'},'ERROR: Invalid assessment')
+            self.assertFalse(cycle.active)
+            cycle.record('media_plan',{'action':'assess'},{'reference_required':False})
+            self.assertFalse(cycle.active)
+            cycle.record('media_plan',{'action':'assess'},{'reference_required':True})
+            cycle.before('web',{'action':'search','arguments':{'query':'reference portrait'}})
+            now[0]=cycle.MAX_SECONDS+1
+            blocked=json.loads(cycle.before('web',{'action':'search','arguments':{'query':'more references'}}))
+            self.assertTrue(blocked['lookup_closed'])
+
     def run_lookup(self, cycle, query, data, action='image-search'):
         request = args(query, action)
         self.assertIsNone(cycle.before('shell', request))

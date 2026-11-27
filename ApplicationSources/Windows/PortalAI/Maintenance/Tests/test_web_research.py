@@ -14,6 +14,21 @@ from web_search_fallback import BingSearchParser
 from web_state import WebState
 
 class ResearchTests(unittest.TestCase):
+    def test_html_file_description_url_is_read_and_discovered_as_page(self):
+        import web_capabilities
+        url='https://commons.wikimedia.org/wiki/File:Portrait.jpg'
+        image='https://upload.wikimedia.org/example/portrait.jpg'
+        body=('<html><title>Portrait</title><p>Source and license</p><img src="'+image+'"></html>').encode()
+        response=(body,url,'text/html; charset=utf-8')
+        with patch.object(web_capabilities,'_request_bytes',return_value=response):
+            page=self.session.run({'action':'read','url':url})
+        self.assertIn('Source and license',page['text'])
+        with patch.object(research,'_request_bytes',return_value=response):
+            links=self.session.run({'action':'discover','url':url,'kind':'image'})
+        self.assertIn(image,[r['url'] for r in links['resources']])
+        self.assertEqual(research.kind_of(url,'application/xhtml+xml'),'page')
+        self.assertEqual(research.kind_of(image,'image/jpeg'),'image')
+
     def setUp(self):
         temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup);self.root=Path(temp.name)
         (self.root/'Agent').mkdir();(self.root/'Agent/hardware_profiles.json').write_text(json.dumps({'storage':{'minimum_free_gib':0,'minimum_free_fraction':0,'output_reserve_gib':0}}))
@@ -133,6 +148,12 @@ class ResearchTests(unittest.TestCase):
         with patch.object(research,'_request_bytes',return_value=(b'a,b\n1,2','https://example.com/data.csv','text/csv')) as fetch,patch.object(research,'require_space'):
             result=self.session.run({'action':'download','url':'https://example.com/data.csv','max_bytes':1000})
         self.assertEqual(fetch.call_args.kwargs['max_bytes'],1000);self.assertTrue(Path(result['path']).is_relative_to(self.root/'Outputs/WebResearch'));self.assertFalse(result['executed']);self.assertFalse(result['content_analyzed']);self.assertEqual(len(result['sha256']),64)
+    def test_extensionless_binary_image_gets_verified_image_kind_and_suffix(self):
+        png=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=')
+        with patch.object(research,'_request_bytes',return_value=(png,'https://example.com/files/1234','application/octet-stream')),patch.object(research,'require_space'):
+            result=self.session.run({'action':'download','url':'https://example.com/files/1234'})
+        self.assertEqual(result['kind'],'image');self.assertTrue(result['download_verified'])
+        self.assertTrue(result['path'].endswith('.png'));self.assertEqual(Path(result['path']).read_bytes(),png)
     def test_guest_download_denied_and_executable_extension_not_preserved(self):
         self.session.role='guest'
         with patch.object(research,'_request_bytes') as fetch:

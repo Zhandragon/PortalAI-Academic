@@ -114,6 +114,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
                                        'function':{'name':'shell','arguments':'{"command":'}}]})
             self.server.release.wait(1)
             return
+        if mode == 'tool-whitespace':
+            self.frame({'tool_calls':[{'index':0,'id':'fixture_whitespace','type':'function',
+                                       'function':{'name':'web','arguments':'{"action":'}}]})
+            self.frame({'tool_calls':[{'index':0,'function':{'arguments':'\n'*1024}}]})
+            self.server.release.wait(1)
+            return
         raise AssertionError('Unknown synthetic HTTP behavior')
 
 
@@ -157,6 +163,16 @@ class ActualHTTPProgressTests(unittest.TestCase):
 
     def test_stalled_response_headers_are_aborted_without_retry(self): self.assert_stalled_once('headers')
     def test_stalled_response_body_is_aborted_without_retry(self): self.assert_stalled_once('body')
+
+    def test_runaway_tool_whitespace_stops_before_reply_budget_without_dispatch(self):
+        with self.fixture('tool-whitespace') as (p, server, watches):
+            started=time.monotonic()
+            with self.assertRaisesRegex(chat.TruncatedToolBatch,'formatting whitespace'):
+                p.stream_completion([{'role':'user','content':'Synthetic lookup only'}])
+            self.assertLess(time.monotonic()-started,.7)
+            self.assertEqual(len(server.posts),1)
+            p.tool_runtime.execute.assert_not_called()
+            self.assertIsNone(p.active_http.conn)
 
     def test_terminal_length_does_not_wait_for_done_or_open_socket_timeout(self):
         with self.fixture('terminal-length-open') as (p, server, watches):

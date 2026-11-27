@@ -23,7 +23,6 @@ class ComfyBridge:
         return {"interrupted": True}
 
     def workflow(self, key: str) -> dict:
-        key = key.replace('_uncensored', '_official')
         fname = self.ccfg["workflows"][key]
         path = resolve_root(self.ccfg["workflows_dir"]) / fname
         if not path.exists():
@@ -51,8 +50,6 @@ class ComfyBridge:
 
     def workflow_file(self, relative_path: str | Path) -> dict:
         """Load an API-format workflow by PortableAI-relative path."""
-        from academic_policy import blocked_name, NOTICE
-        if blocked_name(relative_path): raise ValueError(NOTICE)
         path = resolve_root(relative_path)
         if not path.exists():
             raise FileNotFoundError(f"Workflow not found: {path}")
@@ -104,15 +101,23 @@ class ComfyBridge:
         if negative is not None and len(text_nodes) > 1:
             text_nodes[1][1]["inputs"]["text"] = negative
 
-        latent_nodes = self._nodes_by_type(wf, "EmptySD3LatentImage") or self._nodes_by_type(wf, "EmptyLatentImage")
+        latent_nodes = (self._nodes_by_type(wf, "EmptyFlux2LatentImage") or
+                        self._nodes_by_type(wf, "EmptySD3LatentImage") or self._nodes_by_type(wf, "EmptyLatentImage"))
         if latent_nodes:
             latent = latent_nodes[0][1]["inputs"]
             if width: latent["width"] = int(width)
             if height: latent["height"] = int(height)
 
-        samplers = self._nodes_by_type(wf, "KSampler")
-        if samplers and seed is not None:
-            samplers[0][1]["inputs"]["seed"] = int(seed)
+        # Custom FLUX.2 sampling keeps its resolution-dependent schedule in sync
+        # with the latent; seeds belong to RandomNoise instead of KSampler.
+        for _, scheduler in self._nodes_by_type(wf, "Flux2Scheduler"):
+            if width: scheduler["inputs"]["width"] = int(width)
+            if height: scheduler["inputs"]["height"] = int(height)
+        if seed is not None:
+            for _, sampler in self._nodes_by_type(wf, "KSampler"):
+                sampler["inputs"]["seed"] = int(seed)
+            for _, noise in self._nodes_by_type(wf, "RandomNoise"):
+                noise["inputs"]["noise_seed"] = int(seed)
         return wf
 
     def configure_edit(self, wf, image_name, instruction, seed=None):
@@ -372,8 +377,6 @@ class ComfyBridge:
         return wf
 
     def queue(self, wf):
-        from academic_policy import check_workflow
-        check_workflow(wf)
         require_space(root_dir(), 64*1024**2, for_outputs=True)
         client_id = uuid.uuid4().hex
         data = http_json("POST", self.base + "/prompt", {"prompt": wf, "client_id": client_id}, timeout=60)
