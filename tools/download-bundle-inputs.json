@@ -171,10 +171,10 @@
     "Universal": "7e1e08b31336f9de7636799b589db707de396370b1aca94ba5882879e4c7323c"
   },
   "reviewed_archives": {
-    "PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip": "7b41bcf17ae37264df2e8f67f26c409c39e69a84e89b650ad31d3432c22acefd",
-    "PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip": "fd3e15559fd6413411c65b13f3763567751c328475de5243082203adfde66f7c",
-    "PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip": "4122ba2471599f77c3bec3a280f49b860df53849ce37c8738eadf9ca693bc22d",
-    "PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip": "afa97c9653744ff8567c6f353dff9dd3d30f9c6b98fc72c7d6932dec06242c82"
+    "PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip": "b847aff14f5ada762eece97dba4b8e124839c6ee49355bd847e168a36a28b15d",
+    "PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip": "a9f77933865948c684d5db7e0bb6ca81d4ac9f902b0b69a82e24bf98b8a52ea3",
+    "PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip": "4a08c9933a61b9a64161341cdddda3a79b09c7c832d3ad76a83412a37b0bb5f8",
+    "PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip": "059e6c9ee85760e0d5371725b186d81060aa20b693b04ece87d10cb21304bb25"
   },
   "setup_launcher": {
     "name": "PortalAI-Setup.exe",
