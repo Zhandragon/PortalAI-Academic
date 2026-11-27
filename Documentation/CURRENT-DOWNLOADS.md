@@ -28,7 +28,7 @@ Use NTFS on Windows, APFS on Mac, or executable ext4 on Linux. Each OS completes
 
 Windows offers an unchecked Qwen-Image-Edit-2511 + Lightning download with publisher terms review. Its weights are not included in the ZIP. Supported NVIDIA CUDA hardware can use one to three references; Settings also retains the existing editor and optional guided planning. Native Mac/Linux do not yet support this editor.
 
-Academic includes its complete eligible standard-model catalog, including ACE-Step 4B, Whisper Turbo and FLUX 9B FP8. Full-only assets and Portable Abliterator remain excluded. The complete Windows selection is about **274 GiB installed**, plus temporary installation space.
+Academic includes its complete eligible standard-model catalog, including ACE-Step 4B, Whisper Turbo and FLUX 9B FP8. Full-only assets and Portable Abliterator remain excluded. The complete Windows selection is about **303 GiB installed**, plus temporary installation space.
 
 All model choices remain optional and retain their license and intended-use review. Selecting a model does not guarantee it fits the computer's RAM/VRAM or that every experimental Mac/Linux backend supports it. You can also supply your own compatible model.
 
