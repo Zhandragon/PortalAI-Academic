@@ -84,8 +84,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
     assets=list(pool.map(lambda r:upload(Path(r['path']),r['sha256']),rows))
 for row,a in zip(rows,assets):
     row['sha256']=a['digest'].removeprefix('sha256:');row['bytes']=a['size'];row.pop('path')
-manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r86','Mac':'r75','Linux':'r75'},utilities_optional=True,
-    validation=dict(archive_checks=checks,setup_regression_modules=12,setup_regression_modules_passed=12,native_mac_linux_runtime_tested=False,windows_live_results='VALIDATION-r86.json',
+manifest=dict(bundle_version=VERSION,edition=config['edition'],native_versions={'Windows':'r87','Mac':'r75','Linux':'r75'},utilities_optional=True,
+    validation=dict(archive_checks=checks,setup_regression_modules=12,setup_regression_modules_passed=12,native_mac_linux_runtime_tested=False,windows_live_results='VALIDATION-r87.json',
       build_workflow=f"https://github.com/{config['repository']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",source_commit=os.environ['GITHUB_SHA']),
     bundles=rows)
 for name,data in [('BUNDLE-MANIFEST.json',json.dumps(manifest,indent=2)+'\n'),('SHA256SUMS.txt',''.join(r['sha256']+'  '+r['name']+'\n' for r in rows))]:

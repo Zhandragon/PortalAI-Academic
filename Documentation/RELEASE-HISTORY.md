@@ -1,5 +1,7 @@
 # Release history and tracked changes
 
+- [Windows r87: optional multi-reference editing and GUI workflow choices](RELEASE-r87.md) · [Measured validation](VALIDATION-r87.json)
+
 [Current downloads](CURRENT-DOWNLOADS.md) · [Welcome page](../README.md)
 
 These records describe their own versions. Older download links are historical. Assets are retained for existing pinned launchers.

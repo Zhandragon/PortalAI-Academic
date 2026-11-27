@@ -1,8 +1,8 @@
 {
   "repository": "Zhandragon/PortalAI-Academic",
   "edition": "Academic",
-  "tag": "v2026.11.26-bundle7",
-  "release_id": 460133697,
+  "tag": "v2026.11.27-bundle8",
+  "release_id": 460241201,
   "inputs": [
     {
       "key": "Academic/Mac",
@@ -83,13 +83,13 @@
     },
     {
       "key": "Academic/Windows",
-      "sha256": "359360ded7c22369ea1c669a3e0e0d73aaedc47e3340aad61b6ac1c07f4c85a1",
+      "sha256": "fd31c74d3e82cccfe7c25dd844e0ae1a2c965de8182c6eedee7209c8fca20033",
       "private": false,
       "asset": {
-        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/798733216",
-        "id": 798733216,
-        "node_id": "RA_kwDOVRfrwM4vm7Og",
-        "name": "PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip",
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/799203792",
+        "id": 799203792,
+        "node_id": "RA_kwDOVRfrwM4vouHQ",
+        "name": "PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip",
         "label": "",
         "uploader": {
           "login": "Zhandragon",
@@ -114,12 +114,12 @@
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
-        "size": 662049847,
-        "digest": "sha256:359360ded7c22369ea1c669a3e0e0d73aaedc47e3340aad61b6ac1c07f4c85a1",
+        "size": 662091470,
+        "digest": "sha256:fd31c74d3e82cccfe7c25dd844e0ae1a2c965de8182c6eedee7209c8fca20033",
         "download_count": 0,
-        "created_at": "2026-11-27T03:04:57Z",
-        "updated_at": "2026-11-27T03:23:04Z",
-        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-Desktop-r86/PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip"
+        "created_at": "2026-11-27T06:04:32Z",
+        "updated_at": "2026-11-27T06:25:02Z",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-Desktop-r87/PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip"
       }
     },
     {
@@ -127,9 +127,9 @@
       "sha256": "505cce72ee710813920be8d0af9ab9f939c55ad058b2bc55727b6e83acfbcdff",
       "private": true,
       "asset": {
-        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/798812608",
-        "id": 798812608,
-        "node_id": "RA_kwDOVRfrwM4vnOnA",
+        "url": "https://api.github.com/repos/Zhandragon/PortalAI-Academic/releases/assets/799277372",
+        "id": 799277372,
+        "node_id": "RA_kwDOVRfrwM4vpAE8",
         "name": "PortalAI-Setup.exe",
         "label": "",
         "uploader": {
@@ -158,23 +158,23 @@
         "size": 11680256,
         "digest": "sha256:505cce72ee710813920be8d0af9ab9f939c55ad058b2bc55727b6e83acfbcdff",
         "download_count": 0,
-        "created_at": "2026-11-27T03:31:57Z",
-        "updated_at": "2026-11-27T03:32:06Z",
-        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/untagged-8bcaf7f757e7e8fa6960/PortalAI-Setup.exe"
+        "created_at": "2026-11-27T06:31:06Z",
+        "updated_at": "2026-11-27T06:31:15Z",
+        "browser_download_url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/untagged-e4735c59ea35b41bed0f/PortalAI-Setup.exe"
       }
     }
   ],
   "expected_contents": {
-    "Windows": "4eeb31a64e56b72b1895d4db322d38250bad94462ea3001e116983cc6b2e9336",
-    "Mac": "ede1cfe8571bad3452923778c4103efef68f7c1c8796c3c00755a4ceaaa37acc",
-    "Linux": "ac9c1c23e0bca73085c40435809199c38c0e14ffcc27608a4f6bcfad1acdba7f",
-    "Universal": "7353ef65f5d963ed962e1956933d0192227a9abe735114a7fa017d822e4b4f89"
+    "Windows": "e8273d40bf585bae7c8fbcbe699c083d7eaea8526c84d81c8589fd7710b8753b",
+    "Mac": "22f3fc8d985a2599b2bbe6a849566b9a3bb4e58f707ce6528163830f1811c26c",
+    "Linux": "c5d0c938629601a1d4f8bc2eea7244468b62fef0928c4bb619b1ceb588b7ba73",
+    "Universal": "7e1e08b31336f9de7636799b589db707de396370b1aca94ba5882879e4c7323c"
   },
   "reviewed_archives": {
-    "PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip": "3e5819180602cce2db24109f77df3ddee9a7ce1808b3aec2e5590c93e0a0c546",
-    "PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip": "910f6179ae70ba5567299f42956034e8b09eb2ed2d20542773e1ce2f362fa1bb",
-    "PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip": "17315f4db69fd3c18ef11e1faadf78445c8d88d514d896a6388159993e52847e",
-    "PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip": "9e99be0ee647b5990eae524d4f972972efbdc51c6d6a38d8d6a6fd4dbad41814"
+    "PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip": "7b41bcf17ae37264df2e8f67f26c409c39e69a84e89b650ad31d3432c22acefd",
+    "PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip": "fd3e15559fd6413411c65b13f3763567751c328475de5243082203adfde66f7c",
+    "PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip": "4122ba2471599f77c3bec3a280f49b860df53849ce37c8738eadf9ca693bc22d",
+    "PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip": "afa97c9653744ff8567c6f353dff9dd3d30f9c6b98fc72c7d6932dec06242c82"
   },
   "setup_launcher": {
     "name": "PortalAI-Setup.exe",

@@ -77,6 +77,9 @@ def prepare(repo, windows_archive, edition):
         components=changes,storage_components=storage_changes))
     native=[]
     for original in manifest['components']:
+        # The native Windows catalog retains this optional CUDA editor.
+        # Do not offer its weights in the shared Mac/Linux model chooser.
+        if original['id']=='qwen-image-edit-2511-lightning':continue
         if 'model_choice' not in original:continue
         component=copy.deepcopy(original);artifacts=[]
         for artifact in component['artifacts']:

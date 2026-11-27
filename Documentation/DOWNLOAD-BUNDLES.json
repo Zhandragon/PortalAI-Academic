@@ -1,69 +1,67 @@
 {
-  "bundle_version": "2026.11.26-bundle7",
+  "bundle_version": "2026.11.27-bundle8",
   "edition": "Academic",
   "native_versions": {
-    "Windows": "r86",
+    "Windows": "r87",
     "Mac": "r75",
     "Linux": "r75"
   },
   "utilities_optional": true,
+  "qwen_models_embedded": false,
+  "qwen_default_selected": false,
   "validation": {
     "archive_checks": [
       {
-        "name": "PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip",
-        "bytes": 696493891,
-        "sha256": "3e5819180602cce2db24109f77df3ddee9a7ce1808b3aec2e5590c93e0a0c546",
+        "name": "PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip",
+        "bytes": 696535610,
+        "sha256": "7b41bcf17ae37264df2e8f67f26c409c39e69a84e89b650ad31d3432c22acefd",
         "members_verified": 2491,
         "native_archives_unchanged": true,
         "utilities_optional": true,
         "academic_exclusions_checked": true
       },
       {
-        "name": "PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip",
-        "bytes": 659714230,
-        "sha256": "910f6179ae70ba5567299f42956034e8b09eb2ed2d20542773e1ce2f362fa1bb",
+        "name": "PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip",
+        "bytes": 659714369,
+        "sha256": "fd3e15559fd6413411c65b13f3763567751c328475de5243082203adfde66f7c",
         "members_verified": 894,
         "native_archives_unchanged": true,
         "utilities_optional": true,
         "academic_exclusions_checked": true
       },
       {
-        "name": "PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip",
-        "bytes": 594496005,
-        "sha256": "17315f4db69fd3c18ef11e1faadf78445c8d88d514d896a6388159993e52847e",
+        "name": "PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip",
+        "bytes": 594496126,
+        "sha256": "4122ba2471599f77c3bec3a280f49b860df53849ce37c8738eadf9ca693bc22d",
         "members_verified": 1413,
         "native_archives_unchanged": true,
         "utilities_optional": true,
         "academic_exclusions_checked": true
       },
       {
-        "name": "PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip",
-        "bytes": 1950554812,
-        "sha256": "9e99be0ee647b5990eae524d4f972972efbdc51c6d6a38d8d6a6fd4dbad41814",
+        "name": "PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip",
+        "bytes": 1950596542,
+        "sha256": "afa97c9653744ff8567c6f353dff9dd3d30f9c6b98fc72c7d6932dec06242c82",
         "members_verified": 4764,
         "native_archives_unchanged": true,
         "utilities_optional": true,
         "academic_exclusions_checked": true
       }
     ],
-    "setup_regression_modules": 12,
-    "setup_regression_modules_passed": 12,
     "native_mac_linux_runtime_tested": false,
-    "windows_live_results": "VALIDATION-r86.json",
-    "build_workflow": "https://github.com/Zhandragon/PortalAI-Academic/actions/runs/45934993864",
-    "build_source_commit": "f32016958a7eb9c711b228ff4f4c0f16dfd270ce",
-    "locally_reviewed_contents_match": true
+    "windows_live_results": "VALIDATION-r87.json",
+    "build": "Local release builder; all archive members and native pins verified. Prior setup regressions retained; no new broad matrix run."
   },
   "bundles": [
     {
       "edition": "Academic",
       "platform": "Windows",
-      "name": "PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip",
-      "bytes": 696493891,
-      "sha256": "3e5819180602cce2db24109f77df3ddee9a7ce1808b3aec2e5590c93e0a0c546",
+      "name": "PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip",
+      "bytes": 696535610,
+      "sha256": "7b41bcf17ae37264df2e8f67f26c409c39e69a84e89b650ad31d3432c22acefd",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.26-bundle7",
+        "version": "2026.11.27-bundle8",
         "edition": "Academic",
         "platforms": [
           "Windows"
@@ -71,11 +69,11 @@
         "assets": [
           {
             "platform": "Windows",
-            "file": "PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip",
-            "bytes": 662049847,
-            "sha256": "359360ded7c22369ea1c669a3e0e0d73aaedc47e3340aad61b6ac1c07f4c85a1",
-            "version": "2026.11.26-Desktop-r86",
-            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-Desktop-r86/PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip"
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip",
+            "bytes": 662091470,
+            "sha256": "fd31c74d3e82cccfe7c25dd844e0ae1a2c965de8182c6eedee7209c8fca20033",
+            "version": "2026.11.27-Desktop-r87",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-Desktop-r87/PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip"
           }
         ],
         "windows_installer": "PortalAI-Academic-Install.exe",
@@ -97,8 +95,8 @@
           },
           {
             "file": "Setup/Models/Engine/model_choices.py",
-            "bytes": 13130,
-            "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914"
+            "bytes": 13570,
+            "sha256": "e08e46463cd1244b93b8c596874500e9370a033d16d8f25e2a1249f1a1310528"
           },
           {
             "file": "Setup/Models/Engine/suite_installer.py",
@@ -128,12 +126,12 @@
           {
             "file": "Setup/Windows/model-overlay.json",
             "bytes": 28650,
-            "sha256": "00b91428a9cab4e8c58109e82b4d00c084294d9436fe9d8ac3a8f8d5f708484b"
+            "sha256": "16641c69dc2bce0fd572ac5b7a53a0ffe286f901502e22ddbd9d91da87b383a3"
           },
           {
             "file": "Setup/Windows/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Windows/suite-copy.tsv",
@@ -143,7 +141,7 @@
           {
             "file": "Setup/Windows/suite-local.json",
             "bytes": 1191059,
-            "sha256": "dbedbdcf73ca18e06c589e47fd41803fc66e3759c88f4981115fad33c7a859dc"
+            "sha256": "a4d222d6c63cc465e6a5790a920229f8603b75934c3fa9b0a68f68dc07075019"
           }
         ],
         "windows_launcher": {
@@ -156,12 +154,12 @@
     {
       "edition": "Academic",
       "platform": "Mac",
-      "name": "PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip",
-      "bytes": 659714230,
-      "sha256": "910f6179ae70ba5567299f42956034e8b09eb2ed2d20542773e1ce2f362fa1bb",
+      "name": "PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip",
+      "bytes": 659714369,
+      "sha256": "fd3e15559fd6413411c65b13f3763567751c328475de5243082203adfde66f7c",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.26-bundle7",
+        "version": "2026.11.27-bundle8",
         "edition": "Academic",
         "platforms": [
           "Mac"
@@ -186,7 +184,7 @@
           {
             "file": "Setup/Mac/SHA256SUMS",
             "bytes": 158722,
-            "sha256": "4bcb6743e23fbb6e304a22a22cf3e829fce4f5730550ec6b74509c982bbad180"
+            "sha256": "72a22f73defd9533e2ec5b084a568da701dfde382cc49b8b00910d896b922bb9"
           },
           {
             "file": "Setup/Mac/install-macos.sh",
@@ -196,7 +194,7 @@
           {
             "file": "Setup/Mac/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Mac/suite-copy.tsv",
@@ -206,7 +204,7 @@
           {
             "file": "Setup/Mac/suite-local.json",
             "bytes": 458224,
-            "sha256": "0f6c0767337f1ac97730cdee26602ad618f3b6f78e5eaddd7bc61887a7be6568"
+            "sha256": "998c1c51757aa4223a5fd91cfe83876b586c363e4a23f8b4633aa1d663cc2c5f"
           },
           {
             "file": "Setup/Models/Engine/installer_core.py",
@@ -220,8 +218,8 @@
           },
           {
             "file": "Setup/Models/Engine/model_choices.py",
-            "bytes": 13130,
-            "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914"
+            "bytes": 13570,
+            "sha256": "e08e46463cd1244b93b8c596874500e9370a033d16d8f25e2a1249f1a1310528"
           },
           {
             "file": "Setup/Models/Engine/suite_installer.py",
@@ -249,12 +247,12 @@
     {
       "edition": "Academic",
       "platform": "Linux",
-      "name": "PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip",
-      "bytes": 594496005,
-      "sha256": "17315f4db69fd3c18ef11e1faadf78445c8d88d514d896a6388159993e52847e",
+      "name": "PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip",
+      "bytes": 594496126,
+      "sha256": "4122ba2471599f77c3bec3a280f49b860df53849ce37c8738eadf9ca693bc22d",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.26-bundle7",
+        "version": "2026.11.27-bundle8",
         "edition": "Academic",
         "platforms": [
           "Linux"
@@ -279,7 +277,7 @@
           {
             "file": "Setup/Linux/SHA256SUMS",
             "bytes": 243501,
-            "sha256": "420aea0a3cc9d1a64cdc9e2b44d02426245d80c7efb279da982bb35046250dc5"
+            "sha256": "fb1c859e033d7fdabb784be4fb94f10a8854758ad65592ccc8e23db6e39da555"
           },
           {
             "file": "Setup/Linux/install.sh",
@@ -289,7 +287,7 @@
           {
             "file": "Setup/Linux/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Linux/suite-copy.tsv",
@@ -299,7 +297,7 @@
           {
             "file": "Setup/Linux/suite-local.json",
             "bytes": 709064,
-            "sha256": "93e56560aee722e9721777c6c3d74c3660bee17b0d6f9fab14acc8aecf2c319c"
+            "sha256": "88a9b3d4142832e93d362b0686be94a67922fd3fa54e9eab60a9ac215b52fbb9"
           },
           {
             "file": "Setup/Models/Engine/installer_core.py",
@@ -313,8 +311,8 @@
           },
           {
             "file": "Setup/Models/Engine/model_choices.py",
-            "bytes": 13130,
-            "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914"
+            "bytes": 13570,
+            "sha256": "e08e46463cd1244b93b8c596874500e9370a033d16d8f25e2a1249f1a1310528"
           },
           {
             "file": "Setup/Models/Engine/suite_installer.py",
@@ -342,12 +340,12 @@
     {
       "edition": "Academic",
       "platform": "Universal",
-      "name": "PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip",
-      "bytes": 1950554812,
-      "sha256": "9e99be0ee647b5990eae524d4f972972efbdc51c6d6a38d8d6a6fd4dbad41814",
+      "name": "PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip",
+      "bytes": 1950596542,
+      "sha256": "afa97c9653744ff8567c6f353dff9dd3d30f9c6b98fc72c7d6932dec06242c82",
       "manifest": {
         "schema": 1,
-        "version": "2026.11.26-bundle7",
+        "version": "2026.11.27-bundle8",
         "edition": "Academic",
         "platforms": [
           "Windows",
@@ -357,11 +355,11 @@
         "assets": [
           {
             "platform": "Windows",
-            "file": "PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip",
-            "bytes": 662049847,
-            "sha256": "359360ded7c22369ea1c669a3e0e0d73aaedc47e3340aad61b6ac1c07f4c85a1",
-            "version": "2026.11.26-Desktop-r86",
-            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-Desktop-r86/PortalAI-Academic-Windows-Installer-2026.11.26-Desktop-r86.zip"
+            "file": "PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip",
+            "bytes": 662091470,
+            "sha256": "fd31c74d3e82cccfe7c25dd844e0ae1a2c965de8182c6eedee7209c8fca20033",
+            "version": "2026.11.27-Desktop-r87",
+            "url": "https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-Desktop-r87/PortalAI-Academic-Windows-Installer-2026.11.27-Desktop-r87.zip"
           },
           {
             "platform": "Mac",
@@ -390,7 +388,7 @@
           {
             "file": "Setup/Linux/SHA256SUMS",
             "bytes": 243501,
-            "sha256": "420aea0a3cc9d1a64cdc9e2b44d02426245d80c7efb279da982bb35046250dc5"
+            "sha256": "fb1c859e033d7fdabb784be4fb94f10a8854758ad65592ccc8e23db6e39da555"
           },
           {
             "file": "Setup/Linux/install.sh",
@@ -400,7 +398,7 @@
           {
             "file": "Setup/Linux/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Linux/suite-copy.tsv",
@@ -410,12 +408,12 @@
           {
             "file": "Setup/Linux/suite-local.json",
             "bytes": 709064,
-            "sha256": "93e56560aee722e9721777c6c3d74c3660bee17b0d6f9fab14acc8aecf2c319c"
+            "sha256": "88a9b3d4142832e93d362b0686be94a67922fd3fa54e9eab60a9ac215b52fbb9"
           },
           {
             "file": "Setup/Mac/SHA256SUMS",
             "bytes": 158722,
-            "sha256": "4bcb6743e23fbb6e304a22a22cf3e829fce4f5730550ec6b74509c982bbad180"
+            "sha256": "72a22f73defd9533e2ec5b084a568da701dfde382cc49b8b00910d896b922bb9"
           },
           {
             "file": "Setup/Mac/install-macos.sh",
@@ -425,7 +423,7 @@
           {
             "file": "Setup/Mac/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Mac/suite-copy.tsv",
@@ -435,7 +433,7 @@
           {
             "file": "Setup/Mac/suite-local.json",
             "bytes": 458224,
-            "sha256": "0f6c0767337f1ac97730cdee26602ad618f3b6f78e5eaddd7bc61887a7be6568"
+            "sha256": "998c1c51757aa4223a5fd91cfe83876b586c363e4a23f8b4633aa1d663cc2c5f"
           },
           {
             "file": "Setup/Models/Engine/installer_core.py",
@@ -449,8 +447,8 @@
           },
           {
             "file": "Setup/Models/Engine/model_choices.py",
-            "bytes": 13130,
-            "sha256": "6c4b24216f92b87c6effaf6bec939fdfe7a4e5f8745844d18180287e0813a914"
+            "bytes": 13570,
+            "sha256": "e08e46463cd1244b93b8c596874500e9370a033d16d8f25e2a1249f1a1310528"
           },
           {
             "file": "Setup/Models/Engine/suite_installer.py",
@@ -480,12 +478,12 @@
           {
             "file": "Setup/Windows/model-overlay.json",
             "bytes": 28650,
-            "sha256": "00b91428a9cab4e8c58109e82b4d00c084294d9436fe9d8ac3a8f8d5f708484b"
+            "sha256": "16641c69dc2bce0fd572ac5b7a53a0ffe286f901502e22ddbd9d91da87b383a3"
           },
           {
             "file": "Setup/Windows/suite-catalog.json",
             "bytes": 7320,
-            "sha256": "84e65aca157f3e3f99bb098b896c390173a081b96d2cbfacf2ab04ec400a535e"
+            "sha256": "5e60e077956b157b46bbdc08398a8b85e7237ff90ac98209fa07ca88917f3e7a"
           },
           {
             "file": "Setup/Windows/suite-copy.tsv",
@@ -495,7 +493,7 @@
           {
             "file": "Setup/Windows/suite-local.json",
             "bytes": 1191059,
-            "sha256": "dbedbdcf73ca18e06c589e47fd41803fc66e3759c88f4981115fad33c7a859dc"
+            "sha256": "a4d222d6c63cc465e6a5790a920229f8603b75934c3fa9b0a68f68dc07075019"
           }
         ],
         "windows_launcher": {

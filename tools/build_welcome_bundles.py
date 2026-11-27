@@ -6,7 +6,7 @@ Inputs must name clean published archives and their independently verified SHA-2
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, io, json, os, shutil, stat, tarfile, zipfile
 
-VERSION='2026.11.26-bundle7'
+VERSION='2026.11.27-bundle8'
 PLATFORMS=('Windows','Mac','Linux')
 BASELINE='4637cebf54e6f748f3fae8d54300a94834b1043220c417d1894b2c1d1f040bf9'
 WINDOWS_EXTRACTION_ROOT_BUDGET=120
@@ -98,7 +98,7 @@ def start_here(edition,platforms):
     return f"""PortalAI {edition} — complete download bundle — {VERSION}
 
 INCLUDED
-Windows application: r86 (2026-11-26), when selected.
+Windows application: r87 (2026-11-27), when selected.
 Mac/Linux applications: experimental r75 (2026-11-09), when selected.
 Projection: platform companion with matching Home Assistant 0.5.13 host update.
 Home Assistant receiver/frontend: 0.5.13 + Recovery 0.1.0.
@@ -166,7 +166,7 @@ downloads are retained for retry. Full Windows with all components is about 431
 GiB installed and requires additional temporary download and recovery space.
 
 Native archives remain byte-for-byte intact. Verified setup overlays add the
-destination controls and model catalogs without changing the r86/r75 app payloads.
+destination controls and model catalogs without changing the r87/r75 app payloads.
 The Windows extraction-path fix is retained. Only Windows has extensive runtime
 testing; physical Mac/Linux installations and live inference were not rerun here.
 
@@ -282,7 +282,7 @@ def main():
             item=inputs[args.edition+'/'+platform]
             p=Path(item['path'])
             assets.append(dict(platform=platform,file=p.name,bytes=p.stat().st_size,sha256=item['sha256'],
-                version='2026.11.26-Desktop-r86' if platform=='Windows' else '2026.11.09-Desktop-r75',
+                version='2026.11.27-Desktop-r87' if platform=='Windows' else '2026.11.09-Desktop-r75',
                 url=item['asset']['browser_download_url']))
         win=inputs[args.edition+'/Windows']['path']
         with zipfile.ZipFile(win) as z:
@@ -301,7 +301,7 @@ def main():
             manifest['windows_launcher']=dict(file='Setup/PortalAI-Setup.exe',bytes=setup.stat().st_size,sha256=inputs['WindowsSetup']['sha256'])
         hashes={}
         def put(z,rel,data,mode=0o644,compression=zipfile.ZIP_DEFLATED):
-            zi=zipfile.ZipInfo(rel,(2026,11,26,0,0,0))
+            zi=zipfile.ZipInfo(rel,(2026,11,27,0,0,0))
             zi.create_system=3;zi.external_attr=(stat.S_IFREG|mode)<<16;zi.compress_type=compression
             z.writestr(zi,data,compresslevel=5)
             hashes[rel]=hashlib.sha256(data).hexdigest()

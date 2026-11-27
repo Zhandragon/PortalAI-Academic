@@ -2,14 +2,14 @@
 
 [Back to downloads](../README.md#download-and-install)
 
-**Bundle 2026.11.26-bundle7** includes the native installers, complete optional model download catalogs, and compatible optional companions. Models download during installation; their weights are not embedded in these ZIPs.
+**Bundle 2026.11.27-bundle8** includes the native installers, complete optional model download catalogs, and compatible optional companions. Models download during installation; their weights are not embedded in these ZIPs.
 
 | Choice | Application |
 | --- | --- |
-| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-bundle7/PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip) | r86, x64 |
-| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-bundle7/PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip) | Experimental r75, Apple silicon / Intel |
-| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-bundle7/PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip) | Experimental r75, x86-64 |
-| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-bundle7/PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip) | Windows r86; Mac/Linux r75 |
+| [Windows](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-bundle8/PortalAI-Academic-Windows-Bundle-2026.11.27-bundle8.zip) | r87, x64 |
+| [Mac](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-bundle8/PortalAI-Academic-Mac-Bundle-2026.11.27-bundle8.zip) | Experimental r75, Apple silicon / Intel |
+| [Linux](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-bundle8/PortalAI-Academic-Linux-Bundle-2026.11.27-bundle8.zip) | Experimental r75, x86-64 |
+| [All three OSes](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-bundle8/PortalAI-Academic-Universal-Bundle-2026.11.27-bundle8.zip) | Windows r87; Mac/Linux r75 |
 
 ## Install at the drive root or a folder you choose
 
@@ -26,6 +26,8 @@ Use NTFS on Windows, APFS on Mac, or executable ext4 on Linux. Each OS completes
 
 ## Complete optional model downloads
 
+Windows offers an unchecked Qwen-Image-Edit-2511 + Lightning download with publisher terms review. Its weights are not included in the ZIP. Supported NVIDIA CUDA hardware can use one to three references; Settings also retains the existing editor and optional guided planning. Native Mac/Linux do not yet support this editor.
+
 Academic includes its complete eligible standard-model catalog, including ACE-Step 4B, Whisper Turbo and FLUX 9B FP8. Full-only assets and Portable Abliterator remain excluded. The complete Windows selection is about **274 GiB installed**, plus temporary installation space.
 
 All model choices remain optional and retain their license and intended-use review. Selecting a model does not guarantee it fits the computer's RAM/VRAM or that every experimental Mac/Linux backend supports it. You can also supply your own compatible model.
@@ -38,7 +40,7 @@ Setup verifies selected files and available space before installation. After a s
 
 **Keep installer copy** choices save the current complete Windows, Mac, Linux or all-three-OS ZIP in **Utilities / Installers / edition / platform**. Setup requires the exact current release's published SHA-256 digest before downloading; it never falls back to an older native kit. The all-three-OS ZIP recreates this same setup workflow after extraction.
 
-Windows **All components** also selects these installer copies. Installing the other edition's application remains a separate choice; its Windows payload is r86. Academic offers only Academic installer copies.
+Windows **All components** also selects these installer copies. Installing the other edition's application remains a separate choice; its Windows payload is r87. Academic offers only Academic installer copies.
 
 ## Optional companions
 
@@ -50,13 +52,13 @@ Windows reset and Weight-Space Editor launchers remain in the native application
 
 ## Verification and current versions
 
-The verified Windows r86 native archive includes the general Nice image-workflow, chat-label and base-image sampling fixes. Mac/Linux r75 native archives remain byte-for-byte intact. Checksum-verified setup overlays add destination controls, complete model catalogs and current bundled companion selection. Prepared packages receive updated checksums. Mac/Linux companion installation restores verified executable permissions even if the ZIP was first extracted on Windows. The Windows extraction-path fix is retained: unused Mac test/debug files are omitted and paths reserve 120 characters for the extraction folder.
+Windows r87 adds optional Qwen multi-reference editing and GUI workflow choices, retaining the general Nice image-workflow fixes. Mac/Linux r75 native archives remain unchanged. See the measured validation and release notes below.
 
-- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.26-bundle7/SHA256SUMS.txt)
+- [Whole-download checksums](https://github.com/Zhandragon/PortalAI-Academic/releases/download/v2026.11.27-bundle8/SHA256SUMS.txt)
 - [Bundle manifest and build validation](DOWNLOAD-BUNDLES.json)
-- [Windows r86](RELEASE-r86.md), [Mac/Linux r75](RELEASE-r75.md), [Home Assistant 0.5.13](RELEASE-HA-0.5.13.md)
+- [Windows r87](RELEASE-r87.md), [Mac/Linux r75](RELEASE-r75.md), [Home Assistant 0.5.13](RELEASE-HA-0.5.13.md)
 - [Release history and tracked changes](RELEASE-HISTORY.md)
 
 Each ZIP contains **bundle.json**, **BUNDLE-CONTENTS.json** and **SHA256SUMS**. PowerShell **-VerifyOnly** and Bash **--verify-only** verify preparation inputs without launching; **-ExtractOnly** / **--extract-only** prepares the native installer without launching.
 
-A Linux regression test executes a copied launcher after its original executable bit has been lost; catalogs reject privileged permission bits. Validation covers archive contents, destination placement, optional model consent, credential handling, bundled companion placement, space checks and Windows UI behavior. Mac/Linux remain experimental. Fresh physical Mac/Linux installations were not rerun. Windows live model results and measured timings are recorded in [r86 validation](VALIDATION-r86.json).
+Archive contents and installer metadata are verified. Physical Mac/Linux installations were not rerun. Windows inference, GPU handoff, and measured comparison results are recorded in [r87 validation](VALIDATION-r87.json).
