@@ -12,7 +12,7 @@
       {
         "name": "PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip",
         "bytes": 696493891,
-        "sha256": "48fcab23d99d3c0cf58740fab8ce378efac938fb801a6571bf4a9a0fba13a8cf",
+        "sha256": "3e5819180602cce2db24109f77df3ddee9a7ce1808b3aec2e5590c93e0a0c546",
         "members_verified": 2491,
         "native_archives_unchanged": true,
         "utilities_optional": true,
@@ -21,7 +21,7 @@
       {
         "name": "PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip",
         "bytes": 659714230,
-        "sha256": "d108355cf82162ba84163491afbde528599d7fb63c68771b4df8bdae5ef92d8e",
+        "sha256": "910f6179ae70ba5567299f42956034e8b09eb2ed2d20542773e1ce2f362fa1bb",
         "members_verified": 894,
         "native_archives_unchanged": true,
         "utilities_optional": true,
@@ -30,7 +30,7 @@
       {
         "name": "PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip",
         "bytes": 594496005,
-        "sha256": "c930ef18b84df392da8be315b6f6bc8ce3dfa5b58f70ecd8bae5a676a9d605b6",
+        "sha256": "17315f4db69fd3c18ef11e1faadf78445c8d88d514d896a6388159993e52847e",
         "members_verified": 1413,
         "native_archives_unchanged": true,
         "utilities_optional": true,
@@ -39,7 +39,7 @@
       {
         "name": "PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip",
         "bytes": 1950554812,
-        "sha256": "84712342421a7bd5aeff8b98136f84fa3ae940155b6b00a98cb158fd73f64997",
+        "sha256": "9e99be0ee647b5990eae524d4f972972efbdc51c6d6a38d8d6a6fd4dbad41814",
         "members_verified": 4764,
         "native_archives_unchanged": true,
         "utilities_optional": true,
@@ -49,7 +49,10 @@
     "setup_regression_modules": 12,
     "setup_regression_modules_passed": 12,
     "native_mac_linux_runtime_tested": false,
-    "windows_live_results": "VALIDATION-r86.json"
+    "windows_live_results": "VALIDATION-r86.json",
+    "build_workflow": "https://github.com/Zhandragon/PortalAI-Academic/actions/runs/45934993864",
+    "build_source_commit": "f32016958a7eb9c711b228ff4f4c0f16dfd270ce",
+    "locally_reviewed_contents_match": true
   },
   "bundles": [
     {
@@ -57,7 +60,7 @@
       "platform": "Windows",
       "name": "PortalAI-Academic-Windows-Bundle-2026.11.26-bundle7.zip",
       "bytes": 696493891,
-      "sha256": "48fcab23d99d3c0cf58740fab8ce378efac938fb801a6571bf4a9a0fba13a8cf",
+      "sha256": "3e5819180602cce2db24109f77df3ddee9a7ce1808b3aec2e5590c93e0a0c546",
       "manifest": {
         "schema": 1,
         "version": "2026.11.26-bundle7",
@@ -155,7 +158,7 @@
       "platform": "Mac",
       "name": "PortalAI-Academic-Mac-Bundle-2026.11.26-bundle7.zip",
       "bytes": 659714230,
-      "sha256": "d108355cf82162ba84163491afbde528599d7fb63c68771b4df8bdae5ef92d8e",
+      "sha256": "910f6179ae70ba5567299f42956034e8b09eb2ed2d20542773e1ce2f362fa1bb",
       "manifest": {
         "schema": 1,
         "version": "2026.11.26-bundle7",
@@ -248,7 +251,7 @@
       "platform": "Linux",
       "name": "PortalAI-Academic-Linux-Bundle-2026.11.26-bundle7.zip",
       "bytes": 594496005,
-      "sha256": "c930ef18b84df392da8be315b6f6bc8ce3dfa5b58f70ecd8bae5a676a9d605b6",
+      "sha256": "17315f4db69fd3c18ef11e1faadf78445c8d88d514d896a6388159993e52847e",
       "manifest": {
         "schema": 1,
         "version": "2026.11.26-bundle7",
@@ -341,7 +344,7 @@
       "platform": "Universal",
       "name": "PortalAI-Academic-Universal-Bundle-2026.11.26-bundle7.zip",
       "bytes": 1950554812,
-      "sha256": "84712342421a7bd5aeff8b98136f84fa3ae940155b6b00a98cb158fd73f64997",
+      "sha256": "9e99be0ee647b5990eae524d4f972972efbdc51c6d6a38d8d6a6fd4dbad41814",
       "manifest": {
         "schema": 1,
         "version": "2026.11.26-bundle7",
