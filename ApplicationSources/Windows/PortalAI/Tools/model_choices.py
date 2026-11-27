@@ -10,6 +10,7 @@ from urllib.parse import urlsplit
 
 
 POLICIES = {
+    'qwen-image-edit-2511-lightning': ('Apache-2.0', 'Optional Qwen 2511, shared encoder/VAE and Lightning adapter. Review all publisher terms; preserve notices. These weights are not included in the harness download. Qwen: https://huggingface.co/Qwen/Qwen-Image-Edit-2511#license-agreement ; Lightning: https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning', 'https://huggingface.co/Qwen/Qwen-Image-Edit-2511#license-agreement'),
     'text-small': ('Apache-2.0', 'Suggested small chat models. Preserve license and attribution notices.', 'https://huggingface.co/Qwen/Qwen3-1.7B'),
     'text-4b': ('Apache-2.0', 'Suggested chat models. Preserve license and attribution notices.', 'https://huggingface.co/Qwen/Qwen3-4B'),
     'vision-2b': ('Apache-2.0', 'Optional vision models and matching projectors; preserve notices.', 'https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct'),

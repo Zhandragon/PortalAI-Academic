@@ -2,6 +2,15 @@
 
 # value: (dropdown label, selected-choice explanation)
 CHOICES = {
+ 'edit_profile': {
+  'auto': ('Automatic, fit this computer', 'Uses optional Qwen 2511 Lightning when installed and free memory fits after chat unload; otherwise retains the existing FLUX or CPU/Vulkan editor. Never downloads models automatically.'),
+  'qwen-lightning': ('Qwen 2511 | four-step accelerated', 'Optional Windows NVIDIA editor with 1–3 input images. Four-step Lightning; dynamic offloading and fresh memory checks apply. Choose the optional model download after reviewing its terms.'),
+  'qwen-quality': ('Qwen 2511 | full sampling', 'The same optional model with 40 steps and no Lightning adapter. Slower; useful when the accelerated output misses details. Memory admission still applies.'),
+  'legacy': ('Existing PortalAI editor', 'Keep FLUX or the hardware-scaled CPU/Vulkan editing route. This disables automatic Qwen image editing. Choose Guided image planning to retain the full Nice planning workflow.')},
+ 'image_planning': {
+  'auto': ('Automatic | adaptive planning', 'Nice assesses the request, uses references for real visual gaps, and stages dependent edits. Compatible calls are combined and saved outputs are attached for review.'),
+  'guided': ('Guided | references and stages', 'Keep the evidence-guided Nice workflow with semantic assessment, reference comparisons and reviewed stages when needed. Works with either editing backend.'),
+  'direct': ('Direct | fewer planning steps', 'Nice can send your instruction and ordered images directly to the chosen editor without a mandatory assessment or plan. File access, hardware admission and output handling still apply. Any explicitly recorded staged plan remains enforced.')},
  'media_variant': {
   'auto': ('Automatic | let Nice choose per request', 'Nice chooses standard or a supported uncensored alternate for each request, independently of the chat model. Hardware, memory and task requirements still apply. Tools use standard when Nice supplies no choice.'),
   'standard': ('Standard | media default', 'Use standard media weights unless you explicitly request an alternate for that job. This does not change the chat model. Voice, music and other specialists with no separate variant retain their normal models.'),
@@ -39,7 +48,7 @@ CHOICES = {
   'musicgen-cpu': ('MusicGen Small | CPU | instrumentals', 'Windows/Linux x64 without a GPU. Needs 10 GiB free RAM after chat unload; 1–30 seconds, mono 32 kHz, slow. English prompts work best; no sung lyrics. Local standard weights have no separate runtime prompt filter, not a separately abliterated checkpoint. Weights: CC-BY-NC-4.0 (noncommercial).')},
 }
 
-TITLES = {'media_variant':'Media models', 'image_profile':'Images', 'image_engine':'Image engine', 'speech_model':'Transcription',
+TITLES = {'edit_profile':'Image editing', 'image_planning':'Image planning', 'media_variant':'Media models', 'image_profile':'Images', 'image_engine':'Image engine', 'speech_model':'Transcription',
           'voice_engine':'Speech output', 'text_video_engine':'Text-to-video',
           'reference_video_profile':'Image-to-video', 'music_engine':'Music / video score'}
 

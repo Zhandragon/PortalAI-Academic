@@ -10,7 +10,9 @@ from profile_paths import capture, private_path, ProfileLocked
 
 RELATIVE = 'Data/Settings/model_policy.json'
 CHAT_KEYS = ('selection', 'backend', 'context_tokens', 'variant_preference', 'vision_routing', 'weight_edit_profile', 'coding_routing')
-MEDIA_CHOICES = {'media_variant': ('auto', 'standard', 'uncensored'),
+MEDIA_CHOICES = {'edit_profile': ('auto','qwen-lightning','qwen-quality','legacy'),
+                 'image_planning': ('auto','guided','direct'),
+                 'media_variant': ('auto', 'standard', 'uncensored'),
                  'image_profile': ('auto', 'sd15', 'klein4', 'flux'),
                  'speech_model': ('auto', 'base', 'large-v3-turbo'),
                  'voice_engine': ('auto', 'piper', 'qwen'),

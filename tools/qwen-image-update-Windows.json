@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "kind": "portalai-qwen-image-candidate",
+  "edition": "Academic",
+  "platform": "Windows",
+  "status": "validated",
+  "base_commit": "0b6de7b85e42d26f741e961429fccbb3c03c21ef",
+  "installed_release_unchanged": "2026.11.26-Desktop-r86",
+  "bundled_qwen_model_bytes": 0,
+  "optional_model_download_bytes": 30987169046,
+  "model_terms_review_required": true,
+  "files": [
+    {
+      "path": "Agent/ai_tools.py",
+      "bytes": 159139,
+      "sha256": "eb74aba70c7f61eb4bb4e39fa8a40cd0a338b1d0a3b6208637f43995edc33ad8"
+    },
+    {
+      "path": "Agent/assistant_guidance.py",
+      "bytes": 5772,
+      "sha256": "0a68671a73286efb13495e59e058693b06be623eadc9a44afc10ab52fe4c9032"
+    },
+    {
+      "path": "Agent/comfy_bridge.py",
+      "bytes": 23547,
+      "sha256": "84be8aac10e6f8e29e941e51f94b2e26133f21964ac623350abf67bec562fd3f"
+    },
+    {
+      "path": "Agent/media_timing.py",
+      "bytes": 1108,
+      "sha256": "11a030986969b2bb203e1d3be983661ae538f09d8deb77cc85d436ffab7f143c"
+    },
+    {
+      "path": "Agent/model_preferences.py",
+      "bytes": 6272,
+      "sha256": "1e3313b2a1b92d5ced514a527d137deb519c6894d062dc498472aa384b198adb"
+    },
+    {
+      "path": "Agent/model_variants.py",
+      "bytes": 21272,
+      "sha256": "34d425c682cac0364b0bcb791b7b43079105bb4f9085f0b745eb66d58e742d5a"
+    },
+    {
+      "path": "Agent/native_flux.py",
+      "bytes": 8520,
+      "sha256": "b31801d4f1fbfc7eeb8131f2682933b0455e73ad2eda4a95e06778e41a616816"
+    },
+    {
+      "path": "Agent/qwen_image_edit.py",
+      "bytes": 6691,
+      "sha256": "7a04c10268a77cfa2ac20c8b990a81c3e64e8df048e16929b93c1338b401e60a"
+    },
+    {
+      "path": "Agent/qwen_image_edit_assets.json",
+      "bytes": 3125,
+      "sha256": "ecdac19d1b4969da10d5c71e463391996aa2ea7945d91f55cbe3c83d56840d42"
+    },
+    {
+      "path": "ControlCenter/chat_tool_menu.py",
+      "bytes": 27298,
+      "sha256": "443976f6b1478536aca1a2753b086912b6b42e7b6da6f9c1c40da864791aa85e"
+    },
+    {
+      "path": "ControlCenter/media_choices.py",
+      "bytes": 9869,
+      "sha256": "8c17da4083620ffaa71f702891d95b0fec39aa8afd7211e8061b3de6d1cf8d8e"
+    },
+    {
+      "path": "ControlCenter/media_planning.py",
+      "bytes": 28306,
+      "sha256": "e977b963ec86d60272a38c190a20c7489754c94dcd8bc599f93b1c1c950e66f1"
+    },
+    {
+      "path": "ControlCenter/media_tool_api.py",
+      "bytes": 14738,
+      "sha256": "8ae1e85d3a1e7e31eedcdbb314dff5df6d4304c475e838d3ec36a3e5e6a4baa8"
+    },
+    {
+      "path": "ControlCenter/native_chat.py",
+      "bytes": 413831,
+      "sha256": "ec2a12030755b40a1f48e1700bd3a26355567830727762ccbef94cb0116a5899"
+    },
+    {
+      "path": "ControlCenter/native_ui_protocol.py",
+      "bytes": 6469,
+      "sha256": "f9faf80f03c77dd6561c1705dbfba57686ae588ebcd4e65c427de6c89a54a21d"
+    },
+    {
+      "path": "ControlCenter/release_version.py",
+      "bytes": 91,
+      "sha256": "4d0e87355b9b9d6c45d167a760255a425583c9d2cbebee6c89ab0a29922c9fdb"
+    },
+    {
+      "path": "ControlCenter/settings_page.py",
+      "bytes": 33020,
+      "sha256": "9bccdc863e7379ab03307e60a4e21a8199e4f2d8f4cd0dcc397a2e61169309f1"
+    },
+    {
+      "path": "Documentation/ModelLicenses/Qwen-Image-Edit-2511/LICENSE-APACHE-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Documentation/ModelLicenses/Qwen-Image-Edit-2511/Lightning-README.md",
+      "bytes": 2679,
+      "sha256": "737dfc674ee93902370a07722a4a06bae49a0a9c1ab579d3f7f9129210600b86"
+    },
+    {
+      "path": "Documentation/ModelLicenses/Qwen-Image-Edit-2511/Qwen-README.md",
+      "bytes": 7179,
+      "sha256": "9724c194bef2a6d821090f0cd65774962e8f77e3acbfb2a7cbbdd58c92049902"
+    },
+    {
+      "path": "Documentation/ModelLicenses/Qwen-Image-Edit-2511/README.txt",
+      "bytes": 459,
+      "sha256": "78ff689e32182fbdadcce18c8517a110d2a8dfd2338a24d94ea263226cbcd8b4"
+    },
+    {
+      "path": "Documentation/ModelLicenses/Qwen-Image-Edit-2511/SOURCES.json",
+      "bytes": 758,
+      "sha256": "8e8f3bc65ce76e04ca0771d5260c72c7c93cd3d1c750eec9571a5c5619a8353f"
+    },
+    {
+      "path": "Documentation/Nice_Image_Performance_20261126.txt",
+      "bytes": 7559,
+      "sha256": "6243af8051d3872ffdccf60f9cb8b370635a67ce516ed291a595f65764779256"
+    },
+    {
+      "path": "Documentation/Qwen_Image_Editing.txt",
+      "bytes": 2610,
+      "sha256": "070a9b52aad75a02d7dfa260a98a936133cf77c2ddeba32fcce987fb4aefa665"
+    },
+    {
+      "path": "Maintenance/Benchmarks/image_workflow_cpu.py",
+      "bytes": 8282,
+      "sha256": "ef7297448cb0039f2077738acc89eeabedb6c4b653fbd18ffa7a080eb498d958"
+    },
+    {
+      "path": "Maintenance/Benchmarks/results/image-workflow-cpu-20261126.json",
+      "bytes": 7486,
+      "sha256": "bfe848c0bbe69b96dd215ca925f2a5561a9f1018874bab2bdca595c5b4e7fd6f"
+    },
+    {
+      "path": "Maintenance/Tests/test_chat_full_context.py",
+      "bytes": 14161,
+      "sha256": "ce6fddf6963d317d6906aaf4e47a8e1a979a2f8e99e06947a3ec55f7f16cd42c"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_fast_path.py",
+      "bytes": 10143,
+      "sha256": "27accab8a06b1efab60917ce19447af8f1d56ca439f1eb9e1d308ec61171dad5"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_timing.py",
+      "bytes": 3532,
+      "sha256": "dcebc951339910042668eda20d6ddcbbbd2bb16581a4f38fa823e299d4117eb7"
+    },
+    {
+      "path": "Maintenance/Tests/test_media_tool_api.py",
+      "bytes": 8307,
+      "sha256": "68d3ff0d5e6f257ce81224a59f1f5dc835110e61fc4b0b5be97e9be38b80c72e"
+    },
+    {
+      "path": "Maintenance/Tests/test_qwen_image_edit.py",
+      "bytes": 7755,
+      "sha256": "899b1299085428bc4475df9afeb1015669d470fb84eb21cb596282bc1d65641a"
+    },
+    {
+      "path": "Tools/choose_optional_models.py",
+      "bytes": 9434,
+      "sha256": "4c08d311f2cc7366c26d960bc889bdd65c1cb24637be770aa3c5ef221b90c94f"
+    },
+    {
+      "path": "Tools/import_qwen_image_edit.py",
+      "bytes": 1707,
+      "sha256": "d6c2cef418abef72c2973c244a62b027bbc46c1038f5044673436c05b3b9be71"
+    },
+    {
+      "path": "Tools/model_choices.py",
+      "bytes": 13570,
+      "sha256": "e08e46463cd1244b93b8c596874500e9370a033d16d8f25e2a1249f1a1310528"
+    }
+  ],
+  "validation": "Documentation/VALIDATION-r87.json"
+}

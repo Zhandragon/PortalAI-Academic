@@ -12,7 +12,7 @@ def variant_catalog(root, command=None, *, full=False):
     if command is not None and not isinstance(command, str):
         raise ValueError('Catalog command must be a string')
     if command is not None:command = command.strip() or None
-    command = {'generate_image':'image', 'media_tool':None, 'all':None}.get(command, command)
+    command = {'generate_image':'image', 'edit_images':'edit', 'media_tool':None, 'all':None}.get(command, command)
     try:
         result = catalog(command, root=root)
     except ValueError:
@@ -41,7 +41,7 @@ def catalog_response(root, command=None, detail='summary'):
         raise ValueError('detail must be summary or full')
     variants = variant_catalog(root, command, full=detail=='full')
     command = command.strip() if isinstance(command,str) else command
-    command = {'generate_image':'image', 'all':None, 'media_tool':None, '':None}.get(command,command)
+    command = {'generate_image':'image', 'edit_images':'edit', 'all':None, 'media_tool':None, '':None}.get(command,command)
     policy = load_effective_policy(root); defaults = personal(policy)['media']
     result = {'execution_help': execution_help(command), 'execution_help_complete': True,
               'commands': [command] if command else sorted(MEDIA_COMMANDS),
@@ -93,6 +93,35 @@ def image_arguments(args):
     return [*argv, '--', prompt]
 
 
+def edit_arguments(args):
+    allowed={'images','instruction','profile','variant','seed','assessment'}
+    if not isinstance(args,dict) or set(args)-allowed:raise ValueError('Unknown edit_images argument')
+    images=args.get('images')
+    if (not isinstance(images,list) or not 1<=len(images)<=3 or any(
+            not isinstance(p,str) or not p.strip() or '\x00' in p or len(p)>1600 for p in images)
+            or len(set(images))!=len(images)):
+        raise ValueError('Supply 1-3 distinct image paths, primary first')
+    instruction=args.get('instruction')
+    if not isinstance(instruction,str) or not instruction.strip() or '\x00' in instruction or len(instruction)>16000:
+        raise ValueError('Supply a nonempty editing instruction of at most 16000 characters')
+    if 'assessment' in args:
+        from media_planning import assess
+        if assess(args['assessment'])['assessment_required']:raise ValueError('Supply a complete assessment object')
+    argv=[]
+    if 'profile' in args:
+        if args['profile'] not in ('auto','qwen-lightning','qwen-quality','legacy','flux','klein4','pix2pix'):
+            raise ValueError('Unknown editing profile')
+        argv+=['--edit-profile',args['profile']]
+    variant=args.get('variant','default')
+    if variant not in ('default','standard','uncensored'):raise ValueError('Unknown editing variant')
+    if variant!='default':argv+=['--official' if variant=='standard' else '--uncensored']
+    if 'seed' in args:
+        if type(args['seed']) is not int or not 0<=args['seed']<2**63:raise ValueError('Seed must be a nonnegative 63-bit integer')
+        argv+=['--seed',str(args['seed'])]
+    for path in images[1:]:argv+=['--reference='+path]
+    return [*argv,'--',images[0],instruction]
+
+
 def media_argv(root, boot, command, arguments):
     if command not in MEDIA_COMMANDS:
         if command == 'inspect':
@@ -131,12 +160,22 @@ TOOLS = [
                        'additionalProperties': False}}}
 ]
 
+TOOLS.append({'type':'function','function':{
+    'name':'edit_images',
+    'description':'Edit 1-3 ordered actual images. The first is the primary image; other images supply reference content. Address their order in the instruction. Uses the saved editing profile: optional Qwen 2511 Lightning/full sampling, or the existing hardware-scaled editor. Default Qwen output follows primary aspect at about one megapixel. Never silently drop unsupported references. Omit profile unless the user requests a different method. Saved outputs are attached for review.',
+    'parameters':{'type':'object','properties':{
+        'images':{'type':'array','items':{'type':'string'},'minItems':1,'maxItems':3},
+        'instruction':{'type':'string'},
+        'profile':{'type':'string','enum':['auto','qwen-lightning','qwen-quality','legacy','flux','klein4','pix2pix']},
+        'variant':{'type':'string','enum':['default','standard','uncensored']},
+        'seed':{'type':'integer','minimum':0}},'required':['images','instruction'],'additionalProperties':False}}})
+
 # Share the same validated judgment schema rather than inventing a less strict
 # shortcut. The host consumes it; it is never turned into a worker CLI flag.
 from copy import deepcopy as _copy_schema
 from media_planning import TOOL as _PLAN_TOOL
 for _tool in TOOLS:
-    if _tool['function']['name'] in ('generate_image','media_tool'):
+    if _tool['function']['name'] in ('generate_image','media_tool','edit_images'):
         _tool['function']['parameters']['properties']['assessment']=_copy_schema(
             _PLAN_TOOL['function']['parameters']['properties']['assessment'])
         # The loaded media workflow already explains these fields. Keep the

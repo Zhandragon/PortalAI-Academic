@@ -14,9 +14,16 @@ from model_choices import validate_custom_request
 def catalog(root=ROOT):
     from import_foundation_assets import ASSETS
     academic=(root/'Agent/academic_policy.py').exists()
-    return [a for a in ASSETS if a['id'] in (
+    rows=[a for a in ASSETS if a['id'] in (
         'qwen1.7-q8','qwen1.7-abliterated-q8','qwen4-q4','qwen4-abliterated-q4')
         and (not academic or 'abliterated' not in a['id'])]
+    if (root/'Agent/qwen_image_edit_assets.json').is_file():
+        from import_qwen_image_edit import catalog as qwen_catalog,ID
+        qwen=qwen_catalog(root)
+        rows.append({'id':ID,'label':'Qwen 2511 image editing + Lightning (Windows NVIDIA)',
+            'size':sum(a['size'] for a in qwen['assets']),'url':qwen['publisher_url'],
+            'license_url':qwen['license_url'],'lightning_url':qwen['lightning_url']})
+    return rows
 
 
 def choose(root=ROOT):
@@ -26,17 +33,29 @@ def choose(root=ROOT):
     rows=catalog(root);result=[]
     app=tk.Tk();app.title('PortalAI · optional, suggested/supported models');app.geometry('850x850')
     app.configure(bg='#EEE7DC')
-    body=ttk.Frame(app,padding=20);body.pack(fill='both',expand=True)
+    # Keep consent, sources and actions reachable on smaller/scaled displays.
+    scroll=ttk.Frame(app);scroll.pack(fill='both',expand=True)
+    canvas=tk.Canvas(scroll,highlightthickness=0,bg='#EEE7DC')
+    scrollbar=ttk.Scrollbar(scroll,orient='vertical',command=canvas.yview)
+    canvas.configure(yscrollcommand=scrollbar.set)
+    scrollbar.pack(side='right',fill='y');canvas.pack(side='left',fill='both',expand=True)
+    body=ttk.Frame(canvas,padding=20);window=canvas.create_window((0,0),window=body,anchor='nw')
+    body.bind('<Configure>',lambda event:canvas.configure(scrollregion=canvas.bbox('all')))
+    canvas.bind('<Configure>',lambda event:canvas.itemconfigure(window,width=event.width))
     ttk.Label(body,text='Choose the models for your workspace',font=('Segoe UI',18,'bold')).pack(anchor='w')
     ttk.Label(body,wraplength=790,text="The purchase covers PortalAI's harness. These optional, suggested/supported examples are separately licensed. All downloads are off until you choose them. Existing models are kept.").pack(fill='x',pady=10)
     choices={}
     for row in rows:
         v=tk.BooleanVar(value=False);choices[row['id']]=v
-        ttk.Checkbutton(body,variable=v,text=f"{row['id']} · {row['size']/1024**3:.2f} GiB · Apache-2.0").pack(anchor='w',pady=3)
+        ttk.Checkbutton(body,variable=v,text=f"{row.get('label',row['id'])} · {row['size']/1024**3:.2f} GiB · Apache-2.0").pack(anchor='w',pady=3)
     ttk.Label(body,wraplength=790,text='Apache-2.0 permits commercial use subject to its terms, including notices. Abliterated variants have reduced refusal behavior and can still make mistakes. PortalAI is not an isolation sandbox.').pack(fill='x',pady=8)
     sources=tk.Text(body,height=5,wrap='word');sources.pack(fill='x')
-    sources.insert('1.0','Publisher: https://huggingface.co/Qwen/Qwen3-1.7B\n\n'+'\n'.join(row['id']+': '+row['url'] for row in rows));sources.configure(state='disabled')
+    sources.insert('1.0','Publisher: https://huggingface.co/Qwen/Qwen3-1.7B\n\n'+'\n'.join(row.get('label',row['id'])+': '+row['url']+' '+row.get('license_url','')+' '+row.get('lightning_url','') for row in rows));sources.configure(state='disabled')
     ttk.Button(body,text='Open publisher / license',command=lambda:webbrowser.open('https://huggingface.co/Qwen/Qwen3-1.7B')).pack(anchor='w',pady=5)
+    if any(row['id']=='qwen-image-edit-2511-lightning' for row in rows):
+        from import_qwen_image_edit import catalog as qwen_catalog
+        for label,key in (('Qwen image model terms','license_url'),('Lightning model terms','lightning_url')):
+            ttk.Button(body,text=label,command=lambda key=key:webbrowser.open(qwen_catalog(root)[key])).pack(anchor='w')
     use_custom=tk.BooleanVar(value=False)
     ttk.Checkbutton(body,text='Use my own compatible chat model',variable=use_custom).pack(anchor='w',pady=(12,5))
     ttk.Label(body,wraplength=790,text='Different single-file dense Qwen3 GGUF text models are supported after validation. Uncheck the suggestions to install only yours. Vision, media and adapters need their own workflow contracts.').pack(fill='x')
@@ -85,8 +104,13 @@ def install_choices(request, root=ROOT):
         if (root/'Agent/academic_policy.py').exists():
             from academic_policy import require_asset
             require_asset(custom)
-    for key in selected:install(rows[key],root)
-    if selected:install(next(a for a in ASSETS if a['id']=='qwen-license'),root)
+    for key in selected:
+        if key=='qwen-image-edit-2511-lightning':
+            from import_qwen_image_edit import install as install_qwen
+            install_qwen(root,accepted=True)
+        else:install(rows[key],root)
+    if any(key!='qwen-image-edit-2511-lightning' for key in selected):
+        install(next(a for a in ASSETS if a['id']=='qwen-license'),root)
     if custom:
         from installer_core import fetch,checked_path,sha256
         from custom_models import inspect_gguf

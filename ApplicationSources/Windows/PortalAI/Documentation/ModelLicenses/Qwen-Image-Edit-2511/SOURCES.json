@@ -1,0 +1,21 @@
+[
+  {
+    "file": "Qwen-README.md",
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "revision": "6f3ccc0b56e431dc6a0c2b2039706d7d26f22cb9",
+    "upstream_file": "README.md",
+    "sha256": "9724c194bef2a6d821090f0cd65774962e8f77e3acbfb2a7cbbdd58c92049902"
+  },
+  {
+    "file": "Lightning-README.md",
+    "repository": "lightx2v/Qwen-Image-Edit-2511-Lightning",
+    "revision": "107d238d68b8387e32843d0b4a2e24ceb0d3ad86",
+    "upstream_file": "README.md",
+    "sha256": "737dfc674ee93902370a07722a4a06bae49a0a9c1ab579d3f7f9129210600b86"
+  },
+  {
+    "file": "LICENSE-APACHE-2.0.txt",
+    "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  }
+]

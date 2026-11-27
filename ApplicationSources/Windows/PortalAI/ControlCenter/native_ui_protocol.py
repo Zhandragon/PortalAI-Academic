@@ -7,6 +7,8 @@ PROTOCOL = 'portalai-native-state/2'
 MAX_FRAME = 180000
 LEASE_MS = 2000
 MEDIA = {
+    'edit_profile': ('auto','qwen-lightning','qwen-quality','legacy'),
+    'image_planning': ('auto','guided','direct'),
     'media_variant': ('auto', 'standard', 'uncensored'),
     'image_profile': ('auto', 'sd15', 'klein4', 'flux'),
     'speech_model': ('auto', 'base', 'large-v3-turbo'),

@@ -86,6 +86,11 @@ def media_fit(root, values):
             plan=planner(root,hardware=hardware,policy=policy)
             results.append(name+': '+' / '.join(str(plan[k]) for k in fields if k in plan))
         except Exception as exc:results.append(name+': '+str(exc))
+    from qwen_image_edit import plan as edit_plan
+    try:
+        plan=edit_plan(root,hardware=hardware,policy=policy)
+        results.append('Image editing: '+plan['profile']+'; '+plan['reason'])
+    except Exception as exc:results.append('Image editing: '+str(exc))
     from media_defaults import reference_video_scaled
     from native_video import video_plan
     try:

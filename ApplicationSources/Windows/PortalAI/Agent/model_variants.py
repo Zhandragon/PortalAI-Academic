@@ -6,7 +6,7 @@ Neither a filename nor a publisher's 'uncensored' label proves model behavior.
 from pathlib import Path
 import copy
 
-REVISION = '2026-10-16'
+REVISION = '2026-11-27'
 MODELS = 'Generative/ComfyUI_windows_portable/ComfyUI/models/'
 
 
@@ -19,6 +19,7 @@ def media(path, size=None):
 
 
 CATALOG = [
+    {'id': 'qwen-image-edit-2511', 'tools': ['edit'], 'family': 'Optional Qwen-Image-Edit-2511 + Lightning', 'status': 'optional_standard', 'selection': 'Settings Image editing: Auto, Lightning 4 steps, Full 40 steps, or Existing editor', 'standard': [{'path': 'Generative/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/qwen_image_edit_2511_int8_convrot.safetensors', 'bytes': 20499083824}, {'path': 'Generative/ComfyUI_windows_portable/ComfyUI/models/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors', 'bytes': 9384670680}, {'path': 'Generative/ComfyUI_windows_portable/ComfyUI/models/vae/qwen_image_vae.safetensors', 'bytes': 253806246}, {'path': 'Generative/ComfyUI_windows_portable/ComfyUI/models/loras/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors', 'bytes': 849608296}], 'source': 'https://huggingface.co/Qwen/Qwen-Image-Edit-2511', 'notes': 'Separately downloaded after license review; excluded from default installers. Ordered 1-3 actual references. Windows NVIDIA CUDA admission uses free VRAM, host RAM and commit after chat handoff. Full sampling does not use the optional Lightning adapter. No configured uncensored counterpart; saved media variant remains authoritative.'},
     {
         'id': 'qwen-vl2', 'tools': ['chat'], 'family': 'Qwen3 VL 2B image companion',
         'status': 'parallel', 'selection': 'Settings: Automatic image vision; Fast and low-memory fallback',

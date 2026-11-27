@@ -24,9 +24,9 @@ def selected(args, hardware=None):
     from radeon_edit import uses_radeon
     profile = getattr(args, 'edit_profile', 'auto')
     engine = getattr(args, 'engine', None) or 'auto'
-    if profile in {'pix2pix', 'flux'} and engine != 'auto':
+    if profile in {'pix2pix', 'flux','qwen-lightning','qwen-quality'} and engine != 'auto':
         raise ValueError('Explicit native engine requires --edit-profile klein4 or auto')
-    return profile == 'klein4' or (profile == 'auto' and (engine != 'auto' or uses_radeon(hardware)))
+    return profile == 'klein4' or (profile in ('auto','legacy') and (engine != 'auto' or uses_radeon(hardware)))
 
 
 def plan(root=ROOT, *, engine='auto', width=512, height=512, variant='official', hardware=None):

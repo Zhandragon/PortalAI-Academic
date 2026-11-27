@@ -1,0 +1,70 @@
+{
+  "id": "qwen-image-edit-2511-lightning",
+  "label": "Qwen 2511 image editing + Lightning (28.86 GiB; optional)",
+  "required": false,
+  "depends_on": [
+    "core-runtime"
+  ],
+  "artifacts": [
+    {
+      "id": "qwen-edit-diffusion_models",
+      "format": "file",
+      "url": "https://huggingface.co/Comfy-Org/Qwen-Image-Edit/resolve/f68ace85e60b4a02a323e394253731947657b7d2/split_files/diffusion_models/qwen_image_edit_2511_int8_convrot.safetensors",
+      "bytes": 20499083824,
+      "sha256": "11b5af5ac601821d73930c84846c9a158e67177356daf927ce1c8d10f3963829",
+      "members": [
+        {
+          "member": "qwen_image_edit_2511_int8_convrot.safetensors",
+          "dest": "PortalAI Windows/Generative/ComfyUI_windows_portable/ComfyUI/models/diffusion_models/qwen_image_edit_2511_int8_convrot.safetensors",
+          "bytes": 20499083824,
+          "sha256": "11b5af5ac601821d73930c84846c9a158e67177356daf927ce1c8d10f3963829"
+        }
+      ]
+    },
+    {
+      "id": "qwen-edit-text_encoders",
+      "format": "file",
+      "url": "https://huggingface.co/Comfy-Org/Qwen-Image/resolve/1f12b17be14c89b026c51a91d67c32f84bb047bc/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "bytes": 9384670680,
+      "sha256": "cb5636d852a0ea6a9075ab1bef496c0db7aef13c02350571e388aea959c5c0b4",
+      "members": [
+        {
+          "member": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+          "dest": "PortalAI Windows/Generative/ComfyUI_windows_portable/ComfyUI/models/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors",
+          "bytes": 9384670680,
+          "sha256": "cb5636d852a0ea6a9075ab1bef496c0db7aef13c02350571e388aea959c5c0b4"
+        }
+      ]
+    },
+    {
+      "id": "qwen-edit-vae",
+      "format": "file",
+      "url": "https://huggingface.co/Comfy-Org/Qwen-Image/resolve/1f12b17be14c89b026c51a91d67c32f84bb047bc/split_files/vae/qwen_image_vae.safetensors",
+      "bytes": 253806246,
+      "sha256": "a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f",
+      "members": [
+        {
+          "member": "qwen_image_vae.safetensors",
+          "dest": "PortalAI Windows/Generative/ComfyUI_windows_portable/ComfyUI/models/vae/qwen_image_vae.safetensors",
+          "bytes": 253806246,
+          "sha256": "a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f"
+        }
+      ]
+    },
+    {
+      "id": "qwen-edit-loras",
+      "format": "file",
+      "url": "https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning/resolve/107d238d68b8387e32843d0b4a2e24ceb0d3ad86/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+      "bytes": 849608296,
+      "sha256": "22226e8d05d354bb356627d428809f5afd7819399b077238a2b70a82883a904f",
+      "members": [
+        {
+          "member": "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+          "dest": "PortalAI Windows/Generative/ComfyUI_windows_portable/ComfyUI/models/loras/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+          "bytes": 849608296,
+          "sha256": "22226e8d05d354bb356627d428809f5afd7819399b077238a2b70a82883a904f"
+        }
+      ]
+    }
+  ]
+}

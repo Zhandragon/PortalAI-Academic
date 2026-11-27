@@ -15,7 +15,7 @@ if sys.platform.startswith('linux'):
 from contextlib import contextmanager, nullcontext, ExitStack
 from urllib.parse import quote
 from urllib.request import urlopen
-from _common import load_config, resolve_root, emit as _raw_emit, root_dir
+from _common import load_config, resolve_root, emit as _raw_emit, root_dir, http_json
 from comfy_bridge import ComfyBridge
 from acestep_bridge import AceStepBridge
 from voice_bridge import VoiceBridge
@@ -1463,7 +1463,7 @@ def version_metadata() -> dict:
         "video_understanding": VIDEO_UNDERSTANDING_VERSION,
         "image_backends": {
             "generation": ["FLUX/ComfyUI", "SD1.5/ComfyUI", "SD1.5/native-Vulkan", "SD1.5/native-CPU", "Klein4/native-CPU-Vulkan"],
-            "instruction_editing": ["FLUX Windows/CUDA", "Klein4 native CPU/Vulkan; scaled auto", "InstructPix2Pix ROCm via --edit-profile pix2pix"],
+            "instruction_editing": ["Optional Qwen 2511 multi-reference: Lightning 4 steps or full 40 steps; Windows/CUDA, fresh memory admission", "FLUX Windows/CUDA", "Klein4 native CPU/Vulkan; scaled auto", "InstructPix2Pix ROCm via --edit-profile pix2pix"],
         },
         "voice_backends": ["Qwen3-TTS CUDA", "Qwen3-TTS ROCm", "Piper CPU basic English speech"],
         "media_settings": {"media_variant":"Independent of chat: auto lets Nice choose; standard/uncensored are fixed defaults. Saved on the portable drive per account.", "video-small":"Saved text_video_engine; --engine overrides",
@@ -1521,7 +1521,8 @@ def main():
 
     p = sub.add_parser("edit", help="Instruction edit: large FLUX CUDA or native Klein4 CPU/Vulkan; explicit pix2pix retains InstructPix2Pix ROCm")
     p.add_argument("input"); p.add_argument("instruction"); p.add_argument("--seed", type=int)
-    p.add_argument('--edit-profile', choices=['auto', 'klein4', 'pix2pix', 'flux'], default='auto')
+    p.add_argument('--edit-profile', choices=['auto', 'klein4', 'pix2pix', 'flux','legacy','qwen-lightning','qwen-quality'], default='auto')
+    p.add_argument('--reference', action='append', default=[], help='Additional actual reference image, at most two; order is preserved')
     p.add_argument('--engine', choices=['auto', 'sdcpp-cpu', 'sdcpp-vulkan'], default='auto', help='Native Klein4 backend; an explicit native backend selects Klein4')
     _add_variant_flags(p)
 
@@ -1895,6 +1896,14 @@ def main():
             args.input = str(image_source(root_dir(), args.input))
             if getattr(args, 'mask', None):
                 args.mask = str(image_source(root_dir(), args.mask))
+        if args.cmd == 'edit':
+            from qwen_image_edit import preference
+            args.edit_profile=preference(root_dir(),args.edit_profile)
+            if len(args.reference)>2:raise ValueError('At most three total editing inputs are supported')
+            args.reference=[str(image_source(root_dir(),p)) for p in args.reference]
+            if len(set([args.input,*args.reference]))!=1+len(args.reference):raise ValueError('Editing images must be distinct paths')
+            if args.reference and args.edit_profile in ('klein4','pix2pix'):
+                raise ValueError('This editor accepts one image; inspect references and incorporate their findings into the instruction, or select a multi-reference backend')
         if args.cmd == 'image' and args.steps is not None and not 1 <= args.steps <= 50:
             raise ValueError('Image steps must be between 1 and 50')
         if args.cmd == 'image' and args.override_saved_profile and args.profile is None:
@@ -2169,7 +2178,37 @@ def main():
                 image_profile = None
                 from radeon_edit import uses_radeon, plan as radeon_plan, edit as radeon_edit
                 edit_profile = getattr(args, 'edit_profile', 'auto')
+                edit_admission=None
+                if args.cmd=='edit':
+                    from qwen_image_edit import plan as qwen_edit_plan, workflow as qwen_edit_workflow, validate_nodes
+                    from runtime_policy import load_effective_policy,detect_hardware
+                    from model_preferences import media_variant
+                    from media_policy import cuda_memory
+                    edit_hardware=detect_hardware();edit_policy=load_effective_policy(root_dir())
+                    alternate=args.uncensored or (not args.official and media_variant(edit_policy)=='uncensored')
+                    edit_admission=qwen_edit_plan(root_dir(),profile=edit_profile,references=1+len(args.reference),
+                        hardware=edit_hardware,policy=edit_policy,variant='uncensored' if alternate else 'standard',engine=args.engine)
+                    if edit_admission['qwen']:
+                        if args.engine!='auto':raise ValueError('Qwen image editing uses ComfyUI/CUDA, not a native engine')
+                        service_start('comfyui');service_wait('comfyui');bridge=ComfyBridge()
+                        source_paths=[media_reference(root_dir(),p) for p in [args.input,*args.reference]]
+                        images=[bridge.upload_image(p) for p in source_paths]
+                        seed=args.seed if args.seed is not None else random.randint(0,2**63-1)
+                        graph=qwen_edit_workflow(images,args.instruction,seed,edit_admission)
+                        validate_nodes(graph,http_json('GET',bridge.base+'/object_info',timeout=20))
+                        _set_gpu_state('comfyui','edit',_workflow_models(graph),edit_admission['profile'])
+                        result=bridge.run(graph,resolve_root(cfg['outputs']['edited']))
+                        _complete_abort_watchdog(watchdog_marker)
+                        emit({'success':True,'tool':'edit','route':'multi-reference-edit','source':str(source_paths[0]),
+                            'sources':[str(p) for p in source_paths],'model_variant':'official','seed':seed,
+                            'hardware_profile':edit_admission,'steps':edit_admission['steps'],**result})
+                    if edit_profile=='legacy':args.edit_profile='auto'
+                    if edit_profile in ('auto','legacy') and cuda_memory(edit_hardware)<16*1024**3:
+                        args.edit_profile='klein4'
+                    edit_profile=args.edit_profile
                 native_edit = native_edit_selected(args)
+                if args.cmd=='edit' and args.reference and (native_edit or edit_profile=='pix2pix'):
+                    raise RuntimeError('The selected hardware-scaled editor supports one image. No references were dropped; inspect them and use the guided single-input method, or run on a supported multi-reference GPU.')
                 if args.cmd in ('edit', 'mask', 'inpaint', 'autoedit') and (native_edit or edit_profile == 'pix2pix' or (args.cmd == 'mask' and uses_radeon())):
                     if args.cmd != 'mask':
                         if native_edit:
@@ -2249,13 +2288,16 @@ def main():
                 src = media_reference(root_dir(), getattr(args, "input", ""))
                 if args.cmd == "edit":
                     variant, reason = _chosen_variant(args)
-                    uploaded = b.upload_image(src); wf = b.workflow(workflow_key("edit", variant))
+                    from media_policy import image_plan
+                    image_plan(root_dir(),profile='flux',variant='uncensored' if variant=='uncensored' else 'standard')
+                    sources=[src,*[media_reference(root_dir(),p) for p in args.reference]]
+                    uploaded=[b.upload_image(p) for p in sources];wf=b.workflow(workflow_key('edit',variant))
                     seed = args.seed if args.seed is not None else random.randint(0, 2**63-1)
-                    b.configure_edit(wf, uploaded, args.instruction, seed)
+                    b.configure_reference_edit(wf, uploaded, args.instruction, seed)
                     _set_gpu_state("comfyui", "edit", _workflow_models(wf), f"variant={variant}")
                     r = b.run(wf, resolve_root(cfg["outputs"]["edited"]))
                     _complete_abort_watchdog(watchdog_marker)
-                    emit({"success": True, "tool": "edit", "route": "edit", "model_variant": variant, "variant_reason": reason, "source": str(src), "seed": seed, **r})
+                    emit({"success": True, "tool": "edit", "route": "edit", "model_variant": variant, "variant_reason": reason, "source": str(src), "sources":[str(p) for p in sources], "editing_selection":edit_admission, "seed": seed, **r})
 
                 if args.cmd == "mask":
                     mask_file, r = _run_mask(b, cfg, src, args.object, args.threshold, args.expand)

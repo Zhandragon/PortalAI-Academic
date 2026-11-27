@@ -1305,6 +1305,9 @@ class ToolRuntime:
             from agent_collaboration import call
             self._agents_used = True
             return json.dumps(call(self, str(args.get('action','help')), args.get('arguments') or {}), ensure_ascii=True)
+        if name == 'edit_images':
+            from media_tool_api import edit_arguments
+            return self.media_tool('edit', edit_arguments(args))
         if name == 'generate_image':
             from media_tool_api import image_arguments
             return self.media_tool('image', image_arguments(args))
@@ -5273,8 +5276,8 @@ class NativeChat:
                                   if self.session['messages'][i].get('role') == 'user'), -1)
             from result_verification import begin_request
             begin_request(self.tool_runtime,self.session,request_index)
-            from media_planning import MediaPlanning
-            self.tool_runtime._media_planning = MediaPlanning(current_request)
+            from media_planning import MediaPlanning, planning_mode
+            self.tool_runtime._media_planning = MediaPlanning(current_request, mode=planning_mode(self.root))
             usage['request_index'] = request_index
             self._context_state()['last_run'] = dict(usage)
             attempted_results.update(prior_action_results(self.session, request_index))

@@ -149,6 +149,30 @@ class ComfyBridge:
                 noises[0][1]["inputs"]["noise_seed"] = int(seed)
         return wf
 
+    def configure_reference_edit(self, wf, images, instruction, seed=None):
+        """Ordered references for the native FLUX.2 graph; no text-only substitution."""
+        if not isinstance(images,list) or not 1<=len(images)<=3:raise ValueError('Supply 1-3 reference images')
+        self.configure_edit(wf,images[0],instruction,seed)
+        if len(images)==1:return wf
+        guiders=self._nodes_by_type(wf,'CFGGuider')
+        refs=self._nodes_by_type(wf,'ReferenceLatent')
+        vaes=self._nodes_by_type(wf,'VAELoader')
+        if len(guiders)!=1 or len(refs)!=2 or len(vaes)!=1:
+            raise RuntimeError('This existing editor graph does not support ordered multi-reference conditioning')
+        guider=guiders[0][1]['inputs'];vae=[vaes[0][0],0]
+        for index,name in enumerate(images[1:],2):
+            prefix='portalai_reference_'+str(index)
+            if any(k.startswith(prefix) for k in wf):raise ValueError('Reference graph already configured')
+            wf[prefix]={'class_type':'LoadImage','inputs':{'image':name}}
+            wf[prefix+'_scale']={'class_type':'ImageScaleToTotalPixels','inputs':{
+                'image':[prefix,0],'upscale_method':'lanczos','megapixels':1.0,'resolution_steps':8}}
+            wf[prefix+'_latent']={'class_type':'VAEEncode','inputs':{'pixels':[prefix+'_scale',0],'vae':vae}}
+            for side in ('positive','negative'):
+                key=prefix+'_'+side
+                wf[key]={'class_type':'ReferenceLatent','inputs':{'conditioning':guider[side],'latent':[prefix+'_latent',0]}}
+                guider[side]=[key,0]
+        return wf
+
     def configure_mask(self, wf, image_name, object_prompt, threshold=0.30, expand=8):
         source = wf.get("1")
         if not (isinstance(source, dict) and source.get("class_type") == "LoadImage"):

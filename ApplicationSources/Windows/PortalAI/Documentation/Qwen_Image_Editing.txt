@@ -1,0 +1,47 @@
+Optional Qwen image editing
+
+Qwen-Image-Edit-2511 can edit one image or combine up to three ordered images.
+Settings > Media separates the editing method from planning assistance:
+
+- Automatic checks the installed files and current memory after chat releases
+  the GPU. It uses the existing editor when Qwen is unavailable.
+- Qwen Lightning uses the shared 2511 model with its four-step adapter.
+- Qwen full sampling uses 40 steps without that adapter.
+- Existing editor retains the FLUX/native route and hardware scaling.
+- Planning Auto uses a short assessment and adds research or stages when needed.
+  Guided retains the detailed reference/stage workflow. Direct lets Nice send
+  the instruction and images without a mandatory planning exchange.
+
+The edit_images tool preserves input order: the first image sets the composition
+and output aspect ratio. Inputs are bounded to roughly one megapixel each.
+Unsupported backends reject extra references rather than silently dropping them.
+Masked edits, animation and text-to-image generation retain their existing routes.
+
+Installation
+
+The GitHub, Payhip and itch.io installers contain the integration and model
+source/license links. The new Qwen weights are never bundled into the application
+payload or selected by default. Choose the optional Qwen 2511 + Lightning entry
+and review its terms before downloading. The four pinned assets total 30.99 GB
+(28.86 GiB). No image request automatically downloads them.
+
+An existing Windows installation can use Tools/choose_optional_models.py.
+Tools/import_qwen_image_edit.py displays the exact source URLs and hashes.
+Its --install operation additionally requires --accept-model-terms.
+Publisher model cards and notices are in Documentation/ModelLicenses/Qwen-Image-Edit-2511.
+
+Hardware and ownership
+
+The initial route is Windows x64 with NVIDIA CUDA. Admission uses CUDA device 0
+and currently available memory, never the sum of several cards. It also checks
+host RAM and available Windows commit. ComfyUI's dynamic offloading remains
+active, with PortalAI's storage reserves and shared GPU lease. Chat releases the
+GPU before editing; cleanup and chat restoration use the existing handoff.
+An explicit CPU/Vulkan engine keeps the existing native editor. Requested Qwen
+profiles report missing assets or insufficient resources instead of silently
+changing the selected method. Presence of a file is not a quality guarantee.
+
+References
+https://huggingface.co/Qwen/Qwen-Image-Edit-2511
+https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning
+https://docs.comfy.org/tutorials/image/qwen/qwen-image-edit-2511

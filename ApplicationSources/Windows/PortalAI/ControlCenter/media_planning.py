@@ -107,7 +107,33 @@ def _strings(value, maximum=8):
     return value
 
 
+def planning_mode(root=None):
+    if root is None or not (Path(root)/'Agent/hardware_profiles.json').is_file():return 'auto'
+    from runtime_policy import load_effective_policy
+    value=load_effective_policy(root).get('media',{}).get('image_planning','auto')
+    if value not in ('auto','guided','direct'):raise ValueError('Unknown image planning mode')
+    return value
+
+
+def guidance(root):
+    mode=planning_mode(root)
+    if mode=='direct':
+        return ('Direct image planning is selected. Use edit_images with ordered actual images and the requested instruction. '
+                'No separate assessment or plan is required. Use references and stages when the user asks for them. '
+                'Preserve all supplied inputs; never drop an unsupported reference silently. '
+                'A saved file does not prove visual correctness. Inspect/review the attached output before claiming visible constraints passed.')
+    if mode=='auto':
+        return GUIDANCE.replace('Complex interactions need 2-6 sequential stages:',
+            'Use one multi-reference edit when the supplied images and instruction establish the composition. '
+            'Use 2-6 sequential stages only when dependencies or failed visual checks justify them:')
+    return GUIDANCE
+
+
 def media_request(name,args):
+    if name=='edit_images':
+        from media_tool_api import edit_arguments
+        argv=edit_arguments(args)
+        return 'edit',argv,str(args.get('instruction',''))
     if name=='generate_image':return 'image',[],str(args.get('prompt',''))
     if name=='media_tool':return args.get('command'),args.get('arguments') or [],' '.join(args.get('arguments') or [])
     if name=='shell':
@@ -133,7 +159,9 @@ def result_json(result):
 
 
 class MediaPlanning:
-    def __init__(self, request=''):
+    def __init__(self, request='', mode='auto'):
+        if mode not in ('auto','guided','direct'):raise ValueError('Unknown image planning mode')
+        self.mode=mode
         self.request=request; self.assessment=None; self.plan=None; self.references=[]; self.visual=None
         self.outputs=[]; self.fetched=set(); self.downloaded=set();self.inspected=set();self.reviews={}
         self.completed_stages=0;self.output_stages={}
@@ -304,7 +332,8 @@ class MediaPlanning:
         if not request:return
         command,argv,prompt=request
         if command not in ('image','edit','inpaint','autoedit','video','video-small','dialogue-video') or '--help' in argv:return
-        judgment=self.candidate_assessment(args) if name in ('generate_image','media_tool') else assess(self.assessment)
+        if self.mode=='direct' and not self.plan:return
+        judgment=self.candidate_assessment(args) if name in ('generate_image','media_tool','edit_images') else assess(self.assessment)
         if judgment['assessment_required']:
             return {'success':False,'generation_started':False,'planning_required':True,
                     **judgment,'next_step':self.next_step(judgment)}
@@ -317,13 +346,13 @@ class MediaPlanning:
             if command not in ('edit','inpaint','autoedit','video','dialogue-video') or self.outputs[-1] not in argv:
                 return {'success':False,'generation_started':False,'next_step':'Continue by editing the exact previous output instead of regenerating the whole scene.',
                         'previous_output':self.outputs[-1],'constraints':self.plan['constraints']}
-        if 'assessment' in args and name in ('generate_image','media_tool'):
+        if 'assessment' in args and name in ('generate_image','media_tool','edit_images'):
             self.assessment=judgment['assessment']
 
 
 def planner(runtime):
     value=getattr(runtime,'_media_planning',None)
-    if value is None: value=MediaPlanning();runtime._media_planning=value
+    if value is None: value=MediaPlanning(mode=planning_mode(getattr(runtime,'root',None)));runtime._media_planning=value
     return value
 
 

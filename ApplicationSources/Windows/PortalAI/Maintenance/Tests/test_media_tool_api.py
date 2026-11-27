@@ -21,6 +21,8 @@ class MediaToolTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
         with patch.object(native_chat,'bootstrap_python',return_value=ROOT/'Runtime/BootstrapPython/python.exe'):
             self.tool=native_chat.ToolRuntime(self.root,{'tool_timeout_seconds':30})
+        from media_planning import MediaPlanning
+        self.tool._media_planning=MediaPlanning(mode='direct')  # These fixtures exercise argv/ownership, not semantic planning.
 
     def test_image_explicit_variant_translates_without_shell_or_prompt_interpretation(self):
         text='a teapot; & echo "do not execute" $(x)\nbright studio'

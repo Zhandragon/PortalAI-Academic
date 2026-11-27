@@ -16,6 +16,7 @@ DESCRIPTIONS = {
     'browser': 'Local browser-use: open(url), state, click/fill/press using fresh element IDs and observation. Accessible text works on Qwen 4B. Separate headless Chromium; Stop clears it.',
     'agents': 'Bounded mission agents/messages; explicitly paired drives only. help gives syntax. Observe default; Stop disarms.',
     'file_inspect': 'Read-only bounded text/CSV/JSON, SQLite schema or ZIP/Office preview; literal search. Samples are not whole-file statistics.',
+    'edit_images': 'Edit 1–3 ordered images with an instruction; saved editing profile, hardware scaling and visual review apply.',
     'generate_image': 'Generate images with current saved profile. Omit overrides normally; embed returned preview URLs.',
     'media_tool': 'Run local media with literal CLI strings. Follow current saved defaults; never drop vocals/duration. Known syntax directly; --help for unknown options.',
     'available_tools': 'Media commands, saved defaults, variants and focused execution help. command narrows results; full adds reference metadata.',
@@ -52,11 +53,11 @@ INDEX = (
     'Add up to four tools per call; previously loaded tools remain available. Use replace=true only to replace the selection when context is tight. No tool execution or permission grant. '
     'Plain conversation needs no lookup. Capabilities: files read_file/write_file/edit_file/list_dir/file_inspect; '
     'code project/source_map/source_search/inspect_environment/shell; output checks verify; web research web; '
-    'images generate_image, media_plan (visual assessment, references/stages); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
+    'images generate_image, edit_images, media_plan (optional assessment, references/stages); audio/video/music media_tool, available_tools; math/bioinformatics/chemistry/physics/circuits/CAD science; '
     'documents knowledge; JSON structured; HTML/SVG/charts artifact; connections mcp; '
     'saved jobs workflow; evidence-linked plans task; user task guides skill; mission agents agents; '
     'use/click/type/control desktop apps computer (works with text-only Qwen); PortalAI pages/Utilities/Projection portal_ui; interact with websites browser; website search/research web. '
-    'For images load generate_image and media_plan together; for edits load media_tool and media_plan together. '
+    'For images load generate_image and media_plan together; for edits load edit_images and media_plan together. '
     'Do not guess shell commands for app controls. Empty tools with replace=true unloads optional tools.'
 )
 
@@ -188,22 +189,22 @@ def guidance(panel, rows):
         from maintenance_tools import GUIDANCE
         from source_navigation import progress_guidance
         text += '\n'+GUIDANCE+progress_guidance((getattr(panel,'session',None) or {}).get('messages',()))
-    if names & {'media_tool','generate_image','available_tools','media_plan'}:
+    if names & {'media_tool','generate_image','edit_images','available_tools','media_plan'}:
         from assistant_guidance import media_preference_guidance
         from tool_contracts import DIALOGUE_VIDEO
         text += ('\nMedia workflow: follow current saved defaults; repeated requests do not inherit earlier overrides. '
                  'Chat/media variants are independent. Never switch variants on refusal. Prefer hardware auto; '
                  'Vulkan chat does not prove ROCm media. Honor vocals/duration and report unsupported routes. '
                  'Use returned preview URLs. Success:true confirms a generated file, not visual correctness; '
-                 'Combine assessment with generate_image/media_tool when no separate plan is needed, or with media_plan plan after inspecting references. '
+                 'In Auto/Guided planning, combine assessment with generate_image/edit_images/media_tool or with media_plan plan after inspecting references. Direct mode skips mandatory assessment. '
                  'When output_inspection says images_attached_next_request=true, review the attached output directly; do not spend another call attaching it again. '
                  'Inspect images with media_plan(action="inspect",paths=[...]); it is not a media_tool command. '
-                 'Edit with media_tool(command="edit",arguments=[IMAGE_PATH,INSTRUCTION]); inspect the result against the plan. '
+                 'Use edit_images(images=[PRIMARY,REFERENCE,...],instruction=...) for 1–3 actual image inputs. Keep image order in the instruction. Saved image-editing and planning settings apply; omit profile unless the user requests an override. '
                  'available_tools is a separate function: load it with tool_help if focused syntax/model limits are needed. '
                  'Piper is English-only CPU speech; cloning/design use voice-clone/voice-design with compatible hardware.\n')
         text += media_preference_guidance(panel.root)
-        from media_planning import GUIDANCE as MEDIA_GUIDANCE
-        text += '\n'+MEDIA_GUIDANCE
+        from media_planning import guidance as media_guidance
+        text += '\n'+media_guidance(panel.root)
         if 'media_tool' in names:text += '\n'+DIALOGUE_VIDEO
     if 'web' in names:
         text += ('\nFor existing images use web image_search(query), download suitable returned image_url values and inspect the actual files. '
